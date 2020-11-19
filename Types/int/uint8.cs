@@ -1,0 +1,299 @@
+﻿using DevTools;
+using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Unity.Mathematics;
+using Unity.Burst;
+using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
+
+namespace MaxMath
+{
+    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 32)]
+    unsafe public struct uint8 : IEquatable<uint8>
+    {
+        [NoAlias] [FieldOffset(0)]  public uint x0;
+        [NoAlias] [FieldOffset(4)]  public uint x1;
+        [NoAlias] [FieldOffset(8)]  public uint x2;
+        [NoAlias] [FieldOffset(12)] public uint x3;
+        [NoAlias] [FieldOffset(16)] public uint x4;
+        [NoAlias] [FieldOffset(20)] public uint x5;
+        [NoAlias] [FieldOffset(24)] public uint x6;
+        [NoAlias] [FieldOffset(28)] public uint x7;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint x0, uint x1, uint x2, uint x3, uint x4, uint x5, uint x6, uint x7)
+        {
+            this = X86.Avx.mm256_set_epi32((int)x7, (int)x6, (int)x5, (int)x4, (int)x3, (int)x2, (int)x1, (int)x0);
+        }
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint x0x8)
+        {
+            this = X86.Avx.mm256_set1_epi32((int)x0x8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint2 x01, uint2 x23, uint2 x45, uint2 x67)
+        {
+            this = new uint8(new uint4(x01, x23), new uint4(x45, x67));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint2 x01, uint3 x234, uint3 x567)
+        {
+            this = X86.Avx.mm256_set_m128i(X86.Sse4_1.insert_epi32(X86.Sse2.bslli_si128(*(v128*)&x567, sizeof(uint)), (int)x234.z, 0),
+                                           X86.Sse2.unpacklo_epi64(*(v128*)&x01, *(v128*)&x234));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint3 x012, uint2 x34, uint3 x567)
+        {
+            this = X86.Avx.mm256_set_m128i(X86.Sse4_1.insert_epi32(X86.Sse2.bslli_si128(*(v128*)&x567, sizeof(uint)), (int)x34.y, 0),
+                                           X86.Sse4_1.insert_epi32(*(v128*)&x012, (int)x34.x, 3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint3 x012, uint3 x345, uint2 x67)
+        {
+            this = X86.Avx.mm256_set_m128i(X86.Sse2.unpacklo_epi64(X86.Sse2.bsrli_si128(*(v128*)&x345, sizeof(uint)), *(v128*)&x67),
+                                           X86.Sse4_1.insert_epi32(*(v128*)&x012, (int)x345.x, 3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint4 x0123, uint2 x45, uint2 x67)
+        {
+            this = new uint8(x0123, new uint4(x45, x67));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint2 x01, uint4 x2345, uint2 x67)
+        {
+            v128 t = *(v128*)&x2345;
+
+            this = X86.Avx.mm256_set_m128i(X86.Sse2.unpackhi_epi64(t, X86.Sse2.bslli_si128(*(v128*)&x67, 2 * sizeof(int))),
+                                           X86.Sse2.unpacklo_epi64(*(v128*)&x01, t));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint2 x01, uint2 x23, uint4 x4567)
+        {
+            this = new uint8(new uint4(x01, x23), x4567);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public uint8(uint4 x0123, uint4 x4567)
+        {
+            this = X86.Avx.mm256_set_m128i(*(v128*)&x4567, 
+                                           *(v128*)&x0123);
+        }
+
+
+        public uint4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(this); return *(uint4*)&t; } }
+        public uint4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(1, 2, 3, 4,   0, 0, 0, 0))); return *(uint4*)&t; } }
+        public uint4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(2, 3, 4, 5,   0, 0, 0, 0))); return *(uint4*)&t; } }
+        public uint4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4, 5, 6,   0, 0, 0, 0))); return *(uint4*)&t; } }
+        public uint4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx2.mm256_extracti128_si256(this, 1); return *(uint4*)&t; } }
+
+        public uint3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(this); return *(uint3*)&t; } }
+        public uint3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Sse2.bsrli_si128(X86.Avx.mm256_castsi256_si128(this), sizeof(uint)); return *(uint3*)&t; } }
+        public uint3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(2, 3, 4,   0, 0, 0, 0, 0))); return *(uint3*)&t; } }
+        public uint3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4, 5,   0, 0, 0, 0, 0))); return *(uint3*)&t; } }
+        public uint3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx2.mm256_extracti128_si256(this, 1); return *(uint3*)&t; } }
+        public uint3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(5, 6, 7,   0, 0, 0, 0, 0))); return *(uint3*)&t; } }
+
+        public uint2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(this); return *(uint2*)&t; } }
+        public uint2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Sse2.bsrli_si128(X86.Avx.mm256_castsi256_si128(this), sizeof(uint)); return *(uint2*)&t; } }
+        public uint2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Sse2.bsrli_si128(X86.Avx.mm256_castsi256_si128(this), 2 * sizeof(uint)); return *(uint2*)&t; } }
+        public uint2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4,   0, 0, 0, 0, 0, 0))); return *(uint2*)&t; } }
+        public uint2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx2.mm256_extracti128_si256(this, 1); return *(uint2*)&t; } }
+        public uint2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permutevar8x32_epi32(this, new v256(5, 6,   0, 0, 0, 0, 0, 0))); return *(uint2*)&t; } }
+        public uint2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = X86.Avx.mm256_castsi256_si128(X86.Avx2.mm256_permute4x64_epi64(this, X86.Sse.SHUFFLE(0, 0, 0,   3))); return *(uint2*)&t; } }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   X86.Sse4_1.stream_load_si128(void* ptr)   X86.Sse.load_ps(void* ptr)
+        public static implicit operator v256(uint8 input) => new v256(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   X86.Sse.store_ps(void* ptr, v256 x)
+        public static implicit operator uint8(v256 input) => new uint8 { x0 = input.UInt0, x1 = input.UInt1, x2 = input.UInt2, x3 = input.UInt3, x4 = input.UInt4, x5 = input.UInt5, x6 = input.UInt6, x7 = input.UInt7 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator uint8(uint input) => new uint8(input);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint8(int8 input) => (v256)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint8(float8 input) => new uint8((uint)input.x0, (uint)input.x1, (uint)input.x2, (uint)input.x3, (uint)input.x4, (uint)input.x5, (uint)input.x6, (uint)input.x7);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(uint8 input) => new float8(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
+
+        public uint this[[AssumeRange(0, 7)] int index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+Assert.IsWithinArrayBounds(index, 8);
+                
+                fixed (void* ptr = &this)
+                {
+                    return ((uint*)ptr)[index];
+                }
+            }
+    
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set
+            {
+Assert.IsWithinArrayBounds(index, 8);
+
+                fixed (void* ptr = &this)
+                {
+                    ((uint*)ptr)[index] = value;
+                }
+            }
+        }
+    
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator + (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_add_epi32(lhs, rhs);
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator - (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_sub_epi32(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator * (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_mullo_epi32(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator / (uint8 lhs, uint8 rhs) => new uint8((lhs.x0 / rhs.x0),    (lhs.x1 / rhs.x1),    (lhs.x2 / rhs.x2),    (lhs.x3 / rhs.x3),    (lhs.x4 / rhs.x4),    (lhs.x5 / rhs.x5),    (lhs.x6 / rhs.x6),    (lhs.x7 / rhs.x7));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator % (uint8 lhs, uint8 rhs) => new uint8((lhs.x0 % rhs.x0),    (lhs.x1 % rhs.x1),    (lhs.x2 % rhs.x2),    (lhs.x3 % rhs.x3),    (lhs.x4 % rhs.x4),    (lhs.x5 % rhs.x5),    (lhs.x6 % rhs.x6),    (lhs.x7 % rhs.x7));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator / (uint8 lhs, uint rhs) => maxmath.idiv(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator % (uint8 lhs, uint rhs) => throw new NotImplementedException();
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator & (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_and_si256(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator | (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_or_si256(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator ^ (uint8 lhs, uint8 rhs) => X86.Avx2.mm256_xor_si256(lhs, rhs);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator ++ (uint8 x) => X86.Avx2.mm256_add_epi32(x, new v256((uint)1));
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator -- (uint8 x) => X86.Avx2.mm256_sub_epi32(x, new v256((uint)1));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator ~ (uint8 x) => X86.Avx2.mm256_andnot_si256(x, new v256((int)-1));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator << (uint8 x, int n) => Operator.shl_int(x, n);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator >> (uint8 x, int n)
+        { 
+            switch (n)
+            {
+                case 1:  return X86.Avx2.mm256_srli_epi32(x, 1);
+                case 2:  return X86.Avx2.mm256_srli_epi32(x, 2);
+                case 3:  return X86.Avx2.mm256_srli_epi32(x, 3);
+                case 4:  return X86.Avx2.mm256_srli_epi32(x, 4);
+                case 5:  return X86.Avx2.mm256_srli_epi32(x, 5);
+                case 6:  return X86.Avx2.mm256_srli_epi32(x, 6);
+                case 7:  return X86.Avx2.mm256_srli_epi32(x, 7);
+                case 8:  return X86.Avx2.mm256_srli_epi32(x, 8);
+                case 9:  return X86.Avx2.mm256_srli_epi32(x, 9);
+                case 10: return X86.Avx2.mm256_srli_epi32(x, 10);
+                case 11: return X86.Avx2.mm256_srli_epi32(x, 11);
+                case 12: return X86.Avx2.mm256_srli_epi32(x, 12);
+                case 13: return X86.Avx2.mm256_srli_epi32(x, 13);
+                case 14: return X86.Avx2.mm256_srli_epi32(x, 14);
+                case 15: return X86.Avx2.mm256_srli_epi32(x, 15);
+                case 16: return X86.Avx2.mm256_srli_epi32(x, 16);
+                case 17: return X86.Avx2.mm256_srli_epi32(x, 17);
+                case 18: return X86.Avx2.mm256_srli_epi32(x, 18);
+                case 19: return X86.Avx2.mm256_srli_epi32(x, 19);
+                case 20: return X86.Avx2.mm256_srli_epi32(x, 20);
+                case 21: return X86.Avx2.mm256_srli_epi32(x, 21);
+                case 22: return X86.Avx2.mm256_srli_epi32(x, 22);
+                case 23: return X86.Avx2.mm256_srli_epi32(x, 23);
+                case 24: return X86.Avx2.mm256_srli_epi32(x, 24);
+                case 25: return X86.Avx2.mm256_srli_epi32(x, 25);
+                case 26: return X86.Avx2.mm256_srli_epi32(x, 26);
+                case 27: return X86.Avx2.mm256_srli_epi32(x, 27);
+                case 28: return X86.Avx2.mm256_srli_epi32(x, 28);
+                case 29: return X86.Avx2.mm256_srli_epi32(x, 29);
+                case 30: return X86.Avx2.mm256_srli_epi32(x, 30);
+                case 31: return X86.Avx2.mm256_srli_epi32(x, 31);
+
+                default: return x;
+            }
+        }
+    
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator == (uint8 lhs, uint8 rhs) => TestIsTrue(X86.Avx2.mm256_cmpeq_epi32(lhs, rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator < (uint8 lhs, uint8 rhs) => TestIsTrue(Operator.greater_mask_uint(rhs, lhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator > (uint8 lhs, uint8 rhs) => TestIsTrue(Operator.greater_mask_uint(lhs, rhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator != (uint8 lhs, uint8 rhs) => TestIsFalse(X86.Avx2.mm256_cmpeq_epi32(lhs, rhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator <= (uint8 lhs, uint8 rhs) => TestIsFalse(Operator.greater_mask_uint(lhs, rhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4x2 operator >= (uint8 lhs, uint8 rhs) => TestIsFalse(Operator.greater_mask_uint(rhs, lhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool4x2 TestIsTrue(v256 input)
+        {
+            long result = 0x0101_0101_0101_0101L & X86.Sse4_1.extract_epi64((byte8)(uint8)input, 0);
+
+            return *(bool4x2*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool4x2 TestIsFalse(v256 input)
+        {
+            long result = maxmath.andn(0x0101_0101_0101_0101L, X86.Sse4_1.extract_epi64((byte8)(uint8)input, 0));
+
+            return *(bool4x2*)&result;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(uint8 other) => maxmath.cvt_boolean(X86.Avx.mm256_testc_si256(X86.Avx2.mm256_cmpeq_epi32(this, other), new v256(-1)));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object obj) => Equals((uint8)obj);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode() => Hash._256bit(this);
+
+        public override string ToString() => $"uint8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+    }
+}
