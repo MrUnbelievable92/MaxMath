@@ -234,10 +234,16 @@ Assert.IsWithinArrayBounds(index, 16);
         public static byte16 operator * (byte16 lhs, byte16 rhs) => (byte16)((ushort16)lhs * (ushort16)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 operator / (byte16 lhs, byte16 rhs) => Operator.div_byte(lhs, rhs);
+        public static byte16 operator / (byte16 lhs, byte16 rhs) => Operator.vdiv_byte(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 operator % (byte16 lhs, byte16 rhs) => Operator.rem_byte(lhs, rhs);
+        public static byte16 operator % (byte16 lhs, byte16 rhs) => Operator.vrem_byte(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 operator / (byte16 lhs, byte rhs) => Operator.div(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 operator % (byte16 lhs, byte rhs) => Operator.rem(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -281,6 +281,12 @@ Assert.IsWithinArrayBounds(index, 3);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 operator % (byte3 lhs, byte3 rhs) => new byte3((byte)(lhs.x % rhs.x),    (byte)(lhs.y % rhs.y),    (byte)(lhs.z % rhs.z));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 operator / (byte3 lhs, byte rhs) => Operator.div(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 operator % (byte3 lhs, byte rhs) => Operator.rem(lhs, rhs);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

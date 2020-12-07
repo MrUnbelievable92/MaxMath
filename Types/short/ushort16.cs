@@ -226,6 +226,12 @@ Assert.IsWithinArrayBounds(index, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator % (ushort16 lhs, ushort16 rhs) => new ushort16((ushort)(lhs.x0 % rhs.x0),    (ushort)(lhs.x1 % rhs.x1),    (ushort)(lhs.x2 % rhs.x2),    (ushort)(lhs.x3 % rhs.x3),    (ushort)(lhs.x4 % rhs.x4),    (ushort)(lhs.x5 % rhs.x5),    (ushort)(lhs.x6 % rhs.x6),    (ushort)(lhs.x7 % rhs.x7), (ushort)(lhs.x8 % rhs.x8), (ushort)(lhs.x9 % rhs.x9), (ushort)(lhs.x10 % rhs.x10), (ushort)(lhs.x11 % rhs.x11), (ushort)(lhs.x12 % rhs.x12), (ushort)(lhs.x13 % rhs.x13), (ushort)(lhs.x14 % rhs.x14), (ushort)(lhs.x15 % rhs.x15));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator / (ushort16 lhs, ushort rhs) => Operator.div(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator % (ushort16 lhs, ushort rhs) => Operator.rem(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator & (ushort16 lhs, ushort16 rhs) => X86.Avx2.mm256_and_si256(lhs, rhs);

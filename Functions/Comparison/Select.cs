@@ -39,7 +39,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, bool32 c)
         {
-            return X86.Avx2.mm256_blendv_epi8(b, a, X86.Avx2.mm256_cmpeq_epi8((byte32)c, (byte32)0));
+            return X86.Avx2.mm256_blendv_epi8(b, a, X86.Avx2.mm256_cmpeq_epi8((v256)c, (byte32)0));
         }
 
 
@@ -76,7 +76,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, bool32 c)
         {
-            return X86.Avx2.mm256_blendv_epi8(b, a, X86.Avx2.mm256_cmpeq_epi8((byte32)c, (byte32)0));
+            return X86.Avx2.mm256_blendv_epi8(b, a, X86.Avx2.mm256_cmpeq_epi8((v256)c, (byte32)0));
         }
 
 

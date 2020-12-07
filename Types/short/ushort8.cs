@@ -184,12 +184,12 @@ Assert.IsWithinArrayBounds(index, 8);
         public static ushort8 operator % (ushort8 lhs, ushort8 rhs) => new ushort8((ushort)(lhs.x0 % rhs.x0),    (ushort)(lhs.x1 % rhs.x1),    (ushort)(lhs.x2 % rhs.x2),    (ushort)(lhs.x3 % rhs.x3),    (ushort)(lhs.x4 % rhs.x4),    (ushort)(lhs.x5 % rhs.x5),    (ushort)(lhs.x6 % rhs.x6),    (ushort)(lhs.x7 % rhs.x7));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator / (ushort8 lhs, ushort rhs) => (v128)maxmath.idiv((v128)lhs, rhs);
+        public static ushort8 operator / (ushort8 lhs, ushort rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator % (ushort8 lhs, ushort rhs) => throw new NotImplementedException();
+        public static ushort8 operator % (ushort8 lhs, ushort rhs) => Operator.rem(lhs, rhs);
 
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator & (ushort8 lhs, ushort8 rhs) => X86.Sse2.and_si128(lhs, rhs);
     

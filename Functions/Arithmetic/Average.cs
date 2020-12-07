@@ -337,7 +337,7 @@ namespace MaxMath
             int2 result = ((int2)x + (int2)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, new v128(0)));
+            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
             result = (result + *(int2*)&mask) >> 1;
 
             return (short2)result;
@@ -359,7 +359,7 @@ namespace MaxMath
             int3 result = ((int3)x + (int3)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, new v128(0)));
+            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
             result = (result + *(int3*)&mask) >> 1;
 
             return (short3)result;
@@ -381,7 +381,7 @@ namespace MaxMath
             int4 result = ((int4)x + (int4)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, new v128(0)));
+            v128 mask = X86.Sse2.and_si128(new v128((int)1), X86.Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
             result = (result + *(int4*)&mask) >> 1;
 
             return (short4)result;

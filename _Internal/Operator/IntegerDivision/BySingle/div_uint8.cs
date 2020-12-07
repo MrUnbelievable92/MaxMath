@@ -4,16 +4,20 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath
 {
-    // Move to types => operator / % f.i. (uint8 lhs, uint rhs)
-    unsafe public static partial class maxmath
+    unsafe internal static partial class Operator
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static uint8 idiv(uint8 dividend, uint divisor)
+        // NOPE! Gets inlined if divisor is a constant, else its a function call (otherwise code size is going to be enormous)
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static uint8 div(uint8 dividend, uint divisor)
         {
             switch (divisor)
             {
+#if UNITY_EDITOR
                 case 0u: throw new DivideByZeroException();
+#endif
                 case 1u: return dividend;
+                case uint.MaxValue: return X86.Avx2.mm256_blendv_epi8(default(uint8), new uint8(1u), X86.Avx2.mm256_cmpeq_epi32(dividend, new uint8(uint.MaxValue)));
+
                 case 1u << 1:  return dividend >> 1;
                 case 1u << 2:  return dividend >> 2;
                 case 1u << 3:  return dividend >> 3;
@@ -45,17 +49,23 @@ namespace MaxMath
                 case 1u << 29: return dividend >> 29;
                 case 1u << 30: return dividend >> 30;
                 case 1u << 31: return dividend >> 31;
-                case uint.MaxValue: return X86.Avx2.mm256_blendv_epi8(default(v256), new v256(1), X86.Avx2.mm256_cmpeq_epi32(dividend, new v256(uint.MaxValue)));
 
-                case 365: return uint365(dividend);
-                case 366: return uint366(dividend);
+                case 365: return div_uint_365(dividend);
+                case 366: return div_uint_366(dividend);
 
-                default: return new uint8(dividend.x0 / divisor, dividend.x1 / divisor, dividend.x2 / divisor, dividend.x3 / divisor, dividend.x4 / divisor, dividend.x5 / divisor, dividend.x6 / divisor, dividend.x7 / divisor);
+                default: return new uint8(dividend.x0 / divisor, 
+                                          dividend.x1 / divisor, 
+                                          dividend.x2 / divisor, 
+                                          dividend.x3 / divisor, 
+                                          dividend.x4 / divisor, 
+                                          dividend.x5 / divisor, 
+                                          dividend.x6 / divisor, 
+                                          dividend.x7 / divisor);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static uint8 uint365(uint8 x)
+        private static uint8 div_uint_365(uint8 x)
         {
             ulong4 lo = x.v4_0;
             ulong4 hi = x.v4_4;
@@ -75,7 +85,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static uint8 uint366(uint8 x)
+        private static uint8 div_uint_366(uint8 x)
         {
             ulong4 lo = x.v4_0;
             ulong4 hi = x.v4_4;

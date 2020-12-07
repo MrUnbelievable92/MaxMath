@@ -267,10 +267,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ushort3 operator % (ushort3 lhs, ushort3 rhs) => new ushort3((ushort)(lhs.x % rhs.x),    (ushort)(lhs.y % rhs.y),    (ushort)(lhs.z % rhs.z));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 operator / (ushort3 lhs, ushort rhs) => (v128)maxmath.idiv((v128)lhs, rhs);
+        public static ushort3 operator / (ushort3 lhs, ushort rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 operator % (ushort3 lhs, ushort rhs) => throw new NotImplementedException();
+        public static ushort3 operator % (ushort3 lhs, ushort rhs) => Operator.rem(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

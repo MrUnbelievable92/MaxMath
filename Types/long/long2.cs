@@ -160,7 +160,7 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator - (long2 x) => X86.Sse2.sub_epi64(new v128(0L), x);
+        public static long2 operator - (long2 x) => X86.Sse2.sub_epi64(default(v128), x);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator ++ (long2 x) => X86.Sse2.add_epi64(x, new v128(1L));

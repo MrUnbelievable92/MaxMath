@@ -71,13 +71,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 divrem(byte16 dividend, byte16 divisor, out byte16 remainder)
         {
-            return Operator.divrem_byte(dividend, divisor, out remainder);
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 divrem(byte32 dividend, byte32 divisor, out byte32 remainder)
         {
-            return Operator.divrem_byte(dividend, divisor, out remainder);
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
 
@@ -146,13 +146,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 divrem(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
-            return Operator.divrem_byte(dividend, divisor, out remainder);
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 divrem(sbyte32 dividend, sbyte32 divisor, out sbyte32 remainder)
         {
-            return Operator.divrem_byte(dividend, divisor, out remainder);
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
 

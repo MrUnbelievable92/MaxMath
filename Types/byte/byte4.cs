@@ -518,8 +518,14 @@ Assert.IsWithinArrayBounds(index, 4);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator % (byte4 lhs, byte4 rhs) => new byte4((byte)(lhs.x % rhs.x),    (byte)(lhs.y % rhs.y),    (byte)(lhs.z % rhs.z),    (byte)(lhs.w % rhs.w));
-    
-    
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator / (byte4 lhs, byte rhs) => Operator.div(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator % (byte4 lhs, byte rhs) => Operator.rem(lhs, rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator & (byte4 lhs, byte4 rhs) => X86.Sse2.and_si128(lhs, rhs);
     

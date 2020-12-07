@@ -84,7 +84,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 abs(long2 x)
         {
-            long2 mask = X86.Sse4_2.cmpgt_epi64(new v128(0L), x);
+            long2 mask = X86.Sse4_2.cmpgt_epi64(default(v128), x);
 
             return (x + mask) ^ mask;
         }
@@ -92,7 +92,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 abs(long3 x)
         {
-            long3 mask = X86.Avx2.mm256_cmpgt_epi64(new v256(0L), x);
+            long3 mask = X86.Avx2.mm256_cmpgt_epi64(default(v256), x);
 
             return (x + mask) ^ mask;
         }
@@ -100,7 +100,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 abs(long4 x)
         {
-            long4 mask = X86.Avx2.mm256_cmpgt_epi64(new v256(0L), x);
+            long4 mask = X86.Avx2.mm256_cmpgt_epi64(default(v256), x);
 
             return (x + mask) ^ mask;
         }

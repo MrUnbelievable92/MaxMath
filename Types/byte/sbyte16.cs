@@ -234,10 +234,10 @@ Assert.IsWithinArrayBounds(index, 16);
         public static sbyte16 operator * (sbyte16 lhs, sbyte16 rhs) => (sbyte16)((short16)lhs * (short16)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator / (sbyte16 lhs, sbyte16 rhs) => Operator.div_byte(lhs, rhs);
+        public static sbyte16 operator / (sbyte16 lhs, sbyte16 rhs) => Operator.vdiv_sbyte(lhs, rhs);
                                                                        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]             
-        public static sbyte16 operator % (sbyte16 lhs, sbyte16 rhs) => Operator.rem_byte(lhs, rhs);
+        public static sbyte16 operator % (sbyte16 lhs, sbyte16 rhs) => Operator.vrem_sbyte(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

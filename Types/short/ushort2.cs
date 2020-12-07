@@ -159,15 +159,15 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort2 operator / (ushort2 lhs, ushort2 rhs) => new ushort2((ushort)(lhs.x / rhs.x), (ushort)(lhs.y / rhs.y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator % (ushort2 lhs, ushort2 rhs) => new ushort2((ushort)(lhs.x % rhs.x),    (ushort)(lhs.y % rhs.y));
+        public static ushort2 operator % (ushort2 lhs, ushort2 rhs) => new ushort2((ushort)(lhs.x % rhs.x), (ushort)(lhs.y % rhs.y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator / (ushort2 lhs, ushort rhs) => (v128)maxmath.idiv((v128)lhs, rhs);
+        public static ushort2 operator / (ushort2 lhs, ushort rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator % (ushort2 lhs, ushort rhs) => throw new NotImplementedException();
-    
-    
+        public static ushort2 operator % (ushort2 lhs, ushort rhs) => Operator.rem(lhs, rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 operator & (ushort2 lhs, ushort2 rhs) => X86.Sse2.and_si128(lhs, rhs);
     

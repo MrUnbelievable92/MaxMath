@@ -262,7 +262,7 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator - (long3 x) => X86.Avx2.mm256_sub_epi64(new v256(0L), x);
+        public static long3 operator - (long3 x) => X86.Avx2.mm256_sub_epi64(default(v256), x);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator ++ (long3 x) => X86.Avx2.mm256_add_epi64(x, new v256(1L));

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst;
+using Unity.Burst.Intrinsics;
 
 namespace MaxMath
 {
@@ -48,54 +49,82 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15, bool x16, bool x17, bool x18, bool x19, bool x20, bool x21, bool x22, bool x23, bool x24, bool x25, bool x26, bool x27, bool x28, bool x29, bool x30, bool x31)
         {
-            this.x0  = x0;
-            this.x1  = x1;
-            this.x2  = x2;
-            this.x3  = x3;
-            this.x4  = x4;
-            this.x5  = x5;
-            this.x6  = x6;
-            this.x7  = x7;
-            this.x8  = x8;
-            this.x9  = x9;
-            this.x10 = x10;
-            this.x11 = x11;
-            this.x12 = x12;
-            this.x13 = x13;
-            this.x14 = x14;
-            this.x15 = x15;
-            this.x16 = x16;
-            this.x17 = x17;
-            this.x18 = x18;
-            this.x19 = x19;
-            this.x20 = x20;
-            this.x21 = x21;
-            this.x22 = x22;
-            this.x23 = x23;
-            this.x24 = x24;
-            this.x25 = x25;
-            this.x26 = x26;
-            this.x27 = x27;
-            this.x28 = x28;
-            this.x29 = x29;
-            this.x30 = x30;
-            this.x31 = x31;
+            this = X86.Avx.mm256_set_epi8(*(byte*)&x31,
+                                          *(byte*)&x30,
+                                          *(byte*)&x29,
+                                          *(byte*)&x28,
+                                          *(byte*)&x27,
+                                          *(byte*)&x26,
+                                          *(byte*)&x25,
+                                          *(byte*)&x24,
+                                          *(byte*)&x23,
+                                          *(byte*)&x22,
+                                          *(byte*)&x21,
+                                          *(byte*)&x20,
+                                          *(byte*)&x19,
+                                          *(byte*)&x18,
+                                          *(byte*)&x17,
+                                          *(byte*)&x16,
+                                          *(byte*)&x15,
+                                          *(byte*)&x14,
+                                          *(byte*)&x13,
+                                          *(byte*)&x12,
+                                          *(byte*)&x11,
+                                          *(byte*)&x10,
+                                          *(byte*)&x9,
+                                          *(byte*)&x8,
+                                          *(byte*)&x7,
+                                          *(byte*)&x6,
+                                          *(byte*)&x5,
+                                          *(byte*)&x4,
+                                          *(byte*)&x3,
+                                          *(byte*)&x2,
+                                          *(byte*)&x1,
+                                          *(byte*)&x0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool4x4 v16_0, bool4x4 v16_1)
         {
-            bool32 @new = new bool32();
+            this = X86.Avx.mm256_set_m128i(*(v128*)&v16_1, *(v128*)&v16_0);
+        }
 
-            ((bool4x4*)&@new)[0] = v16_0;
-            ((bool4x4*)&@new)[1] = v16_1;
-
-            this = @new;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32(bool x0x20)
+        {
+            this = new v256(*(byte*)&x0x20);
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   X86.Sse4_1.stream_load_si128(void* ptr)   X86.Sse.load_ps(void* ptr)
+        public static implicit operator v256(bool32 input) => new v256(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15, *(byte*)&input.x16, *(byte*)&input.x17, *(byte*)&input.x18, *(byte*)&input.x19, *(byte*)&input.x20, *(byte*)&input.x21, *(byte*)&input.x22, *(byte*)&input.x23, *(byte*)&input.x24, *(byte*)&input.x25, *(byte*)&input.x26, *(byte*)&input.x27, *(byte*)&input.x28, *(byte*)&input.x29, *(byte*)&input.x30, *(byte*)&input.x31);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   X86.Sse.store_ps(void* ptr, v256 x)
+        public static implicit operator bool32(v256 input) => new bool32 { x0 = *(bool*)&input.Byte0, x1 = *(bool*)&input.Byte1, x2 = *(bool*)&input.Byte2, x3 = *(bool*)&input.Byte3, x4 = *(bool*)&input.Byte4, x5 = *(bool*)&input.Byte5, x6 = *(bool*)&input.Byte6, x7 = *(bool*)&input.Byte7, x8 = *(bool*)&input.Byte8, x9 = *(bool*)&input.Byte9, x10 = *(bool*)&input.Byte10, x11 = *(bool*)&input.Byte11, x12 = *(bool*)&input.Byte12, x13 = *(bool*)&input.Byte13, x14 = *(bool*)&input.Byte14, x15 = *(bool*)&input.Byte15, x16 = *(bool*)&input.Byte16, x17 = *(bool*)&input.Byte17, x18 = *(bool*)&input.Byte18, x19 = *(bool*)&input.Byte19, x20 = *(bool*)&input.Byte20, x21 = *(bool*)&input.Byte21, x22 = *(bool*)&input.Byte22, x23 = *(bool*)&input.Byte23, x24 = *(bool*)&input.Byte24, x25 = *(bool*)&input.Byte25, x26 = *(bool*)&input.Byte26, x27 = *(bool*)&input.Byte27, x28 = *(bool*)&input.Byte28, x29 = *(bool*)&input.Byte29, x30 = *(bool*)&input.Byte30, x31 = *(bool*)&input.Byte31 };
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte32(bool32 input) => *(byte32*)&input;
+        public static implicit operator bool32(bool v) => new bool32(v);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator == (bool32 lhs, bool32 rhs) => X86.Avx2.mm256_and_si256(new v256((byte)1), X86.Avx2.mm256_cmpeq_epi8(lhs, rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator != (bool32 lhs, bool32 rhs) => X86.Avx2.mm256_andnot_si256(X86.Avx2.mm256_cmpeq_epi8(lhs, rhs), new v256((byte)1));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator & (bool32 lhs, bool32 rhs) => X86.Avx2.mm256_and_si256(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator | (bool32 lhs, bool32 rhs) => X86.Avx2.mm256_or_si256(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator ^ (bool32 lhs, bool32 rhs) => X86.Avx2.mm256_xor_si256(lhs, rhs);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 operator ! (bool32 val) => X86.Avx2.mm256_andnot_si256(val, new v256((byte)1));
 
 
         public bool this[[AssumeRange(0, 31)] int index]
@@ -125,12 +154,12 @@ Assert.IsWithinArrayBounds(index, 32);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool32 other) => ((byte32)this).Equals((byte32)other);
+        public bool Equals(bool32 other) => ((byte32)(v256)this).Equals((byte32)(v256)other);
 
         public override bool Equals(object obj) => Equals((bool32)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._256bit((byte32)this);
+        public override int GetHashCode() => Hash._256bit((byte32)(v256)this);
 
         public override string ToString() => $"bool32({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15},    {x16}, {x17}, {x18}, {x19},    {x20}, {x21}, {x22}, {x23},    {x24}, {x25}, {x26}, {x27},    {x28}, {x29}, {x30}, {x31})";
     }

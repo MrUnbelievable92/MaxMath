@@ -174,10 +174,10 @@ Assert.IsWithinArrayBounds(index, 8);
         public static uint8 operator % (uint8 lhs, uint8 rhs) => new uint8((lhs.x0 % rhs.x0),    (lhs.x1 % rhs.x1),    (lhs.x2 % rhs.x2),    (lhs.x3 % rhs.x3),    (lhs.x4 % rhs.x4),    (lhs.x5 % rhs.x5),    (lhs.x6 % rhs.x6),    (lhs.x7 % rhs.x7));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 operator / (uint8 lhs, uint rhs) => maxmath.idiv(lhs, rhs);
+        public static uint8 operator / (uint8 lhs, uint rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 operator % (uint8 lhs, uint rhs) => throw new NotImplementedException();
+        public static uint8 operator % (uint8 lhs, uint rhs) => Operator.rem(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

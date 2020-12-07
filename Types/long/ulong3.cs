@@ -249,6 +249,12 @@ Assert.IsWithinArrayBounds(index, 3);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator % (ulong3 lhs, ulong3 rhs) => new ulong3(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 lhs, ulong rhs) => Operator.div(lhs, rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 lhs, ulong rhs) => Operator.rem(lhs, rhs);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
