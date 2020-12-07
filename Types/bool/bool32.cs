@@ -49,38 +49,38 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15, bool x16, bool x17, bool x18, bool x19, bool x20, bool x21, bool x22, bool x23, bool x24, bool x25, bool x26, bool x27, bool x28, bool x29, bool x30, bool x31)
         {
-            this = X86.Avx.mm256_set_epi8(*(byte*)&x31,
-                                          *(byte*)&x30,
-                                          *(byte*)&x29,
-                                          *(byte*)&x28,
-                                          *(byte*)&x27,
-                                          *(byte*)&x26,
-                                          *(byte*)&x25,
-                                          *(byte*)&x24,
-                                          *(byte*)&x23,
-                                          *(byte*)&x22,
-                                          *(byte*)&x21,
-                                          *(byte*)&x20,
-                                          *(byte*)&x19,
-                                          *(byte*)&x18,
-                                          *(byte*)&x17,
-                                          *(byte*)&x16,
-                                          *(byte*)&x15,
-                                          *(byte*)&x14,
-                                          *(byte*)&x13,
-                                          *(byte*)&x12,
-                                          *(byte*)&x11,
-                                          *(byte*)&x10,
-                                          *(byte*)&x9,
-                                          *(byte*)&x8,
-                                          *(byte*)&x7,
-                                          *(byte*)&x6,
-                                          *(byte*)&x5,
-                                          *(byte*)&x4,
-                                          *(byte*)&x3,
-                                          *(byte*)&x2,
-                                          *(byte*)&x1,
-                                          *(byte*)&x0);
+            this = X86.Avx.mm256_set_epi8(maxmath.cvt_uint8(x31),
+                                          maxmath.cvt_uint8(x30),
+                                          maxmath.cvt_uint8(x29),
+                                          maxmath.cvt_uint8(x28),
+                                          maxmath.cvt_uint8(x27),
+                                          maxmath.cvt_uint8(x26),
+                                          maxmath.cvt_uint8(x25),
+                                          maxmath.cvt_uint8(x24),
+                                          maxmath.cvt_uint8(x23),
+                                          maxmath.cvt_uint8(x22),
+                                          maxmath.cvt_uint8(x21),
+                                          maxmath.cvt_uint8(x20),
+                                          maxmath.cvt_uint8(x19),
+                                          maxmath.cvt_uint8(x18),
+                                          maxmath.cvt_uint8(x17),
+                                          maxmath.cvt_uint8(x16),
+                                          maxmath.cvt_uint8(x15),
+                                          maxmath.cvt_uint8(x14),
+                                          maxmath.cvt_uint8(x13),
+                                          maxmath.cvt_uint8(x12),
+                                          maxmath.cvt_uint8(x11),
+                                          maxmath.cvt_uint8(x10),
+                                          maxmath.cvt_uint8(x9),
+                                          maxmath.cvt_uint8(x8),
+                                          maxmath.cvt_uint8(x7),
+                                          maxmath.cvt_uint8(x6),
+                                          maxmath.cvt_uint8(x5),
+                                          maxmath.cvt_uint8(x4),
+                                          maxmath.cvt_uint8(x3),
+                                          maxmath.cvt_uint8(x2),
+                                          maxmath.cvt_uint8(x1),
+                                          maxmath.cvt_uint8(x0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -90,9 +90,9 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool32(bool x0x20)
+        public bool32(bool x0x32)
         {
-            this = new v256(*(byte*)&x0x20);
+            this = new v256(maxmath.cvt_uint8(x0x32));
         }
 
 
@@ -100,7 +100,7 @@ namespace MaxMath
         public static implicit operator v256(bool32 input) => new v256(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15, *(byte*)&input.x16, *(byte*)&input.x17, *(byte*)&input.x18, *(byte*)&input.x19, *(byte*)&input.x20, *(byte*)&input.x21, *(byte*)&input.x22, *(byte*)&input.x23, *(byte*)&input.x24, *(byte*)&input.x25, *(byte*)&input.x26, *(byte*)&input.x27, *(byte*)&input.x28, *(byte*)&input.x29, *(byte*)&input.x30, *(byte*)&input.x31);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   X86.Sse.store_ps(void* ptr, v256 x)
-        public static implicit operator bool32(v256 input) => new bool32 { x0 = *(bool*)&input.Byte0, x1 = *(bool*)&input.Byte1, x2 = *(bool*)&input.Byte2, x3 = *(bool*)&input.Byte3, x4 = *(bool*)&input.Byte4, x5 = *(bool*)&input.Byte5, x6 = *(bool*)&input.Byte6, x7 = *(bool*)&input.Byte7, x8 = *(bool*)&input.Byte8, x9 = *(bool*)&input.Byte9, x10 = *(bool*)&input.Byte10, x11 = *(bool*)&input.Byte11, x12 = *(bool*)&input.Byte12, x13 = *(bool*)&input.Byte13, x14 = *(bool*)&input.Byte14, x15 = *(bool*)&input.Byte15, x16 = *(bool*)&input.Byte16, x17 = *(bool*)&input.Byte17, x18 = *(bool*)&input.Byte18, x19 = *(bool*)&input.Byte19, x20 = *(bool*)&input.Byte20, x21 = *(bool*)&input.Byte21, x22 = *(bool*)&input.Byte22, x23 = *(bool*)&input.Byte23, x24 = *(bool*)&input.Byte24, x25 = *(bool*)&input.Byte25, x26 = *(bool*)&input.Byte26, x27 = *(bool*)&input.Byte27, x28 = *(bool*)&input.Byte28, x29 = *(bool*)&input.Byte29, x30 = *(bool*)&input.Byte30, x31 = *(bool*)&input.Byte31 };
+        public static implicit operator bool32(v256 input) => new bool32 { x0 = maxmath.cvt_boolean(input.Byte0), x1 = maxmath.cvt_boolean(input.Byte1), x2 = maxmath.cvt_boolean(input.Byte2), x3 = maxmath.cvt_boolean(input.Byte3), x4 = maxmath.cvt_boolean(input.Byte4), x5 = maxmath.cvt_boolean(input.Byte5), x6 = maxmath.cvt_boolean(input.Byte6), x7 = maxmath.cvt_boolean(input.Byte7), x8 = maxmath.cvt_boolean(input.Byte8), x9 = maxmath.cvt_boolean(input.Byte9), x10 = maxmath.cvt_boolean(input.Byte10), x11 = maxmath.cvt_boolean(input.Byte11), x12 = maxmath.cvt_boolean(input.Byte12), x13 = maxmath.cvt_boolean(input.Byte13), x14 = maxmath.cvt_boolean(input.Byte14), x15 = maxmath.cvt_boolean(input.Byte15), x16 = maxmath.cvt_boolean(input.Byte16), x17 = maxmath.cvt_boolean(input.Byte17), x18 = maxmath.cvt_boolean(input.Byte18), x19 = maxmath.cvt_boolean(input.Byte19), x20 = maxmath.cvt_boolean(input.Byte20), x21 = maxmath.cvt_boolean(input.Byte21), x22 = maxmath.cvt_boolean(input.Byte22), x23 = maxmath.cvt_boolean(input.Byte23), x24 = maxmath.cvt_boolean(input.Byte24), x25 = maxmath.cvt_boolean(input.Byte25), x26 = maxmath.cvt_boolean(input.Byte26), x27 = maxmath.cvt_boolean(input.Byte27), x28 = maxmath.cvt_boolean(input.Byte28), x29 = maxmath.cvt_boolean(input.Byte29), x30 = maxmath.cvt_boolean(input.Byte30), x31 = maxmath.cvt_boolean(input.Byte31) };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool32(bool v) => new bool32(v);
