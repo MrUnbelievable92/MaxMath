@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class SByte4
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,48 @@ namespace MaxMath.Tests
 
         internal static sbyte4[] TestData_LHS => new sbyte4[]
         {
-            new sbyte4(-43, -55, 99, 76),
-            new sbyte4(22, 12, 16, -11),      // EQUAL
-            new sbyte4(47, sbyte.MaxValue, -17, 21),
-            new sbyte4(sbyte.MinValue, 13, -111, 66)
+            new sbyte4{x = -43,
+					   y = -55,
+					   z = 99,
+                       w = 76},
+					  
+            new sbyte4{x = 22,
+					   y = 12,
+					   z = 16,
+					   w = -11},
+					        // EQUAL
+            new sbyte4{x = 47,
+					   y = sbyte.MaxValue,
+					   z = -17,
+                       w = 21},
+					  
+            new sbyte4{x = sbyte.MinValue,
+					   y = 13,
+					   z = -111,
+                       w = 66}
         };
 
         internal static sbyte4[] TestData_RHS => new sbyte4[]
         {
-            new sbyte4(12, 4, 53, 98),
-            new sbyte4(22, 12, 16, -11),      // EQUAL
-            new sbyte4(-17, 47, 9, -42),
-            new sbyte4(2, 9, -80, -92)
+            new sbyte4{x = 12,
+					   y = 4,
+					   z = 53,
+                       w = 98},
+					  
+            new sbyte4{x = 22,
+					   y = 12,
+					   z = 16,
+                       w = -11},
+					        // EQUAL
+            new sbyte4{x = -17,
+					   y = 47,
+					   z = 9,
+                       w = -42},
+					  
+            new sbyte4{x = 2,
+					   y = 9,
+					   z = -80,
+					   w = -92}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -2596,5 +2625,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

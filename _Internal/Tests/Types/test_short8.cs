@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Short8
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,80 @@ namespace MaxMath.Tests
 
         internal static short8[] TestData_LHS => new short8[]
         {
-            new short8(-18300, 55, -9639, 763, -5097, 11, 2131, -3825),
-            new short8(212, 18892, -16, 2311, 99, -5680, 549, -9432),      // EQUAL
-            new short8(87, short.MaxValue, 17, 1747, 0, 4127, 392, 21156),
-            new short8(short.MinValue, -1563, 11221, -1446, 1979, -399, 2502, 121)
+            new short8{x0 = -18300,
+					   x1 = 55,
+					   x2 = -9639,
+					   x3 = 763,
+					   x4 = -5097,
+					   x5 = 11,
+					   x6 = 2131,
+                       x7 = -3825},
+					  
+            new short8{x0 = 212,
+					   x1 = 18892,
+					   x2 = -16,
+					   x3 = 2311,
+					   x4 = 99,
+					   x5 = -5680,
+					   x6 = 549,
+					   x7 = -9432},
+					        // EQUAL
+            new short8{x0 = 87,
+					   x1 = short.MaxValue,
+					   x2 = 17,
+					   x3 = 1747,
+					   x4 = 0,
+					   x5 = 4127,
+					   x6 = 392,
+                       x7 = 21156},
+					  
+            new short8{x0 = short.MinValue,
+					   x1 = -1563,
+					   x2 = 11221,
+					   x3 = -1446,
+					   x4 = 1979,
+					   x5 = -399,
+					   x6 = 2502,
+					   x7 = 121}
         };
 
         internal static short8[] TestData_RHS => new short8[]
         {
-            new short8(12, -8, 5383, 98, -4242, -17996, 970, 44),
-            new short8(212, 18892, -16, 2311, 99, -5680, 549, -9432),      // EQUAL
-            new short8(17955, -827, -9643, 18862, 239, -435, -9750, -162),
-            new short8(2, -963, 20540, 19242, 8967, -26789, -1862, 43)
+            new short8{x0 = 12,
+					   x1 = -8,
+					   x2 = 5383,
+					   x3 = 98,
+					   x4 = -4242,
+					   x5 = -17996,
+					   x6 = 970,
+                       x7 = 44},
+					  
+            new short8{x0 = 212,
+					   x1 = 18892,
+					   x2 = -16,
+					   x3 = 2311,
+					   x4 = 99,
+					   x5 = -5680,
+					   x6 = 549,
+					   x7 = -9432},
+					        // EQUAL
+            new short8{x0 = 17955,
+					   x1 = -827,
+					   x2 = -9643,
+					   x3 = 18862,
+					   x4 = 239,
+					   x5 = -435,
+					   x6 = -9750,
+					   x7 = -162},
+					  
+            new short8{x0 = 2,
+					   x1 = -963,
+					   x2 = 20540,
+					   x3 = 19242,
+					   x4 = 8967,
+					   x5 = -26789,
+					   x6 = -1862,
+                       x7 = 43}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -888,5 +949,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

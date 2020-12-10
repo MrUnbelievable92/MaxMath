@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Short4
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,48 @@ namespace MaxMath.Tests
 
         internal static short4[] TestData_LHS => new short4[]
         {
-            new short4(-14693, 554, 9119, 7076),
-            new short4(22555, 14742, 14276, -21001),      // EQUAL
-            new short4(4764, short.MaxValue, -17789, -27521),
-            new short4(short.MinValue, 16333, -1011, 6556)
+            new short4{x = -14693,
+					   y = 554,
+					   z = 9119,
+                       w = 7076},
+					  
+            new short4{x = 22555,
+					   y = 14742,
+					   z = 14276,
+                       w = -21001},
+					        // EQUAL
+            new short4{x = 4764,
+					   y = short.MaxValue,
+					   z = -17789,
+                       w = -27521},
+					  
+            new short4{x = short.MinValue,
+					   y = 16333,
+					   z = -1011,
+                       w = 6556}
         };
 
         internal static short4[] TestData_RHS => new short4[]
         {
-            new short4(120, 4457, -3888, 980),
-            new short4(22555, 14742, 14276, -21001),      // EQUAL
-            new short4(1747, -4627, -709, -14662),
-            new short4(2, -9653, 200, 1902)
+            new short4{x = 120,
+					   y = 4457,
+					   z = -3888,
+                       w = 980},
+					  
+            new short4{x = 22555,
+					   y = 14742,
+					   z = 14276,
+                       w = -21001},
+					        // EQUAL
+            new short4{x = 1747,
+					   y = -4627,
+					   z = -709,
+                       w = -14662},
+					  
+            new short4{x = 2,
+					   y = -9653,
+					   z = 200,
+                       w = 1902}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -2596,5 +2625,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

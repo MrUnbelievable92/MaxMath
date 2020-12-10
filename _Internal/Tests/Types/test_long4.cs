@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Long4
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,48 @@ namespace MaxMath.Tests
 
         internal static long4[] TestData_LHS => new long4[]
         {
-            new long4(-146974489943, 574754, 980802119, 704882176),
-            new long4(225095335, -1474447543342, -1478822227276, 210689543201),      // EQUAL
-            new long4(476890552274, long.MaxValue, 38897774211, -27521),
-            new long4(long.MinValue, -1682294789333, 106433011, 65447756)
+            new long4{ x = -146974489943,
+                       y = 574754,
+                       z = 980802119,
+                       w = 704882176},
+
+            new long4{ x = 225095335,
+                       y = -1474447543342,
+                       z = -1478822227276,
+                       w = 210689543201},
+      // EQUAL
+            new long4{ x = 476890552274,
+                       y = long.MaxValue,
+                       z = 38897774211,
+                       w = -27521},
+
+            new long4{ x = long.MinValue,
+                       y = -1682294789333,
+                       z = 106433011,
+                       w = 65447756}
         };
 
         internal static long4[] TestData_RHS => new long4[]
         {
-            new long4(15800520, -4457, 537541888, 978880),
-            new long4(225095335, -1474447543342, -1478822227276, 210689543201),      // EQUAL
-            new long4(1741456777, 4627899767, 992211709, -14662),
-            new long4(-25, 596566433, 2058420, -7961902)
+            new long4{ x = 15800520,
+                       y = -4457,
+                       z = 537541888,
+                       w = 978880},
+
+            new long4{ x = 225095335,
+                       y = -1474447543342,
+                       z = -1478822227276,
+                       w = 210689543201},
+      // EQUAL
+            new long4{ x = 1741456777,
+                       y = 4627899767,
+                       z = 992211709,
+                       w = -14662},
+
+            new long4{ x = -25,
+                       y = 596566433,
+                       z = 2058420,
+                       w = -7961902}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -2596,5 +2625,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

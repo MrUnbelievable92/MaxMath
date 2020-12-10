@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class SByte2
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,32 @@ namespace MaxMath.Tests
 
         internal static sbyte2[] TestData_LHS => new sbyte2[]
         {
-            new sbyte2(-8, 55),
-            new sbyte2(22, -12),      // EQUAL
-            new sbyte2(47, sbyte.MaxValue),
-            new sbyte2(sbyte.MinValue, -13)
+            new sbyte2{x =-8,
+                       y =55},
+					  
+            new sbyte2{x =22,
+                       y =-12},
+					        // EQUAL
+            new sbyte2{x =47,
+                       y =sbyte.MaxValue},
+					  
+            new sbyte2{x =sbyte.MinValue,
+                       y =-13}
         };
 
         internal static sbyte2[] TestData_RHS => new sbyte2[]
         {
-            new sbyte2(12, 4),
-            new sbyte2(22, -12),      // EQUAL
-            new sbyte2(17, -47),
-            new sbyte2(2, 9)
+            new sbyte2{x =12,
+                       y =4},
+					  
+            new sbyte2{x =22,
+                       y =-12},
+					        // EQUAL
+            new sbyte2{x =17,
+                       y =-47},
+					  
+            new sbyte2{x =2,
+                       y =9}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -699,5 +712,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

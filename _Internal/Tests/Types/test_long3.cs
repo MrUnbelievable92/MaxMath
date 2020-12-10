@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Long3
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,40 @@ namespace MaxMath.Tests
 
         internal static long3[] TestData_LHS => new long3[]
         {
-            new long3(143876593, 552995665, -99090052),
-            new long3(279000553952, 18439002, -169989922157),      // EQUAL
-            new long3(-4622887, long.MaxValue, 88944584),
-            new long3(long.MinValue, 374478857, 1964478840)
+            new long3{x =143876593,
+					  y =552995665,
+                      z =-99090052},
+					
+            new long3{x =279000553952,
+					  y =18439002,
+                      z =-169989922157},
+					      // EQUAL
+            new long3{x =-4622887,
+					  y =long.MaxValue,
+                      z =88944584},
+					
+            new long3{x =long.MinValue,
+					  y =374478857,
+                      z =1964478840}
         };
 
         internal static long3[] TestData_RHS => new long3[]
         {
-            new long3(121890, -52996104, 5304100),
-            new long3(279000553952, 18439002, -169989922157),      // EQUAL
-            new long3(174466947, 47527709, 20090094492),
-            new long3(-248881265, -999832299, 207624780)
+            new long3{x =121890,
+					  y =-52996104,
+                      z =5304100},
+					
+            new long3{x =279000553952,
+					  y =18439002,
+                      z =-169989922157},
+					      // EQUAL
+            new long3{x =174466947,
+					  y =47527709,
+                      z =20090094492},
+					
+            new long3{x =-248881265,
+					  y =-999832299,
+                      z =207624780}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -1255,5 +1276,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

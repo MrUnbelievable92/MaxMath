@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Byte2
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,32 @@ namespace MaxMath.Tests
 
         internal static byte2[] TestData_LHS => new byte2[]
         {
-            new byte2(143, 55),
-            new byte2(22, 12),      // EQUAL
-            new byte2(47, byte.MaxValue),
-            new byte2(byte.MinValue, 13)
+            new byte2{ x = 143,
+                       y = 55},
+
+            new byte2{ x = 22,
+                       y = 12 },
+      // EQUAL
+            new byte2{ x = 47,
+                       y = byte.MaxValue },
+
+            new byte2{ x = byte.MinValue,
+                       y = 13 }
         };
 
         internal static byte2[] TestData_RHS => new byte2[]
         {
-            new byte2(12, 4),
-            new byte2(22, 12),      // EQUAL
-            new byte2(17, 47),
-            new byte2(2, 9)
+            new byte2{ x = 12,
+                       y = 4},
+
+            new byte2{ x = 22,
+                       y = 12},
+      // EQUAL
+            new byte2{ x = 17,
+                       y = 47},
+
+            new byte2{ x = 2,
+                       y = 9}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -682,5 +695,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

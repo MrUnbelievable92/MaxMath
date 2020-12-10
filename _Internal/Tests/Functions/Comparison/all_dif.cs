@@ -1,8 +1,8 @@
 ﻿using DevTools;
+using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     /// Float/Double implicitly tested by testing Int/Long
     unsafe public static class all_dif
     {
@@ -182,6 +182,72 @@ namespace MaxMath.Tests
 
             return result;
         }
+
+
+        [UnitTest("Functions", "Comparison", "AllDifferent")]
+        public static bool Int3()
+        {
+            bool result = true;
+
+            for (int i = 0; i < 3; i++)
+            {
+                int3 a = 0;
+
+                for (int j = 0; j < 3; j++)
+                {
+                    a[j] = (int)j;
+                }
+
+                result &= (maxmath.all_dif(a) == true);
+                a[i] = (int)((i == 1) ? 2 : 1);
+                result &= (maxmath.all_dif(a) == false);
+            }
+
+            return result;
+        }
+
+        [UnitTest("Functions", "Comparison", "AllDifferent")]
+        public static bool Int4()
+        {
+            bool result = true;
+
+            for (int i = 0; i < 4; i++)
+            {
+                int4 a = 0;
+
+                for (int j = 0; j < 4; j++)
+                {
+                    a[j] = (int)j;
+                }
+
+                result &= (maxmath.all_dif(a) == true);
+                a[i] = (int)((i == 1) ? 2 : 1);
+                result &= (maxmath.all_dif(a) == false);
+            }
+
+            return result;
+        }
+
+        [UnitTest("Functions", "Comparison", "AllDifferent")]
+        public static bool Int8()
+        {
+            bool result = true;
+
+            for (int i = 0; i < 8; i++)
+            {
+                int8 a = 0;
+
+                for (int j = 0; j < 8; j++)
+                {
+                    a[j] = (int)j;
+                }
+
+                result &= (maxmath.all_dif(a) == true);
+                a[i] = (int)((i == 1) ? 2 : 1);
+                result &= (maxmath.all_dif(a) == false);
+            }
+
+            return result;
+        }
     }
-#endif
 }

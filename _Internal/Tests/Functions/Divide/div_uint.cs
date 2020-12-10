@@ -1,15 +1,11 @@
 ﻿using DevTools;
-using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
-    /// Float/Double implicitly tested by testing Int/Long
     unsafe public static class div_ushort4
     {
-        [UnitTest("Functions", "Arithmetic", "Div", "UInt")]
-        public static bool _366()
+        [UnitTest("Functions", "Arithmetic", "Div")]
+        public static bool UInt8_366()
         {
             bool result = true;
 
@@ -30,8 +26,8 @@ namespace MaxMath.Tests
             return result;
         }
 
-        [UnitTest("Functions", "Arithmetic", "Div", "UInt")]
-        public static bool _365()
+        [UnitTest("Functions", "Arithmetic", "Div")]
+        public static bool UInt8_365()
         {
             bool result = true;
 
@@ -52,5 +48,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

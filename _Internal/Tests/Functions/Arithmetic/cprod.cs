@@ -1,10 +1,7 @@
 ﻿using DevTools;
-using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     /// Float/Double implicitly tested by testing Int/Long
     unsafe public static class cprod
     {
@@ -767,5 +764,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class ULong4
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,48 @@ namespace MaxMath.Tests
 
         internal static ulong4[] TestData_LHS => new ulong4[]
         {
-            new ulong4(146974489943, 574754, 980802119, 704882176),
-            new ulong4(225095335, 1474447543342, 1478822227276, 210689543201),      // EQUAL
-            new ulong4(ulong.MaxValue, ulong.MaxValue, 38897774211, 27521),
-            new ulong4(ulong.MinValue, 1682294789333, 106433011, 65447756)
+            new ulong4{x = 146974489943,
+					   y = 574754,
+					   z = 980802119,
+                       w = 704882176},
+					  
+            new ulong4{x = 225095335,
+					   y = 1474447543342,
+					   z = 1478822227276,
+                       w = 210689543201},
+					        // EQUAL
+            new ulong4{x = ulong.MaxValue,
+					   y = ulong.MaxValue,
+					   z = 38897774211,
+                       w = 27521},
+					  
+            new ulong4{x = ulong.MinValue,
+					   y = 1682294789333,
+					   z = 106433011,
+                       w = 65447756}
         };
 
         internal static ulong4[] TestData_RHS => new ulong4[]
         {
-            new ulong4(15800520, 4457, 537541888, 978880),
-            new ulong4(225095335, 1474447543342, 1478822227276, 210689543201),      // EQUAL
-            new ulong4(4, 0x8FFF_FFFF_FFFF_FFFF, 992211709, 14662),
-            new ulong4(25, 596566433, 2058420, 7961902)
+            new ulong4{x = 15800520,
+					   y = 4457,
+					   z = 537541888,
+                       w = 978880},
+					  
+            new ulong4{x = 225095335,
+					   y = 1474447543342,
+					   z = 1478822227276,
+                       w = 210689543201},
+					        // EQUAL
+            new ulong4{x = 4,
+					   y = 0x8FFF_FFFF_FFFF_FFFF,
+					   z = 992211709,
+                       w = 14662},
+					  
+            new ulong4{x = 25,
+					   y = 596566433,
+					   z = 2058420,
+                       w = 7961902}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -2577,5 +2606,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class SByte8
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,80 @@ namespace MaxMath.Tests
 
         internal static sbyte8[] TestData_LHS => new sbyte8[]
         {
-            new sbyte8(-83, 55, -99, 76, 65, 1, -11, 35),
-            new sbyte8(22, 12, 16, -11, 99, 80, 54, 39),      // EQUAL
-            new sbyte8(-87, sbyte.MaxValue, 17, 21, 0, 47, 32, -56),
-            new sbyte8(sbyte.MinValue, 13, -111, 66, -99, 39, -50, 121)
+            new sbyte8{x0 = -83,
+					   x1 = 55,
+					   x2 = -99,
+					   x3 = 76,
+					   x4 = 65,
+					   x5 = 1,
+					   x6 = -11,
+                       x7 = 35},
+					  
+            new sbyte8{x0 = 22,
+					   x1 = 12,
+					   x2 = 16,
+					   x3 = -11,
+					   x4 = 99,
+					   x5 = 80,
+					   x6 = 54,
+					   x7 = 39},
+					        // EQUAL
+            new sbyte8{x0 = -87,
+					   x1 = sbyte.MaxValue,
+					   x2 = 17,
+					   x3 = 21,
+					   x4 = 0,
+					   x5 = 47,
+					   x6 = 32,
+					   x7 = -56},
+					  
+            new sbyte8{x0 = sbyte.MinValue,
+					   x1 = 13,
+					   x2 = -111,
+					   x3 = 66,
+					   x4 = -99,
+					   x5 = 39,
+					   x6 = -50,
+					   x7 = 121}
         };
 
         internal static sbyte8[] TestData_RHS => new sbyte8[]
         {
-            new sbyte8(12, -8, 53, 98, 2, -73, 97, 44),
-            new sbyte8(22, 12, 16, -11, 99, 80, 54, 39),      // EQUAL
-            new sbyte8(17, -87, 9, -82, -39, 45, 90, -62),
-            new sbyte8(2, 9, -20, -92, 87, -19, -82, 43)
+            new sbyte8{x0 = 12,
+					   x1 = -8,
+					   x2 = 53,
+					   x3 = 98,
+					   x4 = 2,
+					   x5 = -73,
+					   x6 = 97,
+					   x7 = 44},
+					  
+            new sbyte8{x0 = 22,
+					   x1 = 12,
+					   x2 = 16,
+					   x3 = -11,
+					   x4 = 99,
+					   x5 = 80,
+					   x6 = 54,
+					   x7 = 39},
+					        // EQUAL
+            new sbyte8{x0 = 17,
+					   x1 = -87,
+					   x2 = 9,
+					   x3 = -82,
+					   x4 = -39,
+					   x5 = 45,
+					   x6 = 90,
+					   x7 = -62},
+					  
+            new sbyte8{x0 = 2,
+					   x1 = 9,
+					   x2 = -20,
+					   x3 = -92,
+					   x4 = 87,
+					   x5 = -19,
+					   x6 = -82,
+					   x7 = 43}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -888,5 +949,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

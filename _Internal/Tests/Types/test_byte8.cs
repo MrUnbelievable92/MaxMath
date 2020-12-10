@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Byte8
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,80 @@ namespace MaxMath.Tests
 
         internal static byte8[] TestData_LHS => new byte8[]
         {
-            new byte8(183, 55, 99, 76, 65, 1, 211, 35),
-            new byte8(22, 12, 16, 211, 99, 80, 54, 39),      // EQUAL
-            new byte8(87, byte.MaxValue, 17, 21, 0, 47, 32, 156),
-            new byte8(byte.MinValue, 13, 111, 66, 199, 39, 250, 121)
+            new byte8{ x0 = 183,
+	 	               x1 = 55,
+	 	               x2 = 99,
+	 	               x3 = 76,
+	 	               x4 = 65,
+	 	               x5 = 1,
+	 	               x6 = 211,
+	 	               x7 = 35},
+	 	
+            new byte8{ x0 = 22,
+	 	               x1 = 12,
+	 	               x2 = 16,
+	 	               x3 = 211,
+	 	               x4 = 99,
+	 	               x5 = 80,
+	 	               x6 = 54,
+	 	               x7 = 39},
+	 	      // EQUAL
+            new byte8{ x0 = 87,
+	 	               x1 = byte.MaxValue,
+	 	               x2 = 17,
+	 	               x3 = 21,
+	 	               x4 = 0,
+	 	               x5 = 47,
+	 	               x6 = 32,
+	 	               x7 = 156},
+	 	
+            new byte8{ x0 = byte.MinValue,
+	 	               x1 = 13,
+	 	               x2 = 111,
+	 	               x3 = 66,
+	 	               x4 = 199,
+	 	               x5 = 39,
+	 	               x6 = 250,
+	 	               x7 = 121}
         };
 
         internal static byte8[] TestData_RHS => new byte8[]
         {
-            new byte8(12, 8, 53, 98, 2, 173, 97, 44),
-            new byte8(22, 12, 16, 211, 99, 80, 54, 39),      // EQUAL
-            new byte8(17, 87, 9, 182, 239, 45, 90, 162),
-            new byte8(2, 9, 200, 192, 87, 219, 182, 43)
+            new byte8{ x0 = 12,
+	 	               x1 = 8,
+	 	               x2 = 53,
+	 	               x3 = 98,
+	 	               x4 = 2,
+	 	               x5 = 173,
+	 	               x6 = 97,
+	 	               x7 = 44},
+	 	
+            new byte8{ x0 = 22,
+	 	               x1 = 12,
+	 	               x2 = 16,
+	 	               x3 = 211,
+	 	               x4 = 99,
+	 	               x5 = 80,
+	 	               x6 = 54,
+	 	               x7 = 39},
+	 	      // EQUAL
+            new byte8{ x0 = 17,
+	 	               x1 = 87,
+	 	               x2 = 9,
+	 	               x3 = 182,
+	 	               x4 = 239,
+	 	               x5 = 45,
+	 	               x6 = 90,
+	 	               x7 = 162},
+	 	
+            new byte8{ x0 = 2,
+	 	               x1 = 9,
+	 	               x2 = 200,
+	 	               x3 = 192,
+	 	               x4 = 87,
+	 	               x5 = 219,
+	 	               x6 = 182,
+	 	               x7 = 43}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -865,5 +926,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

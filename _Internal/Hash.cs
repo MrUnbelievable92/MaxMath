@@ -1,6 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     internal static class Hash
@@ -12,10 +14,10 @@ namespace MaxMath
             // 1: Long0 ^ Long1
             // 2: Int0 ^ Int1
 
-            v = X86.Sse2.xor_si128(v, X86.Sse2.shuffle_epi32(v, X86.Sse.SHUFFLE(0, 0, 3, 2)));
-            v = X86.Sse2.xor_si128(v, X86.Sse2.shuffle_epi32(v, X86.Sse.SHUFFLE(0, 0, 0, 1)));
+            v = Sse2.xor_si128(v, Sse2.shuffle_epi32(v, Sse.SHUFFLE(0, 0, 3, 2)));
+            v = Sse2.xor_si128(v, Sse2.shuffle_epi32(v, Sse.SHUFFLE(0, 0, 0, 1)));
 
-            return X86.Sse4_1.extract_epi32(v, 0);
+            return Sse4_1.extract_epi32(v, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -23,8 +25,8 @@ namespace MaxMath
         {
             // 0: v128_0 ^ v128_1
 
-            return _128bit(X86.Sse2.xor_si128(X86.Avx.mm256_castsi256_si128(v),
-                                              X86.Avx2.mm256_extracti128_si256(v, 1)));
+            return _128bit(Sse2.xor_si128(Avx.mm256_castsi256_si128(v),
+                                          Avx2.mm256_extracti128_si256(v, 1)));
         }
     }
 }

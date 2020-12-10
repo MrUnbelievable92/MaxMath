@@ -27,7 +27,7 @@ Assert.AreNotEqual(seed, 0ul);
         {
 Assert.AreNotEqual(seed.state.state, 0u);
 
-            state = (seed.NextUInt() << 1) | seed.NextUInt();
+            state = (ulong)(seed.NextUInt() << 32) | (ulong)seed.NextUInt();
 
             NextState();
         }
@@ -66,7 +66,7 @@ Assert.AreNotEqual(state, 0ul);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long NextLong(long max)
         {
-Assert.IsGreater<long>(max, -1L);
+Assert.IsGreater(max, -1L);
 
             max = (long)Common.umul128(NextState(), (ulong)max, out ulong result);
 
@@ -76,9 +76,9 @@ Assert.IsGreater<long>(max, -1L);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long NextLong(long min, long max)
         {
-Assert.IsNotSmaller<long>(max, min);
+Assert.IsNotSmaller(max, min);
 
-            max = (long)Common.umul128(NextState(), (ulong)(max -= min), out ulong result);
+            max = (long)Common.umul128(NextState(), (ulong)(max - min), out ulong result);
 
             return min + (long)result;
         }
@@ -101,7 +101,7 @@ Assert.IsNotSmaller<long>(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong NextULong(ulong min, ulong max)
         {
-Assert.IsNotSmaller<ulong>(max, min);
+Assert.IsNotSmaller(max, min);
 
             max = Common.umul128(NextState(), max - min, out ulong result);
 
@@ -124,7 +124,7 @@ Assert.IsNotSmaller<ulong>(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double NextDouble(double min, double max) 
         { 
-Assert.IsNotSmaller<double>(max, min);
+Assert.IsNotSmaller(max, min);
 
             return math.mad(NextDouble(), (max - min), min);
         }

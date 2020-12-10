@@ -9,7 +9,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float smoothlerp(float from, float to, float t)
         {
-Assert.IsBetween<float>(t, 0f, 1f);
+Assert.IsBetween(t, 0f, 1f);
 
             float2 bi = t * new float2(-2f *  t, 3f);
             bi = new float2(t * math.csum(bi));
@@ -20,7 +20,7 @@ Assert.IsBetween<float>(t, 0f, 1f);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 smoothlerp(float2 from, float2 to, float t)
         {
-Assert.IsBetween<float>(t, 0f, 1f);
+Assert.IsBetween(t, 0f, 1f);
 
             float2 bi = t * new float2(-2f * t, 3f);
             bi = new float2(t * math.csum(bi));
@@ -34,7 +34,7 @@ Assert.IsBetween<float>(t, 0f, 1f);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 smoothlerp(float3 from, float3 to, float t)
         {
-Assert.IsBetween<float>(t, 0f, 1f);
+Assert.IsBetween(t, 0f, 1f);
 
             float2 bi = t * new float2(-2f * t, 3f);
             t *= math.csum(bi);
@@ -49,7 +49,7 @@ Assert.IsBetween<float>(t, 0f, 1f);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 smoothlerp(float4 from, float4 to, float t)
         {
-Assert.IsBetween<float>(t, 0f, 1f);
+Assert.IsBetween(t, 0f, 1f);
 
             float2 bi = t * new float2(-2f * t, 3f);
             t *= math.csum(bi);
@@ -64,7 +64,7 @@ Assert.IsBetween<float>(t, 0f, 1f);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 smoothlerp(float8 from, float8 to, float t)
         {
-            Assert.IsBetween<float>(t, 0f, 1f);
+Assert.IsBetween(t, 0f, 1f);
 
             float2 bi = t * new float2(-2f * t, 3f);
             t *= math.csum(bi);
@@ -80,7 +80,7 @@ Assert.IsBetween<float>(t, 0f, 1f);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double smoothlerp(double from, double to, double t)
         {
-Assert.IsBetween<double>(t, 0d, 1d);
+Assert.IsBetween(t, 0d, 1d);
 
             double2 bi = t * new double2(-2f * t, 3f);
             bi = new double2(t * math.csum(bi));
@@ -91,7 +91,7 @@ Assert.IsBetween<double>(t, 0d, 1d);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 smoothlerp(double2 from, double2 to, double t)
         {
-Assert.IsBetween<double>(t, 0d, 1d);
+Assert.IsBetween(t, 0d, 1d);
 
             double2 bi = t * new double2(-2f * t, 3f);
             bi = new double2(t * math.csum(bi));
@@ -105,7 +105,7 @@ Assert.IsBetween<double>(t, 0d, 1d);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 smoothlerp(double3 from, double3 to, double t)
         {
-Assert.IsBetween<double>(t, 0d, 1d);
+Assert.IsBetween(t, 0d, 1d);
 
             double2 bi = t * new double2(-2f * t, 3f);
             t *= math.csum(bi);
@@ -120,7 +120,7 @@ Assert.IsBetween<double>(t, 0d, 1d);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 smoothlerp(double4 from, double4 to, double t)
         {
-Assert.IsBetween<double>(t, 0d, 1d);
+Assert.IsBetween(t, 0d, 1d);
 
             double2 bi = t * new double2(-2f * t, 3f);
             t *= math.csum(bi);

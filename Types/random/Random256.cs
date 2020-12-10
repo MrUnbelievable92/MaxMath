@@ -4,6 +4,8 @@ using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using DevTools;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]
@@ -32,9 +34,9 @@ Assert.IsTrue(maxmath.all_dif((ushort16)state));
 
             ushort16 t = state;
 
-            state = X86.Avx2.mm256_xor_si256(state, X86.Avx2.mm256_slli_epi16(state, 7));
-            state = X86.Avx2.mm256_xor_si256(state, X86.Avx2.mm256_srli_epi16(state, 9));
-            state = X86.Avx2.mm256_xor_si256(state, X86.Avx2.mm256_slli_epi16(state, 13));
+            state = Avx2.mm256_xor_si256(state, Avx2.mm256_slli_epi16(state, 7));
+            state = Avx2.mm256_xor_si256(state, Avx2.mm256_srli_epi16(state, 9));
+            state = Avx2.mm256_xor_si256(state, Avx2.mm256_slli_epi16(state, 13));
 
             return t;
         }
@@ -93,49 +95,49 @@ Assert.IsTrue(maxmath.all_dif((ushort16)state));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16 NextShort16(short16 max)
         {
-Assert.IsGreater<short>(max.x0, -1);
-Assert.IsGreater<short>(max.x1, -1);
-Assert.IsGreater<short>(max.x2, -1);
-Assert.IsGreater<short>(max.x3, -1);
-Assert.IsGreater<short>(max.x4, -1);
-Assert.IsGreater<short>(max.x5, -1);
-Assert.IsGreater<short>(max.x6, -1);
-Assert.IsGreater<short>(max.x7, -1);
-Assert.IsGreater<short>(max.x8, -1);
-Assert.IsGreater<short>(max.x9, -1);
-Assert.IsGreater<short>(max.x10, -1);
-Assert.IsGreater<short>(max.x11, -1);
-Assert.IsGreater<short>(max.x12, -1);
-Assert.IsGreater<short>(max.x13, -1);
-Assert.IsGreater<short>(max.x14, -1);
-Assert.IsGreater<short>(max.x15, -1);
+Assert.IsGreater(max.x0, -1);
+Assert.IsGreater(max.x1, -1);
+Assert.IsGreater(max.x2, -1);
+Assert.IsGreater(max.x3, -1);
+Assert.IsGreater(max.x4, -1);
+Assert.IsGreater(max.x5, -1);
+Assert.IsGreater(max.x6, -1);
+Assert.IsGreater(max.x7, -1);
+Assert.IsGreater(max.x8, -1);
+Assert.IsGreater(max.x9, -1);
+Assert.IsGreater(max.x10, -1);
+Assert.IsGreater(max.x11, -1);
+Assert.IsGreater(max.x12, -1);
+Assert.IsGreater(max.x13, -1);
+Assert.IsGreater(max.x14, -1);
+Assert.IsGreater(max.x15, -1);
 
-            return X86.Avx2.mm256_mulhi_epu16(NextShort16(), max);
+            return Avx2.mm256_mulhi_epu16(NextShort16(), max);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16 NextShort8(short16 min, short16 max)
         {
-Assert.IsNotSmaller<short>(max.x0, min.x0);
-Assert.IsNotSmaller<short>(max.x1, min.x1);
-Assert.IsNotSmaller<short>(max.x2, min.x2);
-Assert.IsNotSmaller<short>(max.x3, min.x3);
-Assert.IsNotSmaller<short>(max.x4, min.x4);
-Assert.IsNotSmaller<short>(max.x5, min.x5);
-Assert.IsNotSmaller<short>(max.x6, min.x6);
-Assert.IsNotSmaller<short>(max.x7, min.x7);
-Assert.IsNotSmaller<short>(max.x8, min.x8);
-Assert.IsNotSmaller<short>(max.x9, min.x9);
-Assert.IsNotSmaller<short>(max.x10, min.x10);
-Assert.IsNotSmaller<short>(max.x11, min.x11);
-Assert.IsNotSmaller<short>(max.x12, min.x12);
-Assert.IsNotSmaller<short>(max.x13, min.x13);
-Assert.IsNotSmaller<short>(max.x14, min.x14);
-Assert.IsNotSmaller<short>(max.x15, min.x15);
+Assert.IsNotSmaller(max.x0, min.x0);
+Assert.IsNotSmaller(max.x1, min.x1);
+Assert.IsNotSmaller(max.x2, min.x2);
+Assert.IsNotSmaller(max.x3, min.x3);
+Assert.IsNotSmaller(max.x4, min.x4);
+Assert.IsNotSmaller(max.x5, min.x5);
+Assert.IsNotSmaller(max.x6, min.x6);
+Assert.IsNotSmaller(max.x7, min.x7);
+Assert.IsNotSmaller(max.x8, min.x8);
+Assert.IsNotSmaller(max.x9, min.x9);
+Assert.IsNotSmaller(max.x10, min.x10);
+Assert.IsNotSmaller(max.x11, min.x11);
+Assert.IsNotSmaller(max.x12, min.x12);
+Assert.IsNotSmaller(max.x13, min.x13);
+Assert.IsNotSmaller(max.x14, min.x14);
+Assert.IsNotSmaller(max.x15, min.x15);
 
             max -= min;
 
-            return X86.Avx2.mm256_mulhi_epu16(NextShort16(), max) + min;
+            return Avx2.mm256_mulhi_epu16(NextShort16(), max) + min;
         }
 
 
@@ -148,32 +150,32 @@ Assert.IsNotSmaller<short>(max.x15, min.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 max)
         {
-            return X86.Avx2.mm256_mulhi_epu16(NextUShort16(), max);
+            return Avx2.mm256_mulhi_epu16(NextUShort16(), max);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 min, ushort16 max)
         {
-Assert.IsNotSmaller<ushort>(max.x0, min.x0);
-Assert.IsNotSmaller<ushort>(max.x1, min.x1);
-Assert.IsNotSmaller<ushort>(max.x2, min.x2);
-Assert.IsNotSmaller<ushort>(max.x3, min.x3);
-Assert.IsNotSmaller<ushort>(max.x4, min.x4);
-Assert.IsNotSmaller<ushort>(max.x5, min.x5);
-Assert.IsNotSmaller<ushort>(max.x6, min.x6);
-Assert.IsNotSmaller<ushort>(max.x7, min.x7);
-Assert.IsNotSmaller<ushort>(max.x8, min.x8);
-Assert.IsNotSmaller<ushort>(max.x9, min.x9);
-Assert.IsNotSmaller<ushort>(max.x10, min.x10);
-Assert.IsNotSmaller<ushort>(max.x11, min.x11);
-Assert.IsNotSmaller<ushort>(max.x12, min.x12);
-Assert.IsNotSmaller<ushort>(max.x13, min.x13);
-Assert.IsNotSmaller<ushort>(max.x14, min.x14);
-Assert.IsNotSmaller<ushort>(max.x15, min.x15);
+Assert.IsNotSmaller(max.x0, min.x0);
+Assert.IsNotSmaller(max.x1, min.x1);
+Assert.IsNotSmaller(max.x2, min.x2);
+Assert.IsNotSmaller(max.x3, min.x3);
+Assert.IsNotSmaller(max.x4, min.x4);
+Assert.IsNotSmaller(max.x5, min.x5);
+Assert.IsNotSmaller(max.x6, min.x6);
+Assert.IsNotSmaller(max.x7, min.x7);
+Assert.IsNotSmaller(max.x8, min.x8);
+Assert.IsNotSmaller(max.x9, min.x9);
+Assert.IsNotSmaller(max.x10, min.x10);
+Assert.IsNotSmaller(max.x11, min.x11);
+Assert.IsNotSmaller(max.x12, min.x12);
+Assert.IsNotSmaller(max.x13, min.x13);
+Assert.IsNotSmaller(max.x14, min.x14);
+Assert.IsNotSmaller(max.x15, min.x15);
 
             max -= min;
 
-            return X86.Avx2.mm256_mulhi_epu16(NextUShort16(), max) + min;
+            return Avx2.mm256_mulhi_epu16(NextUShort16(), max) + min;
         }
 
 
@@ -186,13 +188,13 @@ Assert.IsNotSmaller<ushort>(max.x15, min.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int3 NextInt3(long3 max)
         {
-Assert.IsGreater<long>(max.x, -1);
-Assert.IsGreater<long>(max.y, -1);
-Assert.IsGreater<long>(max.z, -1);
+Assert.IsGreater(max.x, -1);
+Assert.IsGreater(max.y, -1);
+Assert.IsGreater(max.z, -1);
 
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(int3*)&t;
         }
@@ -200,14 +202,14 @@ Assert.IsGreater<long>(max.z, -1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int3 NextInt3(long3 min, long3 max)
         {
-Assert.IsNotSmaller<long>(max.x, min.x);
-Assert.IsNotSmaller<long>(max.y, min.y);
-Assert.IsNotSmaller<long>(max.z, min.z);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
 
             max -= min;
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(int3*)&t;
         }
@@ -222,8 +224,8 @@ Assert.IsNotSmaller<long>(max.z, min.z);
         public uint3 NextUInt3(ulong3 max)
         {
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(uint3*)&t;
         }
@@ -231,14 +233,14 @@ Assert.IsNotSmaller<long>(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(ulong3 min, ulong3 max)
         {
-Assert.IsNotSmaller<ulong>(max.x, min.x);
-Assert.IsNotSmaller<ulong>(max.y, min.y);
-Assert.IsNotSmaller<ulong>(max.z, min.z);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
 
             max -= min;
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(uint3*)&t;
         }
@@ -253,14 +255,14 @@ Assert.IsNotSmaller<ulong>(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int4 NextInt4(long4 max)
         {
-Assert.IsGreater<long>(max.x, -1);
-Assert.IsGreater<long>(max.y, -1);
-Assert.IsGreater<long>(max.z, -1);
-Assert.IsGreater<long>(max.w, -1);
+Assert.IsGreater(max.x, -1);
+Assert.IsGreater(max.y, -1);
+Assert.IsGreater(max.z, -1);
+Assert.IsGreater(max.w, -1);
 
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(int4*)&t;
         }
@@ -268,15 +270,15 @@ Assert.IsGreater<long>(max.w, -1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int4 NextInt4(long4 min, long4 max)
         {
-Assert.IsNotSmaller<long>(max.x, min.x);
-Assert.IsNotSmaller<long>(max.y, min.y);
-Assert.IsNotSmaller<long>(max.z, min.z);
-Assert.IsNotSmaller<long>(max.w, min.w);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
+Assert.IsNotSmaller(max.w, min.w);
 
             max -= min;
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(int4*)&t;
         }
@@ -291,8 +293,8 @@ Assert.IsNotSmaller<long>(max.w, min.w);
         public uint4 NextUInt4(ulong4 max)
         {
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(uint4*)&t;
         }
@@ -300,15 +302,15 @@ Assert.IsNotSmaller<long>(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(ulong4 min, ulong4 max)
         {
-Assert.IsNotSmaller<ulong>(max.x, min.x);
-Assert.IsNotSmaller<ulong>(max.y, min.y);
-Assert.IsNotSmaller<ulong>(max.z, min.z);
-Assert.IsNotSmaller<ulong>(max.w, min.w);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
+Assert.IsNotSmaller(max.w, min.w);
 
             max -= min;
             uint8 n = NextState32();
-            ulong4 t = X86.Avx2.mm256_mul_epu32(*(v256*)&n, max);
-            t = X86.Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            ulong4 t = Avx2.mm256_mul_epu32(*(v256*)&n, max);
+            t = Avx2.mm256_permutevar8x32_epi32(t, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
             return *(uint4*)&t;
         }
@@ -323,9 +325,9 @@ Assert.IsNotSmaller<ulong>(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3(long3 max)
         {
-Assert.IsGreater<long>(max.x, -1L);
-Assert.IsGreater<long>(max.y, -1L);
-Assert.IsGreater<long>(max.z, -1L);
+Assert.IsGreater(max.x, -1L);
+Assert.IsGreater(max.y, -1L);
+Assert.IsGreater(max.z, -1L);
 
             ulong3 next = NextState64().xyz;
 
@@ -342,9 +344,9 @@ Assert.IsGreater<long>(max.z, -1L);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3(long3 min, long3 max)
         {
-Assert.IsNotSmaller<long>(max.x, min.x);
-Assert.IsNotSmaller<long>(max.y, min.y);
-Assert.IsNotSmaller<long>(max.z, min.z);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
 
             max -= min;
             ulong3 next = NextState64().xyz;
@@ -384,9 +386,9 @@ Assert.IsNotSmaller<long>(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 min, ulong3 max)
         {
-Assert.IsNotSmaller<ulong>(max.x, min.x);
-Assert.IsNotSmaller<ulong>(max.y, min.y);
-Assert.IsNotSmaller<ulong>(max.z, min.z);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
 
             max -= min;
             ulong3 next = NextState64().xyz;
@@ -427,10 +429,10 @@ Assert.IsNotSmaller<ulong>(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4(long4 min, long4 max)
         {
-Assert.IsNotSmaller<long>(max.x, min.x);
-Assert.IsNotSmaller<long>(max.y, min.y);
-Assert.IsNotSmaller<long>(max.z, min.z);
-Assert.IsNotSmaller<long>(max.w, min.w);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
+Assert.IsNotSmaller(max.w, min.w);
 
             max -= min;
             ulong4 next = NextState64();
@@ -472,10 +474,10 @@ Assert.IsNotSmaller<long>(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 min, ulong4 max)
         {
-Assert.IsNotSmaller<ulong>(max.x, min.x);
-Assert.IsNotSmaller<ulong>(max.y, min.y);
-Assert.IsNotSmaller<ulong>(max.z, min.z);
-Assert.IsNotSmaller<ulong>(max.w, min.w);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
+Assert.IsNotSmaller(max.w, min.w);
 
             max -= min;
             ulong4 next = NextState64();
@@ -507,14 +509,14 @@ Assert.IsNotSmaller<ulong>(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8 NextFloat8(float8 min, float8 max) 
         {
-Assert.IsNotSmaller<float>(max.x0, min.x0);
-Assert.IsNotSmaller<float>(max.x1, min.x1);
-Assert.IsNotSmaller<float>(max.x2, min.x2);
-Assert.IsNotSmaller<float>(max.x3, min.x3);
-Assert.IsNotSmaller<float>(max.x4, min.x4);
-Assert.IsNotSmaller<float>(max.x5, min.x5);
-Assert.IsNotSmaller<float>(max.x6, min.x6);
-Assert.IsNotSmaller<float>(max.x7, min.x7);
+Assert.IsNotSmaller(max.x0, min.x0);
+Assert.IsNotSmaller(max.x1, min.x1);
+Assert.IsNotSmaller(max.x2, min.x2);
+Assert.IsNotSmaller(max.x3, min.x3);
+Assert.IsNotSmaller(max.x4, min.x4);
+Assert.IsNotSmaller(max.x5, min.x5);
+Assert.IsNotSmaller(max.x6, min.x6);
+Assert.IsNotSmaller(max.x7, min.x7);
 
             return maxmath.mad(NextFloat8(), (max - min), min);
         }
@@ -537,9 +539,9 @@ Assert.IsNotSmaller<float>(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3(double3 min, double3 max) 
         { 
-Assert.IsNotSmaller<double>(max.x, min.x);
-Assert.IsNotSmaller<double>(max.y, min.y);
-Assert.IsNotSmaller<double>(max.z, min.z);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
 
             return math.mad(NextDouble3(), (max - min), min);
         }
@@ -562,10 +564,10 @@ Assert.IsNotSmaller<double>(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4(double4 min, double4 max) 
         { 
-Assert.IsNotSmaller<double>(max.x, min.x);
-Assert.IsNotSmaller<double>(max.y, min.y);
-Assert.IsNotSmaller<double>(max.z, min.z);
-Assert.IsNotSmaller<double>(max.w, min.w);
+Assert.IsNotSmaller(max.x, min.x);
+Assert.IsNotSmaller(max.y, min.y);
+Assert.IsNotSmaller(max.z, min.z);
+Assert.IsNotSmaller(max.w, min.w);
 
             return math.mad(NextDouble4(), (max - min), min);
         }

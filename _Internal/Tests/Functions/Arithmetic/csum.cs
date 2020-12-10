@@ -1,10 +1,7 @@
 ﻿using DevTools;
-using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     /// Float8 implicitly tested by testing Int8
     unsafe public static class csum
     {
@@ -665,5 +662,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

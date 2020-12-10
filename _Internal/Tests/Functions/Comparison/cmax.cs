@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class cmax
     {
         [UnitTest("Functions", "Comparison", "ColumnMax")]
@@ -687,5 +686,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

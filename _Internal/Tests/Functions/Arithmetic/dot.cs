@@ -1,10 +1,7 @@
 ﻿using DevTools;
-using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class dot
     {
         [UnitTest("Functions", "Arithmetic", "DotProduct")]
@@ -48,98 +45,6 @@ namespace MaxMath.Tests
                                 Tests.Byte32.TestData_LHS[i].x29 * Tests.Byte32.TestData_RHS[i].x29 +
                                 Tests.Byte32.TestData_LHS[i].x30 * Tests.Byte32.TestData_RHS[i].x30 +
                                 Tests.Byte32.TestData_LHS[i].x31 * Tests.Byte32.TestData_RHS[i].x31);
-            }
-
-            return result;
-        }
-
-        [UnitTest("Functions", "Arithmetic", "DotProduct")]
-        public static bool SByte32Byte32()
-        {
-            bool result = true;
-
-            for (int i = 0; i < Tests.Byte32.NUM_TESTS; i++)
-            {
-                int x = maxmath.dot(Tests.SByte32.TestData_LHS[i], Tests.Byte32.TestData_RHS[i]);
-                
-                result &= x == (Tests.SByte32.TestData_LHS[i].x0  * Tests.Byte32.TestData_RHS[i].x0  +
-                                Tests.SByte32.TestData_LHS[i].x1  * Tests.Byte32.TestData_RHS[i].x1  +
-                                Tests.SByte32.TestData_LHS[i].x2  * Tests.Byte32.TestData_RHS[i].x2  +
-                                Tests.SByte32.TestData_LHS[i].x3  * Tests.Byte32.TestData_RHS[i].x3  +
-                                Tests.SByte32.TestData_LHS[i].x4  * Tests.Byte32.TestData_RHS[i].x4  +
-                                Tests.SByte32.TestData_LHS[i].x5  * Tests.Byte32.TestData_RHS[i].x5  +
-                                Tests.SByte32.TestData_LHS[i].x6  * Tests.Byte32.TestData_RHS[i].x6  +
-                                Tests.SByte32.TestData_LHS[i].x7  * Tests.Byte32.TestData_RHS[i].x7  +
-                                Tests.SByte32.TestData_LHS[i].x8  * Tests.Byte32.TestData_RHS[i].x8  +
-                                Tests.SByte32.TestData_LHS[i].x9  * Tests.Byte32.TestData_RHS[i].x9  +
-                                Tests.SByte32.TestData_LHS[i].x10 * Tests.Byte32.TestData_RHS[i].x10 +
-                                Tests.SByte32.TestData_LHS[i].x11 * Tests.Byte32.TestData_RHS[i].x11 +
-                                Tests.SByte32.TestData_LHS[i].x12 * Tests.Byte32.TestData_RHS[i].x12 +
-                                Tests.SByte32.TestData_LHS[i].x13 * Tests.Byte32.TestData_RHS[i].x13 +
-                                Tests.SByte32.TestData_LHS[i].x14 * Tests.Byte32.TestData_RHS[i].x14 +
-                                Tests.SByte32.TestData_LHS[i].x15 * Tests.Byte32.TestData_RHS[i].x15 +
-                                Tests.SByte32.TestData_LHS[i].x16 * Tests.Byte32.TestData_RHS[i].x16 +
-                                Tests.SByte32.TestData_LHS[i].x17 * Tests.Byte32.TestData_RHS[i].x17 +
-                                Tests.SByte32.TestData_LHS[i].x18 * Tests.Byte32.TestData_RHS[i].x18 +
-                                Tests.SByte32.TestData_LHS[i].x19 * Tests.Byte32.TestData_RHS[i].x19 +
-                                Tests.SByte32.TestData_LHS[i].x20 * Tests.Byte32.TestData_RHS[i].x20 +
-                                Tests.SByte32.TestData_LHS[i].x21 * Tests.Byte32.TestData_RHS[i].x21 +
-                                Tests.SByte32.TestData_LHS[i].x22 * Tests.Byte32.TestData_RHS[i].x22 +
-                                Tests.SByte32.TestData_LHS[i].x23 * Tests.Byte32.TestData_RHS[i].x23 +
-                                Tests.SByte32.TestData_LHS[i].x24 * Tests.Byte32.TestData_RHS[i].x24 +
-                                Tests.SByte32.TestData_LHS[i].x25 * Tests.Byte32.TestData_RHS[i].x25 +
-                                Tests.SByte32.TestData_LHS[i].x26 * Tests.Byte32.TestData_RHS[i].x26 +
-                                Tests.SByte32.TestData_LHS[i].x27 * Tests.Byte32.TestData_RHS[i].x27 +
-                                Tests.SByte32.TestData_LHS[i].x28 * Tests.Byte32.TestData_RHS[i].x28 +
-                                Tests.SByte32.TestData_LHS[i].x29 * Tests.Byte32.TestData_RHS[i].x29 +
-                                Tests.SByte32.TestData_LHS[i].x30 * Tests.Byte32.TestData_RHS[i].x30 +
-                                Tests.SByte32.TestData_LHS[i].x31 * Tests.Byte32.TestData_RHS[i].x31);
-            }
-
-            return result;
-        }
-
-        [UnitTest("Functions", "Arithmetic", "DotProduct")]
-        public static bool Byte32SByte32()
-        {
-            bool result = true;
-
-            for (int i = 0; i < Tests.Byte32.NUM_TESTS; i++)
-            {
-                int x = maxmath.dot(Tests.Byte32.TestData_LHS[i], Tests.SByte32.TestData_RHS[i]);
-                
-                result &= x == (Tests.Byte32.TestData_LHS[i].x0  * Tests.SByte32.TestData_RHS[i].x0  +
-                                Tests.Byte32.TestData_LHS[i].x1  * Tests.SByte32.TestData_RHS[i].x1  +
-                                Tests.Byte32.TestData_LHS[i].x2  * Tests.SByte32.TestData_RHS[i].x2  +
-                                Tests.Byte32.TestData_LHS[i].x3  * Tests.SByte32.TestData_RHS[i].x3  +
-                                Tests.Byte32.TestData_LHS[i].x4  * Tests.SByte32.TestData_RHS[i].x4  +
-                                Tests.Byte32.TestData_LHS[i].x5  * Tests.SByte32.TestData_RHS[i].x5  +
-                                Tests.Byte32.TestData_LHS[i].x6  * Tests.SByte32.TestData_RHS[i].x6  +
-                                Tests.Byte32.TestData_LHS[i].x7  * Tests.SByte32.TestData_RHS[i].x7  +
-                                Tests.Byte32.TestData_LHS[i].x8  * Tests.SByte32.TestData_RHS[i].x8  +
-                                Tests.Byte32.TestData_LHS[i].x9  * Tests.SByte32.TestData_RHS[i].x9  +
-                                Tests.Byte32.TestData_LHS[i].x10 * Tests.SByte32.TestData_RHS[i].x10 +
-                                Tests.Byte32.TestData_LHS[i].x11 * Tests.SByte32.TestData_RHS[i].x11 +
-                                Tests.Byte32.TestData_LHS[i].x12 * Tests.SByte32.TestData_RHS[i].x12 +
-                                Tests.Byte32.TestData_LHS[i].x13 * Tests.SByte32.TestData_RHS[i].x13 +
-                                Tests.Byte32.TestData_LHS[i].x14 * Tests.SByte32.TestData_RHS[i].x14 +
-                                Tests.Byte32.TestData_LHS[i].x15 * Tests.SByte32.TestData_RHS[i].x15 +
-                                Tests.Byte32.TestData_LHS[i].x16 * Tests.SByte32.TestData_RHS[i].x16 +
-                                Tests.Byte32.TestData_LHS[i].x17 * Tests.SByte32.TestData_RHS[i].x17 +
-                                Tests.Byte32.TestData_LHS[i].x18 * Tests.SByte32.TestData_RHS[i].x18 +
-                                Tests.Byte32.TestData_LHS[i].x19 * Tests.SByte32.TestData_RHS[i].x19 +
-                                Tests.Byte32.TestData_LHS[i].x20 * Tests.SByte32.TestData_RHS[i].x20 +
-                                Tests.Byte32.TestData_LHS[i].x21 * Tests.SByte32.TestData_RHS[i].x21 +
-                                Tests.Byte32.TestData_LHS[i].x22 * Tests.SByte32.TestData_RHS[i].x22 +
-                                Tests.Byte32.TestData_LHS[i].x23 * Tests.SByte32.TestData_RHS[i].x23 +
-                                Tests.Byte32.TestData_LHS[i].x24 * Tests.SByte32.TestData_RHS[i].x24 +
-                                Tests.Byte32.TestData_LHS[i].x25 * Tests.SByte32.TestData_RHS[i].x25 +
-                                Tests.Byte32.TestData_LHS[i].x26 * Tests.SByte32.TestData_RHS[i].x26 +
-                                Tests.Byte32.TestData_LHS[i].x27 * Tests.SByte32.TestData_RHS[i].x27 +
-                                Tests.Byte32.TestData_LHS[i].x28 * Tests.SByte32.TestData_RHS[i].x28 +
-                                Tests.Byte32.TestData_LHS[i].x29 * Tests.SByte32.TestData_RHS[i].x29 +
-                                Tests.Byte32.TestData_LHS[i].x30 * Tests.SByte32.TestData_RHS[i].x30 +
-                                Tests.Byte32.TestData_LHS[i].x31 * Tests.SByte32.TestData_RHS[i].x31);
             }
 
             return result;
@@ -399,5 +304,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

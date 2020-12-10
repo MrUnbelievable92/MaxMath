@@ -4,8 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
-    /// Float/Double implicitly tested by testing Int/Long
     unsafe public static class sad
     {
         [UnitTest("Functions", "Arithmetic", "SumAbsDif")]
@@ -204,5 +202,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

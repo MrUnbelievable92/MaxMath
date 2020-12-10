@@ -1,14 +1,12 @@
 ﻿using DevTools;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class last
     {
-        private static readonly int NUM_TESTS = 8;
-        private static readonly uint RNG_SEED = 1747u;
+        private const int NUM_TESTS = 8;
+        private const uint RNG_SEED = 1747u;
 
 
         [UnitTest("Functions", "Bitwise", "Last")]
@@ -86,5 +84,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

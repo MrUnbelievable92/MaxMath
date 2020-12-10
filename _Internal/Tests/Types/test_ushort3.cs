@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class UShort3
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,40 @@ namespace MaxMath.Tests
 
         internal static ushort3[] TestData_LHS => new ushort3[]
         {
-            new ushort3(14383, 5665, 9902),
-            new ushort3(2752, 102, 1699),      // EQUAL
-            new ushort3(47, ushort.MaxValue, 884),
-            new ushort3(ushort.MinValue, 357, 1940)
+            new ushort3{x =14383,
+					    y =5665,
+                        z =9902},
+					   
+            new ushort3{x =2752,
+					    y =102,
+                        z =1699},
+					         // EQUAL
+            new ushort3{x =47,
+					    y =ushort.MaxValue,
+                        z =884},
+					   
+            new ushort3{x =ushort.MinValue,
+					    y =357,
+                        z =1940}
         };
 
         internal static ushort3[] TestData_RHS => new ushort3[]
         {
-            new ushort3(120, 5204, 53000),
-            new ushort3(2752, 102, 1699),      // EQUAL
-            new ushort3(1747, 4709, 20092),
-            new ushort3(25, 9999, 20780)
+            new ushort3{x =120,
+					    y =5204,
+                        z =53000},
+					   
+            new ushort3{x =2752,
+					    y =102,
+                        z =1699},
+					         // EQUAL
+            new ushort3{x =1747,
+					    y =4709,
+                        z =20092},
+					   
+            new ushort3{x =25,
+					    y =9999,
+                        z =20780}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -1237,5 +1258,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

@@ -1,10 +1,8 @@
 ﻿using DevTools;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Float3
     {
         internal const int NUM_TESTS = 4;
@@ -121,5 +119,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

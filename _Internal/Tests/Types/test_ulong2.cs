@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class ULong2
     {
         internal const int NUM_TESTS = 4;
@@ -12,18 +11,32 @@ namespace MaxMath.Tests
 
         internal static ulong2[] TestData_LHS => new ulong2[]
         {
-            new ulong2(143164337772, 5528632255),
-            new ulong2(210532882, 9029995532),      // EQUAL
-            new ulong2(4746998317, ulong.MaxValue),
-            new ulong2(ulong.MinValue, 1363366122)
+            new ulong2{x =143164337772,
+                       y =5528632255},
+					  
+            new ulong2{x =210532882,
+                       y =9029995532},
+					        // EQUAL
+            new ulong2{x =4746998317,
+                       y =ulong.MaxValue},
+					  
+            new ulong2{x =ulong.MinValue,
+                       y =1363366122}
         };
 
         internal static ulong2[] TestData_RHS => new ulong2[]
         {
-            new ulong2(883211, 2004),
-            new ulong2(210532882, 9029995532),      // EQUAL
-            new ulong2(12477, 2799),
-            new ulong2(29070, 17753)
+            new ulong2{x =883211,
+                       y =2004},
+					  
+            new ulong2{x =210532882,
+                       y =9029995532},
+					        // EQUAL
+            new ulong2{x =12477,
+                       y =2799},
+					  
+            new ulong2{x =29070,
+                       y =17753}
         };
 
         internal static int[] TestData_int32 => new int[]
@@ -682,5 +695,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

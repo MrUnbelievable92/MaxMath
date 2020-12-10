@@ -1,10 +1,8 @@
 ﻿using DevTools;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class negate
     {
         [UnitTest("Functions", "Comparison", "ConditionallyNegate")]
@@ -161,5 +159,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }

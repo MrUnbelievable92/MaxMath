@@ -1,13 +1,11 @@
 ﻿using DevTools;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-#if UNITY_EDITOR
     unsafe public static class Double2
     {
-        internal static double NUM_TESTS = 4;
+        internal const int NUM_TESTS = 4;
 
 
         internal static double2[] TestData => new double2[]
@@ -115,5 +113,4 @@ namespace MaxMath.Tests
             return result;
         }
     }
-#endif
 }
