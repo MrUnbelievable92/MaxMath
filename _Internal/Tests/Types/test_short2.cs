@@ -39,14 +39,6 @@ namespace MaxMath.Tests
                        y =-31679}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            15,
-            9,
-            4,
-            0
-        };
-
 
         [UnitTest("Types", "short2")]
         public static bool Constructor_Short_Short()
@@ -242,12 +234,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 16; j++)
                 {
-                    short2 x = TestData_LHS[i] << TestData_int32[j];
+                    short2 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (short)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (short)(TestData_LHS[i].y << TestData_int32[j]);
+                    result &= x.x == (short)(TestData_LHS[i].x << j) & 
+                              x.y == (short)(TestData_LHS[i].y << j);
                 }
             }
 
@@ -261,12 +253,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 16; j++)
                 {
-                    short2 x = TestData_LHS[i] >> TestData_int32[j];
+                    short2 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (short)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (short)(TestData_LHS[i].y >> TestData_int32[j]);
+                    result &= x.x == (short)(TestData_LHS[i].x >> j) &
+                              x.y == (short)(TestData_LHS[i].y >> j);
                 }
             }
 

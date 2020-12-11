@@ -39,14 +39,6 @@ namespace MaxMath.Tests
                        y =17753}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            63,
-            48,
-            16,
-            0
-        };
-
 
         [UnitTest("Types", "ulong2")]
         public static bool Constructor_ULong_ULong()
@@ -225,12 +217,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    ulong2 x = TestData_LHS[i] << TestData_int32[j];
+                    ulong2 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (ulong)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (ulong)(TestData_LHS[i].y << TestData_int32[j]);
+                    result &= x.x == (ulong)(TestData_LHS[i].x << j) & 
+                              x.y == (ulong)(TestData_LHS[i].y << j);
                 }
             }
 
@@ -244,12 +236,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    ulong2 x = TestData_LHS[i] >> TestData_int32[j];
+                    ulong2 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (ulong)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (ulong)(TestData_LHS[i].y >> TestData_int32[j]);
+                    result &= x.x == (ulong)(TestData_LHS[i].x >> j) &
+                              x.y == (ulong)(TestData_LHS[i].y >> j);
                 }
             }
 

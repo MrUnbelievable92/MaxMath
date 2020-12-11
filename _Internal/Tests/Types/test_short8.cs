@@ -87,14 +87,6 @@ namespace MaxMath.Tests
                        x7 = 43}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            15,
-            9,
-            6,
-            0
-        };
-
 
         [UnitTest("Types", "short8")]
         public static bool Constructor_Short_Short_Short_Short_Short_Short_Short_Short()
@@ -489,18 +481,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 16; j++)
                 {
-                    short8 x = TestData_LHS[i] << TestData_int32[j];
+                    short8 x = TestData_LHS[i] << j;
 
-                    result &= x.x0 == (short)(TestData_LHS[i].x0 << TestData_int32[j]) & 
-                              x.x1 == (short)(TestData_LHS[i].x1 << TestData_int32[j]) &
-                              x.x2 == (short)(TestData_LHS[i].x2 << TestData_int32[j]) &
-                              x.x3 == (short)(TestData_LHS[i].x3 << TestData_int32[j]) &
-                              x.x4 == (short)(TestData_LHS[i].x4 << TestData_int32[j]) &
-                              x.x5 == (short)(TestData_LHS[i].x5 << TestData_int32[j]) &
-                              x.x6 == (short)(TestData_LHS[i].x6 << TestData_int32[j]) &
-                              x.x7 == (short)(TestData_LHS[i].x7 << TestData_int32[j]);
+                    result &= x.x0 == (short)(TestData_LHS[i].x0 << j) & 
+                              x.x1 == (short)(TestData_LHS[i].x1 << j) &
+                              x.x2 == (short)(TestData_LHS[i].x2 << j) &
+                              x.x3 == (short)(TestData_LHS[i].x3 << j) &
+                              x.x4 == (short)(TestData_LHS[i].x4 << j) &
+                              x.x5 == (short)(TestData_LHS[i].x5 << j) &
+                              x.x6 == (short)(TestData_LHS[i].x6 << j) &
+                              x.x7 == (short)(TestData_LHS[i].x7 << j);
                 }
             }
 
@@ -514,18 +506,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 16; j++)
                 {
-                    short8 x = TestData_LHS[i] >> TestData_int32[j];
+                    short8 x = TestData_LHS[i] >> j;
 
-                    result &= x.x0 == (short)(TestData_LHS[i].x0 >> TestData_int32[j]) &
-                              x.x1 == (short)(TestData_LHS[i].x1 >> TestData_int32[j]) &
-                              x.x2 == (short)(TestData_LHS[i].x2 >> TestData_int32[j]) &
-                              x.x3 == (short)(TestData_LHS[i].x3 >> TestData_int32[j]) &
-                              x.x4 == (short)(TestData_LHS[i].x4 >> TestData_int32[j]) &
-                              x.x5 == (short)(TestData_LHS[i].x5 >> TestData_int32[j]) &
-                              x.x6 == (short)(TestData_LHS[i].x6 >> TestData_int32[j]) &
-                              x.x7 == (short)(TestData_LHS[i].x7 >> TestData_int32[j]);
+                    result &= x.x0 == (short)(TestData_LHS[i].x0 >> j) &
+                              x.x1 == (short)(TestData_LHS[i].x1 >> j) &
+                              x.x2 == (short)(TestData_LHS[i].x2 >> j) &
+                              x.x3 == (short)(TestData_LHS[i].x3 >> j) &
+                              x.x4 == (short)(TestData_LHS[i].x4 >> j) &
+                              x.x5 == (short)(TestData_LHS[i].x5 >> j) &
+                              x.x6 == (short)(TestData_LHS[i].x6 >> j) &
+                              x.x7 == (short)(TestData_LHS[i].x7 >> j);
                 }
             }
 

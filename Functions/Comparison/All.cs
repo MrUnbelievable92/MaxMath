@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -26,21 +25,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool2x4 x)
         {
-            return all(*(bool4x2*)&x);
+            return *(long*)&x == 0x0101_0101_0101_0101;
         }
 
         /// <summary>       Returns true if all components of the input bool3x2 matrix are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool3x2 x)
         {
-            return math.all(x.c0) & math.all(x.c1);
+            return math.all(x.c0 & x.c1);
         }
 
         /// <summary>       Returns true if all components of the input bool3x3 matrix are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool3x3 x)
         {
-            return math.all(new bool3(math.all(x.c0), math.all(x.c1), math.all(x.c2)));
+            return math.all(x.c0 & x.c1 & x.c2);
         }
 
         /// <summary>       Returns true if all components of the input bool3x4 matrix are true, false otherwise.        </summary>
@@ -54,42 +53,42 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool4x2 x)
         {
-            return new byte8(byte.MaxValue).Equals(Sse2.cmpgt_epi8(*(byte8*)&x, default(v128)));
+            return *(long*)&x == 0x0101_0101_0101_0101;
         }
 
         /// <summary>       Returns true if all components of the input bool4x3 matrix are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool4x3 x)
         {
-            return math.all(new bool3(math.all(x.c0), math.all(x.c1), math.all(x.c2)));
+            return math.all(x.c0 & x.c1 & x.c2);
         }
 
         /// <summary>       Returns true if all components of the input bool4x4 matrix are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool4x4 x)
         {
-            return new byte16(byte.MaxValue).Equals(Sse2.cmpgt_epi8(*(byte16*)&x, default(v128)));
+            return all((bool16)x);
         }
 
         /// <summary>       Returns true if all components of the input bool8 vector are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool8 x)
         {
-            return new byte8(byte.MaxValue).Equals(Sse2.cmpgt_epi8(x, default(v128)));
+            return x.cast_long == 0x0101_0101_0101_0101;
         }
 
         /// <summary>       Returns true if all components of the input bool16 vector are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool16 x)
         {
-            return new byte16(byte.MaxValue).Equals(Sse2.cmpgt_epi8(x, default(v128)));
+            return maxmath.bitmask32(16) == Sse2.movemask_epi8(x);
         }
 
         /// <summary>       Returns true if all components of the input bool32 vector are true, false otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool32 x)
         {
-            return new byte32(byte.MaxValue).Equals(Avx2.mm256_cmpgt_epi8(x, default(v256)));
+            return maxmath.bitmask32(32) == Avx2.mm256_movemask_epi8(x);
         }
     }
 }

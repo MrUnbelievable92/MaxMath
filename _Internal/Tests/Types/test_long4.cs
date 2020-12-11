@@ -21,7 +21,7 @@ namespace MaxMath.Tests
                        z = -1478822227276,
                        w = 210689543201},
       // EQUAL
-            new long4{ x = 476890552274,
+            new long4{ x = -476890552274,
                        y = long.MaxValue,
                        z = 38897774211,
                        w = -27521},
@@ -46,21 +46,13 @@ namespace MaxMath.Tests
       // EQUAL
             new long4{ x = 1741456777,
                        y = 4627899767,
-                       z = 992211709,
+                       z = -992211709,
                        w = -14662},
 
             new long4{ x = -25,
                        y = 596566433,
                        z = 2058420,
                        w = -7961902}
-        };
-
-        internal static int[] TestData_int32 => new int[]
-        {
-            63,
-            33,
-            9,
-            0
         };
 
 
@@ -351,14 +343,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long4 x = TestData_LHS[i] << TestData_int32[j];
+                    long4 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (long)(TestData_LHS[i].y << TestData_int32[j]) &
-                              x.z == (long)(TestData_LHS[i].z << TestData_int32[j]) &
-                              x.w == (long)(TestData_LHS[i].w << TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x << j) & 
+                              x.y == (long)(TestData_LHS[i].y << j) &
+                              x.z == (long)(TestData_LHS[i].z << j) &
+                              x.w == (long)(TestData_LHS[i].w << j);
                 }
             }
 
@@ -372,14 +364,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long4 x = TestData_LHS[i] >> TestData_int32[j];
+                    long4 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (long)(TestData_LHS[i].y >> TestData_int32[j]) &
-                              x.z == (long)(TestData_LHS[i].z >> TestData_int32[j]) &
-                              x.w == (long)(TestData_LHS[i].w >> TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x >> j) &
+                              x.y == (long)(TestData_LHS[i].y >> j) &
+                              x.z == (long)(TestData_LHS[i].z >> j) &
+                              x.w == (long)(TestData_LHS[i].w >> j);
                 }
             }
 

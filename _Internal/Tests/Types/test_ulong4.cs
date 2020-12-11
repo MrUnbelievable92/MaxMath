@@ -55,14 +55,6 @@ namespace MaxMath.Tests
                        w = 7961902}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            63,
-            33,
-            9,
-            0
-        };
-
 
         [UnitTest("Types", "ulong4")]
         public static bool Constructor_ULong_ULong_ULong_ULong()
@@ -332,14 +324,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    ulong4 x = TestData_LHS[i] << TestData_int32[j];
+                    ulong4 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (ulong)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (ulong)(TestData_LHS[i].y << TestData_int32[j]) &
-                              x.z == (ulong)(TestData_LHS[i].z << TestData_int32[j]) &
-                              x.w == (ulong)(TestData_LHS[i].w << TestData_int32[j]);
+                    result &= x.x == (ulong)(TestData_LHS[i].x << j) & 
+                              x.y == (ulong)(TestData_LHS[i].y << j) &
+                              x.z == (ulong)(TestData_LHS[i].z << j) &
+                              x.w == (ulong)(TestData_LHS[i].w << j);
                 }
             }
 
@@ -353,14 +345,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    ulong4 x = TestData_LHS[i] >> TestData_int32[j];
+                    ulong4 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (ulong)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (ulong)(TestData_LHS[i].y >> TestData_int32[j]) &
-                              x.z == (ulong)(TestData_LHS[i].z >> TestData_int32[j]) &
-                              x.w == (ulong)(TestData_LHS[i].w >> TestData_int32[j]);
+                    result &= x.x == (ulong)(TestData_LHS[i].x >> j) &
+                              x.y == (ulong)(TestData_LHS[i].y >> j) &
+                              x.z == (ulong)(TestData_LHS[i].z >> j) &
+                              x.w == (ulong)(TestData_LHS[i].w >> j);
                 }
             }
 

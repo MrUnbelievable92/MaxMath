@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -19,13 +19,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ushort8 div(ushort8 dividend, ushort divisor)
         {
+Assert.AreNotEqual(divisor, 0);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0: throw new DivideByZeroException();
-#endif
                 case 1: return dividend;
-                case ushort.MaxValue: return Sse4_1.blendv_epi8(default(ushort8), new ushort8(1), Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
+                case ushort.MaxValue: return Sse4_1.blendv_epi8(new ushort8(1), default(ushort8), Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;
@@ -60,13 +59,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ushort16 div(ushort16 dividend, ushort divisor)
         {
+Assert.AreNotEqual(divisor, 0);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0: throw new DivideByZeroException();
-#endif
                 case 1: return dividend;
-                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(default(ushort16), new ushort16(1), Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
+                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(new ushort16(1), default(ushort16), Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;

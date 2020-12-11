@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -12,13 +12,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static uint8 div(uint8 dividend, uint divisor)
         {
+Assert.AreNotEqual(divisor, 0u);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0u: throw new DivideByZeroException();
-#endif
                 case 1u: return dividend;
-                case uint.MaxValue: return Avx2.mm256_blendv_epi8(default(uint8), new uint8(1u), Avx2.mm256_cmpeq_epi32(dividend, new uint8(uint.MaxValue)));
+                case uint.MaxValue: return Avx2.mm256_blendv_epi8(new uint8(1u), default(uint8), Avx2.mm256_cmpeq_epi32(dividend, new uint8(uint.MaxValue)));
 
                 case 1u << 1:  return dividend >> 1;
                 case 1u << 2:  return dividend >> 2;

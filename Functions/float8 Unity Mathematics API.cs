@@ -43,29 +43,7 @@ namespace MaxMath
             return maxmath.max(min, maxmath.min(x, max));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 trunc(float8 x)
-        {
-            return Avx.mm256_round_ps(x, (int)X86.RoundingMode.FROUND_TRUNC);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 round(float8 x)
-        {
-            return Avx.mm256_round_ps(x, (int)X86.RoundingMode.FROUND_NINT);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 floor(float8 x)
-        {
-            return Avx.mm256_floor_ps(x);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 ceil(float8 x)
-        {
-            return Avx.mm256_ceil_ps(x);
-        }
+        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 sqrt(float8 x)

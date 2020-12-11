@@ -55,49 +55,49 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool2 x23, bool2 x45, bool2 x67)
         {
-            this = (bool8)new byte8(*(byte2*)&x01, *(byte2*)&x23, *(byte2*)&x45, *(byte2*)&x67);
+            this = (v128)new byte8(*(byte2*)&x01, *(byte2*)&x23, *(byte2*)&x45, *(byte2*)&x67);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool3 x234, bool3 x567)
         {
-            this = (bool8)new byte8(*(byte2*)&x01, *(byte3*)&x234, *(byte3*)&x567);
+            this = (v128)new byte8(*(byte2*)&x01, *(byte3*)&x234, *(byte3*)&x567);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool3 x012, bool2 x34, bool3 x567)
         {
-            this = (bool8)new byte8(*(byte3*)&x012, *(byte2*)&x34, *(byte3*)&x567);
+            this = (v128)new byte8(*(byte3*)&x012, *(byte2*)&x34, *(byte3*)&x567);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool3 x012, bool3 x345, bool2 x67)
         {
-            this = (bool8)new byte8(*(byte3*)&x012, *(byte3*)&x345, *(byte2*)&x67);
+            this = (v128)new byte8(*(byte3*)&x012, *(byte3*)&x345, *(byte2*)&x67);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool4 x0123, bool2 x45, bool2 x67)
         {
-            this = (bool8)new byte8(*(byte4*)&x0123, *(byte2*)&x45, *(byte2*)&x67);
+            this = (v128)new byte8(*(byte4*)&x0123, *(byte2*)&x45, *(byte2*)&x67);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool4 x2345, bool2 x67)
         {
-            this = (bool8)new byte8(*(byte2*)&x01, *(byte4*)&x2345, *(byte2*)&x67);
+            this = (v128)new byte8(*(byte2*)&x01, *(byte4*)&x2345, *(byte2*)&x67);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool2 x23, bool4 x4567)
         {
-            this = this = (bool8)new byte8(*(byte2*)&x01, *(byte2*)&x23, *(byte4*)&x4567);
+            this = (v128)new byte8(*(byte2*)&x01, *(byte2*)&x23, *(byte4*)&x4567);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool4 x0123, bool4 x4567)
         {
-            this = (bool8)new byte8(*(byte4*)&x0123, *(byte4*)&x4567);
+            this = (v128)new byte8(*(byte4*)&x0123, *(byte4*)&x4567);
         }
 
 
@@ -109,15 +109,15 @@ namespace MaxMath
         {
 #if UNITY_EDITOR
             return new bool8 { x0 = maxmath.cvt_boolean(input.Byte0),
-                x1 = maxmath.cvt_boolean(input.Byte1),
-                x2 = maxmath.cvt_boolean(input.Byte2),
-                x3 = maxmath.cvt_boolean(input.Byte3),
-                x4 = maxmath.cvt_boolean(input.Byte4),
-                x5 = maxmath.cvt_boolean(input.Byte5),
-                x6 = maxmath.cvt_boolean(input.Byte6),
-                x7 = maxmath.cvt_boolean(input.Byte7) };
+                               x1 = maxmath.cvt_boolean(input.Byte1),
+                               x2 = maxmath.cvt_boolean(input.Byte2),
+                               x3 = maxmath.cvt_boolean(input.Byte3),
+                               x4 = maxmath.cvt_boolean(input.Byte4),
+                               x5 = maxmath.cvt_boolean(input.Byte5),
+                               x6 = maxmath.cvt_boolean(input.Byte6),
+                               x7 = maxmath.cvt_boolean(input.Byte7) };
 #else
-            return new byte8 { cast_long = Sse4_1.extract_epi64(input, 0) }
+            return new bool8 { cast_long = Sse4_1.extract_epi64(input, 0) }
 #endif
         }
 
@@ -136,43 +136,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(bool2x4 input) => *(bool8*)&input;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte8(bool8 input) => (v128)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool8(byte8 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-
-            return (v128)input;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte8(bool8 input) => (v128)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool8(sbyte8 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-
-            return (v128)input;
-        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

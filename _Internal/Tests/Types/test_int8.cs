@@ -87,14 +87,6 @@ namespace MaxMath.Tests
 					 x7 = 45683}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            31,
-            17,
-            6,
-            0
-        };
-
 
         [UnitTest("Types", "int8")]
         public static bool Constructor_Int_Int_Int_Int_Int_Int_Int_Int()
@@ -489,18 +481,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 32; j++)
                 {
-                    int8 x = TestData_LHS[i] << TestData_int32[j];
+                    int8 x = TestData_LHS[i] << j;
 
-                    result &= x.x0 == (int)(TestData_LHS[i].x0 << TestData_int32[j]) & 
-                              x.x1 == (int)(TestData_LHS[i].x1 << TestData_int32[j]) &
-                              x.x2 == (int)(TestData_LHS[i].x2 << TestData_int32[j]) &
-                              x.x3 == (int)(TestData_LHS[i].x3 << TestData_int32[j]) &
-                              x.x4 == (int)(TestData_LHS[i].x4 << TestData_int32[j]) &
-                              x.x5 == (int)(TestData_LHS[i].x5 << TestData_int32[j]) &
-                              x.x6 == (int)(TestData_LHS[i].x6 << TestData_int32[j]) &
-                              x.x7 == (int)(TestData_LHS[i].x7 << TestData_int32[j]);
+                    result &= x.x0 == (int)(TestData_LHS[i].x0 << j) & 
+                              x.x1 == (int)(TestData_LHS[i].x1 << j) &
+                              x.x2 == (int)(TestData_LHS[i].x2 << j) &
+                              x.x3 == (int)(TestData_LHS[i].x3 << j) &
+                              x.x4 == (int)(TestData_LHS[i].x4 << j) &
+                              x.x5 == (int)(TestData_LHS[i].x5 << j) &
+                              x.x6 == (int)(TestData_LHS[i].x6 << j) &
+                              x.x7 == (int)(TestData_LHS[i].x7 << j);
                 }
             }
 
@@ -514,18 +506,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 32; j++)
                 {
-                    int8 x = TestData_LHS[i] >> TestData_int32[j];
+                    int8 x = TestData_LHS[i] >> j;
 
-                    result &= x.x0 == (int)(TestData_LHS[i].x0 >> TestData_int32[j]) &
-                              x.x1 == (int)(TestData_LHS[i].x1 >> TestData_int32[j]) &
-                              x.x2 == (int)(TestData_LHS[i].x2 >> TestData_int32[j]) &
-                              x.x3 == (int)(TestData_LHS[i].x3 >> TestData_int32[j]) &
-                              x.x4 == (int)(TestData_LHS[i].x4 >> TestData_int32[j]) &
-                              x.x5 == (int)(TestData_LHS[i].x5 >> TestData_int32[j]) &
-                              x.x6 == (int)(TestData_LHS[i].x6 >> TestData_int32[j]) &
-                              x.x7 == (int)(TestData_LHS[i].x7 >> TestData_int32[j]);
+                    result &= x.x0 == (int)(TestData_LHS[i].x0 >> j) &
+                              x.x1 == (int)(TestData_LHS[i].x1 >> j) &
+                              x.x2 == (int)(TestData_LHS[i].x2 >> j) &
+                              x.x3 == (int)(TestData_LHS[i].x3 >> j) &
+                              x.x4 == (int)(TestData_LHS[i].x4 >> j) &
+                              x.x5 == (int)(TestData_LHS[i].x5 >> j) &
+                              x.x6 == (int)(TestData_LHS[i].x6 >> j) &
+                              x.x7 == (int)(TestData_LHS[i].x7 >> j);
                 }
             }
 

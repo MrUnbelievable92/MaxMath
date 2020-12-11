@@ -47,14 +47,6 @@ namespace MaxMath.Tests
                        z =-20}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            7,
-            3,
-            4,
-            0
-        };
-
 
         [UnitTest("Types", "sbyte3")]
         public static bool Constructor_SByte_SByte_SByte()
@@ -283,13 +275,13 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    sbyte3 x = TestData_LHS[i] << TestData_int32[j];
+                    sbyte3 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (sbyte)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (sbyte)(TestData_LHS[i].y << TestData_int32[j]) &
-                              x.z == (sbyte)(TestData_LHS[i].z << TestData_int32[j]);
+                    result &= x.x == (sbyte)(TestData_LHS[i].x << j) & 
+                              x.y == (sbyte)(TestData_LHS[i].y << j) &
+                              x.z == (sbyte)(TestData_LHS[i].z << j);
                 }
             }
 
@@ -303,13 +295,13 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    sbyte3 x = TestData_LHS[i] >> TestData_int32[j];
+                    sbyte3 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (sbyte)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (sbyte)(TestData_LHS[i].y >> TestData_int32[j]) &
-                              x.z == (sbyte)(TestData_LHS[i].z >> TestData_int32[j]);
+                    result &= x.x == (sbyte)(TestData_LHS[i].x >> j) &
+                              x.y == (sbyte)(TestData_LHS[i].y >> j) &
+                              x.z == (sbyte)(TestData_LHS[i].z >> j);
                 }
             }
 

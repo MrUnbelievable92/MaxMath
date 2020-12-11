@@ -55,14 +55,6 @@ namespace MaxMath.Tests
                        w = 192}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            7,
-            3,
-            4,
-            0
-        };
-
 
         [UnitTest("Types", "byte4")]
         public static bool Constructor_Byte_Byte_Byte_Byte()
@@ -332,14 +324,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte4 x = TestData_LHS[i] << TestData_int32[j];
+                    byte4 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (byte)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (byte)(TestData_LHS[i].y << TestData_int32[j]) &
-                              x.z == (byte)(TestData_LHS[i].z << TestData_int32[j]) &
-                              x.w == (byte)(TestData_LHS[i].w << TestData_int32[j]);
+                    result &= x.x == (byte)(TestData_LHS[i].x << j) & 
+                              x.y == (byte)(TestData_LHS[i].y << j) &
+                              x.z == (byte)(TestData_LHS[i].z << j) &
+                              x.w == (byte)(TestData_LHS[i].w << j);
                 }
             }
 
@@ -353,14 +345,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte4 x = TestData_LHS[i] >> TestData_int32[j];
+                    byte4 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (byte)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (byte)(TestData_LHS[i].y >> TestData_int32[j]) &
-                              x.z == (byte)(TestData_LHS[i].z >> TestData_int32[j]) &
-                              x.w == (byte)(TestData_LHS[i].w >> TestData_int32[j]);
+                    result &= x.x == (byte)(TestData_LHS[i].x >> j) &
+                              x.y == (byte)(TestData_LHS[i].y >> j) &
+                              x.z == (byte)(TestData_LHS[i].z >> j) &
+                              x.w == (byte)(TestData_LHS[i].w >> j);
                 }
             }
 

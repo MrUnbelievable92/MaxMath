@@ -520,10 +520,10 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.Int2.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int2.TestData[i]);
+                int x = maxmath.cprod(Tests.Int2.TestData_LHS[i]);
 
-                result &= x == (Tests.Int2.TestData[i].x *
-                                Tests.Int2.TestData[i].y);
+                result &= x == (Tests.Int2.TestData_LHS[i].x *
+                                Tests.Int2.TestData_LHS[i].y);
             }
 
             return result;
@@ -536,11 +536,11 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.Int3.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int3.TestData[i]);
+                int x = maxmath.cprod(Tests.Int3.TestData_LHS[i]);
 
-                result &= x == (Tests.Int3.TestData[i].x *
-                                Tests.Int3.TestData[i].y *
-                                Tests.Int3.TestData[i].z);
+                result &= x == (Tests.Int3.TestData_LHS[i].x *
+                                Tests.Int3.TestData_LHS[i].y *
+                                Tests.Int3.TestData_LHS[i].z);
             }
 
             return result;
@@ -553,12 +553,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.Int4.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int4.TestData[i]);
+                int x = maxmath.cprod(Tests.Int4.TestData_LHS[i]);
 
-                result &= x == (Tests.Int4.TestData[i].x *
-                                Tests.Int4.TestData[i].y *
-                                Tests.Int4.TestData[i].z *
-                                Tests.Int4.TestData[i].w);
+                result &= x == (Tests.Int4.TestData_LHS[i].x *
+                                Tests.Int4.TestData_LHS[i].y *
+                                Tests.Int4.TestData_LHS[i].z *
+                                Tests.Int4.TestData_LHS[i].w);
             }
 
             return result;
@@ -594,10 +594,10 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.UInt2.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt2.TestData[i]);
+                uint x = maxmath.cprod(Tests.UInt2.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt2.TestData[i].x *
-                                Tests.UInt2.TestData[i].y);
+                result &= x == (Tests.UInt2.TestData_LHS[i].x *
+                                Tests.UInt2.TestData_LHS[i].y);
             }
 
             return result;
@@ -610,11 +610,11 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.UInt3.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt3.TestData[i]);
+                uint x = maxmath.cprod(Tests.UInt3.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt3.TestData[i].x *
-                                Tests.UInt3.TestData[i].y *
-                                Tests.UInt3.TestData[i].z);
+                result &= x == (Tests.UInt3.TestData_LHS[i].x *
+                                Tests.UInt3.TestData_LHS[i].y *
+                                Tests.UInt3.TestData_LHS[i].z);
             }
 
             return result;
@@ -627,12 +627,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.UInt4.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt4.TestData[i]);
+                uint x = maxmath.cprod(Tests.UInt4.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt4.TestData[i].x *
-                                Tests.UInt4.TestData[i].y *
-                                Tests.UInt4.TestData[i].z *
-                                Tests.UInt4.TestData[i].w);
+                result &= x == (Tests.UInt4.TestData_LHS[i].x *
+                                Tests.UInt4.TestData_LHS[i].y *
+                                Tests.UInt4.TestData_LHS[i].z *
+                                Tests.UInt4.TestData_LHS[i].w);
             }
 
             return result;

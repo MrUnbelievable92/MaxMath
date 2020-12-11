@@ -39,14 +39,6 @@ namespace MaxMath.Tests
 					  y =-31623788879}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            63,
-            48,
-            16,
-            0
-        };
-
 
         [UnitTest("Types", "long2")]
         public static bool Constructor_Long_Long()
@@ -242,12 +234,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long2 x = TestData_LHS[i] << TestData_int32[j];
+                    long2 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (long)(TestData_LHS[i].y << TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x << j) & 
+                              x.y == (long)(TestData_LHS[i].y << j);
                 }
             }
 
@@ -261,12 +253,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long2 x = TestData_LHS[i] >> TestData_int32[j];
+                    long2 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (long)(TestData_LHS[i].y >> TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x >> j) &
+                              x.y == (long)(TestData_LHS[i].y >> j);
                 }
             }
 

@@ -86,7 +86,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isneg(float8 x)
         {
-            return (bool8)((byte8)(((int8)(v256)x) >> 31));
+            return (bool8)(v128)((byte8)(((int8)(v256)x) >> 31));
         }
 
 

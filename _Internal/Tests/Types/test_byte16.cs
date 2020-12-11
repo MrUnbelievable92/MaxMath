@@ -151,14 +151,6 @@ namespace MaxMath.Tests
                         x15 = 21}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            7,
-            3,
-            2,
-            0
-        };
-
 
         [UnitTest("Types", "byte16")]
         public static bool Constructor_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte()
@@ -756,26 +748,26 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte16 x = TestData_LHS[i] << TestData_int32[j];
+                    byte16 x = TestData_LHS[i] << j;
 
-                    result &= x.x0 ==  (byte)(TestData_LHS[i].x0  << TestData_int32[j]) & 
-                              x.x1 ==  (byte)(TestData_LHS[i].x1  << TestData_int32[j]) &
-                              x.x2 ==  (byte)(TestData_LHS[i].x2  << TestData_int32[j]) &
-                              x.x3 ==  (byte)(TestData_LHS[i].x3  << TestData_int32[j]) &
-                              x.x4 ==  (byte)(TestData_LHS[i].x4  << TestData_int32[j]) &
-                              x.x5 ==  (byte)(TestData_LHS[i].x5  << TestData_int32[j]) &
-                              x.x6 ==  (byte)(TestData_LHS[i].x6  << TestData_int32[j]) &
-                              x.x7 ==  (byte)(TestData_LHS[i].x7  << TestData_int32[j]) &
-                              x.x8 ==  (byte)(TestData_LHS[i].x8  << TestData_int32[j]) &
-                              x.x9 ==  (byte)(TestData_LHS[i].x9  << TestData_int32[j]) &
-                              x.x10 == (byte)(TestData_LHS[i].x10 << TestData_int32[j]) &
-                              x.x11 == (byte)(TestData_LHS[i].x11 << TestData_int32[j]) &
-                              x.x12 == (byte)(TestData_LHS[i].x12 << TestData_int32[j]) &
-                              x.x13 == (byte)(TestData_LHS[i].x13 << TestData_int32[j]) &
-                              x.x14 == (byte)(TestData_LHS[i].x14 << TestData_int32[j]) &
-                              x.x15 == (byte)(TestData_LHS[i].x15 << TestData_int32[j]);
+                    result &= x.x0 ==  (byte)(TestData_LHS[i].x0  << j) & 
+                              x.x1 ==  (byte)(TestData_LHS[i].x1  << j) &
+                              x.x2 ==  (byte)(TestData_LHS[i].x2  << j) &
+                              x.x3 ==  (byte)(TestData_LHS[i].x3  << j) &
+                              x.x4 ==  (byte)(TestData_LHS[i].x4  << j) &
+                              x.x5 ==  (byte)(TestData_LHS[i].x5  << j) &
+                              x.x6 ==  (byte)(TestData_LHS[i].x6  << j) &
+                              x.x7 ==  (byte)(TestData_LHS[i].x7  << j) &
+                              x.x8 ==  (byte)(TestData_LHS[i].x8  << j) &
+                              x.x9 ==  (byte)(TestData_LHS[i].x9  << j) &
+                              x.x10 == (byte)(TestData_LHS[i].x10 << j) &
+                              x.x11 == (byte)(TestData_LHS[i].x11 << j) &
+                              x.x12 == (byte)(TestData_LHS[i].x12 << j) &
+                              x.x13 == (byte)(TestData_LHS[i].x13 << j) &
+                              x.x14 == (byte)(TestData_LHS[i].x14 << j) &
+                              x.x15 == (byte)(TestData_LHS[i].x15 << j);
                 }
             }
 
@@ -789,26 +781,26 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte16 x = TestData_LHS[i] >> TestData_int32[j];
+                    byte16 x = TestData_LHS[i] >> j;
 
-                    result &= x.x0 ==  (byte)(TestData_LHS[i].x0  >> TestData_int32[j]) & 
-                              x.x1 ==  (byte)(TestData_LHS[i].x1  >> TestData_int32[j]) &
-                              x.x2 ==  (byte)(TestData_LHS[i].x2  >> TestData_int32[j]) &
-                              x.x3 ==  (byte)(TestData_LHS[i].x3  >> TestData_int32[j]) &
-                              x.x4 ==  (byte)(TestData_LHS[i].x4  >> TestData_int32[j]) &
-                              x.x5 ==  (byte)(TestData_LHS[i].x5  >> TestData_int32[j]) &
-                              x.x6 ==  (byte)(TestData_LHS[i].x6  >> TestData_int32[j]) &
-                              x.x7 ==  (byte)(TestData_LHS[i].x7  >> TestData_int32[j]) &
-                              x.x8 ==  (byte)(TestData_LHS[i].x8  >> TestData_int32[j]) &
-                              x.x9 ==  (byte)(TestData_LHS[i].x9  >> TestData_int32[j]) &
-                              x.x10 == (byte)(TestData_LHS[i].x10 >> TestData_int32[j]) &
-                              x.x11 == (byte)(TestData_LHS[i].x11 >> TestData_int32[j]) &
-                              x.x12 == (byte)(TestData_LHS[i].x12 >> TestData_int32[j]) &
-                              x.x13 == (byte)(TestData_LHS[i].x13 >> TestData_int32[j]) &
-                              x.x14 == (byte)(TestData_LHS[i].x14 >> TestData_int32[j]) &
-                              x.x15 == (byte)(TestData_LHS[i].x15 >> TestData_int32[j]);
+                    result &= x.x0 ==  (byte)(TestData_LHS[i].x0  >> j) & 
+                              x.x1 ==  (byte)(TestData_LHS[i].x1  >> j) &
+                              x.x2 ==  (byte)(TestData_LHS[i].x2  >> j) &
+                              x.x3 ==  (byte)(TestData_LHS[i].x3  >> j) &
+                              x.x4 ==  (byte)(TestData_LHS[i].x4  >> j) &
+                              x.x5 ==  (byte)(TestData_LHS[i].x5  >> j) &
+                              x.x6 ==  (byte)(TestData_LHS[i].x6  >> j) &
+                              x.x7 ==  (byte)(TestData_LHS[i].x7  >> j) &
+                              x.x8 ==  (byte)(TestData_LHS[i].x8  >> j) &
+                              x.x9 ==  (byte)(TestData_LHS[i].x9  >> j) &
+                              x.x10 == (byte)(TestData_LHS[i].x10 >> j) &
+                              x.x11 == (byte)(TestData_LHS[i].x11 >> j) &
+                              x.x12 == (byte)(TestData_LHS[i].x12 >> j) &
+                              x.x13 == (byte)(TestData_LHS[i].x13 >> j) &
+                              x.x14 == (byte)(TestData_LHS[i].x14 >> j) &
+                              x.x15 == (byte)(TestData_LHS[i].x15 >> j);
                 }
             }
 

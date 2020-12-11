@@ -87,14 +87,6 @@ namespace MaxMath.Tests
 	 	               x7 = 43}
         };
 
-        internal static int[] TestData_int32 => new int[]
-        {
-            7,
-            3,
-            2,
-            0
-        };
-
 
         [UnitTest("Types", "byte8")]
         public static bool Constructor_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte()
@@ -466,18 +458,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte8 x = TestData_LHS[i] << TestData_int32[j];
+                    byte8 x = TestData_LHS[i] << j;
 
-                    result &= x.x0 == (byte)(TestData_LHS[i].x0 << TestData_int32[j]) & 
-                              x.x1 == (byte)(TestData_LHS[i].x1 << TestData_int32[j]) &
-                              x.x2 == (byte)(TestData_LHS[i].x2 << TestData_int32[j]) &
-                              x.x3 == (byte)(TestData_LHS[i].x3 << TestData_int32[j]) &
-                              x.x4 == (byte)(TestData_LHS[i].x4 << TestData_int32[j]) &
-                              x.x5 == (byte)(TestData_LHS[i].x5 << TestData_int32[j]) &
-                              x.x6 == (byte)(TestData_LHS[i].x6 << TestData_int32[j]) &
-                              x.x7 == (byte)(TestData_LHS[i].x7 << TestData_int32[j]);
+                    result &= x.x0 == (byte)(TestData_LHS[i].x0 << j) & 
+                              x.x1 == (byte)(TestData_LHS[i].x1 << j) &
+                              x.x2 == (byte)(TestData_LHS[i].x2 << j) &
+                              x.x3 == (byte)(TestData_LHS[i].x3 << j) &
+                              x.x4 == (byte)(TestData_LHS[i].x4 << j) &
+                              x.x5 == (byte)(TestData_LHS[i].x5 << j) &
+                              x.x6 == (byte)(TestData_LHS[i].x6 << j) &
+                              x.x7 == (byte)(TestData_LHS[i].x7 << j);
                 }
             }
 
@@ -491,18 +483,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    byte8 x = TestData_LHS[i] >> TestData_int32[j];
+                    byte8 x = TestData_LHS[i] >> j;
 
-                    result &= x.x0 == (byte)(TestData_LHS[i].x0 >> TestData_int32[j]) &
-                              x.x1 == (byte)(TestData_LHS[i].x1 >> TestData_int32[j]) &
-                              x.x2 == (byte)(TestData_LHS[i].x2 >> TestData_int32[j]) &
-                              x.x3 == (byte)(TestData_LHS[i].x3 >> TestData_int32[j]) &
-                              x.x4 == (byte)(TestData_LHS[i].x4 >> TestData_int32[j]) &
-                              x.x5 == (byte)(TestData_LHS[i].x5 >> TestData_int32[j]) &
-                              x.x6 == (byte)(TestData_LHS[i].x6 >> TestData_int32[j]) &
-                              x.x7 == (byte)(TestData_LHS[i].x7 >> TestData_int32[j]);
+                    result &= x.x0 == (byte)(TestData_LHS[i].x0 >> j) &
+                              x.x1 == (byte)(TestData_LHS[i].x1 >> j) &
+                              x.x2 == (byte)(TestData_LHS[i].x2 >> j) &
+                              x.x3 == (byte)(TestData_LHS[i].x3 >> j) &
+                              x.x4 == (byte)(TestData_LHS[i].x4 >> j) &
+                              x.x5 == (byte)(TestData_LHS[i].x5 >> j) &
+                              x.x6 == (byte)(TestData_LHS[i].x6 >> j) &
+                              x.x7 == (byte)(TestData_LHS[i].x7 >> j);
                 }
             }
 

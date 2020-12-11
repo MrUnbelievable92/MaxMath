@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -21,13 +21,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte16 div(byte16 dividend, byte divisor)
         {
+Assert.AreNotEqual(divisor, 0);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0: throw new DivideByZeroException();
-#endif
                 case 1: return dividend;
-                case byte.MaxValue: return Sse4_1.blendv_epi8(default(byte16), new byte16(1), Sse2.cmpeq_epi8(dividend, new byte16(byte.MaxValue)));
+                case byte.MaxValue: return Sse4_1.blendv_epi8(new byte16(1), default(byte16), Sse2.cmpeq_epi8(dividend, new byte16(byte.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;
@@ -45,13 +44,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte32 div(byte32 dividend, byte divisor)
         {
+Assert.AreNotEqual(divisor, 0);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0: throw new DivideByZeroException();
-#endif
                 case 1: return dividend;
-                case byte.MaxValue: return Avx2.mm256_blendv_epi8(default(byte32), new byte32(1), Avx2.mm256_cmpeq_epi8(dividend, new byte32(byte.MaxValue)));
+                case byte.MaxValue: return Avx2.mm256_blendv_epi8(new byte32(1), default(byte32), Avx2.mm256_cmpeq_epi8(dividend, new byte32(byte.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;

@@ -8,12 +8,20 @@ namespace MaxMath.Tests
         internal const int NUM_TESTS = 4;
 
 
-        internal static int4[] TestData => new int4[]
+        internal static int4[] TestData_LHS => new int4[]
         {
             new int4(18550, -5577, -448, 688532),
             new int4(4466, 14, 6499, -6558886),
             new int4(-4489, int.MaxValue, 44, 19763),
             new int4(int.MinValue, 147, -1, -32)
+        };
+
+        internal static int4[] TestData_RHS => new int4[]
+        {
+            new int4(-550, -557347, 1448, 62532),
+            new int4(40466, 1004, -26499, 8886),
+            new int4(-2489, int.MaxValue, 1544, 1900763),
+            new int4(int.MinValue, 1147, -100, -5532)
         };
 
 
@@ -24,12 +32,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte4 x = (byte4)TestData[i];
+                byte4 x = (byte4)TestData_LHS[i];
 
-                result &= x.x == (byte)TestData[i].x &
-                          x.y == (byte)TestData[i].y &
-                          x.z == (byte)TestData[i].z &
-                          x.w == (byte)TestData[i].w;
+                result &= x.x == (byte)TestData_LHS[i].x &
+                          x.y == (byte)TestData_LHS[i].y &
+                          x.z == (byte)TestData_LHS[i].z &
+                          x.w == (byte)TestData_LHS[i].w;
             }
 
             return result;
@@ -42,12 +50,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                sbyte4 x = (sbyte4)TestData[i];
+                sbyte4 x = (sbyte4)TestData_LHS[i];
 
-                result &= x.x == (sbyte)TestData[i].x &
-                          x.y == (sbyte)TestData[i].y &
-                          x.z == (sbyte)TestData[i].z &
-                          x.w == (sbyte)TestData[i].w;
+                result &= x.x == (sbyte)TestData_LHS[i].x &
+                          x.y == (sbyte)TestData_LHS[i].y &
+                          x.z == (sbyte)TestData_LHS[i].z &
+                          x.w == (sbyte)TestData_LHS[i].w;
             }
 
             return result;
@@ -60,12 +68,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                short4 x = (short4)TestData[i];
+                short4 x = (short4)TestData_LHS[i];
 
-                result &= x.x == (short)TestData[i].x &
-                          x.y == (short)TestData[i].y &
-                          x.z == (short)TestData[i].z &
-                          x.w == (short)TestData[i].w;
+                result &= x.x == (short)TestData_LHS[i].x &
+                          x.y == (short)TestData_LHS[i].y &
+                          x.z == (short)TestData_LHS[i].z &
+                          x.w == (short)TestData_LHS[i].w;
             }
 
             return result;
@@ -78,12 +86,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                ushort4 x = (ushort4)TestData[i];
+                ushort4 x = (ushort4)TestData_LHS[i];
 
-                result &= x.x == (ushort)TestData[i].x &
-                          x.y == (ushort)TestData[i].y &
-                          x.z == (ushort)TestData[i].z &
-                          x.w == (ushort)TestData[i].w;
+                result &= x.x == (ushort)TestData_LHS[i].x &
+                          x.y == (ushort)TestData_LHS[i].y &
+                          x.z == (ushort)TestData_LHS[i].z &
+                          x.w == (ushort)TestData_LHS[i].w;
             }
 
             return result;
@@ -96,12 +104,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                long4 x = (long4)TestData[i];
+                long4 x = (long4)TestData_LHS[i];
 
-                result &= x.x == (long)TestData[i].x &
-                          x.y == (long)TestData[i].y &
-                          x.z == (long)TestData[i].z &
-                          x.w == (long)TestData[i].w;
+                result &= x.x == (long)TestData_LHS[i].x &
+                          x.y == (long)TestData_LHS[i].y &
+                          x.z == (long)TestData_LHS[i].z &
+                          x.w == (long)TestData_LHS[i].w;
             }
 
             return result;
@@ -114,12 +122,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                ulong4 x = (ulong4)TestData[i];
+                ulong4 x = (ulong4)TestData_LHS[i];
 
-                result &= x.x == (ulong)TestData[i].x &
-                          x.y == (ulong)TestData[i].y &
-                          x.z == (ulong)TestData[i].z &
-                          x.w == (ulong)TestData[i].w;
+                result &= x.x == (ulong)TestData_LHS[i].x &
+                          x.y == (ulong)TestData_LHS[i].y &
+                          x.z == (ulong)TestData_LHS[i].z &
+                          x.w == (ulong)TestData_LHS[i].w;
             }
 
             return result;

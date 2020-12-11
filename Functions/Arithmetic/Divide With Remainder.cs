@@ -242,21 +242,21 @@ namespace MaxMath
         public static ushort16 divrem(ushort16 dividend, ushort16 divisor, out ushort16 remainder)
         {
             ushort16 quotient = new ushort16(divrem(dividend.x0,  divisor.x0,  out ushort x0),
-                                           divrem(dividend.x1,  divisor.x1,  out ushort x1),
-                                           divrem(dividend.x2,  divisor.x2,  out ushort x2),
-                                           divrem(dividend.x3,  divisor.x3,  out ushort x3),
-                                           divrem(dividend.x4,  divisor.x4,  out ushort x4),
-                                           divrem(dividend.x5,  divisor.x5,  out ushort x5),
-                                           divrem(dividend.x6,  divisor.x6,  out ushort x6),
-                                           divrem(dividend.x7,  divisor.x7,  out ushort x7),
-                                           divrem(dividend.x8,  divisor.x8,  out ushort x8),
-                                           divrem(dividend.x9,  divisor.x9,  out ushort x9),
-                                           divrem(dividend.x10, divisor.x10, out ushort x10),
-                                           divrem(dividend.x11, divisor.x11, out ushort x11),
-                                           divrem(dividend.x12, divisor.x12, out ushort x12),
-                                           divrem(dividend.x13, divisor.x13, out ushort x13),
-                                           divrem(dividend.x14, divisor.x14, out ushort x14),
-                                           divrem(dividend.x15, divisor.x15, out ushort x15));
+                                             divrem(dividend.x1,  divisor.x1,  out ushort x1),
+                                             divrem(dividend.x2,  divisor.x2,  out ushort x2),
+                                             divrem(dividend.x3,  divisor.x3,  out ushort x3),
+                                             divrem(dividend.x4,  divisor.x4,  out ushort x4),
+                                             divrem(dividend.x5,  divisor.x5,  out ushort x5),
+                                             divrem(dividend.x6,  divisor.x6,  out ushort x6),
+                                             divrem(dividend.x7,  divisor.x7,  out ushort x7),
+                                             divrem(dividend.x8,  divisor.x8,  out ushort x8),
+                                             divrem(dividend.x9,  divisor.x9,  out ushort x9),
+                                             divrem(dividend.x10, divisor.x10, out ushort x10),
+                                             divrem(dividend.x11, divisor.x11, out ushort x11),
+                                             divrem(dividend.x12, divisor.x12, out ushort x12),
+                                             divrem(dividend.x13, divisor.x13, out ushort x13),
+                                             divrem(dividend.x14, divisor.x14, out ushort x14),
+                                             divrem(dividend.x15, divisor.x15, out ushort x15));
 
             remainder = new ushort16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15);
 

@@ -62,67 +62,67 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool2 x01, bool2 x23, bool2 x45, bool2 x67, bool2 x89, bool2 x10_11, bool2 x12_13, bool2 x14_15)
         {
-            this = (bool16)new byte16(*(byte2*)&x01, *(byte2*)&x23, *(byte2*)&x45, *(byte2*)&x67, *(byte2*)&x89, *(byte2*)&x10_11, *(byte2*)&x12_13, *(byte2*)&x14_15);
+            this = (v128)new byte16(*(byte2*)&x01, *(byte2*)&x23, *(byte2*)&x45, *(byte2*)&x67, *(byte2*)&x89, *(byte2*)&x10_11, *(byte2*)&x12_13, *(byte2*)&x14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool4 x4567, bool4 x8_9_10_11, bool4 x12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool3 x456, bool3 x789, bool3 x10_11_12, bool3 x13_14_15)
         {
-            this = (bool16)new byte16(*(byte4*)&x0123, *(byte3*)&x456, *(byte3*)&x789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, *(byte3*)&x456, *(byte3*)&x789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool3 x012, bool4 x3456, bool3 x789, bool3 x10_11_12, bool3 x13_14_15)
         {
-            this = (bool16)new byte16(*(byte3*)&x012, *(byte4*)&x3456, *(byte3*)&x789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
+            this = (v128)new byte16(*(byte3*)&x012, *(byte4*)&x3456, *(byte3*)&x789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool3 x012, bool3 x345, bool4 x6789, bool3 x10_11_12, bool3 x13_14_15)
         {
-            this = (bool16)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte4*)&x6789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
+            this = (v128)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte4*)&x6789, *(byte3*)&x10_11_12, *(byte3*)&x13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool3 x012, bool3 x345, bool3 x678, bool4 x9_10_11_12, bool3 x13_14_15)
         {
-            this = (bool16)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte3*)&x678, *(byte4*)&x9_10_11_12, *(byte3*)&x13_14_15);
+            this = (v128)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte3*)&x678, *(byte4*)&x9_10_11_12, *(byte3*)&x13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool3 x012, bool3 x345, bool3 x678, bool3 x9_10_11, bool4 x12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte3*)&x678, *(byte3*)&x9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16(*(byte3*)&x012, *(byte3*)&x345, *(byte3*)&x678, *(byte3*)&x9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool8 x01234567, bool4 x8_9_10_11, bool4 x12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte8*)&x01234567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16(*(byte8*)&x01234567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool8 x4_5_6_7_8_9_10_11, bool4 x12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte4*)&x0123, *(byte8*)&x4_5_6_7_8_9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, *(byte8*)&x4_5_6_7_8_9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool4 x4567, bool8 x8_9_10_11_12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, *(byte8*)&x8_9_10_11_12_13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, *(byte8*)&x8_9_10_11_12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool8 x01234567, bool8 x8_9_10_11_12_13_14_15)
         {
-            this = (bool16)new byte16(*(byte8*)&x01234567, *(byte8*)&x8_9_10_11_12_13_14_15);
+            this = (v128)new byte16(*(byte8*)&x01234567, *(byte8*)&x8_9_10_11_12_13_14_15);
         }
 
 
@@ -141,59 +141,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool16(bool4x4 input) => *(bool16*)&input;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte16(bool16 input) => (v128)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool16(byte16 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-Assert.IsNotGreater(input.x8, 1);
-Assert.IsNotGreater(input.x9, 1);
-Assert.IsNotGreater(input.x10, 1);
-Assert.IsNotGreater(input.x11, 1);
-Assert.IsNotGreater(input.x12, 1);
-Assert.IsNotGreater(input.x13, 1);
-Assert.IsNotGreater(input.x14, 1);
-Assert.IsNotGreater(input.x15, 1);
-
-            return (v128)input;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte16(bool16 input) => (v128)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool16(sbyte16 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-Assert.IsNotGreater(input.x8, 1);
-Assert.IsNotGreater(input.x9, 1);
-Assert.IsNotGreater(input.x10, 1);
-Assert.IsNotGreater(input.x11, 1);
-Assert.IsNotGreater(input.x12, 1);
-Assert.IsNotGreater(input.x13, 1);
-Assert.IsNotGreater(input.x14, 1);
-Assert.IsNotGreater(input.x15, 1);
-
-            return (v128)input;
-        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

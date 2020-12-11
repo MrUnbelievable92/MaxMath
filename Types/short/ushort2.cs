@@ -201,20 +201,20 @@ Assert.IsWithinArrayBounds(index, 2);
         public static bool2 operator == (ushort2 lhs, ushort2 rhs) => TestIsTrue(Sse2.cmpeq_epi16(lhs, rhs));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (ushort2 lhs, ushort2 rhs) => (int2)lhs < (int2)rhs;
+        public static bool2 operator < (ushort2 lhs, ushort2 rhs) => TestIsTrue(Operator.greater_mask_ushort(rhs, lhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (ushort2 lhs, ushort2 rhs) => (int2)lhs > (int2)rhs;
+        public static bool2 operator > (ushort2 lhs, ushort2 rhs) => TestIsTrue(Operator.greater_mask_ushort(lhs, rhs));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator != (ushort2 lhs, ushort2 rhs) => TestIsFalse(Sse2.cmpeq_epi16(lhs, rhs));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (ushort2 lhs, ushort2 rhs) => (int2)lhs <= (int2)rhs;
+        public static bool2 operator <= (ushort2 lhs, ushort2 rhs) => TestIsFalse(Operator.greater_mask_ushort(lhs, rhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (ushort2 lhs, ushort2 rhs) => (int2)lhs >= (int2)rhs;
+        public static bool2 operator >= (ushort2 lhs, ushort2 rhs) => TestIsFalse(Operator.greater_mask_ushort(rhs, lhs));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -15,9 +15,8 @@ namespace MaxMath
             // 2: Int0 ^ Int1
 
             v = Sse2.xor_si128(v, Sse2.shuffle_epi32(v, Sse.SHUFFLE(0, 0, 3, 2)));
-            v = Sse2.xor_si128(v, Sse2.shuffle_epi32(v, Sse.SHUFFLE(0, 0, 0, 1)));
 
-            return Sse4_1.extract_epi32(v, 0);
+            return Sse4_1.extract_epi32(v, 0) ^ Sse4_1.extract_epi32(v, 1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

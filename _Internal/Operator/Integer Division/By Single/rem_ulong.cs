@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -12,13 +12,12 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ulong2 rem(ulong2 dividend, ulong divisor)
         {
+Assert.AreNotEqual(divisor, 0ul);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0ul: throw new DivideByZeroException();
-#endif
                 case 1ul: return 0;
-                case ulong.MaxValue: return Sse4_1.blendv_epi8(dividend, default(ulong2), Sse4_1.cmpeq_epi64(dividend, new ulong2(ulong.MaxValue)));
+                case ulong.MaxValue: return Sse4_1.blendv_epi8(default(ulong2), dividend, Sse4_1.cmpeq_epi64(dividend, new ulong2(ulong.MaxValue)));
 
                 case 1ul << 1:  return dividend & maxmath.bitmask64(1);
                 case 1ul << 2:  return dividend & maxmath.bitmask64(2);
@@ -95,13 +94,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ulong4 rem(ulong4 dividend, ulong divisor)
         {
+Assert.AreNotEqual(divisor, 0ul);
+
             switch (divisor)
             {
-#if UNITY_EDITOR
-                case 0ul: throw new DivideByZeroException();
-#endif
                 case 1ul: return 0;
-                case ulong.MaxValue: return Avx2.mm256_blendv_epi8(dividend, default(ulong4), Avx2.mm256_cmpeq_epi64(dividend, new ulong4(ulong.MaxValue)));
+                case ulong.MaxValue: return Avx2.mm256_blendv_epi8(default(ulong4), dividend, Avx2.mm256_cmpeq_epi64(dividend, new ulong4(ulong.MaxValue)));
 
                 case 1ul << 1:  return dividend & maxmath.bitmask64(1);
                 case 1ul << 2:  return dividend & maxmath.bitmask64(2);

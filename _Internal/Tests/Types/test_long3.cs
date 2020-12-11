@@ -15,7 +15,7 @@ namespace MaxMath.Tests
 					  y =552995665,
                       z =-99090052},
 					
-            new long3{x =279000553952,
+            new long3{x =-79000553952,
 					  y =18439002,
                       z =-169989922157},
 					      // EQUAL
@@ -45,14 +45,6 @@ namespace MaxMath.Tests
             new long3{x =-248881265,
 					  y =-999832299,
                       z =207624780}
-        };
-
-        internal static int[] TestData_int32 => new int[]
-        {
-            63,
-            33,
-            9,
-            0
         };
 
 
@@ -283,13 +275,13 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long3 x = TestData_LHS[i] << TestData_int32[j];
+                    long3 x = TestData_LHS[i] << j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x << TestData_int32[j]) & 
-                              x.y == (long)(TestData_LHS[i].y << TestData_int32[j]) &
-                              x.z == (long)(TestData_LHS[i].z << TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x << j) & 
+                              x.y == (long)(TestData_LHS[i].y << j) &
+                              x.z == (long)(TestData_LHS[i].z << j);
                 }
             }
 
@@ -303,13 +295,13 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                for (int j = 0; j < NUM_TESTS; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    long3 x = TestData_LHS[i] >> TestData_int32[j];
+                    long3 x = TestData_LHS[i] >> j;
 
-                    result &= x.x == (long)(TestData_LHS[i].x >> TestData_int32[j]) &
-                              x.y == (long)(TestData_LHS[i].y >> TestData_int32[j]) &
-                              x.z == (long)(TestData_LHS[i].z >> TestData_int32[j]);
+                    result &= x.x == (long)(TestData_LHS[i].x >> j) &
+                              x.y == (long)(TestData_LHS[i].y >> j) &
+                              x.z == (long)(TestData_LHS[i].z >> j);
                 }
             }
 

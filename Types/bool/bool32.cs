@@ -88,13 +88,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool16 v16_0, bool16 v16_1)
         {
-            this = (bool32)new byte32((v128)v16_0, (v128)v16_1);
+            this = (v256)new byte32((v128)v16_0, (v128)v16_1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool x0x32)
         {
-            this = (bool32)new byte32(maxmath.cvt_uint8(x0x32));
+            this = (v256)new byte32(maxmath.cvt_uint8(x0x32));
         }
 
 
@@ -106,91 +106,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool32(bool v) => new bool32(v);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte32(bool32 input) => (v256)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool32(byte32 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-Assert.IsNotGreater(input.x8, 1);
-Assert.IsNotGreater(input.x9, 1);
-Assert.IsNotGreater(input.x10, 1);
-Assert.IsNotGreater(input.x11, 1);
-Assert.IsNotGreater(input.x12, 1);
-Assert.IsNotGreater(input.x13, 1);
-Assert.IsNotGreater(input.x14, 1);
-Assert.IsNotGreater(input.x15, 1);
-Assert.IsNotGreater(input.x16, 1);
-Assert.IsNotGreater(input.x17, 1);
-Assert.IsNotGreater(input.x18, 1);
-Assert.IsNotGreater(input.x19, 1);
-Assert.IsNotGreater(input.x20, 1);
-Assert.IsNotGreater(input.x21, 1);
-Assert.IsNotGreater(input.x22, 1);
-Assert.IsNotGreater(input.x23, 1);
-Assert.IsNotGreater(input.x24, 1);
-Assert.IsNotGreater(input.x25, 1);
-Assert.IsNotGreater(input.x26, 1);
-Assert.IsNotGreater(input.x27, 1);
-Assert.IsNotGreater(input.x28, 1);
-Assert.IsNotGreater(input.x29, 1);
-Assert.IsNotGreater(input.x30, 1);
-Assert.IsNotGreater(input.x31, 1);
-
-            return (v256)input;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte32(bool32 input) => (v256)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator bool32(sbyte32 input)
-        { 
-Assert.IsNotGreater(input.x0, 1);
-Assert.IsNotGreater(input.x1, 1);
-Assert.IsNotGreater(input.x2, 1);
-Assert.IsNotGreater(input.x3, 1);
-Assert.IsNotGreater(input.x4, 1);
-Assert.IsNotGreater(input.x5, 1);
-Assert.IsNotGreater(input.x6, 1);
-Assert.IsNotGreater(input.x7, 1);
-Assert.IsNotGreater(input.x8, 1);
-Assert.IsNotGreater(input.x9, 1);
-Assert.IsNotGreater(input.x10, 1);
-Assert.IsNotGreater(input.x11, 1);
-Assert.IsNotGreater(input.x12, 1);
-Assert.IsNotGreater(input.x13, 1);
-Assert.IsNotGreater(input.x14, 1);
-Assert.IsNotGreater(input.x15, 1);
-Assert.IsNotGreater(input.x16, 1);
-Assert.IsNotGreater(input.x17, 1);
-Assert.IsNotGreater(input.x18, 1);
-Assert.IsNotGreater(input.x19, 1);
-Assert.IsNotGreater(input.x20, 1);
-Assert.IsNotGreater(input.x21, 1);
-Assert.IsNotGreater(input.x22, 1);
-Assert.IsNotGreater(input.x23, 1);
-Assert.IsNotGreater(input.x24, 1);
-Assert.IsNotGreater(input.x25, 1);
-Assert.IsNotGreater(input.x26, 1);
-Assert.IsNotGreater(input.x27, 1);
-Assert.IsNotGreater(input.x28, 1);
-Assert.IsNotGreater(input.x29, 1);
-Assert.IsNotGreater(input.x30, 1);
-Assert.IsNotGreater(input.x31, 1);
-
-            return (v256)input;
-        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -8,12 +8,20 @@ namespace MaxMath.Tests
         internal const int NUM_TESTS = 4;
 
 
-        internal static uint2[] TestData => new uint2[]
+        internal static uint2[] TestData_LHS => new uint2[]
         {
             new uint2(1855043, 55775),
             new uint2(22662, 12),
             new uint2(44897, uint.MaxValue),
             new uint2(uint.MinValue, 13743)
+        };
+
+        internal static uint2[] TestData_RHS => new uint2[]
+        {
+            new uint2(12648, 248532),
+            new uint2(354, 6499),
+            new uint2(uint.MaxValue, 19763),
+            new uint2(1451, 111)
         };
 
 
@@ -24,10 +32,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                byte2 x = (byte2)TestData[i];
+                byte2 x = (byte2)TestData_LHS[i];
 
-                result &= x.x == (byte)TestData[i].x &
-                          x.y == (byte)TestData[i].y;
+                result &= x.x == (byte)TestData_LHS[i].x &
+                          x.y == (byte)TestData_LHS[i].y;
             }
 
             return result;
@@ -40,10 +48,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                sbyte2 x = (sbyte2)TestData[i];
+                sbyte2 x = (sbyte2)TestData_LHS[i];
 
-                result &= x.x == (sbyte)TestData[i].x &
-                          x.y == (sbyte)TestData[i].y;
+                result &= x.x == (sbyte)TestData_LHS[i].x &
+                          x.y == (sbyte)TestData_LHS[i].y;
             }
 
             return result;
@@ -56,10 +64,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                short2 x = (short2)TestData[i];
+                short2 x = (short2)TestData_LHS[i];
 
-                result &= x.x == (short)TestData[i].x &
-                          x.y == (short)TestData[i].y;
+                result &= x.x == (short)TestData_LHS[i].x &
+                          x.y == (short)TestData_LHS[i].y;
             }
 
             return result;
@@ -72,10 +80,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                ushort2 x = (ushort2)TestData[i];
+                ushort2 x = (ushort2)TestData_LHS[i];
 
-                result &= x.x == (ushort)TestData[i].x &
-                          x.y == (ushort)TestData[i].y;
+                result &= x.x == (ushort)TestData_LHS[i].x &
+                          x.y == (ushort)TestData_LHS[i].y;
             }
 
             return result;
@@ -88,10 +96,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                long2 x = TestData[i];
+                long2 x = TestData_LHS[i];
 
-                result &= x.x == (long)TestData[i].x &
-                          x.y == (long)TestData[i].y;
+                result &= x.x == (long)TestData_LHS[i].x &
+                          x.y == (long)TestData_LHS[i].y;
             }
 
             return result;
@@ -104,10 +112,10 @@ namespace MaxMath.Tests
 
             for (uint i = 0; i < NUM_TESTS; i++)
             {
-                ulong2 x = (ulong2)TestData[i];
+                ulong2 x = (ulong2)TestData_LHS[i];
 
-                result &= x.x == (ulong)TestData[i].x &
-                          x.y == (ulong)TestData[i].y;
+                result &= x.x == (ulong)TestData_LHS[i].x &
+                          x.y == (ulong)TestData_LHS[i].y;
             }
 
             return result;

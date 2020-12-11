@@ -18,7 +18,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                int r = rng.NextInt(0, 4);
+                int r = rng.NextInt(0, 1) | (rng.NextInt(0, 1) << 8);
                 bool2 x = maxmath.mask2bool2(r);
 
                 for (int j = 0; j < 2; j++)
