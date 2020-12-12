@@ -225,7 +225,7 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._128bit(this);
+        public override int GetHashCode() => Hash.v128(this);
 
 
         public override string ToString() => $"long2({x}, {y})";

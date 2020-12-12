@@ -86,15 +86,21 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool32(bool16 v16_0, bool16 v16_1)
-        {
-            this = (v256)new byte32((v128)v16_0, (v128)v16_1);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32(bool x0x32)
         {
             this = (v256)new byte32(maxmath.cvt_uint8(x0x32));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32(bool8 v8_0, bool8 v8_1, bool8 v8_2, bool8 v8_3)
+        {
+            this = (v256)new byte32(new byte16((v128)v8_0, (v128)v8_1), new byte16((v128)v8_2, (v128)v8_3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32(bool16 v16_0, bool16 v16_1)
+        {
+            this = (v256)new byte32((v128)v16_0, (v128)v16_1);
         }
 
 
@@ -161,7 +167,7 @@ Assert.IsWithinArrayBounds(index, 32);
         public override bool Equals(object obj) => Equals((bool32)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._256bit(this);
+        public override int GetHashCode() => Hash.v256(this);
 
         public override string ToString() => $"bool32({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15},    {x16}, {x17}, {x18}, {x19},    {x20}, {x21}, {x22}, {x23},    {x24}, {x25}, {x26}, {x27},    {x28}, {x29}, {x30}, {x31})";
     }

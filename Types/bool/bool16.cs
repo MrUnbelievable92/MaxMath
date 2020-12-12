@@ -104,25 +104,25 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool8 x01234567, bool4 x8_9_10_11, bool4 x12_13_14_15)
         {
-            this = (v128)new byte16(*(byte8*)&x01234567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16((v128)x01234567, *(byte4*)&x8_9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool8 x4_5_6_7_8_9_10_11, bool4 x12_13_14_15)
         {
-            this = (v128)new byte16(*(byte4*)&x0123, *(byte8*)&x4_5_6_7_8_9_10_11, *(byte4*)&x12_13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, (v128)x4_5_6_7_8_9_10_11, *(byte4*)&x12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool4 x0123, bool4 x4567, bool8 x8_9_10_11_12_13_14_15)
         {
-            this = (v128)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, *(byte8*)&x8_9_10_11_12_13_14_15);
+            this = (v128)new byte16(*(byte4*)&x0123, *(byte4*)&x4567, (v128)x8_9_10_11_12_13_14_15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool8 x01234567, bool8 x8_9_10_11_12_13_14_15)
         {
-            this = (v128)new byte16(*(byte8*)&x01234567, *(byte8*)&x8_9_10_11_12_13_14_15);
+            this = (v128)new byte16(*(byte8*)&x01234567, (v128)x8_9_10_11_12_13_14_15);
         }
 
 
@@ -196,7 +196,7 @@ Assert.IsWithinArrayBounds(index, 16);
         public override bool Equals(object obj) => Equals((bool16)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._128bit(this);
+        public override int GetHashCode() => Hash.v128(this);
 
         public override string ToString() => $"bool16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
     }

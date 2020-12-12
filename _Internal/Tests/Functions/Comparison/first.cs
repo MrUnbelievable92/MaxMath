@@ -32,7 +32,9 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            int testt = maxmath.first(default(bool2));
+
+            return result && maxmath.first(default(bool2)) == 4;
         }
 
         [UnitTest("Functions", "Bitwise", "First")]
@@ -57,7 +59,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            return result && maxmath.first(default(bool3)) == 4;
         }
 
         [UnitTest("Functions", "Bitwise", "First")]
@@ -82,7 +84,82 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            return result && maxmath.first(default(bool4)) == 4;
+        }
+
+        [UnitTest("Functions", "Bitwise", "First")]
+        public static bool Bool8()
+        {
+            bool result = true;
+
+            Random64 rng = new Random64(RNG_SEED);
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                bool8 x = rng.NextBool8();
+
+                int test = maxmath.first(x);
+
+                int j = 0;
+                while (j < 8 && !x[j])
+                {
+                    j++;
+                }
+
+                result &= test == j;
+            }
+
+            return result && maxmath.first(default(bool8)) == 8;
+        }
+
+        [UnitTest("Functions", "Bitwise", "First")]
+        public static bool Bool16()
+        {
+            bool result = true;
+
+            Random64 rng = new Random64(RNG_SEED);
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                bool16 x = new bool16(rng.NextBool8(), rng.NextBool8());
+
+                int test = maxmath.first(x);
+
+                int j = 0;
+                while (j < 16 && !x[j])
+                {
+                    j++;
+                }
+
+                result &= test == j;
+            }
+
+            return result && maxmath.first(default(bool16)) == 32;
+        }
+
+        [UnitTest("Functions", "Bitwise", "First")]
+        public static bool Bool32()
+        {
+            bool result = true;
+
+            Random64 rng = new Random64(RNG_SEED);
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                bool32 x = new bool32(rng.NextBool8(), rng.NextBool8(), rng.NextBool8(), rng.NextBool8());
+
+                int test = maxmath.first(x);
+
+                int j = 0;
+                while (j < 32 && !x[j])
+                {
+                    j++;
+                }
+
+                result &= test == j;
+            }
+
+            return result && maxmath.first(default(bool32)) == 32;
         }
     }
 }

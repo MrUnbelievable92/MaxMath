@@ -81,7 +81,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < Tests.Float8.NUM_TESTS; i++)
             {
-                bool8 b = x.NextBool4x2();
+                bool8 b = x.NextBool8();
                 float8 a = maxmath.negate(Tests.Float8.TestData_LHS[i], b);
 
                 result &= maxmath.all(a == maxmath.select(Tests.Float8.TestData_LHS[i], -Tests.Float8.TestData_LHS[i], b));

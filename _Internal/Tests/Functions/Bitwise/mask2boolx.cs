@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class mask2boolx
+    unsafe public static class toboolx
     {
         private const int NUM_TESTS = 48;
         private const uint RNG_SEED = 489373u;
@@ -19,7 +19,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt(0, 1) | (rng.NextInt(0, 1) << 8);
-                bool2 x = maxmath.mask2bool2(r);
+                bool2 x = maxmath.tobool2(r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt();
-                bool3 x = maxmath.mask2bool3(r);
+                bool3 x = maxmath.tobool3(r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -61,7 +61,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt();
-                bool4 x = maxmath.mask2bool4(r);
+                bool4 x = maxmath.tobool4(r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -82,7 +82,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt(0, byte.MaxValue + 1);
-                bool4x2 x = maxmath.mask2bool8(r);
+                bool4x2 x = maxmath.tobool8(r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -104,7 +104,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt(0, ushort.MaxValue + 1);
-                bool4x4 x = maxmath.mask2bool16(r);
+                bool4x4 x = maxmath.tobool16(r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -128,7 +128,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt();
-                bool32 x = maxmath.mask2bool32(r);
+                bool32 x = maxmath.tobool32(r);
 
                 for (int j = 0; j < 32; j++)
                 {

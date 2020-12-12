@@ -9,42 +9,49 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte select(byte a, byte b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, bool c)
         {
             return c ? b : a;
@@ -52,42 +59,49 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte select(sbyte a, sbyte b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 select(sbyte2 a, sbyte2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 select(sbyte3 a, sbyte3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 select(sbyte4 a, sbyte4 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 select(sbyte8 a, sbyte8 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, bool c)
         {
             return c ? b : a;
@@ -95,36 +109,42 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort select(ushort a, ushort b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, bool c)
         {
             return c ? b : a;
@@ -132,36 +152,42 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short select(short a, short b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 select(short3 a, short3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 select(short4 a, short4 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, bool c)
         {
             return c ? b : a;
@@ -169,6 +195,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 select(int8 a, int8 b, bool c)
         {
             return c ? b : a;
@@ -176,6 +203,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 select(uint8 a, uint8 b, bool c)
         {
             return c ? b : a;
@@ -183,6 +211,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool c)
         {
             return c ? b : a;
@@ -190,18 +219,21 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 select(long3 a, long3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 select(long4 a, long4 b, bool c)
         {
             return c ? b : a;
@@ -209,18 +241,21 @@ namespace MaxMath
 
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 select(ulong2 a, ulong2 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 select(ulong3 a, ulong3 b, bool c)
         {
             return c ? b : a;
         }
 
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, bool c)
         {
             return c ? b : a;
@@ -231,42 +266,42 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte2)Mask.Int2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V3FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte3)Mask.Int3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V4FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte4)Mask.Int4FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V8FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte8)Mask.Int8FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V16FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.SByte16FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, Mask.V32FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.SByte32FromInt(c));
         }
 
 
@@ -274,42 +309,42 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 select(sbyte2 a, sbyte2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte2)Mask.Int2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 select(sbyte3 a, sbyte3 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V3FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte3)Mask.Int3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 select(sbyte4 a, sbyte4 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V4FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte4)Mask.Int4FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 select(sbyte8 a, sbyte8 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V8FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (byte8)Mask.Int8FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.V16FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.SByte16FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, Mask.V32FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.SByte32FromInt(c));
         }
 
 
@@ -317,35 +352,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short2)Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short2)Mask.Int2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short3)Mask.V3FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short3)Mask.Int3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short4)Mask.V4FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short4)Mask.Int4FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short8)Mask.V8FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short8)Mask.Int8FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (short16)Mask.V16FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Short16FromInt(c));
         }
 
 
@@ -353,35 +388,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short2)Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short2)Mask.Int2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two short3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 select(short3 a, short3 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short3)Mask.V3FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short3)Mask.Int3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two short4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 select(short4 a, short4 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short4)Mask.V4FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short4)Mask.Int4FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two short8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short8)Mask.V8FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (short8)Mask.Int8FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two short16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (short16)Mask.V16FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, (short16)Mask.Short16FromInt(c));
         }
 
 
@@ -389,7 +424,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 select(int2 a, int2 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V2FromInt(c)));
+            int2 mask = Mask.Int2FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(int2*)&temp;
         }
@@ -398,7 +434,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 select(int3 a, int3 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V3FromInt(c)));
+            int3 mask = Mask.Int3FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(int3*)&temp;
         }
@@ -407,7 +444,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 select(int4 a, int4 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V4FromInt(c)));
+            int4 mask = Mask.Int4FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(int4*)&temp;
         }
@@ -416,7 +454,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 select(int8 a, int8 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (int8)Mask.V8FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Int8FromInt(c));
         }
 
 
@@ -424,7 +462,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 select(uint2 a, uint2 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V2FromInt(c)));
+            int2 mask = Mask.Int2FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(uint2*)&temp;
         }
@@ -433,7 +472,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 select(uint3 a, uint3 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V3FromInt(c)));
+            int3 mask = Mask.Int3FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(uint3*)&temp;
         }
@@ -442,7 +482,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 select(uint4 a, uint4 b, int c)
         {
-            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V4FromInt(c)));
+            int4 mask = Mask.Int4FromInt(c);
+            v128 temp = Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(uint4*)&temp;
         }
@@ -451,7 +492,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 select(uint8 a, uint8 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (int8)Mask.V8FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Int8FromInt(c));
         }
 
 
@@ -459,21 +500,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (long2)Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.Long2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two long3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 select(long3 a, long3 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (long3)Mask.V3FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Long3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two long4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 select(long4 a, long4 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (long4)Mask.V4FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Long4FromInt(c));
         }
 
 
@@ -481,21 +522,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 select(ulong2 a, ulong2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (long2)Mask.V2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.Long2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ulong3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 select(ulong3 a, ulong3 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (long3)Mask.V3FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Long3FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ulong4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (long4)Mask.V4FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Long4FromInt(c));
         }
 
 
@@ -503,7 +544,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 select(double2 a, double2 b, int c)
         {
-            v128 temp = Sse4_1.blendv_pd(*(v128*)&a, *(v128*)&b, (long2)Mask.V2FromInt(c));
+            v128 temp = Sse4_1.blendv_pd(*(v128*)&a, *(v128*)&b, Mask.Long2FromInt(c));
 
             return *(double2*)&temp;
         }
@@ -512,7 +553,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 select(double3 a, double3 b, int c)
         {
-            v256 temp = Avx.mm256_blendv_pd(*(v256*)&a, *(v256*)&b, (long3)Mask.V3FromInt(c));
+            v256 temp = Avx.mm256_blendv_pd(*(v256*)&a, *(v256*)&b, Mask.Long3FromInt(c));
 
             return *(double3*)&temp;
         }
@@ -521,15 +562,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 select(double4 a, double4 b, int c)
         {
-            v256 temp = Avx.mm256_blendv_pd(*(v256*)&a, *(v256*)&b, (long4)Mask.V4FromInt(c));
+            v256 temp = Avx.mm256_blendv_pd(*(v256*)&a, *(v256*)&b, Mask.Long4FromInt(c));
 
             return *(double4*)&temp;
         }
+
+
         /// <summary>       Returns a componentwise selection between two float2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 select(float2 a, float2 b, int c)
         {
-            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V2FromInt(c)));
+            int2 mask = Mask.Int2FromInt(c);
+            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(float2*)&temp;
         }
@@ -538,7 +582,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 select(float3 a, float3 b, int c)
         {
-            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V3FromInt(c)));
+            int3 mask = Mask.Int3FromInt(c);
+            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(float3*)&temp;
         }
@@ -547,7 +592,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 select(float4 a, float4 b, int c)
         {
-            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, Sse4_1.cvtepi8_epi32(Mask.V4FromInt(c)));
+            int4 mask = Mask.Int4FromInt(c);
+            v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
             return *(float4*)&temp;
         }
@@ -556,7 +602,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, int c)
         {
-            return Avx.mm256_blendv_ps(a, b, (int8)Mask.V8FromInt(c));
+            return Avx.mm256_blendv_ps(a, b, Mask.Int8FromInt(c));
         }
 
 
@@ -681,7 +727,7 @@ namespace MaxMath
             return Avx2.mm256_blendv_epi8(b, a, (short16)((sbyte16)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
         }
 
-        
+
         /// <summary>       Returns a componentwise selection between two short2 vectors a and b based on a bool2 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, bool2 c)
@@ -777,7 +823,7 @@ namespace MaxMath
             return Avx2.mm256_blendv_epi8(b, a, (long4)((sbyte4)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
         }
 
-        
+
         /// <summary>       Returns a componentwise selection between two float8 vectors a and b based on a bool8 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool8 c)

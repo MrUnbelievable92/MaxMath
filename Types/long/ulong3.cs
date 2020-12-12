@@ -329,7 +329,7 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => ((Hash._128bit(this.xy) << 32) | z.GetHashCode()).GetHashCode();
+        public override int GetHashCode() => (Avx.mm256_extract_epi32(this, 0) ^ Avx.mm256_extract_epi32(this, 1)) ^ Avx.mm256_extract_epi32(this, 2);
 
 
         public override string ToString() => $"ulong3({x}, {y}, {z})";

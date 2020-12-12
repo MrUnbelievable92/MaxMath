@@ -8,7 +8,7 @@ namespace MaxMath
     internal static class Hash
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int _128bit(v128 v)
+        internal static int v128(v128 v)
         {
             // .NET equivalent to (u)long.GetHashCode() => 
             // 1: Long0 ^ Long1
@@ -20,12 +20,12 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int _256bit(v256 v)
+        internal static int v256(v256 v)
         {
-            // 0: v128_0 ^ v128_1
+            // 0: v128Lo ^ v128Hi
 
-            return _128bit(Sse2.xor_si128(Avx.mm256_castsi256_si128(v),
-                                          Avx2.mm256_extracti128_si256(v, 1)));
+            return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(v),
+                                       Avx2.mm256_extracti128_si256(v, 1)));
         }
     }
 }

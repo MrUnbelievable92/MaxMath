@@ -31,7 +31,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            return result && maxmath.last(default(bool2)) == -1;
         }
 
         [UnitTest("Functions", "Bitwise", "Last")]
@@ -56,7 +56,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            return result && maxmath.last(default(bool3)) == -1;
         }
 
         [UnitTest("Functions", "Bitwise", "Last")]
@@ -81,7 +81,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            return result;
+            return result && maxmath.last(default(bool4)) == -1;
         }
     }
 }

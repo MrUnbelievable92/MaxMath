@@ -343,8 +343,8 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => (Sse4_1.extract_epi64(this, 0) & (long)maxmath.bitmask64(48)).GetHashCode();
-    
+        public override int GetHashCode() => (Sse4_1.extract_epi32(this, 0) ^ Sse2.extract_epi16(this, 2)) ^ (Sse2.extract_epi16(this, 2) << 16);
+
 
         public override string ToString() => $"short3({x}, {y}, {z})";
     }

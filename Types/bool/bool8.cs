@@ -191,7 +191,7 @@ Assert.IsWithinArrayBounds(index, 8);
         public override bool Equals(object obj) => Equals((bool8)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._128bit(this);
+        public override int GetHashCode() => Hash.v128(this);
 
         public override string ToString() => $"bool8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
     }

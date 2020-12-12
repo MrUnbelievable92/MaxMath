@@ -8,17 +8,29 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]
+    /*[Serializable]
     unsafe public struct Random128
     {
         public v128 state;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Random128(ushort8 seed)
+        public Random128(ulong seed)
+        {
+Assert.AreNotEqual(seed, 0ul);
+
+            Random64 next = new Random64(seed);
+
+            state = new v128(next.NextULong(), next.NextULong());
+
+            NextState16();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Random128(v128 seed)
         {
 Assert.IsTrue(maxmath.all_dif(seed, default(ushort8)));
-Assert.IsTrue(maxmath.all_dif(seed));
+Assert.IsTrue(maxmath.all_dif((ushort8)seed));
 
             state = seed;
 
@@ -78,11 +90,11 @@ Assert.IsTrue(maxmath.all_dif((ushort8)state));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool4x4 NextBool4x4()
+        public bool16 NextBool16()
         {
             ulong2 result = (ulong2)(v128)NextState16() & 0x0101_0101_0101_0101ul;
 
-            return *(bool4x4*)&result;
+            return (v128)result;
         }
 
 
@@ -550,5 +562,5 @@ Assert.IsNotSmaller(max.y, min.y);
 
             return math.mad(NextDouble2(), (max - min), min); 
         }
-    }
+    }*/
 }

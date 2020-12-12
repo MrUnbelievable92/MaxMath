@@ -575,7 +575,7 @@ Assert.IsWithinArrayBounds(index, 4);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash._256bit(this);
+        public override int GetHashCode() => Hash.v256(this);
 
 
         public override string ToString() => $"long4({x}, {y}, {z}, {w})";

@@ -8,11 +8,21 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]
+    /*[Serializable]
     unsafe public struct Random256
     {
         public v256 state;
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Random256(ulong seed)
+        {
+            Random128 next = new Random128(seed);
+
+            state = new v256(next.state, next.NextULong2());
+
+            NextState16();
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Random256(ushort16 seed)
@@ -82,7 +92,7 @@ Assert.IsTrue(maxmath.all_dif((ushort16)state));
         {
             ulong4 result = (ulong4)(v256)NextState16() & 0x0101_0101_0101_0101ul;
 
-            return *(bool32*)&result;
+            return (v256)result;
         }
 
 
@@ -571,5 +581,5 @@ Assert.IsNotSmaller(max.w, min.w);
 
             return math.mad(NextDouble4(), (max - min), min);
         }
-    }
+    }*/
 }

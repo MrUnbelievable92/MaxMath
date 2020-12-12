@@ -49,11 +49,11 @@ Assert.AreNotEqual(state, 0ul);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool4x2 NextBool4x2()
+        public bool8 NextBool8()
         {
             ulong result = NextState() & 0x0101_0101_0101_0101ul;
 
-            return *(bool4x2*)&result;
+            return new bool8 { cast_long = (long)result };
         }
 
 

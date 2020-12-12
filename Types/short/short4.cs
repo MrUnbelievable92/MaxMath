@@ -584,7 +584,7 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi64(this, 0).GetHashCode();
+        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0) ^ Sse4_1.extract_epi32(this, 1);
 
 
         public override string ToString() => $"short4({x}, {y}, {z}, {w})";

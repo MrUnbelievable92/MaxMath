@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class shr_a
+    unsafe public static class shra
     {
         [UnitTest("Functions", "Bitwise", "ShiftArithmeticRight")]
         public static bool Long2()
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 for (int j = 0; j < 64; j += 2)
                 {
-                    long2 x = maxmath.shr_a(Tests.Long2.TestData_LHS[i], new long2(math.min(j, 63), math.min(j + 1, 63)));
+                    long2 x = maxmath.shra(Tests.Long2.TestData_LHS[i], new long2(math.min(j, 63), math.min(j + 1, 63)));
 
                     result &= x.x == Tests.Long2.TestData_LHS[i].x >> math.min(j, 63);
                     result &= x.y == Tests.Long2.TestData_LHS[i].y >> math.min(j + 1, 63);
@@ -33,7 +33,7 @@ namespace MaxMath.Tests
             {
                 for (int j = 0; j < 64; j += 3)
                 {
-                    long3 x = maxmath.shr_a(Tests.Long3.TestData_LHS[i], new long3(math.min(j, 63), math.min(j + 1, 63), math.min(j + 2, 63)));
+                    long3 x = maxmath.shra(Tests.Long3.TestData_LHS[i], new long3(math.min(j, 63), math.min(j + 1, 63), math.min(j + 2, 63)));
 
                     result &= x.x == Tests.Long3.TestData_LHS[i].x >> math.min(j, 63);
                     result &= x.y == Tests.Long3.TestData_LHS[i].y >> math.min(j + 1, 63);
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 for (int j = 0; j < 64; j += 4)
                 {
-                    long4 x = maxmath.shr_a(Tests.Long4.TestData_LHS[i], new long4(math.min(j, 63), math.min(j + 1, 63), math.min(j + 2, 63), math.min(j + 3, 63)));
+                    long4 x = maxmath.shra(Tests.Long4.TestData_LHS[i], new long4(math.min(j, 63), math.min(j + 1, 63), math.min(j + 2, 63), math.min(j + 3, 63)));
 
                     result &= x.x == Tests.Long4.TestData_LHS[i].x >> math.min(j, 63);
                     result &= x.y == Tests.Long4.TestData_LHS[i].y >> math.min(j + 1, 63);

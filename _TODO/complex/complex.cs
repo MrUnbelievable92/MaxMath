@@ -46,23 +46,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static complex operator + (complex lhs, complex rhs)
-        {
-            lhs += rhs;
-
-            return lhs;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static complex operator - (complex lhs, complex rhs)
-        {
-            lhs -= rhs;
-
-            return lhs;
-        }
-
-
         public override string ToString()
         {
             return $"{ math.abs(real) } + { math.abs(imaginary) }i";

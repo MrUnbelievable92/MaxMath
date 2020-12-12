@@ -173,7 +173,7 @@ Assert.IsDefinedBitShift<sbyte>(n);
             {
                 shiftHi = shra_int(v, 31);
                 shiftLo = shra_int(v, n - 32);
-                shiftLo = shra_long(shiftLo, 32);
+                shiftLo = shrl_long(shiftLo, 32);
             }
 
             return Sse4_1.blend_epi16(shiftLo, shiftHi, 0b1100_1100);
@@ -194,7 +194,7 @@ Assert.IsDefinedBitShift<sbyte>(n);
             {
                 shiftHi = shra_int(v, 31);
                 shiftLo = shra_int(v, n - 32);
-                shiftLo = shra_long(shiftLo, 32);
+                shiftLo = shrl_long(shiftLo, 32);
             }
 
             return Avx2.mm256_blend_epi16(shiftLo, shiftHi, 0b1100_1100);
