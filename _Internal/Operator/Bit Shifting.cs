@@ -176,7 +176,7 @@ Assert.IsDefinedBitShift<sbyte>(n);
                 shiftLo = Sse2.srli_epi64(shiftLo, 32);
             }
 
-            return Sse4_1.blend_epi16(shiftLo, shiftHi, 0b1100_1100);
+            return Sse4_1.blend_epi16(shiftLo, shiftHi, Sse.SHUFFLE(3, 0, 3, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -197,7 +197,7 @@ Assert.IsDefinedBitShift<sbyte>(n);
                 shiftLo = Avx2.mm256_srli_epi64(shiftLo, 32);
             }
 
-            return Avx2.mm256_blend_epi16(shiftLo, shiftHi, 0b1100_1100);
+            return Avx2.mm256_blend_epi16(shiftLo, shiftHi, Sse.SHUFFLE(3, 0, 3, 0));
         }
     }
 }

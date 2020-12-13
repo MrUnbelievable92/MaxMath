@@ -276,36 +276,36 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shra(long2 x, long2 n)
         {
-            v128 mask = Sse2.and_si128(Sse4_2.cmpgt_epi64(n, default(v128)),
-                                       Sse4_2.cmpgt_epi64(default(v128), x));
+            long2 mask = Sse2.and_si128(Sse4_2.cmpgt_epi64(n, default(v128)),
+                                        Sse4_2.cmpgt_epi64(default(v128), x));
 
             mask = Avx2.sllv_epi64(mask, (64L - n));
 
-            return (long2)mask | Avx2.srlv_epi64(x, n);
+            return mask | Avx2.srlv_epi64(x, n);
         }
 
         /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 shra(long3 x, long3 n)
         {
-            v256 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),
-                                             Avx2.mm256_cmpgt_epi64(default(v256), x));
+            long3 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),
+                                              Avx2.mm256_cmpgt_epi64(default(v256), x));
 
             mask = Avx2.mm256_sllv_epi64(mask, (64L - n));
 
-            return (long3)mask | Avx2.mm256_srlv_epi64(x, n);
+            return mask | Avx2.mm256_srlv_epi64(x, n);
         }
 
         /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 shra(long4 x, long4 n)
         {
-            v256 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),
-                                             Avx2.mm256_cmpgt_epi64(default(v256), x));
+            long4 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),
+                                              Avx2.mm256_cmpgt_epi64(default(v256), x));
 
             mask = Avx2.mm256_sllv_epi64(mask, (64L - n));
 
-            return (long4)mask | Avx2.mm256_srlv_epi64(x, n);
+            return mask | Avx2.mm256_srlv_epi64(x, n);
         }
     }
 }

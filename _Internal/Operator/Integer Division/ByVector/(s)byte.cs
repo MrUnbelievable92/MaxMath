@@ -7,7 +7,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     // Even though the code size is "large" and the C# source looks like a mess, 
-    // this division algorithm is about FIVE times faster (byte16 case) that scalar division of bytes when compiled natively.
+    // this division algorithm is about FIVE times faster (byte16 case) than scalar division of bytes when compiled natively.
 
     // There is no compare_greater instruction for unsigned types in <= Avx2. For the byte16 case, it is faster to up-/downcast to unsigned shorts,
     // because the Operator.greater_mask_byte, which is called eight times, consists of two XOR's and one compare instruction.

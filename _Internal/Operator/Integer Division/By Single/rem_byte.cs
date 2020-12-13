@@ -26,7 +26,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return 0;
-                case byte.MaxValue: return Sse4_1.blendv_epi8(default(byte16), dividend, Sse2.cmpeq_epi8(dividend, new byte16(byte.MaxValue)));
+                case byte.MaxValue: return Sse4_1.blendv_epi8(dividend, default(byte16), Sse2.cmpeq_epi8(dividend, new byte16(byte.MaxValue)));
 
                 case 1 << 1: return dividend & (byte)maxmath.bitmask32(1);
                 case 1 << 2: return dividend & (byte)maxmath.bitmask32(2);
@@ -50,7 +50,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return 0;
-                case byte.MaxValue: return Avx2.mm256_blendv_epi8(default(byte32), dividend, Avx2.mm256_cmpeq_epi8(dividend, new byte32(byte.MaxValue)));
+                case byte.MaxValue: return Avx2.mm256_blendv_epi8(dividend, default(byte32), Avx2.mm256_cmpeq_epi8(dividend, new byte32(byte.MaxValue)));
 
                 case 1 << 1: return dividend & (byte)maxmath.bitmask32(1);
                 case 1 << 2: return dividend & (byte)maxmath.bitmask32(2);

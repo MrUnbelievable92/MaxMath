@@ -59,7 +59,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of an int8 vector left by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vshl(int8 x, int n)
         {
             switch (n)
@@ -186,7 +186,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a float8 vector left by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vshl(float8 x, int n)
         {
             switch (n)
@@ -298,7 +298,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a byte8 vector left by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vshl(byte8 x, int n)
         {
             switch (n)
@@ -318,7 +318,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a byte16 vector left by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vshl(byte16 x, int n)
         {
             switch (n)
@@ -444,7 +444,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a short8 vector left by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vshl(short8 x, int n)
         {
             switch (n)
@@ -646,7 +646,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of an int8 vector right by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vshr(int8 x, int n)
         {
             switch (n)
@@ -773,7 +773,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a float8 vector right by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vshr(float8 x, int n)
         {
             switch (n)
@@ -886,7 +886,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a byte8 vector right by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vshr(byte8 x, int n)
         {
             switch (n)
@@ -906,7 +906,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a byte16 vector right by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vshr(byte16 x, int n)
         {
             switch (n)
@@ -1032,7 +1032,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components of a short8 vector right by n while shifting in zeros.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vshr(short8 x, int n)
         {
             switch (n)

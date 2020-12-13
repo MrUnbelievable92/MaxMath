@@ -142,8 +142,8 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ulong2 operator - (ulong2 lhs, ulong2 rhs) => Sse2.sub_epi64(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator * (ulong2 lhs, ulong2 rhs) => new ulong2(lhs.x * rhs.x,    lhs.y * rhs.y);
-    
+        public static ulong2 operator * (ulong2 lhs, ulong2 rhs) => Operator.mul_long(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator / (ulong2 lhs, ulong2 rhs) => new ulong2(lhs.x / rhs.x,    lhs.y / rhs.y);
     

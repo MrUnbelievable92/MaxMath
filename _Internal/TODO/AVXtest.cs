@@ -21,7 +21,7 @@ namespace MaxMath
             return CF;
         }
 
-        /// <summary>    For all corresponding values the following is true: NOT(both values are negative)    </summary>
+        /// <summary>    For all corresponding values in two int4 vectors the following is true: NOT(both values are negative)    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testz(int4 a, int4 b)
         {

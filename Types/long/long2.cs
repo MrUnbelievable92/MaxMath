@@ -142,8 +142,8 @@ Assert.IsWithinArrayBounds(index, 2);
         public static long2 operator - (long2 lhs, long2 rhs) => Sse2.sub_epi64(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator * (long2 lhs, long2 rhs) => new long2(lhs.x * rhs.x,    lhs.y * rhs.y);
-    
+        public static long2 operator * (long2 lhs, long2 rhs) => Operator.mul_long(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator / (long2 lhs, long2 rhs) => new long2(lhs.x / rhs.x,    lhs.y / rhs.y);
     

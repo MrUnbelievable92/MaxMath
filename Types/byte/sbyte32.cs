@@ -159,7 +159,7 @@ Assert.IsWithinArrayBounds(index, 32);
         public static sbyte32 operator - (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_sub_epi8(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator * (sbyte32 lhs, sbyte32 rhs) => new sbyte32((sbyte16)((short16)lhs.v16_0 * (short16)rhs.v16_0), (sbyte16)((short16)lhs.v16_16 * (short16)rhs.v16_16));
+        public static sbyte32 operator * (sbyte32 lhs, sbyte32 rhs) => Operator.mul_byte(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 operator / (sbyte32 lhs, sbyte32 rhs) => Operator.vdiv_sbyte(lhs, rhs);

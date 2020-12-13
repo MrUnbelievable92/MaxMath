@@ -244,8 +244,8 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ulong3 operator - (ulong3 lhs, ulong3 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator * (ulong3 lhs, ulong3 rhs) => new ulong3(lhs.x * rhs.x,    lhs.y * rhs.y,    lhs.z * rhs.z);
-    
+        public static ulong3 operator * (ulong3 lhs, ulong3 rhs) => Operator.mul_long(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator / (ulong3 lhs, ulong3 rhs) => new ulong3(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z);
     

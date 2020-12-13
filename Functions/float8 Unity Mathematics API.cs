@@ -103,17 +103,17 @@ namespace MaxMath
 
             float8 zeroMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.EQ_OQ);
             float8 negativeMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.LT_OS);
-            float8 greaterMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.GT_OS);
+            float8 positiveMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.GT_OS);
 
             negativeMask = Avx.mm256_and_ps(negativeMask, exp);
-            greaterMask = Avx.mm256_and_ps(greaterMask, exp);
+            positiveMask = Avx.mm256_and_ps(positiveMask, exp);
 
 
-            return Avx.mm256_blendv_ps(greaterMask - negativeMask, x, zeroMask);
+            return Avx.mm256_blendv_ps(positiveMask - negativeMask, x, zeroMask);
         }
 
 
-        /// <summary>       Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter s.     </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from x to y using the corresponding components of the interpolation parameter s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 lerp(float8 x, float8 y, float8 s) 
         { 

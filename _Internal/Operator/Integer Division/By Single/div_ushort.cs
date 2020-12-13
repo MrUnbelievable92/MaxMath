@@ -24,7 +24,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return dividend;
-                case ushort.MaxValue: return Sse4_1.blendv_epi8(new ushort8(1), default(ushort8), Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
+                case ushort.MaxValue: return Sse4_1.blendv_epi8(default(ushort8), new ushort8(1), Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;
@@ -43,6 +43,11 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 15: return dividend >> 15;
 
                 case 3: return div_ushort_3(dividend);
+
+                case 10: return div_ushort_10(dividend);
+                case 100: return div_ushort_100(dividend);
+                case 1000: return div_ushort_1000(dividend);
+                case 10000: return div_ushort_10000(dividend);
 
                 default: return new ushort8((ushort)(dividend.x0 / divisor), 
                                             (ushort)(dividend.x1 / divisor), 
@@ -64,7 +69,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return dividend;
-                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(new ushort16(1), default(ushort16), Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
+                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(default(ushort16), new ushort16(1), Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend >> 1;
                 case 1 << 2:  return dividend >> 2;
@@ -83,6 +88,11 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 15: return dividend >> 15;
 
                 case 3: return div_ushort_3(dividend);
+
+                case 10: return div_ushort_10(dividend);
+                case 100: return div_ushort_100(dividend);
+                case 1000: return div_ushort_1000(dividend);
+                case 10000: return div_ushort_10000(dividend);
 
                 default: return new ushort16((ushort)(dividend.x0  / divisor), 
                                              (ushort)(dividend.x1  / divisor), 
@@ -103,16 +113,75 @@ Assert.AreNotEqual(divisor, 0);
             }
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort8 div_ushort_3(ushort8 x)
         {
             return Sse2.srli_epi16(Sse2.mulhi_epu16(x, new ushort8(43691)), 1);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort16 div_ushort_3(ushort16 x)
         {
             return Avx2.mm256_srli_epi16(Avx2.mm256_mulhi_epu16(x, new ushort16(43691)), 1);
         }
+
+
+        #region POWERS OF TEN
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort8 div_ushort_10(ushort8 x)
+        {
+            return Sse2.srli_epi16(Sse2.mulhi_epu16(x, new ushort8(52429)), 3);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort16 div_ushort_10(ushort16 x)
+        {
+            return Avx2.mm256_srli_epi16(Avx2.mm256_mulhi_epu16(x, new ushort16(52429)), 3);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort8 div_ushort_100(ushort8 x)
+        {
+            x = Sse2.srli_epi16(x, 2);
+
+            return Sse2.srli_epi16(Sse2.mulhi_epu16(x, new ushort8(5243)), 1);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort16 div_ushort_100(ushort16 x)
+        {
+            x = Avx2.mm256_srli_epi16(x, 2);
+
+            return Avx2.mm256_srli_epi16(Avx2.mm256_mulhi_epu16(x, new ushort16(5243)), 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort8 div_ushort_1000(ushort8 x)
+        {
+            x = Sse2.srli_epi16(x, 3);
+
+            return Sse2.srli_epi16(Sse2.mulhi_epu16(x, new ushort8(8389)), 4);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort16 div_ushort_1000(ushort16 x)
+        {
+            x = Avx2.mm256_srli_epi16(x, 3);
+
+            return Avx2.mm256_srli_epi16(Avx2.mm256_mulhi_epu16(x, new ushort16(8389)), 4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort8 div_ushort_10000(ushort8 x)
+        {
+            x = Sse2.srli_epi16(x, 4);
+
+            return Sse2.srli_epi16(Sse2.mulhi_epu16(x, new ushort8(839)), 3);
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort16 div_ushort_10000(ushort16 x)
+        {
+            x = Avx2.mm256_srli_epi16(x, 4);
+
+            return Avx2.mm256_srli_epi16(Avx2.mm256_mulhi_epu16(x, new ushort16(839)), 3);
+        }
+        #endregion
     }
 }

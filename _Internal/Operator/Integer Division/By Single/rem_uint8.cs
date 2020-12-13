@@ -15,7 +15,7 @@ Assert.AreNotEqual(divisor, 0u);
             switch (divisor)
             {
                 case 1u: return 0;
-                case uint.MaxValue: return Avx2.mm256_blendv_epi8(default(uint8), dividend, Avx2.mm256_cmpeq_epi32(dividend, new uint8(uint.MaxValue)));
+                case uint.MaxValue: return Avx2.mm256_blendv_epi8(dividend, default(uint8), Avx2.mm256_cmpeq_epi32(dividend, new uint8(uint.MaxValue)));
 
                 case 1u << 1:  return dividend & maxmath.bitmask32(1);
                 case 1u << 2:  return dividend & maxmath.bitmask32(2);

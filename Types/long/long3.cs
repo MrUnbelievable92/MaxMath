@@ -244,8 +244,8 @@ Assert.IsWithinArrayBounds(index, 3);
         public static long3 operator - (long3 lhs, long3 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator * (long3 lhs, long3 rhs) => new long3(lhs.x * rhs.x,    lhs.y * rhs.y,    lhs.z * rhs.z);
-    
+        public static long3 operator * (long3 lhs, long3 rhs) => Operator.mul_long(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator / (long3 lhs, long3 rhs) => new long3(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z);
     

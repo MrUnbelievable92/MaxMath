@@ -43,7 +43,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a byte8 vector right by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vror(byte8 x, int n)
         {
             switch (n % 8)
@@ -61,7 +61,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a byte16 vector right by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vror(byte16 x, int n)
         {
             switch (n % 16)
@@ -175,7 +175,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a short8 vector right by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vror(short8 x, int n)
         {
             switch (n % 8)
@@ -289,7 +289,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in an int8 vector right by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vror(int8 x, int n)
         {
             switch (n % 8)
@@ -483,7 +483,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a float8 vector right by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vror(float8 x, int n)
         {
             switch (n % 8)
@@ -571,7 +571,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a byte8 vector left by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vrol(byte8 x, int n)
         {
             switch (n % 8)
@@ -589,7 +589,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a byte16 vector left by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vrol(byte16 x, int n)
         {
             switch (n % 16)
@@ -703,7 +703,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a short8 vector left by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vrol(short8 x, int n)
         {
             switch (n % 8)
@@ -818,7 +818,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in an int8 vector left by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vrol(int8 x, int n)
         {
             switch (n % 8)
@@ -1012,7 +1012,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of rotating the components in a float8 vector left by n.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vrol(float8 x, int n)
         {
             switch (n % 8)

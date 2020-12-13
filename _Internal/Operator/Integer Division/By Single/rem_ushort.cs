@@ -24,7 +24,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return 0;
-                case ushort.MaxValue: return Sse4_1.blendv_epi8(default(ushort8), dividend, Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
+                case ushort.MaxValue: return Sse4_1.blendv_epi8(dividend, default(ushort8), Sse2.cmpeq_epi16(dividend, new ushort8(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend & (ushort)maxmath.bitmask32(1);
                 case 1 << 2:  return dividend & (ushort)maxmath.bitmask32(2);
@@ -62,7 +62,7 @@ Assert.AreNotEqual(divisor, 0);
             switch (divisor)
             {
                 case 1: return 0;
-                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(default(ushort16), dividend, Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
+                case ushort.MaxValue: return Avx2.mm256_blendv_epi8(dividend, default(ushort16), Avx2.mm256_cmpeq_epi16(dividend, new ushort16(ushort.MaxValue)));
 
                 case 1 << 1:  return dividend & (ushort)maxmath.bitmask32(1);
                 case 1 << 2:  return dividend & (ushort)maxmath.bitmask32(2);
