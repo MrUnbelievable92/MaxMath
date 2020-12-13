@@ -212,14 +212,14 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool2 TestIsFalse(v128 input)
         {
-            int result = maxmath.andn(0x0101, Sse2.movemask_epi8(input));
+            int result = maxmath.andnot(0x0101, Sse2.movemask_epi8(input));
 
             return *(bool2*)&result;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(long2 other) => maxmath.cvt_boolean(Sse4_1.test_all_ones(Sse4_1.cmpeq_epi64(this, other)));
+        public bool Equals(long2 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse4_1.cmpeq_epi64(this, other)));
 
         public override bool Equals(object obj) => Equals((long2)obj);
     
@@ -229,5 +229,6 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         public override string ToString() => $"long2({x}, {y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"long2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
     }
 }

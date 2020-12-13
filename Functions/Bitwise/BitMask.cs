@@ -17,7 +17,7 @@ Assert.IsDefinedBitShift<uint>(index);
             // mask
             index = -1 << index;
 
-            return (uint)andn(index, index << numBits);
+            return (uint)andnot(index, index << numBits);
         }
 
         /// <summary>       Returns a 32-bit bitmask uint2 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -32,7 +32,7 @@ Assert.IsDefinedBitShift<uint>(index.y);
             // mask
             index = shl(-1, index);
 
-            return math.asuint(andn(index, shl(index, numBits)));
+            return math.asuint(andnot(index, shl(index, numBits)));
         }
 
         /// <summary>       Returns a 32-bit bitmask uint3 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -49,7 +49,7 @@ Assert.IsDefinedBitShift<uint>(index.z);
             // mask
             index = shl(-1, index);
 
-            return math.asuint(andn(index, shl(index, numBits)));
+            return math.asuint(andnot(index, shl(index, numBits)));
         }
 
         /// <summary>       Returns a 32-bit bitmask uint4 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -68,7 +68,7 @@ Assert.IsDefinedBitShift<uint>(index.w);
             // mask
             index = shl(-1, index);
 
-            return math.asuint(andn(index, shl(index, numBits)));
+            return math.asuint(andnot(index, shl(index, numBits)));
         }
 
         /// <summary>       Returns a 32-bit bitmask uint8 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -95,7 +95,7 @@ Assert.IsDefinedBitShift<uint>(index.x7);
             // mask
             index = shl(-1, index);
 
-            return (uint8)andn(index, shl(index, numBits));
+            return (uint8)andnot(index, shl(index, numBits));
         }
 
 
@@ -108,7 +108,7 @@ Assert.IsDefinedBitShift<ulong>(index);
 
             ulong mask = ulong.MaxValue << index;
 
-            return andn(mask, mask << numBits);
+            return andnot(mask, mask << numBits);
         }
 
         /// <summary>       Returns a 64-bit bitmask ulong2 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -123,7 +123,7 @@ Assert.IsDefinedBitShift<ulong>((int)index.y);
             // mask
             index = shl(-1L, index);
 
-            return (ulong2)andn(index, shl(index, numBits));
+            return (ulong2)andnot(index, shl(index, numBits));
         }
 
         /// <summary>       Returns a 64-bit bitmask ulong3 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -140,7 +140,7 @@ Assert.IsDefinedBitShift<ulong>((int)index.z);
             // mask
             index = shl(-1L, index);
 
-            return (ulong3)andn(index, shl(index, numBits));
+            return (ulong3)andnot(index, shl(index, numBits));
         }
 
         /// <summary>       Returns a 64-bit bitmask ulong4 vector with all componentwise bits set to one from index to (index + numBits - 1).      </summary>
@@ -159,7 +159,7 @@ Assert.IsDefinedBitShift<ulong>((int)index.w);
             // mask
             index = shl(-1L, index);
 
-            return (ulong4)andn(index, shl(index, numBits));
+            return (ulong4)andnot(index, shl(index, numBits));
         }
     }
 }

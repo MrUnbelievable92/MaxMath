@@ -7,156 +7,156 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's byte representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte cvt_uint8(bool a)
+        public static byte touint8(bool a)
         { 
 Assert.IsBetween<byte>(*(byte*)&a, 0, 1);
 
             return *(byte*)&a;
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's ushort representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort cvt_uint16(bool a)
+        public static ushort touint16(bool a)
         {
-            return cvt_uint8(a);
+            return touint8(a);
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's uint representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint cvt_uint32(bool a)
+        public static uint touint32(bool a)
         { 
-            return (uint)cvt_int32(a);
+            return (uint)toint32(a);
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's ulong representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong cvt_uint64(bool a)
+        public static ulong touint64(bool a)
         { 
-            return cvt_uint8(a);
+            return touint8(a);
         }
 
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's sbyte representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte cvt_int8(bool a)
+        public static sbyte toint8(bool a)
         { 
 Assert.IsBetween<sbyte>(*(sbyte*)&a, 0, 1);
 
             return *(sbyte*)&a;
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's short representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short cvt_int16(bool a)
+        public static short toint16(bool a)
         {
-            return cvt_uint8(a);
+            return touint8(a);
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's int representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 1)]
-        public static int cvt_int32(bool a)
+        public static int toint32(bool a)
         { 
-            return cvt_uint8(a);
+            return touint8(a);
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's long representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long cvt_int64(bool a)
+        public static long toint64(bool a)
         { 
-            return cvt_uint8(a);
+            return touint8(a);
         }
 
-        /// <summary> UNSAFE (not clamped to [0f, 1f]) </summary>
+        /// <summary>       Converts a bool value to it's half representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static half cvt_f16(bool a)
+        public static half tof16(bool a)
         { 
-            ushort backingField = (ushort)(cvt_uint8(a) * new half(1f).value);
+            ushort backingField = (ushort)(touint8(a) * new half(1f).value);
 
             return *(half*)&backingField;
         }
 
-        /// <summary> UNSAFE (not clamped to [0f, 1f]) </summary>
+        /// <summary>       Converts a bool value to it's float representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float cvt_f32(bool a)
+        public static float tof32(bool a)
         { 
-            return math.asfloat(cvt_uint8(a) * math.asuint(1f));
+            return math.asfloat(touint8(a) * math.asuint(1f));
         }
 
-        /// <summary> UNSAFE (not clamped to [0, 1]) </summary>
+        /// <summary>       Converts a bool value to it's double representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double cvt_f64(bool a)
+        public static double tof64(bool a)
         { 
-            return math.asdouble(cvt_uint8(a) * math.asulong(1d));
-        }
-
-
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(byte a)
-        { 
-Assert.IsBetween(a, 0, 1);
-
-            return *(bool*)&a;
-        }
-
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(ushort a)
-        { 
-Assert.IsBetween((byte)a, 0, 1);
-
-            return *(bool*)&a;
-        }
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(uint a)
-        { 
-Assert.IsBetween((byte)a, 0, 1);
-
-            return *(bool*)&a;
-        }
-
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(ulong a)
-        { 
-Assert.IsBetween((byte)a, 0, 1);
-
-            return *(bool*)&a;
+            return math.asdouble(touint8(a) * math.asulong(1d));
         }
 
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a byte value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(sbyte a)
+        public static bool tobool(byte a)
         { 
 Assert.IsBetween(a, 0, 1);
 
             return *(bool*)&a;
         }
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a short value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(short a)
+        public static bool tobool(ushort a)
+        { 
+Assert.IsBetween((byte)a, 0, 1);
+
+            return *(bool*)&a;
+        }
+        /// <summary>       Converts a uint value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(uint a)
+        { 
+Assert.IsBetween((byte)a, 0, 1);
+
+            return *(bool*)&a;
+        }
+
+        /// <summary>       Converts a ulong value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(ulong a)
+        { 
+Assert.IsBetween((byte)a, 0, 1);
+
+            return *(bool*)&a;
+        }
+
+
+        /// <summary>       Converts an sbyte value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(sbyte a)
+        { 
+Assert.IsBetween(a, 0, 1);
+
+            return *(bool*)&a;
+        }
+
+        /// <summary>       Converts a short value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(short a)
         { 
 Assert.IsBetween((sbyte)a, 0, 1);
 
             return *(bool*)&a;
         }
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts an int value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-        public static bool cvt_boolean([AssumeRange(0, 1)] int a)
+        public static bool tobool([AssumeRange(0, 1)] int a)
         { 
 Assert.IsBetween((sbyte)a, 0, 1);
 
             return *(bool*)&a;
         }
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a long value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(long a)
+        public static bool tobool(long a)
         {
 Assert.IsBetween((sbyte)a, 0, 1);
 
@@ -164,27 +164,27 @@ Assert.IsBetween((sbyte)a, 0, 1);
         }
 
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a half value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(half a)
+        public static bool tobool(half a)
         {
 Assert.IsTrue(a.value == new half(1f).value || a.value == 0);
 
-            return a.value == new half(1f).value;
+            return a.value == ((half)1f).value;
         }
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a float value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(float a)
+        public static bool tobool(float a)
         {
 Assert.IsTrue(a == 1f || a == 0f);
 
             return math.asint(a) == math.asint(1f);
         }
 
-        /// <summary> UNSAFE (not clamping a to [0, 1]) </summary>
+        /// <summary>       Converts a double value to it's bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool cvt_boolean(double a)
+        public static bool tobool(double a)
         {
 Assert.IsTrue(a == 1d || a == 0d);
 

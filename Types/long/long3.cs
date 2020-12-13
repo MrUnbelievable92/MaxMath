@@ -314,22 +314,23 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsFalse(v256 input) 
         {
-            int cast = maxmath.andn(0x0001_0101, Avx2.mm256_movemask_epi8(input));
+            int cast = maxmath.andnot(0x0001_0101, Avx2.mm256_movemask_epi8(input));
 
             return *(bool3*)&cast;
         }
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(long3 other) => maxmath.cvt_boolean(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1L, -1L, -1L, 0L)));
+        public bool Equals(long3 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1L, -1L, -1L, 0L)));
 
         public override bool Equals(object obj) => Equals((long3)obj);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => (Avx.mm256_extract_epi32(this, 0) ^ Avx.mm256_extract_epi32(this, 1)) ^ Avx.mm256_extract_epi32(this, 2);
+        public override int GetHashCode() => Hash.v192(this);
 
 
         public override string ToString() => $"long3({x}, {y}, {z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"long3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
     }
 }

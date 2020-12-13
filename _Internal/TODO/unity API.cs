@@ -35,39 +35,8 @@ using System.Runtime.CompilerServices;
 //    }
 //
 //
-//    /// <summary>
-//    /// Checks if the input is a power of two.
-//    /// </summary>
-//    /// <remarks>If x is less than or equal to zero, then this function returns false.</remarks>
-//    /// <param name="x">Unsigned integer input.</param>
-//    /// <returns>bool where true indicates that input was a power of two.</returns>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static bool ispow2(uint x)
-//    {
-//        return x > 0 && ((x & (x - 1)) == 0);
-//    }
-//
-//    /// <summary>
-//    /// Checks if each component of the input is a power of two.
-//    /// </summary>
-//    /// <remarks>If a component of x is less than or equal to zero, then this function returns false in that component.</remarks>
-//    /// <param name="x"><see cref="uint2"/> input</param>
-//    /// <returns><see cref="bool2"/> where true in a component indicates the same component in the input was a power of two.</returns>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static bool2 ispow2(uint2 x)
-//    {
-//        return new bool2(ispow2(x.x), ispow2(x.y));
-//    }
-//
-//    /// <summary>Returns the componentwise result of normalizing a floating point value x to a range [a, b]. The opposite of lerp. Equivalent to (x - a) / (b - a).</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 unlerp(float4 a, float4 b, float4 x) { return (x - a) / (b - a); }
-//
-//
 //   
-//    /// <summary>Returns the componentwise result of a non-clamping linear remapping of a value x from [a, b] to [c, d].</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 remap(float4 a, float4 b, float4 c, float4 d, float4 x) { return lerp(c, d, unlerp(a, b, x)); }
+//    
 //
 //
 //    
@@ -98,36 +67,7 @@ using System.Runtime.CompilerServices;
 //    public static float4 mad(float4 a, float4 b, float4 c) { return a * b + c; }
 //
 //
-//    /// <summary>Returns the result of clamping the value x into the interval [a, b], where x, a and b are int values.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static int clamp(int x, int a, int b) { return max(a, min(b, x)); }
-//
-//   
-//    /// <summary>Returns the result of a componentwise clamping of the value x into the interval [a, b], where x, a and b are int4 vectors.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static int4 clamp(int4 x, int4 a, int4 b) { return max(a, min(b, x)); }
-//
-//
-//    /// <summary>Returns the result of clamping the value x into the interval [a, b], where x, a and b are uint values.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static uint clamp(uint x, uint a, uint b) { return max(a, min(b, x)); }
-//
-//
-//    /// <summary>Returns the result of a componentwise clamping of the value x into the interval [a, b], where x, a and b are uint4 vectors.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static uint4 clamp(uint4 x, uint4 a, uint4 b) { return max(a, min(b, x)); }
-//
-//
-//    /// <summary>Returns the result of clamping the value x into the interval [a, b], where x, a and b are long values.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static long clamp(long x, long a, long b) { return max(a, min(b, x)); }
-//
-//    /// <summary>Returns the result of clamping the value x into the interval [a, b], where x, a and b are ulong values.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static ulong clamp(ulong x, ulong a, ulong b) { return max(a, min(b, x)); }
-//
 //    
-//
 //    /// <summary>Returns the componentwise tangent of a float4 vector.</summary>
 //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 //    public static float4 tan(float4 x) { return new float4(tan(x.x), tan(x.y), tan(x.z), tan(x.w)); }
@@ -183,27 +123,9 @@ using System.Runtime.CompilerServices;
 //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 //    public static float4 asin(float4 x) { return new float4(asin(x.x), asin(x.y), asin(x.z), asin(x.w)); }
 //
-//    /// <summary>Returns the result of rounding each component of a float4 vector value to the nearest integral value.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 round(float4 x) { return new float4(round(x.x), round(x.y), round(x.z), round(x.w)); }
-//
-//
-//    /// <summary>Returns the componentwise fractional parts of a float4 vector.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 frac(float4 x) { return x - floor(x); }
-//
-//
-//    /// <summary>Returns the fractional part of a double value.</summary>
-//    
-//    /// <summary>Returns the componentwise reciprocal a float4 vector.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 rcp(float4 x) { return 1.0f / x; }
-//
 //
 //   
-//    /// <summary>Returns the componentwise sign of a float4 value. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 sign(float4 x) { return new float4(sign(x.x), sign(x.y), sign(x.z), sign(x.w)); }
+//    
 //
 //
 //    /// <summary>Returns the componentwise result of raising x to the power y.</summary>
@@ -251,59 +173,7 @@ using System.Runtime.CompilerServices;
 //    public static float4 fmod(float4 x, float4 y) { return new float4(x.x % y.x, x.y % y.y, x.z % y.z, x.w % y.w); }
 //
 //
-//
 //    
-//
-//   
-//    /// <summary>Returns a normalized version of the float4 vector x by scaling it by 1 / length(x).</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 normalize(float4 x) { return rsqrt(dot(x, x)) * x; }
-//
-//
-//    /// <summary>Returns a normalized version of the double2 vector x by scaling it by 1 / length(x).</summary>
-//   
-//    /// <summary>
-//    /// Returns a safe normalized version of the float4 vector x by scaling it by 1 / length(x).
-//    /// Returns the given default value when 1 / length(x) does not produce a finite number.
-//    /// </summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    static public float4 normalizesafe(float4 x, float4 defaultvalue = new float4())
-//    {
-//        float len = math.dot(x, x);
-//        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
-//    }
-//
-//    /// <summary>Returns the length of a float4 vector.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float length(float4 x) { return sqrt(dot(x, x)); }
-//
-//
-//    
-//    /// <summary>Returns the squared length of a float4 vector.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float lengthsq(float4 x) { return dot(x, x); }
-//
-//
-//  
-//    /// <summary>Returns the distance between two float4 vectors.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float distance(float4 x, float4 y) { return length(y - x); }
-//
-//
-//    /// <summary>Returns the distance between two float4 vectors.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float distancesq(float4 x, float4 y) { return lengthsq(y - x); }
-//
-//
-//   
-//
-//    /// <summary>Returns a componentwise smooth Hermite interpolation between 0.0f and 1.0f when x is in [a, b].</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 smoothstep(float4 a, float4 b, float4 x)
-//    {
-//        var t = saturate((x - a) / (b - a));
-//        return t * t * (3.0f - (2.0f * t));
-//    }
 //
 //    /// <summary>Returns true if any components of the input int4 vector is non-zero, false otherwise.</summary>
 //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -335,69 +205,8 @@ using System.Runtime.CompilerServices;
 //    public static bool all(float4 x) { return x.x != 0.0f && x.y != 0.0f && x.z != 0.0f && x.w != 0.0f; }
 //
 //
-//    /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x >= y and 0.0f otherwise.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 step(float4 y, float4 x) { return select(float4(0.0f), float4(1.0f), x >= y); }
+//    
 //
-//
-//    /// <summary>Given an incident vector i and a normal vector n, returns the reflection vector r = i - 2.0f * dot(i, n) * n.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 reflect(float4 i, float4 n) { return i - 2f * n * dot(i, n); }
-//
-//
-//    /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index eta.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 refract(float4 i, float4 n, float eta)
-//    {
-//        float ni = dot(n, i);
-//        float k = 1.0f - eta * eta * (1.0f - ni * ni);
-//        return select(0.0f, eta * i - (eta * ni + sqrt(k)) * n, k >= 0);
-//    }
-//
-//
-//
-//    /// <summary>
-//    /// Compute vector projection of a onto b.
-//    /// </summary>
-//    /// <remarks>
-//    /// Some finite vectors a and b could generate a non-finite result. This is most likely when a's components
-//    /// are very large (close to Single.MaxValue) or when b's components are very small (close to FLT_MIN_NORMAL).
-//    /// In these cases, you can call <see cref="projectsafe(Unity.Mathematics.float4,Unity.Mathematics.float4,Unity.Mathematics.float4)"/>
-//    /// which will use a given default value if the result is not finite.
-//    /// </remarks>
-//    /// <param name="a">Vector to project.</param>
-//    /// <param name="b">Non-zero vector to project onto.</param>
-//    /// <returns>Vector projection of a onto b.</returns>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 project(float4 a, float4 b)
-//    {
-//        return (dot(a, b) / dot(b, b)) * b;
-//    }
-//
-//    /// <summary>
-//    /// Compute vector projection of a onto b. If result is not finite, then return the default value instead.
-//    /// </summary>
-//    /// <remarks>
-//    /// This function performs extra checks to see if the result of projecting a onto b is finite. If you know that
-//    /// your inputs will generate a finite result or you don't care if the result is finite, then you can call
-//    /// <see cref="project(Unity.Mathematics.float4,Unity.Mathematics.float4)"/> instead which is faster than this
-//    /// function.
-//    /// </remarks>
-//    /// <param name="a">Vector to project.</param>
-//    /// <param name="b">Non-zero vector to project onto.</param>
-//    /// <param name="defaultValue">Default value to return if projection is not finite.</param>
-//    /// <returns>Vector projection of a onto b or the default value.</returns>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 projectsafe(float4 a, float4 b, float4 defaultValue = new float4())
-//    {
-//        var proj = project(a, b);
-//
-//        return select(defaultValue, proj, all(isfinite(proj)));
-//    }
-//
-//    /// <summary>Conditionally flips a vector n to face in the direction of i. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 faceforward(float4 n, float4 i, float4 ng) { return select(n, -n, dot(ng, i) >= 0.0f); }
 //
 //    /// <summary>Returns the componentwise sine and cosine of the input float4 vector x through the out parameters s and c.</summary>
 //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -475,42 +284,5 @@ using System.Runtime.CompilerServices;
 //    public static int4 floorlog2(int4 x)
 //    {
 //        return new int4(floorlog2(x.x), floorlog2(x.y), floorlog2(x.z), floorlog2(x.w));
-//    }
-//    /// <summary>Returns the result of a componentwise conversion of a float4 vector from degrees to radians.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 radians(float4 x) { return x * 0.0174532925f; }
-//
-//
-//    /// <summary>Returns the result of a componentwise conversion of a double4 vector from radians to degrees.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 degrees(float4 x) { return x * 57.295779513f; }
-//
-//    /// <summary>Returns the floating point representation of a half-precision floating point vector.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 f16tof32(uint4 x)
-//    {
-//        const uint shifted_exp = (0x7c00 << 13);
-//        uint4 uf = (x & 0x7fff) << 13;
-//        uint4 e = uf & shifted_exp;
-//        uf += (127 - 15) << 23;
-//        uf += select(0, (128u - 16u) << 23, e == shifted_exp);
-//        uf = select(uf, asuint(asfloat(uf + (1 << 23)) - 6.10351563e-05f), e == 0);
-//        uf |= (x & 0x8000) << 16;
-//        return asfloat(uf);
-//    }
-//
-//
-//    /// <summary>Returns the result of a componentwise conversion of a float4 vector to its nearest half-precision floating point representation.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static uint4 f32tof16(float4 x)
-//    {
-//        const int infinity_32 = 255 << 23;
-//        const uint msk = 0x7FFFF000u;
-//
-//        uint4 ux = asuint(x);
-//        uint4 uux = ux & msk;
-//        uint4 h = (uint4)(asint(min(asfloat(uux) * 1.92592994e-34f, 260042752.0f)) + 0x1000) >> 13;   // Clamp to signed infinity if overflowed
-//        h = select(h, select(0x7c00u, 0x7e00u, (int4)uux > infinity_32), (int4)uux >= infinity_32);   // NaN->qNaN and Inf->Inf
-//        return h | (ux & ~msk) >> 16;
 //    }
 //}

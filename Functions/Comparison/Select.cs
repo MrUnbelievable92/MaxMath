@@ -294,7 +294,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.SByte16FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (sbyte16)Mask.Short16FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two byte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
@@ -337,7 +337,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, Mask.SByte16FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, (sbyte16)Mask.Short16FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two sbyte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
@@ -352,7 +352,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short2)Mask.Int2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.Short2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
@@ -388,7 +388,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, int c)
         {
-            return Sse4_1.blendv_epi8(a, b, (short2)Mask.Int2FromInt(c));
+            return Sse4_1.blendv_epi8(a, b, Mask.Short2FromInt(c));
         }
 
         /// <summary>       Returns a componentwise selection between two short3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
@@ -416,7 +416,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, int c)
         {
-            return Avx2.mm256_blendv_epi8(a, b, (short16)Mask.Short16FromInt(c));
+            return Avx2.mm256_blendv_epi8(a, b, Mask.Short16FromInt(c));
         }
 
 

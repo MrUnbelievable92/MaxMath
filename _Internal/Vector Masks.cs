@@ -35,7 +35,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int2 Int2FromInt(int imm8)
         {
-            return new int2((imm8 << 31) >> 31, (imm8 << 30) >> 31);
+            return maxmath.shl(new int2(imm8), new int2(31, 30)) >> 31;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -64,6 +64,12 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static short2 Short2FromInt(int imm8)
+        {
+            return new short2((short)(imm8 << 15), (short)(imm8 << 14)) >> 15;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static short16 Short16FromInt(int imm8)
         {
             int8 broadcast = imm8;
@@ -74,20 +80,6 @@ namespace MaxMath
             short16 signSaturated = Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi16(shiftBoolsToSignBit_Lo, shiftBoolsToSignBit_Hi),
                                                                  Sse.SHUFFLE(3, 1, 2, 0));
             return signSaturated >> 15;
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte16 SByte16FromInt(int imm8)
-        {
-            int8 broadcast = imm8;
-
-            int8 shiftBoolsToSignBit_Lo = maxmath.shl(broadcast, new int8(31, 30, 29, 28, 27, 26, 25, 24));
-            int8 shiftBoolsToSignBit_Hi = maxmath.shl(broadcast, new int8(23, 22, 21, 20, 19, 18, 17, 16));
-
-            short16 signSaturated = Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi16(shiftBoolsToSignBit_Lo, shiftBoolsToSignBit_Hi),
-                                                                 Sse.SHUFFLE(3, 1, 2, 0));
-            return (sbyte16)(signSaturated >> 15);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -8,6 +8,122 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
+        /// <summary>       Returns the bit pattern of a short as a half.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half ashalf(short x)
+        {
+            return *(half*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a short2 as a half2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 ashalf(short2 x)
+        {
+            return *(half2*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a short3 as a half3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 ashalf(short3 x)
+        {
+            return *(half3*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a short4 as a half4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 ashalf(short4 x)
+        {
+            return *(half4*)&x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a ushort as a half.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half ashalf(ushort x)
+        {
+            return *(half*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a ushort2 as a half2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 ashalf(ushort2 x)
+        {
+            return *(half2*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a ushort3 as a half3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 ashalf(ushort3 x)
+        {
+            return *(half3*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a ushort4 as a half4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 ashalf(ushort4 x)
+        {
+            return *(half4*)&x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a half as a short.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short asshort(half x)
+        {
+            return *(short*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half2 as a short2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2 asshort(half2 x)
+        {
+            return *(short2*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half3 as a short3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 asshort(half3 x)
+        {
+            return *(short3*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half4 as a short4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 asshort(half4 x)
+        {
+            return *(short4*)&x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a half as a ushort.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort asushort(half x)
+        {
+            return *(ushort*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half2 as a ushort2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 asushort(half2 x)
+        {
+            return *(ushort2*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half3 as a ushort3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort3 asushort(half3 x)
+        {
+            return *(ushort3*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half4 as a ushort4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 asushort(half4 x)
+        {
+            return *(ushort4*)&x;
+        }
+
+
         /// <summary>       Returns the bit pattern of a float8 as an int8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 asint(float8 x)

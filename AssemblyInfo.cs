@@ -29,7 +29,8 @@ using System.Diagnostics.CodeAnalysis;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.8.0.3")]
-[assembly: AssemblyFileVersion("0.8.0.3")]
+[assembly: AssemblyVersion("0.8.0.4")]
+[assembly: AssemblyFileVersion("0.8.0.4")]
+[assembly: AssemblyInformationalVersion("0.8 Pre-Release")]
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity.Mathematics API consistency")]

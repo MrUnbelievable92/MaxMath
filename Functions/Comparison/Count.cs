@@ -9,121 +9,117 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool2 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 2)]
         public static int count(bool2 v)
         {
-Assert.IsBetween(*(byte*)&v.x, 0, 1);
-Assert.IsBetween(*(byte*)&v.y, 0, 1);
+Assert.IsSafeBoolean(v.x);
+Assert.IsSafeBoolean(v.y);
 
             return math.countbits((int)(*(ushort*)&v));
         }
 
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 3)]
         public static int count(bool3 v)
         {
-Assert.IsBetween(*(byte*)&v.x, 0, 1);
-Assert.IsBetween(*(byte*)&v.y, 0, 1);
-Assert.IsBetween(*(byte*)&v.z, 0, 1);
+Assert.IsSafeBoolean(v.x);
+Assert.IsSafeBoolean(v.y);
+Assert.IsSafeBoolean(v.z);
 
-            return math.countbits(*(int*)&v) & 0x00FF_FFFF;
+            return math.countbits(0x00FF_FFFF & *(int*)&v);
         }
 
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool4 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)]
         public static int count(bool4 v)
         {
-Assert.IsBetween(*(byte*)&v.x, 0, 1);
-Assert.IsBetween(*(byte*)&v.y, 0, 1);
-Assert.IsBetween(*(byte*)&v.z, 0, 1);
-Assert.IsBetween(*(byte*)&v.w, 0, 1);
+Assert.IsSafeBoolean(v.x);
+Assert.IsSafeBoolean(v.y);
+Assert.IsSafeBoolean(v.z);
+Assert.IsSafeBoolean(v.w);
 
             return math.countbits(*(int*)&v);
         }
 
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool8 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
         public static int count(bool8 v)
         {
-Assert.IsBetween(*(byte*)&v.x0, 0, 1);
-Assert.IsBetween(*(byte*)&v.x1, 0, 1);
-Assert.IsBetween(*(byte*)&v.x2, 0, 1);
-Assert.IsBetween(*(byte*)&v.x3, 0, 1);
-Assert.IsBetween(*(byte*)&v.x4, 0, 1);
-Assert.IsBetween(*(byte*)&v.x5, 0, 1);
-Assert.IsBetween(*(byte*)&v.x6, 0, 1);
-Assert.IsBetween(*(byte*)&v.x7, 0, 1);
+Assert.IsSafeBoolean(v.x0);
+Assert.IsSafeBoolean(v.x1);
+Assert.IsSafeBoolean(v.x2);
+Assert.IsSafeBoolean(v.x3);
+Assert.IsSafeBoolean(v.x4);
+Assert.IsSafeBoolean(v.x5);
+Assert.IsSafeBoolean(v.x6);
+Assert.IsSafeBoolean(v.x7);
 
             return math.countbits(v.cast_long);
         }
 
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool16 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
         public static int count(bool16 v)
         {
-Assert.IsBetween(*(byte*)&v.x0, 0, 1);
-Assert.IsBetween(*(byte*)&v.x1, 0, 1);
-Assert.IsBetween(*(byte*)&v.x2, 0, 1);
-Assert.IsBetween(*(byte*)&v.x3, 0, 1);
-Assert.IsBetween(*(byte*)&v.x4, 0, 1);
-Assert.IsBetween(*(byte*)&v.x5, 0, 1);
-Assert.IsBetween(*(byte*)&v.x6, 0, 1);
-Assert.IsBetween(*(byte*)&v.x7, 0, 1);
-Assert.IsBetween(*(byte*)&v.x8, 0, 1);
-Assert.IsBetween(*(byte*)&v.x9, 0, 1);
-Assert.IsBetween(*(byte*)&v.x10, 0, 1);
-Assert.IsBetween(*(byte*)&v.x11, 0, 1);
-Assert.IsBetween(*(byte*)&v.x12, 0, 1);
-Assert.IsBetween(*(byte*)&v.x13, 0, 1);
-Assert.IsBetween(*(byte*)&v.x14, 0, 1);
-Assert.IsBetween(*(byte*)&v.x15, 0, 1);
+Assert.IsSafeBoolean(v.x0);
+Assert.IsSafeBoolean(v.x1);
+Assert.IsSafeBoolean(v.x2);
+Assert.IsSafeBoolean(v.x3);
+Assert.IsSafeBoolean(v.x4);
+Assert.IsSafeBoolean(v.x5);
+Assert.IsSafeBoolean(v.x6);
+Assert.IsSafeBoolean(v.x7);
+Assert.IsSafeBoolean(v.x8);
+Assert.IsSafeBoolean(v.x9);
+Assert.IsSafeBoolean(v.x10);
+Assert.IsSafeBoolean(v.x11);
+Assert.IsSafeBoolean(v.x12);
+Assert.IsSafeBoolean(v.x13);
+Assert.IsSafeBoolean(v.x14);
+Assert.IsSafeBoolean(v.x15);
 
-            return math.countbits(Sse4_1.extract_epi64(v, 0)) + 
-                   math.countbits(Sse4_1.extract_epi64(v, 1));
+            return math.countbits(Sse2.movemask_epi8(Sse2.slli_epi16(v, 7)));
         }
 
-        /// <summary></summary>
+        /// <summary>       Returns the number of true values in a bool32 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 32)]
         public static int count(bool32 v)
         {
-Assert.IsBetween(*(byte*)&v.x0, 0, 1);
-Assert.IsBetween(*(byte*)&v.x1, 0, 1);
-Assert.IsBetween(*(byte*)&v.x2, 0, 1);
-Assert.IsBetween(*(byte*)&v.x3, 0, 1);
-Assert.IsBetween(*(byte*)&v.x4, 0, 1);
-Assert.IsBetween(*(byte*)&v.x5, 0, 1);
-Assert.IsBetween(*(byte*)&v.x6, 0, 1);
-Assert.IsBetween(*(byte*)&v.x7, 0, 1);
-Assert.IsBetween(*(byte*)&v.x8, 0, 1);
-Assert.IsBetween(*(byte*)&v.x9, 0, 1);
-Assert.IsBetween(*(byte*)&v.x10, 0, 1);
-Assert.IsBetween(*(byte*)&v.x11, 0, 1);
-Assert.IsBetween(*(byte*)&v.x12, 0, 1);
-Assert.IsBetween(*(byte*)&v.x13, 0, 1);
-Assert.IsBetween(*(byte*)&v.x14, 0, 1);
-Assert.IsBetween(*(byte*)&v.x15, 0, 1);
-Assert.IsBetween(*(byte*)&v.x16, 0, 1);
-Assert.IsBetween(*(byte*)&v.x17, 0, 1);
-Assert.IsBetween(*(byte*)&v.x18, 0, 1);
-Assert.IsBetween(*(byte*)&v.x19, 0, 1);
-Assert.IsBetween(*(byte*)&v.x20, 0, 1);
-Assert.IsBetween(*(byte*)&v.x21, 0, 1);
-Assert.IsBetween(*(byte*)&v.x22, 0, 1);
-Assert.IsBetween(*(byte*)&v.x23, 0, 1);
-Assert.IsBetween(*(byte*)&v.x24, 0, 1);
-Assert.IsBetween(*(byte*)&v.x25, 0, 1);
-Assert.IsBetween(*(byte*)&v.x26, 0, 1);
-Assert.IsBetween(*(byte*)&v.x27, 0, 1);
-Assert.IsBetween(*(byte*)&v.x28, 0, 1);
-Assert.IsBetween(*(byte*)&v.x29, 0, 1);
-Assert.IsBetween(*(byte*)&v.x30, 0, 1);
-Assert.IsBetween(*(byte*)&v.x31, 0, 1);
+Assert.IsSafeBoolean(v.x0);
+Assert.IsSafeBoolean(v.x1);
+Assert.IsSafeBoolean(v.x2);
+Assert.IsSafeBoolean(v.x3);
+Assert.IsSafeBoolean(v.x4);
+Assert.IsSafeBoolean(v.x5);
+Assert.IsSafeBoolean(v.x6);
+Assert.IsSafeBoolean(v.x7);
+Assert.IsSafeBoolean(v.x8);
+Assert.IsSafeBoolean(v.x9);
+Assert.IsSafeBoolean(v.x10);
+Assert.IsSafeBoolean(v.x11);
+Assert.IsSafeBoolean(v.x12);
+Assert.IsSafeBoolean(v.x13);
+Assert.IsSafeBoolean(v.x14);
+Assert.IsSafeBoolean(v.x15);
+Assert.IsSafeBoolean(v.x16);
+Assert.IsSafeBoolean(v.x17);
+Assert.IsSafeBoolean(v.x18);
+Assert.IsSafeBoolean(v.x19);
+Assert.IsSafeBoolean(v.x20);
+Assert.IsSafeBoolean(v.x21);
+Assert.IsSafeBoolean(v.x22);
+Assert.IsSafeBoolean(v.x23);
+Assert.IsSafeBoolean(v.x24);
+Assert.IsSafeBoolean(v.x25);
+Assert.IsSafeBoolean(v.x26);
+Assert.IsSafeBoolean(v.x27);
+Assert.IsSafeBoolean(v.x28);
+Assert.IsSafeBoolean(v.x29);
+Assert.IsSafeBoolean(v.x30);
+Assert.IsSafeBoolean(v.x31);
 
-            return math.countbits(Avx.mm256_extract_epi64(v, 0)) +
-                   math.countbits(Avx.mm256_extract_epi64(v, 1)) +
-                   math.countbits(Avx.mm256_extract_epi64(v, 2)) +
-                   math.countbits(Avx.mm256_extract_epi64(v, 3));
+            return math.countbits(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(v, 7)));
         }
     }
 }

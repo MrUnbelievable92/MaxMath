@@ -36,20 +36,20 @@ namespace MaxMath
                                  0,
                                  0,
                                  0,
-                                 maxmath.cvt_int8(x7),
-                                 maxmath.cvt_int8(x6),
-                                 maxmath.cvt_int8(x5),
-                                 maxmath.cvt_int8(x4),
-                                 maxmath.cvt_int8(x3),
-                                 maxmath.cvt_int8(x2),
-                                 maxmath.cvt_int8(x1),
-                                 maxmath.cvt_int8(x0));
+                                 maxmath.toint8(x7),
+                                 maxmath.toint8(x6),
+                                 maxmath.toint8(x5),
+                                 maxmath.toint8(x4),
+                                 maxmath.toint8(x3),
+                                 maxmath.toint8(x2),
+                                 maxmath.toint8(x1),
+                                 maxmath.toint8(x0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool x0x8)
         {
-            this = new v128(maxmath.cvt_uint8(x0x8));
+            this = new v128(maxmath.touint8(x0x8));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -108,14 +108,14 @@ namespace MaxMath
         public static implicit operator bool8(v128 input)
         {
 #if UNITY_EDITOR
-            return new bool8 { x0 = maxmath.cvt_boolean(input.Byte0),
-                               x1 = maxmath.cvt_boolean(input.Byte1),
-                               x2 = maxmath.cvt_boolean(input.Byte2),
-                               x3 = maxmath.cvt_boolean(input.Byte3),
-                               x4 = maxmath.cvt_boolean(input.Byte4),
-                               x5 = maxmath.cvt_boolean(input.Byte5),
-                               x6 = maxmath.cvt_boolean(input.Byte6),
-                               x7 = maxmath.cvt_boolean(input.Byte7) };
+            return new bool8 { x0 = maxmath.tobool(input.Byte0),
+                               x1 = maxmath.tobool(input.Byte1),
+                               x2 = maxmath.tobool(input.Byte2),
+                               x3 = maxmath.tobool(input.Byte3),
+                               x4 = maxmath.tobool(input.Byte4),
+                               x5 = maxmath.tobool(input.Byte5),
+                               x6 = maxmath.tobool(input.Byte6),
+                               x7 = maxmath.tobool(input.Byte7) };
 #else
             return new bool8 { cast_long = Sse4_1.extract_epi64(input, 0) }
 #endif
@@ -186,12 +186,12 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool8 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
+        public bool Equals(bool8 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
 
         public override bool Equals(object obj) => Equals((bool8)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash.v128(this);
+        public override int GetHashCode() => 0x00FF & Sse2.movemask_epi8(Sse2.slli_epi16(this, 7));
 
         public override string ToString() => $"bool8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
     }

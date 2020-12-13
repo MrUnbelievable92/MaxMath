@@ -82,12 +82,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt(0, byte.MaxValue + 1);
-                bool4x2 x = maxmath.tobool8(r);
+                bool8 x = maxmath.tobool8(r);
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    result &= x.c0[j] == System.Convert.ToBoolean((r >> j) & 1);
-                    result &= x.c1[j] == System.Convert.ToBoolean((r >> (j + 4)) & 1);
+                    result &= x[j] == System.Convert.ToBoolean((r >> j) & 1);
                 }
             }
 
@@ -104,14 +103,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int r = rng.NextInt(0, ushort.MaxValue + 1);
-                bool4x4 x = maxmath.tobool16(r);
+                bool16 x = maxmath.tobool16(r);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    result &= x.c0[j] == System.Convert.ToBoolean((r >> j) & 1);
-                    result &= x.c1[j] == System.Convert.ToBoolean((r >> (j + 4)) & 1);
-                    result &= x.c2[j] == System.Convert.ToBoolean((r >> (j + 8)) & 1);
-                    result &= x.c3[j] == System.Convert.ToBoolean((r >> (j + 12)) & 1);
+                    result &= x[j] == System.Convert.ToBoolean((r >> j) & 1);
                 }
             }
 

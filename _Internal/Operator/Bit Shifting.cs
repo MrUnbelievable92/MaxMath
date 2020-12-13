@@ -56,7 +56,7 @@ Assert.IsDefinedBitShift<sbyte>(n);
 
             byte32 mask = (byte)(0b1111_1111_0000_0000 >> n);
 
-            byte32 maskedShift = maxmath.andn(shra_short(v, n), mask);
+            byte32 maskedShift = maxmath.andnot(shra_short(v, n), mask);
             byte32 signMask = Avx2.mm256_blendv_epi8(default(v256),     mask,   Avx2.mm256_cmpgt_epi8(default(v256), v));
 
             return maskedShift | signMask;
@@ -171,9 +171,9 @@ Assert.IsDefinedBitShift<sbyte>(n);
             }
             else
             {
-                shiftHi = shra_int(v, 31);
+                shiftHi = Sse2.srai_epi32(v, 31);
                 shiftLo = shra_int(v, n - 32);
-                shiftLo = shrl_long(shiftLo, 32);
+                shiftLo = Sse2.srli_epi64(shiftLo, 32);
             }
 
             return Sse4_1.blend_epi16(shiftLo, shiftHi, 0b1100_1100);
@@ -192,9 +192,9 @@ Assert.IsDefinedBitShift<sbyte>(n);
             }
             else
             {
-                shiftHi = shra_int(v, 31);
+                shiftHi = Avx2.mm256_srai_epi32(v, 31);
                 shiftLo = shra_int(v, n - 32);
-                shiftLo = shrl_long(shiftLo, 32);
+                shiftLo = Avx2.mm256_srli_epi64(shiftLo, 32);
             }
 
             return Avx2.mm256_blend_epi16(shiftLo, shiftHi, 0b1100_1100);

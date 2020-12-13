@@ -296,7 +296,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort16 other) => maxmath.cvt_boolean(Avx.mm256_testc_ps(Avx2.mm256_cmpeq_epi16(this, other), new v256(-1)));
+        public bool Equals(ushort16 other) => maxmath.tobool(Avx.mm256_testc_ps(Avx2.mm256_cmpeq_epi16(this, other), new v256(-1)));
 
         public override bool Equals(object obj) => Equals((ushort16)obj);
     
@@ -306,5 +306,6 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         public override string ToString() =>  $"ushort16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

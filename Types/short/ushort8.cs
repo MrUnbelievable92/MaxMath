@@ -253,7 +253,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort8 other) => maxmath.cvt_boolean(Sse4_1.test_all_ones(Sse2.cmpeq_epi16(this, other)));
+        public bool Equals(ushort8 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi16(this, other)));
 
         public override bool Equals(object obj) => Equals((ushort8)obj);
     
@@ -263,5 +263,6 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         public override string ToString() => $"ushort8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

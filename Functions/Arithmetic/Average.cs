@@ -106,7 +106,7 @@ namespace MaxMath
         {
             int intermediate = x + y;
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 2);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -116,8 +116,8 @@ namespace MaxMath
             short2 result = ((short2)x + (short2)y);
 
             // if intermediate sum is positive add 1
-            short2 mask = Sse2.cmpgt_epi16(result, default(short2));
-            result = (result + (mask & new short2(1))) >> 1;
+            short2 isNegativeMask = Sse2.srai_epi16(result, 15);
+            result = (result + andnot(new short2(1), isNegativeMask)) >> 1;
 
             return (sbyte2)result;
         }
@@ -128,7 +128,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 2);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -138,8 +138,8 @@ namespace MaxMath
             short3 result = ((short3)x + (short3)y);
 
             // if intermediate sum is positive add 1
-            short3 mask = Sse2.cmpgt_epi16(result, default(short3));
-            result = (result + (mask & new short3(1))) >> 1;
+            short3 isNegativeMask = Sse2.srai_epi16(result, 15);
+            result = (result + andnot(new short3(1), isNegativeMask)) >> 1;
 
             return (sbyte3)result;
         }
@@ -150,7 +150,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 3);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 3);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -160,8 +160,8 @@ namespace MaxMath
             short4 result = ((short4)x + (short4)y);
 
             // if intermediate sum is positive add 1
-            short4 mask = Sse2.cmpgt_epi16(result, default(short4));
-            result = (result + (mask & new short4(1))) >> 1;
+            short4 isNegativeMask = Sse2.srai_epi16(result, 15);
+            result = (result + andnot(new short4(1), isNegativeMask)) >> 1;
 
             return (sbyte4)result;
         }
@@ -172,7 +172,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 8);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -182,8 +182,8 @@ namespace MaxMath
             short8 result = ((short8)x + (short8)y);
 
             // if intermediate sum is positive add 1
-            short8 mask = Sse2.cmpgt_epi16(result, default(short8));
-            result = (result + (mask & new short8(1))) >> 1;
+            short8 isNegativeMask = Sse2.srai_epi16(result, 15);
+            result = (result + andnot(new short8(1), isNegativeMask)) >> 1;
 
             return (sbyte8)result;
         }
@@ -194,7 +194,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 8);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -204,8 +204,8 @@ namespace MaxMath
             short16 result = ((short16)x + (short16)y);
 
             // if intermediate sum is positive add 1
-            short16 mask = Avx2.mm256_cmpgt_epi16(result, default(short16));
-            result = (result + (mask & new short16(1))) >> 1;
+            short16 isNegativeMask = Avx2.mm256_srai_epi16(result, 15);
+            result = (result + andnot(new short16(1), isNegativeMask)) >> 1;
 
             return (sbyte16)result;
         }
@@ -216,7 +216,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 16);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 16);
         }
 
         /// <summary>       Returns the componentwise average value of two sbyte32 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -227,10 +227,10 @@ namespace MaxMath
             short16 result_hi = (short16)x.v16_16 + (short16)y.v16_16;
 
             // if intermediate sum is positive add 1
-            short16 mask = Avx2.mm256_cmpgt_epi16(result_lo, default(short16));
-            result_lo = (result_lo + (mask & new short16(1))) >> 1;
-            mask = Avx2.mm256_cmpgt_epi16(result_hi, default(short16));
-            result_hi = (result_hi + (mask & new short16(1))) >> 1;
+            short16 isNegativeMask = Avx2.mm256_srai_epi16(result_lo, 15);
+            result_lo = (result_lo + andnot(new short16(1), isNegativeMask)) >> 1;
+            isNegativeMask = Avx2.mm256_srai_epi16(result_hi, 15);
+            result_hi = (result_hi + andnot(new short16(1), isNegativeMask)) >> 1;
 
             return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi16(result_lo, result_hi), Sse.SHUFFLE(3, 1, 2, 0));
         }
@@ -241,7 +241,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (sbyte)((intermediate + cvt_uint8(intermediate > 0)) / 32);
+            return (sbyte)((intermediate + touint8(intermediate > 0)) / 32);
         }
 
 
@@ -329,7 +329,7 @@ namespace MaxMath
         {
             int intermediate = x + y;
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 2);
+            return (short)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
         /// <summary>       Returns the componentwise average value of two short2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -339,8 +339,8 @@ namespace MaxMath
             int2 result = ((int2)x + (int2)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = Sse2.and_si128(new v128((int)1), Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
-            result = (result + *(int2*)&mask) >> 1;
+            v128 isNegativeMask = Sse2.andnot_si128(Sse2.srai_epi32(*(v128*)&result, 31), new v128((int)1));
+            result = (result + *(int2*)&isNegativeMask) >> 1;
 
             return (short2)result;
         }
@@ -351,7 +351,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 2);
+            return (short)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
         /// <summary>       Returns the componentwise average value of two short3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -361,8 +361,8 @@ namespace MaxMath
             int3 result = ((int3)x + (int3)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = Sse2.and_si128(new v128((int)1), Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
-            result = (result + *(int3*)&mask) >> 1;
+            v128 isNegativeMask = Sse2.andnot_si128(Sse2.srai_epi32(*(v128*)&result, 31), new v128((int)1));
+            result = (result + *(int3*)&isNegativeMask) >> 1;
 
             return (short3)result;
         }
@@ -373,7 +373,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 3);
+            return (short)((intermediate + touint8(intermediate > 0)) / 3);
         }
 
         /// <summary>       Returns the componentwise average value of two short4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -383,8 +383,8 @@ namespace MaxMath
             int4 result = ((int4)x + (int4)y);
 
             // if intermediate sum is positive add 1
-            v128 mask = Sse2.and_si128(new v128((int)1), Sse2.cmpgt_epi32(*(v128*)&result, default(v128)));
-            result = (result + *(int4*)&mask) >> 1;
+            v128 isNegativeMask = Sse2.andnot_si128(Sse2.srai_epi32(*(v128*)&result, 31), new v128((int)1));
+            result = (result + *(int4*)&isNegativeMask) >> 1;
 
             return (short4)result;
         }
@@ -395,7 +395,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 4);
+            return (short)((intermediate + touint8(intermediate > 0)) / 4);
         }
 
         /// <summary>       Returns the componentwise average value of two short8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -405,8 +405,8 @@ namespace MaxMath
             int8 result = ((int8)x + (int8)y);
 
             // if intermediate sum is positive add 1
-            int8 mask = Avx2.mm256_cmpgt_epi32(result, default(int8));
-            result = (result + (mask & new int8(1))) >> 1;
+            int8 isNegativeMask = Avx2.mm256_srai_epi32(result, 31);
+            result = (result + andnot(new int8(1), isNegativeMask)) >> 1;
 
             return Sse2.packs_epi32(Avx.mm256_castsi256_si128(result), 
                                     Avx2.mm256_extracti128_si256(result, 1));
@@ -418,7 +418,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 8);
+            return (short)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
         /// <summary>       Returns the componentwise average value of two short16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -429,10 +429,10 @@ namespace MaxMath
             int8 result_hi = (int8)x.v8_8 + (int8)y.v8_8;
 
             // if intermediate sum is positive add 1
-            int8 mask = Avx2.mm256_cmpgt_epi32(result_lo, default(int8));
-            result_lo = (result_lo + (mask & new int8(1))) >> 1;
-            mask = Avx2.mm256_cmpgt_epi32(result_hi, default(int8));
-            result_hi = (result_hi + (mask & new int8(1))) >> 1;
+            int8 isNegativeMask = Avx2.mm256_srai_epi32(result_lo, 31);
+            result_lo = (result_lo + andnot(new int8(1), isNegativeMask)) >> 1;
+            isNegativeMask = Avx2.mm256_srai_epi32(result_hi, 31);
+            result_hi = (result_hi + andnot(new int8(1), isNegativeMask)) >> 1;
 
             return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi32(result_lo, result_hi), Sse.SHUFFLE(3, 1, 2, 0));
         }
@@ -443,7 +443,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (short)((intermediate + cvt_uint8(intermediate > 0)) / 16);
+            return (short)((intermediate + touint8(intermediate > 0)) / 16);
         }
 
         /////////////////////////////////////////
@@ -521,7 +521,7 @@ namespace MaxMath
         {
             int intermediate = x + y;
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 2;
+            return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
         /// <summary>       Returns the componentwise average value of two int2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -540,7 +540,7 @@ namespace MaxMath
         {
             int intermediate = math.csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 2;
+            return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
         /// <summary>       Returns the componentwise average value of two int3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -559,7 +559,7 @@ namespace MaxMath
         {
             int intermediate = math.csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 3;
+            return (intermediate + touint8(intermediate > 0)) / 3;
         }
 
         /// <summary>       Returns the componentwise average value of two int4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -578,7 +578,7 @@ namespace MaxMath
         {
             int intermediate = math.csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 4;
+            return (intermediate + touint8(intermediate > 0)) / 4;
         }
 
         /// <summary>       Returns the componentwise average value of two int8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -588,8 +588,8 @@ namespace MaxMath
             int8 result = x + y;
 
             // if intermediate sum is positive add 1
-            int8 mask = Avx2.mm256_cmpgt_epi32(result, default(int8));
-            result += mask & new int8(1);
+            int8 isNegativeMask = Avx2.mm256_srai_epi32(result, 31);
+            result += andnot(new int8(1), isNegativeMask);
 
             return result >> 1;
         }
@@ -600,7 +600,7 @@ namespace MaxMath
         {
             int intermediate = csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 8;
+            return (intermediate + touint8(intermediate > 0)) / 8;
         }
 
 
@@ -660,7 +660,7 @@ namespace MaxMath
         {
             long intermediate = x + y;
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 2;
+            return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
         /// <summary>       Returns the componentwise average value of two long2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -670,8 +670,8 @@ namespace MaxMath
             long2 result = x + y;
 
             // if intermediate sum is positive add 1
-            long2 mask = Sse4_2.cmpgt_epi64(result, default(long2));
-            result += mask & new long2(1);
+            long2 isNegativeMask = Sse4_2.cmpgt_epi64(result, default(long2));
+            result += isNegativeMask & new long2(1);
 
             return result >> 1;
         }
@@ -682,7 +682,7 @@ namespace MaxMath
         {
             long intermediate = csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 2;
+            return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
         /// <summary>       Returns the componentwise average value of two long3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -692,8 +692,8 @@ namespace MaxMath
             long3 result = x + y;
 
             // if intermediate sum is positive add 1
-            long3 mask = Avx2.mm256_cmpgt_epi64(result, default(long3));
-            result += mask & new long3(1);
+            long3 isNegativeMask = Avx2.mm256_cmpgt_epi64(result, default(long3));
+            result += isNegativeMask & new long3(1);
 
             return result >> 1;
         }
@@ -704,7 +704,7 @@ namespace MaxMath
         {
             long intermediate = csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 3;
+            return (intermediate + touint8(intermediate > 0)) / 3;
         }
 
         /// <summary>       Returns the componentwise average value of two long4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
@@ -714,8 +714,8 @@ namespace MaxMath
             long4 result = x + y;
 
             // if intermediate sum is positive add 1
-            long4 mask = Avx2.mm256_cmpgt_epi64(result, default(long4));
-            result += mask & new long4(1);
+            long4 isNegativeMask = Avx2.mm256_cmpgt_epi64(result, default(long4));
+            result += isNegativeMask & new long4(1);
 
             return result >> 1;
         }
@@ -726,7 +726,7 @@ namespace MaxMath
         {
             long intermediate = csum(c);
 
-            return (intermediate + cvt_uint8(intermediate > 0)) / 4;
+            return (intermediate + touint8(intermediate > 0)) / 4;
         }
 
 

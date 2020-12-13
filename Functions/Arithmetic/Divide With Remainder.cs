@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst.Intrinsics;
 
 namespace MaxMath
 {
@@ -59,16 +60,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 divrem(byte8 dividend, byte8 divisor, out byte8 remainder)
         {
-            byte8 quotient = new byte8(divrem(dividend.x0, divisor.x0, out byte x0),
-                                       divrem(dividend.x1, divisor.x1, out byte x1),
-                                       divrem(dividend.x2, divisor.x2, out byte x2),
-                                       divrem(dividend.x3, divisor.x3, out byte x3),
-                                       divrem(dividend.x4, divisor.x4, out byte x4),
-                                       divrem(dividend.x5, divisor.x5, out byte x5),
-                                       divrem(dividend.x6, divisor.x6, out byte x6),
-                                       divrem(dividend.x7, divisor.x7, out byte x7));
+            byte8 quotient = (v128)Operator.vdivrem_byte((v128)dividend, (v128)divisor, out byte16 remainders);
 
-            remainder = new byte8(x0, x1, x2, x3, x4, x5, x6, x7);
+            remainder = (v128)remainders;
 
             return quotient;
         }
@@ -141,16 +135,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 divrem(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
-            sbyte8 quotient = new sbyte8(divrem(dividend.x0, divisor.x0, out sbyte x0),
-                                         divrem(dividend.x1, divisor.x1, out sbyte x1),
-                                         divrem(dividend.x2, divisor.x2, out sbyte x2),
-                                         divrem(dividend.x3, divisor.x3, out sbyte x3),
-                                         divrem(dividend.x4, divisor.x4, out sbyte x4),
-                                         divrem(dividend.x5, divisor.x5, out sbyte x5),
-                                         divrem(dividend.x6, divisor.x6, out sbyte x6),
-                                         divrem(dividend.x7, divisor.x7, out sbyte x7));
+            sbyte8 quotient = (v128)Operator.vdivrem_sbyte((v128)dividend, (v128)divisor, out sbyte16 remainders);
 
-            remainder = new sbyte8(x0, x1, x2, x3, x4, x5, x6, x7);
+            remainder = (v128)remainders;
 
             return quotient;
         }

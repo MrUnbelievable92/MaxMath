@@ -333,22 +333,23 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsFalse(v128 input) 
         {
-            int result = maxmath.andn(0x0001_0101, Sse4_1.extract_epi32((byte3)(ushort3)input, 0));
+            int result = maxmath.andnot(0x0001_0101, Sse4_1.extract_epi32((byte3)(ushort3)input, 0));
 
             return *(bool3*)&result;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort3 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi16(this, other), new v128(-1, -1, -1, 0, 0, 0, 0, 0)));
+        public bool Equals(ushort3 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi16(this, other), new v128(-1, -1, -1, 0, 0, 0, 0, 0)));
 
         public override bool Equals(object obj) => Equals((ushort3)obj);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => (Sse4_1.extract_epi32(this, 0) ^ Sse2.extract_epi16(this, 2)) ^ (Sse2.extract_epi16(this, 2) << 16);
+        public override int GetHashCode() => Hash.v48(this);
 
 
         public override string ToString() => $"ushort3({x}, {y}, {z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
     }
 }

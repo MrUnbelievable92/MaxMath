@@ -586,14 +586,14 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool4 TestIsFalse(v128 input)
         {
-            int result = maxmath.andn(0x0101_0101, Sse4_1.extract_epi32(input, 0));
+            int result = maxmath.andnot(0x0101_0101, Sse4_1.extract_epi32(input, 0));
 
             return *(bool4*)&result;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte4 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1, -1, 0, 0, 0, 0, 0, 0)));
+        public bool Equals(byte4 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1, -1, 0, 0, 0, 0, 0, 0)));
 
         public override bool Equals(object obj) => Equals((byte4)obj);
 
@@ -603,5 +603,6 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         public override string ToString() => $"byte4({x}, {y}, {z}, {w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

@@ -25,7 +25,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testz(int4 a, int4 b)
         {
-            return cvt_boolean(Avx.testz_ps(*(v128*)&a, *(v128*)&b));
+            return tobool(Avx.testz_ps(*(v128*)&a, *(v128*)&b));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

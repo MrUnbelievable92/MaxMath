@@ -241,7 +241,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(int8 other) => maxmath.cvt_boolean(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi32(this, other), new v256(-1)));
+        public bool Equals(int8 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi32(this, other), new v256(-1)));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj) => Equals((int8)obj);
@@ -251,5 +251,6 @@ Assert.IsWithinArrayBounds(index, 8);
         public override int GetHashCode() => Hash.v256(this);
 
         public override string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"uint8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

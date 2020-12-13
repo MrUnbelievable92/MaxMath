@@ -349,14 +349,14 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsFalse(v128 input)
         {
-            int result = maxmath.andn(0x0001_0101, Sse4_1.extract_epi32(input, 0));
+            int result = maxmath.andnot(0x0001_0101, Sse4_1.extract_epi32(input, 0));
 
             return *(bool3*)&result;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte3 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(0x0000_0000_00FF_FFFFul, 0ul)));
+        public bool Equals(byte3 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(0x0000_0000_00FF_FFFFul, 0ul)));
 
         public override bool Equals(object obj) => Equals((byte3)obj);
     
@@ -366,5 +366,6 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         public override string ToString() => $"byte3({x}, {y}, {z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
     }
 }

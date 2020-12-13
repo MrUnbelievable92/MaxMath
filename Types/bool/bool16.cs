@@ -35,28 +35,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15)
         {
-            this = Sse2.set_epi8(maxmath.cvt_int8(x15),
-                                 maxmath.cvt_int8(x14),
-                                 maxmath.cvt_int8(x13),
-                                 maxmath.cvt_int8(x12),
-                                 maxmath.cvt_int8(x11),
-                                 maxmath.cvt_int8(x10),
-                                 maxmath.cvt_int8(x9),
-                                 maxmath.cvt_int8(x8),
-                                 maxmath.cvt_int8(x7),
-                                 maxmath.cvt_int8(x6),
-                                 maxmath.cvt_int8(x5),
-                                 maxmath.cvt_int8(x4),
-                                 maxmath.cvt_int8(x3),
-                                 maxmath.cvt_int8(x2),
-                                 maxmath.cvt_int8(x1),
-                                 maxmath.cvt_int8(x0));
+            this = Sse2.set_epi8(maxmath.toint8(x15),
+                                 maxmath.toint8(x14),
+                                 maxmath.toint8(x13),
+                                 maxmath.toint8(x12),
+                                 maxmath.toint8(x11),
+                                 maxmath.toint8(x10),
+                                 maxmath.toint8(x9),
+                                 maxmath.toint8(x8),
+                                 maxmath.toint8(x7),
+                                 maxmath.toint8(x6),
+                                 maxmath.toint8(x5),
+                                 maxmath.toint8(x4),
+                                 maxmath.toint8(x3),
+                                 maxmath.toint8(x2),
+                                 maxmath.toint8(x1),
+                                 maxmath.toint8(x0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16(bool x0x16)
         {
-            this = new v128(maxmath.cvt_uint8(x0x16));
+            this = new v128(maxmath.touint8(x0x16));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -130,7 +130,7 @@ namespace MaxMath
         public static implicit operator v128(bool16 input) => new v128(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v128 x)
-        public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.cvt_boolean(input.Byte0), x1 = maxmath.cvt_boolean(input.Byte1), x2 = maxmath.cvt_boolean(input.Byte2), x3 = maxmath.cvt_boolean(input.Byte3), x4 = maxmath.cvt_boolean(input.Byte4), x5 = maxmath.cvt_boolean(input.Byte5), x6 = maxmath.cvt_boolean(input.Byte6), x7 = maxmath.cvt_boolean(input.Byte7), x8 = maxmath.cvt_boolean(input.Byte8), x9 = maxmath.cvt_boolean(input.Byte9), x10 = maxmath.cvt_boolean(input.Byte10), x11 = maxmath.cvt_boolean(input.Byte11), x12 = maxmath.cvt_boolean(input.Byte12), x13 = maxmath.cvt_boolean(input.Byte13), x14 = maxmath.cvt_boolean(input.Byte14), x15 = maxmath.cvt_boolean(input.Byte15)};
+        public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15)};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool16(bool v) => new bool16(v);
@@ -191,12 +191,12 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool16 other) => maxmath.cvt_boolean(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
+        public bool Equals(bool16 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
 
         public override bool Equals(object obj) => Equals((bool16)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Hash.v128(this);
+        public override int GetHashCode() => Sse2.movemask_epi8(Sse2.slli_epi16(this, 7));
 
         public override string ToString() => $"bool16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
     }

@@ -24,7 +24,7 @@ Assert.IsBetween(imm8, 0, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool3(int imm8)
         {
-            // no need for cvt_boolean, which checks for range [0, 1]
+            // no need for tobool, which checks for range [0, 1]
 
             byte3 temp = (byte3)(1 & shrl(imm8, new int3(0, 1, 2)));
 
@@ -35,7 +35,7 @@ Assert.IsBetween(imm8, 0, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool4(int imm8)
         {
-            // no need for cvt_boolean, which checks for range [0, 1]
+            // no need for tobool, which checks for range [0, 1]
 
             byte4 temp = (byte4)(1 & shrl(imm8, new int4(0, 1, 2, 3)));
 
@@ -46,7 +46,7 @@ Assert.IsBetween(imm8, 0, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool8(int imm8)
         {
-            // no need for cvt_boolean, which checks for range [0, 1]
+            // no need for tobool, which checks for range [0, 1]
 
             return (v128)((byte8)(1 & shrl(imm8, new int8(0, 1, 2, 3, 4, 5, 6, 7))));
         }
@@ -57,7 +57,7 @@ Assert.IsBetween(imm8, 0, 3);
         {
 Assert.IsBetween(imm8, 0, ushort.MaxValue);
 
-            // no need for cvt_boolean, which checks for range [0, 1]
+            // no need for tobool, which checks for range [0, 1]
 
             int8 broadcast = imm8;
 
@@ -73,7 +73,7 @@ Assert.IsBetween(imm8, 0, ushort.MaxValue);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 tobool32(int imm8)
         {
-            // no need for cvt_boolean, which checks for range [0, 1]
+            // no need for tobool, which checks for range [0, 1]
 
             int8 broadcast = imm8;
 

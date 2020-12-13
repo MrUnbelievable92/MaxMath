@@ -34,14 +34,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(0, 8)] 
         public static int first(bool8 x)
         {
-Assert.IsBetween(*(byte*)&x.x0, 0, 1);
-Assert.IsBetween(*(byte*)&x.x1, 0, 1);
-Assert.IsBetween(*(byte*)&x.x2, 0, 1);
-Assert.IsBetween(*(byte*)&x.x3, 0, 1);
-Assert.IsBetween(*(byte*)&x.x4, 0, 1);
-Assert.IsBetween(*(byte*)&x.x5, 0, 1);
-Assert.IsBetween(*(byte*)&x.x6, 0, 1);
-Assert.IsBetween(*(byte*)&x.x7, 0, 1);
+Assert.IsSafeBoolean(x.x0);
+Assert.IsSafeBoolean(x.x1);
+Assert.IsSafeBoolean(x.x2);
+Assert.IsSafeBoolean(x.x3);
+Assert.IsSafeBoolean(x.x4);
+Assert.IsSafeBoolean(x.x5);
+Assert.IsSafeBoolean(x.x6);
+Assert.IsSafeBoolean(x.x7);
 
             return math.tzcnt(x.cast_long) / 8;
         }
@@ -50,64 +50,64 @@ Assert.IsBetween(*(byte*)&x.x7, 0, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(0, 16)]
         public static int first(bool16 x)
         {
-Assert.IsBetween(*(byte*)&x.x0,  0, 1);
-Assert.IsBetween(*(byte*)&x.x1,  0, 1);
-Assert.IsBetween(*(byte*)&x.x2,  0, 1);
-Assert.IsBetween(*(byte*)&x.x3,  0, 1);
-Assert.IsBetween(*(byte*)&x.x4,  0, 1);
-Assert.IsBetween(*(byte*)&x.x5,  0, 1);
-Assert.IsBetween(*(byte*)&x.x6,  0, 1);
-Assert.IsBetween(*(byte*)&x.x7,  0, 1);
-Assert.IsBetween(*(byte*)&x.x8,  0, 1);
-Assert.IsBetween(*(byte*)&x.x9,  0, 1);
-Assert.IsBetween(*(byte*)&x.x10, 0, 1);
-Assert.IsBetween(*(byte*)&x.x11, 0, 1);
-Assert.IsBetween(*(byte*)&x.x12, 0, 1);
-Assert.IsBetween(*(byte*)&x.x13, 0, 1);
-Assert.IsBetween(*(byte*)&x.x14, 0, 1);
-Assert.IsBetween(*(byte*)&x.x15, 0, 1);
+Assert.IsSafeBoolean(x.x0);
+Assert.IsSafeBoolean(x.x1);
+Assert.IsSafeBoolean(x.x2);
+Assert.IsSafeBoolean(x.x3);
+Assert.IsSafeBoolean(x.x4);
+Assert.IsSafeBoolean(x.x5);
+Assert.IsSafeBoolean(x.x6);
+Assert.IsSafeBoolean(x.x7);
+Assert.IsSafeBoolean(x.x8);
+Assert.IsSafeBoolean(x.x9);
+Assert.IsSafeBoolean(x.x10);
+Assert.IsSafeBoolean(x.x11);
+Assert.IsSafeBoolean(x.x12);
+Assert.IsSafeBoolean(x.x13);
+Assert.IsSafeBoolean(x.x14);
+Assert.IsSafeBoolean(x.x15);
 
-            return math.tzcnt(Sse2.movemask_epi8(Operator.shl_short(x, 7)));
+            return math.tzcnt(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool32 vector or 32 if none are true.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(0, 32)]
         public static int first(bool32 x)
         {
-Assert.IsBetween(*(byte*)&x.x0,  0, 1);
-Assert.IsBetween(*(byte*)&x.x1,  0, 1);
-Assert.IsBetween(*(byte*)&x.x2,  0, 1);
-Assert.IsBetween(*(byte*)&x.x3,  0, 1);
-Assert.IsBetween(*(byte*)&x.x4,  0, 1);
-Assert.IsBetween(*(byte*)&x.x5,  0, 1);
-Assert.IsBetween(*(byte*)&x.x6,  0, 1);
-Assert.IsBetween(*(byte*)&x.x7,  0, 1);
-Assert.IsBetween(*(byte*)&x.x8,  0, 1);
-Assert.IsBetween(*(byte*)&x.x9,  0, 1);
-Assert.IsBetween(*(byte*)&x.x10, 0, 1);
-Assert.IsBetween(*(byte*)&x.x11, 0, 1);
-Assert.IsBetween(*(byte*)&x.x12, 0, 1);
-Assert.IsBetween(*(byte*)&x.x13, 0, 1);
-Assert.IsBetween(*(byte*)&x.x14, 0, 1);
-Assert.IsBetween(*(byte*)&x.x15, 0, 1);
-Assert.IsBetween(*(byte*)&x.x16, 0, 1);
-Assert.IsBetween(*(byte*)&x.x17, 0, 1);
-Assert.IsBetween(*(byte*)&x.x18, 0, 1);
-Assert.IsBetween(*(byte*)&x.x19, 0, 1);
-Assert.IsBetween(*(byte*)&x.x20, 0, 1);
-Assert.IsBetween(*(byte*)&x.x21, 0, 1);
-Assert.IsBetween(*(byte*)&x.x22, 0, 1);
-Assert.IsBetween(*(byte*)&x.x23, 0, 1);
-Assert.IsBetween(*(byte*)&x.x24, 0, 1);
-Assert.IsBetween(*(byte*)&x.x25, 0, 1);
-Assert.IsBetween(*(byte*)&x.x26, 0, 1);
-Assert.IsBetween(*(byte*)&x.x27, 0, 1);
-Assert.IsBetween(*(byte*)&x.x28, 0, 1);
-Assert.IsBetween(*(byte*)&x.x29, 0, 1);
-Assert.IsBetween(*(byte*)&x.x30, 0, 1);
-Assert.IsBetween(*(byte*)&x.x31, 0, 1);
+Assert.IsSafeBoolean(x.x0);
+Assert.IsSafeBoolean(x.x1);
+Assert.IsSafeBoolean(x.x2);
+Assert.IsSafeBoolean(x.x3);
+Assert.IsSafeBoolean(x.x4);
+Assert.IsSafeBoolean(x.x5);
+Assert.IsSafeBoolean(x.x6);
+Assert.IsSafeBoolean(x.x7);
+Assert.IsSafeBoolean(x.x8);
+Assert.IsSafeBoolean(x.x9);
+Assert.IsSafeBoolean(x.x10);
+Assert.IsSafeBoolean(x.x11);
+Assert.IsSafeBoolean(x.x12);
+Assert.IsSafeBoolean(x.x13);
+Assert.IsSafeBoolean(x.x14);
+Assert.IsSafeBoolean(x.x15);
+Assert.IsSafeBoolean(x.x16);
+Assert.IsSafeBoolean(x.x17);
+Assert.IsSafeBoolean(x.x18);
+Assert.IsSafeBoolean(x.x19);
+Assert.IsSafeBoolean(x.x20);
+Assert.IsSafeBoolean(x.x21);
+Assert.IsSafeBoolean(x.x22);
+Assert.IsSafeBoolean(x.x23);
+Assert.IsSafeBoolean(x.x24);
+Assert.IsSafeBoolean(x.x25);
+Assert.IsSafeBoolean(x.x26);
+Assert.IsSafeBoolean(x.x27);
+Assert.IsSafeBoolean(x.x28);
+Assert.IsSafeBoolean(x.x29);
+Assert.IsSafeBoolean(x.x30);
+Assert.IsSafeBoolean(x.x31);
 
-            return math.tzcnt(Avx2.mm256_movemask_epi8(Operator.shl_short(x, 7)));
+            return math.tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
         }
     }
 }

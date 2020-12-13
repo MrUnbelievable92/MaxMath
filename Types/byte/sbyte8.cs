@@ -191,14 +191,14 @@ Assert.IsWithinArrayBounds(index, 8);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator * (sbyte8 lhs, sbyte8 rhs) => (sbyte8)((short8)lhs * (short8)rhs);
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator / (sbyte8 lhs, sbyte8 rhs) => new sbyte8((sbyte)(lhs.x0 / rhs.x0),    (sbyte)(lhs.x1 / rhs.x1),    (sbyte)(lhs.x2 / rhs.x2),    (sbyte)(lhs.x3 / rhs.x3),    (sbyte)(lhs.x4 / rhs.x4),    (sbyte)(lhs.x5 / rhs.x5),    (sbyte)(lhs.x6 / rhs.x6),    (sbyte)(lhs.x7 / rhs.x7));
-    
+        public static sbyte8 operator / (sbyte8 lhs, sbyte8 rhs) => (v128)Operator.vdiv_sbyte((v128)lhs, (v128)rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator % (sbyte8 lhs, sbyte8 rhs) => new sbyte8((sbyte)(lhs.x0 % rhs.x0),    (sbyte)(lhs.x1 % rhs.x1),    (sbyte)(lhs.x2 % rhs.x2),    (sbyte)(lhs.x3 % rhs.x3),    (sbyte)(lhs.x4 % rhs.x4),    (sbyte)(lhs.x5 % rhs.x5),    (sbyte)(lhs.x6 % rhs.x6),    (sbyte)(lhs.x7 % rhs.x7));
-    
-    
+        public static sbyte8 operator % (sbyte8 lhs, sbyte8 rhs) => (v128)Operator.vrem_sbyte((v128)lhs, (v128)rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator & (sbyte8 lhs, sbyte8 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -263,15 +263,16 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte8 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
+        public bool Equals(sbyte8 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
 
         public override bool Equals(object obj) => Equals((sbyte8)obj);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0) ^ Sse4_1.extract_epi32(this, 1);
+        public override int GetHashCode() => Hash.v64(this);
 
 
         public override string ToString() => $"sbyte8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

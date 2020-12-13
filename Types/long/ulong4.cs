@@ -561,14 +561,14 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool4 TestIsFalse(v256 input)
         {
-            int cast = maxmath.andn(0x0101_0101, Avx2.mm256_movemask_epi8(input));
+            int cast = maxmath.andnot(0x0101_0101, Avx2.mm256_movemask_epi8(input));
 
             return *(bool4*)&cast;
         }
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ulong4 other) => maxmath.cvt_boolean(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1)));
+        public bool Equals(ulong4 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1)));
 
         public override bool Equals(object obj) => Equals((ulong4)obj);
 
@@ -578,5 +578,6 @@ Assert.IsWithinArrayBounds(index, 4);
     
 
         public override string ToString() => $"ulong4({x}, {y}, {z}, {w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ulong4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

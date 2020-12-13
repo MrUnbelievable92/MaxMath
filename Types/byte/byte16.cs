@@ -309,7 +309,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte16 other) => maxmath.cvt_boolean(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
+        public bool Equals(byte16 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
 
         public override bool Equals(object obj) => Equals((byte16)obj);
     
@@ -319,5 +319,6 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         public override string ToString() =>  $"byte16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

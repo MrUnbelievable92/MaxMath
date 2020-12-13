@@ -6,6 +6,14 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+    // Even though the code size is "large" and the C# source looks like a mess, 
+    // this division algorithm is about FIVE times faster (byte16 case) that scalar division of bytes when compiled natively.
+
+    // There is no compare_greater instruction for unsigned types in <= Avx2. For the byte16 case, it is faster to up-/downcast to unsigned shorts,
+    // because the Operator.greater_mask_byte, which is called eight times, consists of two XOR's and one compare instruction.
+
+    // The first and last loop iterations are inlined by hand, in order to not perform two unnecessary bitshift operations during the first iteration
+    // and operations on the now unneeded remainders and/or quotients during the last iteration
     unsafe internal static partial class Operator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -44,72 +52,36 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            ushort16 quotients_lo = default(ushort16);
-            ushort16 remainders_lo = default(ushort16);
-
-            ushort16 divisorCast_lo = divisor.v16_0;
-            ushort16 dividendCast_lo = dividend.v16_0;
+            byte32 quotients = default(byte32); 
+            remainder = default(byte32);
 
 
-            remainders_lo |= (new ushort16(1) & (dividendCast_lo >> 7));
+            remainder |= (new byte32(1) & (dividend >> 7));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
 
-            remainders_lo -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_lo |= new ushort16(1) & subtractDivisorFromRemainder;
+            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+            quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
-            divrem_LOOPHEAD(6, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(5, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(4, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(3, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(2, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(1, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
+            divrem_LOOPHEAD_epi8(6, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(5, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(4, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(3, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(2, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(1, ref quotients, ref remainder, in divisor, in dividend);
 
-            remainders_lo <<= 1;;
-            quotients_lo <<= 1;
+            remainder <<= 1;;
+            quotients <<= 1;
 
-            remainders_lo |= new ushort16(1) & dividendCast_lo;
+            remainder |= new byte32(1) & dividend;
 
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
 
-            remainders_lo -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_lo |= new ushort16(1) & subtractDivisorFromRemainder;
-
-
-            ushort16 quotients_hi = default(ushort16);
-            ushort16 remainders_hi = default(ushort16);
-
-            divisorCast_lo = divisor.v16_16;
-            dividendCast_lo = dividend.v16_16;
+            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+            quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
 
-            remainders_hi |= (new ushort16(1) & (dividendCast_lo >> 7));
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            remainders_hi -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_hi |= new ushort16(1) & subtractDivisorFromRemainder;
-
-            divrem_LOOPHEAD(6, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(5, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(4, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(3, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(2, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(1, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-
-            remainders_hi <<= 1;;
-            quotients_hi <<= 1;
-
-            remainders_hi |= new ushort16(1) & dividendCast_lo;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            remainders_hi -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_hi |= new ushort16(1) & subtractDivisorFromRemainder;
-
-
-            remainder = Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(remainders_lo, remainders_hi), Sse.SHUFFLE(3, 1, 2, 0));
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(quotients_lo, quotients_hi), Sse.SHUFFLE(3, 1, 2, 0));
+            return quotients;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -148,69 +120,35 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            ushort16 quotients_lo = default(ushort16);
-            ushort16 remainders_lo = default(ushort16);
-
-            ushort16 divisorCast_lo = divisor.v16_0;
-            ushort16 dividendCast_lo = dividend.v16_0;
+            byte32 quotients = default(byte32);
+            byte32 remainder = default(byte32);
 
 
-            remainders_lo |= (new ushort16(1) & (dividendCast_lo >> 7));
+            remainder |= (new byte32(1) & (dividend >> 7));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
 
-            remainders_lo -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_lo |= new ushort16(1) & subtractDivisorFromRemainder;
+            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+            quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
-            divrem_LOOPHEAD(6, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(5, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(4, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(3, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(2, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(1, ref quotients_lo, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
+            divrem_LOOPHEAD_epi8(6, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(5, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(4, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(3, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(2, ref quotients, ref remainder, in divisor, in dividend);
+            divrem_LOOPHEAD_epi8(1, ref quotients, ref remainder, in divisor, in dividend);
 
-            remainders_lo <<= 1;;
-            quotients_lo <<= 1;
+            remainder <<= 1;;
+            quotients <<= 1;
 
-            remainders_lo |= new ushort16(1) & dividendCast_lo;
+            remainder |= new byte32(1) & dividend;
 
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
 
-            quotients_lo |= new ushort16(1) & subtractDivisorFromRemainder;
-
-
-            ushort16 quotients_hi = default(ushort16);
-            ushort16 remainders_hi = default(ushort16);
-
-            divisorCast_lo = divisor.v16_16;
-            dividendCast_lo = dividend.v16_16;
+            quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
 
-            remainders_hi |= (new ushort16(1) & (dividendCast_lo >> 7));
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            remainders_hi -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-            quotients_hi |= new ushort16(1) & subtractDivisorFromRemainder;
-
-            divrem_LOOPHEAD(6, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(5, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(4, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(3, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(2, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            divrem_LOOPHEAD(1, ref quotients_hi, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-
-            remainders_hi <<= 1;;
-            quotients_hi <<= 1;
-
-            remainders_hi |= new ushort16(1) & dividendCast_lo;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            quotients_hi |= new ushort16(1) & subtractDivisorFromRemainder;
-
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(quotients_lo, quotients_hi), Sse.SHUFFLE(3, 1, 2, 0));
+            return quotients;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -249,63 +187,32 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            ushort16 remainders_lo = default(ushort16);
-
-            ushort16 divisorCast_lo = divisor.v16_0;
-            ushort16 dividendCast_lo = dividend.v16_0;
+            byte32 remainders = default(byte32);
 
 
-            remainders_lo |= (new ushort16(1) & (dividendCast_lo >> 7));
+            remainders |= (new byte32(1) & (dividend >> 7));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainders), new v256(-1));
 
-            remainders_lo -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
+            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
 
-            rem_LOOPHEAD(6, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(5, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(4, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(3, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(2, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(1, ref remainders_lo, in divisorCast_lo, in dividendCast_lo);
+            rem_LOOPHEAD_epi8(6, ref remainders, in divisor, in dividend);
+            rem_LOOPHEAD_epi8(5, ref remainders, in divisor, in dividend);
+            rem_LOOPHEAD_epi8(4, ref remainders, in divisor, in dividend);
+            rem_LOOPHEAD_epi8(3, ref remainders, in divisor, in dividend);
+            rem_LOOPHEAD_epi8(2, ref remainders, in divisor, in dividend);
+            rem_LOOPHEAD_epi8(1, ref remainders, in divisor, in dividend);
 
-            remainders_lo <<= 1;;
+            remainders <<= 1;;
 
-            remainders_lo |= new ushort16(1) & dividendCast_lo;
+            remainders |= new byte32(1) & dividend;
 
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_lo), new v256(-1));
+            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainders), new v256(-1));
 
-            remainders_lo -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-
-
-            ushort16 remainders_hi = default(ushort16);
-
-            divisorCast_lo = divisor.v16_16;
-            dividendCast_lo = dividend.v16_16;
+            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
 
 
-            remainders_hi |= (new ushort16(1) & (dividendCast_lo >> 7));
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            remainders_hi -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-
-            rem_LOOPHEAD(6, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(5, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(4, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(3, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(2, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-            rem_LOOPHEAD(1, ref remainders_hi, in divisorCast_lo, in dividendCast_lo);
-
-            remainders_hi <<= 1;;
-
-            remainders_hi |= new ushort16(1) & dividendCast_lo;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast_lo, remainders_hi), new v256(-1));
-
-            remainders_hi -= Avx2.mm256_blendv_epi8(default(v256), divisorCast_lo, subtractDivisorFromRemainder);
-
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(remainders_lo, remainders_hi), Sse.SHUFFLE(3, 1, 2, 0));
+            return remainders;
         }
 
 
@@ -319,7 +226,7 @@ Assert.AreNotEqual(divisor.x31, 0);
             remainder = Avx2.mm256_blendv_epi8(remainders, -((sbyte32)remainders), mustNegate);
 
             mustNegate = Avx2.mm256_xor_si256(Avx2.mm256_cmpgt_epi8(default(sbyte32), divisor),
-                                                  Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend));
+                                              Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend));
 
             return Avx2.mm256_blendv_epi8(quotient, -((sbyte32)quotient), mustNegate);
         }
@@ -380,12 +287,12 @@ Assert.AreNotEqual(divisor.x15, 0);
             remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
             quotients |= new ushort16(1) & subtractDivisorFromRemainder;
 
-            divrem_LOOPHEAD(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
 
             remainders <<= 1;
             quotients <<= 1;
@@ -436,12 +343,12 @@ Assert.AreNotEqual(divisor.x15, 0);
             remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
             quotients |= new ushort16(1) & subtractDivisorFromRemainder;
 
-            divrem_LOOPHEAD(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
+            divrem_LOOPHEAD_epi16(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
 
             remainders <<= 1;
             quotients <<= 1;
@@ -488,12 +395,12 @@ Assert.AreNotEqual(divisor.x15, 0);
 
             remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
 
-            rem_LOOPHEAD(6, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD(5, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD(4, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD(3, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD(2, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD(1, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(6, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(5, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(4, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(3, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(2, ref remainders, in divisorCast, in dividendCast);
+            rem_LOOPHEAD_epi16(1, ref remainders, in divisorCast, in dividendCast);
 
             remainders <<= 1;
 
@@ -518,7 +425,7 @@ Assert.AreNotEqual(divisor.x15, 0);
             remainder = Sse4_1.blendv_epi8(remainders, -((sbyte16)remainders), mustNegate);
 
             mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(default(sbyte16), divisor),
-                                            Sse2.cmpgt_epi8(default(sbyte16), dividend));
+                                        Sse2.cmpgt_epi8(default(sbyte16), dividend));
 
             return Sse4_1.blendv_epi8(quotient, -((sbyte16)quotient), mustNegate);
         }
@@ -546,7 +453,7 @@ Assert.AreNotEqual(divisor.x15, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void divrem_LOOPHEAD(int i, ref ushort16 quotients, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
+        private static void divrem_LOOPHEAD_epi16(int i, ref ushort16 quotients, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
         {
             quotients <<= 1;
             remainders <<= 1;
@@ -560,13 +467,40 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void rem_LOOPHEAD(int i, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
+        private static void rem_LOOPHEAD_epi16(int i, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
         {
             remainders <<= 1;
 
             remainders |= (new ushort16(1) & (dividendCast >> i));
 
             v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
+
+            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void divrem_LOOPHEAD_epi8(int i, ref byte32 quotients, ref byte32 remainders, in byte32 divisorCast, in byte32 dividendCast)
+        {
+            quotients <<= 1;
+            remainders <<= 1;
+
+            remainders |= (new byte32(1) & (dividendCast >> i));
+
+            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisorCast, remainders), new v256(-1));
+
+            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+            quotients |= new byte32(1) & subtractDivisorFromRemainder;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void rem_LOOPHEAD_epi8(int i, ref byte32 remainders, in byte32 divisorCast, in byte32 dividendCast)
+        {
+            remainders <<= 1;
+
+            remainders |= (new byte32(1) & (dividendCast >> i));
+
+            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisorCast, remainders), new v256(-1));
 
             remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
         }

@@ -8,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the unsigned angle between two non-normalized float2 vectors in radians.         </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized float2 (origin) vectors in radians.         </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angle(float2 a, float2 b)
         {
@@ -20,7 +20,7 @@ namespace MaxMath
             return math.acos(math.dot(b, a) * math.rsqrt(temp.x));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized float3 vectors in radians.         </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized float3 (origin) vectors in radians.         </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angle(float3 a, float3 b)
         {
@@ -28,7 +28,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the unsigned angle between two non-normalized double2 vectors in radians.         </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized double2 (origin) vectors in radians.         </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angle(double2 a, double2 b)
         {
@@ -40,7 +40,7 @@ namespace MaxMath
             return math.acos(math.dot(b, a) * math.rsqrt(temp.x));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized double3 vectors in radians.         </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized double3 (origin) vectors in radians.         </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angle(double3 a, double3 b)
         {

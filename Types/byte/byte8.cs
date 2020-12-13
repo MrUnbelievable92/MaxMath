@@ -193,10 +193,10 @@ Assert.IsWithinArrayBounds(index, 8);
         public static byte8 operator * (byte8 lhs, byte8 rhs) => (byte8)((ushort8)lhs * (ushort8)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator /(byte8 lhs, byte8 rhs) => new byte8((byte)(lhs.x0 / rhs.x0),    (byte)(lhs.x1 / rhs.x1),    (byte)(lhs.x2 / rhs.x2),    (byte)(lhs.x3 / rhs.x3),    (byte)(lhs.x4 / rhs.x4),    (byte)(lhs.x5 / rhs.x5),    (byte)(lhs.x6 / rhs.x6),    (byte)(lhs.x7 / rhs.x7));
-    
+        public static byte8 operator /(byte8 lhs, byte8 rhs) => (v128)Operator.vdiv_byte((v128)lhs, (v128)rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator % (byte8 lhs, byte8 rhs) => new byte8((byte)(lhs.x0 % rhs.x0),    (byte)(lhs.x1 % rhs.x1),    (byte)(lhs.x2 % rhs.x2),    (byte)(lhs.x3 % rhs.x3),    (byte)(lhs.x4 % rhs.x4),    (byte)(lhs.x5 % rhs.x5),    (byte)(lhs.x6 % rhs.x6),    (byte)(lhs.x7 % rhs.x7));
+        public static byte8 operator %(byte8 lhs, byte8 rhs) => (v128)Operator.vrem_byte((v128)lhs, (v128)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator / (byte8 lhs, byte rhs) => Operator.div(lhs, rhs);
@@ -266,15 +266,16 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte8 other) => maxmath.cvt_boolean(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
+        public bool Equals(byte8 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
 
         public override bool Equals(object obj) => Equals((byte8)obj);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0) ^ Sse4_1.extract_epi32(this, 1);
+        public override int GetHashCode() => Hash.v64(this);
 
 
         public override string ToString() => $"byte8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }
