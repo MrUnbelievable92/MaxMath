@@ -3,14 +3,13 @@
     "references": [
         "GUID:d8b63aba1907145bea998dd612889d6b",
         "GUID:2665a8d13d1b3f18800f46e256720795",
-        "GUID:24b047198addb35478397ee56b459620"
+        "GUID:f4ea7923eb7146242b736675839f18ae"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
     "overrideReferences": false,
-    "precompiledReferences": 
-    [
+    "precompiledReferences": [
         ""
     ],
     "autoReferenced": true,
