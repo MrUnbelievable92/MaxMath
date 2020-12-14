@@ -12,7 +12,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Sequential, Size = 3)]
-    unsafe public struct sbyte3 : IEquatable<sbyte3>
+    unsafe public struct sbyte3 : IEquatable<sbyte3>, IFormattable
     {
         [NoAlias] public sbyte x;
         [NoAlias] public sbyte y;
@@ -176,10 +176,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte3 input)=> Sse4_1.insert_epi8(Sse2.set1_epi32(*(int*)&input), (byte)input.z, 2);
+        public static implicit operator v128(sbyte3 input) => Sse4_1.insert_epi8(Sse2.insert_epi16(default(v128), *(short*)&input, 0), (byte)input.z, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte3(v128 input)=> new sbyte3 { x = (sbyte)Sse4_1.extract_epi8(input, 0), y = (sbyte)Sse4_1.extract_epi8(input, 1), z = (sbyte)Sse4_1.extract_epi8(input, 2) };
+        public static implicit operator sbyte3(v128 input) => new sbyte3 { x = (sbyte)Sse4_1.extract_epi8(input, 0), y = (sbyte)Sse4_1.extract_epi8(input, 1), z = (sbyte)Sse4_1.extract_epi8(input, 2) };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte3(sbyte input) => new sbyte3(input);

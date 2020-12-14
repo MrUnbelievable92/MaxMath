@@ -17,7 +17,7 @@ namespace MaxMath
             return *(float2*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+ c) on 3 float3 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+/- c) on 3 float3 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 msubadd(float3 a, float3 b, float3 c)
         {
@@ -26,7 +26,7 @@ namespace MaxMath
             return *(float3*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+ c) on 3 float4 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+/-/+ c) on 3 float4 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 msubadd(float4 a, float4 b, float4 c)
         {
@@ -35,11 +35,11 @@ namespace MaxMath
             return *(float4*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+ c) on 3 float8 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+/-/+/-/+/-/+ c) on 3 float8 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 msubadd(float8 a, float8 b, float8 c)
         {
-            return Fma.mm256_fmsubadd_ps(a, b, c);
+            return Fma.mm256_fmaddsub_ps(a, b, c);
         }
 
 
@@ -52,7 +52,7 @@ namespace MaxMath
             return *(double2*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+ c) on 3 double3 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+/- c) on 3 double3 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 msubadd(double3 a, double3 b, double3 c)
         {
@@ -61,7 +61,7 @@ namespace MaxMath
             return *(double3*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+ c) on 3 double4 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract/add operation (a * b -/+/-/+ c) on 3 double4 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 msubadd(double4 a, double4 b, double4 c)
         {

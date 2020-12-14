@@ -11,7 +11,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Explicit, Size = 8)]
-    unsafe public struct short4 : IEquatable<short4>
+    unsafe public struct short4 : IEquatable<short4>, IFormattable
     {
         [FieldOffset(0)] internal long cast_long;
 
@@ -412,7 +412,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(short4 input) => Sse2.set1_epi64x(input.cast_long);
+        public static implicit operator v128(short4 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short4(v128 input) => new short4 { cast_long = Sse4_1.extract_epi64(input, 0) };

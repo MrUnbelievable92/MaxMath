@@ -12,7 +12,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Sequential, Size = 16)]
-    unsafe public struct sbyte16 : IEquatable<sbyte16>
+    unsafe public struct sbyte16 : IEquatable<sbyte16>, IFormattable
     {
         [NoAlias] public sbyte x0;
         [NoAlias] public sbyte x1;

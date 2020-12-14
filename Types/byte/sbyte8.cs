@@ -11,7 +11,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Explicit, Size = 8)]
-    unsafe public struct sbyte8 : IEquatable<sbyte8>
+    unsafe public struct sbyte8 : IEquatable<sbyte8>, IFormattable
     {
         [FieldOffset(0)] internal long cast_long;
 
@@ -113,7 +113,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-        public static implicit operator v128(sbyte8 input) => Sse2.set1_epi64x(input.cast_long);
+        public static implicit operator v128(sbyte8 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] 
         public static implicit operator sbyte8(v128 input) => new sbyte8 { cast_long = Sse4_1.extract_epi64(input, 0) };

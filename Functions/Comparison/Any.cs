@@ -69,7 +69,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool4x4 x)
         {
-            return any((bool16)x);
+            return any(*(bool16*)&x);
         }
 
         /// <summary>       Returns true if any component of the input bool8 vector is true, false otherwise.       </summary>

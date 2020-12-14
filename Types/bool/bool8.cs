@@ -102,7 +102,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(bool8 input) => Sse2.set1_epi64x(input.cast_long);
+        public static implicit operator v128(bool8 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(v128 input)
@@ -123,19 +123,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(bool v) => new bool8(v);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool4x2(bool8 input) => *(bool4x2*)&input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool8(bool4x2 input) => *(bool8*)&input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool2x4(bool8 input) => *(bool2x4*)&input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool8(bool2x4 input) => *(bool8*)&input;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

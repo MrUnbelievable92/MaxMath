@@ -65,7 +65,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double repeat(double x, double length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0d,
@@ -76,7 +76,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 repeat(double2 x, double2 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0d,
@@ -87,7 +87,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 repeat(double3 x, double3 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0d,
@@ -98,7 +98,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 repeat(double4 x, double4 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0d,

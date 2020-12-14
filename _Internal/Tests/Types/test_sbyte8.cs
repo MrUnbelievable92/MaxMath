@@ -532,9 +532,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] == TestData_RHS[i];
+                bool8 x = TestData_LHS[i] == TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 == TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 == TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 == TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 == TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 == TestData_RHS[i].x3),
@@ -554,9 +554,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] < TestData_RHS[i];
+                bool8 x = TestData_LHS[i] < TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 < TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 < TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 < TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 < TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 < TestData_RHS[i].x3),
@@ -576,9 +576,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] > TestData_RHS[i];
+                bool8 x = TestData_LHS[i] > TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 > TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 > TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 > TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 > TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 > TestData_RHS[i].x3),
@@ -598,9 +598,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] != TestData_RHS[i];
+                bool8 x = TestData_LHS[i] != TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 != TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 != TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 != TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 != TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 != TestData_RHS[i].x3),
@@ -620,9 +620,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] <= TestData_RHS[i];
+                bool8 x = TestData_LHS[i] <= TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 <= TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 <= TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 <= TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 <= TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 <= TestData_RHS[i].x3),
@@ -642,9 +642,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool4x2 x = TestData_LHS[i] >= TestData_RHS[i];
+                bool8 x = TestData_LHS[i] >= TestData_RHS[i];
 
-                result &= x.Equals(new bool4x2(new bool4(TestData_LHS[i].x0 >= TestData_RHS[i].x0,
+                result &= x.Equals(new bool8(new bool4(TestData_LHS[i].x0 >= TestData_RHS[i].x0,
                                                          TestData_LHS[i].x1 >= TestData_RHS[i].x1,
                                                          TestData_LHS[i].x2 >= TestData_RHS[i].x2,
                                                          TestData_LHS[i].x3 >= TestData_RHS[i].x3),

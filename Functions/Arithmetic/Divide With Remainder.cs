@@ -582,42 +582,5 @@ namespace MaxMath
 
             return quotient;
         }
-
-
-        /// <summary>       Returns the truncated quotient of the first double divided by the second double with the remainder as an out parameter.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double divrem(double dividend, double divisor, out double remainder)
-        {
-            remainder = divisor * math.modf(div(dividend, divisor), out double quotient);
-
-            return quotient;
-        }
-
-        /// <summary>       Returns the truncated quotients of the componentwise division of the first double2 vector by the second double2 vector with the remainders as an out parameter.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double2 divrem(double2 dividend, double2 divisor, out double2 remainder)
-        {
-            remainder = divisor * math.modf(div(dividend, divisor), out double2 quotient);
-
-            return quotient;
-        }
-
-        /// <summary>       Returns the truncated quotients of the componentwise division of the first double3 vector by the second double3 vector with the remainders as an out parameter.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double3 divrem(double3 dividend, double3 divisor, out double3 remainder)
-        {
-            remainder = divisor * math.modf(div(dividend, divisor), out double3 quotient);
-
-            return quotient;
-        }
-
-        /// <summary>       Returns the truncated quotients of the componentwise division of the first double4 vector by the second double4 vector with the remainders as an out parameter.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double4 divrem(double4 dividend, double4 divisor, out double4 remainder)
-        {
-            remainder = divisor * math.modf(div(dividend, divisor), out double4 quotient);
-
-            return quotient;
-        }
     }
 }

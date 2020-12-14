@@ -17,7 +17,7 @@ namespace MaxMath
             return *(float2*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/- c) on 3 float3 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/-/+ c) on 3 float3 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 madsub(float3 a, float3 b, float3 c)
         {
@@ -26,7 +26,7 @@ namespace MaxMath
             return *(float3*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/- c) on 3 float4 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/-/+/- c) on 3 float4 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 madsub(float4 a, float4 b, float4 c)
         {
@@ -35,7 +35,7 @@ namespace MaxMath
             return *(float4*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/- c) on 3 float8 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/-/+/-/+/-/+/- c) on 3 float8 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 madsub(float8 a, float8 b, float8 c)
         {
@@ -52,7 +52,7 @@ namespace MaxMath
             return *(double2*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/- c) on 3 double3 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/-/+ c) on 3 double3 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 madsub(double3 a, double3 b, double3 c)
         {
@@ -61,7 +61,7 @@ namespace MaxMath
             return *(double3*)&temp;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/- c) on 3 double4 vectors.     </summary>
+        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (a * b +/-/+/-/ c) on 3 double4 vectors.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 madsub(double4 a, double4 b, double4 c)
         {

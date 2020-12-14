@@ -12,7 +12,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Sequential, Size = 6)]
-    unsafe public struct short3 : IEquatable<short3>
+    unsafe public struct short3 : IEquatable<short3>, IFormattable
     {
         [NoAlias] public short x;
         [NoAlias] public short y;
@@ -171,7 +171,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-        public static implicit operator v128(short3 input) => Sse2.insert_epi16(Sse2.set1_epi32(*(int*)&input), input.z, 2);
+        public static implicit operator v128(short3 input) => Sse2.insert_epi16(Sse4_1.insert_epi32(default(v128), *(int*)&input, 0), input.z, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short3(v128 input) => new short3 { x = (short)Sse2.extract_epi16(input, 0), y = (short)Sse2.extract_epi16(input, 1), z = (short)Sse2.extract_epi16(input, 2) };

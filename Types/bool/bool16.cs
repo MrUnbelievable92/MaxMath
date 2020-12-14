@@ -137,13 +137,6 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool4x4(bool16 input) => *(bool4x4*)&input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool16(bool4x4 input) => *(bool16*)&input;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 operator == (bool16 lhs, bool16 rhs) => Sse2.and_si128(new v128((byte)1), Sse2.cmpeq_epi8(lhs, rhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

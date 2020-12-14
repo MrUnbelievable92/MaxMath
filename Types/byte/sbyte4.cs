@@ -11,7 +11,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     [Serializable] [StructLayout(LayoutKind.Explicit, Size = 4)]
-    unsafe public struct sbyte4 : IEquatable<sbyte4>
+    unsafe public struct sbyte4 : IEquatable<sbyte4>, IFormattable
     {
         [FieldOffset(0)] internal int cast_int;
 
@@ -412,7 +412,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte4 input) => Sse2.set1_epi32(input.cast_int);
+        public static implicit operator v128(sbyte4 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte4(v128 input) => new sbyte4 { cast_int = Sse4_1.extract_epi32(input, 0) };
