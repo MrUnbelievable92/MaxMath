@@ -11,55 +11,44 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 shl_byte(v128 v, int n)
         {
-Assert.IsDefinedBitShift<byte>(n);
+            byte16 mask = (byte)(0b1111_1111 >> n);
 
-            byte16 mask = (byte)(0b1111_1111 << n);
-
-            return mask & shl_short(v, n);
+            return shl_short(v & mask, n);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 shl_byte(v256 v, int n)
         {
-Assert.IsDefinedBitShift<byte>(n);
+            byte32 mask = (byte)(0b1111_1111 >> n);
 
-            byte32 mask = (byte)(0b1111_1111 << n);
-
-            return mask & shl_short(v, n);
+            return shl_short(v & mask, n);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 shrl_byte(v128 v, int n)
         {
-Assert.IsDefinedBitShift<byte>(n);
+            byte16 mask = (byte)(0b1111_1111 << n);
 
-            byte16 mask = (byte)(0b1111_1111 >> n);
-
-            return mask & shrl_short(v, n);
+            return shrl_short(v & mask, n);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 shrl_byte(v256 v, int n)
         {
-Assert.IsDefinedBitShift<byte>(n);
+            byte32 mask = (byte)(0b1111_1111 << n);
 
-            byte32 mask = (byte)(0b1111_1111 >> n);
-
-            return mask & shrl_short(v, n);
+            return shrl_short(v & mask, n);
         }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 shra_byte(v256 v, int n)
         {
-Assert.IsDefinedBitShift<sbyte>(n);
+            v256 lo = shra_short(shl_short(v, 8), n + 8);
+            v256 hi = shra_short(v, n);
 
-            byte32 mask = (byte)(0b1111_1111_0000_0000 >> n);
-
-            byte32 maskedShift = maxmath.andnot(shra_short(v, n), mask);
-            byte32 signMask = Avx2.mm256_blendv_epi8(default(v256),     mask,   Avx2.mm256_cmpgt_epi8(default(v256), v));
-
-            return maskedShift | signMask;
+            return Avx2.mm256_blendv_epi8(hi, lo, new v256(0x00FF_00FF));
         }
 
 
