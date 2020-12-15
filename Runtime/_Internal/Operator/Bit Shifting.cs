@@ -45,10 +45,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 shra_byte(v256 v, int n)
         {
-            v256 lo = shra_short(shl_short(v, 8), n + 8);
-            v256 hi = shra_short(v, n);
+            v256 even = shra_short(shl_short(v, 8), n + 8);
+            v256 odd = shra_short(v, n);
 
-            return Avx2.mm256_blendv_epi8(hi, lo, new v256(0x00FF_00FF));
+            return Avx2.mm256_blendv_epi8(even, odd, new v256(0xFF00_FF00));
         }
 
 

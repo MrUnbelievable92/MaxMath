@@ -252,33 +252,4 @@ using System.Runtime.CompilerServices;
 //        return new int4(floorlog2(x.x), floorlog2(x.y), floorlog2(x.z), floorlog2(x.w));
 //    }
 //    /// <summary>Returns the floating point representation of a half-precision floating point vector.</summary>
-
-
-
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static float4 f16tof32(uint4 x)
-//    {
-//        const uint shifted_exp = (0x7c00 << 13);
-//        uint4 uf = (x & 0x7fff) << 13;
-//        uint4 e = uf & shifted_exp;
-//        uf += (127 - 15) << 23;
-//        uf += select(0, (128u - 16u) << 23, e == shifted_exp);
-//        uf = select(uf, asuint(asfloat(uf + (1 << 23)) - 6.10351563e-05f), e == 0);
-//        uf |= (x & 0x8000) << 16;
-//        return asfloat(uf);
-//    }
-//    
-//    /// <summary>Returns the result converting a float value to its nearest half-precision floating point representation.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static uint f32tof16(float x)
-//    {
-//        const int infinity_32 = 255 << 23;
-//        const uint msk = 0x7FFFF000u;
-//    
-//        uint ux = asuint(x);
-//        uint uux = ux & msk;
-//        uint h = (uint)(asuint(min(asfloat(uux) * 1.92592994e-34f, 260042752.0f)) + 0x1000) >> 13;   // Clamp to signed infinity if overflowed
-//        h = select(h, select(0x7c00u, 0x7e00u, (int)uux > infinity_32), (int)uux >= infinity_32);   // NaN->qNaN and Inf->Inf
-//        return h | (ux & ~msk) >> 16;
-//    }
 //}

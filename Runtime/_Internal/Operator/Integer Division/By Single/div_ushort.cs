@@ -94,22 +94,7 @@ Assert.AreNotEqual(divisor, 0);
                 case 1000: return div_ushort_1000(dividend);
                 case 10000: return div_ushort_10000(dividend);
 
-                default: return new ushort16((ushort)(dividend.x0  / divisor), 
-                                             (ushort)(dividend.x1  / divisor), 
-                                             (ushort)(dividend.x2  / divisor), 
-                                             (ushort)(dividend.x3  / divisor),
-                                             (ushort)(dividend.x4  / divisor),
-                                             (ushort)(dividend.x5  / divisor),
-                                             (ushort)(dividend.x6  / divisor),
-                                             (ushort)(dividend.x7  / divisor),
-                                             (ushort)(dividend.x8  / divisor),
-                                             (ushort)(dividend.x9  / divisor),
-                                             (ushort)(dividend.x10 / divisor),
-                                             (ushort)(dividend.x11 / divisor),
-                                             (ushort)(dividend.x12 / divisor),
-                                             (ushort)(dividend.x13 / divisor),
-                                             (ushort)(dividend.x14 / divisor),
-                                             (ushort)(dividend.x15 / divisor));
+                default: return dividend / (ushort16)divisor;
             }
         }
 

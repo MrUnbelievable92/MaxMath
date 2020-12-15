@@ -42,10 +42,10 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 14: return dividend & (ushort)maxmath.bitmask32(14);
                 case 1 << 15: return dividend & (ushort)maxmath.bitmask32(15);
 
-                case 10: return rem_ushort8_10(dividend);
-                case 100: return rem_ushort8_100(dividend);
-                case 1000: return rem_ushort8_1000(dividend);
-                case 10000: return rem_ushort8_10000(dividend);
+                case 10: return (ushort8)rem_ushort8_10_base(dividend);
+                case 100: return (ushort8)rem_ushort8_100_base(dividend);
+                case 1000: return (ushort8)rem_ushort8_1000_base(dividend);
+                case 10000: return (ushort8)rem_ushort8_10000_base(dividend);
 
                 default: return new ushort8((ushort)(dividend.x0 % divisor), 
                                             (ushort)(dividend.x1 % divisor), 
@@ -90,28 +90,13 @@ Assert.AreNotEqual(divisor, 0);
                 case 1000: return rem_ushort16_1000(dividend);
                 case 10000: return rem_ushort16_10000(dividend);
 
-                default: return new ushort16((ushort)(dividend.x0  % divisor), 
-                                             (ushort)(dividend.x1  % divisor), 
-                                             (ushort)(dividend.x2  % divisor), 
-                                             (ushort)(dividend.x3  % divisor),
-                                             (ushort)(dividend.x4  % divisor),
-                                             (ushort)(dividend.x5  % divisor),
-                                             (ushort)(dividend.x6  % divisor),
-                                             (ushort)(dividend.x7  % divisor),
-                                             (ushort)(dividend.x8  % divisor),
-                                             (ushort)(dividend.x9  % divisor),
-                                             (ushort)(dividend.x10 % divisor),
-                                             (ushort)(dividend.x11 % divisor),
-                                             (ushort)(dividend.x12 % divisor),
-                                             (ushort)(dividend.x13 % divisor),
-                                             (ushort)(dividend.x14 % divisor),
-                                             (ushort)(dividend.x15 % divisor));
+                default: return dividend % (ushort16)divisor;
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ushort8 rem_ushort8_10(ushort8 x)
+        private static uint8 rem_ushort8_10_base(ushort8 x)
         {
             uint8 cast = (uint8)x;
 
@@ -120,128 +105,67 @@ Assert.AreNotEqual(divisor, 0);
             temp &= maxmath.bitmask32(31, 1);
             temp += temp << 2;
 
-            return (ushort8)(cast - temp);
+            return cast - temp;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort16 rem_ushort16_10(ushort16 x)
         {
-            uint8 magic = 52429;
-            uint8 mask = maxmath.bitmask32(31, 1);
-
-            uint8 cast_Lo = (uint8)x.v8_0;
-            uint8 cast_Hi = (uint8)x.v8_8;
-
-
-            uint8 temp_Lo = cast_Lo * magic;
-            uint8 temp_Hi = cast_Hi * magic;
-
-            temp_Lo >>= 18;
-            temp_Hi >>= 18;
-
-            temp_Lo &= mask;
-            temp_Hi &= mask;
-
-            temp_Lo += temp_Lo << 2;
-            temp_Hi += temp_Hi << 2;
-
-            cast_Lo -= temp_Lo;
-            cast_Hi -= temp_Hi;
-
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(cast_Lo, cast_Hi),
+            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(rem_ushort8_10_base(x.v8_0),
+                                                                        rem_ushort8_10_base(x.v8_8)),
                                                 Sse.SHUFFLE(3, 1, 2, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ushort8 rem_ushort8_100(ushort8 x)
+        private static uint8 rem_ushort8_100_base(ushort8 x)
         {
             uint8 cast = (uint8)x;
 
             uint8 temp = 5243 * (cast >> 2);
             temp = 100 * (temp >> 17);
 
-            return (ushort8)(cast - temp);
+            return cast - temp;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort16 rem_ushort16_100(ushort16 x)
         {
-            uint8 magic = 5243;
-
-            uint8 cast_Lo = (uint8)x.v8_0;
-            uint8 cast_Hi = (uint8)x.v8_8;
-
-            uint8 temp_Lo = magic * (cast_Lo >> 2);
-            uint8 temp_Hi = magic * (cast_Hi >> 2);
-
-            temp_Lo = 100 * (temp_Lo >> 17);
-            temp_Hi = 100 * (temp_Hi >> 17);
-
-            cast_Lo -= temp_Lo;
-            cast_Hi -= temp_Hi;
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(cast_Lo, cast_Hi),
+            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(rem_ushort8_100_base(x.v8_0),
+                                                                        rem_ushort8_100_base(x.v8_8)),
                                                 Sse.SHUFFLE(3, 1, 2, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ushort8 rem_ushort8_1000(ushort8 x)
+        private static uint8 rem_ushort8_1000_base(ushort8 x)
         {
             uint8 cast = (uint8)x;
 
             uint8 temp = 8389 * (cast >> 3);
             temp = 1000 * (temp >> 20);
 
-            return (ushort8)(cast - temp);
+            return cast - temp;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort16 rem_ushort16_1000(ushort16 x)
         {
-            uint8 magic = 8389;
-
-            uint8 cast_Lo = (uint8)x.v8_0;
-            uint8 cast_Hi = (uint8)x.v8_8;
-
-            uint8 temp_Lo = magic * (cast_Lo >> 3);
-            uint8 temp_Hi = magic * (cast_Hi >> 3);
-
-            temp_Lo = 1000 * (temp_Lo >> 20);
-            temp_Hi = 1000 * (temp_Hi >> 20);
-
-            cast_Lo -= temp_Lo;
-            cast_Hi -= temp_Hi;
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(cast_Lo, cast_Hi),
+            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(rem_ushort8_1000_base(x.v8_0),
+                                                                        rem_ushort8_1000_base(x.v8_8)),
                                                 Sse.SHUFFLE(3, 1, 2, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ushort8 rem_ushort8_10000(ushort8 x)
+        private static uint8 rem_ushort8_10000_base(ushort8 x)
         {
             uint8 cast = (uint8)x;
 
             uint8 temp = 839 * (cast >> 4);
             temp = 10000 * (temp >> 19);
 
-            return (ushort8)(cast - temp);
+            return cast - temp;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ushort16 rem_ushort16_10000(ushort16 x)
         {
-            uint8 magic = 839;
-
-            uint8 cast_Lo = (uint8)x.v8_0;
-            uint8 cast_Hi = (uint8)x.v8_8;
-
-            uint8 temp_Lo = magic * (cast_Lo >> 4);
-            uint8 temp_Hi = magic * (cast_Hi >> 4);
-
-            temp_Lo = 10000 * (temp_Lo >> 19);
-            temp_Hi = 10000 * (temp_Hi >> 19);
-
-            cast_Lo -= temp_Lo;
-            cast_Hi -= temp_Hi;
-
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(cast_Lo, cast_Hi),
+            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32(rem_ushort8_10000_base(x.v8_0),
+                                                                        rem_ushort8_10000_base(x.v8_8)),
                                                 Sse.SHUFFLE(3, 1, 2, 0));
         }
     }

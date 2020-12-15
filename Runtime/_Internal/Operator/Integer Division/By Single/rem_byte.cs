@@ -36,8 +36,8 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 6: return dividend & (byte)maxmath.bitmask32(6);
                 case 1 << 7: return dividend & (byte)maxmath.bitmask32(7);
 
-                case 10: return rem_byte_10(dividend);
-                case 100: return rem_byte_100(dividend);
+                case 10: return dividend - (byte16)rem_byte_10_base(dividend);
+                case 100: return dividend - (byte16)rem_byte_100_base(dividend);
 
                 default: return dividend % new byte16(divisor);
             }
@@ -62,9 +62,8 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 6: return dividend & (byte)maxmath.bitmask32(6);
                 case 1 << 7: return dividend & (byte)maxmath.bitmask32(7);
 
-                case 10: return rem_byte_10(dividend);
-                case 100: return rem_byte_100(dividend);
-
+                case 10: return dividend - rem_byte_10(dividend);
+                case 100: return dividend - rem_byte_100(dividend);
 
                 default: return dividend % new byte32(divisor);
             }
@@ -72,39 +71,24 @@ Assert.AreNotEqual(divisor, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte16 rem_byte_10(byte16 x)
+        private static ushort16 rem_byte_10_base(byte16 x)
         {
             ushort16 temp = new ushort16(205) * (ushort16)x;
             temp >>= 10;
             temp &= (ushort)maxmath.bitmask32(31, 1);
 
-            return x - (byte16)(temp + (temp << 2));
+            return temp + (temp << 2);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte32 rem_byte_10(byte32 x)
         {
-            ushort16 magic = 205;
-            ushort16 mask = (ushort)maxmath.bitmask32(31, 1);
-
-
-            ushort16 lo = magic * (ushort16)x.v16_0;
-            ushort16 hi = magic * (ushort16)x.v16_16;
-
-            lo >>= 10;
-            hi >>= 10;
-
-            lo &= mask;
-            hi &= mask;
-
-            lo += lo << 2;
-            hi += hi << 2;
-
-            return x - X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(lo, hi),
+            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(rem_byte_10_base(x.v16_0),
+                                                                            rem_byte_10_base(x.v16_16)),
                                                         Sse.SHUFFLE(3, 1, 2, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte16 rem_byte_100(byte16 x)
+        private static ushort16 rem_byte_100_base(byte16 x)
         {
             ushort16 cast = (ushort16)x;
 
@@ -112,25 +96,14 @@ Assert.AreNotEqual(divisor, 0);
             intermediate = cast + (intermediate << 3);
             intermediate = 100 * (intermediate >> 12);
 
-            return x - (byte16)intermediate;
+            return intermediate;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte32 rem_byte_100(byte32 x)
         {
-            ushort16 lo = (ushort16)x.v16_0;
-            ushort16 hi = (ushort16)x.v16_16;
-
-            ushort16 intermediate_Lo = lo + (lo << 2);
-            ushort16 intermediate_Hi = hi + (hi << 2);
-
-            intermediate_Lo = lo + (intermediate_Lo << 3);
-            intermediate_Hi = hi + (intermediate_Hi << 3);
-
-            intermediate_Lo = 100 * (intermediate_Lo >> 12);
-            intermediate_Hi = 100 * (intermediate_Hi >> 12);
-
-            return x - X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(intermediate_Lo, intermediate_Hi),
-                                                        Sse.SHUFFLE(3, 1, 2, 0));
+            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(rem_byte_100_base(x.v16_0),
+                                                                            rem_byte_100_base(x.v16_16)),
+                                                    Sse.SHUFFLE(3, 1, 2, 0));
         }
     }
 }

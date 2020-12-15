@@ -36,8 +36,8 @@ Assert.AreNotEqual(divisor, 0);
                 case 1 << 6: return dividend >> 6;
                 case 1 << 7: return dividend >> 7;
 
-                case 10: return div_byte_10(dividend);
-                case 100: return div_byte_100(dividend);
+                case 10: return (byte16)div_byte_10_base(dividend);
+                case 100: return (byte16)div_byte_100_base(dividend);
 
                 default: return dividend / (byte16)divisor;
             }
@@ -71,53 +71,35 @@ Assert.AreNotEqual(divisor, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte16 div_byte_10(byte16 x)
+        private static ushort16 div_byte_10_base(byte16 x)
         {
             ushort16 temp = new ushort16(205) * (ushort16)x;
 
-            return (byte16)(temp >> 11);
+            return temp >> 11;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte32 div_byte_10(byte32 x)
         {
-            ushort16 magic = 205;
-
-            ushort16 temp_Lo = magic * (ushort16)x.v16_0;
-            ushort16 temp_Hi = magic * (ushort16)x.v16_16;
-
-            temp_Lo >>= 11;
-            temp_Hi >>= 11;
-
-            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(temp_Lo, temp_Hi),
+            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(div_byte_10_base(x.v16_0), 
+                                                                            div_byte_10_base(x.v16_16)),
                                                     Sse.SHUFFLE(3, 1, 2, 0));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static byte16 div_byte_100(byte16 x)
+        private static ushort16 div_byte_100_base(byte16 x)
         {
             ushort16 temp = x;
 
             ushort16 tempProd = temp + (temp << 2);
             tempProd = temp + (tempProd << 3);
 
-            return (byte16)(tempProd >> 12);
+            return tempProd >> 12;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte32 div_byte_100(byte32 x)
         {
-            ushort16 temp_Lo = x.v16_0;
-            ushort16 temp_Hi = x.v16_16;
-
-            ushort16 tempProd_Lo = temp_Lo + (temp_Lo << 2);
-            ushort16 tempProd_Hi = temp_Hi + (temp_Hi << 2);
-
-            tempProd_Lo = temp_Lo + (tempProd_Lo << 3);
-            tempProd_Hi = temp_Hi + (tempProd_Hi << 3);
-
-            tempProd_Lo >>= 12;
-            tempProd_Hi >>= 12;
-
-            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(tempProd_Lo, tempProd_Hi),
+            return X86.Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi16(div_byte_100_base(x.v16_0),
+                                                                            div_byte_100_base(x.v16_16)),
                                                     Sse.SHUFFLE(3, 1, 2, 0));
         }
     }

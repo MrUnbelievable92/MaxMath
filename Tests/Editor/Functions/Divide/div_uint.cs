@@ -2,7 +2,7 @@
 
 namespace MaxMath.Tests
 {
-    unsafe public static class div_ushort4
+    unsafe public static class div_uint
     {
         [Test]
         public static void UInt8_366()

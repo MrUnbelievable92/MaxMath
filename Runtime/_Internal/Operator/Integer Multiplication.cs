@@ -17,9 +17,9 @@ namespace MaxMath
 
             v256 productOddIndices = Avx2.mm256_slli_epi16(Avx2.mm256_mullo_epi16(lhs, rhs), 8);
 
-            return Avx2.mm256_blendv_epi8(productOddIndices,
-                                          productEvenIndices,
-                                          new v256(0x00FF_00FF));
+            return Avx2.mm256_blendv_epi8(productEvenIndices,
+                                          productOddIndices,
+                                          new v256(0xFF00_FF00));
         }
 
 

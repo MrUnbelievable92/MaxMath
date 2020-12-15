@@ -223,10 +223,10 @@ Assert.IsWithinArrayBounds(index, 16);
         public static short16 operator * (short16 lhs, short16 rhs) => Avx2.mm256_mullo_epi16(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator / (short16 lhs, short16 rhs) => new short16((short)(lhs.x0 / rhs.x0),    (short)(lhs.x1 / rhs.x1),    (short)(lhs.x2 / rhs.x2),    (short)(lhs.x3 / rhs.x3),    (short)(lhs.x4 / rhs.x4),    (short)(lhs.x5 / rhs.x5),    (short)(lhs.x6 / rhs.x6),    (short)(lhs.x7 / rhs.x7), (short)(lhs.x8 / rhs.x8), (short)(lhs.x9 / rhs.x9), (short)(lhs.x10 / rhs.x10), (short)(lhs.x11 / rhs.x11), (short)(lhs.x12 / rhs.x12), (short)(lhs.x13 / rhs.x13), (short)(lhs.x14 / rhs.x14), (short)(lhs.x15 / rhs.x15));
+        public static short16 operator / (short16 lhs, short16 rhs) => Operator.vdiv_short(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator % (short16 lhs, short16 rhs) => new short16((short)(lhs.x0 % rhs.x0),    (short)(lhs.x1 % rhs.x1),    (short)(lhs.x2 % rhs.x2),    (short)(lhs.x3 % rhs.x3),    (short)(lhs.x4 % rhs.x4),    (short)(lhs.x5 % rhs.x5),    (short)(lhs.x6 % rhs.x6),    (short)(lhs.x7 % rhs.x7), (short)(lhs.x8 % rhs.x8), (short)(lhs.x9 % rhs.x9), (short)(lhs.x10 % rhs.x10), (short)(lhs.x11 % rhs.x11), (short)(lhs.x12 % rhs.x12), (short)(lhs.x13 % rhs.x13), (short)(lhs.x14 % rhs.x14), (short)(lhs.x15 % rhs.x15));
+        public static short16 operator % (short16 lhs, short16 rhs) => Operator.vrem_short(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
