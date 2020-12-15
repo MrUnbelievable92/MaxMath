@@ -36,6 +36,13 @@ namespace MaxMath
             return *(half4*)&x;
         }
 
+        /// <summary>       Returns the bit pattern of a short8 as a half8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 ashalf(short8 x)
+        {
+            return (v128)x;
+        }
+
 
         /// <summary>       Returns the bit pattern of a ushort as a half.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -63,6 +70,13 @@ namespace MaxMath
         public static half4 ashalf(ushort4 x)
         {
             return *(half4*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a ushort8 as a half8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 ashalf(ushort8 x)
+        {
+            return (v128)x;
         }
 
 
@@ -94,6 +108,13 @@ namespace MaxMath
             return *(short4*)&x;
         }
 
+        /// <summary>       Returns the bit pattern of a half8 as a short8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 asshort(half8 x)
+        {
+            return (v128)x;
+        }
+
 
         /// <summary>       Returns the bit pattern of a half as a ushort.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -121,6 +142,13 @@ namespace MaxMath
         public static ushort4 asushort(half4 x)
         {
             return *(ushort4*)&x;
+        }
+
+        /// <summary>       Returns the bit pattern of a half8 as a ushort8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort8 asushort(half8 x)
+        {
+            return (v128)x;
         }
 
 

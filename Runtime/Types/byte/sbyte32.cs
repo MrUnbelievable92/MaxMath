@@ -221,13 +221,13 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool32 TestIsTrue(v256 input)
         {
-            return Avx2.mm256_and_si256(input, new v256((sbyte)1));
+            return Avx2.mm256_and_si256(input, new v256(0x0101_0101));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool32 TestIsFalse(v256 input)
         {
-            return Avx2.mm256_andnot_si256(input, new v256((sbyte)1));
+            return Avx2.mm256_andnot_si256(input, new v256(0x0101_0101));
         }
 
 

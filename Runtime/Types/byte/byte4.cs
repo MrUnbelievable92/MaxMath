@@ -474,7 +474,7 @@ namespace MaxMath
         public static implicit operator half4(byte4 input) => (half4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float4(byte4 input) => (float4)(int4)input;
+        public static implicit operator float4(byte4 input) { v128 temp = Cast.ByteToFloat(input); return *(float4*)&temp; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double4(byte4 input) => (double4)(int4)input;
@@ -578,17 +578,17 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool4 TestIsTrue(v128 input)
         {
-            int result = 0x0101_0101 & Sse4_1.extract_epi32(input, 0);
+            input = Sse2.and_si128(input, new v128(0x0101_0101));
 
-            return *(bool4*)&result;
+            return *(bool4*)&input;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool4 TestIsFalse(v128 input)
         {
-            int result = maxmath.andnot(0x0101_0101, Sse4_1.extract_epi32(input, 0));
+            input = Sse2.andnot_si128(input, new v128(0x0101_0101));
 
-            return *(bool4*)&result;
+            return *(bool4*)&input;
         }
 
 

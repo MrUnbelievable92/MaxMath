@@ -134,7 +134,7 @@ namespace MaxMath
         {
             float8 t = saturate((x - a) / (b - a));
 
-            return (t * t) * (3f - (2f * t));
+            return (t * t) * mad(-2f, t, 3f);
         }
 
         /// <summary>       Returns the result of a componentwise step function where each component is 1.0f when x >= y and 0.0f otherwise.        </summary>

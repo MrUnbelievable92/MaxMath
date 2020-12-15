@@ -571,6 +571,13 @@ Assert.IsSafeBoolean(v.w);
             return ashalf(select((ushort4)0, (ushort4)new half(1f).value, v));
         }
 
+        /// <summary>       Converts each value in a bool8 vector to its floating point representation as a half8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 tof16(bool8 v)
+        {
+            return ashalf(select((ushort8)0, (ushort8)new half(1f).value, v));
+        }
+
 
         /// <summary>       Converts each value in a bool2 vector to its floating point representation as a float2 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

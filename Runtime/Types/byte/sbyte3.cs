@@ -339,17 +339,17 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsTrue(v128 input)
         {
-            int result = 0x0001_0101 & Sse4_1.extract_epi32(input, 0);
+            input = Sse2.and_si128(input, new v128(0x0101_0101));
 
-            return *(bool3*)&result;
+            return *(bool3*)&input;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsFalse(v128 input)
         {
-            int result = maxmath.andnot(0x0001_0101, Sse4_1.extract_epi32(input, 0));
+            input = Sse2.andnot_si128(input, new v128(0x0101_0101));
 
-            return *(bool3*)&result;
+            return *(bool3*)&input;
         }
 
 

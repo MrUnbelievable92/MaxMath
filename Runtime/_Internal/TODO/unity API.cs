@@ -209,14 +209,6 @@ using System.Runtime.CompilerServices;
 //    public static int4 reversebits(int4 x) { return (int4)reversebits((uint4)x); }
 //
 //
-//    /// <summary>Returns the componentwise result of rotating the bits of an int4 left by bits n.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static int4 rol(int4 x, int n) { return (int4)rol((uint4)x, n); }
-//
-//    /// <summary>Returns the componentwise result of rotating the bits of an int4 right by bits n.</summary>
-//    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-//    public static int4 ror(int4 x, int n) { return (int4)ror((uint4)x, n); }
-//
 //
 //
 //    /// <summary>Returns the result of a componentwise calculation of the smallest power of two greater than or equal to the input.</summary>

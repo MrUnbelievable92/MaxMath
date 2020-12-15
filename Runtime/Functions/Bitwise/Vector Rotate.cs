@@ -447,6 +447,13 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns the result of rotating the components in a half8 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 vror(half8 x, int n)
+        {
+            return ashalf(vror(asshort(x), n));
+        }
+
 
         /// <summary>       Returns the result of rotating the components in a float2 vector right by n.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -974,6 +981,13 @@ namespace MaxMath
 
                 default: return x;
             }
+        }
+
+        /// <summary>       Returns the result of rotating the components in a half8 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 vrol(half8 x, int n)
+        {
+            return ashalf(vrol(asshort(x), n));
         }
 
 

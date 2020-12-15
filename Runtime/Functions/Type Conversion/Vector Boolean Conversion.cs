@@ -415,7 +415,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(half2 v)
         {
-            return v != (half)1f;
+            return v != (half)0f;
         }
 
         /// <summary>       Converts each value in a float2 vector to its boolean representation as a bool2 vector. The underlying value is being clamped to the interval[0, 1]. 
@@ -660,6 +660,13 @@ namespace MaxMath
         public static bool8 toboolsafe(uint8 v)
         {
             return (v128)(byte8)clamp(v, 0, 1);
+        }
+
+        /// <summary>       Converts each value in a half8 vector to its boolean representation as a bool8 vector. The underlying value is being clamped to the interval[0, 1]. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool8 toboolsafe(half8 v)
+        {
+            return v != (half)0f;
         }
 
         /// <summary>       Converts each value in a float8 vector to its boolean representation as a bool8 vector. The underlying value is being clamped to the interval[0, 1]. 

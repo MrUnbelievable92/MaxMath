@@ -121,7 +121,7 @@ Assert.AreNotEqual(divisor, 0);
             ushort16 hi = (ushort16)x.v16_16;
 
             ushort16 intermediate_Lo = lo + (lo << 2);
-            ushort16 intermediate_Hi = lo + (lo << 2);
+            ushort16 intermediate_Hi = hi + (hi << 2);
 
             intermediate_Lo = lo + (intermediate_Lo << 3);
             intermediate_Hi = hi + (intermediate_Hi << 3);

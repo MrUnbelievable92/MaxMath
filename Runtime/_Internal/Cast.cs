@@ -7,21 +7,48 @@ namespace MaxMath
 {
     internal static class Cast
     {
-        internal const float F32_PRECISION_THRESHOLD = 8_388_608f;
+        // 2 ^ mantissa-bits
+        internal const float  F16_PRECISION_THRESHOLD = 1024f;
+        internal const float  F32_PRECISION_THRESHOLD = 8_388_608f;
+        internal const double F64_PRECISION_THRESHOLD = 4_503_599_627_370_496d;
 
+
+        // byte8 is not worth it
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 ByteToFloat(v128 v)
+        {
+            v = Sse4_1.insert_epi32(v, 0x4B00_0000, 3);
+            v = Ssse3.shuffle_epi8(v, new v128(0, 13, 14, 15,
+                                               1, 13, 14, 15,
+                                               2, 13, 14, 15,
+                                               3, 13, 14, 15));
+
+            return Sse.sub_ps(v, new v128(F32_PRECISION_THRESHOLD));
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UShortToFloat(v128 v)
         {
-            return Sse.sub_ps(Sse2.unpacklo_epi16(v, new ushort4(0x4B00)), new v128(F32_PRECISION_THRESHOLD));
+            return Sse.sub_ps(Sse2.unpacklo_epi16(v, new ushort4(0x4B00)), 
+                              new v128(F32_PRECISION_THRESHOLD));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v256 UShort8ToFloat8(ushort8 v)
+        {
+            v256 interleave = Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(v), Sse.SHUFFLE(3, 1, 3, 0));
+
+            return Avx.mm256_sub_ps(Avx2.mm256_unpacklo_epi16(interleave, new ushort16(0x4B00)), 
+                                    new v256(F32_PRECISION_THRESHOLD));
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(v128 v)
         {
-            return Ssse3.shuffle_epi8(v, new v128(0, 2, 4, 6, 8, 10, 12, 14,    0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(v, new v128(0, 2, 4, 6, 8, 10, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0));
         }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(v256 v)

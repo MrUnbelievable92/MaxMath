@@ -136,6 +136,35 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the result of shifting the components of a half2 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 vshl(half2 x, int n)
+        {
+            return ashalf(vshl(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half4 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 vshl(half3 x, int n)
+        {
+            return ashalf(vshl(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half4 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 vshl(half4 x, int n)
+        {
+            return ashalf(vshl(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half8 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 vshl(half8 x, int n)
+        {
+            return ashalf(vshl(asshort(x), n));
+        }
+
+
         /// <summary>       Returns the result of shifting the components of a float2 vector left by n while shifting in zeros.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vshl(float2 x, int n)
@@ -722,6 +751,34 @@ namespace MaxMath
             return (uint8)vshr((int8)x, n);
         }
 
+
+        /// <summary>       Returns the result of shifting the components of a half2 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 vshr(half2 x, int n)
+        {
+            return ashalf(vshr(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half4 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 vshr(half3 x, int n)
+        {
+            return ashalf(vshr(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half4 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 vshr(half4 x, int n)
+        {
+            return ashalf(vshr(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components of a half8 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 vshr(half8 x, int n)
+        {
+            return ashalf(vshr(asshort(x), n));
+        }
 
         /// <summary>       Returns the result of shifting the components of a float2 vector right by n while shifting in zeros.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

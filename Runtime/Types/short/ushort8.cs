@@ -141,7 +141,7 @@ namespace MaxMath
         public static implicit operator int8(ushort8 input) => Avx2.mm256_cvtepu16_epi32(input);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float8(ushort8 input) => (float8)(int8)input;
+        public static implicit operator float8(ushort8 input) => Cast.UShort8ToFloat8(input);//(float8)(int8)input;
 
 
         public ushort this[[AssumeRange(0, 7)] int index]
@@ -242,13 +242,13 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool8 TestIsTrue(v128 input)
         {
-            return Sse2.and_si128((byte8)(ushort8)input, new v128(0x0101_0101_0101_0101L, 0L));
+            return Sse2.and_si128((byte8)(ushort8)input, new v128(0x0101_0101));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool8 TestIsFalse(v128 input)
         {
-            return Sse2.andnot_si128((byte8)(ushort8)input, new v128(0x0101_0101_0101_0101L, 0L));
+            return Sse2.andnot_si128((byte8)(ushort8)input, new v128(0x0101_0101));
         }
 
 

@@ -66,21 +66,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half tof16safe(bool a)
         {
-            return new half(*(byte*)&a * new half(1f).value);
+            return new half(touint8safe(a)* new half(1f).value);
         }
 
         /// <summary>       Converts a bool value to its float representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float tof32safe(bool a)
         {
-            return math.asfloat(*(byte*)&a * math.asuint(1f));
+            return math.asfloat(touint8safe(a) * math.asuint(1f));
         }
 
         /// <summary>       Converts a bool value to its double representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double tof64safe(bool a)
         {
-            return math.asdouble(*(byte*)&a * math.asulong(1d));
+            return math.asdouble(touint8safe(a) * math.asulong(1d));
         }
 
 

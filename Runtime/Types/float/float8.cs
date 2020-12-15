@@ -199,7 +199,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool8 TestIsTrue(v256 input)
         {
-            return Sse2.and_si128(new v128(0x0101_0101_0101_0101L, 0L), (byte8)(uint8)input);
+            return Sse2.and_si128(new v128(0x0101_0101), (byte8)(uint8)input);
         }
 
 
