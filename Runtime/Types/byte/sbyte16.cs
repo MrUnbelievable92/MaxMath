@@ -243,6 +243,19 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator * (sbyte lhs, sbyte16 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator * (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 * rhs), (sbyte)(lhs.x1 * rhs), (sbyte)(lhs.x2 * rhs), (sbyte)(lhs.x3 * rhs), (sbyte)(lhs.x4 * rhs), (sbyte)(lhs.x5 * rhs), (sbyte)(lhs.x6 * rhs), (sbyte)(lhs.x7 * rhs), (sbyte)(lhs.x8 * rhs), (sbyte)(lhs.x9 * rhs), (sbyte)(lhs.x10 * rhs), (sbyte)(lhs.x11 * rhs), (sbyte)(lhs.x12 * rhs), (sbyte)(lhs.x13 * rhs), (sbyte)(lhs.x14 * rhs), (sbyte)(lhs.x15 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator / (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 / rhs), (sbyte)(lhs.x1 / rhs), (sbyte)(lhs.x2 / rhs), (sbyte)(lhs.x3 / rhs), (sbyte)(lhs.x4 / rhs), (sbyte)(lhs.x5 / rhs), (sbyte)(lhs.x6 / rhs), (sbyte)(lhs.x7 / rhs), (sbyte)(lhs.x8 / rhs), (sbyte)(lhs.x9 / rhs), (sbyte)(lhs.x10 / rhs), (sbyte)(lhs.x11 / rhs), (sbyte)(lhs.x12 / rhs), (sbyte)(lhs.x13 / rhs), (sbyte)(lhs.x14 / rhs), (sbyte)(lhs.x15 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator % (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 % rhs), (sbyte)(lhs.x1 % rhs), (sbyte)(lhs.x2 % rhs), (sbyte)(lhs.x3 % rhs), (sbyte)(lhs.x4 % rhs), (sbyte)(lhs.x5 % rhs), (sbyte)(lhs.x6 % rhs), (sbyte)(lhs.x7 % rhs), (sbyte)(lhs.x8 % rhs), (sbyte)(lhs.x9 % rhs), (sbyte)(lhs.x10 % rhs), (sbyte)(lhs.x11 % rhs), (sbyte)(lhs.x12 % rhs), (sbyte)(lhs.x13 % rhs), (sbyte)(lhs.x14 % rhs), (sbyte)(lhs.x15 % rhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 operator & (sbyte16 lhs, sbyte16 rhs) => Sse2.and_si128(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -306,7 +319,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte16 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
+        public bool Equals(sbyte16 other) => maxmath.bitmask32(16 * sizeof(sbyte)) == Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other));
 
         public override bool Equals(object obj) => Equals((sbyte16)obj);
     

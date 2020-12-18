@@ -8,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a byte right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte ror(byte x, int n)
         {
@@ -73,7 +73,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of an sbyte right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte ror(sbyte x, int n)
         {
@@ -123,7 +123,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a ushort right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort ror(ushort x, int n)
         {
@@ -178,7 +178,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a short right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short ror(short x, int n)
         {
@@ -289,7 +289,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a byte right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte rol(byte x, int n)
         {
@@ -354,7 +354,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of an sbyte right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte rol(sbyte x, int n)
         {
@@ -404,7 +404,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a ushort right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort rol(ushort x, int n)
         {
@@ -459,7 +459,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short right by n bits.       </summary>
+        /// <summary>       Returns the result of rotating the bits of a short right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short rol(short x, int n)
         {

@@ -175,8 +175,21 @@ Assert.IsWithinArrayBounds(index, 8);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator % (int8 lhs, int8 rhs) => new int8((lhs.x0 % rhs.x0),    (lhs.x1 % rhs.x1),    (lhs.x2 % rhs.x2),    (lhs.x3 % rhs.x3),    (lhs.x4 % rhs.x4),    (lhs.x5 % rhs.x5),    (lhs.x6 % rhs.x6),    (lhs.x7 % rhs.x7));
-    
-    
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 operator * (int lhs, int8 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 operator * (int8 lhs, int rhs) => new int8(lhs.x0 * rhs, lhs.x1 * rhs, lhs.x2 * rhs, lhs.x3 * rhs, lhs.x4 * rhs, lhs.x5 * rhs, lhs.x6 * rhs, lhs.x7 * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 operator / (int8 lhs, int rhs) => new int8(lhs.x0 / rhs, lhs.x1 / rhs, lhs.x2 / rhs, lhs.x3 / rhs, lhs.x4 / rhs, lhs.x5 / rhs, lhs.x6 / rhs, lhs.x7 / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 operator % (int8 lhs, int rhs) => new int8(lhs.x0 % rhs, lhs.x1 % rhs, lhs.x2 % rhs, lhs.x3 % rhs, lhs.x4 % rhs, lhs.x5 % rhs, lhs.x6 % rhs, lhs.x7 % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator & (int8 lhs, int8 rhs) => Avx2.mm256_and_si256(lhs, rhs);
 
@@ -241,7 +254,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(int8 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi32(this, other), new v256(-1)));
+        public bool Equals(int8 other) => maxmath.bitmask32(8) == Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(this, other));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj) => Equals((int8)obj);

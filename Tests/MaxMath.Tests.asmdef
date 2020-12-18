@@ -1,11 +1,12 @@
 {
     "name": "MaxMath.Tests",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "MaxMath",
         "Unity.Burst",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "MaxMath"
     ],
     "includePlatforms": [
         "Editor"

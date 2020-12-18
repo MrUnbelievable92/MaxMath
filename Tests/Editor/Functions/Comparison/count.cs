@@ -34,7 +34,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace MaxMath.Tests
                 result &= test == maxmath.count(x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

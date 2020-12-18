@@ -133,7 +133,7 @@ namespace MaxMath
         public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15)};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool16(bool v) => new bool16(v);
+        public static implicit operator bool16(bool x) => new bool16(x);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,7 +184,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool16 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
+        public bool Equals(bool16 other) => maxmath.bitmask32(16 * sizeof(bool)) == Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other));
 
         public override bool Equals(object obj) => Equals((bool16)obj);
 

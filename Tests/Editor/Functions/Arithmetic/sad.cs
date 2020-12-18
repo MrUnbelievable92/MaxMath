@@ -19,7 +19,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte2.TestData_LHS[i].y - (int)Tests.Byte2.TestData_RHS[i].y));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte3.TestData_LHS[i].z - (int)Tests.Byte3.TestData_RHS[i].z));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte4.TestData_LHS[i].w - (int)Tests.Byte4.TestData_RHS[i].w));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte8.TestData_LHS[i].x7 - (int)Tests.Byte8.TestData_RHS[i].x7));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte16.TestData_LHS[i].x15 - (int)Tests.Byte16.TestData_RHS[i].x15));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.Byte32.TestData_LHS[i].x31 - (int)Tests.Byte32.TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -199,7 +199,7 @@ namespace MaxMath.Tests
                                       math.abs((int)Tests.SByte32.TestData_LHS[i].x31 - (int)Tests.SByte32.TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

@@ -267,12 +267,19 @@ Assert.IsWithinArrayBounds(index, 3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 operator % (ushort3 lhs, ushort3 rhs) => new ushort3((ushort)(lhs.x % rhs.x),    (ushort)(lhs.y % rhs.y),    (ushort)(lhs.z % rhs.z));
+        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 operator / (ushort3 lhs, ushort rhs) => Operator.div(lhs, rhs);
+        public static ushort3 operator * (ushort lhs, ushort3 rhs) => rhs * lhs;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 operator % (ushort3 lhs, ushort rhs) => Operator.rem(lhs, rhs);
+        public static ushort3 operator * (ushort3 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort3 operator / (ushort3 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort3 operator % (ushort3 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) % rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -340,7 +347,7 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort3 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi16(this, other), new v128(-1, -1, -1, 0, 0, 0, 0, 0)));
+        public bool Equals(ushort3 other) => maxmath.bitmask32(3 * sizeof(short)) == (maxmath.bitmask32(3 * sizeof(short)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi16(this, other))));
 
         public override bool Equals(object obj) => Equals((ushort3)obj);
 

@@ -209,7 +209,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(half8 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi16(this, other)));
+        public bool Equals(half8 other) => maxmath.bitmask32(8 * sizeof(half)) == Sse2.movemask_epi8(Sse2.cmpeq_epi16(this, other));
 
         public override bool Equals(object obj) => Equals((half8)obj);
 

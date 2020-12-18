@@ -111,7 +111,7 @@ namespace MaxMath
         public static implicit operator bool32(v256 input) => new bool32 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15), x16 = maxmath.tobool(input.Byte16), x17 = maxmath.tobool(input.Byte17), x18 = maxmath.tobool(input.Byte18), x19 = maxmath.tobool(input.Byte19), x20 = maxmath.tobool(input.Byte20), x21 = maxmath.tobool(input.Byte21), x22 = maxmath.tobool(input.Byte22), x23 = maxmath.tobool(input.Byte23), x24 = maxmath.tobool(input.Byte24), x25 = maxmath.tobool(input.Byte25), x26 = maxmath.tobool(input.Byte26), x27 = maxmath.tobool(input.Byte27), x28 = maxmath.tobool(input.Byte28), x29 = maxmath.tobool(input.Byte29), x30 = maxmath.tobool(input.Byte30), x31 = maxmath.tobool(input.Byte31) };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool32(bool v) => new bool32(v);
+        public static implicit operator bool32(bool x) => new bool32(x);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -162,7 +162,7 @@ Assert.IsWithinArrayBounds(index, 32);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool32 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi8(this, other), new v256(-1)));
+        public bool Equals(bool32 other) => -1 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi8(this, other));
 
         public override bool Equals(object obj) => Equals((bool32)obj);
 

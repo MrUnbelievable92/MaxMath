@@ -251,8 +251,21 @@ Assert.IsWithinArrayBounds(index, 3);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator % (long3 lhs, long3 rhs) => new long3(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z);
-    
-    
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long lhs, long3 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator / (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator % (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator & (long3 lhs, long3 rhs) => Avx2.mm256_and_si256(lhs, rhs);
     
@@ -321,7 +334,7 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(long3 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1L, -1L, -1L, 0L)));
+        public bool Equals(long3 other) => maxmath.bitmask32(3) == (maxmath.bitmask32(3) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(this, other)));
 
         public override bool Equals(object obj) => Equals((long3)obj);
 

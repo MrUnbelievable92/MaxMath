@@ -49,21 +49,21 @@ namespace MaxMath
             return length - math.abs(repeat(x, length * 2d) - length);
         }
 
-        /// <summary>       Ping-Pongs the components of the float2 vector x, so that they are never larger than the corresponding value in the float2 vector length and never smaller than 0.     </summary>
+        /// <summary>       Ping-Pongs the components of the double2 vector x, so that they are never larger than the corresponding value in the double2 vector length and never smaller than 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 pingpong(double2 x, double2 length)
         {
             return length - math.abs(repeat(x, length * 2d) - length);
         }
 
-        /// <summary>       Ping-Pongs the components of the float3 vector x, so that they are never larger than the corresponding value in the float3 vector length and never smaller than 0.     </summary>
+        /// <summary>       Ping-Pongs the components of the double3 vector x, so that they are never larger than the corresponding value in the double3 vector length and never smaller than 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 pingpong(double3 x, double3 length)
         {
             return length - math.abs(repeat(x, length * 2d) - length);
         }
 
-        /// <summary>       Ping-Pongs the components of the float4 vector x, so that they are never larger than the corresponding value in the float4 vector length and never smaller than 0.     </summary>
+        /// <summary>       Ping-Pongs the components of the double4 vector x, so that they are never larger than the corresponding value in the double4 vector length and never smaller than 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 pingpong(double4 x, double4 length)
         {

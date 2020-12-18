@@ -122,7 +122,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool8(bool v) => new bool8(v);
+        public static implicit operator bool8(bool x) => new bool8(x);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -173,12 +173,12 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool8 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1L, 0L)));
+        public bool Equals(bool8 other) => maxmath.bitmask32(8 * sizeof(bool)) == (maxmath.bitmask32(8 * sizeof(bool)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other))));
 
         public override bool Equals(object obj) => Equals((bool8)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => 0x00FF & Sse2.movemask_epi8(Sse2.slli_epi16(this, 7));
+        public override int GetHashCode() => maxmath.bitmask32(8 * sizeof(bool)) & Sse2.movemask_epi8(Sse2.slli_epi16(this, 7));
 
         public override string ToString() => $"bool8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
     }

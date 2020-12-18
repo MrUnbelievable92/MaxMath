@@ -230,6 +230,19 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator * (short lhs, short16 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator * (short16 lhs, short rhs) => new short16((short)(lhs.x0 * rhs), (short)(lhs.x1 * rhs), (short)(lhs.x2 * rhs), (short)(lhs.x3 * rhs), (short)(lhs.x4 * rhs), (short)(lhs.x5 * rhs), (short)(lhs.x6 * rhs), (short)(lhs.x7 * rhs), (short)(lhs.x8 * rhs), (short)(lhs.x9 * rhs), (short)(lhs.x10 * rhs), (short)(lhs.x11 * rhs), (short)(lhs.x12 * rhs), (short)(lhs.x13 * rhs), (short)(lhs.x14 * rhs), (short)(lhs.x15 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator / (short16 lhs, short rhs) => new short16((short)(lhs.x0 / rhs), (short)(lhs.x1 / rhs), (short)(lhs.x2 / rhs), (short)(lhs.x3 / rhs), (short)(lhs.x4 / rhs), (short)(lhs.x5 / rhs), (short)(lhs.x6 / rhs), (short)(lhs.x7 / rhs), (short)(lhs.x8 / rhs), (short)(lhs.x9 / rhs), (short)(lhs.x10 / rhs), (short)(lhs.x11 / rhs), (short)(lhs.x12 / rhs), (short)(lhs.x13 / rhs), (short)(lhs.x14 / rhs), (short)(lhs.x15 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator % (short16 lhs, short rhs) => new short16((short)(lhs.x0 % rhs), (short)(lhs.x1 % rhs), (short)(lhs.x2 % rhs), (short)(lhs.x3 % rhs), (short)(lhs.x4 % rhs), (short)(lhs.x5 % rhs), (short)(lhs.x6 % rhs), (short)(lhs.x7 % rhs), (short)(lhs.x8 % rhs), (short)(lhs.x9 % rhs), (short)(lhs.x10 % rhs), (short)(lhs.x11 % rhs), (short)(lhs.x12 % rhs), (short)(lhs.x13 % rhs), (short)(lhs.x14 % rhs), (short)(lhs.x15 % rhs));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 operator & (short16 lhs, short16 rhs) => Avx2.mm256_and_si256(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -293,7 +306,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(short16 other) => maxmath.tobool(Avx.mm256_testc_ps(Avx2.mm256_cmpeq_epi16(this, other), new v256(-1)));
+        public bool Equals(short16 other) => -1 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi16(this, other));
 
         public override bool Equals(object obj) => Equals((short16)obj);
     

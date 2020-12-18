@@ -18,7 +18,7 @@ namespace MaxMath.Tests
                           x.y == math.abs(Tests.Long2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace MaxMath.Tests
                           x.z == math.abs(Tests.Long3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
                           x.w == math.abs(Tests.Long4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
                           x.x7 == math.abs(Tests.Float8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

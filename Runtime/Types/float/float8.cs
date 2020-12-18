@@ -163,7 +163,7 @@ Assert.IsWithinArrayBounds(index, 8);
         public static float8 operator / (float8 lhs, float8 rhs) => Avx.mm256_div_ps(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator % (float8 lhs, float8 rhs) => new float8(lhs.x0 % rhs.x0, lhs.x1 % rhs.x1, lhs.x2 % rhs.x2, lhs.x3 % rhs.x3, lhs.x4 % rhs.x4, lhs.x5 % rhs.x5, lhs.x6 % rhs.x6, lhs.x7 % rhs.x7);
+        public static float8 operator % (float8 lhs, float8 rhs) => new float8(lhs.v4_0 % rhs.v4_0, lhs.v4_4 % rhs.v4_4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,7 +204,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(float8 other) => maxmath.tobool(Avx.mm256_testc_ps(Avx.mm256_cmp_ps(this, other, (int)Avx.CMP.EQ_OQ), new v256(-1)));
+        public bool Equals(float8 other) => maxmath.bitmask32(8) == Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(this, other, (int)Avx.CMP.EQ_OQ));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj) => Equals((float8)obj);

@@ -44,39 +44,39 @@ namespace MaxMath.Tests
                         x30 = 32,
                         x31 = 64},
 
-            new byte32{ x0  = 22,          
-                        x1  = 12,       
-                        x2  = 32, 
+            new byte32{ x0  = 22,
+                        x1  = 12,
+                        x2  = 32,
                         x3  = 211,
                         x4  = 99,
                         x5  = 80,
-                        x6  = 54, 
-                        x7  = 39, 
-                        x8  = 76, 
-                        x9  = 65, 
-                        x10 = 1,  
-                        x11 = 211, 
-                        x12 = 35, 
-                        x13 = 75,  
-                        x14 = 99, 
+                        x6  = 54,
+                        x7  = 39,
+                        x8  = 76,
+                        x9  = 65,
+                        x10 = 1,
+                        x11 = 211,
+                        x12 = 35,
+                        x13 = 75,
+                        x14 = 99,
                         x15 = 211,
                         x16 = 21,
-                        x17 = 8,  
-                        x18 = 47, 
-                        x19 = 32, 
+                        x17 = 8,
+                        x18 = 47,
+                        x19 = 32,
                         x20 = 182,
                         x21 = 239,
                         x22 = 45,
-                        x23 = 90, 
+                        x23 = 90,
                         x24 = 222,
-                        x25 = 3,  
+                        x25 = 3,
                         x26 = 32,
                         x27 = 198,
-                        x28 = 6, 
-                        x29 = 34, 
-                        x30 = 9, 
+                        x28 = 6,
+                        x29 = 34,
+                        x30 = 9,
                         x31 = 47},
-      // EQUAL
+
             new byte32{ x0  = 87,           
                         x1  = byte.MaxValue, 
                         x2  = 17,  
@@ -179,39 +179,8 @@ namespace MaxMath.Tests
                         x30 = 237,
                         x31 = 211},
 
-            new byte32{ x0  = 22, 
-                        x1  = 12,
-                        x2  = 32,
-                        x3  = 211,
-                        x4  = 99,
-                        x5  = 80,
-                        x6  = 54,
-                        x7  = 39,
-                        x8  = 76,
-                        x9  = 65,
-                        x10 = 1,
-                        x11 = 211,
-                        x12 = 35,
-                        x13 = 75,
-                        x14 = 99,
-                        x15 = 211,
-                        x16 = 21,
-                        x17 = 8, 
-                        x18 = 47,
-                        x19 = 32,
-                        x20 = 182,
-                        x21 = 239,
-                        x22 = 45,
-                        x23 = 90,
-                        x24 = 222,
-                        x25 = 3,
-                        x26 = 32,
-                        x27 = 198,
-                        x28 = 6,
-                        x29 = 34,
-                        x30 = 9,
-                        x31 = 47},
-      // EQUAL
+            TestData_LHS[1],
+       
             new byte32{ x0  = 17, 
                         x1  = 87,
                         x2  = 9,
@@ -479,7 +448,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 + TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -525,7 +494,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 - TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -571,7 +540,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 * TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -617,7 +586,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 / TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -663,7 +632,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 % TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -709,7 +678,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 & TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -755,7 +724,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 | TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -801,7 +770,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(TestData_LHS[i].x31 ^ TestData_RHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -847,7 +816,7 @@ namespace MaxMath.Tests
                           x.x31 == (byte)(~TestData_LHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -896,7 +865,7 @@ namespace MaxMath.Tests
                 }
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -945,7 +914,7 @@ namespace MaxMath.Tests
                 }
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -992,7 +961,7 @@ namespace MaxMath.Tests
                                               TestData_LHS[i].x31 == TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1038,7 +1007,7 @@ namespace MaxMath.Tests
                 result &= x.x31 == TestData_LHS[i].x31 < TestData_RHS[i].x31; 
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1084,7 +1053,7 @@ namespace MaxMath.Tests
                                               TestData_LHS[i].x31 > TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1130,7 +1099,7 @@ namespace MaxMath.Tests
                                               TestData_LHS[i].x31 != TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1176,7 +1145,7 @@ namespace MaxMath.Tests
                                               TestData_LHS[i].x31 <= TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1222,7 +1191,7 @@ namespace MaxMath.Tests
                                               TestData_LHS[i].x31 >= TestData_RHS[i].x31));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -1269,7 +1238,7 @@ namespace MaxMath.Tests
                                 TestData_LHS[i].x31 == TestData_RHS[i].x31);
             }                                                              
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -1318,7 +1287,7 @@ namespace MaxMath.Tests
             }
 
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -1365,7 +1334,7 @@ namespace MaxMath.Tests
                           x.Byte31 == TestData_LHS[i].x31;
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -1413,7 +1382,7 @@ namespace MaxMath.Tests
                           x.x31 == TestData_LHS[i].x31;
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

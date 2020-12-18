@@ -508,8 +508,21 @@ Assert.IsWithinArrayBounds(index, 4);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator % (short4 lhs, short4 rhs) => new short4((short)(lhs.x % rhs.x),    (short)(lhs.y % rhs.y),    (short)(lhs.z % rhs.z),    (short)(lhs.w % rhs.w));
-    
-    
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 operator * (short lhs, short4 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 operator * (short4 lhs, short rhs) => (v128)((short8)((v128)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 operator / (short4 lhs, short rhs) => (v128)((short8)((v128)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 operator % (short4 lhs, short rhs) => (v128)((short8)((v128)lhs) % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator & (short4 lhs, short4 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -578,7 +591,7 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(short4 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi16(this, other), new v128(-1L, 0L)));
+        public bool Equals(short4 other) => maxmath.bitmask32(4 * sizeof(short)) == (maxmath.bitmask32(4 * sizeof(short)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi16(this, other))));
 
         public override bool Equals(object obj) => Equals((short4)obj);
 

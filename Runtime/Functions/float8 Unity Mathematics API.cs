@@ -1,6 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -80,30 +78,11 @@ namespace MaxMath
             return Avx.mm256_rsqrt_ps(x);
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static float8 fmod(float8 x, float8 y)
-        //{
-        //    float8 quotient = x / y;
-        //
-        //    return y * (quotient - trunc(quotient));
-        //}
-
-
-        /// <summary>       Returns the componentwise sign of a float8 value. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components.     </summary>
+        /// <summary>       Returns the componentwise floating point remainder of x/y.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 sign(float8 x) 
+        public static float8 fmod(float8 x, float8 y)
         {
-            v256 exp = new v256(math.asfloat(0x3F80_0000));
-
-            float8 zeroMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.EQ_OQ);
-            float8 negativeMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.LT_OS);
-            float8 positiveMask = Avx.mm256_cmp_ps(x, default(v256), (int)Avx.CMP.GT_OS);
-
-            negativeMask = Avx.mm256_and_ps(negativeMask, exp);
-            positiveMask = Avx.mm256_and_ps(positiveMask, exp);
-
-
-            return Avx.mm256_blendv_ps(positiveMask - negativeMask, x, zeroMask);
+            return x % y;
         }
 
 

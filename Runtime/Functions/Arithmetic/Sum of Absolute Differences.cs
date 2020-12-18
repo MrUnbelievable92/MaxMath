@@ -12,8 +12,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte2 a, byte2 b)
         {
-            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(16)));
-            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(16)));
+            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(16ul)));
+            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(16ul)));
 
             return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
         }
@@ -22,8 +22,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte3 a, byte3 b)
         {
-            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(24)));
-            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(24)));
+            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(24ul)));
+            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(24ul)));
 
             return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
         }
@@ -32,8 +32,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte4 a, byte4 b)
         {
-            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(32)));
-            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(32)));
+            v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(32ul)));
+            v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(32ul)));
 
             return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
         }

@@ -495,12 +495,19 @@ Assert.IsWithinArrayBounds(index, 4);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator % (ulong4 lhs, ulong4 rhs) => new ulong4(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z,    lhs.w % rhs.w);
+        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 lhs, ulong rhs) => Operator.div(lhs, rhs);
+        public static ulong4 operator * (ulong lhs, ulong4 rhs) => rhs * lhs;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 lhs, ulong rhs) => Operator.rem(lhs, rhs);
+        public static ulong4 operator * (ulong4 lhs, ulong rhs) => new ulong4(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong4 lhs, ulong rhs) => new ulong4(lhs.x / rhs,  lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 lhs, ulong rhs) => new ulong4(lhs.x % rhs,  lhs.y % rhs, lhs.z % rhs, lhs.w % rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -568,7 +575,7 @@ Assert.IsWithinArrayBounds(index, 4);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ulong4 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi64(this, other), new v256(-1)));
+        public bool Equals(ulong4 other) => maxmath.bitmask32(4) == Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(this, other));
 
         public override bool Equals(object obj) => Equals((ulong4)obj);
 

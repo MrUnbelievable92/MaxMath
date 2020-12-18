@@ -166,6 +166,19 @@ Assert.IsWithinArrayBounds(index, 32);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 operator % (sbyte32 lhs, sbyte32 rhs) => Operator.vrem_sbyte(lhs, rhs);
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 operator * (sbyte lhs, sbyte32 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 operator * (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 * rhs), (sbyte)(lhs.x1 * rhs), (sbyte)(lhs.x2 * rhs), (sbyte)(lhs.x3 * rhs), (sbyte)(lhs.x4 * rhs), (sbyte)(lhs.x5 * rhs), (sbyte)(lhs.x6 * rhs), (sbyte)(lhs.x7 * rhs), (sbyte)(lhs.x8 * rhs), (sbyte)(lhs.x9 * rhs), (sbyte)(lhs.x10 * rhs), (sbyte)(lhs.x11 * rhs), (sbyte)(lhs.x12 * rhs), (sbyte)(lhs.x13 * rhs), (sbyte)(lhs.x14 * rhs), (sbyte)(lhs.x15 * rhs), (sbyte)(lhs.x16 * rhs), (sbyte)(lhs.x17 * rhs), (sbyte)(lhs.x18 * rhs), (sbyte)(lhs.x19 * rhs), (sbyte)(lhs.x20 * rhs), (sbyte)(lhs.x21 * rhs), (sbyte)(lhs.x22 * rhs), (sbyte)(lhs.x23 * rhs), (sbyte)(lhs.x24 * rhs), (sbyte)(lhs.x25 * rhs), (sbyte)(lhs.x26 * rhs), (sbyte)(lhs.x27 * rhs), (sbyte)(lhs.x28 * rhs), (sbyte)(lhs.x29 * rhs), (sbyte)(lhs.x30 * rhs), (sbyte)(lhs.x31 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 operator / (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 / rhs), (sbyte)(lhs.x1 / rhs), (sbyte)(lhs.x2 / rhs), (sbyte)(lhs.x3 / rhs), (sbyte)(lhs.x4 / rhs), (sbyte)(lhs.x5 / rhs), (sbyte)(lhs.x6 / rhs), (sbyte)(lhs.x7 / rhs), (sbyte)(lhs.x8 / rhs), (sbyte)(lhs.x9 / rhs), (sbyte)(lhs.x10 / rhs), (sbyte)(lhs.x11 / rhs), (sbyte)(lhs.x12 / rhs), (sbyte)(lhs.x13 / rhs), (sbyte)(lhs.x14 / rhs), (sbyte)(lhs.x15 / rhs), (sbyte)(lhs.x16 / rhs), (sbyte)(lhs.x17 / rhs), (sbyte)(lhs.x18 / rhs), (sbyte)(lhs.x19 / rhs), (sbyte)(lhs.x20 / rhs), (sbyte)(lhs.x21 / rhs), (sbyte)(lhs.x22 / rhs), (sbyte)(lhs.x23 / rhs), (sbyte)(lhs.x24 / rhs), (sbyte)(lhs.x25 / rhs), (sbyte)(lhs.x26 / rhs), (sbyte)(lhs.x27 / rhs), (sbyte)(lhs.x28 / rhs), (sbyte)(lhs.x29 / rhs), (sbyte)(lhs.x30 / rhs), (sbyte)(lhs.x31 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 operator % (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 % rhs), (sbyte)(lhs.x1 % rhs), (sbyte)(lhs.x2 % rhs), (sbyte)(lhs.x3 % rhs), (sbyte)(lhs.x4 % rhs), (sbyte)(lhs.x5 % rhs), (sbyte)(lhs.x6 % rhs), (sbyte)(lhs.x7 % rhs), (sbyte)(lhs.x8 % rhs), (sbyte)(lhs.x9 % rhs), (sbyte)(lhs.x10 % rhs), (sbyte)(lhs.x11 % rhs), (sbyte)(lhs.x12 % rhs), (sbyte)(lhs.x13 % rhs), (sbyte)(lhs.x14 % rhs), (sbyte)(lhs.x15 % rhs), (sbyte)(lhs.x16 % rhs), (sbyte)(lhs.x17 % rhs), (sbyte)(lhs.x18 % rhs), (sbyte)(lhs.x19 % rhs), (sbyte)(lhs.x20 % rhs), (sbyte)(lhs.x21 % rhs), (sbyte)(lhs.x22 % rhs), (sbyte)(lhs.x23 % rhs), (sbyte)(lhs.x24 % rhs), (sbyte)(lhs.x25 % rhs), (sbyte)(lhs.x26 % rhs), (sbyte)(lhs.x27 % rhs), (sbyte)(lhs.x28 % rhs), (sbyte)(lhs.x29 % rhs), (sbyte)(lhs.x30 % rhs), (sbyte)(lhs.x31 % rhs));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -232,7 +245,7 @@ Assert.IsWithinArrayBounds(index, 32);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte32 other) => maxmath.tobool(Avx.mm256_testc_si256(Avx2.mm256_cmpeq_epi8(this, other), new v256(-1)));
+        public bool Equals(sbyte32 other) => -1 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi8(this, other));
 
         public override bool Equals(object obj) => Equals((sbyte32)obj);
     

@@ -174,8 +174,21 @@ Assert.IsWithinArrayBounds(index, 2);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 operator % (sbyte2 lhs, sbyte2 rhs) => new sbyte2((sbyte)(lhs.x % rhs.x),    (sbyte)(lhs.y % rhs.y));
-    
-    
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 operator * (sbyte lhs, sbyte2 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 operator * (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 operator / (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 operator % (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 operator & (sbyte2 lhs, sbyte2 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -244,7 +257,7 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte2 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1, 0, 0, 0, 0, 0, 0, 0)));
+        public bool Equals(sbyte2 other) => maxmath.bitmask32(2 * sizeof(sbyte)) == (maxmath.bitmask32(2 * sizeof(sbyte)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other))));
 
         public override bool Equals(object obj) => Equals((sbyte2)obj);
     

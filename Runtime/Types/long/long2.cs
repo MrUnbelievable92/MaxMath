@@ -149,8 +149,21 @@ Assert.IsWithinArrayBounds(index, 2);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator % (long2 lhs, long2 rhs) => new long2(lhs.x % rhs.x,    lhs.y % rhs.y);
-    
-    
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator * (long lhs, long2 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator * (long2 lhs, long rhs) => new long2(lhs.x * rhs, lhs.y * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 lhs, long rhs) => new long2(lhs.x / rhs, lhs.y / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 lhs, long rhs) => new long2(lhs.x % rhs, lhs.y % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator & (long2 lhs, long2 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -219,7 +232,7 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(long2 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse4_1.cmpeq_epi64(this, other)));
+        public bool Equals(long2 other) => maxmath.bitmask32(2) == Sse2.movemask_pd(Sse4_1.cmpeq_epi64(this, other));
 
         public override bool Equals(object obj) => Equals((long2)obj);
     

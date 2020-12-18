@@ -262,42 +262,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two byte2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte2)Mask.Int2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte3)Mask.Int3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte4)Mask.Int4FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two byte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte8)Mask.Int8FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two byte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (sbyte16)Mask.Short16FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two byte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two byte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, int c)
         {
@@ -305,42 +305,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two sbyte2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 select(sbyte2 a, sbyte2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte2)Mask.Int2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 select(sbyte3 a, sbyte3 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte3)Mask.Int3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 select(sbyte4 a, sbyte4 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte4)Mask.Int4FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two sbyte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 select(sbyte8 a, sbyte8 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (byte8)Mask.Int8FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two sbyte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte16 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (sbyte16)Mask.Short16FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two sbyte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two sbyte32 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, int c)
         {
@@ -348,35 +348,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two ushort2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ushort2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, Mask.Short2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ushort3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ushort3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short3)Mask.Int3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ushort4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ushort4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short4)Mask.Int4FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ushort8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ushort8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short8)Mask.Int8FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ushort16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ushort16 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, int c)
         {
@@ -384,35 +384,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two short2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two short2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, Mask.Short2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two short3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two short3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 select(short3 a, short3 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short3)Mask.Int3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two short4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two short4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 select(short4 a, short4 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short4)Mask.Int4FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two short8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two short8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, (short8)Mask.Int8FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two short16 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two short16 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, int c)
         {
@@ -420,7 +420,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two int2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two int2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 select(int2 a, int2 b, int c)
         {
@@ -430,7 +430,7 @@ namespace MaxMath
             return *(int2*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two int3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two int3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 select(int3 a, int3 b, int c)
         {
@@ -440,7 +440,7 @@ namespace MaxMath
             return *(int3*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two int4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two int4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 select(int4 a, int4 b, int c)
         {
@@ -450,7 +450,7 @@ namespace MaxMath
             return *(int4*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two int8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two int8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 select(int8 a, int8 b, int c)
         {
@@ -458,7 +458,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two uint2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two uint2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 select(uint2 a, uint2 b, int c)
         {
@@ -468,7 +468,7 @@ namespace MaxMath
             return *(uint2*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two uint3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two uint3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 select(uint3 a, uint3 b, int c)
         {
@@ -478,7 +478,7 @@ namespace MaxMath
             return *(uint3*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two uint4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two uint4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 select(uint4 a, uint4 b, int c)
         {
@@ -488,7 +488,7 @@ namespace MaxMath
             return *(uint4*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two uint8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two uint8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 select(uint8 a, uint8 b, int c)
         {
@@ -496,21 +496,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two long2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two long2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, Mask.Long2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two long3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two long3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 select(long3 a, long3 b, int c)
         {
             return Avx2.mm256_blendv_epi8(a, b, Mask.Long3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two long4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two long4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 select(long4 a, long4 b, int c)
         {
@@ -518,21 +518,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two ulong2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ulong2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 select(ulong2 a, ulong2 b, int c)
         {
             return Sse4_1.blendv_epi8(a, b, Mask.Long2FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ulong3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ulong3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 select(ulong3 a, ulong3 b, int c)
         {
             return Avx2.mm256_blendv_epi8(a, b, Mask.Long3FromInt(c));
         }
 
-        /// <summary>       Returns a componentwise selection between two ulong4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two ulong4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, int c)
         {
@@ -540,7 +540,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two double2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two double2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 select(double2 a, double2 b, int c)
         {
@@ -549,7 +549,7 @@ namespace MaxMath
             return *(double2*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two double3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two double3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 select(double3 a, double3 b, int c)
         {
@@ -558,7 +558,7 @@ namespace MaxMath
             return *(double3*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two double4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two double4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 select(double4 a, double4 b, int c)
         {
@@ -568,7 +568,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two float2 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two float2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 select(float2 a, float2 b, int c)
         {
@@ -578,7 +578,7 @@ namespace MaxMath
             return *(float2*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two float3 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two float3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 select(float3 a, float3 b, int c)
         {
@@ -588,7 +588,7 @@ namespace MaxMath
             return *(float3*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two float4 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two float4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 select(float4 a, float4 b, int c)
         {
@@ -598,7 +598,7 @@ namespace MaxMath
             return *(float4*)&temp;
         }
 
-        /// <summary>       Returns a componentwise selection between two float8 vectors a and b based on a bitmask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        /// <summary>       Returns a componentwise selection between two float8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, int c)
         {

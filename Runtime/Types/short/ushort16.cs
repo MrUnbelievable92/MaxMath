@@ -227,12 +227,20 @@ Assert.IsWithinArrayBounds(index, 16);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator % (ushort16 lhs, ushort16 rhs) => Operator.vrem_ushort(lhs, rhs);
+        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator / (ushort16 lhs, ushort rhs) => Operator.div(lhs, rhs);
+        public static ushort16 operator * (ushort lhs, ushort16 rhs) => rhs * lhs;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator % (ushort16 lhs, ushort rhs) => Operator.rem(lhs, rhs);
+        public static ushort16 operator * (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 * rhs), (ushort)(lhs.x1 * rhs), (ushort)(lhs.x2 * rhs), (ushort)(lhs.x3 * rhs), (ushort)(lhs.x4 * rhs), (ushort)(lhs.x5 * rhs), (ushort)(lhs.x6 * rhs), (ushort)(lhs.x7 * rhs), (ushort)(lhs.x8 * rhs), (ushort)(lhs.x9 * rhs), (ushort)(lhs.x10 * rhs), (ushort)(lhs.x11 * rhs), (ushort)(lhs.x12 * rhs), (ushort)(lhs.x13 * rhs), (ushort)(lhs.x14 * rhs), (ushort)(lhs.x15 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator / (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 / rhs), (ushort)(lhs.x1 / rhs), (ushort)(lhs.x2 / rhs), (ushort)(lhs.x3 / rhs), (ushort)(lhs.x4 / rhs), (ushort)(lhs.x5 / rhs), (ushort)(lhs.x6 / rhs), (ushort)(lhs.x7 / rhs), (ushort)(lhs.x8 / rhs), (ushort)(lhs.x9 / rhs), (ushort)(lhs.x10 / rhs), (ushort)(lhs.x11 / rhs), (ushort)(lhs.x12 / rhs), (ushort)(lhs.x13 / rhs), (ushort)(lhs.x14 / rhs), (ushort)(lhs.x15 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator % (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 % rhs), (ushort)(lhs.x1 % rhs), (ushort)(lhs.x2 % rhs), (ushort)(lhs.x3 % rhs), (ushort)(lhs.x4 % rhs), (ushort)(lhs.x5 % rhs), (ushort)(lhs.x6 % rhs), (ushort)(lhs.x7 % rhs), (ushort)(lhs.x8 % rhs), (ushort)(lhs.x9 % rhs), (ushort)(lhs.x10 % rhs), (ushort)(lhs.x11 % rhs), (ushort)(lhs.x12 % rhs), (ushort)(lhs.x13 % rhs), (ushort)(lhs.x14 % rhs), (ushort)(lhs.x15 % rhs));
+
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -296,7 +304,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort16 other) => maxmath.tobool(Avx.mm256_testc_ps(Avx2.mm256_cmpeq_epi16(this, other), new v256(-1)));
+        public bool Equals(ushort16 other) => -1 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi16(this, other));
 
         public override bool Equals(object obj) => Equals((ushort16)obj);
     

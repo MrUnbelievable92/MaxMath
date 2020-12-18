@@ -25,7 +25,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -114,7 +114,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -203,7 +203,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -247,7 +247,7 @@ namespace MaxMath.Tests
                 result &= (maxmath.all_dif(a) == false);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

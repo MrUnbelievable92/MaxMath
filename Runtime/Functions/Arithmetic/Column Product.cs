@@ -185,7 +185,7 @@ namespace MaxMath
             x = Avx.mm256_castsi256_si128((int8)x * (int8)(short8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
             x = Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(x, 0) * Sse4_1.extract_epi32(x, 1);
+            return Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the horizontal product of components of a short16 vector.        </summary>
@@ -200,7 +200,7 @@ namespace MaxMath
 
             lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(lo, 0) * Sse4_1.extract_epi32(lo, 1);
+            return Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 
@@ -232,7 +232,7 @@ namespace MaxMath
             x = Avx.mm256_castsi256_si128((uint8)x * (uint8)(ushort8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
             x = Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)Sse4_1.extract_epi32(x, 0) * (uint)Sse4_1.extract_epi32(x, 1);
+            return Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
         /// <summary>       Returns the horizontal product of components of a ushort16 vector.        </summary>
@@ -247,7 +247,7 @@ namespace MaxMath
 
             lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)Sse4_1.extract_epi32(lo, 0) * (uint)Sse4_1.extract_epi32(lo, 1);
+            return Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
 
@@ -284,7 +284,7 @@ namespace MaxMath
 
             result = Sse4_1.mullo_epi32(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(result, 0) * Sse4_1.extract_epi32(result, 1);
+            return Sse4_1.mullo_epi32(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 

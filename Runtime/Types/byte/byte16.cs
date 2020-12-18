@@ -241,11 +241,18 @@ Assert.IsWithinArrayBounds(index, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 operator % (byte16 lhs, byte16 rhs) => Operator.vrem_byte(lhs, rhs);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 operator / (byte16 lhs, byte rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 operator % (byte16 lhs, byte rhs) => Operator.rem(lhs, rhs);
+        public static byte16 operator * (byte lhs, byte16 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 operator * (byte16 lhs, byte rhs) => new byte16((byte)(lhs.x0 * rhs), (byte)(lhs.x1 * rhs), (byte)(lhs.x2 * rhs), (byte)(lhs.x3 * rhs), (byte)(lhs.x4 * rhs), (byte)(lhs.x5 * rhs), (byte)(lhs.x6 * rhs), (byte)(lhs.x7 * rhs), (byte)(lhs.x8 * rhs), (byte)(lhs.x9 * rhs), (byte)(lhs.x10 * rhs), (byte)(lhs.x11 * rhs), (byte)(lhs.x12 * rhs), (byte)(lhs.x13 * rhs), (byte)(lhs.x14 * rhs), (byte)(lhs.x15 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 operator / (byte16 lhs, byte rhs) => new byte16((byte)(lhs.x0 / rhs), (byte)(lhs.x1 / rhs), (byte)(lhs.x2 / rhs), (byte)(lhs.x3 / rhs), (byte)(lhs.x4 / rhs), (byte)(lhs.x5 / rhs), (byte)(lhs.x6 / rhs), (byte)(lhs.x7 / rhs), (byte)(lhs.x8 / rhs), (byte)(lhs.x9 / rhs), (byte)(lhs.x10 / rhs), (byte)(lhs.x11 / rhs), (byte)(lhs.x12 / rhs), (byte)(lhs.x13 / rhs), (byte)(lhs.x14 / rhs), (byte)(lhs.x15 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 operator % (byte16 lhs, byte rhs) => new byte16((byte)(lhs.x0 % rhs), (byte)(lhs.x1 % rhs), (byte)(lhs.x2 % rhs), (byte)(lhs.x3 % rhs), (byte)(lhs.x4 % rhs), (byte)(lhs.x5 % rhs), (byte)(lhs.x6 % rhs), (byte)(lhs.x7 % rhs), (byte)(lhs.x8 % rhs), (byte)(lhs.x9 % rhs), (byte)(lhs.x10 % rhs), (byte)(lhs.x11 % rhs), (byte)(lhs.x12 % rhs), (byte)(lhs.x13 % rhs), (byte)(lhs.x14 % rhs), (byte)(lhs.x15 % rhs));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -309,7 +316,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte16 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi8(this, other)));
+        public bool Equals(byte16 other) => maxmath.bitmask32(16 * sizeof(byte)) == Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other));
 
         public override bool Equals(object obj) => Equals((byte16)obj);
     

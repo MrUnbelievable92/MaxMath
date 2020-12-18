@@ -18,7 +18,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte16.TestData_LHS[i].x15);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.Byte32.TestData_LHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -168,7 +168,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte16.TestData_LHS[i].x15);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -301,7 +301,7 @@ namespace MaxMath.Tests
                                 (int)Tests.SByte32.TestData_LHS[i].x31);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -318,7 +318,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.UShort2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -335,7 +335,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.UShort3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -353,7 +353,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.UShort4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -375,7 +375,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.UShort8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -405,7 +405,7 @@ namespace MaxMath.Tests
                                 (uint)Tests.UShort16.TestData_LHS[i].x15);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -422,7 +422,7 @@ namespace MaxMath.Tests
                                 (int)Tests.Short2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
                                 (int)Tests.Short3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -457,7 +457,7 @@ namespace MaxMath.Tests
                                 (int)Tests.Short4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -479,7 +479,7 @@ namespace MaxMath.Tests
                                 (int)Tests.Short8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -509,7 +509,7 @@ namespace MaxMath.Tests
                                 (int)Tests.Short16.TestData_LHS[i].x15);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -532,7 +532,7 @@ namespace MaxMath.Tests
                                 Tests.Int8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -555,7 +555,7 @@ namespace MaxMath.Tests
                                 Tests.UInt8.TestData_LHS[i].x7);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -572,7 +572,7 @@ namespace MaxMath.Tests
                                 Tests.Long2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -589,7 +589,7 @@ namespace MaxMath.Tests
                                 Tests.Long3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -607,7 +607,7 @@ namespace MaxMath.Tests
                                 Tests.Long4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -624,7 +624,7 @@ namespace MaxMath.Tests
                                 Tests.ULong2.TestData_LHS[i].y);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -641,7 +641,7 @@ namespace MaxMath.Tests
                                 Tests.ULong3.TestData_LHS[i].z);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -659,7 +659,7 @@ namespace MaxMath.Tests
                                 Tests.ULong4.TestData_LHS[i].w);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }

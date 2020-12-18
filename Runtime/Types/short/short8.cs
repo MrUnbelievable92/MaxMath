@@ -184,8 +184,21 @@ Assert.IsWithinArrayBounds(index, 8);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 operator % (short8 lhs, short8 rhs) => new short8((short)(lhs.x0 % rhs.x0),    (short)(lhs.x1 % rhs.x1),    (short)(lhs.x2 % rhs.x2),    (short)(lhs.x3 % rhs.x3),    (short)(lhs.x4 % rhs.x4),    (short)(lhs.x5 % rhs.x5),    (short)(lhs.x6 % rhs.x6),    (short)(lhs.x7 % rhs.x7));
-    
-    
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 operator * (short lhs, short8 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 operator * (short8 lhs, short rhs) => new short8((short)(lhs.x0 * rhs), (short)(lhs.x1 * rhs), (short)(lhs.x2 * rhs), (short)(lhs.x3 * rhs), (short)(lhs.x4 * rhs), (short)(lhs.x5 * rhs), (short)(lhs.x6 * rhs), (short)(lhs.x7 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 operator / (short8 lhs, short rhs) => new short8((short)(lhs.x0 / rhs), (short)(lhs.x1 / rhs), (short)(lhs.x2 / rhs), (short)(lhs.x3 / rhs), (short)(lhs.x4 / rhs), (short)(lhs.x5 / rhs), (short)(lhs.x6 / rhs), (short)(lhs.x7 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 operator % (short8 lhs, short rhs) => new short8((short)(lhs.x0 % rhs), (short)(lhs.x1 % rhs), (short)(lhs.x2 % rhs), (short)(lhs.x3 % rhs), (short)(lhs.x4 % rhs), (short)(lhs.x5 % rhs), (short)(lhs.x6 % rhs), (short)(lhs.x7 % rhs));
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 operator & (short8 lhs, short8 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -250,7 +263,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(short8 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi16(this, other)));
+        public bool Equals(short8 other) => maxmath.bitmask32(8 * sizeof(short)) == Sse2.movemask_epi8(Sse2.cmpeq_epi16(this, other));
 
         public override bool Equals(object obj) => Equals((short8)obj);
     

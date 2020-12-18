@@ -284,13 +284,20 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 operator % (byte3 lhs, byte3 rhs) => new byte3((byte)(lhs.x % rhs.x),    (byte)(lhs.y % rhs.y),    (byte)(lhs.z % rhs.z));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3 operator / (byte3 lhs, byte rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3 operator % (byte3 lhs, byte rhs) => Operator.rem(lhs, rhs);
-    
-    
+        public static byte3 operator * (byte lhs, byte3 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 operator * (byte3 lhs, byte rhs) => (v128)((byte16)((v128)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 operator / (byte3 lhs, byte rhs) => (v128)((byte16)((v128)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 operator % (byte3 lhs, byte rhs) => (v128)((byte16)((v128)lhs) % rhs);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 operator & (byte3 lhs, byte3 rhs) => Sse2.and_si128(lhs, rhs);
     
@@ -356,7 +363,7 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte3 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(0x0000_0000_00FF_FFFFul, 0ul)));
+        public bool Equals(byte3 other) => maxmath.bitmask32(3 * sizeof(byte)) == (maxmath.bitmask32(3 * sizeof(byte)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other))));
 
         public override bool Equals(object obj) => Equals((byte3)obj);
     

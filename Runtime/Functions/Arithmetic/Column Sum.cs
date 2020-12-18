@@ -17,7 +17,7 @@ namespace MaxMath
 
             result = Sse.add_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return result.Float0 + result.Float1;
+            return Sse.mul_ss(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
         }
 
 
@@ -96,9 +96,9 @@ namespace MaxMath
             short8 cast = x;                                        
                                                                     
             cast += Sse2.unpackhi_epi64(cast, cast);            
-            cast += Sse2.shufflelo_epi16(cast, Sse.SHUFFLE(0, 1, 2, 3)); 
+            cast += Sse2.shufflelo_epi16(cast, Sse.SHUFFLE(0, 1, 2, 3));
 
-            return (short)Sse2.extract_epi16(cast, 0) + (short)Sse2.extract_epi16(cast, 1);
+            return Sse2.add_epi16(cast, Sse2.shufflelo_epi16(cast, Sse.SHUFFLE(0, 0, 0, 1))).SShort0;
         }
 
         /// <summary>       Returns the horizontal sum of components of an sbyte16 vector.        </summary>
@@ -110,7 +110,7 @@ namespace MaxMath
             cast += Sse2.unpackhi_epi64(cast, cast);
             cast += Sse2.shufflelo_epi16(cast, Sse.SHUFFLE(0, 1, 2, 3));
 
-            return (short)Sse2.extract_epi16(cast, 0) + (short)Sse2.extract_epi16(cast, 1);
+            return Sse2.add_epi16(cast, Sse2.shufflelo_epi16(cast, Sse.SHUFFLE(0, 0, 0, 1))).SShort0;
         }
 
         /// <summary>       Returns the horizontal sum of components of an sbyte32 vector.        </summary>
@@ -123,7 +123,7 @@ namespace MaxMath
             more += Sse2.unpackhi_epi64(more, more);
             more += Sse2.shufflelo_epi16(more, Sse.SHUFFLE(0, 1, 2, 3));
 
-            return (short)Sse2.extract_epi16(more, 0) + (short)Sse2.extract_epi16(more, 1);
+            return Sse2.add_epi16(more, Sse2.shufflelo_epi16(more, Sse.SHUFFLE(0, 0, 0, 1))).SShort0;
         }
 
 
@@ -147,7 +147,7 @@ namespace MaxMath
         {
             x = Sse2.add_epi32(Sse4_1.cvtepi16_epi32(x), Sse4_1.cvtepi16_epi32(x.zw));
 
-            return Sse4_1.extract_epi32(x, 0) + Sse4_1.extract_epi32(x, 1);
+            return Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a short8 vector.        </summary>
@@ -158,7 +158,7 @@ namespace MaxMath
 
             x = Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(x, 0) + Sse4_1.extract_epi32(x, 1);
+            return Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a short16 vector.        </summary>
@@ -173,7 +173,7 @@ namespace MaxMath
 
             lo = Sse2.add_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(lo, 0) + Sse4_1.extract_epi32(lo, 1);
+            return Sse2.add_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 
@@ -197,7 +197,7 @@ namespace MaxMath
         {
             x = Sse2.add_epi32(Sse4_1.cvtepu16_epi32(x), Sse4_1.cvtepu16_epi32(x.zw));
 
-            return (uint)Sse4_1.extract_epi32(x, 0) + (uint)Sse4_1.extract_epi32(x, 1);
+            return Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort8 vector.        </summary>
@@ -208,7 +208,7 @@ namespace MaxMath
 
             x = Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)Sse4_1.extract_epi32(x, 0) + (uint)Sse4_1.extract_epi32(x, 1);
+            return Sse2.add_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort16 vector.        </summary>
@@ -223,7 +223,7 @@ namespace MaxMath
 
             lo = Sse2.add_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)Sse4_1.extract_epi32(lo, 0) + (uint)Sse4_1.extract_epi32(lo, 1);
+            return Sse2.add_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
 
@@ -235,7 +235,7 @@ namespace MaxMath
 
             int4 = Sse2.add_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(int4, 0) + Sse4_1.extract_epi32(int4, 1);
+            return Sse2.add_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 
@@ -267,7 +267,7 @@ namespace MaxMath
         {
             long2 result = Sse2.add_epi64(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
 
-            return Sse4_1.extract_epi64(result, 0) + Sse4_1.extract_epi64(result, 1);
+            return Sse2.add_epi64(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 3, 2))).SLong0;
         }
 
 
@@ -291,7 +291,7 @@ namespace MaxMath
         {
             ulong2 result = Sse2.add_epi64(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
 
-            return (ulong)(Sse4_1.extract_epi64(result, 0) + Sse4_1.extract_epi64(result, 1));
+            return Sse2.add_epi64(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 3, 2))).ULong0;
         }
     }
 }

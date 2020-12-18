@@ -184,12 +184,20 @@ Assert.IsWithinArrayBounds(index, 8);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator % (ushort8 lhs, ushort8 rhs) => new ushort8((ushort)(lhs.x0 % rhs.x0),    (ushort)(lhs.x1 % rhs.x1),    (ushort)(lhs.x2 % rhs.x2),    (ushort)(lhs.x3 % rhs.x3),    (ushort)(lhs.x4 % rhs.x4),    (ushort)(lhs.x5 % rhs.x5),    (ushort)(lhs.x6 % rhs.x6),    (ushort)(lhs.x7 % rhs.x7));
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator / (ushort8 lhs, ushort rhs) => Operator.div(lhs, rhs);
+        
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator % (ushort8 lhs, ushort rhs) => Operator.rem(lhs, rhs);
+        public static ushort8 operator * (ushort lhs, ushort8 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort8 operator * (ushort8 lhs, ushort rhs) => new ushort8((ushort)(lhs.x0 * rhs), (ushort)(lhs.x1 * rhs), (ushort)(lhs.x2 * rhs), (ushort)(lhs.x3 * rhs), (ushort)(lhs.x4 * rhs), (ushort)(lhs.x5 * rhs), (ushort)(lhs.x6 * rhs), (ushort)(lhs.x7 * rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort8 operator / (ushort8 lhs, ushort rhs) => new ushort8((ushort)(lhs.x0 / rhs), (ushort)(lhs.x1 / rhs), (ushort)(lhs.x2 / rhs), (ushort)(lhs.x3 / rhs), (ushort)(lhs.x4 / rhs), (ushort)(lhs.x5 / rhs), (ushort)(lhs.x6 / rhs), (ushort)(lhs.x7 / rhs));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort8 operator % (ushort8 lhs, ushort rhs) => new ushort8((ushort)(lhs.x0 % rhs), (ushort)(lhs.x1 % rhs), (ushort)(lhs.x2 % rhs), (ushort)(lhs.x3 % rhs), (ushort)(lhs.x4 % rhs), (ushort)(lhs.x5 % rhs), (ushort)(lhs.x6 % rhs), (ushort)(lhs.x7 % rhs));
+
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -253,7 +261,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort8 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse2.cmpeq_epi16(this, other)));
+        public bool Equals(ushort8 other) => maxmath.bitmask32(8 * sizeof(short)) == Sse2.movemask_epi8(Sse2.cmpeq_epi16(this, other));
 
         public override bool Equals(object obj) => Equals((ushort8)obj);
     

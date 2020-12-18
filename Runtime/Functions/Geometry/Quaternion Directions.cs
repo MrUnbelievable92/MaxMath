@@ -3,6 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
+    // A little more optimized than the standard math.mul(q, new float3({-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1}) calculation
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns a float3 vector representing the world space left direction relative to a quaternion roation.     </summary>
@@ -38,7 +39,7 @@ namespace MaxMath
         {
             float4 temp = new float4(2f, 0f, -2f, 0f) * rotation.value.zyxw;
         
-            return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(0f, -1f, -0f, 0f))).xyz;
+            return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(0f, -1f, 0f, 0f))).xyz;
         }
 
         /// <summary>       Returns a float3 vector representing the world space forward direction relative to a quaternion roation.     </summary>

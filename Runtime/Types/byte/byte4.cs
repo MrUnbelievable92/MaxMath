@@ -521,11 +521,18 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator % (byte4 lhs, byte4 rhs) => new byte4((byte)(lhs.x % rhs.x),    (byte)(lhs.y % rhs.y),    (byte)(lhs.z % rhs.z),    (byte)(lhs.w % rhs.w));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4 operator / (byte4 lhs, byte rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4 operator % (byte4 lhs, byte rhs) => Operator.rem(lhs, rhs);
+        public static byte4 operator * (byte lhs, byte4 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator * (byte4 lhs, byte rhs) => (v128)((byte16)((v128)lhs) * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator / (byte4 lhs, byte rhs) => (v128)((byte16)((v128)lhs) / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator % (byte4 lhs, byte rhs) => (v128)((byte16)((v128)lhs) % rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -593,7 +600,7 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte4 other) => maxmath.tobool(Sse4_1.testc_si128(Sse2.cmpeq_epi8(this, other), new v128(-1, -1, 0, 0, 0, 0, 0, 0)));
+        public bool Equals(byte4 other) => maxmath.bitmask32(4 * sizeof(byte)) == (maxmath.bitmask32(4 * sizeof(byte)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other))));
 
         public override bool Equals(object obj) => Equals((byte4)obj);
 

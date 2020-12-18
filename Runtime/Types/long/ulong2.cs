@@ -150,11 +150,18 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator % (ulong2 lhs, ulong2 rhs) => new ulong2(lhs.x % rhs.x,    lhs.y % rhs.y);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator / (ulong2 lhs, ulong rhs) => Operator.div(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator % (ulong2 lhs, ulong rhs) => Operator.rem(lhs, rhs);
+        public static ulong2 operator * (ulong lhs, ulong2 rhs) => rhs * lhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (ulong2 lhs, ulong rhs) => new ulong2(lhs.x * rhs, lhs.y * rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator / (ulong2 lhs, ulong rhs) => new ulong2(lhs.x / rhs, lhs.y / rhs);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator % (ulong2 lhs, ulong rhs) => new ulong2(lhs.x % rhs, lhs.y % rhs);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -222,7 +229,7 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ulong2 other) => maxmath.tobool(Sse4_1.test_all_ones(Sse4_1.cmpeq_epi64(this, other)));
+        public bool Equals(ulong2 other) => maxmath.bitmask32(2) == Sse2.movemask_pd(Sse4_1.cmpeq_epi64(this, other));
 
         public override bool Equals(object obj) => Equals((ulong2)obj);
     

@@ -19,7 +19,7 @@ namespace MaxMath.Tests
                 result &= a == (b ? -Tests.Float8.TestData_LHS[i].x0 : Tests.Float8.TestData_LHS[i].x0);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Float2.TestData_LHS[i], -Tests.Float2.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Float3.TestData_LHS[i], -Tests.Float3.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Float4.TestData_LHS[i], -Tests.Float4.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
                 result &= maxmath.all(a == maxmath.select(Tests.Float8.TestData_LHS[i], -Tests.Float8.TestData_LHS[i], b));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
 
@@ -105,7 +105,7 @@ namespace MaxMath.Tests
                 result &= a == (b ? -Tests.Double4.TestData_LHS[i].x : Tests.Double4.TestData_LHS[i].x);
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Double2.TestData_LHS[i], -Tests.Double2.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Double3.TestData_LHS[i], -Tests.Double3.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace MaxMath.Tests
                 result &= math.all(a == (math.select(Tests.Double4.TestData_LHS[i], -Tests.Double4.TestData_LHS[i], b)));
             }
 
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
     }
 }
