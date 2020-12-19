@@ -54,7 +54,7 @@ namespace MaxMath
             return (x >> n) | (x << (-n & 7));
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of a byte16 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 ror(byte16 x, int n)
         {
@@ -63,7 +63,7 @@ namespace MaxMath
             return (x >> n) | (x << (-n & 7));
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of a byte32 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 ror(byte32 x, int n)
         {
@@ -108,14 +108,14 @@ namespace MaxMath
             return (sbyte8)ror((byte8)x, n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte16 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 ror(sbyte16 x, int n)
         {
             return (sbyte16)ror((byte16)x, n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte32 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 ror(sbyte32 x, int n)
         {
@@ -335,7 +335,7 @@ namespace MaxMath
             return (x << n) | (x >> (-n & 7));
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of a byte16 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 rol(byte16 x, int n)
         {
@@ -344,7 +344,7 @@ namespace MaxMath
             return (x << n) | (x >> (-n & 7));
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of a byte32 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 rol(byte32 x, int n)
         {
@@ -389,14 +389,14 @@ namespace MaxMath
             return (sbyte8)rol((byte8)x, n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte16 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 rol(sbyte16 x, int n)
         {
             return (sbyte16)rol((byte16)x, n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by n bits.       </summary>
+        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte32 right by n bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 rol(sbyte32 x, int n)
         {

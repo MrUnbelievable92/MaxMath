@@ -100,7 +100,7 @@ namespace MaxMath
         public static explicit operator int2(ulong2 input) { v128 t = Cast.Long2ToInt2(input); return *(int2*)&t; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half2(ulong2 input) => (half2)(float2)(int2)input;
+        public static explicit operator half2(ulong2 input) => (half2)(float2)(uint2)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float2(ulong2 input) => new float2((float)input.x, (float)input.y);

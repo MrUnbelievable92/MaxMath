@@ -5,33 +5,33 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns -1 if 'this' is smaller than 'other', 1 if 'this' is greater than 'other' or 0 if both are equal.       </summary>
+        /// <summary>       Returns -1 if x is smaller than y, 1 if x is greater than y or 0 if both are equal.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)]
-        public static int compareto(int _this, int _other)
+        public static int compareto(int x, int y)
         {
-            return touint8(_this > _other) - touint8(_this < _other);
+            return touint8(x > y) - touint8(x < y);
         }
 
-        /// <summary>       Returns -1 if 'this' is smaller than 'other', 1 if 'this' is greater than 'other' or 0 if both are equal.       </summary>
+        /// <summary>       Returns -1 if x is smaller than y, 1 if x is greater than y or 0 if both are equal.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)]
-        public static int compareto(uint _this, uint _other)
+        public static int compareto(uint x, uint y)
         {
-            return touint8(_this > _other) - touint8(_this < _other);
+            return touint8(x > y) - touint8(x < y);
         }
 
 
-        /// <summary>       Returns -1 if 'this' is smaller than 'other', 1 if 'this' is greater than 'other' or 0 if both are equal.       </summary>
+        /// <summary>       Returns -1 if x is smaller than y, 1 if x is greater than y or 0 if both are equal.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)]
-        public static int compareto(long _this, long _other)
+        public static int compareto(long x, long y)
         {
-            return touint8(_this > _other) - touint8(_this < _other);
+            return touint8(x > y) - touint8(x < y);
         }
 
-        /// <summary>       Returns -1 if 'this' is smaller than 'other', 1 if 'this' is greater than 'other' or 0 if both are equal.       </summary>
+        /// <summary>       Returns -1 if x is smaller than y, 1 if x is greater than y or 0 if both are equal.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)]
-        public static int compareto(ulong _this, ulong _other)
+        public static int compareto(ulong x, ulong y)
         {
-            return touint8(_this > _other) - touint8(_this < _other);
+            return touint8(x > y) - touint8(x < y);
         }
     }
 }

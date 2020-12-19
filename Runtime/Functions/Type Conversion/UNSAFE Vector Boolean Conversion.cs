@@ -604,7 +604,7 @@ Assert.IsSafeBoolean(x.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 tof32(bool8 x)
         {
-            return select(new float8(0f), new float8(1f), x);
+            return select(default(float8), new float8(1f), x);
         }
 
 

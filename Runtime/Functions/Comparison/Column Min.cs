@@ -153,21 +153,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort3 x)
         {
-            return Sse2.extract_epi16(Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0u, 0xFFFF_0000u, uint.MaxValue, uint.MaxValue))), 0);
+            return Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0u, 0xFFFF_0000u, uint.MaxValue, uint.MaxValue))).UShort0;
         }
 
         /// <summary>       Returns the minimum component of a ushort4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort4 x)
         {
-            return Sse2.extract_epi16(Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0, 0, -1, -1))), 0);
+            return Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0, 0, -1, -1))).UShort0;
         }
 
         /// <summary>       Returns the minimum component of a ushort8 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort8 x)
         {
-            return Sse2.extract_epi16(Sse4_1.minpos_epu16(x), 0);
+            return Sse4_1.minpos_epu16(x).UShort0;
         }
 
         /// <summary>       Returns the minimum component of a ushort16 vector.       </summary>
@@ -186,7 +186,7 @@ namespace MaxMath
 
             int4 = Sse4_1.min_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(Sse4_1.min_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))), 0);
+            return Sse4_1.min_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 
@@ -198,7 +198,7 @@ namespace MaxMath
 
             int4 = Sse4_1.min_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)(Sse4_1.extract_epi32(Sse4_1.min_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))), 0));
+            return Sse4_1.min_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
 

@@ -315,7 +315,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(float8 x)
         {
-            return bitmask32(8) != Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(x, new float8(0), (int)Avx.CMP.EQ_OQ));
+            return bitmask32(8) != Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(x, default(float8), (int)Avx.CMP.EQ_OQ));
         }
     }
 }

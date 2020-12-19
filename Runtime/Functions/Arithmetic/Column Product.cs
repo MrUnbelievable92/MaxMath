@@ -20,7 +20,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float3 x)
         {
-            return (x.x * x.y) * x.z;
+            return ((x * x.yyy) * x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal product of components of a float4 vector.        </summary>
@@ -28,7 +28,7 @@ namespace MaxMath
         public static float cprod(float4 x)
         {
             x *= x.wzyx;
-            x *= x.yxxx;
+            x *= x.yyyy;
 
             return x.x;
         }
@@ -42,7 +42,7 @@ namespace MaxMath
 
             result = Sse.mul_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return result.Float0 * result.Float1;
+            return Sse.mul_ss(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
         }
 
 
@@ -57,7 +57,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double3 x)
         {
-            return (x.x * x.y) * x.z;
+            return ((x * x.yyy) * x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal product of components of a double4 vector.        </summary>
@@ -65,7 +65,7 @@ namespace MaxMath
         public static double cprod(double4 x)
         {
             x *= x.wzyx;
-            x *= x.yxxx;
+            x *= x.yyyy;
 
             return x.x;
         }
@@ -75,21 +75,26 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte2 x)
         {
-            return (uint)(x.x * x.y);
+            return (uint)x.x * (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal product of components of a byte3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte3 x)
         {
-            return (uint)(x.x * x.y * x.z);
+            return ((uint)x.x * (uint)x.y) * (uint)x.z;
         }
 
         /// <summary>       Returns the horizontal product of components of a byte4 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte4 x)
         {
-            return (uint)((x.x * x.y) * (x.z * x.w));
+            uint4 cast = x;
+
+            cast *= cast.zwzw;
+            cast *= cast.yyyy;
+
+            return cast.x;
         }
 
         /// <summary>       Returns the horizontal product of components of a byte8 vector.        </summary>
@@ -132,7 +137,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-127 * 128 * 128 * 128,    128 * 128 * 128 * 128)]
         public static int cprod(sbyte4 x)
         {
-            return (x.x * x.y) * (x.z * x.w);
+            int4 cast = x;
+
+            cast *= cast.zwzw;
+            cast *= cast.yyyy;
+
+            return cast.x;
         }
 
         /// <summary>       Returns the horizontal product of components of an sbyte8 vector.        </summary>
@@ -175,7 +185,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short4 x)
         {
-            return (x.x * x.y) * (x.z * x.w);
+            int4 cast = x;
+
+            cast *= cast.zwzw;
+            cast *= cast.yyyy;
+
+            return cast.x;
         }
 
         /// <summary>       Returns the horizontal product of components of a short8 vector.        </summary>
@@ -208,21 +223,26 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort2 x)
         {
-            return (uint)(x.x * x.y);
+            return (uint)x.x * (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal product of components of a ushort3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort3 x)
         {
-            return (uint)((x.x * x.y) * x.z);
+            return ((uint)x.x * (uint)x.y) * (uint)x.z;
         }
 
         /// <summary>       Returns the horizontal product of components of a ushort4 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort4 x)
         {
-            return (uint)((x.x * x.y) * (x.z * x.w));
+            uint4 cast = x;
+
+            cast *= cast.zwzw;
+            cast *= cast.yyyy;
+
+            return cast.x;
         }
 
         /// <summary>       Returns the horizontal product of components of a ushort8 vector.        </summary>
@@ -255,14 +275,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int2 x)
         {
-            return x.x * x.y;
+            return (x * x.yy).x;
         }
 
         /// <summary>       Returns the horizontal product of components of an int3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int3 x)
         {
-            return (x.x * x.y) * x.z;
+            return ((x * x.yyy) * x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal product of components of an int4 vector.        </summary>
@@ -270,7 +290,7 @@ namespace MaxMath
         public static int cprod(int4 x)
         {
             x *= x.wzyx;
-            x *= x.yxxx;
+            x *= x.yyyy;
 
             return x.x;
         }
@@ -292,14 +312,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint2 x)
         {
-            return x.x * x.y;
+            return (x * x.yy).x;
         }
 
         /// <summary>       Returns the horizontal product of components of a uint3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint3 x)
         {
-            return (x.x * x.y) * x.z;
+            return ((x * x.yyy) * x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal product of components of a uint4 vector.        </summary>
@@ -307,7 +327,7 @@ namespace MaxMath
         public static uint cprod(uint4 x)
         {
             x *= x.wzyx;
-            x *= x.yxxx;
+            x *= x.yyyy;
 
             return x.x;
         }

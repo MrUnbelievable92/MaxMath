@@ -25,7 +25,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte2 x)
         {
-            return (uint)(x.x + x.y);
+            return (uint)x.x + (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte3 vector.        </summary>
@@ -82,11 +82,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(4 * sbyte.MinValue, 4 * sbyte.MaxValue)]
         public static int csum(sbyte4 x)
         {
-            short4 cast = x;                                        
-                                                                    
-            cast += cast.zwzw;                                   
-                                                                    
-            return (short)Sse2.extract_epi16(cast, 0) + (short)Sse2.extract_epi16(cast, 1);
+            short4 cast = x;
+
+            cast += cast.zwzw;
+            cast += cast.yyyy;
+
+            return cast.x;
         }
 
         /// <summary>       Returns the horizontal sum of components of an sbyte8 vector.        </summary>
@@ -181,14 +182,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort2 x)
         {
-            return (uint)(x.x + x.y);
+            return (uint)x.x + (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort3 x)
         {
-            return (uint)((x.x + x.y) + x.z);
+            return ((uint)x.x + (uint)x.y) + (uint)x.z;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort4 vector.        </summary>
@@ -251,14 +252,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long2 x)
         {
-            return x.x + x.y;
+            return (x + x.yx).x;
         }
 
         /// <summary>       Returns the horizontal sum of components of a long3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long3 x)
         {
-            return (x.x + x.y) + x.z;
+            return ((x + x.yyy) + x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal sum of components of a long4 vector.        </summary>
@@ -275,14 +276,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong2 x)
         {
-            return x.x + x.y;
+            return (x + x.yx).x;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ulong3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong3 x)
         {
-            return (x.x + x.y) + x.z;
+            return ((x + x.yyy) + x.zzz).x;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ulong4 vector.        </summary>

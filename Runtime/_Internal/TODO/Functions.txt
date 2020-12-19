@@ -5,5 +5,3 @@ subvectors (s)byte32 => tests
 All Different (s)byte32, optimize (u)short16
 
 Type Casting shortX to char[]
-
-MAYBE bitshift/add when multiplying by "constant"

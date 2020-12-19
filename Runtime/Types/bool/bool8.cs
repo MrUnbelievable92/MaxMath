@@ -107,7 +107,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(v128 input)
         {
-#if UNITY_EDITOR
+#if DEBUG
             return new bool8 { x0 = maxmath.tobool(input.Byte0),
                                x1 = maxmath.tobool(input.Byte1),
                                x2 = maxmath.tobool(input.Byte2),
@@ -117,7 +117,7 @@ namespace MaxMath
                                x6 = maxmath.tobool(input.Byte6),
                                x7 = maxmath.tobool(input.Byte7) };
 #else
-            return new bool8 { cast_long = Sse4_1.extract_epi64(input, 0) }
+            return new bool8 { cast_long = input.SLong0 };
 #endif
         }
 

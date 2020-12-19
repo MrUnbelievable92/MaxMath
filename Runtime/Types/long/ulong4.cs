@@ -446,7 +446,7 @@ namespace MaxMath
         public static explicit operator int4(ulong4 input) { v128 t = Cast.Long4ToInt4(input); return *(int4*)&t; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half4(ulong4 input) => (half4)(float4)(int4)input;
+        public static explicit operator half4(ulong4 input) => (half4)(float4)(uint4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float4(ulong4 input) => new float4((float)input.x, (float)input.y, (float)input.z, (float)input.w);

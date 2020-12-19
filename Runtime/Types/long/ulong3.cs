@@ -202,7 +202,7 @@ namespace MaxMath
         public static explicit operator int3(ulong3 input) { v128 t = Cast.Long4ToInt4(input); return *(int3*)&t; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half3(ulong3 input) => (half3)(float3)(int3)input;
+        public static explicit operator half3(ulong3 input) => (half3)(float3)(uint3)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float3(ulong3 input) => new float3((float)input.x, (float)input.y, (float)input.z);

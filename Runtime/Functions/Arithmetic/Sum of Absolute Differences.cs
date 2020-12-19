@@ -15,7 +15,7 @@ namespace MaxMath
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(16ul)));
             v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(16ul)));
 
-            return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
+            return Sse2.sad_epu8(maskedA, maskedB).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte3 vectors.      </summary>
@@ -25,7 +25,7 @@ namespace MaxMath
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(24ul)));
             v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(24ul)));
 
-            return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
+            return Sse2.sad_epu8(maskedA, maskedB).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte4 vectors.      </summary>
@@ -35,14 +35,14 @@ namespace MaxMath
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(32ul)));
             v128 maskedB = Sse2.and_si128(b, new v128(maxmath.bitmask64(32ul)));
 
-            return Sse2.extract_epi16(Sse2.sad_epu8(maskedA, maskedB), 0);
+            return Sse2.sad_epu8(maskedA, maskedB).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte8 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte8 a, byte8 b)
         {
-            return Sse2.extract_epi16(Sse2.sad_epu8(a, b), 0);
+            return Sse2.sad_epu8(a, b).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte16 vectors.      </summary>
@@ -51,7 +51,7 @@ namespace MaxMath
         {
             a = Sse2.sad_epu8(a, b);
 
-            return (uint)Sse2.extract_epi16(a, 0) + (uint)Sse2.extract_epi16(a, 4);
+            return Sse2.add_epi16(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 2))).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte32 vectors.      </summary>
@@ -110,7 +110,7 @@ namespace MaxMath
             more += Sse2.shuffle_epi32(more, Sse.SHUFFLE(0, 1, 2, 3));
             more += Sse2.shufflelo_epi16(more, Sse.SHUFFLE(0, 1, 2, 3));
 
-            return (uint)(Sse2.extract_epi16(more, 0) + Sse2.extract_epi16(more, 1));
+            return Sse2.add_epi16(more, Sse2.shufflelo_epi16(more, Sse.SHUFFLE(0, 0, 0, 1))).UShort0;
         }
 
 

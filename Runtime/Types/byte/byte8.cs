@@ -116,7 +116,7 @@ namespace MaxMath
         public static implicit operator v128(byte8 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte8(v128 input) => new byte8{ cast_long = Sse4_1.extract_epi64(input, 0) };
+        public static implicit operator byte8(v128 input) => new byte8{ cast_long = input.SLong0 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator byte8(byte input) => new byte8(input);
@@ -195,7 +195,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator / (byte8 lhs, byte8 rhs)
         {
-#if UNITY_EDITOR
+#if DEBUG
             return (v128)Operator.vdiv_byte((v128)lhs, new byte16(rhs, new byte8(1)));
 #else
             return (v128)Operator.vdiv_byte((v128)lhs, (v128)rhs);
@@ -205,7 +205,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator % (byte8 lhs, byte8 rhs)
         {
-#if UNITY_EDITOR
+#if DEBUG
             return (v128)Operator.vrem_byte((v128)lhs, new byte16(rhs, new byte8(1)));
 #else
             return (v128)Operator.vrem_byte((v128)lhs, (v128)rhs);

@@ -415,7 +415,7 @@ namespace MaxMath
         public static implicit operator v128(sbyte4 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte4(v128 input) => new sbyte4 { cast_int = Sse4_1.extract_epi32(input, 0) };
+        public static implicit operator sbyte4(v128 input) => new sbyte4 { cast_int = input.SInt0 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte4(sbyte input) => new sbyte4(input);
@@ -609,7 +609,7 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0);
+        public override int GetHashCode() => ((v128)this).SInt0;
 
 
         public override string ToString() => $"sbyte4({x}, {y}, {z}, {w})";

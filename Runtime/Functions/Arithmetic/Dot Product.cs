@@ -40,7 +40,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short2 a, short2 b)
         {
-            return Sse4_1.extract_epi32(Sse2.madd_epi16(a, b), 0);
+            return Sse2.madd_epi16(a, b).SInt0;
         }
 
         /// <summary>       Returns the dot product of two short3 vectors.        </summary>
@@ -49,7 +49,7 @@ namespace MaxMath
         {
             short4 t = Sse2.madd_epi16(Sse2.insert_epi16(a, 0, 3), b);
 
-            return Sse4_1.extract_epi32(t, 0) + Sse4_1.extract_epi32(t, 1);
+            return Sse2.add_epi32(t, Sse2.shuffle_epi32(t, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the dot product of two short4 vectors.        </summary>
@@ -58,7 +58,7 @@ namespace MaxMath
         {
             a = Sse2.madd_epi16(a, b);
 
-            return Sse4_1.extract_epi32(a, 0) + Sse4_1.extract_epi32(a, 1);
+            return Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the dot product of two short8 vectors.        </summary>
@@ -69,7 +69,7 @@ namespace MaxMath
 
             a = Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(a, 0) + Sse4_1.extract_epi32(a, 2);
+            return Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
         /// <summary>       Returns the dot product of two short16 vectors.        </summary>

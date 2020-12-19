@@ -190,7 +190,7 @@ namespace MaxMath
 
             int4 = Sse4_1.max_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.extract_epi32(Sse4_1.max_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))), 0);
+            return Sse4_1.max_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
         }
 
 
@@ -202,7 +202,7 @@ namespace MaxMath
 
             int4 = Sse4_1.max_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return (uint)(Sse4_1.extract_epi32(Sse4_1.max_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))), 0));
+            return Sse4_1.max_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
         }
 
 

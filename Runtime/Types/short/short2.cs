@@ -69,7 +69,7 @@ namespace MaxMath
         public static implicit operator v128(short2 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-        public static implicit operator short2(v128 input) => new short2 { cast_int = Sse4_1.extract_epi32(input, 0) };
+        public static implicit operator short2(v128 input) => new short2 { cast_int = input.SInt0 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short2(short input) => new short2(input);
@@ -252,7 +252,7 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0);
+        public override int GetHashCode() => ((v128)this).SInt0;
 
 
         public override string ToString() => $"short2({x}, {y})";

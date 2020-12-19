@@ -179,7 +179,7 @@ namespace MaxMath
         public static implicit operator v128(sbyte3 input) => Sse4_1.insert_epi8(Sse2.insert_epi16(default(v128), *(short*)&input, 0), (byte)input.z, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte3(v128 input) => new sbyte3 { x = (sbyte)Sse4_1.extract_epi8(input, 0), y = (sbyte)Sse4_1.extract_epi8(input, 1), z = (sbyte)Sse4_1.extract_epi8(input, 2) };
+        public static implicit operator sbyte3(v128 input) => new sbyte3 { x = (sbyte)input.Byte0, y = (sbyte)input.Byte1, z = (sbyte)input.Byte2 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte3(sbyte input) => new sbyte3(input);
@@ -370,10 +370,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public bool Equals(sbyte3 other) => maxmath.bitmask32(3 * sizeof(sbyte)) == (maxmath.bitmask32(3 * sizeof(sbyte)) & (Sse2.movemask_epi8(Sse2.cmpeq_epi8(this, other))));
 
         public override bool Equals(object obj) => Equals((sbyte3)obj);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => Sse4_1.extract_epi32(this, 0) & (int)maxmath.bitmask32(24);
+        public override int GetHashCode() => Hash.v24(this);
 
 
         public override string ToString() => $"sbyte3({x}, {y}, {z})";
