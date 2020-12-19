@@ -486,7 +486,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
         {
             bool result = true;
 
@@ -2411,6 +2411,431 @@ namespace MaxMath.Tests
             Assert.AreEqual(true, result);
         }
 
+        [Test]
+        public static void ShuffleSetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                byte4 xywz = TestData_LHS[i];
+                xywz.xywz = TestData_RHS[i];
+                result &= xywz.x == TestData_RHS[i].x;
+                result &= xywz.y == TestData_RHS[i].y;
+                result &= xywz.w == TestData_RHS[i].z;
+                result &= xywz.z == TestData_RHS[i].w;
+
+                byte4 xzyw = TestData_LHS[i];
+                xzyw.xzyw = TestData_RHS[i];
+                result &= xzyw.x == TestData_RHS[i].x;
+                result &= xzyw.z == TestData_RHS[i].y;
+                result &= xzyw.y == TestData_RHS[i].z;
+                result &= xzyw.w == TestData_RHS[i].w;
+
+                byte4 xzwy = TestData_LHS[i];
+                xzwy.xzwy = TestData_RHS[i];
+                result &= xzwy.x == TestData_RHS[i].x;
+                result &= xzwy.z == TestData_RHS[i].y;
+                result &= xzwy.w == TestData_RHS[i].z;
+                result &= xzwy.y == TestData_RHS[i].w;
+
+                byte4 xwyz = TestData_LHS[i];
+                xwyz.xwyz = TestData_RHS[i];
+                result &= xwyz.x == TestData_RHS[i].x;
+                result &= xwyz.w == TestData_RHS[i].y;
+                result &= xwyz.y == TestData_RHS[i].z;
+                result &= xwyz.z == TestData_RHS[i].w;
+
+                byte4 xwzy = TestData_LHS[i];
+                xwzy.xwzy = TestData_RHS[i];
+                result &= xwzy.x == TestData_RHS[i].x;
+                result &= xwzy.w == TestData_RHS[i].y;
+                result &= xwzy.z == TestData_RHS[i].z;
+                result &= xwzy.y == TestData_RHS[i].w;
+
+                byte4 yxzw = TestData_LHS[i];
+                yxzw.yxzw = TestData_RHS[i];
+                result &= yxzw.y == TestData_RHS[i].x;
+                result &= yxzw.x == TestData_RHS[i].y;
+                result &= yxzw.z == TestData_RHS[i].z;
+                result &= yxzw.w == TestData_RHS[i].w;
+
+                byte4 yxwz = TestData_LHS[i];
+                yxwz.yxwz = TestData_RHS[i];
+                result &= yxwz.y == TestData_RHS[i].x;
+                result &= yxwz.x == TestData_RHS[i].y;
+                result &= yxwz.w == TestData_RHS[i].z;
+                result &= yxwz.z == TestData_RHS[i].w;
+
+                byte4 yzxw = TestData_LHS[i];
+                yzxw.yzxw = TestData_RHS[i];
+                result &= yzxw.y == TestData_RHS[i].x;
+                result &= yzxw.z == TestData_RHS[i].y;
+                result &= yzxw.x == TestData_RHS[i].z;
+                result &= yzxw.w == TestData_RHS[i].w;
+
+                byte4 yzwx = TestData_LHS[i];
+                yzwx.yzwx = TestData_RHS[i];
+                result &= yzwx.y == TestData_RHS[i].x;
+                result &= yzwx.z == TestData_RHS[i].y;
+                result &= yzwx.w == TestData_RHS[i].z;
+                result &= yzwx.x == TestData_RHS[i].w;
+
+                byte4 ywxz = TestData_LHS[i];
+                ywxz.ywxz = TestData_RHS[i];
+                result &= ywxz.y == TestData_RHS[i].x;
+                result &= ywxz.w == TestData_RHS[i].y;
+                result &= ywxz.x == TestData_RHS[i].z;
+                result &= ywxz.z == TestData_RHS[i].w;
+
+                byte4 ywzx = TestData_LHS[i];
+                ywzx.ywzx = TestData_RHS[i];
+                result &= ywzx.y == TestData_RHS[i].x;
+                result &= ywzx.w == TestData_RHS[i].y;
+                result &= ywzx.z == TestData_RHS[i].z;
+                result &= ywzx.x == TestData_RHS[i].w;
+
+                byte4 zxyw = TestData_LHS[i];
+                zxyw.zxyw = TestData_RHS[i];
+                result &= zxyw.z == TestData_RHS[i].x;
+                result &= zxyw.x == TestData_RHS[i].y;
+                result &= zxyw.y == TestData_RHS[i].z;
+                result &= zxyw.w == TestData_RHS[i].w;
+
+                byte4 zxwy = TestData_LHS[i];
+                zxwy.zxwy = TestData_RHS[i];
+                result &= zxwy.z == TestData_RHS[i].x;
+                result &= zxwy.x == TestData_RHS[i].y;
+                result &= zxwy.w == TestData_RHS[i].z;
+                result &= zxwy.y == TestData_RHS[i].w;
+
+                byte4 zyxw = TestData_LHS[i];
+                zyxw.zyxw = TestData_RHS[i];
+                result &= zyxw.z == TestData_RHS[i].x;
+                result &= zyxw.y == TestData_RHS[i].y;
+                result &= zyxw.x == TestData_RHS[i].z;
+                result &= zyxw.w == TestData_RHS[i].w;
+
+                byte4 zywx = TestData_LHS[i];
+                zywx.zywx = TestData_RHS[i];
+                result &= zywx.z == TestData_RHS[i].x;
+                result &= zywx.y == TestData_RHS[i].y;
+                result &= zywx.w == TestData_RHS[i].z;
+                result &= zywx.x == TestData_RHS[i].w;
+
+                byte4 zwxy = TestData_LHS[i];
+                zwxy.zwxy = TestData_RHS[i];
+                result &= zwxy.z == TestData_RHS[i].x;
+                result &= zwxy.w == TestData_RHS[i].y;
+                result &= zwxy.x == TestData_RHS[i].z;
+                result &= zwxy.y == TestData_RHS[i].w;
+
+                byte4 zwyx = TestData_LHS[i];
+                zwyx.zwyx = TestData_RHS[i];
+                result &= zwyx.z == TestData_RHS[i].x;
+                result &= zwyx.w == TestData_RHS[i].y;
+                result &= zwyx.y == TestData_RHS[i].z;
+                result &= zwyx.x == TestData_RHS[i].w;
+
+                byte4 wxyz = TestData_LHS[i];
+                wxyz.wxyz = TestData_RHS[i];
+                result &= wxyz.w == TestData_RHS[i].x;
+                result &= wxyz.x == TestData_RHS[i].y;
+                result &= wxyz.y == TestData_RHS[i].z;
+                result &= wxyz.z == TestData_RHS[i].w;
+
+                byte4 wxzy = TestData_LHS[i];
+                wxzy.wxzy = TestData_RHS[i];
+                result &= wxzy.w == TestData_RHS[i].x;
+                result &= wxzy.x == TestData_RHS[i].y;
+                result &= wxzy.z == TestData_RHS[i].z;
+                result &= wxzy.y == TestData_RHS[i].w;
+
+                byte4 wyxz = TestData_LHS[i];
+                wyxz.wyxz = TestData_RHS[i];
+                result &= wyxz.w == TestData_RHS[i].x;
+                result &= wyxz.y == TestData_RHS[i].y;
+                result &= wyxz.x == TestData_RHS[i].z;
+                result &= wyxz.z == TestData_RHS[i].w;
+
+                byte4 wyzx = TestData_LHS[i];
+                wyzx.wyzx = TestData_RHS[i];
+                result &= wyzx.w == TestData_RHS[i].x;
+                result &= wyzx.y == TestData_RHS[i].y;
+                result &= wyzx.z == TestData_RHS[i].z;
+                result &= wyzx.x == TestData_RHS[i].w;
+
+                byte4 wzxy = TestData_LHS[i];
+                wzxy.wzxy = TestData_RHS[i];
+                result &= wzxy.w == TestData_RHS[i].x;
+                result &= wzxy.z == TestData_RHS[i].y;
+                result &= wzxy.x == TestData_RHS[i].z;
+                result &= wzxy.y == TestData_RHS[i].w;
+
+                byte4 wzyx = TestData_LHS[i];
+                wzyx.wzyx = TestData_RHS[i];
+                result &= wzyx.w == TestData_RHS[i].x;
+                result &= wzyx.z == TestData_RHS[i].y;
+                result &= wzyx.y == TestData_RHS[i].z;
+                result &= wzyx.x == TestData_RHS[i].w;
+
+
+                byte4 xyz = TestData_LHS[i];
+                xyz.xyz = TestData_RHS[i].xyz;
+                result &= xyz.x == TestData_RHS[i].x;
+                result &= xyz.y == TestData_RHS[i].y;
+                result &= xyz.z == TestData_RHS[i].z;
+                result &= xyz.w == TestData_LHS[i].w;
+
+                byte4 xyw = TestData_LHS[i];
+                xyw.xyw = TestData_RHS[i].xyz;
+                result &= xyw.x == TestData_RHS[i].x;
+                result &= xyw.y == TestData_RHS[i].y;
+                result &= xyw.z == TestData_LHS[i].z;
+                result &= xyw.w == TestData_RHS[i].z;
+
+                byte4 xzy = TestData_LHS[i];
+                xzy.xzy = TestData_RHS[i].xyz;
+                result &= xzy.x == TestData_RHS[i].x;
+                result &= xzy.y == TestData_RHS[i].z;
+                result &= xzy.z == TestData_RHS[i].y;
+                result &= xzy.w == TestData_LHS[i].w;
+
+                byte4 xzw = TestData_LHS[i];
+                xzw.xzw = TestData_RHS[i].xyz;
+                result &= xzw.x == TestData_RHS[i].x;
+                result &= xzw.y == TestData_LHS[i].y;
+                result &= xzw.z == TestData_RHS[i].y;
+                result &= xzw.w == TestData_RHS[i].z;
+
+                byte4 xwy = TestData_LHS[i];
+                xwy.xwy = TestData_RHS[i].xyz;
+                result &= xwy.x == TestData_RHS[i].x;
+                result &= xwy.y == TestData_RHS[i].z;
+                result &= xwy.z == TestData_LHS[i].z;
+                result &= xwy.w == TestData_RHS[i].y;
+
+                byte4 xwz = TestData_LHS[i];
+                xwz.xwz = TestData_RHS[i].xyz;
+                result &= xwz.x == TestData_RHS[i].x;
+                result &= xwz.y == TestData_LHS[i].y;
+                result &= xwz.z == TestData_RHS[i].z;
+                result &= xwz.w == TestData_RHS[i].y;
+
+                byte4 yxz = TestData_LHS[i];
+                yxz.yxz = TestData_RHS[i].xyz;
+                result &= yxz.x == TestData_RHS[i].y;
+                result &= yxz.y == TestData_RHS[i].x;
+                result &= yxz.z == TestData_RHS[i].z;
+                result &= yxz.w == TestData_LHS[i].w;
+
+                byte4 yxw = TestData_LHS[i];
+                yxw.yxw = TestData_RHS[i].xyz;
+                result &= yxw.x == TestData_RHS[i].y;
+                result &= yxw.y == TestData_RHS[i].x;
+                result &= yxw.z == TestData_LHS[i].z;
+                result &= yxw.w == TestData_RHS[i].z;
+
+                byte4 yzx = TestData_LHS[i];
+                yzx.yzx = TestData_RHS[i].xyz;
+                result &= yzx.x == TestData_RHS[i].z;
+                result &= yzx.y == TestData_RHS[i].x;
+                result &= yzx.z == TestData_RHS[i].y;
+                result &= yzx.w == TestData_LHS[i].w;
+
+                byte4 yzw = TestData_LHS[i];
+                yzw.yzw = TestData_RHS[i].xyz;
+                result &= yzw.x == TestData_LHS[i].x;
+                result &= yzw.y == TestData_RHS[i].x;
+                result &= yzw.z == TestData_RHS[i].y;
+                result &= yzw.w == TestData_RHS[i].z;
+
+                byte4 ywx = TestData_LHS[i];
+                ywx.ywx = TestData_RHS[i].xyz;
+                result &= ywx.x == TestData_RHS[i].z;
+                result &= ywx.y == TestData_RHS[i].x;
+                result &= ywx.z == TestData_LHS[i].z;
+                result &= ywx.w == TestData_RHS[i].y;
+
+                byte4 ywz = TestData_LHS[i];
+                ywz.ywz = TestData_RHS[i].xyz;
+                result &= ywz.x == TestData_LHS[i].x;
+                result &= ywz.y == TestData_RHS[i].x;
+                result &= ywz.z == TestData_RHS[i].z;
+                result &= ywz.w == TestData_RHS[i].y;
+
+                byte4 zxy = TestData_LHS[i];
+                zxy.zxy = TestData_RHS[i].xyz;
+                result &= zxy.x == TestData_RHS[i].y;
+                result &= zxy.y == TestData_RHS[i].z;
+                result &= zxy.z == TestData_RHS[i].x;
+                result &= zxy.w == TestData_LHS[i].w;
+
+                byte4 zxw = TestData_LHS[i];
+                zxw.zxw = TestData_RHS[i].xyz;
+                result &= zxw.x == TestData_RHS[i].y;
+                result &= zxw.y == TestData_LHS[i].y;
+                result &= zxw.z == TestData_RHS[i].x;
+                result &= zxw.w == TestData_RHS[i].z;
+
+                byte4 zyx = TestData_LHS[i];
+                zyx.zyx = TestData_RHS[i].xyz;
+                result &= zyx.x == TestData_RHS[i].z;
+                result &= zyx.y == TestData_RHS[i].y;
+                result &= zyx.z == TestData_RHS[i].x;
+                result &= zyx.w == TestData_LHS[i].w;
+
+                byte4 zyw = TestData_LHS[i];
+                zyw.zyw = TestData_RHS[i].xyz;
+                result &= zyw.x == TestData_LHS[i].x;
+                result &= zyw.y == TestData_RHS[i].y;
+                result &= zyw.z == TestData_RHS[i].x;
+                result &= zyw.w == TestData_RHS[i].z;
+
+                byte4 zwx = TestData_LHS[i];
+                zwx.zwx = TestData_RHS[i].xyz;
+                result &= zwx.x == TestData_RHS[i].z;
+                result &= zwx.y == TestData_LHS[i].y;
+                result &= zwx.z == TestData_RHS[i].x;
+                result &= zwx.w == TestData_RHS[i].y;
+
+                byte4 zwy = TestData_LHS[i];
+                zwy.zwy = TestData_RHS[i].xyz;
+                result &= zwy.x == TestData_LHS[i].x;
+                result &= zwy.y == TestData_RHS[i].z;
+                result &= zwy.z == TestData_RHS[i].x;
+                result &= zwy.w == TestData_RHS[i].y;
+
+                byte4 wxy = TestData_LHS[i];
+                wxy.wxy = TestData_RHS[i].xyz;
+                result &= wxy.x == TestData_RHS[i].y;
+                result &= wxy.y == TestData_RHS[i].z;
+                result &= wxy.z == TestData_LHS[i].z;
+                result &= wxy.w == TestData_RHS[i].x;
+
+                byte4 wxz = TestData_LHS[i];
+                wxz.wxz = TestData_RHS[i].xyz;
+                result &= wxz.x == TestData_RHS[i].y;
+                result &= wxz.y == TestData_LHS[i].y;
+                result &= wxz.z == TestData_RHS[i].z;
+                result &= wxz.w == TestData_RHS[i].x;
+
+                byte4 wyx = TestData_LHS[i];
+                wyx.wyx = TestData_RHS[i].xyz;
+                result &= wyx.x == TestData_RHS[i].z;
+                result &= wyx.y == TestData_RHS[i].y;
+                result &= wyx.z == TestData_LHS[i].z;
+                result &= wyx.w == TestData_RHS[i].x;
+
+                byte4 wyz = TestData_LHS[i];
+                wyz.wyz = TestData_RHS[i].xyz;
+                result &= wyz.x == TestData_LHS[i].x;
+                result &= wyz.y == TestData_RHS[i].y;
+                result &= wyz.z == TestData_RHS[i].z;
+                result &= wyz.w == TestData_RHS[i].x;
+
+                byte4 wzx = TestData_LHS[i];
+                wzx.wzx = TestData_RHS[i].xyz;
+                result &= wzx.x == TestData_RHS[i].z;
+                result &= wzx.y == TestData_LHS[i].y;
+                result &= wzx.z == TestData_RHS[i].y;
+                result &= wzx.w == TestData_RHS[i].x;
+
+                byte4 wzy = TestData_LHS[i];
+                wzy.wzy = TestData_RHS[i].xyz;
+                result &= wzy.x == TestData_LHS[i].x;
+                result &= wzy.y == TestData_RHS[i].z;
+                result &= wzy.z == TestData_RHS[i].y;
+                result &= wzy.w == TestData_RHS[i].x;
+
+
+                byte4 xy = TestData_LHS[i];
+                xy.xy = TestData_RHS[i].xy;
+                result &= xy.x == TestData_RHS[i].x;
+                result &= xy.y == TestData_RHS[i].y;
+                result &= xy.z == TestData_LHS[i].z;
+                result &= xy.w == TestData_LHS[i].w;
+
+                byte4 xz = TestData_LHS[i];
+                xz.xz = TestData_RHS[i].xy;
+                result &= xz.x == TestData_RHS[i].x;
+                result &= xz.y == TestData_LHS[i].y;
+                result &= xz.z == TestData_RHS[i].y;
+                result &= xz.w == TestData_LHS[i].w;
+
+                byte4 xw = TestData_LHS[i];
+                xw.xw = TestData_RHS[i].xy;
+                result &= xw.x == TestData_RHS[i].x;
+                result &= xw.y == TestData_LHS[i].y;
+                result &= xw.z == TestData_LHS[i].z;
+                result &= xw.w == TestData_RHS[i].y;
+
+                byte4 yx = TestData_LHS[i];
+                yx.yx = TestData_RHS[i].xy;
+                result &= yx.x == TestData_RHS[i].y;
+                result &= yx.y == TestData_RHS[i].x;
+                result &= yx.z == TestData_LHS[i].z;
+                result &= yx.w == TestData_LHS[i].w;
+
+                byte4 yz = TestData_LHS[i];
+                yz.yz = TestData_RHS[i].xy;
+                result &= yz.x == TestData_LHS[i].x;
+                result &= yz.y == TestData_RHS[i].x;
+                result &= yz.z == TestData_RHS[i].y;
+                result &= yz.w == TestData_LHS[i].w;
+
+                byte4 yw = TestData_LHS[i];
+                yw.yw = TestData_RHS[i].xy;
+                result &= yw.x == TestData_LHS[i].x;
+                result &= yw.y == TestData_RHS[i].x;
+                result &= yw.z == TestData_LHS[i].z;
+                result &= yw.w == TestData_RHS[i].y;
+
+                byte4 zx = TestData_LHS[i];
+                zx.zx = TestData_RHS[i].xy;
+                result &= zx.x == TestData_RHS[i].y;
+                result &= zx.y == TestData_LHS[i].y;
+                result &= zx.z == TestData_RHS[i].x;
+                result &= zx.w == TestData_LHS[i].w;
+
+                byte4 zy = TestData_LHS[i];
+                zy.zy = TestData_RHS[i].xy;
+                result &= zy.x == TestData_LHS[i].x;
+                result &= zy.y == TestData_RHS[i].y;
+                result &= zy.z == TestData_RHS[i].x;
+                result &= zy.w == TestData_LHS[i].w;
+
+                byte4 zw = TestData_LHS[i];
+                zw.zw = TestData_RHS[i].xy;
+                result &= zw.x == TestData_LHS[i].x;
+                result &= zw.y == TestData_LHS[i].y;
+                result &= zw.z == TestData_RHS[i].x;
+                result &= zw.w == TestData_RHS[i].y;
+
+                byte4 wx = TestData_LHS[i];
+                wx.wx = TestData_RHS[i].xy;
+                result &= wx.x == TestData_RHS[i].y;
+                result &= wx.y == TestData_LHS[i].y;
+                result &= wx.z == TestData_LHS[i].z;
+                result &= wx.w == TestData_RHS[i].x;
+
+                byte4 wy = TestData_LHS[i];
+                wy.wy = TestData_RHS[i].xy;
+                result &= wy.x == TestData_LHS[i].x;
+                result &= wy.y == TestData_RHS[i].y;
+                result &= wy.z == TestData_LHS[i].z;
+                result &= wy.w == TestData_RHS[i].x;
+
+                byte4 wz = TestData_LHS[i];
+                wz.wz = TestData_RHS[i].xy;
+                result &= wz.x == TestData_LHS[i].x;
+                result &= wz.y == TestData_LHS[i].y;
+                result &= wz.z == TestData_RHS[i].y;
+                result &= wz.w == TestData_RHS[i].x;
+            }
+
+            Assert.AreEqual(true, result);
+        }
 
         [Test]
         public static void Cast_ToV128()

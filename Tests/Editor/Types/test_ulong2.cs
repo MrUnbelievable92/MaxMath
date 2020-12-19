@@ -363,165 +363,180 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
             {
-                bool result = true;
+                ulong4 xxxx = TestData_LHS[i].xxxx;
+                result &= xxxx.x == TestData_LHS[i].x &
+                          xxxx.y == TestData_LHS[i].x &
+                          xxxx.z == TestData_LHS[i].x &
+                          xxxx.w == TestData_LHS[i].x;
 
-                for (int i = 0; i < NUM_TESTS; i++)
-                {
-                    ulong4 xxxx = TestData_LHS[i].xxxx;
-                    result &= xxxx.x == TestData_LHS[i].x &
-                              xxxx.y == TestData_LHS[i].x &
-                              xxxx.z == TestData_LHS[i].x &
-                              xxxx.w == TestData_LHS[i].x;
+                ulong4 yxxx = TestData_LHS[i].yxxx;
+                result &= yxxx.x == TestData_LHS[i].y &
+                          yxxx.y == TestData_LHS[i].x &
+                          yxxx.z == TestData_LHS[i].x &
+                          yxxx.w == TestData_LHS[i].x;
 
-                    ulong4 yxxx = TestData_LHS[i].yxxx;
-                    result &= yxxx.x == TestData_LHS[i].y &
-                              yxxx.y == TestData_LHS[i].x &
-                              yxxx.z == TestData_LHS[i].x &
-                              yxxx.w == TestData_LHS[i].x;
+                ulong4 xyxx = TestData_LHS[i].xyxx;
+                result &= xyxx.x == TestData_LHS[i].x &
+                          xyxx.y == TestData_LHS[i].y &
+                          xyxx.z == TestData_LHS[i].x &
+                          xyxx.w == TestData_LHS[i].x;
 
-                    ulong4 xyxx = TestData_LHS[i].xyxx;
-                    result &= xyxx.x == TestData_LHS[i].x &
-                              xyxx.y == TestData_LHS[i].y &
-                              xyxx.z == TestData_LHS[i].x &
-                              xyxx.w == TestData_LHS[i].x;
+                ulong4 xxyx = TestData_LHS[i].xxyx;
+                result &= xxyx.x == TestData_LHS[i].x &
+                          xxyx.y == TestData_LHS[i].x &
+                          xxyx.z == TestData_LHS[i].y &
+                          xxyx.w == TestData_LHS[i].x;
 
-                    ulong4 xxyx = TestData_LHS[i].xxyx;
-                    result &= xxyx.x == TestData_LHS[i].x &
-                              xxyx.y == TestData_LHS[i].x &
-                              xxyx.z == TestData_LHS[i].y &
-                              xxyx.w == TestData_LHS[i].x;
+                ulong4 xxxy = TestData_LHS[i].xxxy;
+                result &= xxxy.x == TestData_LHS[i].x &
+                          xxxy.y == TestData_LHS[i].x &
+                          xxxy.z == TestData_LHS[i].x &
+                          xxxy.w == TestData_LHS[i].y;
 
-                    ulong4 xxxy = TestData_LHS[i].xxxy;
-                    result &= xxxy.x == TestData_LHS[i].x &
-                              xxxy.y == TestData_LHS[i].x &
-                              xxxy.z == TestData_LHS[i].x &
-                              xxxy.w == TestData_LHS[i].y;
+                ulong4 yyxx = TestData_LHS[i].yyxx;
+                result &= yyxx.x == TestData_LHS[i].y &
+                          yyxx.y == TestData_LHS[i].y &
+                          yyxx.z == TestData_LHS[i].x &
+                          yyxx.w == TestData_LHS[i].x;
 
-                    ulong4 yyxx = TestData_LHS[i].yyxx;
-                    result &= yyxx.x == TestData_LHS[i].y &
-                              yyxx.y == TestData_LHS[i].y &
-                              yyxx.z == TestData_LHS[i].x &
-                              yyxx.w == TestData_LHS[i].x;
+                ulong4 yxyx = TestData_LHS[i].yxyx;
+                result &= yxyx.x == TestData_LHS[i].y &
+                          yxyx.y == TestData_LHS[i].x &
+                          yxyx.z == TestData_LHS[i].y &
+                          yxyx.w == TestData_LHS[i].x;
 
-                    ulong4 yxyx = TestData_LHS[i].yxyx;
-                    result &= yxyx.x == TestData_LHS[i].y &
-                              yxyx.y == TestData_LHS[i].x &
-                              yxyx.z == TestData_LHS[i].y &
-                              yxyx.w == TestData_LHS[i].x;
+                ulong4 yxxy = TestData_LHS[i].yxxy;
+                result &= yxxy.x == TestData_LHS[i].y &
+                          yxxy.y == TestData_LHS[i].x &
+                          yxxy.z == TestData_LHS[i].x &
+                          yxxy.w == TestData_LHS[i].y;
 
-                    ulong4 yxxy = TestData_LHS[i].yxxy;
-                    result &= yxxy.x == TestData_LHS[i].y &
-                              yxxy.y == TestData_LHS[i].x &
-                              yxxy.z == TestData_LHS[i].x &
-                              yxxy.w == TestData_LHS[i].y;
+                ulong4 xyyx = TestData_LHS[i].xyyx;
+                result &= xyyx.x == TestData_LHS[i].x &
+                          xyyx.y == TestData_LHS[i].y &
+                          xyyx.z == TestData_LHS[i].y &
+                          xyyx.w == TestData_LHS[i].x;
 
-                    ulong4 xyyx = TestData_LHS[i].xyyx;
-                    result &= xyyx.x == TestData_LHS[i].x &
-                              xyyx.y == TestData_LHS[i].y &
-                              xyyx.z == TestData_LHS[i].y &
-                              xyyx.w == TestData_LHS[i].x;
+                ulong4 xyxy = TestData_LHS[i].xyxy;
+                result &= xyxy.x == TestData_LHS[i].x &
+                          xyxy.y == TestData_LHS[i].y &
+                          xyxy.z == TestData_LHS[i].x &
+                          xyxy.w == TestData_LHS[i].y;
 
-                    ulong4 xyxy = TestData_LHS[i].xyxy;
-                    result &= xyxy.x == TestData_LHS[i].x &
-                              xyxy.y == TestData_LHS[i].y &
-                              xyxy.z == TestData_LHS[i].x &
-                              xyxy.w == TestData_LHS[i].y;
+                ulong4 xxyy = TestData_LHS[i].xxyy;
+                result &= xxyy.x == TestData_LHS[i].x &
+                          xxyy.y == TestData_LHS[i].x &
+                          xxyy.z == TestData_LHS[i].y &
+                          xxyy.w == TestData_LHS[i].y;
 
-                    ulong4 xxyy = TestData_LHS[i].xxyy;
-                    result &= xxyy.x == TestData_LHS[i].x &
-                              xxyy.y == TestData_LHS[i].x &
-                              xxyy.z == TestData_LHS[i].y &
-                              xxyy.w == TestData_LHS[i].y;
+                ulong4 yyyx = TestData_LHS[i].yyyx;
+                result &= yyyx.x == TestData_LHS[i].y &
+                          yyyx.y == TestData_LHS[i].y &
+                          yyyx.z == TestData_LHS[i].y &
+                          yyyx.w == TestData_LHS[i].x;
 
-                    ulong4 yyyx = TestData_LHS[i].yyyx;
-                    result &= yyyx.x == TestData_LHS[i].y &
-                              yyyx.y == TestData_LHS[i].y &
-                              yyyx.z == TestData_LHS[i].y &
-                              yyyx.w == TestData_LHS[i].x;
+                ulong4 yyxy = TestData_LHS[i].yyxy;
+                result &= yyxy.x == TestData_LHS[i].y &
+                          yyxy.y == TestData_LHS[i].y &
+                          yyxy.z == TestData_LHS[i].x &
+                          yyxy.w == TestData_LHS[i].y;
 
-                    ulong4 yyxy = TestData_LHS[i].yyxy;
-                    result &= yyxy.x == TestData_LHS[i].y &
-                              yyxy.y == TestData_LHS[i].y &
-                              yyxy.z == TestData_LHS[i].x &
-                              yyxy.w == TestData_LHS[i].y;
+                ulong4 yxyy = TestData_LHS[i].yxyy;
+                result &= yxyy.x == TestData_LHS[i].y &
+                          yxyy.y == TestData_LHS[i].x &
+                          yxyy.z == TestData_LHS[i].y &
+                          yxyy.w == TestData_LHS[i].y;
 
-                    ulong4 yxyy = TestData_LHS[i].yxyy;
-                    result &= yxyy.x == TestData_LHS[i].y &
-                              yxyy.y == TestData_LHS[i].x &
-                              yxyy.z == TestData_LHS[i].y &
-                              yxyy.w == TestData_LHS[i].y;
+                ulong4 xyyy = TestData_LHS[i].xyyy;
+                result &= xyyy.x == TestData_LHS[i].x &
+                          xyyy.y == TestData_LHS[i].y &
+                          xyyy.z == TestData_LHS[i].y &
+                          xyyy.w == TestData_LHS[i].y;
 
-                    ulong4 xyyy = TestData_LHS[i].xyyy;
-                    result &= xyyy.x == TestData_LHS[i].x &
-                              xyyy.y == TestData_LHS[i].y &
-                              xyyy.z == TestData_LHS[i].y &
-                              xyyy.w == TestData_LHS[i].y;
-
-                    ulong4 yyyy = TestData_LHS[i].yyyy;
-                    result &= yyyy.x == TestData_LHS[i].y &
-                              yyyy.y == TestData_LHS[i].y &
-                              yyyy.z == TestData_LHS[i].y &
-                              yyyy.w == TestData_LHS[i].y;
+                ulong4 yyyy = TestData_LHS[i].yyyy;
+                result &= yyyy.x == TestData_LHS[i].y &
+                          yyyy.y == TestData_LHS[i].y &
+                          yyyy.z == TestData_LHS[i].y &
+                          yyyy.w == TestData_LHS[i].y;
 
 
-                    ulong3 xxx = TestData_LHS[i].xxx;
-                    result &= xxx.x == TestData_LHS[i].x &
-                              xxx.y == TestData_LHS[i].x &
-                              xxx.z == TestData_LHS[i].x;
+                ulong3 xxx = TestData_LHS[i].xxx;
+                result &= xxx.x == TestData_LHS[i].x &
+                          xxx.y == TestData_LHS[i].x &
+                          xxx.z == TestData_LHS[i].x;
 
-                    ulong3 yxx = TestData_LHS[i].yxx;
-                    result &= yxx.x == TestData_LHS[i].y &
-                              yxx.y == TestData_LHS[i].x &
-                              yxx.z == TestData_LHS[i].x;
+                ulong3 yxx = TestData_LHS[i].yxx;
+                result &= yxx.x == TestData_LHS[i].y &
+                          yxx.y == TestData_LHS[i].x &
+                          yxx.z == TestData_LHS[i].x;
 
-                    ulong3 xyx = TestData_LHS[i].xyx;
-                    result &= xyx.x == TestData_LHS[i].x &
-                              xyx.y == TestData_LHS[i].y &
-                              xyx.z == TestData_LHS[i].x;
+                ulong3 xyx = TestData_LHS[i].xyx;
+                result &= xyx.x == TestData_LHS[i].x &
+                          xyx.y == TestData_LHS[i].y &
+                          xyx.z == TestData_LHS[i].x;
 
-                    ulong3 xxy = TestData_LHS[i].xxy;
-                    result &= xxy.x == TestData_LHS[i].x &
-                              xxy.y == TestData_LHS[i].x &
-                              xxy.z == TestData_LHS[i].y;
+                ulong3 xxy = TestData_LHS[i].xxy;
+                result &= xxy.x == TestData_LHS[i].x &
+                          xxy.y == TestData_LHS[i].x &
+                          xxy.z == TestData_LHS[i].y;
 
-                    ulong3 yyx = TestData_LHS[i].yyx;
-                    result &= yyx.x == TestData_LHS[i].y &
-                              yyx.y == TestData_LHS[i].y &
-                              yyx.z == TestData_LHS[i].x;
+                ulong3 yyx = TestData_LHS[i].yyx;
+                result &= yyx.x == TestData_LHS[i].y &
+                          yyx.y == TestData_LHS[i].y &
+                          yyx.z == TestData_LHS[i].x;
 
-                    ulong3 yxy = TestData_LHS[i].yxy;
-                    result &= yxy.x == TestData_LHS[i].y &
-                              yxy.y == TestData_LHS[i].x &
-                              yxy.z == TestData_LHS[i].y;
+                ulong3 yxy = TestData_LHS[i].yxy;
+                result &= yxy.x == TestData_LHS[i].y &
+                          yxy.y == TestData_LHS[i].x &
+                          yxy.z == TestData_LHS[i].y;
 
-                    ulong3 xyy = TestData_LHS[i].xyy;
-                    result &= xyy.x == TestData_LHS[i].x &
-                              xyy.y == TestData_LHS[i].y &
-                              xyy.z == TestData_LHS[i].y;
+                ulong3 xyy = TestData_LHS[i].xyy;
+                result &= xyy.x == TestData_LHS[i].x &
+                          xyy.y == TestData_LHS[i].y &
+                          xyy.z == TestData_LHS[i].y;
 
-                    ulong3 yyy = TestData_LHS[i].yyy;
-                    result &= yyy.x == TestData_LHS[i].y &
-                              yyy.y == TestData_LHS[i].y &
-                              yyy.z == TestData_LHS[i].y;
+                ulong3 yyy = TestData_LHS[i].yyy;
+                result &= yyy.x == TestData_LHS[i].y &
+                          yyy.y == TestData_LHS[i].y &
+                          yyy.z == TestData_LHS[i].y;
 
-                    ulong2 xx = TestData_LHS[i].xx;
-                    result &= xx.x == TestData_LHS[i].x &
-                              xx.y == TestData_LHS[i].x;
+                ulong2 xx = TestData_LHS[i].xx;
+                result &= xx.x == TestData_LHS[i].x &
+                          xx.y == TestData_LHS[i].x;
 
-                    ulong2 yx = TestData_LHS[i].yx;
-                    result &= yx.x == TestData_LHS[i].y &
-                              yx.y == TestData_LHS[i].x;
+                ulong2 yx = TestData_LHS[i].yx;
+                result &= yx.x == TestData_LHS[i].y &
+                          yx.y == TestData_LHS[i].x;
 
-                    ulong2 yy = TestData_LHS[i].yy;
-                    result &= yy.x == TestData_LHS[i].y &
-                              yy.y == TestData_LHS[i].y;
-                }
-
-                Assert.AreEqual(true, result);
+                ulong2 yy = TestData_LHS[i].yy;
+                result &= yy.x == TestData_LHS[i].y &
+                          yy.y == TestData_LHS[i].y;
             }
 
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public static void ShuffleSetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                ulong2 yx = TestData_LHS[i];
+                yx.yx = TestData_RHS[i];
+                result &= yx.x == TestData_RHS[i].y;
+                result &= yx.y == TestData_RHS[i].x;
+            }
+
+            Assert.AreEqual(true, result);
+        }
 
         [Test]
         public static void Cast_ToV128()

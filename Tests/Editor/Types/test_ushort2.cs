@@ -363,7 +363,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
         {
             bool result = true;
 
@@ -522,6 +522,21 @@ namespace MaxMath.Tests
             Assert.AreEqual(true, result);
         }
 
+        [Test]
+        public static void ShuffleSetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                ushort2 yx = TestData_LHS[i];
+                yx.yx = TestData_RHS[i];
+                result &= yx.x == TestData_RHS[i].y;
+                result &= yx.y == TestData_RHS[i].x;
+            }
+
+            Assert.AreEqual(true, result);
+        }
 
         [Test]
         public static void Cast_ToV128()

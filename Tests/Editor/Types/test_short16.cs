@@ -1037,7 +1037,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
         {
             bool result = true;
 

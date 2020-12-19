@@ -59,7 +59,7 @@ namespace MaxMath
         public ulong3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 1, 1, 1)); } 
       
         public ulong2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0)); }
-        public ulong2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2)); }
+        public ulong2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yx; }
         public ulong2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(3, 2, 3, 2)); }
         #endregion
 

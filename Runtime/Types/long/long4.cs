@@ -99,7 +99,7 @@ namespace MaxMath
         public long4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 0)); }
         public long4 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 1, 0)); }
         public long4 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 1, 0)); }
-        public long4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 1, 0)); }
+        public long4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 1, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xywz; }
         public long4 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 0)); }
         public long4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 0)); }
         public long4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 0)); }
@@ -108,13 +108,13 @@ namespace MaxMath
         public long4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 0)); }
         public long4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 0)); }
         public long4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 0)); }
-        public long4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0)); }
+        public long4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzyw; }
         public long4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 0)); }
         public long4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 0)); }
         public long4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 0)); }
         public long4 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 0)); }
         public long4 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 2, 0)); }
-        public long4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 2, 0)); }
+        public long4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 2, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwyz; }
         public long4 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 2, 0)); }
         public long4 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)); }
         public long4 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 3, 0)); }
@@ -123,10 +123,10 @@ namespace MaxMath
         public long4 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 0)); }
         public long4 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 3, 0)); }
         public long4 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 3, 0)); }
-        public long4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 3, 0)); }
+        public long4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 3, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzwy; }
         public long4 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 0)); }
         public long4 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 3, 0)); }
-        public long4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 3, 0)); }
+        public long4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 3, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwzy; }
         public long4 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 3, 0)); }
         public long4 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 0)); }
         public long4 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 3, 0)); }
@@ -144,10 +144,10 @@ namespace MaxMath
         public long4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 1)); }
         public long4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 1)); }
         public long4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 1)); }
-        public long4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1)); }
+        public long4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxzw; }
         public long4 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 0, 1)); }
         public long4 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 0, 1)); }
-        public long4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2)); }
+        public long4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2));     [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxwz; }
         public long4 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 1)); }
         public long4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 1)); }
         public long4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 1)); }
@@ -168,7 +168,7 @@ namespace MaxMath
         public long4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1)); }
         public long4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 1)); }
         public long4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 1)); }
-        public long4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1)); }
+        public long4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxyw; }
         public long4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 1)); }
         public long4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 1)); }
         public long4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 1)); }
@@ -177,19 +177,19 @@ namespace MaxMath
         public long4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 1)); }
         public long4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 1)); }
         public long4 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 1)); }
-        public long4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 2, 1)); }
+        public long4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxyz; }
         public long4 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 2, 1)); }
         public long4 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 2, 1)); }
         public long4 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1)); }
         public long4 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 3, 1)); }
         public long4 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 3, 1)); }
-        public long4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 3, 1)); }
+        public long4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxwy; }
         public long4 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 1)); }
         public long4 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 3, 1)); }
         public long4 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 3, 1)); }
         public long4 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 3, 1)); }
         public long4 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 1)); }
-        public long4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 3, 1)); }
+        public long4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxzy; }
         public long4 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 3, 1)); }
         public long4 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 3, 1)); }
         public long4 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 1)); }
@@ -204,19 +204,19 @@ namespace MaxMath
         public long4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 2)); }
         public long4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 2)); }
         public long4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 2)); }
-        public long4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2)); }
+        public long4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzxw; }
         public long4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 2)); }
         public long4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 2)); }
         public long4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 2)); }
         public long4 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 2)); }
         public long4 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 0, 2)); }
-        public long4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 0, 2)); }
+        public long4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywxz; }
         public long4 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 0, 2)); }
         public long4 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2)); }
         public long4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 2)); }
         public long4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 2)); }
         public long4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 2)); }
-        public long4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2)); }
+        public long4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zyxw; }
         public long4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 2)); }
         public long4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 2)); }
         public long4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 2)); }
@@ -225,7 +225,7 @@ namespace MaxMath
         public long4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 2)); }
         public long4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 2)); }
         public long4 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 2)); }
-        public long4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 1, 2)); }
+        public long4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyxz; }
         public long4 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 3, 1, 2)); }
         public long4 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 1, 2)); }
         public long4 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)); }
@@ -246,10 +246,10 @@ namespace MaxMath
         public long4 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 2, 2)); }
         public long4 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 2)); }
         public long4 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public long4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 3, 2)); }
+        public long4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwxy; }
         public long4 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 3, 2)); }
         public long4 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 2)); }
-        public long4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 3, 2)); }
+        public long4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzxy; }
         public long4 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 3, 2)); }
         public long4 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 3, 2)); }
         public long4 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 2)); }
@@ -267,10 +267,10 @@ namespace MaxMath
         public long4 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 3)); }
         public long4 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 3)); }
         public long4 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 3)); }
-        public long4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 3)); }
+        public long4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzwx; }
         public long4 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 3)); }
         public long4 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 3)); }
-        public long4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 3)); }
+        public long4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywzx; }
         public long4 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 3)); }
         public long4 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 3)); }
         public long4 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 0, 3)); }
@@ -279,13 +279,13 @@ namespace MaxMath
         public long4 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 3)); }
         public long4 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 3)); }
         public long4 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 3)); }
-        public long4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 3)); }
+        public long4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zywx; }
         public long4 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 3)); }
         public long4 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 3)); }
         public long4 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 3)); }
         public long4 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 3)); }
         public long4 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 3)); }
-        public long4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 3)); }
+        public long4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyzx; }
         public long4 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 3)); }
         public long4 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 3)); }
         public long4 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 3)); }
@@ -294,10 +294,10 @@ namespace MaxMath
         public long4 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 3, 1, 3)); }
         public long4 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 3)); }
         public long4 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 3)); }
-        public long4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 3)); }
+        public long4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwyx; }
         public long4 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 3)); }
         public long4 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 3)); }
-        public long4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 3)); }
+        public long4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzyx; }
         public long4 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 3)); }
         public long4 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 3)); }
         public long4 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 3)); }
@@ -332,58 +332,58 @@ namespace MaxMath
         public long3 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 0)); }
         public long3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 0)); }                  
         public long3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 0)); }
-        public long3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v256)this; }                        
-        public long3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 0)); }
+        public long3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v256)this;                                                  [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value, 0b0111);}              
+        public long3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xyzz, 0b1011); }
         public long3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 0)); }
-        public long3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0)); }
+        public long3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xzyy, 0b0111); }
         public long3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 0)); }
-        public long3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)); }
+        public long3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyz, 0b1101); }
         public long3 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 0)); }
-        public long3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 0)); }
-        public long3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 0)); }
+        public long3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xzzy, 0b1011); }
+        public long3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxzy, 0b1101); }
         public long3 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 0)); }
         public long3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 1)); }
         public long3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 1)); }
-        public long3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1)); }
-        public long3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2)); }
+        public long3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yxzz, 0b0111); }
+        public long3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2));     [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yxzz, 0b1011);}
         public long3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 1)); }
         public long3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 1)); }
         public long3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 1)); }
         public long3 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(3, 2, 3, 2)); }
-        public long3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1)); }
+        public long3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zxyy, 0b0111); }
         public long3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 1)); }
         public long3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 1)); }
-        public long3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1)); }       
-        public long3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 1)); }
+        public long3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyz, 0b1110); }
+        public long3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zxxy, 0b1011); }
         public long3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 1)); }
-        public long3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 1)); }
+        public long3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxzy, 0b1110); }
         public long3 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 1)); }
         public long3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 2)); }
-        public long3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2)); }
+        public long3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yzxx, 0b0111); }
         public long3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 2)); }
-        public long3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2)); }
-        public long3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2)); }
+        public long3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxz, 0b1101); }
+        public long3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zyxx, 0b0111); }
         public long3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 2)); }
         public long3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 2)); }
-        public long3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)); }
+        public long3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxz, 0b1110); }
         public long3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 2)); }
         public long3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 2)); }
         public long3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 2)); }
         public long3 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 2)); }
-        public long3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 2)); }
-        public long3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 2)); }
+        public long3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zzxy, 0b1101); }
+        public long3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zzxy, 0b1110); }
         public long3 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 3, 2)); }                       
         public long3 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 2)); }
         public long3 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 3)); }
-        public long3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 3)); }
-        public long3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 3)); }
+        public long3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yzzx, 0b1011); }
+        public long3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyzx, 0b1101); }
         public long3 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 3)); }
-        public long3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 3)); }
+        public long3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zyyx, 0b1011); }
         public long3 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 3)); }
-        public long3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 3)); }
+        public long3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyzx, 0b1110); }
         public long3 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 3)); }
-        public long3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 3)); }
-        public long3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 3)); }
+        public long3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zzyx, 0b1101); }
+        public long3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.zzyx, 0b1110); }
         public long3 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 3)); }
         public long3 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 3)); }
         public long3 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 3, 3)); }
@@ -392,20 +392,20 @@ namespace MaxMath
         public long3 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 3)); }
 
         public long2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0))); }
-        public long2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
-        public long2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0))); }
-        public long2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 0))); }
-        public long2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2))); }
+        public long2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this);                                                        [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx2.mm256_inserti128_si256(this, value, 0); }
+        public long2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyy, 0b0101); }
+        public long2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 0))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyy, 0b1001); }
+        public long2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2)));     [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx2.mm256_inserti128_si256(this, value.yx, 0); }
         public long2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(3, 2, 3, 2))); }
-        public long2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1))); }
-        public long2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 1))); }
-        public long2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2))); }
-        public long2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2))); }
+        public long2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyy, 0b0110); }
+        public long2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 1))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.xxyy, 0b1010); }
+        public long2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxx, 0b0101); }
+        public long2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxx, 0b0110); }
         public long2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 2))); }    
-        public long2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1); }                     
-        public long2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 3))); }
-        public long2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 3))); }
-        public long2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 3))); }    
+        public long2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1);                                                  [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx2.mm256_inserti128_si256(this, value, 1); }                    
+        public long2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 3))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxx, 0b1001); }
+        public long2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 3))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx.mm256_blend_pd(this, value.yyxx, 0b1010); }
+        public long2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 3))); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Avx2.mm256_inserti128_si256(this, value.yx, 1); }
         public long2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 3))); }    
         #endregion
 

@@ -1004,9 +1004,8 @@ namespace MaxMath.Tests
             Assert.AreEqual(true, result);
         }
 
-
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
         {
             bool result = true;
 
@@ -1317,7 +1316,6 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(true, result);
         }
-
 
         [Test]
         public static void Cast_ToV128()

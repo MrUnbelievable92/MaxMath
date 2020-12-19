@@ -411,7 +411,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Shuffle()
+        public static void ShuffleGetter()
         {
             bool result = true;
 
@@ -1074,6 +1074,83 @@ namespace MaxMath.Tests
             Assert.AreEqual(true, result);
         }
 
+        [Test]
+        public static void ShuffleSetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                ushort3 xzy = TestData_LHS[i];
+                xzy.xzy = TestData_RHS[i];
+                result &= xzy.x == TestData_RHS[i].x;
+                result &= xzy.z == TestData_RHS[i].y;
+                result &= xzy.y == TestData_RHS[i].z;
+
+                ushort3 yxz = TestData_LHS[i];
+                yxz.yxz = TestData_RHS[i];
+                result &= yxz.y == TestData_RHS[i].x;
+                result &= yxz.x == TestData_RHS[i].y;
+                result &= yxz.z == TestData_RHS[i].z;
+
+                ushort3 yzx = TestData_LHS[i];
+                yzx.yzx = TestData_RHS[i];
+                result &= yzx.y == TestData_RHS[i].x;
+                result &= yzx.z == TestData_RHS[i].y;
+                result &= yzx.x == TestData_RHS[i].z;
+
+                ushort3 zxy = TestData_LHS[i];
+                zxy.zxy = TestData_RHS[i];
+                result &= zxy.z == TestData_RHS[i].x;
+                result &= zxy.x == TestData_RHS[i].y;
+                result &= zxy.y == TestData_RHS[i].z;
+
+                ushort3 zyx = TestData_LHS[i];
+                zyx.zyx = TestData_RHS[i];
+                result &= zyx.z == TestData_RHS[i].x;
+                result &= zyx.y == TestData_RHS[i].y;
+                result &= zyx.x == TestData_RHS[i].z;
+
+
+                ushort3 xy = TestData_LHS[i];
+                xy.xy = TestData_RHS[i].xy;
+                result &= xy.x == TestData_RHS[i].x;
+                result &= xy.y == TestData_RHS[i].y;
+                result &= xy.z == TestData_LHS[i].z;
+
+                ushort3 xz = TestData_LHS[i];
+                xz.xz = TestData_RHS[i].xy;
+                result &= xz.x == TestData_RHS[i].x;
+                result &= xz.z == TestData_RHS[i].y;
+                result &= xz.y == TestData_LHS[i].y;
+
+                ushort3 yx = TestData_LHS[i];
+                yx.yx = TestData_RHS[i].xy;
+                result &= yx.y == TestData_RHS[i].x;
+                result &= yx.x == TestData_RHS[i].y;
+                result &= yx.z == TestData_LHS[i].z;
+
+                ushort3 yz = TestData_LHS[i];
+                yz.yz = TestData_RHS[i].xy;
+                result &= yz.y == TestData_RHS[i].x;
+                result &= yz.z == TestData_RHS[i].y;
+                result &= yz.x == TestData_LHS[i].x;
+
+                ushort3 zx = TestData_LHS[i];
+                zx.zx = TestData_RHS[i].xy;
+                result &= zx.z == TestData_RHS[i].x;
+                result &= zx.x == TestData_RHS[i].y;
+                result &= zx.y == TestData_LHS[i].y;
+
+                ushort3 zy = TestData_LHS[i];
+                zy.zy = TestData_RHS[i].xy;
+                result &= zy.z == TestData_RHS[i].x;
+                result &= zy.y == TestData_RHS[i].y;
+                result &= zy.x == TestData_LHS[i].x;
+            }
+
+            Assert.AreEqual(true, result);
+        }
 
         [Test]
         public static void Cast_ToV128()
