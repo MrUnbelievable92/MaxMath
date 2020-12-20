@@ -8,7 +8,7 @@
     "Unity"
   ],
    "dependencies": {
-    "devtools" : "1.0.4",
+    "MRU.devtools" : "1.0.4",
     "com.unity.burst": "1.4.3",
     "com.unity.mathematics": "1.2.1"
   },
