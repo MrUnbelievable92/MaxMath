@@ -18,8 +18,11 @@ namespace MaxMath
         [NoAlias] public long y;
         [NoAlias] public long z;
         [NoAlias] public long w;
-    
-    
+
+
+        public static long4 zero => default(long4);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4(long x,      long y,       long z,       long w)
         {
@@ -453,10 +456,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double4(long4 input) => new double4((double)input.x, (double)input.y, (double)input.z, (double)input.w);
-
-
-        
-        
 
 
         public long this[[AssumeRange(0, 3)] int index]

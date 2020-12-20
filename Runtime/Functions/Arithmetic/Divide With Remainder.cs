@@ -21,44 +21,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 divrem(byte2 dividend, byte2 divisor, out byte2 remainder)
         {
-            remainder = default(v128);
-
-            return new byte2(divrem(dividend.x, divisor.x, out remainder.x),
-                             divrem(dividend.y, divisor.y, out remainder.y));
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte3 vector by the second byte3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 divrem(byte3 dividend, byte3 divisor, out byte3 remainder)
         {
-            remainder = default(v128);
-
-            return new byte3(divrem(dividend.x, divisor.x, out remainder.x),
-                             divrem(dividend.y, divisor.y, out remainder.y),
-                             divrem(dividend.z, divisor.z, out remainder.z));
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte4 vector by the second byte4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 divrem(byte4 dividend, byte4 divisor, out byte4 remainder)
         {
-            remainder = default(v128);
-
-            return new byte4(divrem(dividend.x, divisor.x, out remainder.x),
-                             divrem(dividend.y, divisor.y, out remainder.y),
-                             divrem(dividend.z, divisor.z, out remainder.z),
-                             divrem(dividend.w, divisor.w, out remainder.w));
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte8 vector by the second byte8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 divrem(byte8 dividend, byte8 divisor, out byte8 remainder)
         {
-            byte8 quotient = (v128)Operator.vdivrem_byte((v128)dividend, (v128)divisor, out byte16 remainders);
-
-            remainder = (v128)remainders;
-
-            return quotient;
+            return Operator.vdivrem_byte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte16 vector by the second byte16 vector with the remainders as an out parameter.        </summary>
@@ -90,44 +74,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 divrem(sbyte2 dividend, sbyte2 divisor, out sbyte2 remainder)
         {
-            remainder = default(v128);                              
-
-            return new sbyte2(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y));
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte3 vector by the second sbyte3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 divrem(sbyte3 dividend, sbyte3 divisor, out sbyte3 remainder)
         {
-            remainder = default(v128);
-
-            return new sbyte3(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y),
-                              divrem(dividend.z, divisor.z, out remainder.z));
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte4 vector by the second sbyte4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 divrem(sbyte4 dividend, sbyte4 divisor, out sbyte4 remainder)
         {
-            remainder = default(v128);
-
-            return new sbyte4(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y),
-                              divrem(dividend.z, divisor.z, out remainder.z),
-                              divrem(dividend.w, divisor.w, out remainder.w));
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte8 vector by the second sbyte8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 divrem(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
-            sbyte8 quotient = (v128)Operator.vdivrem_sbyte((v128)dividend, (v128)divisor, out sbyte16 remainders);
-
-            remainder = (v128)remainders;
-
-            return quotient;
+            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte16 vector by the second sbyte16 vector with the remainders as an out parameter.        </summary>
@@ -159,56 +127,50 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 divrem(ushort2 dividend, ushort2 divisor, out ushort2 remainder)
         {
-            remainder = default(v128);
+            ushort2 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new ushort2(divrem(dividend.x, divisor.x, out remainder.x),
-                               divrem(dividend.y, divisor.y, out remainder.y));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort3 vector by the second ushort3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 divrem(ushort3 dividend, ushort3 divisor, out ushort3 remainder)
         {
-            remainder = default(v128);
+            ushort3 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new ushort3(divrem(dividend.x, divisor.x, out remainder.x),
-                               divrem(dividend.y, divisor.y, out remainder.y),
-                               divrem(dividend.z, divisor.z, out remainder.z));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort4 vector by the second ushort4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 divrem(ushort4 dividend, ushort4 divisor, out ushort4 remainder)
         {
-            remainder = default(v128);
+            ushort4 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new ushort4(divrem(dividend.x, divisor.x, out remainder.x),
-                               divrem(dividend.y, divisor.y, out remainder.y),
-                               divrem(dividend.z, divisor.z, out remainder.z),
-                               divrem(dividend.w, divisor.w, out remainder.w));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort8 vector by the second ushort8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 divrem(ushort8 dividend, ushort8 divisor, out ushort8 remainder)
         {
-            remainder = default(v128);
+            ushort8 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new ushort8(divrem(dividend.x0, divisor.x0, out remainder.x0),
-                               divrem(dividend.x1, divisor.x1, out remainder.x1),
-                               divrem(dividend.x2, divisor.x2, out remainder.x2),
-                               divrem(dividend.x3, divisor.x3, out remainder.x3),
-                               divrem(dividend.x4, divisor.x4, out remainder.x4),
-                               divrem(dividend.x5, divisor.x5, out remainder.x5),
-                               divrem(dividend.x6, divisor.x6, out remainder.x6),
-                               divrem(dividend.x7, divisor.x7, out remainder.x7));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort16 vector by the second ushort16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 divrem(ushort16 dividend, ushort16 divisor, out ushort16 remainder)
         {
-            return Operator.vdivrem_ushort(dividend, divisor, out remainder);
+            ushort16 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
+
+            return quotient;
         }
 
 
@@ -226,56 +188,50 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 divrem(short2 dividend, short2 divisor, out short2 remainder)
         {
-            remainder = default(v128);
+            short2 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new short2(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short3 vector by the second short3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 divrem(short3 dividend, short3 divisor, out short3 remainder)
         {
-            remainder = default(v128);
+            short3 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new short3(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y),
-                              divrem(dividend.z, divisor.z, out remainder.z));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short4 vector by the second short4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 divrem(short4 dividend, short4 divisor, out short4 remainder)
         {
-            remainder = default(v128);
+            short4 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new short4(divrem(dividend.x, divisor.x, out remainder.x),
-                              divrem(dividend.y, divisor.y, out remainder.y),
-                              divrem(dividend.z, divisor.z, out remainder.z),
-                              divrem(dividend.w, divisor.w, out remainder.w));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short8 vector by the second short8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 divrem(short8 dividend, short8 divisor, out short8 remainder)
         {
-            remainder = default(v128);
+            short8 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
 
-            return new short8(divrem(dividend.x0, divisor.x0, out remainder.x0),
-                              divrem(dividend.x1, divisor.x1, out remainder.x1),
-                              divrem(dividend.x2, divisor.x2, out remainder.x2),
-                              divrem(dividend.x3, divisor.x3, out remainder.x3),
-                              divrem(dividend.x4, divisor.x4, out remainder.x4),
-                              divrem(dividend.x5, divisor.x5, out remainder.x5),
-                              divrem(dividend.x6, divisor.x6, out remainder.x6),
-                              divrem(dividend.x7, divisor.x7, out remainder.x7));
+            return quotient;
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short16 vector by the second short16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 divrem(short16 dividend, short16 divisor, out short16 remainder)
         {
-            return Operator.vdivrem_short(dividend, divisor, out remainder);
+            short16 quotient = dividend / divisor;
+            remainder = dividend - (quotient * divisor);
+
+            return quotient;
         }
 
 

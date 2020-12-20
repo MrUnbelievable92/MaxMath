@@ -717,14 +717,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, bool8 c)
         {
-            return Sse4_1.blendv_epi8(b, a, (short8)((sbyte8)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+            return Sse4_1.blendv_epi8(b, a, (short8)((sbyte8)Sse2.cmpeq_epi8(c, default(v128))));
         }
 
         /// <summary>       Returns a componentwise selection between two ushort16 vectors a and b based on a bool16 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, bool16 c)
         {
-            return Avx2.mm256_blendv_epi8(b, a, (short16)((sbyte16)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+            return Avx2.mm256_blendv_epi8(b, a, (short16)((sbyte16)Sse2.cmpeq_epi8(c, default(v128))));
         }
 
 
@@ -753,14 +753,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, bool8 c)
         {
-            return Sse4_1.blendv_epi8(b, a, (short8)((sbyte8)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+            return Sse4_1.blendv_epi8(b, a, (short8)((sbyte8)Sse2.cmpeq_epi8(c, default(v128))));
         }
 
         /// <summary>       Returns a componentwise selection between two short16 vectors a and b based on a bool16 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, bool16 c)
         {
-            return Avx2.mm256_blendv_epi8(b, a, (short16)((sbyte16)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+            return Avx2.mm256_blendv_epi8(b, a, (short16)((sbyte16)Sse2.cmpeq_epi8(c, default(v128))));
         }
 
 
@@ -828,7 +828,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool8 c)
         {
-            return Avx.mm256_blendv_ps(b, a, (int8)((sbyte8)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+            return Avx.mm256_blendv_ps(b, a, (int8)((sbyte8)Sse2.cmpeq_epi8(c, default(v128))));
         }
     }
 }

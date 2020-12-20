@@ -1,7 +1,6 @@
 ﻿Vector shifts (s)byte32, (u)short16
 
 subvectors (s)byte32 => tests
-setters for shuffled vectors (i.e. vector.xz = myNewVector)
 
 All Different (s)byte32, optimize (u)short16
 

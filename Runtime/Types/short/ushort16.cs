@@ -32,6 +32,9 @@ namespace MaxMath
         [NoAlias] public ushort x15;
 
 
+        public static ushort16 zero => default(ushort16);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16(ushort x0, ushort x1, ushort x2, ushort x3, ushort x4, ushort x5, ushort x6, ushort x7, ushort x8, ushort x9, ushort x10, ushort x11, ushort x12, ushort x13, ushort x14, ushort x15)
         {
@@ -227,7 +230,7 @@ Assert.IsWithinArrayBounds(index, 16);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator % (ushort16 lhs, ushort16 rhs) => Operator.vrem_ushort(lhs, rhs);
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator * (ushort lhs, ushort16 rhs) => rhs * lhs;

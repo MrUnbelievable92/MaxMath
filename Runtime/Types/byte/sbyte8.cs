@@ -25,6 +25,9 @@ namespace MaxMath
         [FieldOffset(7)] public sbyte x7;
 
 
+        public static sbyte8 zero => default(sbyte8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8(sbyte x0, sbyte x1, sbyte x2, sbyte x3, sbyte x4, sbyte x5, sbyte x6, sbyte x7)
         {
@@ -193,24 +196,10 @@ Assert.IsWithinArrayBounds(index, 8);
         public static sbyte8 operator * (sbyte8 lhs, sbyte8 rhs) => (sbyte8)((short8)lhs * (short8)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator / (sbyte8 lhs, sbyte8 rhs)
-        {
-#if DEBUG
-            return (v128)Operator.vdiv_sbyte((v128)lhs, new sbyte16(rhs, new sbyte8(1)));
-#else
-            return (v128)Operator.vdiv_byte((v128)lhs, (v128)rhs);
-#endif
-        }
+        public static sbyte8 operator / (sbyte8 lhs, sbyte8 rhs) => Operator.vdiv_sbyte(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator % (sbyte8 lhs, sbyte8 rhs)
-        {
-#if DEBUG
-            return (v128)Operator.vrem_sbyte((v128)lhs, new sbyte16(rhs, new sbyte8(1)));
-#else
-            return (v128)Operator.vrem_byte((v128)lhs, (v128)rhs);
-#endif
-        }
+        public static sbyte8 operator % (sbyte8 lhs, sbyte8 rhs) => Operator.vrem_sbyte(lhs, rhs);
         
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

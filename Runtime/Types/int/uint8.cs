@@ -24,6 +24,9 @@ namespace MaxMath
         [NoAlias] public uint x7;
 
 
+        public static uint8 zero => default(uint8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8(uint x0, uint x1, uint x2, uint x3, uint x4, uint x5, uint x6, uint x7)
         {

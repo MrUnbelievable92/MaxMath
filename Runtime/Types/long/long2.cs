@@ -16,8 +16,11 @@ namespace MaxMath
     {
         [NoAlias] public long x;
         [NoAlias] public long y;
-    
-    
+
+
+        public static long2 zero => default(long2);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2(long x,      long y)
         {

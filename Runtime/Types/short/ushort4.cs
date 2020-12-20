@@ -21,6 +21,9 @@ namespace MaxMath
         [FieldOffset(6)] public ushort w;
 
 
+        public static ushort4 zero => default(ushort4);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort x, ushort y, ushort z, ushort w)
         {
@@ -504,11 +507,11 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ushort4 operator * (ushort4 lhs, ushort4 rhs) => Sse2.mullo_epi16(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator / (ushort4 lhs, ushort4 rhs) => new ushort4((ushort)(lhs.x / rhs.x), (ushort)(lhs.y / rhs.y), (ushort)(lhs.z / rhs.z), (ushort)(lhs.w / rhs.w));
+        public static ushort4 operator / (ushort4 lhs, ushort4 rhs) => Operator.vdiv_ushort(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator % (ushort4 lhs, ushort4 rhs) => new ushort4((ushort)(lhs.x % rhs.x), (ushort)(lhs.y % rhs.y), (ushort)(lhs.z % rhs.z), (ushort)(lhs.w % rhs.w));
-        
+        public static ushort4 operator % (ushort4 lhs, ushort4 rhs) => Operator.vrem_ushort(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator * (ushort lhs, ushort4 rhs) => rhs * lhs;

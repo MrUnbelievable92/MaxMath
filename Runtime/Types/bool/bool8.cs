@@ -15,14 +15,14 @@ namespace MaxMath
     {
         [FieldOffset(0)] internal long cast_long;
 
-        [FieldOffset(0)] public bool x0;
-        [FieldOffset(1)] public bool x1;
-        [FieldOffset(2)] public bool x2;
-        [FieldOffset(3)] public bool x3;
-        [FieldOffset(4)] public bool x4;
-        [FieldOffset(5)] public bool x5;
-        [FieldOffset(6)] public bool x6;
-        [FieldOffset(7)] public bool x7;
+        [FieldOffset(0)] [MarshalAs(UnmanagedType.U1)] public bool x0;
+        [FieldOffset(1)] [MarshalAs(UnmanagedType.U1)] public bool x1;
+        [FieldOffset(2)] [MarshalAs(UnmanagedType.U1)] public bool x2;
+        [FieldOffset(3)] [MarshalAs(UnmanagedType.U1)] public bool x3;
+        [FieldOffset(4)] [MarshalAs(UnmanagedType.U1)] public bool x4;
+        [FieldOffset(5)] [MarshalAs(UnmanagedType.U1)] public bool x5;
+        [FieldOffset(6)] [MarshalAs(UnmanagedType.U1)] public bool x6;
+        [FieldOffset(7)] [MarshalAs(UnmanagedType.U1)] public bool x7;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

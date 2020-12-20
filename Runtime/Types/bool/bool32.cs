@@ -14,38 +14,38 @@ namespace MaxMath
     [Serializable]   [StructLayout(LayoutKind.Sequential, Size = 32)]
     unsafe public struct bool32 : IEquatable<bool32>
     {
-        [NoAlias] public bool x0;
-        [NoAlias] public bool x1;
-        [NoAlias] public bool x2;
-        [NoAlias] public bool x3;
-        [NoAlias] public bool x4;
-        [NoAlias] public bool x5;
-        [NoAlias] public bool x6;
-        [NoAlias] public bool x7;
-        [NoAlias] public bool x8;
-        [NoAlias] public bool x9;
-        [NoAlias] public bool x10;
-        [NoAlias] public bool x11;
-        [NoAlias] public bool x12;
-        [NoAlias] public bool x13;
-        [NoAlias] public bool x14;
-        [NoAlias] public bool x15;
-        [NoAlias] public bool x16;
-        [NoAlias] public bool x17;
-        [NoAlias] public bool x18;
-        [NoAlias] public bool x19;
-        [NoAlias] public bool x20;
-        [NoAlias] public bool x21;
-        [NoAlias] public bool x22;
-        [NoAlias] public bool x23;
-        [NoAlias] public bool x24;
-        [NoAlias] public bool x25;
-        [NoAlias] public bool x26;
-        [NoAlias] public bool x27;
-        [NoAlias] public bool x28;
-        [NoAlias] public bool x29;
-        [NoAlias] public bool x30;
-        [NoAlias] public bool x31;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x0;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x1;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x2;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x3;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x4;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x5;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x6;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x7;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x8;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x9;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x10;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x11;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x12;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x13;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x14;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x15;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x16;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x17;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x18;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x19;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x20;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x21;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x22;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x23;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x24;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x25;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x26;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x27;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x28;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x29;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x30;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x31;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

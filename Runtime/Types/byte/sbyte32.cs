@@ -47,6 +47,9 @@ namespace MaxMath
         [NoAlias] public sbyte x31;
 
 
+        public static sbyte32 zero => default(sbyte32);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32(sbyte x0, sbyte x1, sbyte x2, sbyte x3, sbyte x4, sbyte x5, sbyte x6, sbyte x7, sbyte x8, sbyte x9, sbyte x10, sbyte x11, sbyte x12, sbyte x13, sbyte x14, sbyte x15, sbyte x16, sbyte x17, sbyte x18, sbyte x19, sbyte x20, sbyte x21, sbyte x22, sbyte x23, sbyte x24, sbyte x25, sbyte x26, sbyte x27, sbyte x28, sbyte x29, sbyte x30, sbyte x31)
         {

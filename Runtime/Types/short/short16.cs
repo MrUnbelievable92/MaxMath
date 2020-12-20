@@ -32,6 +32,9 @@ namespace MaxMath
         [NoAlias] public short x15;
 
 
+        public static short16 zero => default(short16);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16(short x0, short x1, short x2, short x3, short x4, short x5, short x6, short x7, short x8, short x9, short x10, short x11, short x12, short x13, short x14, short x15)
         {

@@ -24,6 +24,9 @@ namespace MaxMath
         [NoAlias] public ushort x7;
 
 
+        public static ushort8 zero => default(ushort8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort x0, ushort x1, ushort x2, ushort x3, ushort x4, ushort x5, ushort x6, ushort x7)
         {
@@ -180,11 +183,11 @@ Assert.IsWithinArrayBounds(index, 8);
         public static ushort8 operator * (ushort8 lhs, ushort8 rhs) => Sse2.mullo_epi16(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator / (ushort8 lhs, ushort8 rhs) => new ushort8((ushort)(lhs.x0 / rhs.x0),    (ushort)(lhs.x1 / rhs.x1),    (ushort)(lhs.x2 / rhs.x2),    (ushort)(lhs.x3 / rhs.x3),    (ushort)(lhs.x4 / rhs.x4),    (ushort)(lhs.x5 / rhs.x5),    (ushort)(lhs.x6 / rhs.x6),    (ushort)(lhs.x7 / rhs.x7));
-    
+        public static ushort8 operator / (ushort8 lhs, ushort8 rhs) => Operator.vdiv_ushort(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator % (ushort8 lhs, ushort8 rhs) => new ushort8((ushort)(lhs.x0 % rhs.x0),    (ushort)(lhs.x1 % rhs.x1),    (ushort)(lhs.x2 % rhs.x2),    (ushort)(lhs.x3 % rhs.x3),    (ushort)(lhs.x4 % rhs.x4),    (ushort)(lhs.x5 % rhs.x5),    (ushort)(lhs.x6 % rhs.x6),    (ushort)(lhs.x7 % rhs.x7));
-        
+        public static ushort8 operator % (ushort8 lhs, ushort8 rhs) => Operator.vrem_ushort(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator * (ushort lhs, ushort8 rhs) => rhs * lhs;

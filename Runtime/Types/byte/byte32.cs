@@ -47,6 +47,9 @@ namespace MaxMath
         [NoAlias] public byte x31;
 
 
+        public static byte32 zero => default(byte32);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32(byte x0, byte x1, byte x2, byte x3, byte x4, byte x5, byte x6, byte x7, byte x8, byte x9, byte x10, byte x11, byte x12, byte x13, byte x14, byte x15, byte x16, byte x17, byte x18, byte x19, byte x20, byte x21, byte x22, byte x23, byte x24, byte x25, byte x26, byte x27, byte x28, byte x29, byte x30, byte x31)
         {

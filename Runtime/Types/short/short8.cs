@@ -24,6 +24,9 @@ namespace MaxMath
         [NoAlias] public short x7;
 
 
+        public static short8 zero => default(short8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short8(short x0, short x1, short x2, short x3, short x4, short x5, short x6, short x7)
         {
@@ -180,11 +183,11 @@ Assert.IsWithinArrayBounds(index, 8);
         public static short8 operator * (short8 lhs, short8 rhs) => Sse2.mullo_epi16(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short8 operator / (short8 lhs, short8 rhs) => new short8((short)(lhs.x0 / rhs.x0),    (short)(lhs.x1 / rhs.x1),    (short)(lhs.x2 / rhs.x2),    (short)(lhs.x3 / rhs.x3),    (short)(lhs.x4 / rhs.x4),    (short)(lhs.x5 / rhs.x5),    (short)(lhs.x6 / rhs.x6),    (short)(lhs.x7 / rhs.x7));
+        public static short8 operator / (short8 lhs, short8 rhs) => Operator.vdiv_short(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short8 operator % (short8 lhs, short8 rhs) => new short8((short)(lhs.x0 % rhs.x0),    (short)(lhs.x1 % rhs.x1),    (short)(lhs.x2 % rhs.x2),    (short)(lhs.x3 % rhs.x3),    (short)(lhs.x4 % rhs.x4),    (short)(lhs.x5 % rhs.x5),    (short)(lhs.x6 % rhs.x6),    (short)(lhs.x7 % rhs.x7));
-        
+        public static short8 operator % (short8 lhs, short8 rhs) => Operator.vrem_short(lhs, rhs); 
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 operator * (short lhs, short8 rhs) => rhs * lhs;

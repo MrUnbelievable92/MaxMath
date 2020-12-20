@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -23,6 +22,9 @@ namespace MaxMath
         [FieldOffset(5)] public byte x5;
         [FieldOffset(6)] public byte x6;
         [FieldOffset(7)] public byte x7;
+
+
+        public static byte8 zero => default(byte8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,24 +195,10 @@ Assert.IsWithinArrayBounds(index, 8);
         public static byte8 operator * (byte8 lhs, byte8 rhs) => (byte8)((ushort8)lhs * (ushort8)rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator / (byte8 lhs, byte8 rhs)
-        {
-#if DEBUG
-            return (v128)Operator.vdiv_byte((v128)lhs, new byte16(rhs, new byte8(1)));
-#else
-            return (v128)Operator.vdiv_byte((v128)lhs, (v128)rhs);
-#endif
-        }
+        public static byte8 operator / (byte8 lhs, byte8 rhs) => Operator.vdiv_byte(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator % (byte8 lhs, byte8 rhs)
-        {
-#if DEBUG
-            return (v128)Operator.vrem_byte((v128)lhs, new byte16(rhs, new byte8(1)));
-#else
-            return (v128)Operator.vrem_byte((v128)lhs, (v128)rhs);
-#endif
-        }
+        public static byte8 operator % (byte8 lhs, byte8 rhs) => Operator.vrem_byte(lhs, rhs);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

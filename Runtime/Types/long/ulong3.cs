@@ -17,8 +17,11 @@ namespace MaxMath
         [NoAlias] public ulong x;
         [NoAlias] public ulong y;
         [NoAlias] public ulong z;
-    
-    
+
+
+        public static ulong3 zero => default(ulong3);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3(ulong x,      ulong y,       ulong z)
         {

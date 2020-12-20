@@ -24,6 +24,9 @@ namespace MaxMath
         [NoAlias] public half x7;
 
 
+        public static half8 zero => default(half8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public half8(half x0, half x1, half x2, half x3, half x4, half x5, half x6, half x7)
         {

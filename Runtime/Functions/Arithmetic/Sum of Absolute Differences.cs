@@ -61,7 +61,7 @@ namespace MaxMath
             a = Avx2.mm256_sad_epu8(a, b);
             a = Avx2.mm256_add_epi16(a, Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(0, 0,    0, 2)));
 
-            return (uint)Avx2.mm256_extract_epi16(a, 0) + (uint)Avx2.mm256_extract_epi16(a, 12);
+            return Avx2.mm256_add_epi16(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(0, 0, 0, 3))).UShort0;
         }
 
 

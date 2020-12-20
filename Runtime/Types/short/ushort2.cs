@@ -17,8 +17,11 @@ namespace MaxMath
 
         [FieldOffset(0)] public ushort x;
         [FieldOffset(2)] public ushort y;
-    
-    
+
+
+        public static ushort2 zero => default(ushort2);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2(ushort x, ushort y)
         {
@@ -158,11 +161,11 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort2 operator * (ushort2 lhs, ushort2 rhs) => Sse2.mullo_epi16(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator / (ushort2 lhs, ushort2 rhs) => new ushort2((ushort)(lhs.x / rhs.x), (ushort)(lhs.y / rhs.y));
+        public static ushort2 operator / (ushort2 lhs, ushort2 rhs) => Operator.vdiv_ushort(lhs, rhs);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator % (ushort2 lhs, ushort2 rhs) => new ushort2((ushort)(lhs.x % rhs.x), (ushort)(lhs.y % rhs.y));
-        
+        public static ushort2 operator % (ushort2 lhs, ushort2 rhs) => Operator.vrem_ushort(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 operator * (ushort lhs, ushort2 rhs) => rhs * lhs;

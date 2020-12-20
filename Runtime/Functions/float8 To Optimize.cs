@@ -1,8 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 
-using static Unity.Burst.Intrinsics.X86;
-
 namespace MaxMath
 {
     unsafe public static partial class maxmath

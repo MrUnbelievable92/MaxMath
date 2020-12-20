@@ -26,25 +26,25 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mul_long(v128 lhs, v128 rhs)
         {
-            v128 product_Lo = Sse2.mul_epu32(lhs, rhs);
+            v128 product_Hi = Sse2.mul_epu32(lhs, rhs);
 
-            v128 product_Hi = Sse4_1.mullo_epi32(lhs, Sse2.shuffle_epi32(rhs, Sse.SHUFFLE(2, 3, 0, 1)));
-            product_Hi = Ssse3.hadd_epi32(product_Hi, default(v128));
-            product_Hi = Sse2.shuffle_epi32(product_Hi, Sse.SHUFFLE(1, 3, 0, 3)); 
+            v128 product_Lo = Sse4_1.mullo_epi32(lhs, Sse2.shuffle_epi32(rhs, Sse.SHUFFLE(2, 3, 0, 1)));
+            product_Lo = Ssse3.hadd_epi32(product_Lo, default(v128));
+            product_Lo = Sse2.shuffle_epi32(product_Lo, Sse.SHUFFLE(1, 3, 0, 3)); 
             
-            return Sse2.add_epi64(product_Lo, product_Hi);
+            return Sse2.add_epi64(product_Hi, product_Lo);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mul_long(v256 lhs, v256 rhs)
         {
-            v256 product_Lo = Avx2.mm256_mul_epu32(lhs, rhs);
+            v256 product_Hi = Avx2.mm256_mul_epu32(lhs, rhs);
 
-            v256 product_Hi = Avx2.mm256_mullo_epi32(lhs, Avx2.mm256_shuffle_epi32(rhs, Sse.SHUFFLE(2, 3, 0, 1)));
-            product_Hi = Avx2.mm256_hadd_epi32(product_Hi, default(v256));
-            product_Hi = Avx2.mm256_shuffle_epi32(product_Hi, Sse.SHUFFLE(1, 3, 0, 3));
+            v256 product_Lo = Avx2.mm256_mullo_epi32(lhs, Avx2.mm256_shuffle_epi32(rhs, Sse.SHUFFLE(2, 3, 0, 1)));
+            product_Lo = Avx2.mm256_hadd_epi32(product_Lo, default(v256));
+            product_Lo = Avx2.mm256_shuffle_epi32(product_Lo, Sse.SHUFFLE(1, 3, 0, 3));
             
-            return Avx2.mm256_add_epi64(product_Lo, product_Hi);
+            return Avx2.mm256_add_epi64(product_Hi, product_Lo);
         }
     }
 }

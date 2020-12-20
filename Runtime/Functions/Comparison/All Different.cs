@@ -313,8 +313,8 @@ namespace MaxMath
                                                                            (byte16)Ssse3.shuffle_epi8(c, new v128(11, 11, 12, 12, 12, 13, 13, 14, 0, 0, 0, 0, 0, 0, 0, 0))),
                                                                 new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(13, 14, 15, 10, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 12, 13)),
                                                                            (byte16)Ssse3.shuffle_epi8(c, new v128(14, 15, 13, 14, 15, 14, 15, 15, 1, 1, 1, 1, 1, 1, 1, 1)))))));
-                                          
-            return maxmath.tobool(Avx.mm256_testz_si256(or, new v256(-1)));
+
+            return 0 == Avx2.mm256_movemask_epi8(or);
         }
 
         ///// <summary>       Returns true if all of the components of a byte32 vector are unique within that vector.      </summary>
@@ -389,7 +389,7 @@ namespace MaxMath
                                                                  new short16((short8)Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13)),
                                                                              (short8)Ssse3.shuffle_epi8(c, new v128(14, 15, 12, 13, 14, 15, 14, 15, 2, 3, 2, 3, 2, 3, 2, 3)))));
 
-            return maxmath.tobool(Avx.mm256_testz_si256(or, new v256(-1)));
+            return 0 == Avx2.mm256_movemask_epi8(or);
 
         }
 
@@ -461,7 +461,7 @@ namespace MaxMath
                                                                                      Avx2.mm256_permutevar8x32_epi32(c, new v256(6, 7, 4, 5, 6, 7, 5, 6))),
                                                               Avx2.mm256_cmpeq_epi32(Avx2.mm256_permutevar8x32_epi32(c, new v256(4, 5, 5, 6, 0, 0, 0, 0)),
                                                                                      Avx2.mm256_permutevar8x32_epi32(c, new v256(7, 6, 7, 7, 1, 1, 1, 1)))));
-            return tobool(Avx.mm256_testz_si256(or, new v256(-1)));
+            return 0 == Avx2.mm256_movemask_epi8(or);
         }
 
         /// <summary>       Returns true if all of the components of a uint3 vector are unique within that vector.      </summary>

@@ -14,22 +14,22 @@ namespace MaxMath
     [Serializable]   [StructLayout(LayoutKind.Sequential, Size = 16)]
     unsafe public struct bool16 : IEquatable<bool16>
     {
-        [NoAlias] public bool x0;
-        [NoAlias] public bool x1;
-        [NoAlias] public bool x2;
-        [NoAlias] public bool x3;
-        [NoAlias] public bool x4;
-        [NoAlias] public bool x5;
-        [NoAlias] public bool x6;
-        [NoAlias] public bool x7;
-        [NoAlias] public bool x8;
-        [NoAlias] public bool x9;
-        [NoAlias] public bool x10;
-        [NoAlias] public bool x11;
-        [NoAlias] public bool x12;
-        [NoAlias] public bool x13;
-        [NoAlias] public bool x14;
-        [NoAlias] public bool x15;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x0;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x1;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x2;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x3;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x4;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x5;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x6;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x7;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x8;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x9;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x10;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x11;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x12;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x13;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x14;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x15;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

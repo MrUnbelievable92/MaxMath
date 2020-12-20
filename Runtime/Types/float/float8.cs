@@ -24,6 +24,9 @@ namespace MaxMath
         [NoAlias] public float x7;
 
 
+        public static float8 zero => default(float8);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float x0, float x1, float x2, float x3, float x4, float x5, float x6, float x7)
         {

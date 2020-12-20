@@ -21,6 +21,9 @@ namespace MaxMath
         [FieldOffset(6)] public short w;
 
 
+        public static short4 zero => default(short4);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short x, short y, short z, short w)
         {
@@ -504,11 +507,11 @@ Assert.IsWithinArrayBounds(index, 4);
         public static short4 operator * (short4 lhs, short4 rhs) => Sse2.mullo_epi16(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator / (short4 lhs, short4 rhs) => new short4((short)(lhs.x / rhs.x),    (short)(lhs.y / rhs.y),    (short)(lhs.z / rhs.z),    (short)(lhs.w / rhs.w));
-    
+        public static short4 operator / (short4 lhs, short4 rhs) => Operator.vdiv_short(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator % (short4 lhs, short4 rhs) => new short4((short)(lhs.x % rhs.x),    (short)(lhs.y % rhs.y),    (short)(lhs.z % rhs.z),    (short)(lhs.w % rhs.w));
-        
+        public static short4 operator % (short4 lhs, short4 rhs) => Operator.vrem_short(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator * (short lhs, short4 rhs) => rhs * lhs;

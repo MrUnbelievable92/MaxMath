@@ -32,6 +32,9 @@ namespace MaxMath
         [NoAlias] public sbyte x15;
 
 
+        public static sbyte16 zero => default(sbyte16);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16(sbyte x0, sbyte x1, sbyte x2, sbyte x3, sbyte x4, sbyte x5, sbyte x6, sbyte x7, sbyte x8, sbyte x9, sbyte x10, sbyte x11, sbyte x12, sbyte x13, sbyte x14, sbyte x15)
         {
@@ -118,59 +121,59 @@ namespace MaxMath
 
 
         public sbyte8 v8_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 5, 6, 7, 8,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
         public sbyte8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2, 3, 4, 5, 6, 7, 8, 9,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 7, 8, 9, 10,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
         public sbyte8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 9, 10, 11, 12,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
         public sbyte8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7, 8, 9, 10, 11, 12, 13, 14,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
         public sbyte8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
                
         public sbyte4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 5, 6, 7, 8,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
         public sbyte4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 7, 8, 9, 10,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
         public sbyte4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 9, 10, 11, 12,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
         public sbyte4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7, 8, 9, 10, 11, 12, 13, 14,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
         public sbyte4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9, 10, 11, 12, 13, 14, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10, 11, 12, 13, 14, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11, 12, 13, 14, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
+        public sbyte4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
         public sbyte4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
                
         public sbyte3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 5, 6, 7, 8,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
         public sbyte3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 7, 8, 9, 10,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
         public sbyte3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 9, 10, 11, 12,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
         public sbyte3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7, 8, 9, 10, 11, 12, 13, 14,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
         public sbyte3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9, 10, 11, 12, 13, 14, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10, 11, 12, 13, 14, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11, 12, 13, 14, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
+        public sbyte3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
         public sbyte3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13, 14, 15, 15, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13L | (14L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
                
         public sbyte2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 5, 6, 7, 8,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
         public sbyte2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 7, 8, 9, 10,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
         public sbyte2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 9, 10, 11, 12,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
         public sbyte2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7, 8, 9, 10, 11, 12, 13, 14,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
         public sbyte2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9, 10, 11, 12, 13, 14, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10, 11, 12, 13, 14, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
-        public sbyte2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11, 12, 13, 14, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); } 
+        public sbyte2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
+        public sbyte2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
         public sbyte2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13, 14, 15, 15, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(14, 15, 15, 15, 15, 15, 15, 15,   0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13L | (14L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
+        public sbyte2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(14L | (15L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)

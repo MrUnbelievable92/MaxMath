@@ -46,7 +46,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(v128 x)
         {
-            return Ssse3.shuffle_epi8(x, new v128(0, 2, 4, 6, 8, 10, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(x, new v128((2L << 8) | (4L << 16) | (6L << 24) | (8L << 32) | (10L << 40) | (12L << 48) | (14L << 56), 0L));
         }
 
 
@@ -61,7 +61,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4ToByte4(v128 x)
         {
-            return Ssse3.shuffle_epi8(x, new v128(0, 4, 8, 12,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(x, new v128((4L << 8) | (8L << 16) | (12L << 24),    0L));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,7 +83,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4ToShort4(v128 x)
         {
-            return Ssse3.shuffle_epi8(x, new v128(0, 1,   4, 5,   8, 9,    12, 13,    0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(x, new v128((1L << 8) | (4L << 16) | (5L << 24) | (8L << 32) | (9L << 40) | (12L << 48) | (13L << 56),    0L));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -99,7 +99,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2ToByte2(v128 x)
         {
-            return Ssse3.shuffle_epi8(x, new v128(0, 8,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(x, new v128(8L << 8,    0L));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -112,7 +112,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2ToShort2(v128 x)
         {
-            return Ssse3.shuffle_epi8(x, new v128(0, 1, 8, 9,      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+            return Ssse3.shuffle_epi8(x, new v128((1L << 8) | (8L << 16) | (9L << 24),      0L));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,7 +131,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long4ToInt4(v256 x)
         {
-            return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, new v256(0, 2, 4, 6,   0, 0, 0, 0)));
+            return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 2, 4, 6))));
         }
     }
 }

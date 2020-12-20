@@ -111,7 +111,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 smoothstep(float8 a, float8 b, float8 x)
         {
-            float8 t = saturate((x - a) / (b - a));
+            float8 t = saturate(unlerp(a, b, x));
 
             return (t * t) * mad(-2f, t, 3f);
         }

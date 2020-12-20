@@ -19,6 +19,9 @@ namespace MaxMath
         [NoAlias] public short z;
 
 
+        public static short3 zero => default(short3);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short3(short x, short y, short z)
         {
@@ -263,11 +266,11 @@ Assert.IsWithinArrayBounds(index, 3);
         public static short3 operator * (short3 lhs, short3 rhs) => Sse2.mullo_epi16(lhs, rhs);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator / (short3 lhs, short3 rhs) => new short3((short)(lhs.x / rhs.x),    (short)(lhs.y / rhs.y),    (short)(lhs.z / rhs.z));
-    
+        public static short3 operator / (short3 lhs, short3 rhs) => Operator.vdiv_short(lhs, rhs);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator % (short3 lhs, short3 rhs) => new short3((short)(lhs.x % rhs.x),    (short)(lhs.y % rhs.y),    (short)(lhs.z % rhs.z));
-        
+        public static short3 operator % (short3 lhs, short3 rhs) => Operator.vrem_short(lhs, rhs);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator * (short lhs, short3 rhs) => rhs * lhs;

@@ -28,7 +28,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte8 c)
         {
-            return ((byte16)Avx2.broadcastb_epi8(c)).Equals((byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 4, 5, 6, 7,    0, 0, 0, 0, 0, 0, 0, 0, 0)));
+            return ((byte16)Avx2.broadcastb_epi8(c)).Equals((byte16)Ssse3.shuffle_epi8(c, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48),    0L)));
         }
 
 
