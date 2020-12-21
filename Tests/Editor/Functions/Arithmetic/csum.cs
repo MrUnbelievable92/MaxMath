@@ -661,5 +661,28 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(true, result);
         }
+
+
+        [Test]
+        public static void Float8()
+        {
+            bool result = true;
+
+            for (int i = 0; i < Tests.Float8.NUM_TESTS; i++)
+            {
+                float x = maxmath.csum(Tests.Float8.TestData_LHS[i]);
+
+                result &= maxmath.approx(x, (Tests.Float8.TestData_LHS[i].x0 +
+                                             Tests.Float8.TestData_LHS[i].x1 +
+                                             Tests.Float8.TestData_LHS[i].x2 +
+                                             Tests.Float8.TestData_LHS[i].x3 +
+                                             Tests.Float8.TestData_LHS[i].x4 +
+                                             Tests.Float8.TestData_LHS[i].x5 +
+                                             Tests.Float8.TestData_LHS[i].x6 +
+                                             Tests.Float8.TestData_LHS[i].x7), 0.1f);
+            }
+
+            Assert.AreEqual(true, result);
+        }
     }
 }

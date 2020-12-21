@@ -122,11 +122,11 @@ namespace MaxMath
 
         public ushort8 v8_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
         public ushort8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(ushort)), Avx2.mm256_extract_epi16(this, 8), 7); }
-        public ushort8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(1, 2, 3, 4,   0, 0, 0, 0))); }
+        public ushort8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4)))); }
         public ushort8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.or_si128(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 3 * sizeof(ushort)), Sse2.bslli_si128(Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(ushort))); }
-        public ushort8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(2, 3, 4, 5,   0, 0, 0, 0))); }
+        public ushort8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 5)))); }
         public ushort8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.or_si128(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 5 * sizeof(ushort)), Sse2.bslli_si128(Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(ushort))); }
-        public ushort8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4, 5, 6,   0, 0, 0, 0))); }
+        public ushort8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6)))); }
         public ushort8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(Sse2.bslli_si128(Avx2.mm256_extracti128_si256(this, 1), sizeof(ushort)), Avx2.mm256_extract_epi16(this, 7), 0); }
         public ushort8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1); }
 
@@ -136,13 +136,13 @@ namespace MaxMath
         public ushort4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 3 * sizeof(ushort)); }
         public ushort4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(0, 0,   3, 2)); }
         public ushort4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 5 * sizeof(ushort)), Avx2.mm256_extract_epi16(this, 8), 3); }
-        public ushort4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4,   0, 0, 0, 0, 0, 0))); }
+        public ushort4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3L | (4L << 32),   0L)))); }
         public ushort4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(Sse2.bslli_si128(Avx2.mm256_extracti128_si256(this, 1), sizeof(ushort)), Avx2.mm256_extract_epi16(this, 7), 0); }
         public ushort4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1); }
         public ushort4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), sizeof(ushort)); }
-        public ushort4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(5, 6,   0, 0, 0, 0, 0, 0))); }
+        public ushort4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(5L | (6L << 32), 0L)))); }
         public ushort4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(ushort)); }
-        public ushort4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(6, 7,   0, 0, 0, 0, 0, 0))); }
+        public ushort4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(6L | (7L << 32), 0L)))); }
 
         public ushort3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
         public ushort3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(0,   3, 2, 1)); }
@@ -150,7 +150,7 @@ namespace MaxMath
         public ushort3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 3 * sizeof(ushort)); }
         public ushort3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(0, 0,   3, 2)); }
         public ushort3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 5 * sizeof(ushort)); }
-        public ushort3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, new v256(3, 4,   0, 0, 0, 0, 0, 0))); }
+        public ushort3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3L | (4L << 32),   0L)))); }
         public ushort3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(Sse2.bslli_si128(Avx2.mm256_extracti128_si256(this, 1), sizeof(ushort)), Avx2.mm256_extract_epi16(this, 7), 0); }
         public ushort3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1); }
         public ushort3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(Avx2.mm256_extracti128_si256(this, 1), Sse.SHUFFLE(0,   3, 2, 1)); }

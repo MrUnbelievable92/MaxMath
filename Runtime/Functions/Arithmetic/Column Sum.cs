@@ -17,7 +17,7 @@ namespace MaxMath
 
             result = Sse.add_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse.mul_ss(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
+            return Sse.add_ss(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
         }
 
 
@@ -259,7 +259,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long3 x)
         {
-            return ((x + x.yyy) + x.zzz).x;
+            long2 result = Sse2.add_epi64(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
+
+            return Sse2.add_epi64(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 3, 2))).SLong0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a long4 vector.        </summary>
@@ -283,7 +285,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong3 x)
         {
-            return ((x + x.yyy) + x.zzz).x;
+            ulong2 result = Sse2.add_epi64(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
+
+            return Sse2.add_epi64(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 3, 2))).ULong0;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ulong4 vector.        </summary>

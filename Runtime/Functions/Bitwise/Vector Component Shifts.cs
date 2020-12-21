@@ -136,6 +136,35 @@ namespace MaxMath
 
         /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 shl(uint2 x, int2 n)
+        {
+            return shl(x, (uint2)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 shl(uint3 x, int3 n)
+        {
+            return shl(x, (uint3)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 shl(uint4 x, int4 n)
+        {
+            return shl(x, (uint4)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 shl(uint8 x, int8 n)
+        {
+            return shl(x, (uint8)n);
+        }
+
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shl(long2 x, long2 n)
         {
             if (Avx2.IsAvx2Supported)
@@ -217,6 +246,28 @@ namespace MaxMath
             {
                 return new ulong4(x.x << (int)n.x, x.y << (int)n.y, x.z << (int)n.z, x.w << (int)n.w);
             }
+        }
+
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 shl(ulong2 x, long2 n)
+        {
+            return shl(x, (ulong2)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 shl(ulong3 x, long3 n)
+        {
+            return shl(x, (ulong3)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 shl(ulong4 x, long4 n)
+        {
+            return shl(x, (ulong4)n);
         }
 
 
@@ -348,6 +399,35 @@ namespace MaxMath
 
         /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 shrl(uint2 x, int2 n)
+        {
+            return shrl(x, (uint2)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 shrl(uint3 x, int3 n)
+        {
+            return shrl(x, (uint3)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 shrl(uint4 x, int4 n)
+        {
+            return shrl(x, (uint4)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 shrl(uint8 x, int8 n)
+        {
+            return shrl(x, (uint8)n);
+        }
+
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shrl(long2 x, long2 n)
         {
             if (Avx2.IsAvx2Supported)
@@ -429,6 +509,28 @@ namespace MaxMath
             {
                 return new ulong4(x.x >> (int)n.x, x.y >> (int)n.y, x.z >> (int)n.z, x.w >> (int)n.w);
             }
+        }
+
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 shrl(ulong2 x, long2 n)
+        {
+            return shrl(x, (ulong2)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 shrl(ulong3 x, long3 n)
+        {
+            return shrl(x, (ulong3)n);
+        }
+
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 shrl(ulong4 x, long4 n)
+        {
+            return shrl(x, (ulong4)n);
         }
 
 

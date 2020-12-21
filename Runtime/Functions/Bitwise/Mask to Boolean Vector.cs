@@ -57,7 +57,7 @@ Assert.IsBetween(imm8, 0, ushort.MaxValue);
                                                         shrl(broadcast, new int8(8, 9, 10, 11, 12, 13, 14, 15)));
 
             byte16 result = 1 & (byte16)Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(Avx2.mm256_shuffle_epi8(shufCast, new v256(0, 2, 4, 6, 8, 10, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 6, 8, 10, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0)),
-                                                                                                  new v256(0, 4, 1, 5,   0,0,0,0)));
+                                                                                                  Avx.mm256_castsi128_si256(new v128(0, 4, 1, 5))));
             return (v128)result;
         }
 

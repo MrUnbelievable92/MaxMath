@@ -96,25 +96,25 @@ namespace MaxMath
 
 
         public float4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float4*)&t; } }
-        public float4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(1, 2, 3, 4,   0, 0, 0, 0))); return *(float4*)&t; } }
-        public float4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(2, 3, 4, 5,   0, 0, 0, 0))); return *(float4*)&t; } }
-        public float4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(3, 4, 5, 6,   0, 0, 0, 0))); return *(float4*)&t; } }
+        public float4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4)))); return *(float4*)&t; } }
+        public float4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 5)))); return *(float4*)&t; } }
+        public float4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6)))); return *(float4*)&t; } }
         public float4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float4*)&t; } }
 
         public float3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float3*)&t; } }
         public float3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float3*)&t; } }
-        public float3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(2, 3, 4,   0, 0, 0, 0, 0))); return *(float3*)&t; } }
-        public float3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(3, 4, 5,   0, 0, 0, 0, 0))); return *(float3*)&t; } }
+        public float3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 0)))); return *(float3*)&t; } }
+        public float3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 0)))); return *(float3*)&t; } }
         public float3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float3*)&t; } }
-        public float3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(5, 6, 7,   0, 0, 0, 0, 0))); return *(float3*)&t; } }
+        public float3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5, 6, 7, 0)))); return *(float3*)&t; } }
 
         public float2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float2*)&t; } }
         public float2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float2*)&t; } }
         public float2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(float)); return *(float2*)&t; } }
-        public float2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(3, 4,   0, 0, 0, 0, 0, 0))); return *(float2*)&t; } }
+        public float2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3L | (4L << 32),   0L)))); return *(float2*)&t; } }
         public float2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float2*)&t; } }
-        public float2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(5, 6,   0, 0, 0, 0, 0, 0))); return *(float2*)&t; } }
-        public float2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, new v256(6, 7,   0, 0, 0, 0, 0, 0))); return *(float2*)&t; } }
+        public float2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5L | (6L << 32), 0L)))); return *(float2*)&t; } }
+        public float2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(6L | (7L << 32), 0L)))); return *(float2*)&t; } }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)

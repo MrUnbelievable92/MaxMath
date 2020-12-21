@@ -13,6 +13,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)] 
         public static int last(bool2 x)
         {
+Assert.IsSafeBoolean(x.x);
+Assert.IsSafeBoolean(x.y);
+
             return 3 - (math.lzcnt((uint)*(ushort*)&x) / 8);
         }
 
@@ -20,6 +23,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 2)] 
         public static int last(bool3 x)
         {
+Assert.IsSafeBoolean(x.x);
+Assert.IsSafeBoolean(x.y);
+Assert.IsSafeBoolean(x.z);
+
             return 3 - (math.lzcnt(*(int*)&x & 0x00FF_FFFF) / 8);
         }
 
@@ -27,6 +34,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 3)] 
         public static int last(bool4 x)
         {
+Assert.IsSafeBoolean(x.x);
+Assert.IsSafeBoolean(x.y);
+Assert.IsSafeBoolean(x.z);
+Assert.IsSafeBoolean(x.w);
+
             return 3 - (math.lzcnt(*(int*)&x) / 8);
         }
 

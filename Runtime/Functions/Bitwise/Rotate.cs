@@ -1,8 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {

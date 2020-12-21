@@ -13,7 +13,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 countbits(byte32 x)
         {
-            byte32 lookup = new byte32(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+            byte32 lookup = new byte32(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
+                                       0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+
             byte32 mask = new byte32(0x0F);
         
             byte32 countLo = Avx2.mm256_shuffle_epi8(lookup, x & mask);
