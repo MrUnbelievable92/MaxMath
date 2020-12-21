@@ -6,7 +6,7 @@
         "UnityEditor.TestRunner",
         "Unity.Burst",
         "Unity.Mathematics",
-        "MaxMath"
+        "mru.maxmath"
     ],
     "includePlatforms": [
         "Editor"

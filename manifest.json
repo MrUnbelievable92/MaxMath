@@ -1,5 +1,5 @@
 {
-  "name": "MRU.maxmath",
+  "name": "mru.maxmath",
   "displayName": "MaxMath",
   "version": "0.9.3",
   "unity": "2018.4",
@@ -8,7 +8,7 @@
     "Unity"
   ],
    "dependencies": {
-    "MRU.devtools" : "1.0.4": "https://github.com/MrUnbelievable92/DevTools.git",
+    "mru.devtools" : "1.0.4": "https://github.com/MrUnbelievable92/DevTools.git",
     "com.unity.burst": "1.4.3",
     "com.unity.mathematics": "1.2.1"
   },
