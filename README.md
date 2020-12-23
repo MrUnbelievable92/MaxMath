@@ -6,4 +6,4 @@ Almost all functions present in Unity.Mathematics have been transcribed to work 
 
 Note: 
 - C Sharp Dev Tools (a repository of mine) is required. Unit tests for this library are included in this repository.
-- There are currently no fallback procedures regarding platform support without AVX2 apart from the managed C# implementations. Thus, for the most part, AVX2 is required if used with Burst. (Work in progress)
+- There are currently no fallback procedures regarding support for platforms without AVX2 apart from the managed C# software implementations. Thus, for the most part, AVX2 is required if used with Burst. (Work in progress)
