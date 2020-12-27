@@ -55,7 +55,7 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return math.tzcnt(x.cast_long) / 8;
+            return math.tzcnt(*(long*)&x) / 8;
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool16 vector or 32 if none are true.       </summary>

@@ -90,7 +90,7 @@ namespace MaxMath
         public static implicit operator double2x3(ushort2x3 input) => new double2x3((double2)input.c0, (double2)input.c1, (double2)input.c2);
 
 
-        public ref ushort2 this[[AssumeRange(0, 2)] int index]
+        public ref ushort2 this[int index]
         {
             get
             {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
@@ -76,7 +76,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool8 x)
         {
-            return x.cast_long != 0L;
+Assert.IsSafeBoolean(x.x0);
+Assert.IsSafeBoolean(x.x1);
+Assert.IsSafeBoolean(x.x2);
+Assert.IsSafeBoolean(x.x3);
+Assert.IsSafeBoolean(x.x4);
+Assert.IsSafeBoolean(x.x5);
+Assert.IsSafeBoolean(x.x6);
+Assert.IsSafeBoolean(x.x7);
+
+            return *(long*)&x != 0L;
         }
 
         /// <summary>       Returns true if any of the components of the input bool16 vector is true, false otherwise.       </summary>

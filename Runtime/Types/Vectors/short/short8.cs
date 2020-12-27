@@ -147,7 +147,7 @@ namespace MaxMath
         public static implicit operator float8(short8 input) => (float8)(int8)input;
 
 
-        public short this[[AssumeRange(0, 7)] int index]
+        public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

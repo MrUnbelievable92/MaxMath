@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -78,14 +79,6 @@ namespace MaxMath
             return Avx.mm256_rsqrt_ps(x);
         }
 
-        /// <summary>       Returns the componentwise floating point remainder of x/y.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 fmod(float8 x, float8 y)
-        {
-            return x % y;
-        }
-
-
         /// <summary>       Returns the result of a componentwise linear interpolation from x to y using the corresponding components of the interpolation parameter s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 lerp(float8 x, float8 y, float8 s) 
@@ -121,6 +114,51 @@ namespace MaxMath
         public static float8 step(float8 y, float8 x) 
         { 
             return Avx.mm256_blendv_ps(default(float8), new float8(1f), Avx.mm256_cmp_ps(x, y, (int)Avx.CMP.GE_OS)); 
+        }
+
+
+        /// <summary>       Returns the squared length of a float8 vector.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float lengthsq(float8 x) 
+        { 
+            return dot(x, x); 
+        }
+
+        /// <summary>       Returns the squared length of a float8 vector.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float length(float8 x)
+        {
+            return math.sqrt(lengthsq(x));
+        }
+
+        /// <summary>       Returns a normalized version of the float8 vector x by scaling it by 1 / length(x).     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 normalize(float8 x) 
+        {
+            return x * rsqrt(dot(x, x)); 
+        }
+
+        /// <summary>       Returns a safe normalized version of the float3 vector x by scaling it by 1 / length(x). Returns the given default value when 1 / length(x) does not produce a finite number.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static public float8 normalizesafe(float8 x, float8 defaultvalue = default(float8))
+        {
+            float len = dot(x, x);
+
+            return select(defaultvalue, x * math.rsqrt(len), len > math.FLT_MIN_NORMAL);
+        }
+
+        /// <summary>       Returns the distance between two float8 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float distance(float8 x, float8 y) 
+        { 
+            return length(y - x);
+        }
+
+        /// <summary        >Returns the distance between two float8 vectors.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float distancesq(float8 x, float8 y) 
+        { 
+            return lengthsq(y - x); 
         }
     }
 }

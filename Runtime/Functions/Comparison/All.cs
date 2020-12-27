@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -75,7 +76,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(bool8 x)
         {
-            return x.cast_long == 0x0101_0101_0101_0101;
+Assert.IsSafeBoolean(x.x0);
+Assert.IsSafeBoolean(x.x1);
+Assert.IsSafeBoolean(x.x2);
+Assert.IsSafeBoolean(x.x3);
+Assert.IsSafeBoolean(x.x4);
+Assert.IsSafeBoolean(x.x5);
+Assert.IsSafeBoolean(x.x6);
+Assert.IsSafeBoolean(x.x7);
+
+            return *(long*)&x == 0x0101_0101_0101_0101;
         }
 
         /// <summary>       Returns true if all of the components of the input bool16 vector are true, false otherwise.        </summary>

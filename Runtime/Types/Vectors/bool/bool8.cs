@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
@@ -10,19 +11,17 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]   [StructLayout(LayoutKind.Explicit, Size = 8)]
+    [Serializable]   [StructLayout(LayoutKind.Sequential, Size = 8)]
     unsafe public struct bool8 : IEquatable<bool8>
     {
-        [FieldOffset(0)] internal long cast_long;
-
-        [FieldOffset(0)] [MarshalAs(UnmanagedType.U1)] public bool x0;
-        [FieldOffset(1)] [MarshalAs(UnmanagedType.U1)] public bool x1;
-        [FieldOffset(2)] [MarshalAs(UnmanagedType.U1)] public bool x2;
-        [FieldOffset(3)] [MarshalAs(UnmanagedType.U1)] public bool x3;
-        [FieldOffset(4)] [MarshalAs(UnmanagedType.U1)] public bool x4;
-        [FieldOffset(5)] [MarshalAs(UnmanagedType.U1)] public bool x5;
-        [FieldOffset(6)] [MarshalAs(UnmanagedType.U1)] public bool x6;
-        [FieldOffset(7)] [MarshalAs(UnmanagedType.U1)] public bool x7;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x0;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x1;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x2;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x3;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x4;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x5;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x6;
+        [NoAlias] [MarshalAs(UnmanagedType.U1)] public bool x7;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,7 +101,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(bool8 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
+        public static implicit operator v128(bool8 input) => new v128(*(long*)&input, 0L);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(v128 input)
@@ -117,7 +116,9 @@ namespace MaxMath
                                x6 = maxmath.tobool(input.Byte6),
                                x7 = maxmath.tobool(input.Byte7) };
 #else
-            return new bool8 { cast_long = input.SLong0 };
+            long x = input.SLong0;
+
+            return *(bool8*)&x;
 #endif
         }
 
@@ -146,7 +147,7 @@ namespace MaxMath
         public static bool8 operator ! (bool8 val) => Sse2.andnot_si128(val, new v128((byte)1));
 
 
-        public bool this[[AssumeRange(0, 7)] int index]
+        public bool this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

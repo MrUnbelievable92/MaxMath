@@ -679,7 +679,7 @@ namespace MaxMath.Tests
                                              Tests.Float8.TestData_LHS[i].x4 +
                                              Tests.Float8.TestData_LHS[i].x5 +
                                              Tests.Float8.TestData_LHS[i].x6 +
-                                             Tests.Float8.TestData_LHS[i].x7), 0.1f);
+                                             Tests.Float8.TestData_LHS[i].x7), 0.01f);
             }
 
             Assert.AreEqual(true, result);

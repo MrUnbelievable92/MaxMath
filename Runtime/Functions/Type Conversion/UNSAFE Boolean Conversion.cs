@@ -147,7 +147,7 @@ Assert.IsBetween((sbyte)a, 0, 1);
         }
         /// <summary>       Converts an int value to its bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-        public static bool tobool([AssumeRange(0, 1)] int a)
+        public static bool tobool(int a)
         { 
 Assert.IsBetween((sbyte)a, 0, 1);
 
@@ -168,7 +168,7 @@ Assert.IsBetween((sbyte)a, 0, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool tobool(half a)
         {
-Assert.IsTrue(a.value == new half(1f).value || a.value == 0);
+Assert.IsTrue(a.value == new half(1f).value || a.value == 0 || a.value == 1 << 15);
 
             return a.value == ((half)1f).value;
         }

@@ -230,7 +230,7 @@ namespace MaxMath
         public static implicit operator double3(short3 input) => (double3)(int3)input;
 
 
-        public short this[[AssumeRange(0, 2)] int index]
+        public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

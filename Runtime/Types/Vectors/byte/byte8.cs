@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -9,19 +10,17 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 8)]
+    [Serializable] [StructLayout(LayoutKind.Sequential, Size = 8)]
     unsafe public struct byte8 : IEquatable<byte8>, IFormattable
     {
-        [FieldOffset(0)] internal long cast_long;
-
-        [FieldOffset(0)] public byte x0;
-        [FieldOffset(1)] public byte x1;
-        [FieldOffset(2)] public byte x2;
-        [FieldOffset(3)] public byte x3;
-        [FieldOffset(4)] public byte x4;
-        [FieldOffset(5)] public byte x5;
-        [FieldOffset(6)] public byte x6;
-        [FieldOffset(7)] public byte x7;
+        [NoAlias] public byte x0;
+        [NoAlias] public byte x1;
+        [NoAlias] public byte x2;
+        [NoAlias] public byte x3;
+        [NoAlias] public byte x4;
+        [NoAlias] public byte x5;
+        [NoAlias] public byte x6;
+        [NoAlias] public byte x7;
 
 
         public static byte8 zero => default(byte8);
@@ -92,33 +91,33 @@ namespace MaxMath
         }
 
 
-        public byte4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public byte4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }                     
+        public byte4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
         public byte4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
         public byte4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
 
         public byte3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public byte3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
         public byte3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
         public byte3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public byte3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5 | (6 << 8) | (7 << 16) | (8 << 24), 0, 0, 0)); }
 
         public byte2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public byte2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
         public byte2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
         public byte2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public byte2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public byte2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5 | (6 << 8) | (7 << 16) | (8 << 24), 0, 0, 0)); }
         public byte2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3)); }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(byte8 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
+        public static implicit operator v128(byte8 input) => new v128(*(long*)&input, 0L);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte8(v128 input) => new byte8{ cast_long = input.SLong0 };
+        public static implicit operator byte8(v128 input) { long x = input.SLong0; return *(byte8*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator byte8(byte input) => new byte8(input);
@@ -159,7 +158,7 @@ namespace MaxMath
         public static implicit operator float8(byte8 input) => (float8)(int8)input;
 
 
-        public byte this[[AssumeRange(0, 7)] int index]
+        public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -235,7 +234,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator <<(byte8 x, int n) => Operator.shl_byte(x, n);
+        public static byte8 operator << (byte8 x, int n) => Operator.shl_byte(x, n);
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator >> (byte8 x, int n) => Operator.shrl_byte(x, n);

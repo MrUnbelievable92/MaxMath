@@ -165,7 +165,7 @@ namespace MaxMath
         public static implicit operator float8(half8 input) => F16C.mm256_cvtph_ps(input);
 
 
-        public half this[[AssumeRange(0, 7)] int index]
+        public half this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

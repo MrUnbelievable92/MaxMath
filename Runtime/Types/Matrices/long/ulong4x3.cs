@@ -68,7 +68,7 @@ namespace MaxMath
         public static implicit operator double4x3(ulong4x3 input) => new double4x3((double4)input.c0, (double4)input.c1, (double4)input.c2);
 
 
-        public ref ulong4 this[[AssumeRange(0, 2)] int index]
+        public ref ulong4 this[int index]
         {
             get
             {

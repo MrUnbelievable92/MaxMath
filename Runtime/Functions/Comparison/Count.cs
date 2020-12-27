@@ -55,7 +55,7 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return math.countbits(x.cast_long);
+            return math.countbits(*(long*)&x);
         }
 
         /// <summary>       Returns the number of true values in a bool16 vector.        </summary>

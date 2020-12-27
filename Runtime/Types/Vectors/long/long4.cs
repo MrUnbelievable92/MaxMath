@@ -458,7 +458,7 @@ namespace MaxMath
         public static implicit operator double4(long4 input) => Cast.Long4ToDouble4(input);
 
 
-        public long this[[AssumeRange(0, 3)] int index]
+        public long this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

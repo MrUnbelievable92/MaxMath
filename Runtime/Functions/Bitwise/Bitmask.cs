@@ -165,7 +165,7 @@ Assert.IsDefinedBitShift<ulong>((uint)index.w);
 
         /// <summary>       Returns a 32-bit bitmask with all bits set to one from index to (index + numBits - 1) in LSB order.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int bitmask32([AssumeRange(0, 32)] int numBits, [AssumeRange(0, 31)] int index = 0) => (int)bitmask32((uint)numBits, (uint)index);
+        public static int bitmask32(int numBits, int index = 0) => (int)bitmask32((uint)numBits, (uint)index);
 
         /// <summary>       Returns a 32-bit bitmask int2 vector with all componentwise bits set to one from index to (index + numBits - 1) in LSB order.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -186,7 +186,7 @@ Assert.IsDefinedBitShift<ulong>((uint)index.w);
 
         /// <summary>       Returns a 64-bit bitmask with all bits set to one from index to (index + numBits - 1) in LSB order.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long bitmask64([AssumeRange(0, 64)] long numBits, long index = 0) => (long)bitmask64((ulong)numBits, (ulong)index);
+        public static long bitmask64(long numBits, long index = 0) => (long)bitmask64((ulong)numBits, (ulong)index);
 
         /// <summary>       Returns a 64-bit bitmask long2 vector with all componentwise bits set to one from index to (index + numBits - 1) in LSB order.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

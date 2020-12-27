@@ -203,7 +203,7 @@ namespace MaxMath
         public static explicit operator ushort16(sbyte16 input) => Avx2.mm256_cvtepi8_epi16(input);
 
 
-        public sbyte this[[AssumeRange(0, 15)] int index]
+        public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

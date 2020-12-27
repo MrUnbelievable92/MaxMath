@@ -20,6 +20,41 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the dot product of two byte2 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte2 a, byte2 b)
+        {
+            return dot((ushort2)a, (ushort2)b);
+        }
+
+        /// <summary>       Returns the dot product of two byte3 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte3 a, byte3 b)
+        {
+            return dot((ushort3)a, (ushort3)b);
+        }
+
+        /// <summary>       Returns the dot product of two byte4 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte4 a, byte4 b)
+        {
+            return dot((ushort4)a, (ushort4)b);
+        }
+
+        /// <summary>       Returns the dot product of two byte8 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte8 a, byte8 b)
+        {
+            return dot((ushort8)a, (ushort8)b);
+        }
+
+        /// <summary>       Returns the dot product of two byte16 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte16 a, byte16 b)
+        {
+            return dot((ushort16)a, (ushort16)b);
+        }
+
         /// <summary>       Returns the dot product of two byte32 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte32 a, byte32 b)
@@ -27,6 +62,41 @@ namespace MaxMath
             return (uint)dot((short16)a.v16_0, (short16)b.v16_0) + (uint)dot((short16)a.v16_16, (short16)b.v16_16);
         }
 
+
+        /// <summary>       Returns the dot product of two sbyte2 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte2 a, sbyte2 b)
+        {
+            return dot((short2)a, (short2)b);
+        }
+
+        /// <summary>       Returns the dot product of two sbyte3 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte3 a, sbyte3 b)
+        {
+            return dot((short3)a, (short3)b);
+        }
+
+        /// <summary>       Returns the dot product of two sbyte4 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte4 a, sbyte4 b)
+        {
+            return dot((short4)a, (short4)b);
+        }
+
+        /// <summary>       Returns the dot product of two sbyte8 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte8 a, sbyte8 b)
+        {
+            return dot((short8)a, (short8)b);
+        }
+
+        /// <summary>       Returns the dot product of two sbyte16 vectors.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte16 a, sbyte16 b)
+        {
+            return dot((short16)a, (short16)b);
+        }
 
         /// <summary>       Returns the dot product of two sbyte32 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -214,7 +214,7 @@ namespace MaxMath
         public static implicit operator double3(ulong3 input) => new double3((double)input.x, (double)input.y, (double)input.z);
 
 
-        public ulong this[[AssumeRange(0, 2)] int index]
+        public ulong this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -300,7 +300,7 @@ Assert.IsWithinArrayBounds(index, 3);
         public static bool3 operator == (ulong3 lhs, ulong3 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi64(lhs, rhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator <(ulong3 lhs, ulong3 rhs) => TestIsTrue(Operator.greater_mask_ulong(rhs, lhs));
+        public static bool3 operator < (ulong3 lhs, ulong3 rhs) => TestIsTrue(Operator.greater_mask_ulong(rhs, lhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
         public static bool3 operator > (ulong3 lhs, ulong3 rhs) => TestIsTrue(Operator.greater_mask_ulong(lhs, rhs));

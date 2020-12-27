@@ -9,28 +9,30 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte touint8safe(bool a)
         {
-            return (byte)math.clamp((uint)*(byte*)&a, 0u, 1u);
+            a = *(byte*)&a != 0;
+
+            return *(byte*)&a;
         }
 
         /// <summary>       Converts a bool value to its ushort representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort touint16safe(bool a)
         {
-            return (ushort)math.clamp((uint)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
         /// <summary>       Converts a bool value to its uint representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touint32safe(bool a)
         {
-            return math.clamp((uint)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
         /// <summary>       Converts a bool value to its ulong representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong touint64safe(bool a)
         {
-            return math.clamp((ulong)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
 
@@ -38,49 +40,51 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte toint8safe(bool a)
         {
-            return (sbyte)math.clamp((uint)*(byte*)&a, 0u, 1u);
+            a = *(byte*)&a != 0;
+
+            return *(sbyte*)&a;
         }
 
         /// <summary>       Converts a bool value to its short representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short toint16safe(bool a)
         {
-            return (short)math.clamp((uint)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
         /// <summary>       Converts a bool value to its int representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int toint32safe(bool a)
         {
-            return (int)math.clamp((uint)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
         /// <summary>       Converts a bool value to its long representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long toint64safe(bool a)
         {
-            return (long)math.clamp((ulong)*(byte*)&a, 0u, 1u);
+            return touint8safe(a);
         }
 
         /// <summary>       Converts a bool value to its half representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half tof16safe(bool a)
         {
-            return new half(touint8safe(a)* new half(1f).value);
+            return new half(-toint8safe(a) & new half(1f).value);
         }
 
         /// <summary>       Converts a bool value to its float representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float tof32safe(bool a)
         {
-            return math.asfloat(touint8safe(a) * math.asuint(1f));
+            return math.asfloat(-toint8safe(a) & math.asint(1f));
         }
 
         /// <summary>       Converts a bool value to its double representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double tof64safe(bool a)
         {
-            return math.asdouble(touint8safe(a) * math.asulong(1d));
+            return math.asdouble(-toint8safe(a) & math.aslong(1d));
         }
 
 

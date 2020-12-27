@@ -246,7 +246,7 @@ namespace MaxMath
         public static implicit operator double3(byte3 input) => (double3)(int3)input;
 
 
-        public byte this[[AssumeRange(0, 2)] int index]
+        public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

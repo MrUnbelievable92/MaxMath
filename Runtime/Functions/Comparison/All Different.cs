@@ -297,22 +297,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte16 c)
         {
-            v256 or = Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2))),
-                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 2)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 3, 4, 5)))),
-                      Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4))),
-                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 4, 5, 6, 7, 8, 9)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(10, 11, 12, 13, 14, 15, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)))),
-                      Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8))),
-                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(15, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 7, 8, 9, 10, 11)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8, 9, 10, 11, 12, 13, 14, 15, 9, 10, 11, 12)))),
-                                          Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(11, 11, 12, 12, 12, 13, 13, 14, 0, 0, 0, 0, 0, 0, 0, 0))),
+            v256 or = Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2))),
+                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 2)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 3,  4,  5)))),
+                      Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  3,  3,  3,  3,  3,  3)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4))),
+                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 4,  5,  6,  7,  8,  9)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(10, 11, 12, 13, 14, 15, 5,  6,  7,  8,  9,  10, 11, 12, 13, 14)))),
+                      Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(4,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  6,  6,  6,  6,  6)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(6,  6,  6,  6,  7,  7,  7,  7,  7,  7,  7,  7,  8,  8,  8,  8))),
+                                                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(15, 6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 7,  8,  9,  10, 11)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8,  9,  10, 11, 12, 13, 14, 15, 9,  10, 11, 12)))),
+                                          Avx2.mm256_cmpeq_epi8(new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(8,  8,  8,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 11, 11)),
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(11, 11, 12, 12, 12, 13, 13, 14, 0,  0,  0,  0,  0,  0,  0,  0))),
                                                                 new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(13, 14, 15, 10, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 12, 13)),
-                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(14, 15, 13, 14, 15, 14, 15, 15, 1, 1, 1, 1, 1, 1, 1, 1)))))));
+                                                                           (byte16)Ssse3.shuffle_epi8(c, new v128(14, 15, 13, 14, 15, 14, 15, 15, 1,  1,  1,  1,  1,  1,  1,  1)))))));
 
             return 0 == Avx2.mm256_movemask_epi8(or);
         }
@@ -380,14 +380,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short8 c)
         {
-            v256 or = Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi16(new short16((short8)Ssse3.shuffle_epi8(c, new v128(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 3)),
-                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 4, 5, 4, 5, 4, 5))),
-                                                                 new short16((short8)Ssse3.shuffle_epi8(c, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 4, 5)),
-                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 6, 7, 8, 9, 10, 11)))),
-                                          Avx2.mm256_cmpeq_epi16(new short16((short8)Ssse3.shuffle_epi8(c, new v128(4, 5, 4, 5, 6, 7, 6, 7, 6, 7, 6, 7, 8, 9, 8, 9)),
-                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(8, 9, 10, 11, 10, 11, 12, 13, 0, 1, 0, 1, 0, 1, 0, 1))),
-                                                                 new short16((short8)Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13)),
-                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(14, 15, 12, 13, 14, 15, 14, 15, 2, 3, 2, 3, 2, 3, 2, 3)))));
+            v256 or = Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi16(new short16((short8)Ssse3.shuffle_epi8(c, new v128(0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  2,  3)),
+                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(2,  3,  2,  3,  2,  3,  2,  3,  2,  3,  4,  5,  4,  5,  4,  5))),
+                                                                 new short16((short8)Ssse3.shuffle_epi8(c, new v128(2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 4,  5)),
+                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 6,  7,  8,  9,  10, 11)))),
+                                          Avx2.mm256_cmpeq_epi16(new short16((short8)Ssse3.shuffle_epi8(c, new v128(4,  5,  4,  5,  6,  7,  6,  7,  6,  7,  6,  7,  8,  9,  8,  9)),
+                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(8,  9,  10, 11, 10, 11, 12, 13, 0,  1,  0,  1,  0,  1,  0,  1))),
+                                                                 new short16((short8)Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8,  9,  10, 11, 12, 13, 14, 15, 10, 11, 12, 13)),
+                                                                             (short8)Ssse3.shuffle_epi8(c, new v128(14, 15, 12, 13, 14, 15, 14, 15, 2,  3,  2,  3,  2,  3,  2,  3)))));
 
             return 0 == Avx2.mm256_movemask_epi8(or);
 

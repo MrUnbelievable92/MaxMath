@@ -135,7 +135,7 @@ namespace MaxMath
         public static bool32 operator ! (bool32 val) => Avx2.mm256_andnot_si256(val, new v256((byte)1));
 
 
-        public bool this[[AssumeRange(0, 31)] int index]
+        public bool this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

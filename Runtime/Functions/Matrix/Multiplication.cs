@@ -8,7 +8,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long mul(long2 a, long2 b)
         {
-            return a.x * b.x + a.y * b.y;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the long2 row vector result of a matrix multiplication between a long2 row vector and a long2x2 matrix.		</summary>
@@ -45,7 +45,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long mul(long3 a, long3 b)
         {
-            return a.x * b.x + a.y * b.y + a.z * b.z;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the long2 row vector result of a matrix multiplication between a long3 row vector and a long3x2 matrix.		</summary>
@@ -82,7 +82,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long mul(long4 a, long4 b)
         {
-            return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the long2 row vector result of a matrix multiplication between a long4 row vector and a long4x2 matrix.		</summary>
@@ -453,7 +453,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong mul(ulong2 a, ulong2 b)
         {
-            return a.x * b.x + a.y * b.y;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ulong2 row vector result of a matrix multiplication between a ulong2 row vector and a ulong2x2 matrix.		</summary>
@@ -490,7 +490,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong mul(ulong3 a, ulong3 b)
         {
-            return a.x * b.x + a.y * b.y + a.z * b.z;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ulong2 row vector result of a matrix multiplication between a ulong3 row vector and a ulong3x2 matrix.		</summary>
@@ -527,7 +527,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong mul(ulong4 a, ulong4 b)
         {
-            return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ulong2 row vector result of a matrix multiplication between a ulong4 row vector and a ulong4x2 matrix.		</summary>
@@ -896,9 +896,9 @@ namespace MaxMath
 
         /// <summary>		Returns the short value result of a matrix multiplication between a short2 row vector and a short2 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short mul(short2 a, short2 b)
+        public static int mul(short2 a, short2 b)
         {
-            return (short)(a.x * b.x + a.y * b.y);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the short2 row vector result of a matrix multiplication between a short2 row vector and a short2x2 matrix.		</summary>
@@ -933,9 +933,9 @@ namespace MaxMath
 
         /// <summary>		Returns the short value result of a matrix multiplication between a short3 row vector and a short3 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short mul(short3 a, short3 b)
+        public static int mul(short3 a, short3 b)
         {
-            return (short)(a.x * b.x + a.y * b.y + a.z * b.z);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the short2 row vector result of a matrix multiplication between a short3 row vector and a short3x2 matrix.		</summary>
@@ -970,9 +970,9 @@ namespace MaxMath
 
         /// <summary>		Returns the short value result of a matrix multiplication between a short4 row vector and a short4 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short mul(short4 a, short4 b)
+        public static int mul(short4 a, short4 b)
         {
-            return (short)(a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the short2 row vector result of a matrix multiplication between a short4 row vector and a short4x2 matrix.		</summary>
@@ -1341,9 +1341,9 @@ namespace MaxMath
 
         /// <summary>		Returns the ushort value result of a matrix multiplication between a ushort2 row vector and a ushort2 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort mul(ushort2 a, ushort2 b)
+        public static uint mul(ushort2 a, ushort2 b)
         {
-            return (ushort)(a.x * b.x + a.y * b.y);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ushort2 row vector result of a matrix multiplication between a ushort2 row vector and a ushort2x2 matrix.		</summary>
@@ -1378,9 +1378,9 @@ namespace MaxMath
 
         /// <summary>		Returns the ushort value result of a matrix multiplication between a ushort3 row vector and a ushort3 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort mul(ushort3 a, ushort3 b)
+        public static uint mul(ushort3 a, ushort3 b)
         {
-            return (ushort)(a.x * b.x + a.y * b.y + a.z * b.z);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ushort2 row vector result of a matrix multiplication between a ushort3 row vector and a ushort3x2 matrix.		</summary>
@@ -1415,9 +1415,9 @@ namespace MaxMath
 
         /// <summary>		Returns the ushort value result of a matrix multiplication between a ushort4 row vector and a ushort4 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort mul(ushort4 a, ushort4 b)
+        public static uint mul(ushort4 a, ushort4 b)
         {
-            return (ushort)(a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the ushort2 row vector result of a matrix multiplication between a ushort4 row vector and a ushort4x2 matrix.		</summary>
@@ -1786,9 +1786,9 @@ namespace MaxMath
 
         /// <summary>		Returns the sbyte value result of a matrix multiplication between an sbyte2 row vector and an sbyte2 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte mul(sbyte2 a, sbyte2 b)
+        public static int mul(sbyte2 a, sbyte2 b)
         {
-            return (sbyte)(a.x * b.x + a.y * b.y);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the sbyte2 row vector result of a matrix multiplication between an sbyte2 row vector and an sbyte2x2 matrix.		</summary>
@@ -1823,9 +1823,9 @@ namespace MaxMath
 
         /// <summary>		Returns the sbyte value result of a matrix multiplication between an sbyte3 row vector and an sbyte3 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte mul(sbyte3 a, sbyte3 b)
+        public static int mul(sbyte3 a, sbyte3 b)
         {
-            return (sbyte)(a.x * b.x + a.y * b.y + a.z * b.z);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the sbyte2 row vector result of a matrix multiplication between an sbyte3 row vector and an sbyte3x2 matrix.		</summary>
@@ -1860,9 +1860,9 @@ namespace MaxMath
 
         /// <summary>		Returns the sbyte value result of a matrix multiplication between an sbyte4 row vector and an sbyte4 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte mul(sbyte4 a, sbyte4 b)
+        public static int mul(sbyte4 a, sbyte4 b)
         {
-            return (sbyte)(a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the sbyte2 row vector result of a matrix multiplication between an sbyte4 row vector and an sbyte4x2 matrix.		</summary>
@@ -2231,9 +2231,9 @@ namespace MaxMath
 
         /// <summary>		Returns the byte value result of a matrix multiplication between a byte2 row vector and a byte2 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte mul(byte2 a, byte2 b)
+        public static uint mul(byte2 a, byte2 b)
         {
-            return (byte)(a.x * b.x + a.y * b.y);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the byte2 row vector result of a matrix multiplication between a byte2 row vector and a byte2x2 matrix.		</summary>
@@ -2268,9 +2268,9 @@ namespace MaxMath
 
         /// <summary>		Returns the byte value result of a matrix multiplication between a byte3 row vector and a byte3 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte mul(byte3 a, byte3 b)
+        public static uint mul(byte3 a, byte3 b)
         {
-            return (byte)(a.x * b.x + a.y * b.y + a.z * b.z);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the byte2 row vector result of a matrix multiplication between a byte3 row vector and a byte3x2 matrix.		</summary>
@@ -2305,9 +2305,9 @@ namespace MaxMath
 
         /// <summary>		Returns the byte value result of a matrix multiplication between a byte4 row vector and a byte4 column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte mul(byte4 a, byte4 b)
+        public static uint mul(byte4 a, byte4 b)
         {
-            return (byte)(a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+            return dot(a, b);
         }
 
         /// <summary>		Returns the byte2 row vector result of a matrix multiplication between a byte4 row vector and a byte4x2 matrix.		</summary>

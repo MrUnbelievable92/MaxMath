@@ -116,31 +116,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float8 vdiv_byte_quotient(uint8 dividend, uint8 divisor)
-        {
-Assert.AreNotEqual(divisor.x0, 0u);
-Assert.AreNotEqual(divisor.x1, 0u);
-Assert.AreNotEqual(divisor.x2, 0u);
-Assert.AreNotEqual(divisor.x3, 0u);
-Assert.AreNotEqual(divisor.x4, 0u);
-Assert.AreNotEqual(divisor.x5, 0u);
-Assert.AreNotEqual(divisor.x6, 0u);
-Assert.AreNotEqual(divisor.x7, 0u);
-
-            float8 dividend_f32 = dividend;
-            float8 divisor_f32 = divisor;
-
-            float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
-
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new float8(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation *= divisor_f32_rcp;
-            precisionLossCompensation *= dividend_f32;
-
-            return precisionLossCompensation;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float8 vdiv_sbyte_quotient(int8 dividend, int8 divisor)
+        private static float8 vdiv_byte_quotient(int8 dividend, int8 divisor)
         {
 Assert.AreNotEqual(divisor.x0, 0);
 Assert.AreNotEqual(divisor.x1, 0);
@@ -166,22 +142,22 @@ Assert.AreNotEqual(divisor.x7, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte8 vdiv_byte(byte8 dividend, byte8 divisor)
         {
-            return (byte8)vdiv_byte_quotient((uint8)dividend, (uint8)divisor);
+            return (byte8)vdiv_byte_quotient((int8)dividend, (int8)divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte8 vdiv_sbyte(sbyte8 dividend, sbyte8 divisor)
         {
-            return (sbyte8)vdiv_sbyte_quotient((int8)dividend, (int8)divisor);
+            return (sbyte8)vdiv_byte_quotient((int8)dividend, (int8)divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte8 vrem_byte(byte8 dividend, byte8 divisor)
         {
-            uint8 castDividend = dividend;
-            uint8 castDivisor = divisor;
+            int8 castDividend = dividend;
+            int8 castDivisor = divisor;
 
-            return (byte8)(castDividend - ((uint8)vdiv_byte_quotient(castDividend, castDivisor) * castDivisor));
+            return (byte8)(castDividend - ((int8)vdiv_byte_quotient(castDividend, castDivisor) * castDivisor));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -190,15 +166,15 @@ Assert.AreNotEqual(divisor.x7, 0);
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
 
-            return (sbyte8)(castDividend - ((int8)vdiv_sbyte_quotient(castDividend, castDivisor) * castDivisor));
+            return (sbyte8)(castDividend - ((int8)vdiv_byte_quotient(castDividend, castDivisor) * castDivisor));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte8 vdivrem_byte(byte8 dividend, byte8 divisor, out byte8 remainder)
         {
-            uint8 castDividend = dividend;
-            uint8 castDivisor = divisor;
-            uint8 quotientCast = (uint8)vdiv_byte_quotient(castDividend, castDivisor);
+            int8 castDividend = dividend;
+            int8 castDivisor = divisor;
+            int8 quotientCast = (int8)vdiv_byte_quotient(castDividend, castDivisor);
 
             remainder = (byte8)(castDividend - quotientCast * castDivisor);
             return (byte8)quotientCast;
@@ -209,14 +185,15 @@ Assert.AreNotEqual(divisor.x7, 0);
         {
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
-            int8 quotientCast = (int8)vdiv_sbyte_quotient(castDividend, castDivisor);
+            int8 quotientCast = (int8)vdiv_byte_quotient(castDividend, castDivisor);
 
             remainder = (sbyte8)(castDividend - quotientCast * castDivisor);
             return (sbyte8)quotientCast;
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(uint4 dividend, uint4 divisor)
+        internal static v128 vdiv_byte_quotient(int4 dividend, int4 divisor)
         {
             float4 dividend_f32 = dividend;
             float4 divisor_f32 = divisor;
@@ -231,7 +208,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(uint3 dividend, uint3 divisor)
+        internal static v128 vdiv_byte_quotient(int3 dividend, int3 divisor)
         {
             float3 dividend_f32 = dividend;
             float3 divisor_f32 = divisor;
@@ -246,52 +223,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(uint2 dividend, uint2 divisor)
-        {
-            float2 dividend_f32 = dividend;
-            float2 divisor_f32 = divisor;
-
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
-
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
-
-            return precisionLossCompensation;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_sbyte_quotient(int4 dividend, int4 divisor)
-        {
-            float4 dividend_f32 = dividend;
-            float4 divisor_f32 = divisor;
-
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
-
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
-
-            return precisionLossCompensation;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_sbyte_quotient(int3 dividend, int3 divisor)
-        {
-            float3 dividend_f32 = dividend;
-            float3 divisor_f32 = divisor;
-
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
-
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
-
-            return precisionLossCompensation;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_sbyte_quotient(int2 dividend, int2 divisor)
+        internal static v128 vdiv_byte_quotient(int2 dividend, int2 divisor)
         {
             float2 dividend_f32 = dividend;
             float2 divisor_f32 = divisor;
@@ -313,7 +245,7 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            v128 floatResult = vdiv_byte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int4)dividend, (int4)divisor);
 
             return (byte4)(*(float4*)&floatResult);
         }
@@ -326,7 +258,7 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            v128 floatResult = vdiv_sbyte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int4)dividend, (int4)divisor);
 
             return (sbyte4)(*(float4*)&floatResult);
         }
@@ -338,7 +270,7 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            v128 floatResult = vdiv_byte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int3)dividend, (int3)divisor);
 
             return (byte3)(*(float3*)&floatResult);
         }
@@ -350,7 +282,7 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            v128 floatResult = vdiv_sbyte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int3)dividend, (int3)divisor);
 
             return (sbyte3)(*(float3*)&floatResult);
         }
@@ -361,7 +293,7 @@ Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            v128 floatResult = vdiv_byte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int2)dividend, (int2)divisor);
 
             return (byte2)(*(float2*)&floatResult);
         }
@@ -372,7 +304,7 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            v128 floatResult = vdiv_sbyte_quotient(dividend, divisor);
+            v128 floatResult = vdiv_byte_quotient((int2)dividend, (int2)divisor);
 
             return (sbyte2)(*(float2*)&floatResult);
         }
@@ -386,11 +318,11 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            uint4 castDividend = dividend;
-            uint4 castDivisor = divisor;
+            int4 castDividend = dividend;
+            int4 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
-            return (byte4)(castDividend - ((uint4)(*(float4*)&floatResult) * castDivisor));
+            return (byte4)(castDividend - ((int4)(*(float4*)&floatResult) * castDivisor));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -403,7 +335,7 @@ Assert.AreNotEqual(divisor.w, 0);
 
             int4 castDividend = dividend;
             int4 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
             return (sbyte4)(castDividend - ((int4)(*(float4*)&floatResult) * castDivisor));
         }
@@ -415,11 +347,11 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            uint3 castDividend = dividend;
-            uint3 castDivisor = divisor;
+            int3 castDividend = dividend;
+            int3 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
-            return (byte3)(castDividend - ((uint3)(*(float3*)&floatResult) * castDivisor));
+            return (byte3)(castDividend - ((int3)(*(float3*)&floatResult) * castDivisor));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -431,7 +363,7 @@ Assert.AreNotEqual(divisor.z, 0);
 
             int3 castDividend = dividend;
             int3 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
             return (sbyte3)(castDividend - ((int3)(*(float3*)&floatResult) * castDivisor));
         }
@@ -442,11 +374,11 @@ Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            uint2 castDividend = dividend;
-            uint2 castDivisor = divisor;
+            int2 castDividend = dividend;
+            int2 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
-            return (byte2)(castDividend - ((uint2)(*(float2*)&floatResult) * castDivisor));
+            return (byte2)(castDividend - ((int2)(*(float2*)&floatResult) * castDivisor));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -457,7 +389,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
             int2 castDividend = dividend;
             int2 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
 
             return (sbyte2)(castDividend - ((int2)(*(float2*)&floatResult) * castDivisor));
         }
@@ -471,10 +403,10 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            uint4 castDividend = dividend;
-            uint4 castDivisor = divisor;
+            int4 castDividend = dividend;
+            int4 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
-            uint4 quotientCast = (uint4)(*(float4*)&floatResult);
+            int4 quotientCast = (int4)(*(float4*)&floatResult);
 
             remainder = (byte4)(castDividend - quotientCast * castDivisor);
             return (byte4)quotientCast;
@@ -490,7 +422,7 @@ Assert.AreNotEqual(divisor.w, 0);
 
             int4 castDividend = dividend;
             int4 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
             int4 quotientCast = (int4)(*(float4*)&floatResult);
 
             remainder = (sbyte4)(castDividend - quotientCast * castDivisor);
@@ -504,10 +436,10 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            uint3 castDividend = dividend;
-            uint3 castDivisor = divisor;
+            int3 castDividend = dividend;
+            int3 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
-            uint3 quotientCast = (uint3)(*(float3*)&floatResult);
+            int3 quotientCast = (int3)(*(float3*)&floatResult);
 
             remainder = (byte3)(castDividend - quotientCast * castDivisor);
             return (byte3)quotientCast;
@@ -522,7 +454,7 @@ Assert.AreNotEqual(divisor.z, 0);
 
             int3 castDividend = dividend;
             int3 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
             int3 quotientCast = (int3)(*(float3*)&floatResult);
 
             remainder = (sbyte3)(castDividend - quotientCast * castDivisor);
@@ -535,10 +467,10 @@ Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            uint2 castDividend = dividend;
-            uint2 castDivisor = divisor;
+            int2 castDividend = dividend;
+            int2 castDivisor = divisor;
             v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
-            uint2 quotientCast = (uint2)(*(float2*)&floatResult);
+            int2 quotientCast = (int2)(*(float2*)&floatResult);
 
             remainder = (byte2)(castDividend - quotientCast * castDivisor);
             return (byte2)quotientCast;
@@ -552,7 +484,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
             int2 castDividend = dividend;
             int2 castDivisor = divisor;
-            v128 floatResult = vdiv_sbyte_quotient(castDividend, castDivisor);
+            v128 floatResult = vdiv_byte_quotient(castDividend, castDivisor);
             int2 quotientCast = (int2)(*(float2*)&floatResult);
 
             remainder = (sbyte2)(castDividend - quotientCast * castDivisor);

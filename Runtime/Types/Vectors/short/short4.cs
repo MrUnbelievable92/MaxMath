@@ -13,6 +13,7 @@ namespace MaxMath
     [Serializable] [StructLayout(LayoutKind.Explicit, Size = 8)]
     unsafe public struct short4 : IEquatable<short4>, IFormattable
     {
+        // otherhwise LLVM/Burst goes crazy with bitshifts and masks etc. -.-
         [FieldOffset(0)] internal long cast_long;
 
         [FieldOffset(0)] public short x;
@@ -415,10 +416,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(short4 input) => Sse4_1.insert_epi64(default(v128), input.cast_long, 0);
+        public static implicit operator v128(short4 input) => new v128(input.cast_long, 0L);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short4(v128 input) => new short4 { cast_long = Sse4_1.extract_epi64(input, 0) };
+        public static implicit operator short4(v128 input) => new short4 { cast_long = input.SLong0 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short4(short input) => new short4(input);
@@ -471,7 +472,7 @@ namespace MaxMath
         public static implicit operator double4(short4 input) => (double4)(int4)input;
 
 
-        public short this[[AssumeRange(0, 3)] int index]
+        public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

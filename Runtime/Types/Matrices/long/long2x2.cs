@@ -64,7 +64,7 @@ namespace MaxMath
         public static implicit operator double2x2(long2x2 input) => new double2x2((double2)input.c0, (double2)input.c1);
 
 
-        public ref long2 this[[AssumeRange(0, 1)] int index]
+        public ref long2 this[int index]
         {
             get
             {

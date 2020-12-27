@@ -7,14 +7,18 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     // Even though the code size is "large" and the C# source looks like a mess, 
-    // this division algorithm is about FIVE times faster than - (byte16 case), or EIGHT times faster than - (byte32 case) scalar division of bytes 
+    // this long division algorithm is about FIVE times faster than - (byte16 case), or EIGHT times faster than - (byte32 case) scalar division of bytes 
     // or even via float conversion when compiled natively without Divide-By-Zero checks (release mode) - without requiring RAM-bandwidth-bound table-lookups.
+    // Additionally, each loop iteration is a fantastic candidate for instruction level parallelism.
 
-    // There is no compare_greater instruction for unsigned types in <= Avx2. For the byte16 case, it is faster to up-/downcast to unsigned shorts,
-    // because the Operator.greater_mask_byte, which is called eight times, consists of two XOR's and one compare instruction.
+    // There is no compare_greater instruction for unsigned types in <= Avx2. For the byte16 case, it is faster to up-/downcast to/from unsigned shorts,
+    // because the Operator.greater_mask_byte, which is called eight times, consists of two XOR's and one compare instruction - and bitshifting bytes in vector
+    // registers requires masking aswell, since there are no native 8-bit shifting instructions.
 
     // The first and last loop iterations are inlined by hand, in order to not perform two unnecessary bitshift operations during the first iteration
-    // and operations on the now unneeded remainders and/or quotients during the last iteration
+    // and operations on the now unneeded remainders and/or quotients during the last iteration. A decent compiler may remove a loop of eight iterations
+    // aswell as useless operations, but I have seen the opposite happen, since unrolling often results in the usage of SIMD registers. A compiler might decide
+    // that there is nothing to unroll here.
     unsafe internal static partial class Operator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

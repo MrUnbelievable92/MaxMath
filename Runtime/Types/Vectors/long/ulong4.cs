@@ -458,7 +458,7 @@ namespace MaxMath
         public static implicit operator double4(ulong4 input) => Cast.ULong4ToDouble4(input);
 
 
-        public ulong this[[AssumeRange(0, 3)] int index]
+        public ulong this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

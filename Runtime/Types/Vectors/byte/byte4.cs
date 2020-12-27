@@ -3,6 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -10,15 +11,13 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 4)]
+    [Serializable] [StructLayout(LayoutKind.Sequential, Size = 4)]
     unsafe public struct byte4 : IEquatable<byte4>, IFormattable
     {
-        [FieldOffset(0)] internal int cast_int;
-
-        [FieldOffset(0)] public byte x;
-        [FieldOffset(1)] public byte y;
-        [FieldOffset(2)] public byte z;
-        [FieldOffset(3)] public byte w;
+        [NoAlias] public byte x;
+        [NoAlias] public byte y;
+        [NoAlias] public byte z;
+        [NoAlias] public byte w;
 
 
         public static byte4 zero => default(byte4);
@@ -29,7 +28,7 @@ namespace MaxMath
         {
             this = Sse2.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (sbyte)w, (sbyte)z, (sbyte)y, (sbyte)x);
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte xyzw)
         {
@@ -74,351 +73,351 @@ namespace MaxMath
 
 
         #region Shuffle
-        public byte4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastb_epi8(this); }                                                          
-        public byte4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastw_epi16(this); }                  
-        public byte4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xywz; }
-        public byte4 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzyw; }
-        public byte4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwyz; }
-        public byte4 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzwy; }
-        public byte4 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwzy; }
-        public byte4 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxzw; }
-        public byte4 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxwz; }
-        public byte4 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxyw; }
-        public byte4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxyz; }
-        public byte4 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxwy; }
-        public byte4 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxzy; }
-        public byte4 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzxw; }
-        public byte4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywxz; }
-        public byte4 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zyxw; }
-        public byte4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyxz; }
-        public byte4 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));                                  [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwxy; }
-        public byte4 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzxy; }
-        public byte4 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
+        public byte4 xxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastb_epi8(this); }
+        public byte4 xxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastw_epi16(this); }
+        public byte4 xyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xywz; }
+        public byte4 xyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzyw; }
+        public byte4 xzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwyz; }
+        public byte4 xzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xzwy; }
+        public byte4 xwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.xwzy; }
+        public byte4 xwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 xwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 xwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 xwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 xwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxzw; }
+        public byte4 yxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yxwz; }
+        public byte4 yxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxyw; }
+        public byte4 yzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 yzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 yzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxyz; }
+        public byte4 yzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 yzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 yzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 ywxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 ywxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 ywxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zxwy; }
+        public byte4 ywxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 ywyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 ywyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 ywyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 ywyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 ywzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wxzy; }
+        public byte4 ywzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 ywzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 ywzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 ywwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 ywwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 ywwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 ywww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzxw; }
+        public byte4 zxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywxz; }
+        public byte4 zxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zyxw; }
+        public byte4 zyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyxz; }
+        public byte4 zywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwxy; }
+        public byte4 zwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzxy; }
+        public byte4 zwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 zwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
         public byte4 zwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1)); }
-        public byte4 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzwx; }
-        public byte4 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywzx; }
-        public byte4 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zywx; }
-        public byte4 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyzx; }
-        public byte4 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwyx; }
-        public byte4 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzyx; }
-        public byte4 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte4 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (0 << 24),   0, 0, 0)); }
-        public byte4 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (1 << 24),   0, 0, 0)); }
-        public byte4 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (2 << 24),   0, 0, 0)); }
-        public byte4 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
+        public byte4 zwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 zwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 zwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 zwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wxxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wxxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wxxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wxxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wxyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wxyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wxyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.yzwx; }
+        public byte4 wxyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wxzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wxzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.ywzx; }
+        public byte4 wxzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wxzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wxwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wxwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wxwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wxww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wyxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wyxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wyxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zywx; }
+        public byte4 wyxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wyyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wyyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wyyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wyyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wyzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wyzx; }
+        public byte4 wyzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wyzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wyzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wyww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wzxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wzxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.zwyx; }
+        public byte4 wzxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wzxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wzyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = value.wzyx; }
+        public byte4 wzyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wzyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wzyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wzzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wzzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wzzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wzzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wzwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wzwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wzwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wzww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wwxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wwxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wwxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wwxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wwyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wwyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wwyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wwyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wwzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wwzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wwzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wwzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte4 wwwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (0 << 24), 0, 0, 0)); }
+        public byte4 wwwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (1 << 24), 0, 0, 0)); }
+        public byte4 wwwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (2 << 24), 0, 0, 0)); }
+        public byte4 wwww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
 
         public byte3 xxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastb_epi8(this); }
-        public byte3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastw_epi16(this); }                                                                          
-        public byte3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                                                                           [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value, new sbyte4(-1, -1, -1, 0)); }     
-        public byte3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xyzz, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); } 
-        public byte3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xzyy, new sbyte4(-1, -1, -1, 0)); }
-        public byte3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyz, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xzzy, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxzy, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yxzz, new sbyte4(-1, -1, -1, 0)); }
-        public byte3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yxzz, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zxyy, new sbyte4(-1, -1, -1, 0)); }
-        public byte3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyz, new sbyte4(0, -1, -1, -1)); }      
-        public byte3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zxxy, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxzy, new sbyte4(0, -1, -1, -1)); }
-        public byte3 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yzxx, new sbyte4(-1, -1, -1, 0)); }
-        public byte3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxz, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zyxx, new sbyte4(-1, -1, -1, 0)); }
-        public byte3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxz, new sbyte4(0, -1, -1, -1)); }
-        public byte3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));                                 [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzxy, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzxy, new sbyte4(0, -1, -1, -1)); }
-        public byte3 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1)); }                                                       
-        public byte3 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yzzx, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyzx, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zyyx, new sbyte4(-1, -1, 0, -1)); }
-        public byte3 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyzx, new sbyte4(0, -1, -1, -1)); }
-        public byte3 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzyx, new sbyte4(-1, 0, -1, -1)); }
-        public byte3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzyx, new sbyte4(0, -1, -1, -1)); }
-        public byte3 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte3 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
+        public byte3 xxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastw_epi16(this); }
+        public byte3 xyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 xyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xyzz, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 xzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xzyy, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 xzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyz, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 xwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 xwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xzzy, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 xwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxzy, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 xww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yxzz, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 yxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yxzz, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 yyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zxyy, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyz, new sbyte4(0, -1, -1, -1)); }
+        public byte3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zxxy, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxzy, new sbyte4(0, -1, -1, -1)); }
+        public byte3 yww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yzxx, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 zxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxz, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 zyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zyxx, new sbyte4(-1, -1, -1, 0)); }
+        public byte3 zyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxz, new sbyte4(0, -1, -1, -1)); }
+        public byte3 zzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 zwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzxy, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 zwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzxy, new sbyte4(0, -1, -1, -1)); }
+        public byte3 zwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1)); }
+        public byte3 zww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wxx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wxy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yzzx, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 wxz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyzx, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 wxw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wyx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zyyx, new sbyte4(-1, -1, 0, -1)); }
+        public byte3 wyy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wyz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyzx, new sbyte4(0, -1, -1, -1)); }
+        public byte3 wyw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzyx, new sbyte4(-1, 0, -1, -1)); }
+        public byte3 wzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.zzyx, new sbyte4(0, -1, -1, -1)); }
+        public byte3 wzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wwx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (0 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wwy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (1 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 wwz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (2 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte3 www { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
 
         public byte2 xx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.broadcastb_epi8(this); }
-        public byte2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                                                                           [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value, 0b01); }
-        public byte2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(-1, 0, -1, 0)); }
-        public byte2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(-1, 0, 0, -1)); }
-        public byte2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yx, 0b01); }
-        public byte2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
-        public byte2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(0, -1, -1, 0)); }   
-        public byte2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(0, -1, 0, -1)); }
-        public byte2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(-1, 0, -1, 0)); }
-        public byte2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(0, -1, -1, 0)); }
-        public byte2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }    
-        public byte2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xyxy, 0b10); }
-        public byte2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(-1, 0, 0, -1)); }
-        public byte2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(0, -1, 0, -1)); }
-        public byte2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yxyx, 0b10); }
-        public byte2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); }
+        public byte2 xy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value, 0b01); }
+        public byte2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(-1, 0, -1, 0)); }
+        public byte2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(0 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(-1, 0, 0, -1)); }
+        public byte2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yx, 0b01); }
+        public byte2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(0, -1, -1, 0)); }
+        public byte2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.xxyy, new sbyte4(0, -1, 0, -1)); }
+        public byte2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(-1, 0, -1, 0)); }
+        public byte2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(0, -1, -1, 0)); }
+        public byte2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
+        public byte2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xyxy, 0b10); }
+        public byte2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (0 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(-1, 0, 0, -1)); }
+        public byte2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new sbyte4(0, -1, 0, -1)); }
+        public byte2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yxyx, 0b10); }
+        public byte2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (3 << 8) | (3 << 16) | (3 << 24), 0, 0, 0)); }
         #endregion
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(byte4 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
+        public static implicit operator v128(byte4 input) => new v128(*(int*)&input, 0, 0, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte4(v128 input) => new byte4{ cast_int = input.SInt0 };
+        public static implicit operator byte4(v128 input) { int x = input.SInt0; return *(byte4*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator byte4(byte input) => new byte4(input);
@@ -483,7 +482,7 @@ namespace MaxMath
         public static implicit operator double4(byte4 input) => (double4)(int4)input;
 
 
-        public byte this[[AssumeRange(0, 3)] int index]
+        public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

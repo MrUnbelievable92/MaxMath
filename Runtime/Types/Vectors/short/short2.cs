@@ -3,6 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -10,13 +11,11 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 4)]
+    [Serializable] [StructLayout(LayoutKind.Sequential, Size = 4)]
     unsafe public struct short2 : IEquatable<short2>, IFormattable
     {
-        [FieldOffset(0)] internal int cast_int;
-
-        [FieldOffset(0)] public short x;
-        [FieldOffset(2)] public short y;
+        [NoAlias] public short x;
+        [NoAlias] public short y;
 
 
         public static short2 zero => default(short2);
@@ -69,10 +68,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-        public static implicit operator v128(short2 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
+        public static implicit operator v128(short2 input) => new v128(*(int*)&input, 0, 0, 0);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-        public static implicit operator short2(v128 input) => new short2 { cast_int = input.SInt0 };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator short2(v128 input) { int x = input.SInt0; return *(short2*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short2(short input) => new short2(input);
@@ -125,7 +124,7 @@ namespace MaxMath
         public static implicit operator double2(short2 input) => (double2)(int2)input;
 
 
-        public short this[[AssumeRange(0, 1)] int index]
+        public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -205,7 +204,7 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2 operator <<(short2 x, int n) => Operator.shl_short(x, n);
+        public static short2 operator << (short2 x, int n) => Operator.shl_short(x, n);
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 operator >> (short2 x, int n) => Operator.shra_short(x, n);

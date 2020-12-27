@@ -112,7 +112,7 @@ namespace MaxMath
         public static implicit operator double2(long2 input) => new double2((double)input.x, (double)input.y);
 
 
-        public long this[[AssumeRange(0, 1)] int index]
+        public long this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

@@ -98,7 +98,7 @@ namespace MaxMath
         public static implicit operator double4x4(ushort4x4 input) => new double4x4((double4)input.c0, (double4)input.c1, (double4)input.c2, (double4)input.c3);
 
 
-        public ref ushort4 this[[AssumeRange(0, 3)] int index]
+        public ref ushort4 this[int index]
         {
             get
             {

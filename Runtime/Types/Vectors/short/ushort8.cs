@@ -147,7 +147,7 @@ namespace MaxMath
         public static implicit operator float8(ushort8 input) => Cast.UShort8ToFloat8(input);
 
 
-        public ushort this[[AssumeRange(0, 7)] int index]
+        public ushort this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

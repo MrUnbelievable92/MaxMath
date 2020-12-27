@@ -112,7 +112,7 @@ namespace MaxMath
         public static implicit operator double2(ulong2 input) => new double2((double)input.x, (double)input.y);
 
 
-        public ulong this[[AssumeRange(0, 1)] int index]
+        public ulong this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

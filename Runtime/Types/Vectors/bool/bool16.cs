@@ -157,7 +157,7 @@ namespace MaxMath
         public static bool16 operator ! (bool16 val) => Sse2.andnot_si128(val, new v128((byte)1));
 
 
-        public bool this[[AssumeRange(0, 15)] int index]
+        public bool this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

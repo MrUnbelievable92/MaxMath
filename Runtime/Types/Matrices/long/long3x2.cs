@@ -63,7 +63,7 @@ namespace MaxMath
         public static implicit operator double3x2(long3x2 input) => new double3x2((double3)input.c0, (double3)input.c1);
 
 
-        public ref long3 this[[AssumeRange(0, 1)] int index]
+        public ref long3 this[int index]
         {
             get
             {

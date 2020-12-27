@@ -3,6 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -10,15 +11,13 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 4)]
+    [Serializable] [StructLayout(LayoutKind.Sequential, Size = 4)]
     unsafe public struct sbyte4 : IEquatable<sbyte4>, IFormattable
     {
-        [FieldOffset(0)] internal int cast_int;
-
-        [FieldOffset(0)] public sbyte x;
-        [FieldOffset(1)] public sbyte y;
-        [FieldOffset(2)] public sbyte z;
-        [FieldOffset(3)] public sbyte w;
+        [NoAlias] public sbyte x;
+        [NoAlias] public sbyte y;
+        [NoAlias] public sbyte z;
+        [NoAlias] public sbyte w;
 
 
         public static sbyte4 zero => default(sbyte4);
@@ -411,14 +410,14 @@ namespace MaxMath
         public sbyte2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (1 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blendv_epi8(this, value.yyxx, new byte4(0, 255, 0, 255)); }
         public sbyte2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (2 << 8) | (3 << 16) | (3 << 24),   0, 0, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yxyx, 0b10); }
         public sbyte2 ww { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
-            #endregion
+        #endregion
 
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte4 input) => Sse4_1.insert_epi32(default(v128), input.cast_int, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte4(v128 input) => new sbyte4 { cast_int = input.SInt0 };
+        public static implicit operator v128(sbyte4 input) => new v128(*(int*)&input, 0, 0, 0);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator sbyte4(v128 input) { int x = input.SInt0; return *(sbyte4*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte4(sbyte input) => new sbyte4(input);
@@ -483,7 +482,7 @@ namespace MaxMath
         public static implicit operator double4(sbyte4 input) => (double4)(int4)input;
 
 
-        public sbyte this[[AssumeRange(0, 3)] int index]
+        public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

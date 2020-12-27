@@ -174,9 +174,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float8 Uint8ToFloat8(uint8 x)
         {
-            return (float8)((int8)x & 0x7FFFFFFF) 
-                   +
-                   (float8)((v256)(((int8)x >> 31) & 0x4F000000));
+            int8 signed = (int8)x & 0x7FFF_FFFF;
+            int8 signMask = ((int8)x >> 31) & 0x4F00_0000;
+
+            return (float8)signed + (v256)signMask;
         }
     }
 }

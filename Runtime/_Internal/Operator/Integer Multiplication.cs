@@ -24,7 +24,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mul_long(v128 lhs, v128 rhs)
+        internal static v128 mul_long(v128 lhs, v128 rhs)
         {
             v128 product_Hi = Sse2.mul_epu32(lhs, rhs);
 
@@ -36,7 +36,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mul_long(v256 lhs, v256 rhs)
+        internal static v256 mul_long(v256 lhs, v256 rhs)
         {
             v256 product_Hi = Avx2.mm256_mul_epu32(lhs, rhs);
 

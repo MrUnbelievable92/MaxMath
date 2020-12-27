@@ -91,7 +91,7 @@ namespace MaxMath
         public int8(int4 x0123, int4 x4567)
         {
             this = Avx.mm256_set_m128i(*(v128*)&x4567,
-                                           *(v128*)&x0123);
+                                       *(v128*)&x0123);
         }
 
 
@@ -138,7 +138,7 @@ namespace MaxMath
         public static implicit operator float8(int8 input) => Avx.mm256_cvtepi32_ps(input);
 
 
-        public int this[[AssumeRange(0, 7)] int index]
+        public int this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -267,6 +267,6 @@ Assert.IsWithinArrayBounds(index, 8);
         public override int GetHashCode() => Hash.v256(this);
 
         public override string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"uint8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"int8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

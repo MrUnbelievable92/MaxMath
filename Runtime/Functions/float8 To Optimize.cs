@@ -5,6 +5,13 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
+        /// <summary>       Returns the componentwise floating point remainder of x/y.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 fmod(float8 x, float8 y)
+        {
+            return x % y;
+        }
+
         ///		<summary>       Returns the componentwise tangent of a float8 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 tan(float8 x) 

@@ -9,35 +9,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angledelta(float a, float b)
         {
-            return repeat((b - a), 2f * math.PI);
+            return repeat((b - a), TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float2 vectors in unsigned radians.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 angledelta(float2 a, float2 b)
         {
-            return repeat((b - a), 2f * math.PI);
+            return repeat((b - a), TAU);
         }
         
         /// <summary>       Returns the componentwise smallest difference of angles of two float3 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 angledelta(float3 a, float3 b)
         {
-            return repeat((b - a), 2f * math.PI);
+            return repeat((b - a), TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float4 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 angledelta(float4 a, float4 b)
         {
-            return repeat((b - a), 2f * math.PI);
+            return repeat((b - a), TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float8 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 angledelta(float8 a, float8 b)
         {
-            return repeat((b - a), 2f * math.PI);
+            return repeat((b - a), TAU);
         }
 
 
@@ -45,28 +45,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angledelta(double a, double b)
         {
-            return repeat((b - a), 2d * math.PI_DBL);
+            return repeat((b - a), TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double2 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 angledelta(double2 a, double2 b)
         {
-            return repeat((b - a), 2d * math.PI_DBL);
+            return repeat((b - a), TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double3 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 angledelta(double3 a, double3 b)
         {
-            return repeat((b - a), 2d * math.PI_DBL);
+            return repeat((b - a), TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double4 vectors in unsigned radians.       </summary
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 angledelta(double4 a, double4 b)
         {
-            return repeat((b - a), 2d * math.PI_DBL);
+            return repeat((b - a), TAU_DBL);
         }
 
 
@@ -76,7 +76,7 @@ namespace MaxMath
         {
             float deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2f * math.PI), deltas > math.PI);
+            return math.select(deltas, deltas - TAU, deltas > math.PI);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float2 vectors in signed radians.       </summary
@@ -85,7 +85,7 @@ namespace MaxMath
         {
             float2 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2f * math.PI), deltas > math.PI);
+            return math.select(deltas, deltas - TAU, deltas > math.PI);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float3 vectors in signed radians.       </summary
@@ -94,7 +94,7 @@ namespace MaxMath
         {
             float3 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2f * math.PI), deltas > math.PI);
+            return math.select(deltas, deltas - TAU, deltas > math.PI);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float4 vectors in signed radians.       </summary
@@ -103,7 +103,7 @@ namespace MaxMath
         {
             float4 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2f * math.PI), deltas > math.PI);
+            return math.select(deltas, deltas - TAU, deltas > math.PI);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two float8 vectors in signed radians.       </summary
@@ -112,7 +112,7 @@ namespace MaxMath
         {
             float8 deltas = angledelta(a, b);
 
-            return select(deltas, deltas - (2f * math.PI), deltas > math.PI);
+            return select(deltas, deltas - TAU, deltas > math.PI);
         }
 
 
@@ -122,7 +122,7 @@ namespace MaxMath
         {
             double deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2d * math.PI_DBL), deltas > math.PI_DBL);
+            return math.select(deltas, deltas - TAU_DBL, deltas > math.PI_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double2 vectors in signed radians.       </summary
@@ -131,7 +131,7 @@ namespace MaxMath
         {
             double2 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2d * math.PI_DBL), deltas > math.PI_DBL);
+            return math.select(deltas, deltas - TAU_DBL, deltas > math.PI_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double3 vectors in signed radians.       </summary
@@ -140,7 +140,7 @@ namespace MaxMath
         {
             double3 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2d * math.PI_DBL), deltas > math.PI_DBL);
+            return math.select(deltas, deltas - TAU_DBL, deltas > math.PI_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two double4 vectors in signed radians.       </summary
@@ -149,7 +149,7 @@ namespace MaxMath
         {
             double4 deltas = angledelta(a, b);
 
-            return math.select(deltas, deltas - (2d * math.PI_DBL), deltas > math.PI_DBL);
+            return math.select(deltas, deltas - TAU_DBL, deltas > math.PI_DBL);
         }
 
 

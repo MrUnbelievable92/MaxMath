@@ -202,7 +202,7 @@ namespace MaxMath
         public static implicit operator ushort16(byte16 input) => Avx2.mm256_cvtepu8_epi16(input);
 
 
-        public byte this[[AssumeRange(0, 15)] int index]
+        public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -298,7 +298,7 @@ Assert.IsWithinArrayBounds(index, 16);
         public static bool16 operator != (byte16 lhs, byte16 rhs) => TestIsFalse(Sse2.cmpeq_epi8(lhs, rhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <=(byte16 lhs, byte16 rhs) => TestIsFalse(Operator.greater_mask_byte(lhs, rhs));
+        public static bool16 operator <= (byte16 lhs, byte16 rhs) => TestIsFalse(Operator.greater_mask_byte(lhs, rhs));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 operator >= (byte16 lhs, byte16 rhs) => TestIsFalse(Operator.greater_mask_byte(rhs, lhs));

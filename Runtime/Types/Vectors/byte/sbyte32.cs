@@ -129,7 +129,7 @@ namespace MaxMath
         public static explicit operator sbyte32(byte32 input) => (v256)input;
 
 
-        public sbyte this[[AssumeRange(0, 31)] int index]
+        public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

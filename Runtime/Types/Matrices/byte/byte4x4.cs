@@ -110,7 +110,7 @@ namespace MaxMath
         public static implicit operator double4x4(byte4x4 input) => new double4x4((double4)input.c0, (double4)input.c1, (double4)input.c2, (double4)input.c3);
 
 
-        public ref byte4 this[[AssumeRange(0, 3)] int index]
+        public ref byte4 this[int index]
         {
             get
             {

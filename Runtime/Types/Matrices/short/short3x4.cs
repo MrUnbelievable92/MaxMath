@@ -95,7 +95,7 @@ namespace MaxMath
         public static implicit operator double3x4(short3x4 input) => new double3x4((double3)input.c0, (double3)input.c1, (double3)input.c2, (double3)input.c3);
 
 
-        public ref short3 this[[AssumeRange(0, 3)] int index]
+        public ref short3 this[int index]
         {
             get
             {

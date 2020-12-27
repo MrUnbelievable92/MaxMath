@@ -3,6 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 
@@ -10,13 +11,11 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] [StructLayout(LayoutKind.Explicit, Size = 2)]
+    [Serializable] [StructLayout(LayoutKind.Sequential, Size = 2)]
     unsafe public struct sbyte2 : IEquatable<sbyte2>, IFormattable
     {
-        [FieldOffset(0)] internal short cast_short;
-
-        [FieldOffset(0)] public sbyte x;
-        [FieldOffset(1)] public sbyte y;
+        [NoAlias] public sbyte x;
+        [NoAlias] public sbyte y;
 
 
         public static sbyte2 zero => default(sbyte2);
@@ -69,10 +68,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte2 input) => Sse2.insert_epi16(default(v128), input.cast_short, 0);
+        public static implicit operator v128(sbyte2 input) => new v128(*(short*)&input, 0, 0, 0, 0, 0, 0, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte2(v128 input) => new sbyte2 { cast_short = input.SShort0 };
+        public static implicit operator sbyte2(v128 input) { short x = input.SShort0; return *(sbyte2*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte2(sbyte input) => new sbyte2(input);
@@ -137,7 +136,7 @@ namespace MaxMath
         public static implicit operator double2(sbyte2 input) => (double2)(int2)input;
 
         
-        public sbyte this[[AssumeRange(0, 1)] int index]
+        public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

@@ -99,7 +99,7 @@ namespace MaxMath
         public static implicit operator double3x2(sbyte3x2 input) => new double3x2((double3)input.c0, (double3)input.c1);
 
 
-        public ref sbyte3 this[[AssumeRange(0, 1)] int index]
+        public ref sbyte3 this[int index]
         {
             get
             {

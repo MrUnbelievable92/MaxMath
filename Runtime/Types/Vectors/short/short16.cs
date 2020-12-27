@@ -190,7 +190,7 @@ namespace MaxMath
         public static explicit operator short16(ushort16 input) => (v256)input;
 
 
-        public short this[[AssumeRange(0, 15)] int index]
+        public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get

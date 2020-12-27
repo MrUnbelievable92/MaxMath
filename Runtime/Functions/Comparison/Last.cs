@@ -55,7 +55,7 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return 7 - (math.lzcnt(x.cast_long) / 8);
+            return 7 - (math.lzcnt(*(long*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool16 vector or -1 if none are true.       </summary>

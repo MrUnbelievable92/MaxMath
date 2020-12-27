@@ -6,7 +6,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    // Burst replaces compile-time constant masks ("imm8") going through these functions with an immediate 32 bit value. 
+    // Burst replaces compile-time constant masks ("mask") going through these functions with an immediate 32 bit value. 
     // This is 
     //   a) a workaround for the compiler requiring a constant
     //   b) useful for runtime bit-arrays

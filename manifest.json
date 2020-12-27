@@ -1,7 +1,7 @@
 {
   "name": "maxmath",
   "displayName": "MaxMath",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "unity": "2018.4",
   "description": "MaxMath is SIMD math library, supplementary to Unity.Mathematics using Unity.Burst. It adds (s)byte, (u)short and (u)long SIMD vectors and matrices to the ones already provided by Unity.Mathematics. Almost all functions present in Unity.Mathematics have been transcribed to work with the new vector and matrix types in addition to many useful functions having been added.",
    "keywords": [
