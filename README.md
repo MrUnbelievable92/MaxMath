@@ -9,6 +9,10 @@ Note:
 - There are currently no fallback procedures regarding support for platforms without AVX2 apart from the managed C# software implementations. Thus, for the most part, AVX2 is required if used with Burst. (Work in progress)
 
 
+# How To Use This Library
+
+![alt text](https://i.imgur.com/0Bpr1Mo.png)
+
 # How To Install This Library
 
 Disclaimer: I firmly believe in open source - being able to copy/modify/understand other people's code is great :)
