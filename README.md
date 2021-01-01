@@ -13,6 +13,10 @@ Note:
 
 ![alt text](https://i.imgur.com/0Bpr1Mo.png)
 
+# What Kind Of Performance To Expect
+
+![alt text](https://i.imgur.com/Bi79n4Q.jpg)
+
 # How To Install This Library
 
 Disclaimer: I firmly believe in open source - being able to copy/modify/understand other people's code is great :)
