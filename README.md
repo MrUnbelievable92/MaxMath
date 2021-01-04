@@ -57,7 +57,7 @@ Note:
 
 ![alt text](https://i.imgur.com/tGIhgcr.png)
 
-![alt text](https://i.imgur.com/YgMr5AA.png)
+![alt text](https://i.imgur.com/UeUvlii.png)
 
 ![alt text](https://i.imgur.com/pGU76Lu.png)
 
