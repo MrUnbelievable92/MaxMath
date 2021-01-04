@@ -55,6 +55,8 @@ Note:
 
 <details><summary>Vector Operations</summary>
 
+![alt text](https://i.imgur.com/uG3k5Re.png)
+
 ![alt text](https://i.imgur.com/tGIhgcr.png)
 
 ![alt text](https://i.imgur.com/UeUvlii.png)
