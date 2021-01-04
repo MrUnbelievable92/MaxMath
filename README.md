@@ -13,6 +13,55 @@ Note:
 
 ![alt text](https://i.imgur.com/0Bpr1Mo.png)
 
+## New Functions (fully documented)
+
+### Misc
+![alt text](https://i.imgur.com/AhLKvAb.png)
+
+### Arithmetic
+
+![alt text](https://i.imgur.com/cmeTWQS.png)
+
+![alt text](https://i.imgur.com/r1f44Va.png)
+
+![alt text](https://i.imgur.com/JUbYL6J.png)
+
+![alt text](https://i.imgur.com/eC06KYl.png)
+
+![alt text](https://i.imgur.com/WoDaxIU.png)
+
+![alt text](https://i.imgur.com/3XJYuqw.png)
+
+### Bitwise
+
+![alt text](https://i.imgur.com/FDnjd0F.png)
+
+![alt text](https://i.imgur.com/z0MtnUs.png)
+
+![alt text](https://i.imgur.com/knaC0q4.png)
+
+![alt text](https://i.imgur.com/QwP5AWu.png)
+
+### Vector Operations
+
+![alt text](https://i.imgur.com/Hu1eBqY.png)
+
+![alt text](https://i.imgur.com/YgMr5AA.png)
+
+![alt text](https://i.imgur.com/pGU76Lu.png)
+
+### Interpolation and Geometry
+
+![alt text](https://i.imgur.com/S6zfZ5O.png)
+
+![alt text](https://i.imgur.com/6txRQQe.png)
+
+![alt text](https://i.imgur.com/N0pgppX.png)
+
+### Type Conversion
+
+![alt text](https://i.imgur.com/q1uEpb2.png)
+
 # What Kind Of Performance To Expect
 
 ![alt text](https://i.imgur.com/Bi79n4Q.jpg)
