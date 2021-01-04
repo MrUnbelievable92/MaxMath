@@ -18,7 +18,7 @@ Note:
 ### Misc
 ![alt text](https://i.imgur.com/AhLKvAb.png)
 
-### Arithmetic
+### <details><summary>Arithmetic</summary>
 
 ![alt text](https://i.imgur.com/cmeTWQS.png)
 
@@ -32,7 +32,10 @@ Note:
 
 ![alt text](https://i.imgur.com/3XJYuqw.png)
 
-### Bitwise
+</details>
+
+
+### <details><summary>Bitwise</summary>
 
 ![alt text](https://i.imgur.com/FDnjd0F.png)
 
@@ -42,7 +45,10 @@ Note:
 
 ![alt text](https://i.imgur.com/QwP5AWu.png)
 
-### Vector Operations
+</details>
+
+
+### <details><summary>Vector Operations</summary>
 
 ![alt text](https://i.imgur.com/Hu1eBqY.png)
 
@@ -50,7 +56,10 @@ Note:
 
 ![alt text](https://i.imgur.com/pGU76Lu.png)
 
-### Interpolation and Geometry
+</details>
+
+
+### <details><summary>Interpolation and Geometry</summary>
 
 ![alt text](https://i.imgur.com/S6zfZ5O.png)
 
@@ -58,9 +67,15 @@ Note:
 
 ![alt text](https://i.imgur.com/N0pgppX.png)
 
-### Type Conversion
+</details>
+
+
+### <details><summary>Type Conversion</summary>
 
 ![alt text](https://i.imgur.com/q1uEpb2.png)
+
+</details>
+
 
 # What Kind Of Performance To Expect
 
