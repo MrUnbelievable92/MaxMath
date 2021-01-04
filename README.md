@@ -15,10 +15,15 @@ Note:
 
 ## New Functions (fully documented)
 
-### Misc
+
+<details><summary>Misc</summary>
+  
 ![alt text](https://i.imgur.com/AhLKvAb.png)
 
-### <details><summary>Arithmetic</summary>
+</details>
+
+
+<details><summary>Arithmetic</summary>
 
 ![alt text](https://i.imgur.com/cmeTWQS.png)
 
@@ -35,7 +40,7 @@ Note:
 </details>
 
 
-### <details><summary>Bitwise</summary>
+<details><summary>Bitwise</summary>
 
 ![alt text](https://i.imgur.com/FDnjd0F.png)
 
@@ -48,7 +53,7 @@ Note:
 </details>
 
 
-### <details><summary>Vector Operations</summary>
+<details><summary>Vector Operations</summary>
 
 ![alt text](https://i.imgur.com/Hu1eBqY.png)
 
@@ -59,7 +64,7 @@ Note:
 </details>
 
 
-### <details><summary>Interpolation and Geometry</summary>
+<details><summary>Interpolation and Geometry</summary>
 
 ![alt text](https://i.imgur.com/S6zfZ5O.png)
 
@@ -70,7 +75,7 @@ Note:
 </details>
 
 
-### <details><summary>Type Conversion</summary>
+<details><summary>Type Conversion</summary>
 
 ![alt text](https://i.imgur.com/q1uEpb2.png)
 
