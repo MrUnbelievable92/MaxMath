@@ -16,7 +16,7 @@ Note:
 ## New Functions (fully documented)
 
 
-<details><summary>Misc</summary>
+<details><summary>Miscellaneous</summary>
   
 ![alt text](https://i.imgur.com/AhLKvAb.png)
 
