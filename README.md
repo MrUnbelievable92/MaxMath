@@ -13,7 +13,7 @@ Note:
 
 ![alt text](https://i.imgur.com/0Bpr1Mo.png)
 
-## New Functions (fully documented)
+### New Functions (fully documented)
 
 
 <details><summary>Miscellaneous</summary>
