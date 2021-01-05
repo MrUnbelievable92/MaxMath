@@ -40,7 +40,7 @@ Note:
 </details>
 
 
-<details><summary>Bitwise</summary>
+<details><summary>Bitwise Operations</summary>
 
 ![alt text](https://i.imgur.com/FDnjd0F.png)
 
