@@ -1,4 +1,4 @@
-﻿using DevTools;
+using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
@@ -10,7 +10,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns the number of true values in a bool2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 2)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul)]
         public static uint count(bool2 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -20,7 +20,7 @@ Assert.IsSafeBoolean(x.y);
         }
 
         /// <summary>       Returns the number of true values in a bool3 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 3)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul)]
         public static uint count(bool3 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -31,7 +31,7 @@ Assert.IsSafeBoolean(x.z);
         }
 
         /// <summary>       Returns the number of true values in a bool4 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul)]
         public static uint count(bool4 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -43,7 +43,7 @@ Assert.IsSafeBoolean(x.w);
         }
 
         /// <summary>       Returns the number of true values in a bool8 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static uint count(bool8 x)
         {
 Assert.IsSafeBoolean(x.x0);
@@ -59,7 +59,7 @@ Assert.IsSafeBoolean(x.x7);
         }
 
         /// <summary>       Returns the number of true values in a bool16 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static uint count(bool16 x)
         {
 Assert.IsSafeBoolean(x.x0);
@@ -83,7 +83,7 @@ Assert.IsSafeBoolean(x.x15);
         }
 
         /// <summary>       Returns the number of true values in a bool32 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 32)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 32ul)]
         public static uint count(bool32 x)
         {
 Assert.IsSafeBoolean(x.x0);
