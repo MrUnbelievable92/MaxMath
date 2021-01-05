@@ -103,42 +103,42 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator + (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1);
+        public static ushort2x2 operator + (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 + right.c0, left.c1 + right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator - (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1);
+        public static ushort2x2 operator - (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 - right.c0, left.c1 - right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator * (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1);
+        public static ushort2x2 operator * (ushort2x2 left, ushort2x2 right) => new ushort2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator / (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1);
+        public static ushort2x2 operator / (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator % (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator * (ushort2x2 lhs, ushort rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator * (ushort lhs, ushort2x2 rhs) => new ushort2x2 (lhs * rhs.c0, lhs * rhs.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator / (ushort2x2 lhs, ushort rhs) => new ushort2x2 (lhs.c0 / rhs, lhs.c1 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator % (ushort2x2 lhs, ushort rhs) => new ushort2x2 (lhs.c0 % rhs, lhs.c1 % rhs);
+        public static ushort2x2 operator % (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator & (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1);
+        public static ushort2x2 operator * (ushort2x2 left, ushort right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator | (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1);
+        public static ushort2x2 operator * (ushort left, ushort2x2 right) => new ushort2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator ^ (ushort2x2 lhs, ushort2x2 rhs) => new ushort2x2 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1);
+        public static ushort2x2 operator / (ushort2x2 left, ushort right) => new ushort2x2 (left.c0 / right, left.c1 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2x2 operator % (ushort2x2 left, ushort right) => new ushort2x2 (left.c0 % right, left.c1 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2x2 operator & (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 & right.c0, left.c1 & right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2x2 operator | (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 | right.c0, left.c1 | right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2x2 operator ^ (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 ^ right.c0, left.c1 ^ right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -159,23 +159,23 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator == (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1);
+        public static bool2x2 operator == (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 == right.c0, left.c1 == right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator < (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1);
+        public static bool2x2 operator < (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 < right.c0, left.c1 < right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator > (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1);
+        public static bool2x2 operator > (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 > right.c0, left.c1 > right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator != (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1);
+        public static bool2x2 operator != (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 != right.c0, left.c1 != right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator <= (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1);
+        public static bool2x2 operator <= (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 <= right.c0, left.c1 <= right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator >= (ushort2x2 lhs, ushort2x2 rhs) => new bool2x2 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1);
+        public static bool2x2 operator >= (ushort2x2 left, ushort2x2 right) => new bool2x2 (left.c0 >= right.c0, left.c1 >= right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

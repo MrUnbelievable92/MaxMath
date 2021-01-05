@@ -12,7 +12,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half ashalf(short x)
         {
-            return *(half*)&x;
+            return new half { value = (ushort)x };
         }
 
         /// <summary>       Returns the bit pattern of a short2 as a half2.     </summary>
@@ -48,7 +48,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half ashalf(ushort x)
         {
-            return *(half*)&x;
+            return new half { value = x };
         }
 
         /// <summary>       Returns the bit pattern of a ushort2 as a half2.     </summary>
@@ -84,7 +84,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short asshort(half x)
         {
-            return *(short*)&x;
+            return (short)x.value;
         }
 
         /// <summary>       Returns the bit pattern of a half2 as a short2.     </summary>
@@ -120,7 +120,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort asushort(half x)
         {
-            return *(ushort*)&x;
+            return x.value;
         }
 
         /// <summary>       Returns the bit pattern of a half2 as a ushort2.     </summary>

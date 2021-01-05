@@ -151,42 +151,42 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator + (ushort2 lhs, ushort2 rhs) => Sse2.add_epi16(lhs, rhs);
+        public static ushort2 operator + (ushort2 left, ushort2 right) => Sse2.add_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator - (ushort2 lhs, ushort2 rhs) => Sse2.sub_epi16(lhs, rhs);
+        public static ushort2 operator - (ushort2 left, ushort2 right) => Sse2.sub_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator * (ushort2 lhs, ushort2 rhs) => Sse2.mullo_epi16(lhs, rhs);
+        public static ushort2 operator * (ushort2 left, ushort2 right) => Sse2.mullo_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator / (ushort2 lhs, ushort2 rhs) => Operator.vdiv_ushort(lhs, rhs);
+        public static ushort2 operator / (ushort2 left, ushort2 right) => Operator.vdiv_ushort(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator % (ushort2 lhs, ushort2 rhs) => Operator.vrem_ushort(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator * (ushort lhs, ushort2 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator * (ushort2 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator / (ushort2 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator % (ushort2 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) % rhs);
+        public static ushort2 operator % (ushort2 left, ushort2 right) => Operator.vrem_ushort(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator & (ushort2 lhs, ushort2 rhs) => Sse2.and_si128(lhs, rhs);
+        public static ushort2 operator * (ushort left, ushort2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 operator * (ushort2 left, ushort right) => (v128)((ushort8)((v128)left) * right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 operator / (ushort2 left, ushort right) => (v128)((ushort8)((v128)left) / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 operator % (ushort2 left, ushort right) => (v128)((ushort8)((v128)left) % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 operator & (ushort2 left, ushort2 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator | (ushort2 lhs, ushort2 rhs) => Sse2.or_si128(lhs, rhs);
+        public static ushort2 operator | (ushort2 left, ushort2 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 operator ^ (ushort2 lhs, ushort2 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static ushort2 operator ^ (ushort2 left, ushort2 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,23 +207,23 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator == (ushort2 lhs, ushort2 rhs) => TestIsTrue(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool2 operator == (ushort2 left, ushort2 right) => TestIsTrue(Sse2.cmpeq_epi16(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (ushort2 lhs, ushort2 rhs) => TestIsTrue(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool2 operator < (ushort2 left, ushort2 right) => TestIsTrue(Operator.greater_mask_ushort(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (ushort2 lhs, ushort2 rhs) => TestIsTrue(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool2 operator > (ushort2 left, ushort2 right) => TestIsTrue(Operator.greater_mask_ushort(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator != (ushort2 lhs, ushort2 rhs) => TestIsFalse(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool2 operator != (ushort2 left, ushort2 right) => TestIsFalse(Sse2.cmpeq_epi16(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (ushort2 lhs, ushort2 rhs) => TestIsFalse(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool2 operator <= (ushort2 left, ushort2 right) => TestIsFalse(Operator.greater_mask_ushort(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (ushort2 lhs, ushort2 rhs) => TestIsFalse(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool2 operator >= (ushort2 left, ushort2 right) => TestIsFalse(Operator.greater_mask_ushort(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

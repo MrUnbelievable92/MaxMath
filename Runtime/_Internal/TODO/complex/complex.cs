@@ -8,11 +8,11 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath
 {
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
-    unsafe public struct complex //: IComparable, IComparable<complex>, IConvertible, IEquatable<complex>, IFormattable
+    [StructLayout(LayoutKind.Sequential, Size = 4)]
+    unsafe internal struct complex //: IComparable, IComparable<complex>, IConvertible, IEquatable<complex>, IFormattable
     { 
-        [NoAlias] [FieldOffset(0)] public float real;
-        [NoAlias] [FieldOffset(4)] public float imaginary;
+        [NoAlias] public float real;
+        [NoAlias] public float imaginary;
 
 
         public bool IsReal

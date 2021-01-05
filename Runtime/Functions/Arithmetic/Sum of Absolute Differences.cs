@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
@@ -9,7 +10,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns the sum of componentwise absolute differences of two byte2 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * 255ul)]
         public static uint sad(byte2 a, byte2 b)
         {
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(16ul)));
@@ -19,7 +20,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte3 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * 255ul)]
         public static uint sad(byte3 a, byte3 b)
         {
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(24ul)));
@@ -29,7 +30,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte4 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * 255ul)]
         public static uint sad(byte4 a, byte4 b)
         {
             v128 maskedA = Sse2.and_si128(a, new v128(maxmath.bitmask64(32ul)));
@@ -39,14 +40,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte8 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * 255ul)]
         public static uint sad(byte8 a, byte8 b)
         {
             return Sse2.sad_epu8(a, b).UShort0;
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte16 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * 255ul)]
         public static uint sad(byte16 a, byte16 b)
         {
             a = Sse2.sad_epu8(a, b);
@@ -55,7 +56,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two byte32 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 32ul * 255ul)]
         public static uint sad(byte32 a, byte32 b)
         {
             a = Avx2.mm256_sad_epu8(a, b);
@@ -66,42 +67,42 @@ namespace MaxMath
 
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte2 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * 255ul)]
         public static uint sad(sbyte2 a, sbyte2 b)
         {
             return (uint)csum(abs((short2)a - (short2)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte3 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * 255ul)]
         public static uint sad(sbyte3 a, sbyte3 b)
         {
             return (uint)csum(abs((short3)a - (short3)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte4 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * 255ul)]
         public static uint sad(sbyte4 a, sbyte4 b)
         {
             return (uint)csum(abs((short4)a - (short4)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte8 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * 255ul)]
         public static uint sad(sbyte8 a, sbyte8 b)
         {
             return (uint)csum(abs((short8)a - (short8)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte16 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * 255ul)]
         public static uint sad(sbyte16 a, sbyte16 b)
         {
             return (uint)(csum(abs((short16)a - (short16)b)));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two sbyte32 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 32ul * 255ul)]
         public static uint sad(sbyte32 a, sbyte32 b)
         {
             short16 sumUp = abs((short16)a.v16_0 - (short16)b.v16_0) + abs((short16)a.v16_16 - (short16)b.v16_16);
@@ -115,35 +116,35 @@ namespace MaxMath
 
 
         /// <summary>       Returns the sum of componentwise absolute differences of two ushort2 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * 65535ul)]
         public static uint sad(ushort2 a, ushort2 b)
         {
             return math.csum((uint2)math.abs((int2)a - (int2)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two ushort3 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * 65535ul)]
         public static uint sad(ushort3 a, ushort3 b)
         {
             return math.csum((uint3)math.abs((int3)a - (int3)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two ushort4 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * 65535ul)]
         public static uint sad(ushort4 a, ushort4 b)
         {
             return math.csum((uint4)math.abs((int4)a - (int4)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two ushort8 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * 65535ul)]
         public static uint sad(ushort8 a, ushort8 b)
         {
             return csum((uint8)abs((int8)a - (int8)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two ushort16 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * 65535ul)]
         public static uint sad(ushort16 a, ushort16 b)
         {
             return sad(a.v8_0, b.v8_0) + sad(a.v8_8, b.v8_8);
@@ -151,35 +152,35 @@ namespace MaxMath
 
 
         /// <summary>       Returns the sum of componentwise absolute differences of two short2 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * 65535ul)]
         public static uint sad(short2 a, short2 b)
         {
             return math.csum((uint2)math.abs((int2)a - (int2)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two short3 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * 65535ul)]
         public static uint sad(short3 a, short3 b)
         {
             return math.csum((uint3)math.abs((int3)a - (int3)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two short4 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * 65535ul)]
         public static uint sad(short4 a, short4 b)
         {
             return math.csum((uint4)math.abs((int4)a - (int4)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two short8 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * 65535ul)]
         public static uint sad(short8 a, short8 b)
         {
             return csum((uint8)abs((int8)a - (int8)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two short16 vectors.      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * 65535ul)]
         public static uint sad(short16 a, short16 b)
         {
             return sad(a.v8_0, b.v8_0) + sad(a.v8_8, b.v8_8);

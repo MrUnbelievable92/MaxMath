@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MaxMath")]
-[assembly: AssemblyCopyright("Copyright © 2020 Maximilian Kalimon")]
+[assembly: AssemblyCopyright("Copyright © 2020 - 2021 Maximilian Kalimon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("MaxMath.Tests")]
@@ -31,8 +31,8 @@ using System.Diagnostics.CodeAnalysis;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.1")]
-[assembly: AssemblyFileVersion("1.0.1")]
-[assembly: AssemblyInformationalVersion("1.0 Release")]
+[assembly: AssemblyVersion("1.1.0")]
+[assembly: AssemblyFileVersion("1.1.0")]
+[assembly: AssemblyInformationalVersion("1.1 Release")]
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity.Mathematics API consistency")]

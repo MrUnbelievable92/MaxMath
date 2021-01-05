@@ -485,42 +485,36 @@ Assert.IsWithinArrayBounds(index, 4);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator + (ulong4 lhs, ulong4 rhs) => Avx2.mm256_add_epi64(lhs, rhs);
+        public static ulong4 operator + (ulong4 left, ulong4 right) => Avx2.mm256_add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator - (ulong4 lhs, ulong4 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
+        public static ulong4 operator - (ulong4 left, ulong4 right) => Avx2.mm256_sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong4 lhs, ulong4 rhs) => Operator.mul_long(lhs, rhs);
+        public static ulong4 operator * (ulong4 left, ulong4 right) => Operator.mul_long(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 lhs, ulong4 rhs) => new ulong4(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z,    lhs.w / rhs.w);
+        public static ulong4 operator / (ulong4 left, ulong4 right) => new ulong4(left.x / right.x,    left.y / right.y,    left.z / right.z,    left.w / right.w);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 lhs, ulong4 rhs) => new ulong4(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z,    lhs.w % rhs.w);
+        public static ulong4 operator % (ulong4 left, ulong4 right) => new ulong4(left.x % right.x,    left.y % right.y,    left.z % right.z,    left.w % right.w);
         
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong lhs, ulong4 rhs) => rhs * lhs;
+        public static ulong4 operator / (ulong4 left, ulong right) => new ulong4(left.x / right,  left.y / right, left.z / right, left.w / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong4 lhs, ulong rhs) => new ulong4(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 lhs, ulong rhs) => new ulong4(lhs.x / rhs,  lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 lhs, ulong rhs) => new ulong4(lhs.x % rhs,  lhs.y % rhs, lhs.z % rhs, lhs.w % rhs);
+        public static ulong4 operator % (ulong4 left, ulong right) => new ulong4(left.x % right,  left.y % right, left.z % right, left.w % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator & (ulong4 lhs, ulong4 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static ulong4 operator & (ulong4 left, ulong4 right) => Avx2.mm256_and_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator | (ulong4 lhs, ulong4 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static ulong4 operator | (ulong4 left, ulong4 right) => Avx2.mm256_or_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator ^ (ulong4 lhs, ulong4 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static ulong4 operator ^ (ulong4 left, ulong4 right) => Avx2.mm256_xor_si256(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -541,23 +535,23 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (ulong4 lhs, ulong4 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool4 operator == (ulong4 left, ulong4 right) => TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]      
-        public static bool4 operator < (ulong4 lhs, ulong4 rhs) => TestIsTrue(Operator.greater_mask_ulong(rhs, lhs));
+        public static bool4 operator < (ulong4 left, ulong4 right) => TestIsTrue(Operator.greater_mask_ulong(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
-        public static bool4 operator > (ulong4 lhs, ulong4 rhs) => TestIsTrue(Operator.greater_mask_ulong(lhs, rhs));
+        public static bool4 operator > (ulong4 left, ulong4 right) => TestIsTrue(Operator.greater_mask_ulong(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (ulong4 lhs, ulong4 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool4 operator != (ulong4 left, ulong4 right) => TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
     
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
-        public static bool4 operator <= (ulong4 lhs, ulong4 rhs) => TestIsFalse(Operator.greater_mask_ulong(lhs, rhs));
+        public static bool4 operator <= (ulong4 left, ulong4 right) => TestIsFalse(Operator.greater_mask_ulong(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
-        public static bool4 operator >= (ulong4 lhs, ulong4 rhs) => TestIsFalse(Operator.greater_mask_ulong(rhs, lhs));
+        public static bool4 operator >= (ulong4 left, ulong4 right) => TestIsFalse(Operator.greater_mask_ulong(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -5,6 +5,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+    // Simple hashing based on the .NET standard => XOR
     internal static class Hash
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -28,10 +29,6 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v128(v128 x)
         {
-            // .NET equivalent to (u)long.GetHashCode() => 
-            // 1: Long0 ^ Long1
-            // 2: Int0 ^ Int1
-
             x = Sse2.xor_si128(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2)));
 
             return Sse2.xor_si128(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
@@ -48,8 +45,6 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v256(v256 x)
         {
-            // 0: v128Lo ^ v128Hi
-
             return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x),
                                        Avx2.mm256_extracti128_si256(x, 1)));
         }

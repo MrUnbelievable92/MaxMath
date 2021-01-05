@@ -16,7 +16,7 @@ namespace MaxMath
 Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 
-            return 3 - (math.lzcnt((uint)*(ushort*)&x) / 8);
+            return 3 - (int)((uint)math.lzcnt((uint)*(ushort*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool3 vector or -1 if none are true.       </summary>
@@ -27,7 +27,7 @@ Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return 3 - (math.lzcnt(*(int*)&x & 0x00FF_FFFF) / 8);
+            return 3 - (int)((uint)math.lzcnt(*(int*)&x & 0x00FF_FFFF) / 8);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool4 vector or -1 if none are true.       </summary>
@@ -39,7 +39,7 @@ Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 Assert.IsSafeBoolean(x.w);
 
-            return 3 - (math.lzcnt(*(int*)&x) / 8);
+            return 3 - (int)((uint)math.lzcnt(*(int*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool8 vector or -1 if none are true.       </summary>
@@ -55,7 +55,7 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return 7 - (math.lzcnt(*(long*)&x) / 8);
+            return 7 - (int)((uint)math.lzcnt(*(long*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool16 vector or -1 if none are true.       </summary>

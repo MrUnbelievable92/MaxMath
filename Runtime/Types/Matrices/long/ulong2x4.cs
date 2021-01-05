@@ -85,42 +85,42 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator + (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1, lhs.c2 + rhs.c2, lhs.c3 + rhs.c3);
+        public static ulong2x4 operator + (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 + right.c0, left.c1 + right.c1, left.c2 + right.c2, left.c3 + right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator - (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1, lhs.c2 - rhs.c2, lhs.c3 - rhs.c3);
+        public static ulong2x4 operator - (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 - right.c0, left.c1 - right.c1, left.c2 - right.c2, left.c3 - right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator * (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1, lhs.c2 * rhs.c2, lhs.c3 * rhs.c3);
+        public static ulong2x4 operator * (ulong2x4 left, ulong2x4 right) => new ulong2x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator / (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1, lhs.c2 / rhs.c2, lhs.c3 / rhs.c3);
+        public static ulong2x4 operator / (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator % (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1, lhs.c2 % rhs.c2, lhs.c3 % rhs.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator * (ulong2x4 lhs, ulong rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator * (ulong lhs, ulong2x4 rhs) => new ulong2x4 (lhs * rhs.c0, lhs * rhs.c1, lhs * rhs.c2, lhs * rhs.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator / (ulong2x4 lhs, ulong rhs) => new ulong2x4 (lhs.c0 / rhs, lhs.c1 / rhs, lhs.c2 / rhs, lhs.c3 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator % (ulong2x4 lhs, ulong rhs) => new ulong2x4 (lhs.c0 % rhs, lhs.c1 % rhs, lhs.c2 % rhs, lhs.c3 % rhs);
+        public static ulong2x4 operator % (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator & (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1, lhs.c2 & rhs.c2, lhs.c3 & rhs.c3);
+        public static ulong2x4 operator * (ulong2x4 left, ulong right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator | (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1, lhs.c2 | rhs.c2, lhs.c3 | rhs.c3);
+        public static ulong2x4 operator * (ulong left, ulong2x4 right) => new ulong2x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x4 operator ^ (ulong2x4 lhs, ulong2x4 rhs) => new ulong2x4 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1, lhs.c2 ^ rhs.c2, lhs.c3 ^ rhs.c3);
+        public static ulong2x4 operator / (ulong2x4 left, ulong right) => new ulong2x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x4 operator % (ulong2x4 left, ulong right) => new ulong2x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x4 operator & (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 & right.c0, left.c1 & right.c1, left.c2 & right.c2, left.c3 & right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x4 operator | (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 | right.c0, left.c1 | right.c1, left.c2 | right.c2, left.c3 | right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x4 operator ^ (ulong2x4 left, ulong2x4 right) => new ulong2x4 (left.c0 ^ right.c0, left.c1 ^ right.c1, left.c2 ^ right.c2, left.c3 ^ right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -141,23 +141,23 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator == (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1, lhs.c2 == rhs.c2, lhs.c3 == rhs.c3);
+        public static bool2x4 operator == (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 == right.c0, left.c1 == right.c1, left.c2 == right.c2, left.c3 == right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator < (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1, lhs.c2 < rhs.c2, lhs.c3 < rhs.c3);
+        public static bool2x4 operator < (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 < right.c0, left.c1 < right.c1, left.c2 < right.c2, left.c3 < right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator > (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1, lhs.c2 > rhs.c2, lhs.c3 > rhs.c3);
+        public static bool2x4 operator > (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 > right.c0, left.c1 > right.c1, left.c2 > right.c2, left.c3 > right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator != (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1, lhs.c2 != rhs.c2, lhs.c3 != rhs.c3);
+        public static bool2x4 operator != (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 != right.c0, left.c1 != right.c1, left.c2 != right.c2, left.c3 != right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator <= (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1, lhs.c2 <= rhs.c2, lhs.c3 <= rhs.c3);
+        public static bool2x4 operator <= (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 <= right.c0, left.c1 <= right.c1, left.c2 <= right.c2, left.c3 <= right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator >= (ulong2x4 lhs, ulong2x4 rhs) => new bool2x4 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1, lhs.c2 >= rhs.c2, lhs.c3 >= rhs.c3);
+        public static bool2x4 operator >= (ulong2x4 left, ulong2x4 right) => new bool2x4 (left.c0 >= right.c0, left.c1 >= right.c1, left.c2 >= right.c2, left.c3 >= right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

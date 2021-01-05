@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -9,7 +10,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns number of leading zeros in the binary representations of a byte value.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static byte lzcnt(byte x)
         {
             // eliminates second test hardcoded by Unity; min(lzcnt, 8) adds another branch (for whatever reason)
@@ -129,7 +130,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of leading zeros in the binary representations of an sbyte value.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
         public static sbyte lzcnt(sbyte x)
         {
             return (sbyte)lzcnt((byte)x);
@@ -179,7 +180,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of leading zeros in the binary representations of a ushort value.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static ushort lzcnt(ushort x)
         {
             // eliminates second test hardcoded by Unity; min(lzcnt, 16) adds another branch (for whatever reason)
@@ -290,7 +291,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of leading zeros in the binary representations of a short value.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
         public static short lzcnt(short x)
         {
             return (short)lzcnt((ushort)x);

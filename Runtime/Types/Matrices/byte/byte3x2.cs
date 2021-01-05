@@ -114,42 +114,42 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator + (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1);
+        public static byte3x2 operator + (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 + right.c0, left.c1 + right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator - (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1);
+        public static byte3x2 operator - (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 - right.c0, left.c1 - right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator * (byte3x2 lhs, byte3x2 rhs) => new byte3x2(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1);
+        public static byte3x2 operator * (byte3x2 left, byte3x2 right) => new byte3x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator / (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1);
+        public static byte3x2 operator / (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator % (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator * (byte3x2 lhs, byte rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator * (byte lhs, byte3x2 rhs) => new byte3x2 (lhs * rhs.c0, lhs * rhs.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator / (byte3x2 lhs, byte rhs) => new byte3x2 (lhs.c0 / rhs, lhs.c1 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator % (byte3x2 lhs, byte rhs) => new byte3x2 (lhs.c0 % rhs, lhs.c1 % rhs);
+        public static byte3x2 operator % (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator & (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1);
+        public static byte3x2 operator * (byte3x2 left, byte right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator | (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1);
+        public static byte3x2 operator * (byte left, byte3x2 right) => new byte3x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator ^ (byte3x2 lhs, byte3x2 rhs) => new byte3x2 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1);
+        public static byte3x2 operator / (byte3x2 left, byte right) => new byte3x2 (left.c0 / right, left.c1 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3x2 operator % (byte3x2 left, byte right) => new byte3x2 (left.c0 % right, left.c1 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3x2 operator & (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 & right.c0, left.c1 & right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3x2 operator | (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 | right.c0, left.c1 | right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3x2 operator ^ (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 ^ right.c0, left.c1 ^ right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -170,23 +170,23 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator == (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1);
+        public static bool3x2 operator == (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 == right.c0, left.c1 == right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator < (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1);
+        public static bool3x2 operator < (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 < right.c0, left.c1 < right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator > (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1);
+        public static bool3x2 operator > (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 > right.c0, left.c1 > right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator != (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1);
+        public static bool3x2 operator != (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 != right.c0, left.c1 != right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator <= (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1);
+        public static bool3x2 operator <= (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 <= right.c0, left.c1 <= right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator >= (byte3x2 lhs, byte3x2 rhs) => new bool3x2 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1);
+        public static bool3x2 operator >= (byte3x2 left, byte3x2 right) => new bool3x2 (left.c0 >= right.c0, left.c1 >= right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

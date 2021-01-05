@@ -217,42 +217,42 @@ Assert.IsWithinArrayBounds(index, 16);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator + (short16 lhs, short16 rhs) => Avx2.mm256_add_epi16(lhs, rhs);
+        public static short16 operator + (short16 left, short16 right) => Avx2.mm256_add_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator - (short16 lhs, short16 rhs) => Avx2.mm256_sub_epi16(lhs, rhs);
+        public static short16 operator - (short16 left, short16 right) => Avx2.mm256_sub_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator * (short16 lhs, short16 rhs) => Avx2.mm256_mullo_epi16(lhs, rhs);
+        public static short16 operator * (short16 left, short16 right) => Avx2.mm256_mullo_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator / (short16 lhs, short16 rhs) => Operator.vdiv_short(lhs, rhs);
+        public static short16 operator / (short16 left, short16 right) => Operator.vdiv_short(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator % (short16 lhs, short16 rhs) => Operator.vrem_short(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator * (short lhs, short16 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator * (short16 lhs, short rhs) => new short16((short)(lhs.x0 * rhs), (short)(lhs.x1 * rhs), (short)(lhs.x2 * rhs), (short)(lhs.x3 * rhs), (short)(lhs.x4 * rhs), (short)(lhs.x5 * rhs), (short)(lhs.x6 * rhs), (short)(lhs.x7 * rhs), (short)(lhs.x8 * rhs), (short)(lhs.x9 * rhs), (short)(lhs.x10 * rhs), (short)(lhs.x11 * rhs), (short)(lhs.x12 * rhs), (short)(lhs.x13 * rhs), (short)(lhs.x14 * rhs), (short)(lhs.x15 * rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator / (short16 lhs, short rhs) => new short16((short)(lhs.x0 / rhs), (short)(lhs.x1 / rhs), (short)(lhs.x2 / rhs), (short)(lhs.x3 / rhs), (short)(lhs.x4 / rhs), (short)(lhs.x5 / rhs), (short)(lhs.x6 / rhs), (short)(lhs.x7 / rhs), (short)(lhs.x8 / rhs), (short)(lhs.x9 / rhs), (short)(lhs.x10 / rhs), (short)(lhs.x11 / rhs), (short)(lhs.x12 / rhs), (short)(lhs.x13 / rhs), (short)(lhs.x14 / rhs), (short)(lhs.x15 / rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator % (short16 lhs, short rhs) => new short16((short)(lhs.x0 % rhs), (short)(lhs.x1 % rhs), (short)(lhs.x2 % rhs), (short)(lhs.x3 % rhs), (short)(lhs.x4 % rhs), (short)(lhs.x5 % rhs), (short)(lhs.x6 % rhs), (short)(lhs.x7 % rhs), (short)(lhs.x8 % rhs), (short)(lhs.x9 % rhs), (short)(lhs.x10 % rhs), (short)(lhs.x11 % rhs), (short)(lhs.x12 % rhs), (short)(lhs.x13 % rhs), (short)(lhs.x14 % rhs), (short)(lhs.x15 % rhs));
+        public static short16 operator % (short16 left, short16 right) => Operator.vrem_short(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator & (short16 lhs, short16 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static short16 operator * (short left, short16 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator | (short16 lhs, short16 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static short16 operator * (short16 left, short right) => new short16((short)(left.x0 * right), (short)(left.x1 * right), (short)(left.x2 * right), (short)(left.x3 * right), (short)(left.x4 * right), (short)(left.x5 * right), (short)(left.x6 * right), (short)(left.x7 * right), (short)(left.x8 * right), (short)(left.x9 * right), (short)(left.x10 * right), (short)(left.x11 * right), (short)(left.x12 * right), (short)(left.x13 * right), (short)(left.x14 * right), (short)(left.x15 * right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short16 operator ^ (short16 lhs, short16 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static short16 operator / (short16 left, short right) => new short16((short)(left.x0 / right), (short)(left.x1 / right), (short)(left.x2 / right), (short)(left.x3 / right), (short)(left.x4 / right), (short)(left.x5 / right), (short)(left.x6 / right), (short)(left.x7 / right), (short)(left.x8 / right), (short)(left.x9 / right), (short)(left.x10 / right), (short)(left.x11 / right), (short)(left.x12 / right), (short)(left.x13 / right), (short)(left.x14 / right), (short)(left.x15 / right));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator % (short16 left, short right) => new short16((short)(left.x0 % right), (short)(left.x1 % right), (short)(left.x2 % right), (short)(left.x3 % right), (short)(left.x4 % right), (short)(left.x5 % right), (short)(left.x6 % right), (short)(left.x7 % right), (short)(left.x8 % right), (short)(left.x9 % right), (short)(left.x10 % right), (short)(left.x11 % right), (short)(left.x12 % right), (short)(left.x13 % right), (short)(left.x14 % right), (short)(left.x15 % right));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator & (short16 left, short16 right) => Avx2.mm256_and_si256(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator | (short16 left, short16 right) => Avx2.mm256_or_si256(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 operator ^ (short16 left, short16 right) => Avx2.mm256_xor_si256(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -276,23 +276,23 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (short16 lhs, short16 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi16(lhs, rhs));
+        public static bool16 operator == (short16 left, short16 right) => TestIsTrue(Avx2.mm256_cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (short16 lhs, short16 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi16(rhs, lhs));
+        public static bool16 operator < (short16 left, short16 right) => TestIsTrue(Avx2.mm256_cmpgt_epi16(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (short16 lhs, short16 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi16(lhs, rhs));
+        public static bool16 operator > (short16 left, short16 right) => TestIsTrue(Avx2.mm256_cmpgt_epi16(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (short16 lhs, short16 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi16(lhs, rhs));
+        public static bool16 operator != (short16 left, short16 right) => TestIsFalse(Avx2.mm256_cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (short16 lhs, short16 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi16(lhs, rhs));
+        public static bool16 operator <= (short16 left, short16 right) => TestIsFalse(Avx2.mm256_cmpgt_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (short16 lhs, short16 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi16(rhs, lhs));
+        public static bool16 operator >= (short16 left, short16 right) => TestIsFalse(Avx2.mm256_cmpgt_epi16(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

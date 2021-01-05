@@ -7,7 +7,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     // Even though the code size is "large" and the C# source looks like a mess, 
-    // this long division algorithm is about FIVE times faster than - (byte16 case), or EIGHT times faster than - (byte32 case) scalar division of bytes 
+    // this long division algorithm is about FIVE times faster than - (byte16 case), or EIGHT times faster than (byte32 case) scalar division of bytes 
     // or even via float conversion when compiled natively without Divide-By-Zero checks (release mode) - without requiring RAM-bandwidth-bound table-lookups.
     // Additionally, each loop iteration is a fantastic candidate for instruction level parallelism.
 

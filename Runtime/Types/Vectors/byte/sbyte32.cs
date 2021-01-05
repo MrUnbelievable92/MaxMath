@@ -91,28 +91,142 @@ namespace MaxMath
 
 
 
-        public sbyte16 v16_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
-
-
-
-
-
-
-
+        public sbyte16 v16_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
+        public sbyte16 v16_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshr(v16_0, 1), (byte)Avx2.mm256_extract_epi8(this, 16), 15); }
+        public sbyte16 v16_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(maxmath.vshr(v16_0, 2), (short)Avx2.mm256_extract_epi16(this, 8), 7); }
+        public sbyte16 v16_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 3), maxmath.vshl(v16_16, 13), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)); }
+        public sbyte16 v16_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi32(maxmath.vshr(v16_0, 4), Avx.mm256_extract_epi32(this, 4), 3); }
+        public sbyte16 v16_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 5), maxmath.vshl(v16_16, 11), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 6), maxmath.vshl(v16_16, 10), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 7), maxmath.vshl(v16_16, 9), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi64(maxmath.vshr(v16_0, 8), Avx.mm256_extract_epi64(this, 2), 1); }
+        public sbyte16 v16_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 9), maxmath.vshl(v16_16, 7), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 10), maxmath.vshl(v16_16, 6), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 11), maxmath.vshl(v16_16, 5), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi32(maxmath.vshl(v16_16, 4), Avx.mm256_extract_epi32(this, 3), 0); }
+        public sbyte16 v16_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.blendv_epi8(maxmath.vshr(v16_0, 13), maxmath.vshl(v16_16, 3), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)); }
+        public sbyte16 v16_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(maxmath.vshl(v16_16, 2), Avx2.mm256_extract_epi16(this, 7), 0); }
+        public sbyte16 v16_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshl(v16_16, 1), (byte)Avx2.mm256_extract_epi8(this, 15), 0); }
         public sbyte16 v16_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx2.mm256_extracti128_si256(this, 1); }
 
+        public sbyte8 v8_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_0; }
+        public sbyte8 v8_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_1; }
+        public sbyte8 v8_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_2; }
+        public sbyte8 v8_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_3; }
+        public sbyte8 v8_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_4; }
+        public sbyte8 v8_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_5; }
+        public sbyte8 v8_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_6; }
+        public sbyte8 v8_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_7; }
+        public sbyte8 v8_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v8_8; }
+        public sbyte8 v8_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshr(v16_0, 9), (byte)Avx2.mm256_extract_epi8(this, 16), 7); }
+        public sbyte8 v8_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(maxmath.vshr(v16_0, 10), (short)Avx2.mm256_extract_epi16(this, 8), 3); }
+        public sbyte8 v8_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_11.v8_0; }
+        public sbyte8 v8_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi32(maxmath.vshr(v16_0, 12), Avx.mm256_extract_epi32(this, 4), 1); }
+        public sbyte8 v8_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_13.v8_0; }
+        public sbyte8 v8_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_14.v8_0; }
+        public sbyte8 v8_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_15.v8_0; }
+        public sbyte8 v8_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_0; }
+        public sbyte8 v8_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_1; }
+        public sbyte8 v8_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_2; }
+        public sbyte8 v8_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_3; }
+        public sbyte8 v8_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_4; }
+        public sbyte8 v8_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_5; }
+        public sbyte8 v8_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_6; }
+        public sbyte8 v8_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_7; }
+        public sbyte8 v8_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v8_8; }
 
+        public sbyte4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_0; }
+        public sbyte4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_1; }
+        public sbyte4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_2; }
+        public sbyte4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_3; }
+        public sbyte4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_4; }
+        public sbyte4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_5; }
+        public sbyte4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_6; }
+        public sbyte4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_7; }
+        public sbyte4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_8; }
+        public sbyte4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_9; }
+        public sbyte4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_10; }
+        public sbyte4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_11; }
+        public sbyte4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v4_12; }
+        public sbyte4 v4_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshr(v16_0, 13), (byte)Avx2.mm256_extract_epi8(this, 16), 3); }
+        public sbyte4 v4_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.insert_epi16(maxmath.vshr(v16_0, 14), (short)Avx2.mm256_extract_epi16(this, 8), 1); }
+        public sbyte4 v4_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshl(v16_16, 1), (byte)Avx2.mm256_extract_epi8(this, 15), 0); }
+        public sbyte4 v4_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_0; }
+        public sbyte4 v4_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_1; }
+        public sbyte4 v4_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_2; }
+        public sbyte4 v4_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_3; }
+        public sbyte4 v4_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_4; }
+        public sbyte4 v4_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_5; }
+        public sbyte4 v4_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_6; }
+        public sbyte4 v4_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_7; }
+        public sbyte4 v4_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_8; }
+        public sbyte4 v4_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_9; }
+        public sbyte4 v4_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_10;}
+        public sbyte4 v4_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_11;}
+        public sbyte4 v4_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v4_12; }
 
+        public sbyte3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_0; }
+        public sbyte3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_1; }
+        public sbyte3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_2; }
+        public sbyte3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_3; }
+        public sbyte3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_4; }
+        public sbyte3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_5; }
+        public sbyte3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_6; }
+        public sbyte3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_7; }
+        public sbyte3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_8; }
+        public sbyte3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_9; }
+        public sbyte3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_10; }
+        public sbyte3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_11; }
+        public sbyte3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_12; }
+        public sbyte3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v3_13; }
+        public sbyte3 v3_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshr(v16_0, 14), (byte)Avx2.mm256_extract_epi8(this, 16), 2); }
+        public sbyte3 v3_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(Sse4_1.insert_epi8(maxmath.vshr(v16_0, 15), (byte)Avx2.mm256_extract_epi8(this, 16), 1), (byte)Avx2.mm256_extract_epi8(this, 17), 2); }
+        public sbyte3 v3_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_0; }
+        public sbyte3 v3_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_1; }
+        public sbyte3 v3_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_2; }
+        public sbyte3 v3_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_3; }
+        public sbyte3 v3_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_4; }
+        public sbyte3 v3_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_5; }
+        public sbyte3 v3_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_6; }
+        public sbyte3 v3_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_7; }
+        public sbyte3 v3_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_8; }
+        public sbyte3 v3_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_9; }
+        public sbyte3 v3_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_10; }
+        public sbyte3 v3_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_11; }
+        public sbyte3 v3_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_12; }
+        public sbyte3 v3_29 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v3_13; }
 
-
-
-
-
-
-
-
-
-
+        public sbyte2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_0; }
+        public sbyte2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_1; }
+        public sbyte2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_2; }
+        public sbyte2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_3; }
+        public sbyte2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_4; }
+        public sbyte2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_5; }
+        public sbyte2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_6; }
+        public sbyte2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_7; }
+        public sbyte2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_8; }
+        public sbyte2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_9; }
+        public sbyte2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_10; }
+        public sbyte2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_11; }
+        public sbyte2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_12; }
+        public sbyte2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_13; }
+        public sbyte2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_0.v2_14; }
+        public sbyte2 v2_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse4_1.insert_epi8(maxmath.vshr(v16_0, 15), (byte)Avx2.mm256_extract_epi8(this, 16), 1); }
+        public sbyte2 v2_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_0; }
+        public sbyte2 v2_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_1; }
+        public sbyte2 v2_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_2; }
+        public sbyte2 v2_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_3; }
+        public sbyte2 v2_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_4; }
+        public sbyte2 v2_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_5; }
+        public sbyte2 v2_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_6; }
+        public sbyte2 v2_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_7; }
+        public sbyte2 v2_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_8; }
+        public sbyte2 v2_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_9; }
+        public sbyte2 v2_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_10; }
+        public sbyte2 v2_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_11; }
+        public sbyte2 v2_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_12; }
+        public sbyte2 v2_29 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_13; }
+        public sbyte2 v2_30 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => v16_16.v2_14; }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
@@ -156,42 +270,29 @@ Assert.IsWithinArrayBounds(index, 32);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator + (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_add_epi8(lhs, rhs);
+        public static sbyte32 operator + (sbyte32 left, sbyte32 right) => Avx2.mm256_add_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator - (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_sub_epi8(lhs, rhs);
+        public static sbyte32 operator - (sbyte32 left, sbyte32 right) => Avx2.mm256_sub_epi8(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator * (sbyte32 lhs, sbyte32 rhs) => Operator.mul_byte(lhs, rhs);
+        public static sbyte32 operator * (sbyte32 left, sbyte32 right) => Operator.mul_byte(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator / (sbyte32 lhs, sbyte32 rhs) => Operator.vdiv_sbyte(lhs, rhs);
+        public static sbyte32 operator / (sbyte32 left, sbyte32 right) => Operator.vdiv_sbyte(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator % (sbyte32 lhs, sbyte32 rhs) => Operator.vrem_sbyte(lhs, rhs);
+        public static sbyte32 operator % (sbyte32 left, sbyte32 right) => Operator.vrem_sbyte(left, right);
         
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator * (sbyte lhs, sbyte32 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator * (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 * rhs), (sbyte)(lhs.x1 * rhs), (sbyte)(lhs.x2 * rhs), (sbyte)(lhs.x3 * rhs), (sbyte)(lhs.x4 * rhs), (sbyte)(lhs.x5 * rhs), (sbyte)(lhs.x6 * rhs), (sbyte)(lhs.x7 * rhs), (sbyte)(lhs.x8 * rhs), (sbyte)(lhs.x9 * rhs), (sbyte)(lhs.x10 * rhs), (sbyte)(lhs.x11 * rhs), (sbyte)(lhs.x12 * rhs), (sbyte)(lhs.x13 * rhs), (sbyte)(lhs.x14 * rhs), (sbyte)(lhs.x15 * rhs), (sbyte)(lhs.x16 * rhs), (sbyte)(lhs.x17 * rhs), (sbyte)(lhs.x18 * rhs), (sbyte)(lhs.x19 * rhs), (sbyte)(lhs.x20 * rhs), (sbyte)(lhs.x21 * rhs), (sbyte)(lhs.x22 * rhs), (sbyte)(lhs.x23 * rhs), (sbyte)(lhs.x24 * rhs), (sbyte)(lhs.x25 * rhs), (sbyte)(lhs.x26 * rhs), (sbyte)(lhs.x27 * rhs), (sbyte)(lhs.x28 * rhs), (sbyte)(lhs.x29 * rhs), (sbyte)(lhs.x30 * rhs), (sbyte)(lhs.x31 * rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator / (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 / rhs), (sbyte)(lhs.x1 / rhs), (sbyte)(lhs.x2 / rhs), (sbyte)(lhs.x3 / rhs), (sbyte)(lhs.x4 / rhs), (sbyte)(lhs.x5 / rhs), (sbyte)(lhs.x6 / rhs), (sbyte)(lhs.x7 / rhs), (sbyte)(lhs.x8 / rhs), (sbyte)(lhs.x9 / rhs), (sbyte)(lhs.x10 / rhs), (sbyte)(lhs.x11 / rhs), (sbyte)(lhs.x12 / rhs), (sbyte)(lhs.x13 / rhs), (sbyte)(lhs.x14 / rhs), (sbyte)(lhs.x15 / rhs), (sbyte)(lhs.x16 / rhs), (sbyte)(lhs.x17 / rhs), (sbyte)(lhs.x18 / rhs), (sbyte)(lhs.x19 / rhs), (sbyte)(lhs.x20 / rhs), (sbyte)(lhs.x21 / rhs), (sbyte)(lhs.x22 / rhs), (sbyte)(lhs.x23 / rhs), (sbyte)(lhs.x24 / rhs), (sbyte)(lhs.x25 / rhs), (sbyte)(lhs.x26 / rhs), (sbyte)(lhs.x27 / rhs), (sbyte)(lhs.x28 / rhs), (sbyte)(lhs.x29 / rhs), (sbyte)(lhs.x30 / rhs), (sbyte)(lhs.x31 / rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator % (sbyte32 lhs, sbyte rhs) => new sbyte32((sbyte)(lhs.x0 % rhs), (sbyte)(lhs.x1 % rhs), (sbyte)(lhs.x2 % rhs), (sbyte)(lhs.x3 % rhs), (sbyte)(lhs.x4 % rhs), (sbyte)(lhs.x5 % rhs), (sbyte)(lhs.x6 % rhs), (sbyte)(lhs.x7 % rhs), (sbyte)(lhs.x8 % rhs), (sbyte)(lhs.x9 % rhs), (sbyte)(lhs.x10 % rhs), (sbyte)(lhs.x11 % rhs), (sbyte)(lhs.x12 % rhs), (sbyte)(lhs.x13 % rhs), (sbyte)(lhs.x14 % rhs), (sbyte)(lhs.x15 % rhs), (sbyte)(lhs.x16 % rhs), (sbyte)(lhs.x17 % rhs), (sbyte)(lhs.x18 % rhs), (sbyte)(lhs.x19 % rhs), (sbyte)(lhs.x20 % rhs), (sbyte)(lhs.x21 % rhs), (sbyte)(lhs.x22 % rhs), (sbyte)(lhs.x23 % rhs), (sbyte)(lhs.x24 % rhs), (sbyte)(lhs.x25 % rhs), (sbyte)(lhs.x26 % rhs), (sbyte)(lhs.x27 % rhs), (sbyte)(lhs.x28 % rhs), (sbyte)(lhs.x29 % rhs), (sbyte)(lhs.x30 % rhs), (sbyte)(lhs.x31 % rhs));
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator & (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static sbyte32 operator & (sbyte32 left, sbyte32 right) => Avx2.mm256_and_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator | (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static sbyte32 operator | (sbyte32 left, sbyte32 right) => Avx2.mm256_or_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte32 operator ^ (sbyte32 lhs, sbyte32 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static sbyte32 operator ^ (sbyte32 left, sbyte32 right) => Avx2.mm256_xor_si256(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -215,23 +316,23 @@ Assert.IsWithinArrayBounds(index, 32);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator == (sbyte32 lhs, sbyte32 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi8(lhs, rhs));
+        public static bool32 operator == (sbyte32 left, sbyte32 right) => TestIsTrue(Avx2.mm256_cmpeq_epi8(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator < (sbyte32 lhs, sbyte32 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi8(rhs, lhs));
+        public static bool32 operator < (sbyte32 left, sbyte32 right) => TestIsTrue(Avx2.mm256_cmpgt_epi8(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator > (sbyte32 lhs, sbyte32 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi8(lhs, rhs));
+        public static bool32 operator > (sbyte32 left, sbyte32 right) => TestIsTrue(Avx2.mm256_cmpgt_epi8(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator != (sbyte32 lhs, sbyte32 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi8(lhs, rhs));
+        public static bool32 operator != (sbyte32 left, sbyte32 right) => TestIsFalse(Avx2.mm256_cmpeq_epi8(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator <= (sbyte32 lhs, sbyte32 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi8(lhs, rhs));
+        public static bool32 operator <= (sbyte32 left, sbyte32 right) => TestIsFalse(Avx2.mm256_cmpgt_epi8(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator >= (sbyte32 lhs, sbyte32 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi8(rhs, lhs));
+        public static bool32 operator >= (sbyte32 left, sbyte32 right) => TestIsFalse(Avx2.mm256_cmpgt_epi8(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

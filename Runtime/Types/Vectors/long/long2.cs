@@ -139,42 +139,36 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator + (long2 lhs, long2 rhs) => Sse2.add_epi64(lhs, rhs);
+        public static long2 operator + (long2 left, long2 right) => Sse2.add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator - (long2 lhs, long2 rhs) => Sse2.sub_epi64(lhs, rhs);
+        public static long2 operator - (long2 left, long2 right) => Sse2.sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator * (long2 lhs, long2 rhs) => Operator.mul_long(lhs, rhs);
+        public static long2 operator * (long2 left, long2 right) => Operator.mul_long(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator / (long2 lhs, long2 rhs) => new long2(lhs.x / rhs.x,    lhs.y / rhs.y);
+        public static long2 operator / (long2 left, long2 right) => new long2(left.x / right.x,    left.y / right.y);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator % (long2 lhs, long2 rhs) => new long2(lhs.x % rhs.x,    lhs.y % rhs.y);
+        public static long2 operator % (long2 left, long2 right) => new long2(left.x % right.x,    left.y % right.y);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator * (long lhs, long2 rhs) => rhs * lhs;
+        public static long2 operator / (long2 left, long right) => new long2(left.x / right, left.y / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator * (long2 lhs, long rhs) => new long2(lhs.x * rhs, lhs.y * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator / (long2 lhs, long rhs) => new long2(lhs.x / rhs, lhs.y / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator % (long2 lhs, long rhs) => new long2(lhs.x % rhs, lhs.y % rhs);
+        public static long2 operator % (long2 left, long right) => new long2(left.x % right, left.y % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator & (long2 lhs, long2 rhs) => Sse2.and_si128(lhs, rhs);
+        public static long2 operator & (long2 left, long2 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator | (long2 lhs, long2 rhs) => Sse2.or_si128(lhs, rhs);
+        public static long2 operator | (long2 left, long2 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator ^ (long2 lhs, long2 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static long2 operator ^ (long2 left, long2 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -198,23 +192,23 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator == (long2 lhs, long2 rhs) => TestIsTrue(Sse4_1.cmpeq_epi64(lhs, rhs));
+        public static bool2 operator == (long2 left, long2 right) => TestIsTrue(Sse4_1.cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (long2 lhs, long2 rhs) => TestIsTrue(Sse4_2.cmpgt_epi64(rhs, lhs));
+        public static bool2 operator < (long2 left, long2 right) => TestIsTrue(Sse4_2.cmpgt_epi64(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (long2 lhs, long2 rhs) => TestIsTrue(Sse4_2.cmpgt_epi64(lhs, rhs));
+        public static bool2 operator > (long2 left, long2 right) => TestIsTrue(Sse4_2.cmpgt_epi64(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator != (long2 lhs, long2 rhs) => TestIsFalse(Sse4_1.cmpeq_epi64(lhs, rhs));
+        public static bool2 operator != (long2 left, long2 right) => TestIsFalse(Sse4_1.cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (long2 lhs, long2 rhs) => TestIsFalse(Sse4_2.cmpgt_epi64(lhs, rhs));
+        public static bool2 operator <= (long2 left, long2 right) => TestIsFalse(Sse4_2.cmpgt_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (long2 lhs, long2 rhs) => TestIsFalse(Sse4_2.cmpgt_epi64(rhs, lhs));
+        public static bool2 operator >= (long2 left, long2 right) => TestIsFalse(Sse4_2.cmpgt_epi64(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

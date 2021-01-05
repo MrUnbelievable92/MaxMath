@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -16,11 +17,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Random8(byte seed = 0x3A)
         {
-Assert.AreNotEqual(seed, 0);
-
             State = seed;
 
             NextState();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random16(Random8 input)
+        {
+            return new Random16(input.State);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random32(Random8 input)
+        {
+            return new Random32(input.State);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random64(Random8 input)
+        {
+            return new Random64(input.State);
         }
 
 
@@ -45,6 +63,66 @@ Assert.AreNotEqual(State, 0);
             uint result = NextState() & 1u;
 
             return *(bool*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool2 NextBool2()
+        {
+            bool2 result = ((Random16)this).NextBool2();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool3 NextBool3()
+        {
+            bool3 result = ((Random32)this).NextBool3();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool4 NextBool4()
+        {
+            bool4 result = ((Random32)this).NextBool4();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool8 NextBool8()
+        {
+            bool8 result = ((Random64)this).NextBool8();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool16 NextBool16()
+        {
+            bool16 result = ((Random64)this).NextBool16();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32 NextBool32()
+        {
+            bool32 result = ((Random64)this).NextBool32();
+
+            NextState();
+
+            return result;
         }
 
 

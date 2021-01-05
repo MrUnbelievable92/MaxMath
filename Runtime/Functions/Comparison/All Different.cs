@@ -435,14 +435,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns true if all of the components of a uint4 vector are unique within that vector.      </summary>
+        /// <summary>       Returns true if all of the components of an int3 vector are unique within that vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(int3 c)
         {
             return math.all(c.xxz != c.yzy);
         }
 
-        /// <summary>       Returns true if all of the components of a uint2 vector are unique within that vector.      </summary>
+        /// <summary>       Returns true if all of the components of an int4 vector are unique within that vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(int4 c)
         {

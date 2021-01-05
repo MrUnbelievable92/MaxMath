@@ -126,29 +126,29 @@ namespace MaxMath
         }
 
 
-        public half4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half4*)ptr; } } } 
-        public half4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half4*)ptr; } } } 
-        public half4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half4*)ptr; } } } 
-        public half4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half4*)ptr; } } } 
-        public half4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half4*)ptr; } } } 
-                                                                                                            
-        public half3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half3*)ptr; } } } 
-        public half3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half3*)ptr; } } } 
-        public half3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half3*)ptr; } } } 
-        public half3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half3*)ptr; } } } 
-        public half3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half3*)ptr; } } } 
-        public half3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x5) { return *(half3*)ptr; } } } 
-                                                                                                            
-        public half2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half2*)ptr; } } } 
-        public half2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half2*)ptr; } } } 
-        public half2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half2*)ptr; } } } 
-        public half2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half2*)ptr; } } } 
-        public half2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half2*)ptr; } } } 
-        public half2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x5) { return *(half2*)ptr; } } } 
-        public half2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x6) { return *(half2*)ptr; } } } 
+        public half4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half4*)ptr; } } set { fixed (void* ptr = &this)    { *(half4*)ptr = value; } } } 
+        public half4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half4*)ptr; } } set { fixed (void* ptr = &this.x1) { *(half4*)ptr = value; } } }  
+        public half4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half4*)ptr; } } set { fixed (void* ptr = &this.x2) { *(half4*)ptr = value; } } }  
+        public half4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half4*)ptr; } } set { fixed (void* ptr = &this.x3) { *(half4*)ptr = value; } } }  
+        public half4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half4*)ptr; } } set { fixed (void* ptr = &this.x4) { *(half4*)ptr = value; } } }  
+                                                                                             
+        public half3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half3*)ptr; } } set { fixed (void* ptr = &this)    { *(half3*)ptr = value; } } }  
+        public half3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half3*)ptr; } } set { fixed (void* ptr = &this.x1) { *(half3*)ptr = value; } } }  
+        public half3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half3*)ptr; } } set { fixed (void* ptr = &this.x2) { *(half3*)ptr = value; } } }  
+        public half3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half3*)ptr; } } set { fixed (void* ptr = &this.x3) { *(half3*)ptr = value; } } }  
+        public half3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half3*)ptr; } } set { fixed (void* ptr = &this.x4) { *(half3*)ptr = value; } } }  
+        public half3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x5) { return *(half3*)ptr; } } set { fixed (void* ptr = &this.x5) { *(half3*)ptr = value; } } }  
+                                                                                                                             
+        public half2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this)    { return *(half2*)ptr; } } set { fixed (void* ptr = &this)    { *(half2*)ptr = value; } } }  
+        public half2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x1) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x1) { *(half2*)ptr = value; } } }  
+        public half2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x2) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x2) { *(half2*)ptr = value; } } }  
+        public half2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x3) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x3) { *(half2*)ptr = value; } } }  
+        public half2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x4) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x4) { *(half2*)ptr = value; } } }  
+        public half2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x5) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x5) { *(half2*)ptr = value; } } }  
+        public half2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x6) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x6) { *(half2*)ptr = value; } } }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse2.load(u)_[...].
+[MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse2.load(u)_[...].
         public static implicit operator v128(half8 input) => new v128(input.x0.value, input.x1.value, input.x2.value, input.x3.value, input.x4.value, input.x5.value, input.x6.value, input.x7.value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v128 x)
@@ -192,10 +192,10 @@ Assert.IsWithinArrayBounds(index, 8);
     
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (half8 lhs, half8 rhs) => TestIsTrue(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool8 operator == (half8 left, half8 right) => TestIsTrue(Sse2.cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (half8 lhs, half8 rhs) => TestIsFalse(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool8 operator != (half8 left, half8 right) => TestIsFalse(Sse2.cmpeq_epi16(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

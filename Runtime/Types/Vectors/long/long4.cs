@@ -485,42 +485,36 @@ Assert.IsWithinArrayBounds(index, 4);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator + (long4 lhs, long4 rhs) => Avx2.mm256_add_epi64(lhs, rhs);
+        public static long4 operator + (long4 left, long4 right) => Avx2.mm256_add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator - (long4 lhs, long4 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
+        public static long4 operator - (long4 left, long4 right) => Avx2.mm256_sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator * (long4 lhs, long4 rhs) => Operator.mul_long(lhs, rhs);
+        public static long4 operator * (long4 left, long4 right) => Operator.mul_long(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator / (long4 lhs, long4 rhs) => new long4(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z,    lhs.w / rhs.w);
+        public static long4 operator / (long4 left, long4 right) => new long4(left.x / right.x,    left.y / right.y,    left.z / right.z,    left.w / right.w);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator % (long4 lhs, long4 rhs) => new long4(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z,    lhs.w % rhs.w);
+        public static long4 operator % (long4 left, long4 right) => new long4(left.x % right.x,    left.y % right.y,    left.z % right.z,    left.w % right.w);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator * (long lhs, long4 rhs) => rhs * lhs;
+        public static long4 operator / (long4 left, long right) => new long4(left.x / right,  left.y / right, left.z / right, left.w / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator * (long4 lhs, long rhs) => new long4(lhs.x * rhs,  lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator / (long4 lhs, long rhs) => new long4(lhs.x / rhs,  lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator % (long4 lhs, long rhs) => new long4(lhs.x % rhs,  lhs.y % rhs, lhs.z % rhs, lhs.w % rhs);
+        public static long4 operator % (long4 left, long right) => new long4(left.x % right,  left.y % right, left.z % right, left.w % right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator & (long4 lhs, long4 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static long4 operator & (long4 left, long4 right) => Avx2.mm256_and_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator | (long4 lhs, long4 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static long4 operator | (long4 left, long4 right) => Avx2.mm256_or_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 operator ^ (long4 lhs, long4 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static long4 operator ^ (long4 left, long4 right) => Avx2.mm256_xor_si256(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -544,23 +538,23 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (long4 lhs, long4 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool4 operator == (long4 left, long4 right) => TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator < (long4 lhs, long4 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi64(rhs, lhs));
+        public static bool4 operator < (long4 left, long4 right) => TestIsTrue(Avx2.mm256_cmpgt_epi64(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator > (long4 lhs, long4 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi64(lhs, rhs));
+        public static bool4 operator > (long4 left, long4 right) => TestIsTrue(Avx2.mm256_cmpgt_epi64(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (long4 lhs, long4 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool4 operator != (long4 left, long4 right) => TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator <= (long4 lhs, long4 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi64(lhs, rhs));
+        public static bool4 operator <= (long4 left, long4 right) => TestIsFalse(Avx2.mm256_cmpgt_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator >= (long4 lhs, long4 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi64(rhs, lhs));
+        public static bool4 operator >= (long4 left, long4 right) => TestIsFalse(Avx2.mm256_cmpgt_epi64(right, left));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

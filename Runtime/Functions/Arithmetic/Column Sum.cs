@@ -22,42 +22,42 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of a byte2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * byte.MaxValue)]
         public static uint csum(byte2 x)
         {
             return (uint)x.x + (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte3 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * byte.MaxValue)]
         public static uint csum(byte3 x)
         {
             return sad(x, default(byte3));
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte4 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * byte.MaxValue)]
         public static uint csum(byte4 x)
         {
             return sad(x, default(byte4));
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte8 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * byte.MaxValue)]
         public static uint csum(byte8 x)
         {
             return sad(x, default(byte8));
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte16 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * byte.MaxValue)]
         public static uint csum(byte16 x)
         {
             return sad(x, default(byte16));
         }
 
         /// <summary>       Returns the horizontal sum of components of a byte32 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 32ul * byte.MaxValue)]
         public static uint csum(byte32 x)
         {
             return sad(x, default(byte32));
@@ -179,21 +179,21 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of a ushort2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * ushort.MaxValue)]
         public static uint csum(ushort2 x)
         {
             return (uint)x.x + (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort3 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * ushort.MaxValue)]
         public static uint csum(ushort3 x)
         {
             return ((uint)x.x + (uint)x.y) + (uint)x.z;
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort4 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul * ushort.MaxValue)]
         public static uint csum(ushort4 x)
         {
             x = Sse2.add_epi32(Sse4_1.cvtepu16_epi32(x), Sse4_1.cvtepu16_epi32(x.zw));
@@ -202,7 +202,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort8 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul * ushort.MaxValue)]
         public static uint csum(ushort8 x)
         {
             x = Sse2.add_epi32(Sse4_1.cvtepu16_epi32(x), Sse4_1.cvtepu16_epi32(x.v4_4));
@@ -213,7 +213,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a ushort16 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul * ushort.MaxValue)]
         public static uint csum(ushort16 x)
         {
             v128 lo = x.v8_0;

@@ -1,3 +1,5 @@
 ﻿Complex
 
-Matrices (up to 4x4)
+port quarter precision floats and add vectors up to 8
+
+quadruple precision float IEEE 754

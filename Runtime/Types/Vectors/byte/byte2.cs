@@ -163,42 +163,29 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator + (byte2 lhs, byte2 rhs) => Sse2.add_epi8(lhs, rhs);
+        public static byte2 operator + (byte2 left, byte2 right) => Sse2.add_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator - (byte2 lhs, byte2 rhs) => Sse2.sub_epi8(lhs, rhs);
+        public static byte2 operator - (byte2 left, byte2 right) => Sse2.sub_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator * (byte2 lhs, byte2 rhs) => (byte2)((short2)lhs * (short2)rhs);
+        public static byte2 operator * (byte2 left, byte2 right) => (byte2)((short2)left * (short2)right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator / (byte2 lhs, byte2 rhs) => Operator.vdiv_byte(lhs, rhs);
+        public static byte2 operator / (byte2 left, byte2 right) => Operator.vdiv_byte(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator % (byte2 lhs, byte2 rhs) => Operator.vrem_byte(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator * (byte lhs, byte2 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator * (byte2 lhs, byte rhs) => (v128)((byte16)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator / (byte2 lhs, byte rhs) => (v128)((byte16)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator % (byte2 lhs, byte rhs) => (v128)((byte16)((v128)lhs) % rhs);
+        public static byte2 operator % (byte2 left, byte2 right) => Operator.vrem_byte(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator & (byte2 lhs, byte2 rhs) => Sse2.and_si128(lhs, rhs);
+        public static byte2 operator & (byte2 left, byte2 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator | (byte2 lhs, byte2 rhs) => Sse2.or_si128(lhs, rhs);
+        public static byte2 operator | (byte2 left, byte2 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 operator ^ (byte2 lhs, byte2 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static byte2 operator ^ (byte2 left, byte2 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -219,23 +206,23 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator == (byte2 lhs, byte2 rhs) => TestIsTrue(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool2 operator == (byte2 left, byte2 right) => TestIsTrue(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (byte2 lhs, byte2 rhs) => TestIsTrue(Operator.greater_mask_byte(rhs, lhs));
+        public static bool2 operator < (byte2 left, byte2 right) => TestIsTrue(Operator.greater_mask_byte(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (byte2 lhs, byte2 rhs) => TestIsTrue(Operator.greater_mask_byte(lhs, rhs));
+        public static bool2 operator > (byte2 left, byte2 right) => TestIsTrue(Operator.greater_mask_byte(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator != (byte2 lhs, byte2 rhs) => TestIsFalse(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool2 operator != (byte2 left, byte2 right) => TestIsFalse(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (byte2 lhs, byte2 rhs) => TestIsFalse(Operator.greater_mask_byte(lhs, rhs));
+        public static bool2 operator <= (byte2 left, byte2 right) => TestIsFalse(Operator.greater_mask_byte(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (byte2 lhs, byte2 rhs) => TestIsFalse(Operator.greater_mask_byte(rhs, lhs));
+        public static bool2 operator >= (byte2 left, byte2 right) => TestIsFalse(Operator.greater_mask_byte(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

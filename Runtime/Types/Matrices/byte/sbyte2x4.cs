@@ -121,42 +121,42 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator + (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1, lhs.c2 + rhs.c2, lhs.c3 + rhs.c3);
+        public static sbyte2x4 operator + (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 + right.c0, left.c1 + right.c1, left.c2 + right.c2, left.c3 + right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator - (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1, lhs.c2 - rhs.c2, lhs.c3 - rhs.c3);
+        public static sbyte2x4 operator - (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 - right.c0, left.c1 - right.c1, left.c2 - right.c2, left.c3 - right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator * (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1, lhs.c2 * rhs.c2, lhs.c3 * rhs.c3);
+        public static sbyte2x4 operator * (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator / (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1, lhs.c2 / rhs.c2, lhs.c3 / rhs.c3);
+        public static sbyte2x4 operator / (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator % (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1, lhs.c2 % rhs.c2, lhs.c3 % rhs.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator * (sbyte2x4 lhs, sbyte rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator * (sbyte lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs * rhs.c0, lhs * rhs.c1, lhs * rhs.c2, lhs * rhs.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator / (sbyte2x4 lhs, sbyte rhs) => new sbyte2x4 (lhs.c0 / rhs, lhs.c1 / rhs, lhs.c2 / rhs, lhs.c3 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator % (sbyte2x4 lhs, sbyte rhs) => new sbyte2x4 (lhs.c0 % rhs, lhs.c1 % rhs, lhs.c2 % rhs, lhs.c3 % rhs);
+        public static sbyte2x4 operator % (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator & (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1, lhs.c2 & rhs.c2, lhs.c3 & rhs.c3);
+        public static sbyte2x4 operator * (sbyte2x4 left, sbyte right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator | (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1, lhs.c2 | rhs.c2, lhs.c3 | rhs.c3);
+        public static sbyte2x4 operator * (sbyte left, sbyte2x4 right) => new sbyte2x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x4 operator ^ (sbyte2x4 lhs, sbyte2x4 rhs) => new sbyte2x4 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1, lhs.c2 ^ rhs.c2, lhs.c3 ^ rhs.c3);
+        public static sbyte2x4 operator / (sbyte2x4 left, sbyte right) => new sbyte2x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2x4 operator % (sbyte2x4 left, sbyte right) => new sbyte2x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2x4 operator & (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 & right.c0, left.c1 & right.c1, left.c2 & right.c2, left.c3 & right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2x4 operator | (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 | right.c0, left.c1 | right.c1, left.c2 | right.c2, left.c3 | right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2x4 operator ^ (sbyte2x4 left, sbyte2x4 right) => new sbyte2x4 (left.c0 ^ right.c0, left.c1 ^ right.c1, left.c2 ^ right.c2, left.c3 ^ right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -180,23 +180,23 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator == (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1, lhs.c2 == rhs.c2, lhs.c3 == rhs.c3);
+        public static bool2x4 operator == (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 == right.c0, left.c1 == right.c1, left.c2 == right.c2, left.c3 == right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator < (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1, lhs.c2 < rhs.c2, lhs.c3 < rhs.c3);
+        public static bool2x4 operator < (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 < right.c0, left.c1 < right.c1, left.c2 < right.c2, left.c3 < right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator > (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1, lhs.c2 > rhs.c2, lhs.c3 > rhs.c3);
+        public static bool2x4 operator > (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 > right.c0, left.c1 > right.c1, left.c2 > right.c2, left.c3 > right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator != (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1, lhs.c2 != rhs.c2, lhs.c3 != rhs.c3);
+        public static bool2x4 operator != (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 != right.c0, left.c1 != right.c1, left.c2 != right.c2, left.c3 != right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator <= (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1, lhs.c2 <= rhs.c2, lhs.c3 <= rhs.c3);
+        public static bool2x4 operator <= (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 <= right.c0, left.c1 <= right.c1, left.c2 <= right.c2, left.c3 <= right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x4 operator >= (sbyte2x4 lhs, sbyte2x4 rhs) => new bool2x4 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1, lhs.c2 >= rhs.c2, lhs.c3 >= rhs.c3);
+        public static bool2x4 operator >= (sbyte2x4 left, sbyte2x4 right) => new bool2x4 (left.c0 >= right.c0, left.c1 >= right.c1, left.c2 >= right.c2, left.c3 >= right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

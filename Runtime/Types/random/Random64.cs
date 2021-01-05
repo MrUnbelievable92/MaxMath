@@ -15,11 +15,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Random64(ulong seed = 0xB799_8C11_F332_F914ul)
         {
-Assert.AreNotEqual(seed, 0ul);
-
             State = seed;
 
             NextState();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random8(Random64 input)
+        {
+            return new Random8 { State = (byte)input.NextULong(1, byte.MaxValue + 1) };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random16(Random64 input)
+        {
+            return new Random16 { State = (ushort)input.NextULong(1, ushort.MaxValue + 1) };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random32(Random64 input)
+        {
+            return new Random32 { State = (uint)input.NextULong(1, (ulong)uint.MaxValue + 1) };
         }
 
 
@@ -39,11 +56,55 @@ Assert.AreNotEqual(State, 0ul);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool NextBool()
+        {
+            uint result = (uint)NextState() & 0x0101_0101u;
+
+            return *(bool*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool2 NextBool2()
+        {
+            uint result = (uint)NextState() & 0x0101_0101u;
+
+            return *(bool2*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool3 NextBool3()
+        {
+            uint result = (uint)NextState() & 0x0101_0101u;
+
+            return *(bool3*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool4 NextBool4()
+        {
+            uint result = (uint)NextState() & 0x0101_0101u;
+
+            return *(bool4*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
             ulong result = NextState() & 0x0101_0101_0101_0101ul;
 
             return *(bool8*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool16 NextBool16()
+        {
+            return X86.Sse2.and_si128(new v128(0x0101_0101_0101_0101ul), new v128(NextState(), NextState()));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32 NextBool32()
+        {
+            return X86.Avx2.mm256_and_si256(new v256(0x0101_0101_0101_0101ul), new v256(NextState(), NextState(), NextState(), NextState()));
         }
 
 
@@ -173,6 +234,7 @@ Assert.IsNotSmaller(max.w, min.w);
             ulong2 result = default(ulong2);
 
             Common.umul128(NextState(), max.x, out result.x);
+            Common.umul128(NextState(), max.y, out result.y);
 
             return result;
         }

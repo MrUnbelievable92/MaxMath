@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -16,19 +17,19 @@ namespace MaxMath
         {
             x = Avx.mm256_dp_ps(x, y, 255);
 
-            return Sse.add_ps(Avx.mm256_castps256_ps128(x), Avx.mm256_extractf128_ps(x, 1)).Float0;
+            return Sse.add_ss(Avx.mm256_castps256_ps128(x), Avx.mm256_extractf128_ps(x, 1)).Float0;
         }
 
 
         /// <summary>       Returns the dot product of two byte2 vectors.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul * 255ul * 255ul)]
         public static uint dot(byte2 a, byte2 b)
         {
             return dot((ushort2)a, (ushort2)b);
         }
 
         /// <summary>       Returns the dot product of two byte3 vectors.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul * 255ul * 255ul * 255ul)]
         public static uint dot(byte3 a, byte3 b)
         {
             return dot((ushort3)a, (ushort3)b);
@@ -64,14 +65,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the dot product of two sbyte2 vectors.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(2 * -128 * 127, 2 * 127 * 127)]
         public static int dot(sbyte2 a, sbyte2 b)
         {
             return dot((short2)a, (short2)b);
         }
 
         /// <summary>       Returns the dot product of two sbyte3 vectors.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-3 * 128 * 128 * 128, 3 * 128 * 128 * 127)]
         public static int dot(sbyte3 a, sbyte3 b)
         {
             return dot((short3)a, (short3)b);
@@ -107,7 +108,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the dot product of two short2 vectors.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(2 * -32768 * 32767, 2 * 32767 * 32767)]
         public static int dot(short2 a, short2 b)
         {
             return Sse2.madd_epi16(a, b).SInt0;

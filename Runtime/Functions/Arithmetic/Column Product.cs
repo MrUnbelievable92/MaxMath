@@ -72,21 +72,21 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a byte2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul)]
         public static uint cprod(byte2 x)
         {
             return (uint)x.x * (uint)x.y;
         }
 
         /// <summary>       Returns the horizontal product of components of a byte3 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul * 255ul)]
         public static uint cprod(byte3 x)
         {
             return ((uint)x.x * (uint)x.y) * (uint)x.z;
         }
 
         /// <summary>       Returns the horizontal product of components of a byte4 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul * 255ul * 255ul)]
         public static uint cprod(byte4 x)
         {
             uint4 cast = x;
@@ -168,7 +168,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a short2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-32768L * 32767L,    32767L * 32767L)]
         public static int cprod(short2 x)
         {
             return x.x * x.y;
@@ -220,7 +220,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a ushort2 vector.        </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul,    65535ul * 65535ul)]
         public static uint cprod(ushort2 x)
         {
             return (uint)x.x * (uint)x.y;

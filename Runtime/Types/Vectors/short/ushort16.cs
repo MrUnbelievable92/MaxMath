@@ -217,43 +217,43 @@ Assert.IsWithinArrayBounds(index, 16);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator + (ushort16 lhs, ushort16 rhs) => Avx2.mm256_add_epi16(lhs, rhs);
+        public static ushort16 operator + (ushort16 left, ushort16 right) => Avx2.mm256_add_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator - (ushort16 lhs, ushort16 rhs) => Avx2.mm256_sub_epi16(lhs, rhs);
+        public static ushort16 operator - (ushort16 left, ushort16 right) => Avx2.mm256_sub_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator * (ushort16 lhs, ushort16 rhs) => Avx2.mm256_mullo_epi16(lhs, rhs);
+        public static ushort16 operator * (ushort16 left, ushort16 right) => Avx2.mm256_mullo_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator / (ushort16 lhs, ushort16 rhs) => Operator.vdiv_ushort(lhs, rhs);
+        public static ushort16 operator / (ushort16 left, ushort16 right) => Operator.vdiv_ushort(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator % (ushort16 lhs, ushort16 rhs) => Operator.vrem_ushort(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator * (ushort lhs, ushort16 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator * (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 * rhs), (ushort)(lhs.x1 * rhs), (ushort)(lhs.x2 * rhs), (ushort)(lhs.x3 * rhs), (ushort)(lhs.x4 * rhs), (ushort)(lhs.x5 * rhs), (ushort)(lhs.x6 * rhs), (ushort)(lhs.x7 * rhs), (ushort)(lhs.x8 * rhs), (ushort)(lhs.x9 * rhs), (ushort)(lhs.x10 * rhs), (ushort)(lhs.x11 * rhs), (ushort)(lhs.x12 * rhs), (ushort)(lhs.x13 * rhs), (ushort)(lhs.x14 * rhs), (ushort)(lhs.x15 * rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator / (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 / rhs), (ushort)(lhs.x1 / rhs), (ushort)(lhs.x2 / rhs), (ushort)(lhs.x3 / rhs), (ushort)(lhs.x4 / rhs), (ushort)(lhs.x5 / rhs), (ushort)(lhs.x6 / rhs), (ushort)(lhs.x7 / rhs), (ushort)(lhs.x8 / rhs), (ushort)(lhs.x9 / rhs), (ushort)(lhs.x10 / rhs), (ushort)(lhs.x11 / rhs), (ushort)(lhs.x12 / rhs), (ushort)(lhs.x13 / rhs), (ushort)(lhs.x14 / rhs), (ushort)(lhs.x15 / rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator % (ushort16 lhs, ushort rhs) => new ushort16((ushort)(lhs.x0 % rhs), (ushort)(lhs.x1 % rhs), (ushort)(lhs.x2 % rhs), (ushort)(lhs.x3 % rhs), (ushort)(lhs.x4 % rhs), (ushort)(lhs.x5 % rhs), (ushort)(lhs.x6 % rhs), (ushort)(lhs.x7 % rhs), (ushort)(lhs.x8 % rhs), (ushort)(lhs.x9 % rhs), (ushort)(lhs.x10 % rhs), (ushort)(lhs.x11 % rhs), (ushort)(lhs.x12 % rhs), (ushort)(lhs.x13 % rhs), (ushort)(lhs.x14 % rhs), (ushort)(lhs.x15 % rhs));
-
+        public static ushort16 operator % (ushort16 left, ushort16 right) => Operator.vrem_ushort(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator & (ushort16 lhs, ushort16 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static ushort16 operator * (ushort left, ushort16 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator | (ushort16 lhs, ushort16 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static ushort16 operator * (ushort16 left, ushort right) => new ushort16((ushort)(left.x0 * right), (ushort)(left.x1 * right), (ushort)(left.x2 * right), (ushort)(left.x3 * right), (ushort)(left.x4 * right), (ushort)(left.x5 * right), (ushort)(left.x6 * right), (ushort)(left.x7 * right), (ushort)(left.x8 * right), (ushort)(left.x9 * right), (ushort)(left.x10 * right), (ushort)(left.x11 * right), (ushort)(left.x12 * right), (ushort)(left.x13 * right), (ushort)(left.x14 * right), (ushort)(left.x15 * right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 operator ^ (ushort16 lhs, ushort16 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static ushort16 operator / (ushort16 left, ushort right) => new ushort16((ushort)(left.x0 / right), (ushort)(left.x1 / right), (ushort)(left.x2 / right), (ushort)(left.x3 / right), (ushort)(left.x4 / right), (ushort)(left.x5 / right), (ushort)(left.x6 / right), (ushort)(left.x7 / right), (ushort)(left.x8 / right), (ushort)(left.x9 / right), (ushort)(left.x10 / right), (ushort)(left.x11 / right), (ushort)(left.x12 / right), (ushort)(left.x13 / right), (ushort)(left.x14 / right), (ushort)(left.x15 / right));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator % (ushort16 left, ushort right) => new ushort16((ushort)(left.x0 % right), (ushort)(left.x1 % right), (ushort)(left.x2 % right), (ushort)(left.x3 % right), (ushort)(left.x4 % right), (ushort)(left.x5 % right), (ushort)(left.x6 % right), (ushort)(left.x7 % right), (ushort)(left.x8 % right), (ushort)(left.x9 % right), (ushort)(left.x10 % right), (ushort)(left.x11 % right), (ushort)(left.x12 % right), (ushort)(left.x13 % right), (ushort)(left.x14 % right), (ushort)(left.x15 % right));
+
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator & (ushort16 left, ushort16 right) => Avx2.mm256_and_si256(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator | (ushort16 left, ushort16 right) => Avx2.mm256_or_si256(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 operator ^ (ushort16 left, ushort16 right) => Avx2.mm256_xor_si256(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -274,23 +274,23 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (ushort16 lhs, ushort16 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi16(lhs, rhs));
+        public static bool16 operator == (ushort16 left, ushort16 right) => TestIsTrue(Avx2.mm256_cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (ushort16 lhs, ushort16 rhs) => TestIsTrue(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool16 operator < (ushort16 left, ushort16 right) => TestIsTrue(Operator.greater_mask_ushort(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (ushort16 lhs, ushort16 rhs) => TestIsTrue(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool16 operator > (ushort16 left, ushort16 right) => TestIsTrue(Operator.greater_mask_ushort(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (ushort16 lhs, ushort16 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi16(lhs, rhs));
+        public static bool16 operator != (ushort16 left, ushort16 right) => TestIsFalse(Avx2.mm256_cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (ushort16 lhs, ushort16 rhs) => TestIsFalse(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool16 operator <= (ushort16 left, ushort16 right) => TestIsFalse(Operator.greater_mask_ushort(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (ushort16 lhs, ushort16 rhs) => TestIsFalse(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool16 operator >= (ushort16 left, ushort16 right) => TestIsFalse(Operator.greater_mask_ushort(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

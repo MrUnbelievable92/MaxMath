@@ -120,60 +120,60 @@ namespace MaxMath
         }
 
 
-        public sbyte8 v8_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
-        public sbyte8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(2, 3, 4, 5, 6, 7, 8, 9,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
-        public sbyte8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
-        public sbyte8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
-        public sbyte8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
+        public sbyte8 v8_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                  set => this = Sse4_1.insert_epi64(this, *(long*)&value, 0); }
+        public sbyte8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2); set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 2 * sizeof(byte)), 0b0001_1110); }
+        public sbyte8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0)); }
+        public sbyte8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4); set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 4 * sizeof(byte)), 0b0011_1100); }
+        public sbyte8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0)); }
+        public sbyte8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 6); set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 6 * sizeof(byte)), 0b0111_1000); }
+        public sbyte8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 7); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 0)); }
+        public sbyte8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 8); set => this = Sse4_1.insert_epi64(this, *(long*)&value, 1); }
                
-        public sbyte4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
-        public sbyte4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
-        public sbyte4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
-        public sbyte4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
-        public sbyte4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-               
-        public sbyte3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
-        public sbyte3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
-        public sbyte3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
-        public sbyte3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(6, 7, 8, 9, 10, 11, 12, 13,   0, 0, 0, 0, 0, 0, 0, 0)); }
-        public sbyte3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
-        public sbyte3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13L | (14L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
-               
-        public sbyte2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public sbyte2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48) | (8L << 56),    0L)); }
-        public sbyte2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public sbyte2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3L | (4L << 8) | (5L << 16) | (6L << 24) | (7L << 32) | (8L << 40) | (9L << 48) | (10L << 56),    0L)); }
-        public sbyte2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5L | (6L << 8) | (7L << 16) | (8L << 24) | (9L << 32) | (10L << 40) | (11L << 48) | (12L << 56),    0L)); }
-        public sbyte2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(7L | (8L << 8) | (9L << 16) | (10L << 24) | (11L << 32) | (12L << 40) | (13L << 48) | (14L << 56),    0L)); }
-        public sbyte2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public sbyte2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(9L | (10L << 8) | (11L << 16) | (12L << 24) | (13L << 32) | (14L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(10L | (11L << 8) | (12L << 16) | (13L << 24) | (14L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(11L | (12L << 8) | (13L << 16) | (14L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); } 
-        public sbyte2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shuffle_epi32(this, Sse.SHUFFLE(0, 0, 0, 3)); }
-        public sbyte2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(13L | (14L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
-        public sbyte2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(14L | (15L << 8) | (15L << 16) | (15L << 24) | (15L << 32) | (15L << 40) | (15L << 48) | (15L << 56),    0L)); }
+        public sbyte4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                   set => this = Sse4_1.insert_epi32(this, *(int*)&value, 0); }
+        public sbyte4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1  * sizeof(byte)), new v128(0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2);  set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 2  * sizeof(byte)), 0b0000_0110); }
+        public sbyte4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3  * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4);  set => this = Sse4_1.insert_epi32(this, *(int*)&value, 1); }
+        public sbyte4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 6);  set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 6  * sizeof(byte)), 0b0001_1000); }
+        public sbyte4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 7);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 7  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0)); }
+        public sbyte4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 8);  set => this = Sse4_1.insert_epi32(this, *(int*)&value, 2); }
+        public sbyte4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 9);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 9  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0)); }
+        public sbyte4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 10); set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 10 * sizeof(byte)), 0b0110_0000); }
+        public sbyte4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 11); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0)); }
+        public sbyte4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 12); set => this = Sse4_1.insert_epi32(this, *(int*)&value, 3); }
+                                                                                
+        public sbyte3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                   set => this = Sse4_1.blendv_epi8(this, value, new v128(255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1  * sizeof(byte)), new v128(0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 2  * sizeof(byte)), new v128(0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3  * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 4  * sizeof(byte)), new v128(0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 6);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 6  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 7);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 7  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 8);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 8  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0)); }
+        public sbyte3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 9);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 9  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0)); }
+        public sbyte3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 10); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0)); }
+        public sbyte3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 11); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0)); }
+        public sbyte3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 12); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0)); }
+        public sbyte3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 13); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)); }
+                                                                              
+        public sbyte2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                   set => this = Sse2.insert_epi16(this, *(short*)&value, 0); }
+        public sbyte2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1  * sizeof(byte)), new v128(0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2);  set => this = Sse2.insert_epi16(this, *(short*)&value, 1); }
+        public sbyte2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3  * sizeof(byte)), new v128(0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4);  set => this = Sse2.insert_epi16(this, *(short*)&value, 2); }
+        public sbyte2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 6);  set => this = Sse2.insert_epi16(this, *(short*)&value, 3); }
+        public sbyte2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 7);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 7  * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 8);  set => this = Sse2.insert_epi16(this, *(short*)&value, 4); }
+        public sbyte2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 9);  set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 9   * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0)); }
+        public sbyte2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 10); set => this = Sse2.insert_epi16(this, *(short*)&value, 5); }
+        public sbyte2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 11); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0)); }
+        public sbyte2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 12); set => this = Sse2.insert_epi16(this, *(short*)&value, 6); }
+        public sbyte2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 13); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0)); }
+        public sbyte2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 14); set => this = Sse2.insert_epi16(this, *(short*)&value, 7); }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
@@ -230,42 +230,29 @@ Assert.IsWithinArrayBounds(index, 16);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator + (sbyte16 lhs, sbyte16 rhs) => Sse2.add_epi8(lhs, rhs);
+        public static sbyte16 operator + (sbyte16 left, sbyte16 right) => Sse2.add_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator - (sbyte16 lhs, sbyte16 rhs) => Sse2.sub_epi8(lhs, rhs);
+        public static sbyte16 operator - (sbyte16 left, sbyte16 right) => Sse2.sub_epi8(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator * (sbyte16 lhs, sbyte16 rhs) => (sbyte16)((short16)lhs * (short16)rhs);
+        public static sbyte16 operator * (sbyte16 left, sbyte16 right) => (sbyte16)((short16)left * (short16)right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator / (sbyte16 lhs, sbyte16 rhs) => Operator.vdiv_sbyte(lhs, rhs);
+        public static sbyte16 operator / (sbyte16 left, sbyte16 right) => Operator.vdiv_sbyte(left, right);
                                                                        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]             
-        public static sbyte16 operator % (sbyte16 lhs, sbyte16 rhs) => Operator.vrem_sbyte(lhs, rhs);
+        public static sbyte16 operator % (sbyte16 left, sbyte16 right) => Operator.vrem_sbyte(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator * (sbyte lhs, sbyte16 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator * (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 * rhs), (sbyte)(lhs.x1 * rhs), (sbyte)(lhs.x2 * rhs), (sbyte)(lhs.x3 * rhs), (sbyte)(lhs.x4 * rhs), (sbyte)(lhs.x5 * rhs), (sbyte)(lhs.x6 * rhs), (sbyte)(lhs.x7 * rhs), (sbyte)(lhs.x8 * rhs), (sbyte)(lhs.x9 * rhs), (sbyte)(lhs.x10 * rhs), (sbyte)(lhs.x11 * rhs), (sbyte)(lhs.x12 * rhs), (sbyte)(lhs.x13 * rhs), (sbyte)(lhs.x14 * rhs), (sbyte)(lhs.x15 * rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator / (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 / rhs), (sbyte)(lhs.x1 / rhs), (sbyte)(lhs.x2 / rhs), (sbyte)(lhs.x3 / rhs), (sbyte)(lhs.x4 / rhs), (sbyte)(lhs.x5 / rhs), (sbyte)(lhs.x6 / rhs), (sbyte)(lhs.x7 / rhs), (sbyte)(lhs.x8 / rhs), (sbyte)(lhs.x9 / rhs), (sbyte)(lhs.x10 / rhs), (sbyte)(lhs.x11 / rhs), (sbyte)(lhs.x12 / rhs), (sbyte)(lhs.x13 / rhs), (sbyte)(lhs.x14 / rhs), (sbyte)(lhs.x15 / rhs));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator % (sbyte16 lhs, sbyte rhs) => new sbyte16((sbyte)(lhs.x0 % rhs), (sbyte)(lhs.x1 % rhs), (sbyte)(lhs.x2 % rhs), (sbyte)(lhs.x3 % rhs), (sbyte)(lhs.x4 % rhs), (sbyte)(lhs.x5 % rhs), (sbyte)(lhs.x6 % rhs), (sbyte)(lhs.x7 % rhs), (sbyte)(lhs.x8 % rhs), (sbyte)(lhs.x9 % rhs), (sbyte)(lhs.x10 % rhs), (sbyte)(lhs.x11 % rhs), (sbyte)(lhs.x12 % rhs), (sbyte)(lhs.x13 % rhs), (sbyte)(lhs.x14 % rhs), (sbyte)(lhs.x15 % rhs));
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator & (sbyte16 lhs, sbyte16 rhs) => Sse2.and_si128(lhs, rhs);
+        public static sbyte16 operator & (sbyte16 left, sbyte16 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator | (sbyte16 lhs, sbyte16 rhs) => Sse2.or_si128(lhs, rhs);
+        public static sbyte16 operator | (sbyte16 left, sbyte16 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte16 operator ^ (sbyte16 lhs, sbyte16 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static sbyte16 operator ^ (sbyte16 left, sbyte16 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -289,23 +276,23 @@ Assert.IsWithinArrayBounds(index, 16);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (sbyte16 lhs, sbyte16 rhs) => TestIsTrue(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool16 operator == (sbyte16 left, sbyte16 right) => TestIsTrue(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (sbyte16 lhs, sbyte16 rhs) => TestIsTrue(Sse2.cmpgt_epi8(rhs, lhs));
+        public static bool16 operator < (sbyte16 left, sbyte16 right) => TestIsTrue(Sse2.cmpgt_epi8(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (sbyte16 lhs, sbyte16 rhs) => TestIsTrue(Sse2.cmpgt_epi8(lhs, rhs));
+        public static bool16 operator > (sbyte16 left, sbyte16 right) => TestIsTrue(Sse2.cmpgt_epi8(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (sbyte16 lhs, sbyte16 rhs) => TestIsFalse(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool16 operator != (sbyte16 left, sbyte16 right) => TestIsFalse(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (sbyte16 lhs, sbyte16 rhs) => TestIsFalse(Sse2.cmpgt_epi8(lhs, rhs));
+        public static bool16 operator <= (sbyte16 left, sbyte16 right) => TestIsFalse(Sse2.cmpgt_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (sbyte16 lhs, sbyte16 rhs) => TestIsFalse(Sse2.cmpgt_epi8(rhs, lhs));
+        public static bool16 operator >= (sbyte16 left, sbyte16 right) => TestIsFalse(Sse2.cmpgt_epi8(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

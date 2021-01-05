@@ -166,7 +166,7 @@ namespace MaxMath
         public short2 xz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyy, 0b0101); }
         public short2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yxyx, 0b0011); }
         public short2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1)); }
-        public short2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, sizeof(short)), 0b0110); }
+        public short2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);                         [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, sizeof(short)), 0b0110); }
         public short2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b0101); }
         public short2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b0110); }
         public short2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2)); }
@@ -257,42 +257,42 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator + (short3 lhs, short3 rhs) => Sse2.add_epi16(lhs, rhs);
+        public static short3 operator + (short3 left, short3 right) => Sse2.add_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator - (short3 lhs, short3 rhs) => Sse2.sub_epi16(lhs, rhs);
+        public static short3 operator - (short3 left, short3 right) => Sse2.sub_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator * (short3 lhs, short3 rhs) => Sse2.mullo_epi16(lhs, rhs);
+        public static short3 operator * (short3 left, short3 right) => Sse2.mullo_epi16(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator / (short3 lhs, short3 rhs) => Operator.vdiv_short(lhs, rhs);
+        public static short3 operator / (short3 left, short3 right) => Operator.vdiv_short(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator % (short3 lhs, short3 rhs) => Operator.vrem_short(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator * (short lhs, short3 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator * (short3 lhs, short rhs) => (v128)((short8)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator / (short3 lhs, short rhs) => (v128)((short8)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator % (short3 lhs, short rhs) => (v128)((short8)((v128)lhs) % rhs);
+        public static short3 operator % (short3 left, short3 right) => Operator.vrem_short(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator & (short3 lhs, short3 rhs) => Sse2.and_si128(lhs, rhs);
+        public static short3 operator * (short left, short3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 operator * (short3 left, short right) => (v128)((short8)((v128)left) * right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 operator / (short3 left, short right) => (v128)((short8)((v128)left) / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 operator % (short3 left, short right) => (v128)((short8)((v128)left) % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 operator & (short3 left, short3 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator | (short3 lhs, short3 rhs) => Sse2.or_si128(lhs, rhs);
+        public static short3 operator | (short3 left, short3 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3 operator ^ (short3 lhs, short3 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static short3 operator ^ (short3 left, short3 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -316,23 +316,23 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator == (short3 lhs, short3 rhs) => TestIsTrue(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool3 operator == (short3 left, short3 right) => TestIsTrue(Sse2.cmpeq_epi16(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator < (short3 lhs, short3 rhs) => TestIsTrue(Sse2.cmpgt_epi16(rhs, lhs));
+        public static bool3 operator < (short3 left, short3 right) => TestIsTrue(Sse2.cmpgt_epi16(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator > (short3 lhs, short3 rhs) => TestIsTrue(Sse2.cmpgt_epi16(lhs, rhs));
+        public static bool3 operator > (short3 left, short3 right) => TestIsTrue(Sse2.cmpgt_epi16(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator != (short3 lhs, short3 rhs) => TestIsFalse(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool3 operator != (short3 left, short3 right) => TestIsFalse(Sse2.cmpeq_epi16(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator <= (short3 lhs, short3 rhs) => TestIsFalse(Sse2.cmpgt_epi16(lhs, rhs));
+        public static bool3 operator <= (short3 left, short3 right) => TestIsFalse(Sse2.cmpgt_epi16(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator >= (short3 lhs, short3 rhs) => TestIsFalse(Sse2.cmpgt_epi16(rhs, lhs));
+        public static bool3 operator >= (short3 left, short3 right) => TestIsFalse(Sse2.cmpgt_epi16(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

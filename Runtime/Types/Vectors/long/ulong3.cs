@@ -241,42 +241,36 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator + (ulong3 lhs, ulong3 rhs) => Avx2.mm256_add_epi64(lhs, rhs);
+        public static ulong3 operator + (ulong3 left, ulong3 right) => Avx2.mm256_add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator - (ulong3 lhs, ulong3 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
+        public static ulong3 operator - (ulong3 left, ulong3 right) => Avx2.mm256_sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator * (ulong3 lhs, ulong3 rhs) => Operator.mul_long(lhs, rhs);
+        public static ulong3 operator * (ulong3 left, ulong3 right) => Operator.mul_long(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator / (ulong3 lhs, ulong3 rhs) => new ulong3(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z);
+        public static ulong3 operator / (ulong3 left, ulong3 right) => new ulong3(left.x / right.x,    left.y / right.y,    left.z / right.z);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator % (ulong3 lhs, ulong3 rhs) => new ulong3(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z);
+        public static ulong3 operator % (ulong3 left, ulong3 right) => new ulong3(left.x % right.x,    left.y % right.y,    left.z % right.z);
         
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator * (ulong lhs, ulong3 rhs) => rhs * lhs;
+        public static ulong3 operator / (ulong3 left, ulong right) => (v256)((ulong4)((v256)left) / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator * (ulong3 lhs, ulong rhs) => (v256)((ulong4)((v256)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator / (ulong3 lhs, ulong rhs) => (v256)((ulong4)((v256)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator % (ulong3 lhs, ulong rhs) => (v256)((ulong4)((v256)lhs) % rhs);
+        public static ulong3 operator % (ulong3 left, ulong right) => (v256)((ulong4)((v256)left) % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator & (ulong3 lhs, ulong3 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static ulong3 operator & (ulong3 left, ulong3 right) => Avx2.mm256_and_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator | (ulong3 lhs, ulong3 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static ulong3 operator | (ulong3 left, ulong3 right) => Avx2.mm256_or_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 operator ^ (ulong3 lhs, ulong3 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static ulong3 operator ^ (ulong3 left, ulong3 right) => Avx2.mm256_xor_si256(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -297,23 +291,23 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator == (ulong3 lhs, ulong3 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool3 operator == (ulong3 left, ulong3 right) => TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator < (ulong3 lhs, ulong3 rhs) => TestIsTrue(Operator.greater_mask_ulong(rhs, lhs));
+        public static bool3 operator < (ulong3 left, ulong3 right) => TestIsTrue(Operator.greater_mask_ulong(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
-        public static bool3 operator > (ulong3 lhs, ulong3 rhs) => TestIsTrue(Operator.greater_mask_ulong(lhs, rhs));
+        public static bool3 operator > (ulong3 left, ulong3 right) => TestIsTrue(Operator.greater_mask_ulong(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator != (ulong3 lhs, ulong3 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool3 operator != (ulong3 left, ulong3 right) => TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]        
-        public static bool3 operator <= (ulong3 lhs, ulong3 rhs) => TestIsFalse(Operator.greater_mask_ulong(lhs, rhs));
+        public static bool3 operator <= (ulong3 left, ulong3 right) => TestIsFalse(Operator.greater_mask_ulong(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]      
-        public static bool3 operator >= (ulong3 lhs, ulong3 rhs) => TestIsFalse(Operator.greater_mask_ulong(rhs, lhs));
+        public static bool3 operator >= (ulong3 left, ulong3 right) => TestIsFalse(Operator.greater_mask_ulong(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool3 TestIsTrue(v256 input)

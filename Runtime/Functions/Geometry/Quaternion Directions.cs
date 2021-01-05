@@ -6,7 +6,7 @@ namespace MaxMath
     // A little more optimized and accurate (3 fmad ops) than the standard math.mul(q, new float3({-1, 0, 1}, {-1, 0, 1}, {-1, 0, 1}) calculation
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns a float3 vector representing the world space left direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space left direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 left(this quaternion rotation)
         {
@@ -15,7 +15,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(-1f, 0f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a float3 vector representing the world space right direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space right direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 right(this quaternion rotation)
         {
@@ -24,7 +24,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(1f, 0f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a float3 vector representing the world space up direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space up direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 up(this quaternion rotation)
         {
@@ -33,7 +33,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(0f, 1f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a float3 vector representing the world space down direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space down direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 down(this quaternion rotation)
         {
@@ -42,7 +42,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(0f, -1f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a float3 vector representing the world space forward direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space forward direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 forward(this quaternion rotation)
         {
@@ -51,7 +51,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + math.mad(temp, rotation.value.wwww, new float4(0f, 0f, 1f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a float3 vector representing the world space backward direction relative to a quaternion roation.     </summary>
+        /// <summary>       Returns a float3 vector representing the world space backward direction relative to a world space quaternion roation.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 back(this quaternion rotation)
         {

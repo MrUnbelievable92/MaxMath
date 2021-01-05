@@ -105,42 +105,42 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator + (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1, lhs.c2 + rhs.c2);
+        public static short2x3 operator + (short2x3 left, short2x3 right) => new short2x3 (left.c0 + right.c0, left.c1 + right.c1, left.c2 + right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator - (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1, lhs.c2 - rhs.c2);
+        public static short2x3 operator - (short2x3 left, short2x3 right) => new short2x3 (left.c0 - right.c0, left.c1 - right.c1, left.c2 - right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator * (short2x3 lhs, short2x3 rhs) => new short2x3(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1, lhs.c2 * rhs.c2);
+        public static short2x3 operator * (short2x3 left, short2x3 right) => new short2x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator / (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1, lhs.c2 / rhs.c2);
+        public static short2x3 operator / (short2x3 left, short2x3 right) => new short2x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator % (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1, lhs.c2 % rhs.c2);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator * (short2x3 lhs, short rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator * (short lhs, short2x3 rhs) => new short2x3 (lhs * rhs.c0, lhs * rhs.c1, lhs * rhs.c2);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator / (short2x3 lhs, short rhs) => new short2x3 (lhs.c0 / rhs, lhs.c1 / rhs, lhs.c2 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator % (short2x3 lhs, short rhs) => new short2x3 (lhs.c0 % rhs, lhs.c1 % rhs, lhs.c2 % rhs);
+        public static short2x3 operator % (short2x3 left, short2x3 right) => new short2x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator & (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1, lhs.c2 & rhs.c2);
+        public static short2x3 operator * (short2x3 left, short right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator | (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1, lhs.c2 | rhs.c2);
+        public static short2x3 operator * (short left, short2x3 right) => new short2x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator ^ (short2x3 lhs, short2x3 rhs) => new short2x3 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1, lhs.c2 ^ rhs.c2);
+        public static short2x3 operator / (short2x3 left, short right) => new short2x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x3 operator % (short2x3 left, short right) => new short2x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x3 operator & (short2x3 left, short2x3 right) => new short2x3 (left.c0 & right.c0, left.c1 & right.c1, left.c2 & right.c2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x3 operator | (short2x3 left, short2x3 right) => new short2x3 (left.c0 | right.c0, left.c1 | right.c1, left.c2 | right.c2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x3 operator ^ (short2x3 left, short2x3 right) => new short2x3 (left.c0 ^ right.c0, left.c1 ^ right.c1, left.c2 ^ right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -164,23 +164,23 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator == (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1, lhs.c2 == rhs.c2);
+        public static bool2x3 operator == (short2x3 left, short2x3 right) => new bool2x3 (left.c0 == right.c0, left.c1 == right.c1, left.c2 == right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator < (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1, lhs.c2 < rhs.c2);
+        public static bool2x3 operator < (short2x3 left, short2x3 right) => new bool2x3 (left.c0 < right.c0, left.c1 < right.c1, left.c2 < right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator > (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1, lhs.c2 > rhs.c2);
+        public static bool2x3 operator > (short2x3 left, short2x3 right) => new bool2x3 (left.c0 > right.c0, left.c1 > right.c1, left.c2 > right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator != (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1, lhs.c2 != rhs.c2);
+        public static bool2x3 operator != (short2x3 left, short2x3 right) => new bool2x3 (left.c0 != right.c0, left.c1 != right.c1, left.c2 != right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator <= (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1, lhs.c2 <= rhs.c2);
+        public static bool2x3 operator <= (short2x3 left, short2x3 right) => new bool2x3 (left.c0 <= right.c0, left.c1 <= right.c1, left.c2 <= right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x3 operator >= (short2x3 lhs, short2x3 rhs) => new bool2x3 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1, lhs.c2 >= rhs.c2);
+        public static bool2x3 operator >= (short2x3 left, short2x3 right) => new bool2x3 (left.c0 >= right.c0, left.c1 >= right.c1, left.c2 >= right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

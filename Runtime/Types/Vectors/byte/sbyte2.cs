@@ -163,42 +163,29 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator + (sbyte2 lhs, sbyte2 rhs) => Sse2.add_epi8(lhs, rhs);
+        public static sbyte2 operator + (sbyte2 left, sbyte2 right) => Sse2.add_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator - (sbyte2 lhs, sbyte2 rhs) => Sse2.sub_epi8(lhs, rhs);
+        public static sbyte2 operator - (sbyte2 left, sbyte2 right) => Sse2.sub_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator * (sbyte2 lhs, sbyte2 rhs) => (sbyte2)((ushort2)lhs * (ushort2)rhs);
+        public static sbyte2 operator * (sbyte2 left, sbyte2 right) => (sbyte2)((ushort2)left * (ushort2)right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator / (sbyte2 lhs, sbyte2 rhs) => Operator.vdiv_sbyte(lhs, rhs);
+        public static sbyte2 operator / (sbyte2 left, sbyte2 right) => Operator.vdiv_sbyte(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator % (sbyte2 lhs, sbyte2 rhs) => Operator.vrem_sbyte(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator * (sbyte lhs, sbyte2 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator * (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator / (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator % (sbyte2 lhs, sbyte rhs) => (v128)((sbyte16)((v128)lhs) % rhs);
+        public static sbyte2 operator % (sbyte2 left, sbyte2 right) => Operator.vrem_sbyte(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator & (sbyte2 lhs, sbyte2 rhs) => Sse2.and_si128(lhs, rhs);
+        public static sbyte2 operator & (sbyte2 left, sbyte2 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator | (sbyte2 lhs, sbyte2 rhs) => Sse2.or_si128(lhs, rhs);
+        public static sbyte2 operator | (sbyte2 left, sbyte2 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2 operator ^ (sbyte2 lhs, sbyte2 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static sbyte2 operator ^ (sbyte2 left, sbyte2 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -222,23 +209,23 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator == (sbyte2 lhs, sbyte2 rhs) => TestIsTrue(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool2 operator == (sbyte2 left, sbyte2 right) => TestIsTrue(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (sbyte2 lhs, sbyte2 rhs) => TestIsTrue(Sse2.cmpgt_epi8(rhs, lhs));
+        public static bool2 operator < (sbyte2 left, sbyte2 right) => TestIsTrue(Sse2.cmpgt_epi8(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (sbyte2 lhs, sbyte2 rhs) => TestIsTrue(Sse2.cmpgt_epi8(lhs, rhs));
+        public static bool2 operator > (sbyte2 left, sbyte2 right) => TestIsTrue(Sse2.cmpgt_epi8(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator != (sbyte2 lhs, sbyte2 rhs) => TestIsFalse(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool2 operator != (sbyte2 left, sbyte2 right) => TestIsFalse(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (sbyte2 lhs, sbyte2 rhs) => TestIsFalse(Sse2.cmpgt_epi8(lhs, rhs));
+        public static bool2 operator <= (sbyte2 left, sbyte2 right) => TestIsFalse(Sse2.cmpgt_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (sbyte2 lhs, sbyte2 rhs) => TestIsFalse(Sse2.cmpgt_epi8(rhs, lhs));
+        public static bool2 operator >= (sbyte2 left, sbyte2 right) => TestIsFalse(Sse2.cmpgt_epi8(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

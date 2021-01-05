@@ -95,26 +95,26 @@ namespace MaxMath
         }
 
 
-        public float4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float4*)&t; } }
-        public float4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4)))); return *(float4*)&t; } }
-        public float4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 5)))); return *(float4*)&t; } }
-        public float4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6)))); return *(float4*)&t; } }
-        public float4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float4*)&t; } }
+        public float4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(this); return *(float4*)&t; }                                                                                           }//set => this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_1111); }
+        public float4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4)))); return *(float4*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 1, 2, 3, 0, 0, 0)), 0b0001_1110); }
+        public float4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 5)))); return *(float4*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 3, 0, 0)), 0b0011_1100); }
+        public float4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6)))); return *(float4*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 3, 0)), 0b0111_1000); }
+        public float4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float4*)&t; }                                                                                     }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 3)), 0b1111_0000); }
 
-        public float3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float3*)&t; } }
-        public float3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float3*)&t; } }
-        public float3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 0)))); return *(float3*)&t; } }
-        public float3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 0)))); return *(float3*)&t; } }
-        public float3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float3*)&t; } }
-        public float3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5, 6, 7, 0)))); return *(float3*)&t; } }
-
-        public float2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(this); return *(float2*)&t; } }
-        public float2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float2*)&t; } }
-        public float2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(float)); return *(float2*)&t; } }
-        public float2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3L | (4L << 32),   0L)))); return *(float2*)&t; } }
-        public float2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float2*)&t; } }
-        public float2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5L | (6L << 32), 0L)))); return *(float2*)&t; } }
-        public float2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(6L | (7L << 32), 0L)))); return *(float2*)&t; } }
+        public float3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(this); return *(float3*)&t; }                                                                                           }//set => this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_0111); }
+        public float3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float3*)&t; }                                                          }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 1, 2, 0, 0, 0, 0)), 0b0000_1110); }
+        public float3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(2, 3, 4, 0)))); return *(float3*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 0, 0, 0)), 0b0001_1100); }
+        public float3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 0)))); return *(float3*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 0, 0)), 0b0011_1000); }
+        public float3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float3*)&t; }                                                                                     }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 0)), 0b0111_0000); }
+        public float3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5, 6, 7, 0)))); return *(float3*)&t; }            }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 2)), 0b1110_0000); }
+ 
+        public float2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(this); return *(float2*)&t; }                                                                                           }//set => this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_0011); }
+        public float2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float)); return *(float2*)&t; }                                                          }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 1, 0, 0, 0, 0, 0)), 0b0000_0110); }
+        public float2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(float)); return *(float2*)&t; }                                                      }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 1, 0, 0, 0, 0)), 0b0000_1100); }
+        public float2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3L | (4L << 32),   0L)))); return *(float2*)&t; } }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 0, 0, 0)), 0b0001_1000); }
+        public float2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx2.mm256_extracti128_si256(this, 1); return *(float2*)&t; }                                                                                     }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 0, 0)), 0b0011_0000); }
+        public float2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5L | (6L << 32), 0L)))); return *(float2*)&t; }   }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 0)), 0b0110_0000); }
+        public float2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] /*readonly */get { v128 t = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(6L | (7L << 32), 0L)))); return *(float2*)&t; }   }//set => this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castps128_ps256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 0, 1)), 0b1100_0000); }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
@@ -154,19 +154,19 @@ Assert.IsWithinArrayBounds(index, 8);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator + (float8 lhs, float8 rhs) => Avx.mm256_add_ps(lhs, rhs);
+        public static float8 operator + (float8 left, float8 right) => Avx.mm256_add_ps(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator - (float8 lhs, float8 rhs) => Avx.mm256_sub_ps(lhs, rhs);
+        public static float8 operator - (float8 left, float8 right) => Avx.mm256_sub_ps(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator * (float8 lhs, float8 rhs) => Avx.mm256_mul_ps(lhs, rhs);
+        public static float8 operator * (float8 left, float8 right) => Avx.mm256_mul_ps(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator / (float8 lhs, float8 rhs) => Avx.mm256_div_ps(lhs, rhs);
+        public static float8 operator / (float8 left, float8 right) => Avx.mm256_div_ps(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 operator % (float8 lhs, float8 rhs) => new float8(lhs.v4_0 % rhs.v4_0, lhs.v4_4 % rhs.v4_4);
+        public static float8 operator % (float8 left, float8 right) => new float8(left.v4_0 % right.v4_0, left.v4_4 % right.v4_4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -180,23 +180,23 @@ Assert.IsWithinArrayBounds(index, 8);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.EQ_OQ));
+        public static bool8 operator == (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.EQ_OQ));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.LT_OS));
+        public static bool8 operator < (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LT_OS));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.GT_OS));
+        public static bool8 operator > (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GT_OS));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.NEQ_UQ));
+        public static bool8 operator != (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.NEQ_UQ));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.LE_OS));
+        public static bool8 operator <= (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LE_OS));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (float8 lhs, float8 rhs) => TestIsTrue(Avx.mm256_cmp_ps(lhs, rhs, (int)Avx.CMP.GE_OS));
+        public static bool8 operator >= (float8 left, float8 right) => TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GE_OS));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,15 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
+using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static byte ceillog2(byte x)
         {
             return (byte)(8 - lzcnt((byte)(x - 1)));
@@ -59,7 +57,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
         public static sbyte ceillog2(sbyte x)
         {
             return (sbyte)ceillog2((byte)x);
@@ -109,7 +107,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static ushort ceillog2(ushort x)
         {
             return (ushort)(16 - lzcnt((ushort)(x - 1)));
@@ -152,7 +150,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
         public static short ceillog2(short x)
         {
             return (short)ceillog2((ushort)x);
@@ -211,7 +209,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 64ul)]
         public static ulong ceillog2(ulong x)
         {
             return (ulong)(64 - math.lzcnt(x - 1));
@@ -240,7 +238,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of x. x must be greater than 0, otherwise the result is undefined.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0L, 64L)]
         public static long ceillog2(long x)
         {
             return (long)ceillog2((ulong)x);

@@ -241,42 +241,36 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator + (long3 lhs, long3 rhs) => Avx2.mm256_add_epi64(lhs, rhs);
+        public static long3 operator + (long3 left, long3 right) => Avx2.mm256_add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator - (long3 lhs, long3 rhs) => Avx2.mm256_sub_epi64(lhs, rhs);
+        public static long3 operator - (long3 left, long3 right) => Avx2.mm256_sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator * (long3 lhs, long3 rhs) => Operator.mul_long(lhs, rhs);
+        public static long3 operator * (long3 left, long3 right) => Operator.mul_long(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator / (long3 lhs, long3 rhs) => new long3(lhs.x / rhs.x,    lhs.y / rhs.y,    lhs.z / rhs.z);
+        public static long3 operator / (long3 left, long3 right) => new long3(left.x / right.x,    left.y / right.y,    left.z / right.z);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator % (long3 lhs, long3 rhs) => new long3(lhs.x % rhs.x,    lhs.y % rhs.y,    lhs.z % rhs.z);
+        public static long3 operator % (long3 left, long3 right) => new long3(left.x % right.x,    left.y % right.y,    left.z % right.z);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator * (long lhs, long3 rhs) => rhs * lhs;
+        public static long3 operator / (long3 left, long right) => (v256)((long4)((v256)left) / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator * (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator / (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator % (long3 lhs, long rhs) => (v256)((long4)((v256)lhs) % rhs);
+        public static long3 operator % (long3 left, long right) => (v256)((long4)((v256)left) % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator & (long3 lhs, long3 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static long3 operator & (long3 left, long3 right) => Avx2.mm256_and_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator | (long3 lhs, long3 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static long3 operator | (long3 left, long3 right) => Avx2.mm256_or_si256(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator ^ (long3 lhs, long3 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static long3 operator ^ (long3 left, long3 right) => Avx2.mm256_xor_si256(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -300,23 +294,23 @@ Assert.IsWithinArrayBounds(index, 3);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator == (long3 lhs, long3 rhs) => TestIsTrue(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool3 operator == (long3 left, long3 right) => TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator < (long3 lhs, long3 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi64(rhs, lhs));
+        public static bool3 operator < (long3 left, long3 right) => TestIsTrue(Avx2.mm256_cmpgt_epi64(right, left));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator > (long3 lhs, long3 rhs) => TestIsTrue(Avx2.mm256_cmpgt_epi64(lhs, rhs));
+        public static bool3 operator > (long3 left, long3 right) => TestIsTrue(Avx2.mm256_cmpgt_epi64(left, right));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator != (long3 lhs, long3 rhs) => TestIsFalse(Avx2.mm256_cmpeq_epi64(lhs, rhs));
+        public static bool3 operator != (long3 left, long3 right) => TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator <= (long3 lhs, long3 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi64(lhs, rhs));
+        public static bool3 operator <= (long3 left, long3 right) => TestIsFalse(Avx2.mm256_cmpgt_epi64(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator >= (long3 lhs, long3 rhs) => TestIsFalse(Avx2.mm256_cmpgt_epi64(rhs, lhs));
+        public static bool3 operator >= (long3 left, long3 right) => TestIsFalse(Avx2.mm256_cmpgt_epi64(right, left));
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

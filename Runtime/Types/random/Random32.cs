@@ -17,9 +17,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Random32(uint seed = 1851936439u)
         {
-Assert.AreNotEqual(seed, 0u);
-
             State = seed;
+
+            NextState();
         }
 
 
@@ -33,6 +33,25 @@ Assert.AreNotEqual(seed, 0u);
         public static implicit operator Unity.Mathematics.Random(Random32 input)
         {
             return new Unity.Mathematics.Random(input.State);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random64(Random32 input)
+        {
+            return new Random64(input.State);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random8(Random32 input)
+        {
+            return new Random8 { State = (byte)input.NextUInt(1, byte.MaxValue + 1) };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random16(Random32 input)
+        {
+            return new Random16 { State = (ushort)input.NextUInt(1, ushort.MaxValue + 1) };
         }
 
 
@@ -81,6 +100,36 @@ Assert.AreNotEqual(seed, 0u);
             uint result = NextState() & 0x0101_0101u;
 
             return *(bool4*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool8 NextBool8()
+        {
+            bool8 result = ((Random64)this).NextBool8();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool16 NextBool16()
+        {
+            bool16 result = ((Random64)this).NextBool16();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32 NextBool32()
+        {
+            bool32 result = ((Random64)this).NextBool32();
+
+            NextState();
+
+            return result;
         }
 
 

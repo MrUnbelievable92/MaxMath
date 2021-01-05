@@ -16,11 +16,29 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Random16(ushort seed = 0xF952)
         {
-Assert.AreNotEqual(seed, 0);
-
             State = seed;
 
             NextState();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random32(Random16 input)
+        {
+            return new Random32(input.State);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random64(Random16 input)
+        {
+            return new Random64(input.State);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Random8(Random16 input)
+        {
+            return new Random8 { State = (byte)input.NextUShort(1, byte.MaxValue + 1) };
         }
 
 
@@ -53,6 +71,56 @@ Assert.AreNotEqual(State, 0);
             uint result = NextState() & 0x0101u;
 
             return *(bool2*)&result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool3 NextBool3()
+        {
+            bool3 result = ((Random32)this).NextBool3();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool4 NextBool4()
+        {
+            bool4 result = ((Random32)this).NextBool4();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool8 NextBool8()
+        {
+            bool8 result = ((Random64)this).NextBool8();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool16 NextBool16()
+        {
+            bool16 result = ((Random64)this).NextBool16();
+
+            NextState();
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool32 NextBool32()
+        {
+            bool32 result = ((Random64)this).NextBool32();
+
+            NextState();
+
+            return result;
         }
 
 

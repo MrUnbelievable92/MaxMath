@@ -139,42 +139,36 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator + (ulong2 lhs, ulong2 rhs) => Sse2.add_epi64(lhs, rhs);
+        public static ulong2 operator + (ulong2 left, ulong2 right) => Sse2.add_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator - (ulong2 lhs, ulong2 rhs) => Sse2.sub_epi64(lhs, rhs);
+        public static ulong2 operator - (ulong2 left, ulong2 right) => Sse2.sub_epi64(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator * (ulong2 lhs, ulong2 rhs) => Operator.mul_long(lhs, rhs);
+        public static ulong2 operator * (ulong2 left, ulong2 right) => Operator.mul_long(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator / (ulong2 lhs, ulong2 rhs) => new ulong2(lhs.x / rhs.x,    lhs.y / rhs.y);
+        public static ulong2 operator / (ulong2 left, ulong2 right) => new ulong2(left.x / right.x,    left.y / right.y);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator % (ulong2 lhs, ulong2 rhs) => new ulong2(lhs.x % rhs.x,    lhs.y % rhs.y);
+        public static ulong2 operator % (ulong2 left, ulong2 right) => new ulong2(left.x % right.x,    left.y % right.y);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator * (ulong lhs, ulong2 rhs) => rhs * lhs;
+        public static ulong2 operator / (ulong2 left, ulong right) => new ulong2(left.x / right, left.y / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator * (ulong2 lhs, ulong rhs) => new ulong2(lhs.x * rhs, lhs.y * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator / (ulong2 lhs, ulong rhs) => new ulong2(lhs.x / rhs, lhs.y / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator % (ulong2 lhs, ulong rhs) => new ulong2(lhs.x % rhs, lhs.y % rhs);
+        public static ulong2 operator % (ulong2 left, ulong right) => new ulong2(left.x % right, left.y % right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator & (ulong2 lhs, ulong2 rhs) => Sse2.and_si128(lhs, rhs);
+        public static ulong2 operator & (ulong2 left, ulong2 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator | (ulong2 lhs, ulong2 rhs) => Sse2.or_si128(lhs, rhs);
+        public static ulong2 operator | (ulong2 left, ulong2 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 operator ^ (ulong2 lhs, ulong2 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static ulong2 operator ^ (ulong2 left, ulong2 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -195,23 +189,23 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator == (ulong2 lhs, ulong2 rhs) => TestIsTrue(Sse4_1.cmpeq_epi64(lhs, rhs));
+        public static bool2 operator == (ulong2 left, ulong2 right) => TestIsTrue(Sse4_1.cmpeq_epi64(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator < (ulong2 lhs, ulong2 rhs) => new bool2(lhs.x < rhs.x, lhs.y < rhs.y);
+        public static bool2 operator < (ulong2 left, ulong2 right) => new bool2(left.x < right.x, left.y < right.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator > (ulong2 lhs, ulong2 rhs) => new bool2(lhs.x > rhs.x, lhs.y > rhs.y);
+        public static bool2 operator > (ulong2 left, ulong2 right) => new bool2(left.x > right.x, left.y > right.y);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator != (ulong2 lhs, ulong2 rhs) => TestIsFalse(Sse4_1.cmpeq_epi64(lhs, rhs));
+        public static bool2 operator != (ulong2 left, ulong2 right) => TestIsFalse(Sse4_1.cmpeq_epi64(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator <= (ulong2 lhs, ulong2 rhs) => new bool2(lhs.x <= rhs.x, lhs.y <= rhs.y);
+        public static bool2 operator <= (ulong2 left, ulong2 right) => new bool2(left.x <= right.x, left.y <= right.y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 operator >= (ulong2 lhs, ulong2 rhs) => new bool2(lhs.x >= rhs.x, lhs.y >= rhs.y);
+        public static bool2 operator >= (ulong2 left, ulong2 right) => new bool2(left.x >= right.x, left.y >= right.y);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

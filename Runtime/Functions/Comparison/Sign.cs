@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -106,7 +107,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the sign of an int value. 1 for a positive int, 0 for zero and -1 for a negative int.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)]
         public static int sign(int x)
         {
             return (x >> 31) | (int)((uint)(-x) >> 31);
@@ -142,7 +143,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the sign of a long value. 1 for a positive long, 0 for zero and -1 for a negative long.     </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1L, 1L)]
         public static long sign(long x)
         {
             return (x >> 63) | (long)((ulong)(-x) >> 63);

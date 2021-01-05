@@ -358,7 +358,7 @@ namespace MaxMath
         public ushort3 yzx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.zxyy, 0b0111); }
         public ushort3 yzy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1)); }
         public ushort3 yzz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1)); }
-        public ushort3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyz, 0b1110); }       
+        public ushort3 yzw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);                         [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyz, 0b1110); }       
         public ushort3 ywx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.zxxy, 0b1011); }
         public ushort3 ywy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1)); }
         public ushort3 ywz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxzy, 0b1110); }
@@ -402,12 +402,12 @@ namespace MaxMath
         public ushort2 xw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyy, 0b1001); }
         public ushort2 yx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yx, 0b0011); }
         public ushort2 yy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1)); }
-        public ushort2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyy, 0b0110); }          
+        public ushort2 yz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1);                         [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyy, 0b0110); }          
         public ushort2 yw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xxyy, 0b1010); }
         public ushort2 zx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b0101); }
         public ushort2 zy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b0110); }
         public ushort2 zz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2)); }    
-        public ushort2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xyxy, 0b1100); }
+        public ushort2 zw { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2);                         [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.xyxy, 0b1100); }
         public ushort2 wx { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b1001); }
         public ushort2 wy { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yyxx, 0b1010); }
         public ushort2 wz { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3)); [MethodImpl(MethodImplOptions.AggressiveInlining)] set => this = Sse4_1.blend_epi16(this, value.yxyx, 0b1100); }
@@ -499,43 +499,43 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator + (ushort4 lhs, ushort4 rhs) => Sse2.add_epi16(lhs, rhs);
+        public static ushort4 operator + (ushort4 left, ushort4 right) => Sse2.add_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator - (ushort4 lhs, ushort4 rhs) => Sse2.sub_epi16(lhs, rhs);
+        public static ushort4 operator - (ushort4 left, ushort4 right) => Sse2.sub_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator * (ushort4 lhs, ushort4 rhs) => Sse2.mullo_epi16(lhs, rhs);
+        public static ushort4 operator * (ushort4 left, ushort4 right) => Sse2.mullo_epi16(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator / (ushort4 lhs, ushort4 rhs) => Operator.vdiv_ushort(lhs, rhs);
+        public static ushort4 operator / (ushort4 left, ushort4 right) => Operator.vdiv_ushort(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator % (ushort4 lhs, ushort4 rhs) => Operator.vrem_ushort(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator * (ushort lhs, ushort4 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator * (ushort4 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator / (ushort4 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator % (ushort4 lhs, ushort rhs) => (v128)((ushort8)((v128)lhs) % rhs);
-
+        public static ushort4 operator % (ushort4 left, ushort4 right) => Operator.vrem_ushort(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator & (ushort4 lhs, ushort4 rhs) => Sse2.and_si128(lhs, rhs);
+        public static ushort4 operator * (ushort left, ushort4 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator | (ushort4 lhs, ushort4 rhs) => Sse2.or_si128(lhs, rhs);
+        public static ushort4 operator * (ushort4 left, ushort right) => (v128)((ushort8)((v128)left) * right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 operator ^ (ushort4 lhs, ushort4 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static ushort4 operator / (ushort4 left, ushort right) => (v128)((ushort8)((v128)left) / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 operator % (ushort4 left, ushort right) => (v128)((ushort8)((v128)left) % right);
+
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 operator & (ushort4 left, ushort4 right) => Sse2.and_si128(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 operator | (ushort4 left, ushort4 right) => Sse2.or_si128(left, right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 operator ^ (ushort4 left, ushort4 right) => Sse2.xor_si128(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -556,23 +556,23 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (ushort4 lhs, ushort4 rhs) => TestIsTrue(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool4 operator == (ushort4 left, ushort4 right) => TestIsTrue(Sse2.cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator < (ushort4 lhs, ushort4 rhs) => TestIsTrue(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool4 operator < (ushort4 left, ushort4 right) => TestIsTrue(Operator.greater_mask_ushort(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator > (ushort4 lhs, ushort4 rhs) => TestIsTrue(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool4 operator > (ushort4 left, ushort4 right) => TestIsTrue(Operator.greater_mask_ushort(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (ushort4 lhs, ushort4 rhs) => TestIsFalse(Sse2.cmpeq_epi16(lhs, rhs));
+        public static bool4 operator != (ushort4 left, ushort4 right) => TestIsFalse(Sse2.cmpeq_epi16(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator <= (ushort4 lhs, ushort4 rhs) => TestIsFalse(Operator.greater_mask_ushort(lhs, rhs));
+        public static bool4 operator <= (ushort4 left, ushort4 right) => TestIsFalse(Operator.greater_mask_ushort(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator >= (ushort4 lhs, ushort4 rhs) => TestIsFalse(Operator.greater_mask_ushort(rhs, lhs));
+        public static bool4 operator >= (ushort4 left, ushort4 right) => TestIsFalse(Operator.greater_mask_ushort(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

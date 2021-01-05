@@ -91,26 +91,26 @@ namespace MaxMath
         }
 
 
-        public byte4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }                     
-        public byte4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
-        public byte4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
-        public byte4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
+        public byte4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                  set => this = Sse4_1.insert_epi32(this, *(int*)&value, 0); }
+        public byte4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1 * sizeof(byte)), new v128((255L << 8) | (255L << 16) | (255L << 24) | (255L << 32),   0L)); }
+        public byte4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2); set => this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 2 * sizeof(byte)), 0b0000_0110); }
+        public byte4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3 * sizeof(byte)), new v128((255L << 24) | (255L << 32) | (255L << 40) | (255L << 48),   0L)); }
+        public byte4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4); set => this = Sse4_1.insert_epi32(this, *(int*)&value, 1); }
 
-        public byte3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public byte3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
-        public byte3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
-        public byte3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public byte3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5 | (6 << 8) | (7 << 16) | (8 << 24), 0, 0, 0)); }
-
-        public byte2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this; }
-        public byte2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(1 | (2 << 8) | (3 << 16) | (4 << 24), 0, 0, 0)); }
-        public byte2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1)); }
-        public byte2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(3 | (4 << 8) | (5 << 16) | (6 << 24), 0, 0, 0)); }
-        public byte2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2)); }
-        public byte2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Ssse3.shuffle_epi8(this, new v128(5 | (6 << 8) | (7 << 16) | (8 << 24), 0, 0, 0)); }
-        public byte2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3)); }
+        public byte3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                  set => this = Sse4_1.blendv_epi8(this, value, new v128(255 | (255 << 8) | (255 << 16),   0, 0, 0)); }
+        public byte3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1 * sizeof(byte)), new v128((255 << 8) | (255 << 16) | (255 << 24),   0, 0, 0)); }
+        public byte3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 2 * sizeof(byte)), new v128((255L << 16) | (255L << 24) | (255L << 32),   0L)); }
+        public byte3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3 * sizeof(byte)), new v128((255L << 24) | (255L << 32) | (255L << 40),   0L)); }
+        public byte3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 4 * sizeof(byte)), new v128((255L << 32) | (255L << 40) | (255L << 48),   0L)); }
+        public byte3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5 * sizeof(byte)), new v128((255L << 40) | (255L << 48) | (255L << 56),   0L)); }
+                                                                                                                                                                                     
+        public byte2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)this;                  set => this = Sse2.insert_epi16(this, *(short*)&value, 0); }
+        public byte2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 1); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 1 * sizeof(byte)), new v128((255 << 8) | (255 << 16),   0, 0, 0)); }
+        public byte2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 2); set => this = Sse2.insert_epi16(this, *(short*)&value, 1); }
+        public byte2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 3); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 3 * sizeof(byte)), new v128((255L << 24) | (255L << 32),   0L)); }
+        public byte2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 4); set => this = Sse2.insert_epi16(this, *(short*)&value, 2); }
+        public byte2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 5); set => this = Sse4_1.blendv_epi8(this, Sse2.bslli_si128(value, 5 * sizeof(byte)), new v128((255L << 40) | (255L << 48),   0L)); }
+        public byte2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)maxmath.vshr(this, 6); set => this = Sse2.insert_epi16(this, *(short*)&value, 3); }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -185,42 +185,29 @@ Assert.IsWithinArrayBounds(index, 8);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator + (byte8 lhs, byte8 rhs) => Sse2.add_epi8(lhs, rhs);
+        public static byte8 operator + (byte8 left, byte8 right) => Sse2.add_epi8(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator - (byte8 lhs, byte8 rhs) => Sse2.sub_epi8(lhs, rhs);
+        public static byte8 operator - (byte8 left, byte8 right) => Sse2.sub_epi8(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator * (byte8 lhs, byte8 rhs) => (byte8)((ushort8)lhs * (ushort8)rhs);
+        public static byte8 operator * (byte8 left, byte8 right) => (byte8)((ushort8)left * (ushort8)right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator / (byte8 lhs, byte8 rhs) => Operator.vdiv_byte(lhs, rhs);
+        public static byte8 operator / (byte8 left, byte8 right) => Operator.vdiv_byte(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator % (byte8 lhs, byte8 rhs) => Operator.vrem_byte(lhs, rhs);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator * (byte lhs, byte8 rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator * (byte8 lhs, byte rhs) => (v128)((byte16)((v128)lhs) * rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator / (byte8 lhs, byte rhs) => (v128)((byte16)((v128)lhs) / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator % (byte8 lhs, byte rhs) => (v128)((byte16)((v128)lhs) % rhs);
+        public static byte8 operator % (byte8 left, byte8 right) => Operator.vrem_byte(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator & (byte8 lhs, byte8 rhs) => Sse2.and_si128(lhs, rhs);
+        public static byte8 operator & (byte8 left, byte8 right) => Sse2.and_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator | (byte8 lhs, byte8 rhs) => Sse2.or_si128(lhs, rhs);
+        public static byte8 operator | (byte8 left, byte8 right) => Sse2.or_si128(left, right);
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 operator ^ (byte8 lhs, byte8 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static byte8 operator ^ (byte8 left, byte8 right) => Sse2.xor_si128(left, right);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -241,23 +228,23 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (byte8 lhs, byte8 rhs) => TestIsTrue(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool8 operator == (byte8 left, byte8 right) => TestIsTrue(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (byte8 lhs, byte8 rhs) => TestIsTrue(Operator.greater_mask_byte(rhs, lhs));
+        public static bool8 operator < (byte8 left, byte8 right) => TestIsTrue(Operator.greater_mask_byte(right, left));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (byte8 lhs, byte8 rhs) => TestIsTrue(Operator.greater_mask_byte(lhs, rhs));
+        public static bool8 operator > (byte8 left, byte8 right) => TestIsTrue(Operator.greater_mask_byte(left, right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (byte8 lhs, byte8 rhs) => TestIsFalse(Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool8 operator != (byte8 left, byte8 right) => TestIsFalse(Sse2.cmpeq_epi8(left, right));
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (byte8 lhs, byte8 rhs) => TestIsFalse(Operator.greater_mask_byte(lhs, rhs));
+        public static bool8 operator <= (byte8 left, byte8 right) => TestIsFalse(Operator.greater_mask_byte(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (byte8 lhs, byte8 rhs) => TestIsFalse(Operator.greater_mask_byte(rhs, lhs));
+        public static bool8 operator >= (byte8 left, byte8 right) => TestIsFalse(Operator.greater_mask_byte(right, left));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

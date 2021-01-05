@@ -1,7 +1,3 @@
 ﻿Vector shifts (s)byte32, (u)short16
 
-subvectors (s)byte32 => tests
-
 All Different (s)byte32, optimize (u)short16
-
-Type Casting shortX to char[]

@@ -111,7 +111,7 @@ namespace MaxMath
         //    }
         //}
 
-
+                                                        // 0x4000_0002
         private const float PRECISION_ADJUSTMENT_FACTOR = 2.00000051757f;
 
 

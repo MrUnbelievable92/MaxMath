@@ -11,40 +11,40 @@ namespace MaxMath
     {
         /// <summary>       Returns the number of true values in a bool2 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 2)]
-        public static int count(bool2 x)
+        public static uint count(bool2 x)
         {
 Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 
-            return math.countbits((int)(*(ushort*)&x));
+            return (uint)math.countbits((uint)(*(ushort*)&x));
         }
 
         /// <summary>       Returns the number of true values in a bool3 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 3)]
-        public static int count(bool3 x)
+        public static uint count(bool3 x)
         {
 Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return math.countbits(0x00FF_FFFF & *(int*)&x);
+            return (uint)math.countbits(0x00FF_FFFF & *(int*)&x);
         }
 
         /// <summary>       Returns the number of true values in a bool4 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)]
-        public static int count(bool4 x)
+        public static uint count(bool4 x)
         {
 Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 Assert.IsSafeBoolean(x.w);
 
-            return math.countbits(*(int*)&x);
+            return (uint)math.countbits(*(int*)&x);
         }
 
         /// <summary>       Returns the number of true values in a bool8 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
-        public static int count(bool8 x)
+        public static uint count(bool8 x)
         {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
@@ -55,12 +55,12 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return math.countbits(*(long*)&x);
+            return (uint)math.countbits(*(long*)&x);
         }
 
         /// <summary>       Returns the number of true values in a bool16 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
-        public static int count(bool16 x)
+        public static uint count(bool16 x)
         {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
@@ -79,12 +79,12 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return math.countbits(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
+            return (uint)math.countbits(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
         }
 
         /// <summary>       Returns the number of true values in a bool32 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 32)]
-        public static int count(bool32 x)
+        public static uint count(bool32 x)
         {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
@@ -119,7 +119,7 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x30);
 Assert.IsSafeBoolean(x.x31);
 
-            return math.countbits(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
+            return (uint)math.countbits(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
         }
     }
 }

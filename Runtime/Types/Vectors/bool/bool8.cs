@@ -100,6 +100,28 @@ namespace MaxMath
         }
 
 
+        public bool4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool8 t = this; return *(bool4*)&t; } }                    
+        public bool4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte8)(v128)this).v4_1; return *(bool4*)&t; } }
+        public bool4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte8)(v128)this).v4_2; return *(bool4*)&t; } }
+        public bool4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte8)(v128)this).v4_3; return *(bool4*)&t; } }
+        public bool4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte8)(v128)this).v4_4; return *(bool4*)&t; } }
+                                                                              
+        public bool3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool8 t = this; return *(bool3*)&t; } }
+        public bool3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte8)(v128)this).v3_1; return *(bool3*)&t; } }
+        public bool3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte8)(v128)this).v3_2; return *(bool3*)&t; } }
+        public bool3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte8)(v128)this).v3_3; return *(bool3*)&t; } }
+        public bool3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte8)(v128)this).v3_4; return *(bool3*)&t; } }
+        public bool3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte8)(v128)this).v3_5; return *(bool3*)&t; } }
+                                                                                 
+        public bool2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool8 t = this; return *(bool2*)&t; } }
+        public bool2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_1; return *(bool2*)&t; } }
+        public bool2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_2; return *(bool2*)&t; } }
+        public bool2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_3; return *(bool2*)&t; } }
+        public bool2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_4; return *(bool2*)&t; } }
+        public bool2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_5; return *(bool2*)&t; } }
+        public bool2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte8)(v128)this).v2_6; return *(bool2*)&t; } }
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(bool8 input) => new v128(*(long*)&input, 0L);
 
@@ -127,20 +149,20 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (bool8 lhs, bool8 rhs) => Sse2.and_si128(new v128((byte)1), Sse2.cmpeq_epi8(lhs, rhs));
+        public static bool8 operator == (bool8 left, bool8 right) => Sse2.and_si128(new v128((byte)1), Sse2.cmpeq_epi8(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (bool8 lhs, bool8 rhs) => Sse2.andnot_si128(Sse2.cmpeq_epi8(lhs, rhs), new v128((byte)1));
+        public static bool8 operator != (bool8 left, bool8 right) => Sse2.andnot_si128(Sse2.cmpeq_epi8(left, right), new v128((byte)1));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator & (bool8 lhs, bool8 rhs) => Sse2.and_si128(lhs, rhs);
+        public static bool8 operator & (bool8 left, bool8 right) => Sse2.and_si128(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator | (bool8 lhs, bool8 rhs) => Sse2.or_si128(lhs, rhs);
+        public static bool8 operator | (bool8 left, bool8 right) => Sse2.or_si128(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator ^ (bool8 lhs, bool8 rhs) => Sse2.xor_si128(lhs, rhs);
+        public static bool8 operator ^ (bool8 left, bool8 right) => Sse2.xor_si128(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

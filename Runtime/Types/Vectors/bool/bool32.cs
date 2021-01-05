@@ -104,6 +104,144 @@ namespace MaxMath
         }
 
 
+        public bool16 v16_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
+        public bool16 v16_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_1; }
+        public bool16 v16_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_2; }
+        public bool16 v16_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_3; }
+        public bool16 v16_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_4; }
+        public bool16 v16_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_5; }
+        public bool16 v16_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_6; }
+        public bool16 v16_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_7; }
+        public bool16 v16_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_8; }
+        public bool16 v16_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_9; }
+        public bool16 v16_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_10; }
+        public bool16 v16_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_11; }
+        public bool16 v16_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_12; }
+        public bool16 v16_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_13; }
+        public bool16 v16_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_14; }
+        public bool16 v16_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_15; }
+        public bool16 v16_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v16_16; }
+
+        public bool8 v8_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => Avx.mm256_castsi256_si128(this); }
+        public bool8 v8_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_1; }
+        public bool8 v8_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_2; }
+        public bool8 v8_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_3; }
+        public bool8 v8_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_4; }
+        public bool8 v8_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_5; }
+        public bool8 v8_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_6; }
+        public bool8 v8_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_7; }
+        public bool8 v8_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_8; }
+        public bool8 v8_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_9; }
+        public bool8 v8_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_10; }
+        public bool8 v8_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_11; }
+        public bool8 v8_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_12; }
+        public bool8 v8_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_13; }
+        public bool8 v8_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_14; }
+        public bool8 v8_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_15; }
+        public bool8 v8_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_16; }
+        public bool8 v8_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_17; }
+        public bool8 v8_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_18; }
+        public bool8 v8_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_19; }
+        public bool8 v8_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_20; }
+        public bool8 v8_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_21; }
+        public bool8 v8_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_22; }
+        public bool8 v8_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_23; }
+        public bool8 v8_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => (v128)((byte32)(v256)this).v8_24; }
+
+        public bool4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool32 t = this; return *(bool4*)&t; } }
+        public bool4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_1;  return *(bool4*)&t; } }
+        public bool4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_2;  return *(bool4*)&t; } }
+        public bool4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_3;  return *(bool4*)&t; } }
+        public bool4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_4;  return *(bool4*)&t; } }
+        public bool4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_5;  return *(bool4*)&t; } }
+        public bool4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_6;  return *(bool4*)&t; } }
+        public bool4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_7;  return *(bool4*)&t; } }
+        public bool4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_8;  return *(bool4*)&t; } }
+        public bool4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_9;  return *(bool4*)&t; } }
+        public bool4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_10; return *(bool4*)&t; } }
+        public bool4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_11; return *(bool4*)&t; } }
+        public bool4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_12; return *(bool4*)&t; } }
+        public bool4 v4_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_13; return *(bool4*)&t; } }
+        public bool4 v4_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_14; return *(bool4*)&t; } }
+        public bool4 v4_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_15; return *(bool4*)&t; } }
+        public bool4 v4_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_16; return *(bool4*)&t; } }
+        public bool4 v4_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_17; return *(bool4*)&t; } }
+        public bool4 v4_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_18; return *(bool4*)&t; } }
+        public bool4 v4_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_19; return *(bool4*)&t; } }
+        public bool4 v4_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_20; return *(bool4*)&t; } }
+        public bool4 v4_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_21; return *(bool4*)&t; } }
+        public bool4 v4_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_22; return *(bool4*)&t; } }
+        public bool4 v4_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_23; return *(bool4*)&t; } }
+        public bool4 v4_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_24; return *(bool4*)&t; } }
+        public bool4 v4_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_25; return *(bool4*)&t; } }
+        public bool4 v4_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_26; return *(bool4*)&t; } }
+        public bool4 v4_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_27; return *(bool4*)&t; } }
+        public bool4 v4_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte4 t = ((byte32)(v256)this).v4_28; return *(bool4*)&t; } }
+
+        public bool3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool32 t = this; return *(bool3*)&t; } }
+        public bool3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_1;  return *(bool3*)&t; } }
+        public bool3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_2;  return *(bool3*)&t; } }
+        public bool3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_3;  return *(bool3*)&t; } }
+        public bool3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_4;  return *(bool3*)&t; } }
+        public bool3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_5;  return *(bool3*)&t; } }
+        public bool3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_6;  return *(bool3*)&t; } }
+        public bool3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_7;  return *(bool3*)&t; } }
+        public bool3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_8;  return *(bool3*)&t; } }
+        public bool3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_9;  return *(bool3*)&t; } }
+        public bool3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_10; return *(bool3*)&t; } }
+        public bool3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_11; return *(bool3*)&t; } }
+        public bool3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_12; return *(bool3*)&t; } }
+        public bool3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_13; return *(bool3*)&t; } }
+        public bool3 v3_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_14; return *(bool3*)&t; } }
+        public bool3 v3_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_15; return *(bool3*)&t; } }
+        public bool3 v3_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_16; return *(bool3*)&t; } }
+        public bool3 v3_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_17; return *(bool3*)&t; } }
+        public bool3 v3_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_18; return *(bool3*)&t; } }
+        public bool3 v3_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_19; return *(bool3*)&t; } }
+        public bool3 v3_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_20; return *(bool3*)&t; } }
+        public bool3 v3_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_21; return *(bool3*)&t; } }
+        public bool3 v3_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_22; return *(bool3*)&t; } }
+        public bool3 v3_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_23; return *(bool3*)&t; } }
+        public bool3 v3_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_24; return *(bool3*)&t; } }
+        public bool3 v3_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_25; return *(bool3*)&t; } }
+        public bool3 v3_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_26; return *(bool3*)&t; } }
+        public bool3 v3_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_27; return *(bool3*)&t; } }
+        public bool3 v3_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_28; return *(bool3*)&t; } }
+        public bool3 v3_29 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte3 t = ((byte32)(v256)this).v3_29; return *(bool3*)&t; } }
+
+        public bool2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { bool32 t = this; return *(bool2*)&t; } }
+        public bool2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_1;  return *(bool2*)&t; } }
+        public bool2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_2;  return *(bool2*)&t; } }
+        public bool2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_3;  return *(bool2*)&t; } }
+        public bool2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_4;  return *(bool2*)&t; } }
+        public bool2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_5;  return *(bool2*)&t; } }
+        public bool2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_6;  return *(bool2*)&t; } }
+        public bool2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_7;  return *(bool2*)&t; } }
+        public bool2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_8;  return *(bool2*)&t; } }
+        public bool2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_9;  return *(bool2*)&t; } }
+        public bool2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_10; return *(bool2*)&t; } }
+        public bool2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_11; return *(bool2*)&t; } }
+        public bool2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_12; return *(bool2*)&t; } }
+        public bool2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_13; return *(bool2*)&t; } }
+        public bool2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_14; return *(bool2*)&t; } }
+        public bool2 v2_15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_15; return *(bool2*)&t; } }
+        public bool2 v2_16 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_16; return *(bool2*)&t; } }
+        public bool2 v2_17 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_17; return *(bool2*)&t; } }
+        public bool2 v2_18 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_18; return *(bool2*)&t; } }
+        public bool2 v2_19 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_19; return *(bool2*)&t; } }
+        public bool2 v2_20 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_20; return *(bool2*)&t; } }
+        public bool2 v2_21 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_21; return *(bool2*)&t; } }
+        public bool2 v2_22 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_22; return *(bool2*)&t; } }
+        public bool2 v2_23 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_23; return *(bool2*)&t; } }
+        public bool2 v2_24 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_24; return *(bool2*)&t; } }
+        public bool2 v2_25 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_25; return *(bool2*)&t; } }
+        public bool2 v2_26 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_26; return *(bool2*)&t; } }
+        public bool2 v2_27 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_27; return *(bool2*)&t; } }
+        public bool2 v2_28 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_28; return *(bool2*)&t; } }
+        public bool2 v2_29 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_29; return *(bool2*)&t; } }
+        public bool2 v2_30 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { byte2 t = ((byte32)(v256)this).v2_30; return *(bool2*)&t; } }
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
         public static implicit operator v256(bool32 input) => new v256(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15, *(byte*)&input.x16, *(byte*)&input.x17, *(byte*)&input.x18, *(byte*)&input.x19, *(byte*)&input.x20, *(byte*)&input.x21, *(byte*)&input.x22, *(byte*)&input.x23, *(byte*)&input.x24, *(byte*)&input.x25, *(byte*)&input.x26, *(byte*)&input.x27, *(byte*)&input.x28, *(byte*)&input.x29, *(byte*)&input.x30, *(byte*)&input.x31);
 
@@ -115,20 +253,20 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator == (bool32 lhs, bool32 rhs) => Avx2.mm256_and_si256(new v256((byte)1), Avx2.mm256_cmpeq_epi8(lhs, rhs));
+        public static bool32 operator == (bool32 left, bool32 right) => Avx2.mm256_and_si256(new v256((byte)1), Avx2.mm256_cmpeq_epi8(left, right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator != (bool32 lhs, bool32 rhs) => Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi8(lhs, rhs), new v256((byte)1));
+        public static bool32 operator != (bool32 left, bool32 right) => Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi8(left, right), new v256((byte)1));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator & (bool32 lhs, bool32 rhs) => Avx2.mm256_and_si256(lhs, rhs);
+        public static bool32 operator & (bool32 left, bool32 right) => Avx2.mm256_and_si256(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator | (bool32 lhs, bool32 rhs) => Avx2.mm256_or_si256(lhs, rhs);
+        public static bool32 operator | (bool32 left, bool32 right) => Avx2.mm256_or_si256(left, right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 operator ^ (bool32 lhs, bool32 rhs) => Avx2.mm256_xor_si256(lhs, rhs);
+        public static bool32 operator ^ (bool32 left, bool32 right) => Avx2.mm256_xor_si256(left, right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

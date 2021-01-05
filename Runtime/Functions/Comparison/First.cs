@@ -16,7 +16,7 @@ namespace MaxMath
 Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 
-            return math.tzcnt((uint)*(ushort*)&x) / 8;
+            return (int)((uint)math.tzcnt((uint)*(ushort*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool3 vector or 4 if none are true.       </summary>
@@ -27,7 +27,7 @@ Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return math.tzcnt(0x00FF_FFFF & *(uint*)&x) / 8;
+            return (int)((uint)math.tzcnt(0x00FF_FFFF & *(uint*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool4 vector or 4 if none are true.       </summary>
@@ -39,7 +39,7 @@ Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 Assert.IsSafeBoolean(x.w);
 
-            return math.tzcnt(*(int*)&x) / 8;
+            return (int)((uint)math.tzcnt(*(int*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool8 vector or 8 if none are true.       </summary>
@@ -55,7 +55,7 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return math.tzcnt(*(long*)&x) / 8;
+            return (int)((uint)math.tzcnt(*(long*)&x) / 8);
         }
 
         /// <summary>       Returns the index of the first true bool value of a bool16 vector or 32 if none are true.       </summary>

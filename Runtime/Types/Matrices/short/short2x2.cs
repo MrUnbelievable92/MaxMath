@@ -103,42 +103,42 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator + (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 + rhs.c0, lhs.c1 + rhs.c1);
+        public static short2x2 operator + (short2x2 left, short2x2 right) => new short2x2 (left.c0 + right.c0, left.c1 + right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator - (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 - rhs.c0, lhs.c1 - rhs.c1);
+        public static short2x2 operator - (short2x2 left, short2x2 right) => new short2x2 (left.c0 - right.c0, left.c1 - right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator * (short2x2 lhs, short2x2 rhs) => new short2x2(lhs.c0 * rhs.c0, lhs.c1 * rhs.c1);
+        public static short2x2 operator * (short2x2 left, short2x2 right) => new short2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator / (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 / rhs.c0, lhs.c1 / rhs.c1);
+        public static short2x2 operator / (short2x2 left, short2x2 right) => new short2x2 (left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator % (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 % rhs.c0, lhs.c1 % rhs.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator * (short2x2 lhs, short rhs) => rhs * lhs;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator * (short lhs, short2x2 rhs) => new short2x2 (lhs * rhs.c0, lhs * rhs.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator / (short2x2 lhs, short rhs) => new short2x2 (lhs.c0 / rhs, lhs.c1 / rhs);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator % (short2x2 lhs, short rhs) => new short2x2 (lhs.c0 % rhs, lhs.c1 % rhs);
+        public static short2x2 operator % (short2x2 left, short2x2 right) => new short2x2 (left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator & (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 & rhs.c0, lhs.c1 & rhs.c1);
+        public static short2x2 operator * (short2x2 left, short right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator | (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 | rhs.c0, lhs.c1 | rhs.c1);
+        public static short2x2 operator * (short left, short2x2 right) => new short2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x2 operator ^ (short2x2 lhs, short2x2 rhs) => new short2x2 (lhs.c0 ^ rhs.c0, lhs.c1 ^ rhs.c1);
+        public static short2x2 operator / (short2x2 left, short right) => new short2x2 (left.c0 / right, left.c1 / right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x2 operator % (short2x2 left, short right) => new short2x2 (left.c0 % right, left.c1 % right);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x2 operator & (short2x2 left, short2x2 right) => new short2x2 (left.c0 & right.c0, left.c1 & right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x2 operator | (short2x2 left, short2x2 right) => new short2x2 (left.c0 | right.c0, left.c1 | right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2x2 operator ^ (short2x2 left, short2x2 right) => new short2x2 (left.c0 ^ right.c0, left.c1 ^ right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -162,23 +162,23 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator == (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 == rhs.c0, lhs.c1 == rhs.c1);
+        public static bool2x2 operator == (short2x2 left, short2x2 right) => new bool2x2 (left.c0 == right.c0, left.c1 == right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator < (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 < rhs.c0, lhs.c1 < rhs.c1);
+        public static bool2x2 operator < (short2x2 left, short2x2 right) => new bool2x2 (left.c0 < right.c0, left.c1 < right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator > (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 > rhs.c0, lhs.c1 > rhs.c1);
+        public static bool2x2 operator > (short2x2 left, short2x2 right) => new bool2x2 (left.c0 > right.c0, left.c1 > right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator != (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 != rhs.c0, lhs.c1 != rhs.c1);
+        public static bool2x2 operator != (short2x2 left, short2x2 right) => new bool2x2 (left.c0 != right.c0, left.c1 != right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator <= (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 <= rhs.c0, lhs.c1 <= rhs.c1);
+        public static bool2x2 operator <= (short2x2 left, short2x2 right) => new bool2x2 (left.c0 <= right.c0, left.c1 <= right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator >= (short2x2 lhs, short2x2 rhs) => new bool2x2 (lhs.c0 >= rhs.c0, lhs.c1 >= rhs.c1);
+        public static bool2x2 operator >= (short2x2 left, short2x2 right) => new bool2x2 (left.c0 >= right.c0, left.c1 >= right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
