@@ -13,6 +13,61 @@ Note:
 
 ![alt text](https://i.imgur.com/0Bpr1Mo.png)
 
+## New Types
+
+### Integer
+<details><summary>(S)Byte</summary>
+  
+![alt text](https://i.imgur.com/LwxZifi.png)
+
+</details>
+
+<details><summary>(U)Short</summary>
+  
+![alt text](https://i.imgur.com/yE5o3RH.png)
+
+</details>
+
+<details><summary>(U)Int</summary>
+  
+![alt text](https://i.imgur.com/XNzK5iS.png)
+
+</details>
+
+<details><summary>(U)Long</summary>
+  
+![alt text](https://i.imgur.com/D0WUfrU.png)
+
+</details>
+
+### Floating Point
+
+<details><summary>Float</summary>
+  
+![alt text](https://i.imgur.com/4lSuEfU.png)
+
+</details>
+
+<details><summary>Half</summary>
+  
+![alt text](https://i.imgur.com/Vk0jQCh.png)
+
+</details>
+
+<details><summary>Quarter (8-bit 1.3.4.-3 IEEE 754 floating point)</summary>
+  
+![alt text](https://i.imgur.com/yRbyPGK.png)
+
+</details>
+
+### Random Number Generators
+
+<details><summary>XOR-Shift</summary>
+  
+![alt text](https://i.imgur.com/2tYbxk0.png)
+
+</details>
+
 ## New Functions (fully documented)
 
 
