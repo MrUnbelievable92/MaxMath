@@ -68,7 +68,7 @@ Note:
 
 </details>
 
-## New Functions (fully documented)
+## New Functions
 
 
 <details><summary>Miscellaneous</summary>
