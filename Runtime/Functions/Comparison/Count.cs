@@ -1,4 +1,4 @@
-using DevTools;
+﻿using DevTools;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.CompilerServices;

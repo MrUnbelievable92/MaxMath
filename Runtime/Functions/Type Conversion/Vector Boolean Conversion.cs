@@ -265,25 +265,60 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Converts each value in a bool2 vector to its floating point representation as a quarter2 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 tof8safe(bool2 x)
+        {
+            return asquarter(select(default(byte2), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool3 vector to its floating point representation as a quarter3 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 tof8safe(bool3 x)
+        {
+            return asquarter(select(default(byte3), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool4 vector to its floating point representation as a quarter4 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 tof8safe(bool4 x)
+        {
+            return asquarter(select(default(byte4), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool8 vector to its floating point representation as a quarter8 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 tof8safe(bool8 x)
+        {
+            return asquarter(select(default(byte8), ((quarter)1f).value, x));
+        }
+
         /// <summary>       Converts each value in a bool2 vector to its floating point representation as a half2 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 tof16safe(bool2 x)
         {
-            return ashalf(select((ushort2)0, (ushort2)new half(1f).value, x));
+            return ashalf(select(default(ushort2), ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool3 vector to its floating point representation as a half3 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 tof16safe(bool3 x)
         {
-            return ashalf(select((ushort3)0, (ushort3)new half(1f).value, x));
+            return ashalf(select(default(ushort3), ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool4 vector to its floating point representation as a half4 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 tof16safe(bool4 x)
         {
-            return ashalf(select((ushort4)0, (ushort4)new half(1f).value, x));
+            return ashalf(select(default(ushort4), ((half)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool8 vector to its floating point representation as a half8 vector. The underlying value is being clamped to the interval[0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 tof16safe(bool8 x)
+        {
+            return ashalf(select(default(ushort8), ((half)1f).value, x));
         }
 
 
@@ -410,11 +445,18 @@ namespace MaxMath
             return *(bool2*)&clamped;
         }
 
+        /// <summary>       Converts each value in a quarter2 vector to its boolean representation as a bool2 vector. The underlying value is being clamped to the interval[0, 1]. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 toboolsafe(quarter2 x)
+        {
+            return x != (quarter)0f;
+        }
+
         /// <summary>       Converts each value in a half2 vector to its boolean representation as a bool2 vector. The underlying value is being clamped to the interval[0, 1]. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(half2 x)
         {
-            return x != (half)0f;
+            return (float2)x != 0f;
         }
 
         /// <summary>       Converts each value in a float2 vector to its boolean representation as a bool2 vector. The underlying value is being clamped to the interval[0, 1]. 
@@ -504,11 +546,18 @@ namespace MaxMath
             return *(bool3*)&clamped;
         }
 
+        /// <summary>       Converts each value in a quarter3 vector to its boolean representation as a bool3 vector. The underlying value is being clamped to the interval[0, 1]. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 toboolsafe(quarter3 x)
+        {
+            return x != (quarter)0f;
+        }
+
         /// <summary>       Converts each value in a half3 vector to its boolean representation as a bool3 vector. The underlying value is being clamped to the interval[0, 1]. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(half3 x)
         {
-            return x != (half)0f;
+            return (float3)x != 0f;
         }
 
         /// <summary>       Converts each value in a float3 vector to its boolean representation as a bool3 vector. The underlying value is being clamped to the interval[0, 1]. 
@@ -597,11 +646,18 @@ namespace MaxMath
             return *(bool4*)&clamped;
         }
 
+        /// <summary>       Converts each value in a quarter4 vector to its boolean representation as a bool4 vector. The underlying value is being clamped to the interval[0, 1]. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 toboolsafe(quarter4 x)
+        {
+            return x != (quarter)0f;
+        }
+
         /// <summary>       Converts each value in a half4 vector to its boolean representation as a bool4 vector. The underlying value is being clamped to the interval[0, 1]. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(half4 x)
         {
-            return x != (half)0f;
+            return (float4)x != 0f;
         }
 
         /// <summary>       Converts each value in a float4 vector to its boolean representation as a bool4 vector. The underlying value is being clamped to the interval[0, 1]. 
@@ -661,11 +717,18 @@ namespace MaxMath
             return (v128)(byte8)clamp(x, 0, 1);
         }
 
+        /// <summary>       Converts each value in a quarter8 vector to its boolean representation as a bool8 vector. The underlying value is being clamped to the interval[0, 1]. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool8 toboolsafe(quarter8 x)
+        {
+            return x != (quarter)0f;
+        }
+
         /// <summary>       Converts each value in a half8 vector to its boolean representation as a bool8 vector. The underlying value is being clamped to the interval[0, 1]. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(half8 x)
         {
-            return x != (half)0f;
+            return (float8)x != 0f;
         }
 
         /// <summary>       Converts each value in a float8 vector to its boolean representation as a bool8 vector. The underlying value is being clamped to the interval[0, 1]. 

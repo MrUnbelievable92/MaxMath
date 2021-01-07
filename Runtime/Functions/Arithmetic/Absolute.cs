@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -119,6 +120,78 @@ namespace MaxMath
             long4 mask = Avx2.mm256_cmpgt_epi64(default(v256), x);
 
             return (x + mask) ^ mask;
+        }
+
+
+        /// <summary>       Returns the absolute value of a quarter value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter abs(quarter x)
+        {
+            return asquarter((byte)(asbyte(x) & 0b0111_1111));
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a quarter2 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 abs(quarter2 x)
+        {
+            return asquarter(asbyte(x) & 0b0111_1111);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a quarter3 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 abs(quarter3 x)
+        {
+            return asquarter(asbyte(x) & 0b0111_1111);
+        }
+        
+        /// <summary>       Returns the componentwise absolute value of a quarter4 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 abs(quarter4 x)
+        {
+            return asquarter(asbyte(x) & 0b0111_1111);
+        }
+        
+        /// <summary>       Returns the componentwise absolute value of a quarter8 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 abs(quarter8 x)
+        {
+            return asquarter(asbyte(x) & 0b0111_1111);
+        }
+
+
+        /// <summary>       Returns the absolute value of a half value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half abs(half x)
+        {
+            return new half { value = ((ushort)(x.value & 0x7FFF)) };
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a half2 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 abs(half2 x)
+        {
+            return ashalf(asushort(x) & 0x7FFF);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a half3 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 abs(half3 x)
+        {
+            return ashalf(asushort(x) & 0x7FFF);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a half4 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 abs(half4 x)
+        {
+            return ashalf(asushort(x) & 0x7FFF);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a half8 vector.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 abs(half8 x)
+        {
+            return ashalf(asushort(x) & 0x7FFF);
         }
 
 

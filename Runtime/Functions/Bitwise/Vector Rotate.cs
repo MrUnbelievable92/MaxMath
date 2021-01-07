@@ -406,6 +406,55 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the result of rotating the components within a quarter2 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 vror(quarter2 x, int n)
+        {
+            if (n % 2 != 0)
+            {
+                return x.yx;
+            }
+            else
+            {
+                return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter3 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 vror(quarter3 x, int n)
+        {
+            switch (n % 3)
+            {
+                case 1: return x.yzx;
+                case 2: return x.zxy;
+
+                default: return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter4 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 vror(quarter4 x, int n)
+        {
+            switch (n % 4)
+            {
+                case 1: return x.yzwx;
+                case 2: return x.zwxy;
+                case 3: return x.wxyz;
+
+                default: return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter8 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 vror(quarter8 x, int n)
+        {
+            return asquarter(vror(asbyte(x), n));
+        }
+
+
         /// <summary>       Returns the result of rotating the components within a half2 vector right by n.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vror(half2 x, int n)
@@ -939,6 +988,54 @@ namespace MaxMath
         public static ulong4 vrol(ulong4 x, int n)
         {
             return (ulong4)vrol((long4)x, n);
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter2 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 vrol(quarter2 x, int n)
+        {
+            if (n % 2 != 0)
+            {
+                return x.yx;
+            }
+            else
+            {
+                return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter3 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 vrol(quarter3 x, int n)
+        {
+            switch (n % 3)
+            {
+                case 1: return x.zxy;
+                case 2: return x.yzx;
+
+                default: return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter4 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 vrol(quarter4 x, int n)
+        {
+            switch (n % 4)
+            {
+                case 1: return x.wxyz;
+                case 2: return x.zwxy;
+                case 3: return x.yzwx;
+
+                default: return x;
+            }
+        }
+
+        /// <summary>       Returns the result of rotating the components within a quarter8 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 vrol(quarter8 x, int n)
+        {
+            return asquarter(vrol(asbyte(x), n));
         }
 
 

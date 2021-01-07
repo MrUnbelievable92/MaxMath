@@ -136,6 +136,35 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the result of shifting the components within a quarter2 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 vshl(quarter2 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter4 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 vshl(quarter3 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter4 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 vshl(quarter4 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter8 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 vshl(quarter8 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
+
         /// <summary>       Returns the result of shifting the components within a half2 vector left by n while shifting in zeros.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vshl(half2 x, int n)
@@ -750,6 +779,35 @@ namespace MaxMath
         public static uint8 vshr(uint8 x, int n)
         {
             return (uint8)vshr((int8)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a quarter2 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 vshr(quarter2 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter4 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 vshr(quarter3 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter4 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 vshr(quarter4 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a quarter8 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 vshr(quarter8 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
         }
 
 

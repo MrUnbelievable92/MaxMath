@@ -139,6 +139,9 @@ namespace MaxMath
         public static explicit operator byte8(int8 input) => Cast.Int8ToByte8(input);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte8(half8 input) => (byte8)(float8)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte8(float8 input) => (byte8)(int8)input;
 
 
@@ -153,6 +156,9 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int8(byte8 input) => Avx2.mm256_cvtepu8_epi32(input);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator half8(byte8 input) => (half8)(float8)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(byte8 input) => (float8)(int8)input;

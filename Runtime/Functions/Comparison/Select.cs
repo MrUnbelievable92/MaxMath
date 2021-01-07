@@ -209,15 +209,6 @@ namespace MaxMath
             return c ? b : a;
         }
 
-
-        /// <summary>       Returns b if c is true, a otherwise.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 select(float8 a, float8 b, bool c)
-        {
-            return c ? b : a;
-        }
-
-
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, bool c)
@@ -257,6 +248,83 @@ namespace MaxMath
         /// <summary>       Returns b if c is true, a otherwise.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter select(quarter a, quarter b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 select(quarter2 a, quarter2 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 select(quarter3 a, quarter3 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 select(quarter4 a, quarter4 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 select(quarter8 a, quarter8 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half select(half a, half b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 select(half2 a, half2 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 select(half3 a, half3 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 select(half4 a, half4 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 select(half8 a, half8 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns b if c is true, a otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 select(float8 a, float8 b, bool c)
         {
             return c ? b : a;
         }
@@ -537,6 +605,64 @@ namespace MaxMath
         public static ulong4 select(ulong4 a, ulong4 b, int c)
         {
             return Avx2.mm256_blendv_epi8(a, b, Mask.Long4FromInt(c));
+        }
+
+
+        /// <summary>       Returns a componentwise selection between two quarter2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 select(quarter2 a, quarter2 b, int c)
+        {
+            return Sse4_1.blendv_epi8(a, b, (byte2)Mask.Int2FromInt(c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 select(quarter3 a, quarter3 b, int c)
+        {
+            return Sse4_1.blendv_epi8(a, b, (byte3)Mask.Int3FromInt(c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 select(quarter4 a, quarter4 b, int c)
+        {
+            return Sse4_1.blendv_epi8(a, b, (byte4)Mask.Int4FromInt(c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 select(quarter8 a, quarter8 b, int c)
+        {
+            return Sse4_1.blendv_epi8(a, b, (byte8)Mask.Int8FromInt(c));
+        }
+
+
+        /// <summary>       Returns a componentwise selection between two half2 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 select(half2 a, half2 b, int c)
+        {
+            return ashalf((short2)Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, Mask.Short2FromInt(c)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half3 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 select(half3 a, half3 b, int c)
+        {
+            return ashalf((short3)Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, (short3)Mask.Int3FromInt(c)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half4 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 select(half4 a, half4 b, int c)
+        {
+            return ashalf((short4)Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, (short4)Mask.Int4FromInt(c)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half8 vectors a and b based on a bitmask c. Per component, the component from b is selected when the corresponding LSB order bit in c is 1, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 select(half8 a, half8 b, int c)
+        {
+            return Sse4_1.blendv_epi8(*(v128*)&a, *(v128*)&b, (short8)Mask.Int8FromInt(c));
         }
 
 
@@ -821,6 +947,64 @@ namespace MaxMath
         public static ulong4 select(ulong4 a, ulong4 b, bool4 c)
         {
             return Avx2.mm256_blendv_epi8(b, a, (long4)((sbyte4)Sse2.cmpeq_epi8(*(v128*)&c, default(v128))));
+        }
+
+
+        /// <summary>       Returns a componentwise selection between two quarter2 vectors a and b based on a bool2 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 select(quarter2 a, quarter2 b, bool2 c)
+        {
+            return Sse4_1.blendv_epi8(b, a, Sse2.cmpeq_epi8(*(v128*)&c, default(v128)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter2 vectors a and b based on a bool3 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 select(quarter3 a, quarter3 b, bool3 c)
+        {
+            return Sse4_1.blendv_epi8(b, a, Sse2.cmpeq_epi8(*(v128*)&c, default(v128)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter4 vectors a and b based on a bool4 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 select(quarter4 a, quarter4 b, bool4 c)
+        {
+            return Sse4_1.blendv_epi8(b, a, Sse2.cmpeq_epi8(*(v128*)&c, default(v128)));
+        }
+
+        /// <summary>       Returns a componentwise selection between two quarter8 vectors a and b based on a bool8 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 select(quarter8 a, quarter8 b, bool8 c)
+        {
+            return Sse4_1.blendv_epi8(b, a, Sse2.cmpeq_epi8(c, default(v128)));
+        }
+
+
+        /// <summary>       Returns a componentwise selection between two half2 vectors a and b based on a bool2 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 select(half2 a, half2 b, bool2 c)
+        {
+            return ashalf((short2)Sse4_1.blendv_epi8(*(v128*)&b, *(v128*)&a, (short2)((sbyte2)Sse2.cmpeq_epi8(*(v128*)&c, default(v128)))));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half3 vectors a and b based on a bool3 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 select(half3 a, half3 b, bool3 c)
+        {
+            return ashalf((short3)Sse4_1.blendv_epi8(*(v128*)&b, *(v128*)&a, (short3)((sbyte3)Sse2.cmpeq_epi8(*(v128*)&c, default(v128)))));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half4 vectors a and b based on a bool4 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 select(half4 a, half4 b, bool4 c)
+        {
+            return ashalf((short4)Sse4_1.blendv_epi8(*(v128*)&b, *(v128*)&a, (short4)((sbyte4)Sse2.cmpeq_epi8(*(v128*)&c, default(v128)))));
+        }
+
+        /// <summary>       Returns a componentwise selection between two half8 vectors a and b based on a bool8 selection mask c. Per component, the component from b is selected when c is true, otherwise the component from a is selected.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 select(half8 a, half8 b, bool8 c)
+        {
+            return Sse4_1.blendv_epi8(*(v128*)&b, *(v128*)&a, (short8)((sbyte8)Sse2.cmpeq_epi8(c, default(v128))));
         }
 
 

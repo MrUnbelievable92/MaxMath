@@ -11,47 +11,47 @@ namespace MaxMath
     {
         /// <summary>       Returns a bool2 vector from the first two bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 tobool2(int imm8)
+        public static bool2 tobool2(int mask)
         {
-Assert.IsBetween(imm8, 0, 3);
+Assert.IsBetween(mask, 0, 3);
 
-            int result = 0x0101 & (imm8 | (imm8 << 7));
+            int result = 0x0101 & (mask | (mask << 7));
 
             return *(bool2*)&result;
         }
 
         /// <summary>       Returns a bool3 vector from the first 3 bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 tobool3(int imm8)
+        public static bool3 tobool3(int mask)
         {
-            byte3 temp = (byte3)(1 & shrl(imm8, new int3(0, 1, 2)));
+            byte3 temp = (byte3)(1 & shrl(mask, new int3(0, 1, 2)));
 
             return *(bool3*)&temp;
         }
 
         /// <summary>       Returns a bool4 vector from the first 4 bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 tobool4(int imm8)
+        public static bool4 tobool4(int mask)
         {
-            byte4 temp = (byte4)(1 & shrl(imm8, new int4(0, 1, 2, 3)));
+            byte4 temp = (byte4)(1 & shrl(mask, new int4(0, 1, 2, 3)));
 
             return *(bool4*)&temp;
         }
 
         /// <summary>       Returns a bool8 vector from the first 8 bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 tobool8(int imm8)
+        public static bool8 tobool8(int mask)
         {
-            return (v128)((byte8)(1 & shrl(imm8, new int8(0, 1, 2, 3, 4, 5, 6, 7))));
+            return (v128)((byte8)(1 & shrl(mask, new int8(0, 1, 2, 3, 4, 5, 6, 7))));
         }
 
         /// <summary>       Returns a bool16 vector from the first 16 bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 tobool16(int imm8)
+        public static bool16 tobool16(int mask)
         {
-Assert.IsBetween(imm8, 0, ushort.MaxValue);
+Assert.IsBetween(mask, 0, ushort.MaxValue);
 
-            int8 broadcast = imm8;
+            int8 broadcast = mask;
 
             ushort16 shufCast = Avx2.mm256_packus_epi32(shrl(broadcast, new int8(0, 1, 2, 3, 4, 5, 6, 7)),  
                                                         shrl(broadcast, new int8(8, 9, 10, 11, 12, 13, 14, 15)));
@@ -63,9 +63,9 @@ Assert.IsBetween(imm8, 0, ushort.MaxValue);
 
         /// <summary>       Returns a bool32 vector from the bits of an int value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 tobool32(int imm8)
+        public static bool32 tobool32(int mask)
         {
-            int8 broadcast = imm8;
+            int8 broadcast = mask;
 
             ushort16 hi = Avx2.mm256_packus_epi32(1 & shrl(broadcast, new int8(0, 1, 2, 3, 4, 5, 6, 7)),
                                                   1 & shrl(broadcast, new int8(8, 9, 10, 11, 12, 13, 14, 15)));

@@ -550,32 +550,60 @@ Assert.IsSafeBoolean(x.w);
         }
 
 
+        /// <summary>       Converts each value in a bool2 vector to its floating point representation as a quarter2 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 tof8(bool2 x)
+        {
+            return asquarter(select(default(byte2), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool3 vector to its floating point representation as a quarter3 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 tof8(bool3 x)
+        {
+            return asquarter(select(default(byte3), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool4 vector to its floating point representation as a quarter4 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 tof8(bool4 x)
+        {
+            return asquarter(select(default(byte4), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a bool8 vector to its floating point representation as a quarter8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 tof8(bool8 x)
+        {
+            return asquarter(select(default(byte8), ((quarter)1f).value, x));
+        }
+
         /// <summary>       Converts each value in a bool2 vector to its floating point representation as a half2 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 tof16(bool2 x)
         {
-            return ashalf(select((ushort2)0, (ushort2)new half(1f).value, x));
+            return ashalf(select(default(ushort2), ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool3 vector to its floating point representation as a half3 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 tof16(bool3 x)
         {
-            return ashalf(select((ushort3)0, (ushort3)new half(1f).value, x));
+            return ashalf(select(default(ushort3), ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool4 vector to its floating point representation as a half4 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 tof16(bool4 x)
         {
-            return ashalf(select((ushort4)0, (ushort4)new half(1f).value, x));
+            return ashalf(select(default(ushort4), ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool8 vector to its floating point representation as a half8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 tof16(bool8 x)
         {
-            return ashalf(select((ushort8)0, (ushort8)new half(1f).value, x));
+            return ashalf(select(default(ushort8), ((half)1f).value, x));
         }
 
 
@@ -692,14 +720,24 @@ Assert.IsBetween(x.y, 0, 1);
             return tobool((byte2)x);
         }
 
+        /// <summary>       Converts each value in a quarter2 vector to its boolean representation as a bool2 vector. The corresponding value is expected to be either 0 or 1. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 tobool(quarter2 x)
+        {
+Assert.IsTrue(x.x == (quarter)0f || x.x == (quarter)1f);
+Assert.IsTrue(x.y == (quarter)0f || x.y == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
         /// <summary>       Converts each value in a half2 vector to its boolean representation as a bool2 vector. The corresponding value is expected to be either 0 or 1. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(half2 x)
         {
-Assert.IsTrue(x.x == (half)0f || x.x == (half)1f);
-Assert.IsTrue(x.y == (half)0f || x.y == (half)1f);
+Assert.IsTrue(x.x == 0f || x.x == (half)1f);
+Assert.IsTrue(x.y == 0f || x.y == (half)1f);
 
-            return asushort(x) == new half(1f).value;
+            return asushort(x) == ((half)1f).value;
         }
 
         /// <summary>       Converts each value in a float2 vector to its boolean representation as a bool2 vector. The corresponding value is expected to be either 0 or 1. 
@@ -787,15 +825,26 @@ Assert.IsBetween(x.z, 0, 1);
             return tobool((byte3)x);
         }
 
+        /// <summary>       Converts each value in a quarter3 vector to its boolean representation as a bool3 vector. The corresponding value is expected to be either 0 or 1. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 tobool(quarter3 x)
+        {
+Assert.IsTrue(x.x == (quarter)0f || x.x == (quarter)1f);
+Assert.IsTrue(x.y == (quarter)0f || x.y == (quarter)1f);
+Assert.IsTrue(x.z == (quarter)0f || x.z == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
         /// <summary>       Converts each value in a half3 vector to its boolean representation as a bool3 vector. The corresponding value is expected to be either 0 or 1. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(half3 x)
         {
-Assert.IsTrue(x.x == (half)0f || x.x == (half)1f);
-Assert.IsTrue(x.y == (half)0f || x.y == (half)1f);
-Assert.IsTrue(x.z == (half)0f || x.z == (half)1f);
+Assert.IsTrue(x.x == 0f || x.x == (half)1f);
+Assert.IsTrue(x.y == 0f || x.y == (half)1f);
+Assert.IsTrue(x.z == 0f || x.z == (half)1f);
 
-            return asushort(x) == new half(1f).value;
+            return asushort(x) == ((half)1f).value;
         }
 
         /// <summary>       Converts each value in a float3 vector to its boolean representation as a bool3 vector. The corresponding value is expected to be either 0 or 1. 
@@ -886,16 +935,28 @@ Assert.IsBetween(x.w, 0, 1);
             return tobool((byte4)x);
         }
 
+        /// <summary>       Converts each value in a quarter4 vector to its boolean representation as a bool4 vector. The corresponding value is expected to be either 0 or 1. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 tobool(quarter4 x)
+        {
+Assert.IsTrue(x.x == (quarter)0f || x.x == (quarter)1f);
+Assert.IsTrue(x.y == (quarter)0f || x.y == (quarter)1f);
+Assert.IsTrue(x.z == (quarter)0f || x.z == (quarter)1f);
+Assert.IsTrue(x.w == (quarter)0f || x.w == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
         /// <summary>       Converts each value in a half4 vector to its boolean representation as a bool4 vector. The corresponding value is expected to be either 0 or 1. 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(half4 x)
         {
-Assert.IsTrue(x.x == (half)0f || x.x == (half)1f);
-Assert.IsTrue(x.y == (half)0f || x.y == (half)1f);
-Assert.IsTrue(x.z == (half)0f || x.z == (half)1f);
-Assert.IsTrue(x.w == (half)0f || x.w == (half)1f);
+Assert.IsTrue(x.x == 0f || x.x == (half)1f);
+Assert.IsTrue(x.y == 0f || x.y == (half)1f);
+Assert.IsTrue(x.z == 0f || x.z == (half)1f);
+Assert.IsTrue(x.w == 0f || x.w == (half)1f);
 
-            return asushort(x) == new half(1f).value;
+            return asushort(x) == ((half)1f).value;
         }
 
         /// <summary>       Converts each value in a float4 vector to its boolean representation as a bool4 vector. The corresponding value is expected to be either 0 or 1. 
@@ -981,6 +1042,38 @@ Assert.IsBetween(x.x7,  0, 1);
         public static bool8 tobool(uint8 x)
         {
             return tobool((byte8)x);
+        }
+
+        /// <summary>       Converts each value in a quarter8 vector to its boolean representation as a bool8 vector. The corresponding value is expected to be either 0 or 1. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool8 tobool(quarter8 x)
+        {
+Assert.IsTrue(x.x0 == (quarter)0f || x.x0 == (quarter)1f);
+Assert.IsTrue(x.x1 == (quarter)0f || x.x1 == (quarter)1f);
+Assert.IsTrue(x.x2 == (quarter)0f || x.x2 == (quarter)1f);
+Assert.IsTrue(x.x3 == (quarter)0f || x.x3 == (quarter)1f);
+Assert.IsTrue(x.x4 == (quarter)0f || x.x4 == (quarter)1f);
+Assert.IsTrue(x.x5 == (quarter)0f || x.x5 == (quarter)1f);
+Assert.IsTrue(x.x6 == (quarter)0f || x.x6 == (quarter)1f);
+Assert.IsTrue(x.x7 == (quarter)0f || x.x7 == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
+        /// <summary>       Converts each value in a half8 vector to its boolean representation as a bool8 vector. The corresponding value is expected to be either 0 or 1. 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool8 tobool(half8 x)
+        {
+Assert.IsTrue(x.x0 == 0f || x.x0 == (half)1f);
+Assert.IsTrue(x.x1 == 0f || x.x1 == (half)1f);
+Assert.IsTrue(x.x2 == 0f || x.x2 == (half)1f);
+Assert.IsTrue(x.x3 == 0f || x.x3 == (half)1f);
+Assert.IsTrue(x.x4 == 0f || x.x4 == (half)1f);
+Assert.IsTrue(x.x5 == 0f || x.x5 == (half)1f);
+Assert.IsTrue(x.x6 == 0f || x.x6 == (half)1f);
+Assert.IsTrue(x.x7 == 0f || x.x7 == (half)1f);
+
+            return asushort(x) == ((half)1f).value;
         }
 
         /// <summary>       Converts each value in a float8 vector to its boolean representation as a bool8 vector. The corresponding value is expected to be either 0 or 1. 

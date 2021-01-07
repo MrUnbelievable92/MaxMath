@@ -134,6 +134,9 @@ namespace MaxMath
         public static explicit operator short8(int8 input) => Cast.Int8ToShort8(input);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short8(half8 input) => (short8)(float8)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short8(float8 input) => (short8)(int8)input;
 
 
@@ -142,6 +145,9 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int8(short8 input) => Avx2.mm256_cvtepi16_epi32(input);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator half8(short8 input) => (half8)(float8)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(short8 input) => (float8)(int8)input;

@@ -8,6 +8,150 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
+        /// <summary>       Returns the bit pattern of an sbyte as a quarter.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter asquarter(sbyte x)
+        {
+            return new quarter { value = (byte)x };
+        }
+
+        /// <summary>       Returns the bit pattern of an sbyte2 as a quarter2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 asquarter(sbyte2 x)
+        {
+            return (v128)x;
+        }
+
+        /// <summary>       Returns the bit pattern of an sbyte3 as a quarter3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 asquarter(sbyte3 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of an sbyte4 as a quarter4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 asquarter(sbyte4 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of an sbyte8 as a quarter8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 asquarter(sbyte8 x)
+        {
+            return (v128)x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a byte as a quarter.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter asquarter(byte x)
+        {
+            return new quarter { value = x };
+        }
+
+        /// <summary>       Returns the bit pattern of a byte2 as a quarter2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 asquarter(byte2 x)
+        {
+            return (v128)x;
+        }
+
+        /// <summary>       Returns the bit pattern of a byte3 as a quarter3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 asquarter(byte3 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a byte4 as a quarter4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 asquarter(byte4 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a byte8 as a quarter8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 asquarter(byte8 x)
+        {
+            return (v128)x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a quarter as an sbyte.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte assbyte(quarter x)
+        {
+            return (sbyte)x.value;
+        }
+
+        /// <summary>       Returns the bit pattern of a quarter2 as an sbyte2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 assbyte(quarter2 x)
+        {
+            return (v128)x;
+        }
+
+        /// <summary>       Returns the bit pattern of a quarter3 as an sbyte3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte3 assbyte(quarter3 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a quarter4 as an sbyte4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte4 assbyte(quarter4 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a quarter8 as an sbyte8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte8 assbyte(quarter8 x)
+        {
+            return (v128)x;
+        }
+
+
+        /// <summary>       Returns the bit pattern of a quarter as a byte.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte asbyte(quarter x)
+        {
+            return x.value;
+        }
+
+        /// <summary>       Returns the bit pattern of a quarter2 as a byte2.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte2 asbyte(quarter2 x)
+        {
+            return (v128)x;
+        }
+
+        /// <summary>       Returns the bit pattern of a quarter3 as a byte3.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 asbyte(quarter3 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a quarter4 as a byte4.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 asbyte(quarter4 x)
+        {
+            return (v128)x;
+        }
+        
+        /// <summary>       Returns the bit pattern of a quarter8 as a byte8.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte8 asbyte(quarter8 x)
+        {
+            return (v128)x;
+        }
+
+
         /// <summary>       Returns the bit pattern of a short as a half.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half ashalf(short x)

@@ -68,27 +68,33 @@ Assert.IsSafeBoolean(a);
             return touint8(a);
         }
 
+
+        /// <summary>       Converts a bool value to its quarter representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter tof8(bool a)
+        {
+            return new quarter { value = (byte)(-toint8(a) & ((quarter)1f).value) };
+        }
+
         /// <summary>       Converts a bool value to its half representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half tof16(bool a)
         { 
-            ushort backingField = (ushort)(touint8(a) * new half(1f).value);
-
-            return *(half*)&backingField;
+            return new half { value = (ushort)(-toint8(a) & ((half)1f).value) };
         }
 
         /// <summary>       Converts a bool value to its float representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float tof32(bool a)
         { 
-            return math.asfloat(touint8(a) * math.asuint(1f));
+            return math.asfloat(-toint8(a) & math.asint(1f));
         }
 
         /// <summary>       Converts a bool value to its double representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double tof64(bool a)
         { 
-            return math.asdouble(touint8(a) * math.asulong(1d));
+            return math.asdouble(-(long)touint64(a) & math.aslong(1d));
         }
 
 
@@ -164,11 +170,20 @@ Assert.IsBetween((sbyte)a, 0, 1);
         }
 
 
+        /// <summary>       Converts a quarter value to its bool representation. The underlying value is expected to be either 0 or 1.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(quarter a)
+        {
+Assert.IsTrue(a.value == ((quarter)1f).value || a.value == 0 || a.value == 1 << 7);
+
+            return a.value == ((quarter)1f).value;
+        }
+
         /// <summary>       Converts a half value to its bool representation. The underlying value is expected to be either 0 or 1.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool tobool(half a)
         {
-Assert.IsTrue(a.value == new half(1f).value || a.value == 0 || a.value == 1 << 15);
+Assert.IsTrue(a.value == ((half)1f).value || a.value == 0 || a.value == 1 << 15);
 
             return a.value == ((half)1f).value;
         }

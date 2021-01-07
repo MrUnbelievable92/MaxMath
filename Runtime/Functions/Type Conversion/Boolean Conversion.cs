@@ -66,11 +66,19 @@ namespace MaxMath
             return touint8safe(a);
         }
 
+
+        /// <summary>       Converts a bool value to its quarter representation. The underlying value is being clamped to the interval [0,1].        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter tof8safe(bool a)
+        {
+            return new quarter { value = (byte)(-toint8safe(a) & ((quarter)1f).value) };
+        }
+
         /// <summary>       Converts a bool value to its half representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half tof16safe(bool a)
         {
-            return new half(-toint8safe(a) & new half(1f).value);
+            return new half { value = (ushort)(-toint8safe(a) & ((half)1f).value) };
         }
 
         /// <summary>       Converts a bool value to its float representation. The underlying value is being clamped to the interval [0,1].        </summary>
@@ -84,7 +92,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double tof64safe(bool a)
         {
-            return math.asdouble(-toint8safe(a) & math.aslong(1d));
+            return math.asdouble(-(long)touint64safe(a) & math.aslong(1d));
         }
 
 
@@ -145,11 +153,18 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Converts a quarter value to its bool representation. The underlying value is being clamped to the interval [0,1].        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool toboolsafe(quarter a)
+        {
+            return a != (quarter)0f;
+        }
+
         /// <summary>       Converts a half value to its bool representation. The underlying value is being clamped to the interval [0,1].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool toboolsafe(half a)
         {
-            return a != (half)0f;
+            return (float)a != 0f;
         }
 
         /// <summary>       Converts a float value to its bool representation. The underlying value is being clamped to the interval [0,1].        </summary>

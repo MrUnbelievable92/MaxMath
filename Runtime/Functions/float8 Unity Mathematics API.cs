@@ -25,7 +25,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isnan(float8 x) 
         { 
-            return (asint(x) & (int)bitmask32(31)) > 0x7F80_0000; 
+            return (asint(x) & bitmask32(31)) > 0x7F80_0000; 
         }
 
         /// <summary>       Returns the componentwise reciprocal a float8 vector.       </summary>

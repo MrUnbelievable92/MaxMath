@@ -148,7 +148,7 @@ namespace MaxMath
         public half2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed (void* ptr = &this.x6) { return *(half2*)ptr; } } set { fixed (void* ptr = &this.x6) { *(half2*)ptr = value; } } }
 
 
-[MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse2.load(u)_[...].
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse2.load(u)_[...].
         public static implicit operator v128(half8 input) => new v128(input.x0.value, input.x1.value, input.x2.value, input.x3.value, input.x4.value, input.x5.value, input.x6.value, input.x7.value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v128 x)

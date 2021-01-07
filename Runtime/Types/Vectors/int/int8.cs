@@ -131,8 +131,14 @@ namespace MaxMath
         public static explicit operator int8(uint8 input) => (v256)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(half8 input) => (int8)(float8)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int8(float8 input) => Avx.mm256_cvttps_epi32(input);
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator half8(int8 input) => (half8)(float8)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(int8 input) => Avx.mm256_cvtepi32_ps(input);

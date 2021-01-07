@@ -111,8 +111,8 @@ namespace MaxMath
         //    }
         //}
 
-                                                        // 0x4000_0002
-        private const float PRECISION_ADJUSTMENT_FACTOR = 2.00000051757f;
+
+        private const int PRECISION_ADJUSTMENT_FACTOR = 0x4000_0002;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -132,7 +132,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
             float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new float8(PRECISION_ADJUSTMENT_FACTOR));
+            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
             precisionLossCompensation *= divisor_f32_rcp;
             precisionLossCompensation *= dividend_f32;
 
@@ -140,19 +140,19 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte8 vdiv_byte(byte8 dividend, byte8 divisor)
+        public static byte8 vdiv_byte(byte8 dividend, byte8 divisor)
         {
             return (byte8)vdiv_byte_quotient((int8)dividend, (int8)divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte8 vdiv_sbyte(sbyte8 dividend, sbyte8 divisor)
+        public static sbyte8 vdiv_sbyte(sbyte8 dividend, sbyte8 divisor)
         {
             return (sbyte8)vdiv_byte_quotient((int8)dividend, (int8)divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte8 vrem_byte(byte8 dividend, byte8 divisor)
+        public static byte8 vrem_byte(byte8 dividend, byte8 divisor)
         {
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
@@ -161,7 +161,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte8 vrem_sbyte(sbyte8 dividend, sbyte8 divisor)
+        public static sbyte8 vrem_sbyte(sbyte8 dividend, sbyte8 divisor)
         {
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
@@ -170,7 +170,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte8 vdivrem_byte(byte8 dividend, byte8 divisor, out byte8 remainder)
+        public static byte8 vdivrem_byte(byte8 dividend, byte8 divisor, out byte8 remainder)
         {
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
@@ -181,7 +181,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte8 vdivrem_sbyte(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
+        public static sbyte8 vdivrem_sbyte(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
             int8 castDividend = dividend;
             int8 castDivisor = divisor;
@@ -193,7 +193,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(int4 dividend, int4 divisor)
+        public static v128 vdiv_byte_quotient(int4 dividend, int4 divisor)
         {
             float4 dividend_f32 = dividend;
             float4 divisor_f32 = divisor;
@@ -208,7 +208,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(int3 dividend, int3 divisor)
+        public static v128 vdiv_byte_quotient(int3 dividend, int3 divisor)
         {
             float3 dividend_f32 = dividend;
             float3 divisor_f32 = divisor;
@@ -223,7 +223,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 vdiv_byte_quotient(int2 dividend, int2 divisor)
+        public static v128 vdiv_byte_quotient(int2 dividend, int2 divisor)
         {
             float2 dividend_f32 = dividend;
             float2 divisor_f32 = divisor;
@@ -238,7 +238,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte4 vdiv_byte(byte4 dividend, byte4 divisor)
+        public static byte4 vdiv_byte(byte4 dividend, byte4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -251,7 +251,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte4 vdiv_sbyte(sbyte4 dividend, sbyte4 divisor)
+        public static sbyte4 vdiv_sbyte(sbyte4 dividend, sbyte4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -264,7 +264,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte3 vdiv_byte(byte3 dividend, byte3 divisor)
+        public static byte3 vdiv_byte(byte3 dividend, byte3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -276,7 +276,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte3 vdiv_sbyte(sbyte3 dividend, sbyte3 divisor)
+        public static sbyte3 vdiv_sbyte(sbyte3 dividend, sbyte3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -288,7 +288,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte2 vdiv_byte(byte2 dividend, byte2 divisor)
+        public static byte2 vdiv_byte(byte2 dividend, byte2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -299,7 +299,7 @@ Assert.AreNotEqual(divisor.y, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte2 vdiv_sbyte(sbyte2 dividend, sbyte2 divisor)
+        public static sbyte2 vdiv_sbyte(sbyte2 dividend, sbyte2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -311,7 +311,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte4 vrem_byte(byte4 dividend, byte4 divisor)
+        public static byte4 vrem_byte(byte4 dividend, byte4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -326,7 +326,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte4 vrem_sbyte(sbyte4 dividend, sbyte4 divisor)
+        public static sbyte4 vrem_sbyte(sbyte4 dividend, sbyte4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -341,7 +341,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte3 vrem_byte(byte3 dividend, byte3 divisor)
+        public static byte3 vrem_byte(byte3 dividend, byte3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -355,7 +355,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte3 vrem_sbyte(sbyte3 dividend, sbyte3 divisor)
+        public static sbyte3 vrem_sbyte(sbyte3 dividend, sbyte3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -369,7 +369,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte2 vrem_byte(byte2 dividend, byte2 divisor)
+        public static byte2 vrem_byte(byte2 dividend, byte2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -382,7 +382,7 @@ Assert.AreNotEqual(divisor.y, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte2 vrem_sbyte(sbyte2 dividend, sbyte2 divisor)
+        public static sbyte2 vrem_sbyte(sbyte2 dividend, sbyte2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -396,7 +396,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte4 vdivrem_byte(byte4 dividend, byte4 divisor, out byte4 remainder)
+        public static byte4 vdivrem_byte(byte4 dividend, byte4 divisor, out byte4 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -413,7 +413,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte4 vdivrem_sbyte(sbyte4 dividend, sbyte4 divisor, out sbyte4 remainder)
+        public static sbyte4 vdivrem_sbyte(sbyte4 dividend, sbyte4 divisor, out sbyte4 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -430,7 +430,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte3 vdivrem_byte(byte3 dividend, byte3 divisor, out byte3 remainder)
+        public static byte3 vdivrem_byte(byte3 dividend, byte3 divisor, out byte3 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -446,7 +446,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte3 vdivrem_sbyte(sbyte3 dividend, sbyte3 divisor, out sbyte3 remainder)
+        public static sbyte3 vdivrem_sbyte(sbyte3 dividend, sbyte3 divisor, out sbyte3 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -462,7 +462,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static byte2 vdivrem_byte(byte2 dividend, byte2 divisor, out byte2 remainder)
+        public static byte2 vdivrem_byte(byte2 dividend, byte2 divisor, out byte2 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -477,7 +477,7 @@ Assert.AreNotEqual(divisor.y, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static sbyte2 vdivrem_sbyte(sbyte2 dividend, sbyte2 divisor, out sbyte2 remainder)
+        public static sbyte2 vdivrem_sbyte(sbyte2 dividend, sbyte2 divisor, out sbyte2 remainder)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -493,7 +493,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static float8 vdiv_short_AVX(short8 dividend, short8 divisor)
+        public static float8 vdiv_short_AVX(short8 dividend, short8 divisor)
         {
 Assert.AreNotEqual(divisor.x0, 0);
 Assert.AreNotEqual(divisor.x1, 0);
@@ -509,7 +509,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
             float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new float8(PRECISION_ADJUSTMENT_FACTOR));
+            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
             precisionLossCompensation *= divisor_f32_rcp;
             precisionLossCompensation *= dividend_f32;
 
@@ -533,7 +533,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
             float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new float8(PRECISION_ADJUSTMENT_FACTOR));
+            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
             precisionLossCompensation *= divisor_f32_rcp;
             precisionLossCompensation *= dividend_f32;
 
@@ -541,7 +541,7 @@ Assert.AreNotEqual(divisor.x7, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short2 vdiv_short(short2 dividend, short2 divisor)
+        public static short2 vdiv_short(short2 dividend, short2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -559,7 +559,7 @@ Assert.AreNotEqual(divisor.y, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort2 vdiv_ushort(ushort2 dividend, ushort2 divisor)
+        public static ushort2 vdiv_ushort(ushort2 dividend, ushort2 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -577,7 +577,7 @@ Assert.AreNotEqual(divisor.y, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short3 vdiv_short(short3 dividend, short3 divisor)
+        public static short3 vdiv_short(short3 dividend, short3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -596,7 +596,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort3 vdiv_ushort(ushort3 dividend, ushort3 divisor)
+        public static ushort3 vdiv_ushort(ushort3 dividend, ushort3 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -615,7 +615,7 @@ Assert.AreNotEqual(divisor.z, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short4 vdiv_short(short4 dividend, short4 divisor)
+        public static short4 vdiv_short(short4 dividend, short4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -635,7 +635,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort4 vdiv_ushort(ushort4 dividend, ushort4 divisor)
+        public static ushort4 vdiv_ushort(ushort4 dividend, ushort4 divisor)
         {
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
@@ -656,19 +656,19 @@ Assert.AreNotEqual(divisor.w, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short8 vdiv_short(short8 dividend, short8 divisor) 
+        public static short8 vdiv_short(short8 dividend, short8 divisor) 
         {
             return (short8)vdiv_short_AVX(dividend, divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort8 vdiv_ushort(ushort8 dividend, ushort8 divisor)
+        public static ushort8 vdiv_ushort(ushort8 dividend, ushort8 divisor)
         {
             return (ushort8)vdiv_ushort_AVX(dividend, divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short16 vdiv_short(short16 dividend, short16 divisor)
+        public static short16 vdiv_short(short16 dividend, short16 divisor)
         {
             float8 lo = vdiv_short_AVX(dividend.v8_0, divisor.v8_0);
             float8 hi = vdiv_short_AVX(dividend.v8_8, divisor.v8_8);
@@ -678,7 +678,7 @@ Assert.AreNotEqual(divisor.w, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort16 vdiv_ushort(ushort16 dividend, ushort16 divisor)
+        public static ushort16 vdiv_ushort(ushort16 dividend, ushort16 divisor)
         {
             float8 lo = vdiv_ushort_AVX(dividend.v8_0, divisor.v8_0);
             float8 hi = vdiv_ushort_AVX(dividend.v8_8, divisor.v8_8);
@@ -689,62 +689,62 @@ Assert.AreNotEqual(divisor.w, 0);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short2 vrem_short(short2 dividend, short2 divisor)
+        public static short2 vrem_short(short2 dividend, short2 divisor)
         {
             return dividend - (vdiv_short(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort2 vrem_ushort(ushort2 dividend, ushort2 divisor)
+        public static ushort2 vrem_ushort(ushort2 dividend, ushort2 divisor)
         {
             return dividend - (vdiv_ushort(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short3 vrem_short(short3 dividend, short3 divisor)
+        public static short3 vrem_short(short3 dividend, short3 divisor)
         {
             return dividend - (vdiv_short(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort3 vrem_ushort(ushort3 dividend, ushort3 divisor)
+        public static ushort3 vrem_ushort(ushort3 dividend, ushort3 divisor)
         {
             return dividend - (vdiv_ushort(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short4 vrem_short(short4 dividend, short4 divisor)
+        public static short4 vrem_short(short4 dividend, short4 divisor)
         {
             return dividend - (vdiv_short(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort4 vrem_ushort(ushort4 dividend, ushort4 divisor)
+        public static ushort4 vrem_ushort(ushort4 dividend, ushort4 divisor)
         {
             return dividend - (vdiv_ushort(dividend, divisor) * divisor);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short8 vrem_short(short8 dividend, short8 divisor) 
+        public static short8 vrem_short(short8 dividend, short8 divisor) 
         {
             return dividend - (vdiv_short(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort8 vrem_ushort(ushort8 dividend, ushort8 divisor)
+        public static ushort8 vrem_ushort(ushort8 dividend, ushort8 divisor)
         {
             return dividend - (vdiv_ushort(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static short16 vrem_short(short16 dividend, short16 divisor)
+        public static short16 vrem_short(short16 dividend, short16 divisor)
         {
             return dividend - (vdiv_short(dividend, divisor) * divisor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ushort16 vrem_ushort(ushort16 dividend, ushort16 divisor)
+        public static ushort16 vrem_ushort(ushort16 dividend, ushort16 divisor)
         {
             return dividend - (vdiv_ushort(dividend, divisor) * divisor);
         }
