@@ -86,7 +86,7 @@ Note:
 
 ![alt text](https://i.imgur.com/JUbYL6J.png)
 
-![alt text](https://i.imgur.com/eC06KYl.png)
+![alt text](https://i.imgur.com/KDvHC11.png)
 
 ![alt text](https://i.imgur.com/WoDaxIU.png)
 
