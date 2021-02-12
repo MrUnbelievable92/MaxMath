@@ -37,12 +37,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float8 x)
         {
-            v128 result = Sse.mul_ps(Avx.mm256_castsi256_si128(x),
-                                     Avx2.mm256_extracti128_si256(x, 1));
-
-            result = Sse.mul_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
-
-            return Sse.mul_ss(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
+            if (Avx.IsAvxSupported)
+            {
+                v128 result = Sse.mul_ps(Avx.mm256_castps256_ps128(x),
+                                         Avx.mm256_extractf128_ps(x, 1));
+            
+                result = Sse.mul_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
+            
+                return Sse.mul_ss(result, Sse2.shufflelo_epi16(result, Sse.SHUFFLE(0, 0, 3, 2))).Float0;
+            }
+            else
+            {
+                return cprod(x.v4_0 * x.v4_4);
+            }
         }
 
 
@@ -197,25 +204,39 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short8 x)
         {
-            x = Avx.mm256_castsi256_si128((int8)x * (int8)(short8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
-            x = Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
+            if (Avx2.IsAvx2Supported)
+            {
+                v128 prod = Avx.mm256_castsi256_si128((int8)x * (int8)(short8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
+                prod = Sse4_1.mullo_epi32(prod, Sse2.shuffle_epi32(prod, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse4_1.mullo_epi32(prod, Sse2.shufflelo_epi16(prod, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return cprod((int4)x.v4_0 * (int4)x.v4_4);
+            }
         }
 
         /// <summary>       Returns the horizontal product of components of a short16 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short16 x)
         {
-            v128 lo = x.v8_0;
+            if (Avx2.IsAvx2Supported)
+            {
+                v128 lo = x.v8_0;
 
-            lo = Avx.mm256_castsi256_si128(((int8)(short8)lo * (int8)(short8)Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)))
-                                           *
-                                           ((int8)x.v8_8 * (int8)(short8)Sse2.shuffle_epi32(x.v8_8, Sse.SHUFFLE(0, 1, 2, 3))));
+                lo = Avx.mm256_castsi256_si128(((int8)(short8)lo * (int8)(short8)Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)))
+                                               *
+                                               ((int8)x.v8_8 * (int8)(short8)Sse2.shuffle_epi32(x.v8_8, Sse.SHUFFLE(0, 1, 2, 3))));
 
-            lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
+                lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse4_1.mullo_epi32(lo, Sse2.shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return cprod((int8)x.v8_0 * (int8)x.v8_8);
+            }
         }
 
 
@@ -249,25 +270,39 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort8 x)
         {
-            x = Avx.mm256_castsi256_si128((uint8)x * (uint8)(ushort8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
-            x = Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
+            if (Avx2.IsAvx2Supported)
+            {
+                v128 prod = Avx.mm256_castsi256_si128((uint8)x * (uint8)(ushort8)Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3)));
+                prod = Sse4_1.mullo_epi32(prod, Sse2.shuffle_epi32(prod, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.mullo_epi32(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
+                return Sse4_1.mullo_epi32(prod, Sse2.shufflelo_epi16(prod, Sse.SHUFFLE(0, 0, 3, 2))).UInt0;
+            }
+            else
+            {
+                return cprod((uint4)x.v4_0 * (uint4)x.v4_4);
+            }
         }
 
         /// <summary>       Returns the horizontal product of components of a ushort16 vector.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort16 x)
         {
-            v128 lo = x.v8_0;
+            if (Avx2.IsAvx2Supported)
+            {
+                v128 lo = x.v8_0;
 
-            lo = Avx.mm256_castsi256_si128(((uint8)(ushort8)lo * (uint8)(ushort8)Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)))
-                                            *
-                                            ((uint8)x.v8_8 * (uint8)(ushort8)Sse2.shuffle_epi32(x.v8_8, Sse.SHUFFLE(0, 1, 2, 3))));
+                lo = Avx.mm256_castsi256_si128(((uint8)(ushort8)lo * (uint8)(ushort8)Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)))
+                                                *
+                                                ((uint8)x.v8_8 * (uint8)(ushort8)Sse2.shuffle_epi32(x.v8_8, Sse.SHUFFLE(0, 1, 2, 3))));
 
-            lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
+                lo = Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.mullo_epi32(lo, Sse2.shuffle_epi32(lo, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
+                return Sse4_1.mullo_epi32(lo, Sse2.shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 3, 2))).UInt0;
+            }
+            else
+            {
+                return cprod((uint8)x.v8_0 * (uint8)x.v8_8);
+            }
         }
 
 
@@ -299,12 +334,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int8 x)
         {
-            v128 result = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(x),
+            if (Avx2.IsAvx2Supported)
+            {
+                v128 result = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(x),
                                              Avx2.mm256_extracti128_si256(x, 1));
 
-            result = Sse4_1.mullo_epi32(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
+                result = Sse4_1.mullo_epi32(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse4_1.mullo_epi32(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse4_1.mullo_epi32(result, Sse2.shufflelo_epi16(result, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return cprod(x.v4_0 * x.v4_4);
+            }
         }
 
 

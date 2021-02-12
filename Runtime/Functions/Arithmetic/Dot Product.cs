@@ -15,9 +15,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float8 x, float8 y)
         {
-            x = Avx.mm256_dp_ps(x, y, 255);
+            if (Avx.IsAvxSupported)
+            {
+                x = Avx.mm256_dp_ps(x, y, 255);
 
-            return Sse.add_ss(Avx.mm256_castps256_ps128(x), Avx.mm256_extractf128_ps(x, 1)).Float0;
+                return Sse.add_ss(Avx.mm256_castps256_ps128(x), Avx.mm256_extractf128_ps(x, 1)).Float0;
+            }
+            else
+            {
+                return math.dot(x.v4_0, y.v4_0) + math.dot(x.v4_4, y.v4_4);
+            }
         }
 
 
@@ -60,7 +67,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte32 a, byte32 b)
         {
-            return (uint)dot((short16)a.v16_0, (short16)b.v16_0) + (uint)dot((short16)a.v16_16, (short16)b.v16_16);
+            return dot((ushort16)a.v16_0, (ushort16)b.v16_0) + dot((ushort16)a.v16_16, (ushort16)b.v16_16);
         }
 
 
@@ -111,43 +118,78 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(2 * -32768 * 32767, 2 * 32767 * 32767)]
         public static int dot(short2 a, short2 b)
         {
-            return Sse2.madd_epi16(a, b).SInt0;
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.madd_epi16(a, b).SInt0;
+            }
+            else
+            {
+                return (a.x * b.x) + (a.y * b.y);
+            }
         }
 
         /// <summary>       Returns the dot product of two short3 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short3 a, short3 b)
         {
-            short4 t = Sse2.madd_epi16(Sse2.insert_epi16(a, 0, 3), b);
+            if (Sse2.IsSse2Supported)
+            {
+                short4 temp = Sse2.madd_epi16(Sse2.insert_epi16(a, 0, 3), b);
 
-            return Sse2.add_epi32(t, Sse2.shuffle_epi32(t, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse2.add_epi32(temp, Sse2.shufflelo_epi16(temp, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+            }
         }
 
         /// <summary>       Returns the dot product of two short4 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short4 a, short4 b)
         {
-            a = Sse2.madd_epi16(a, b);
+            if (Sse2.IsSse2Supported)
+            {
+                a = Sse2.madd_epi16(a, b);
 
-            return Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse2.add_epi32(a, Sse2.shufflelo_epi16(a, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return ((a.x * b.x) + (a.y * b.y)) + ((a.z * b.z) + (a.w * b.w));
+            }
         }
 
         /// <summary>       Returns the dot product of two short8 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short8 a, short8 b)
         {
-            a = Sse2.madd_epi16(a, b);
+            if (Sse2.IsSse2Supported)
+            {
+                a = Sse2.madd_epi16(a, b);
 
-            a = Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 1, 2, 3)));
+                a = Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 1, 2, 3)));
 
-            return Sse2.add_epi32(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+                return Sse2.add_epi32(a, Sse2.shufflelo_epi16(a, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+            }
+            else
+            {
+                return (((a.x0 * b.x0) + (a.x1 * b.x1)) + ((a.x2 * b.x2) + (a.x3 * b.x3))) + (((a.x4 * b.x4) + (a.x5 * b.x5)) + ((a.x6 * b.x6) + (a.x7 * b.x7)));
+            }
         }
 
         /// <summary>       Returns the dot product of two short16 vectors.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short16 a, short16 b)
         {
-            return csum((int8)Avx2.mm256_madd_epi16(a, b));
+            if (Avx2.IsAvx2Supported)
+            {
+                return csum((int8)Avx2.mm256_madd_epi16(a, b));
+            }
+            else
+            {
+                return dot(a.v8_0, b.v8_0) + dot(a.v8_8, b.v8_8);
+            }
         }
 
 

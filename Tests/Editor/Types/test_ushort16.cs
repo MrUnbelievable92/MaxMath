@@ -721,7 +721,7 @@ namespace MaxMath.Tests
                           x.x12 == (ushort)(~TestData_LHS[i].x12) &
                           x.x13 == (ushort)(~TestData_LHS[i].x13) &
                           x.x14 == (ushort)(~TestData_LHS[i].x14) &
-                          x.x15 == (ushort)(~TestData_LHS[i].x15); ;
+                          x.x15 == (ushort)(~TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -1109,212 +1109,1195 @@ namespace MaxMath.Tests
                           v4_0.y == TestData_LHS[i].x1 &
                           v4_0.z == TestData_LHS[i].x2 &
                           v4_0.w == TestData_LHS[i].x3;
-
+                
                 ushort4 v4_1 = TestData_LHS[i].v4_1;
                 result &= v4_1.x == TestData_LHS[i].x1 &
                           v4_1.y == TestData_LHS[i].x2 &
                           v4_1.z == TestData_LHS[i].x3 &
                           v4_1.w == TestData_LHS[i].x4;
-
+                
                 ushort4 v4_2 = TestData_LHS[i].v4_2;
                 result &= v4_2.x == TestData_LHS[i].x2 &
                           v4_2.y == TestData_LHS[i].x3 &
                           v4_2.z == TestData_LHS[i].x4 &
                           v4_2.w == TestData_LHS[i].x5;
-
+                
                 ushort4 v4_3 = TestData_LHS[i].v4_3;
                 result &= v4_3.x == TestData_LHS[i].x3 &
                           v4_3.y == TestData_LHS[i].x4 &
                           v4_3.z == TestData_LHS[i].x5 &
                           v4_3.w == TestData_LHS[i].x6;
-
+                
                 ushort4 v4_4 = TestData_LHS[i].v4_4;
                 result &= v4_4.x == TestData_LHS[i].x4 &
                           v4_4.y == TestData_LHS[i].x5 &
                           v4_4.z == TestData_LHS[i].x6 &
                           v4_4.w == TestData_LHS[i].x7;
-
+                
                 ushort4 v4_5 = TestData_LHS[i].v4_5;
                 result &= v4_5.x == TestData_LHS[i].x5 &
                           v4_5.y == TestData_LHS[i].x6 &
                           v4_5.z == TestData_LHS[i].x7 &
                           v4_5.w == TestData_LHS[i].x8;
-
+                
                 ushort4 v4_6 = TestData_LHS[i].v4_6;
                 result &= v4_6.x == TestData_LHS[i].x6 &
                           v4_6.y == TestData_LHS[i].x7 &
                           v4_6.z == TestData_LHS[i].x8 &
                           v4_6.w == TestData_LHS[i].x9;
-
+                
                 ushort4 v4_7 = TestData_LHS[i].v4_7;
                 result &= v4_7.x == TestData_LHS[i].x7 &
                           v4_7.y == TestData_LHS[i].x8 &
                           v4_7.z == TestData_LHS[i].x9 &
                           v4_7.w == TestData_LHS[i].x10;
-
+                
                 ushort4 v4_8 = TestData_LHS[i].v4_8;
                 result &= v4_8.x == TestData_LHS[i].x8 &
                           v4_8.y == TestData_LHS[i].x9 &
                           v4_8.z == TestData_LHS[i].x10 &
                           v4_8.w == TestData_LHS[i].x11;
-
+                
                 ushort4 v4_9 = TestData_LHS[i].v4_9;
                 result &= v4_9.x == TestData_LHS[i].x9  &
                           v4_9.y == TestData_LHS[i].x10 &
                           v4_9.z == TestData_LHS[i].x11 &
                           v4_9.w == TestData_LHS[i].x12;
-
+                
                 ushort4 v4_10 = TestData_LHS[i].v4_10;
                 result &= v4_10.x == TestData_LHS[i].x10 &
                           v4_10.y == TestData_LHS[i].x11 &
                           v4_10.z == TestData_LHS[i].x12 &
                           v4_10.w == TestData_LHS[i].x13;
-
+                
                 ushort4 v4_11 = TestData_LHS[i].v4_11;
                 result &= v4_11.x == TestData_LHS[i].x11 &
                           v4_11.y == TestData_LHS[i].x12 &
                           v4_11.z == TestData_LHS[i].x13 &
                           v4_11.w == TestData_LHS[i].x14;
-
+                
                 ushort4 v4_12 = TestData_LHS[i].v4_12;
                 result &= v4_12.x == TestData_LHS[i].x12 &
                           v4_12.y == TestData_LHS[i].x13 &
                           v4_12.z == TestData_LHS[i].x14 &
                           v4_12.w == TestData_LHS[i].x15;
-
-
+                
+                
                 ushort3 v3_0 = TestData_LHS[i].v3_0;
                 result &= v3_0.x == TestData_LHS[i].x0 &
                           v3_0.y == TestData_LHS[i].x1 &
                           v3_0.z == TestData_LHS[i].x2;
-
+                
                 ushort3 v3_1 = TestData_LHS[i].v3_1;
                 result &= v3_1.x == TestData_LHS[i].x1 &
                           v3_1.y == TestData_LHS[i].x2 &
                           v3_1.z == TestData_LHS[i].x3;
-
+                
                 ushort3 v3_2 = TestData_LHS[i].v3_2;
                 result &= v3_2.x == TestData_LHS[i].x2 &
                           v3_2.y == TestData_LHS[i].x3 &
                           v3_2.z == TestData_LHS[i].x4;
-
+                
                 ushort3 v3_3 = TestData_LHS[i].v3_3;
                 result &= v3_3.x == TestData_LHS[i].x3 &
                           v3_3.y == TestData_LHS[i].x4 &
                           v3_3.z == TestData_LHS[i].x5;
-
+                
                 ushort3 v3_4 = TestData_LHS[i].v3_4;
                 result &= v3_4.x == TestData_LHS[i].x4 &
                           v3_4.y == TestData_LHS[i].x5 &
                           v3_4.z == TestData_LHS[i].x6;
-
+                
                 ushort3 v3_5 = TestData_LHS[i].v3_5;
                 result &= v3_5.x == TestData_LHS[i].x5 &
                           v3_5.y == TestData_LHS[i].x6 &
                           v3_5.z == TestData_LHS[i].x7;
-
+                
                 ushort3 v3_6 = TestData_LHS[i].v3_6;
                 result &= v3_6.x == TestData_LHS[i].x6 &
                           v3_6.y == TestData_LHS[i].x7 &
                           v3_6.z == TestData_LHS[i].x8;
-
+                
                 ushort3 v3_7 = TestData_LHS[i].v3_7;
                 result &= v3_7.x == TestData_LHS[i].x7 &
                           v3_7.y == TestData_LHS[i].x8 &
                           v3_7.z == TestData_LHS[i].x9;
-
+                
                 ushort3 v3_8 = TestData_LHS[i].v3_8;
                 result &= v3_8.x == TestData_LHS[i].x8 &
                           v3_8.y == TestData_LHS[i].x9 &
                           v3_8.z == TestData_LHS[i].x10;
-
+                
                 ushort3 v3_9 = TestData_LHS[i].v3_9;
                 result &= v3_9.x == TestData_LHS[i].x9 &
                           v3_9.y == TestData_LHS[i].x10 &
                           v3_9.z == TestData_LHS[i].x11;
-
+                
                 ushort3 v3_10 = TestData_LHS[i].v3_10;
                 result &= v3_10.x == TestData_LHS[i].x10 &
                           v3_10.y == TestData_LHS[i].x11 &
                           v3_10.z == TestData_LHS[i].x12;
-
+                
                 ushort3 v3_11 = TestData_LHS[i].v3_11;
                 result &= v3_11.x == TestData_LHS[i].x11 &
                           v3_11.y == TestData_LHS[i].x12 &
                           v3_11.z == TestData_LHS[i].x13;
-
+                
                 ushort3 v3_12 = TestData_LHS[i].v3_12;
                 result &= v3_12.x == TestData_LHS[i].x12 &
                           v3_12.y == TestData_LHS[i].x13 &
                           v3_12.z == TestData_LHS[i].x14;
-
+                
                 ushort3 v3_13 = TestData_LHS[i].v3_13;
                 result &= v3_13.x == TestData_LHS[i].x13 &
                           v3_13.y == TestData_LHS[i].x14 &
                           v3_13.z == TestData_LHS[i].x15;
-
-
+                
+                
                 ushort2 v2_0 = TestData_LHS[i].v2_0;
                 result &= v2_0.x == TestData_LHS[i].x0 &
                           v2_0.y == TestData_LHS[i].x1;
-
+                
                 ushort2 v2_1 = TestData_LHS[i].v2_1;
                 result &= v2_1.x == TestData_LHS[i].x1 &
                           v2_1.y == TestData_LHS[i].x2;
-
+                
                 ushort2 v2_2 = TestData_LHS[i].v2_2;
                 result &= v2_2.x == TestData_LHS[i].x2 &
                           v2_2.y == TestData_LHS[i].x3;
-
+                
                 ushort2 v2_3 = TestData_LHS[i].v2_3;
                 result &= v2_3.x == TestData_LHS[i].x3 &
                           v2_3.y == TestData_LHS[i].x4;
-
+                
                 ushort2 v2_4 = TestData_LHS[i].v2_4;
                 result &= v2_4.x == TestData_LHS[i].x4 &
                           v2_4.y == TestData_LHS[i].x5;
-
+                
                 ushort2 v2_5 = TestData_LHS[i].v2_5;
                 result &= v2_5.x == TestData_LHS[i].x5 &
                           v2_5.y == TestData_LHS[i].x6;
-
+                
                 ushort2 v2_6 = TestData_LHS[i].v2_6;
                 result &= v2_6.x == TestData_LHS[i].x6 &
                           v2_6.y == TestData_LHS[i].x7;
-
+                
                 ushort2 v2_7 = TestData_LHS[i].v2_7;
                 result &= v2_7.x == TestData_LHS[i].x7 &
                           v2_7.y == TestData_LHS[i].x8;
-
+                
                 ushort2 v2_8 = TestData_LHS[i].v2_8;
                 result &= v2_8.x == TestData_LHS[i].x8 &
                           v2_8.y == TestData_LHS[i].x9;
-
+                
                 ushort2 v2_9 = TestData_LHS[i].v2_9;
                 result &= v2_9.x == TestData_LHS[i].x9 &
                           v2_9.y == TestData_LHS[i].x10;
-
+                
                 ushort2 v2_10 = TestData_LHS[i].v2_10;
                 result &= v2_10.x == TestData_LHS[i].x10 &
                           v2_10.y == TestData_LHS[i].x11;
-
+                
                 ushort2 v2_11 = TestData_LHS[i].v2_11;
                 result &= v2_11.x == TestData_LHS[i].x11 &
                           v2_11.y == TestData_LHS[i].x12;
-
+                
                 ushort2 v2_12 = TestData_LHS[i].v2_12;
                 result &= v2_12.x == TestData_LHS[i].x12 &
                           v2_12.y == TestData_LHS[i].x13;
-
+                
                 ushort2 v2_13 = TestData_LHS[i].v2_13;
                 result &= v2_13.x == TestData_LHS[i].x13 &
                           v2_13.y == TestData_LHS[i].x14;
-
+                
                 ushort2 v2_14 = TestData_LHS[i].v2_14;
                 result &= v2_14.x == TestData_LHS[i].x14 &
                           v2_14.y == TestData_LHS[i].x15;
             }
 
+
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public static void ShuffleSetter()
+        {
+            bool result = true;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                ushort16 v8_0 = TestData_LHS[i];
+                v8_0.v8_0 = UShort8.TestData_LHS[i];
+                result &= v8_0.x0  == UShort8.TestData_LHS[i].x0;
+                result &= v8_0.x1  == UShort8.TestData_LHS[i].x1;
+                result &= v8_0.x2  == UShort8.TestData_LHS[i].x2;
+                result &= v8_0.x3  == UShort8.TestData_LHS[i].x3;
+                result &= v8_0.x4  == UShort8.TestData_LHS[i].x4;
+                result &= v8_0.x5  == UShort8.TestData_LHS[i].x5;
+                result &= v8_0.x6  == UShort8.TestData_LHS[i].x6;
+                result &= v8_0.x7  == UShort8.TestData_LHS[i].x7;
+                result &= v8_0.x8  == TestData_LHS[i].x8;
+                result &= v8_0.x9  == TestData_LHS[i].x9;
+                result &= v8_0.x10 == TestData_LHS[i].x10;
+                result &= v8_0.x11 == TestData_LHS[i].x11;
+                result &= v8_0.x12 == TestData_LHS[i].x12;
+                result &= v8_0.x13 == TestData_LHS[i].x13;
+                result &= v8_0.x14 == TestData_LHS[i].x14;
+                result &= v8_0.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_1 = TestData_LHS[i];
+                v8_1.v8_1 = UShort8.TestData_LHS[i];
+                result &= v8_1.x0  == TestData_LHS[i].x0;
+                result &= v8_1.x1  == UShort8.TestData_LHS[i].x0;
+                result &= v8_1.x2  == UShort8.TestData_LHS[i].x1;
+                result &= v8_1.x3  == UShort8.TestData_LHS[i].x2;
+                result &= v8_1.x4  == UShort8.TestData_LHS[i].x3;
+                result &= v8_1.x5  == UShort8.TestData_LHS[i].x4;
+                result &= v8_1.x6  == UShort8.TestData_LHS[i].x5;
+                result &= v8_1.x7  == UShort8.TestData_LHS[i].x6;
+                result &= v8_1.x8  == UShort8.TestData_LHS[i].x7;
+                result &= v8_1.x9  == TestData_LHS[i].x9;
+                result &= v8_1.x10 == TestData_LHS[i].x10;
+                result &= v8_1.x11 == TestData_LHS[i].x11;
+                result &= v8_1.x12 == TestData_LHS[i].x12;
+                result &= v8_1.x13 == TestData_LHS[i].x13;
+                result &= v8_1.x14 == TestData_LHS[i].x14;
+                result &= v8_1.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_2 = TestData_LHS[i];
+                v8_2.v8_2 = UShort8.TestData_LHS[i];
+                result &= v8_2.x0  == TestData_LHS[i].x0;
+                result &= v8_2.x1  == TestData_LHS[i].x1;
+                result &= v8_2.x2  == UShort8.TestData_LHS[i].x0;
+                result &= v8_2.x3  == UShort8.TestData_LHS[i].x1;
+                result &= v8_2.x4  == UShort8.TestData_LHS[i].x2;
+                result &= v8_2.x5  == UShort8.TestData_LHS[i].x3;
+                result &= v8_2.x6  == UShort8.TestData_LHS[i].x4;
+                result &= v8_2.x7  == UShort8.TestData_LHS[i].x5;
+                result &= v8_2.x8  == UShort8.TestData_LHS[i].x6;
+                result &= v8_2.x9  == UShort8.TestData_LHS[i].x7;
+                result &= v8_2.x10 == TestData_LHS[i].x10;
+                result &= v8_2.x11 == TestData_LHS[i].x11;
+                result &= v8_2.x12 == TestData_LHS[i].x12;
+                result &= v8_2.x13 == TestData_LHS[i].x13;
+                result &= v8_2.x14 == TestData_LHS[i].x14;
+                result &= v8_2.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_3 = TestData_LHS[i];
+                v8_3.v8_3 = UShort8.TestData_LHS[i];
+                result &= v8_3.x0  == TestData_LHS[i].x0;
+                result &= v8_3.x1  == TestData_LHS[i].x1;
+                result &= v8_3.x2  == TestData_LHS[i].x2;
+                result &= v8_3.x3  == UShort8.TestData_LHS[i].x0;
+                result &= v8_3.x4  == UShort8.TestData_LHS[i].x1;
+                result &= v8_3.x5  == UShort8.TestData_LHS[i].x2;
+                result &= v8_3.x6  == UShort8.TestData_LHS[i].x3;
+                result &= v8_3.x7  == UShort8.TestData_LHS[i].x4;
+                result &= v8_3.x8  == UShort8.TestData_LHS[i].x5;
+                result &= v8_3.x9  == UShort8.TestData_LHS[i].x6;
+                result &= v8_3.x10 == UShort8.TestData_LHS[i].x7;
+                result &= v8_3.x11 == TestData_LHS[i].x11;
+                result &= v8_3.x12 == TestData_LHS[i].x12;
+                result &= v8_3.x13 == TestData_LHS[i].x13;
+                result &= v8_3.x14 == TestData_LHS[i].x14;
+                result &= v8_3.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_4 = TestData_LHS[i];
+                v8_4.v8_4 = UShort8.TestData_LHS[i];
+                result &= v8_4.x0  == TestData_LHS[i].x0;
+                result &= v8_4.x1  == TestData_LHS[i].x1;
+                result &= v8_4.x2  == TestData_LHS[i].x2;
+                result &= v8_4.x3  == TestData_LHS[i].x3;
+                result &= v8_4.x4  == UShort8.TestData_LHS[i].x0;
+                result &= v8_4.x5  == UShort8.TestData_LHS[i].x1;
+                result &= v8_4.x6  == UShort8.TestData_LHS[i].x2;
+                result &= v8_4.x7  == UShort8.TestData_LHS[i].x3;
+                result &= v8_4.x8  == UShort8.TestData_LHS[i].x4;
+                result &= v8_4.x9  == UShort8.TestData_LHS[i].x5;
+                result &= v8_4.x10 == UShort8.TestData_LHS[i].x6;
+                result &= v8_4.x11 == UShort8.TestData_LHS[i].x7;
+                result &= v8_4.x12 == TestData_LHS[i].x12;
+                result &= v8_4.x13 == TestData_LHS[i].x13;
+                result &= v8_4.x14 == TestData_LHS[i].x14;
+                result &= v8_4.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_5 = TestData_LHS[i];
+                v8_5.v8_5 = UShort8.TestData_LHS[i];
+                result &= v8_5.x0  == TestData_LHS[i].x0;
+                result &= v8_5.x1  == TestData_LHS[i].x1;
+                result &= v8_5.x2  == TestData_LHS[i].x2;
+                result &= v8_5.x3  == TestData_LHS[i].x3;
+                result &= v8_5.x4  == TestData_LHS[i].x4;
+                result &= v8_5.x5  == UShort8.TestData_LHS[i].x0;
+                result &= v8_5.x6  == UShort8.TestData_LHS[i].x1;
+                result &= v8_5.x7  == UShort8.TestData_LHS[i].x2;
+                result &= v8_5.x8  == UShort8.TestData_LHS[i].x3;
+                result &= v8_5.x9  == UShort8.TestData_LHS[i].x4;
+                result &= v8_5.x10 == UShort8.TestData_LHS[i].x5;
+                result &= v8_5.x11 == UShort8.TestData_LHS[i].x6;
+                result &= v8_5.x12 == UShort8.TestData_LHS[i].x7;
+                result &= v8_5.x13 == TestData_LHS[i].x13;
+                result &= v8_5.x14 == TestData_LHS[i].x14;
+                result &= v8_5.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_6 = TestData_LHS[i];
+                v8_6.v8_6 = UShort8.TestData_LHS[i];
+                result &= v8_6.x0  == TestData_LHS[i].x0;
+                result &= v8_6.x1  == TestData_LHS[i].x1;
+                result &= v8_6.x2  == TestData_LHS[i].x2;
+                result &= v8_6.x3  == TestData_LHS[i].x3;
+                result &= v8_6.x4  == TestData_LHS[i].x4;
+                result &= v8_6.x5  == TestData_LHS[i].x5;
+                result &= v8_6.x6  == UShort8.TestData_LHS[i].x0;
+                result &= v8_6.x7  == UShort8.TestData_LHS[i].x1;
+                result &= v8_6.x8  == UShort8.TestData_LHS[i].x2;
+                result &= v8_6.x9  == UShort8.TestData_LHS[i].x3;
+                result &= v8_6.x10 == UShort8.TestData_LHS[i].x4;
+                result &= v8_6.x11 == UShort8.TestData_LHS[i].x5;
+                result &= v8_6.x12 == UShort8.TestData_LHS[i].x6;
+                result &= v8_6.x13 == UShort8.TestData_LHS[i].x7;
+                result &= v8_6.x14 == TestData_LHS[i].x14;
+                result &= v8_6.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_7 = TestData_LHS[i];
+                v8_7.v8_7 = UShort8.TestData_LHS[i];
+                result &= v8_7.x0  == TestData_LHS[i].x0;
+                result &= v8_7.x1  == TestData_LHS[i].x1;
+                result &= v8_7.x2  == TestData_LHS[i].x2;
+                result &= v8_7.x3  == TestData_LHS[i].x3;
+                result &= v8_7.x4  == TestData_LHS[i].x4;
+                result &= v8_7.x5  == TestData_LHS[i].x5;
+                result &= v8_7.x6  == TestData_LHS[i].x6;
+                result &= v8_7.x7  == UShort8.TestData_LHS[i].x0;
+                result &= v8_7.x8  == UShort8.TestData_LHS[i].x1;
+                result &= v8_7.x9  == UShort8.TestData_LHS[i].x2;
+                result &= v8_7.x10 == UShort8.TestData_LHS[i].x3;
+                result &= v8_7.x11 == UShort8.TestData_LHS[i].x4;
+                result &= v8_7.x12 == UShort8.TestData_LHS[i].x5;
+                result &= v8_7.x13 == UShort8.TestData_LHS[i].x6;
+                result &= v8_7.x14 == UShort8.TestData_LHS[i].x7;
+                result &= v8_7.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v8_8 = TestData_LHS[i];
+                v8_8.v8_8 = UShort8.TestData_LHS[i];
+                result &= v8_8.x0  == TestData_LHS[i].x0;
+                result &= v8_8.x1  == TestData_LHS[i].x1;
+                result &= v8_8.x2  == TestData_LHS[i].x2;
+                result &= v8_8.x3  == TestData_LHS[i].x3;
+                result &= v8_8.x4  == TestData_LHS[i].x4;
+                result &= v8_8.x5  == TestData_LHS[i].x5;
+                result &= v8_8.x6  == TestData_LHS[i].x6;
+                result &= v8_8.x7  == TestData_LHS[i].x7;
+                result &= v8_8.x8  == UShort8.TestData_LHS[i].x0;
+                result &= v8_8.x9  == UShort8.TestData_LHS[i].x1;
+                result &= v8_8.x10 == UShort8.TestData_LHS[i].x2;
+                result &= v8_8.x11 == UShort8.TestData_LHS[i].x3;
+                result &= v8_8.x12 == UShort8.TestData_LHS[i].x4;
+                result &= v8_8.x13 == UShort8.TestData_LHS[i].x5;
+                result &= v8_8.x14 == UShort8.TestData_LHS[i].x6;
+                result &= v8_8.x15 == UShort8.TestData_LHS[i].x7;
+                
+                
+                ushort16 v4_0 = TestData_LHS[i];
+                v4_0.v4_0 = UShort4.TestData_LHS[i];
+                result &= v4_0.x0  == UShort4.TestData_LHS[i].x;
+                result &= v4_0.x1  == UShort4.TestData_LHS[i].y;
+                result &= v4_0.x2  == UShort4.TestData_LHS[i].z;
+                result &= v4_0.x3  == UShort4.TestData_LHS[i].w;
+                result &= v4_0.x4  == TestData_LHS[i].x4;
+                result &= v4_0.x5  == TestData_LHS[i].x5;
+                result &= v4_0.x6  == TestData_LHS[i].x6;
+                result &= v4_0.x7  == TestData_LHS[i].x7;
+                result &= v4_0.x8  == TestData_LHS[i].x8;
+                result &= v4_0.x9  == TestData_LHS[i].x9;
+                result &= v4_0.x10 == TestData_LHS[i].x10;
+                result &= v4_0.x11 == TestData_LHS[i].x11;
+                result &= v4_0.x12 == TestData_LHS[i].x12;
+                result &= v4_0.x13 == TestData_LHS[i].x13;
+                result &= v4_0.x14 == TestData_LHS[i].x14;
+                result &= v4_0.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_1 = TestData_LHS[i];
+                v4_1.v4_1 = UShort4.TestData_LHS[i];
+                result &= v4_1.x0  == TestData_LHS[i].x0;
+                result &= v4_1.x1  == UShort4.TestData_LHS[i].x;
+                result &= v4_1.x2  == UShort4.TestData_LHS[i].y;
+                result &= v4_1.x3  == UShort4.TestData_LHS[i].z;
+                result &= v4_1.x4  == UShort4.TestData_LHS[i].w;
+                result &= v4_1.x5  == TestData_LHS[i].x5;
+                result &= v4_1.x6  == TestData_LHS[i].x6;
+                result &= v4_1.x7  == TestData_LHS[i].x7;
+                result &= v4_1.x8  == TestData_LHS[i].x8;
+                result &= v4_1.x9  == TestData_LHS[i].x9;
+                result &= v4_1.x10 == TestData_LHS[i].x10;
+                result &= v4_1.x11 == TestData_LHS[i].x11;
+                result &= v4_1.x12 == TestData_LHS[i].x12;
+                result &= v4_1.x13 == TestData_LHS[i].x13;
+                result &= v4_1.x14 == TestData_LHS[i].x14;
+                result &= v4_1.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_2 = TestData_LHS[i];
+                v4_2.v4_2 = UShort4.TestData_LHS[i];
+                result &= v4_2.x0  == TestData_LHS[i].x0;
+                result &= v4_2.x1  == TestData_LHS[i].x1;
+                result &= v4_2.x2  == UShort4.TestData_LHS[i].x;
+                result &= v4_2.x3  == UShort4.TestData_LHS[i].y;
+                result &= v4_2.x4  == UShort4.TestData_LHS[i].z;
+                result &= v4_2.x5  == UShort4.TestData_LHS[i].w;
+                result &= v4_2.x6  == TestData_LHS[i].x6;
+                result &= v4_2.x7  == TestData_LHS[i].x7;
+                result &= v4_2.x8  == TestData_LHS[i].x8;
+                result &= v4_2.x9  == TestData_LHS[i].x9;
+                result &= v4_2.x10 == TestData_LHS[i].x10;
+                result &= v4_2.x11 == TestData_LHS[i].x11;
+                result &= v4_2.x12 == TestData_LHS[i].x12;
+                result &= v4_2.x13 == TestData_LHS[i].x13;
+                result &= v4_2.x14 == TestData_LHS[i].x14;
+                result &= v4_2.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_3 = TestData_LHS[i];
+                v4_3.v4_3 = UShort4.TestData_LHS[i];
+                result &= v4_3.x0  == TestData_LHS[i].x0;
+                result &= v4_3.x1  == TestData_LHS[i].x1;
+                result &= v4_3.x2  == TestData_LHS[i].x2;
+                result &= v4_3.x3  == UShort4.TestData_LHS[i].x;
+                result &= v4_3.x4  == UShort4.TestData_LHS[i].y;
+                result &= v4_3.x5  == UShort4.TestData_LHS[i].z;
+                result &= v4_3.x6  == UShort4.TestData_LHS[i].w;
+                result &= v4_3.x7  == TestData_LHS[i].x7;
+                result &= v4_3.x8  == TestData_LHS[i].x8;
+                result &= v4_3.x9  == TestData_LHS[i].x9;
+                result &= v4_3.x10 == TestData_LHS[i].x10;
+                result &= v4_3.x11 == TestData_LHS[i].x11;
+                result &= v4_3.x12 == TestData_LHS[i].x12;
+                result &= v4_3.x13 == TestData_LHS[i].x13;
+                result &= v4_3.x14 == TestData_LHS[i].x14;
+                result &= v4_3.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_4 = TestData_LHS[i];
+                v4_4.v4_4 = UShort4.TestData_LHS[i];
+                result &= v4_4.x0  == TestData_LHS[i].x0;
+                result &= v4_4.x1  == TestData_LHS[i].x1;
+                result &= v4_4.x2  == TestData_LHS[i].x2;
+                result &= v4_4.x3  == TestData_LHS[i].x3;
+                result &= v4_4.x4  == UShort4.TestData_LHS[i].x;
+                result &= v4_4.x5  == UShort4.TestData_LHS[i].y;
+                result &= v4_4.x6  == UShort4.TestData_LHS[i].z;
+                result &= v4_4.x7  == UShort4.TestData_LHS[i].w;
+                result &= v4_4.x8  == TestData_LHS[i].x8;
+                result &= v4_4.x9  == TestData_LHS[i].x9;
+                result &= v4_4.x10 == TestData_LHS[i].x10;
+                result &= v4_4.x11 == TestData_LHS[i].x11;
+                result &= v4_4.x12 == TestData_LHS[i].x12;
+                result &= v4_4.x13 == TestData_LHS[i].x13;
+                result &= v4_4.x14 == TestData_LHS[i].x14;
+                result &= v4_4.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_5 = TestData_LHS[i];
+                v4_5.v4_5 = UShort4.TestData_LHS[i];
+                result &= v4_5.x0  == TestData_LHS[i].x0;
+                result &= v4_5.x1  == TestData_LHS[i].x1;
+                result &= v4_5.x2  == TestData_LHS[i].x2;
+                result &= v4_5.x3  == TestData_LHS[i].x3;
+                result &= v4_5.x4  == TestData_LHS[i].x4;
+                result &= v4_5.x5  == UShort4.TestData_LHS[i].x;
+                result &= v4_5.x6  == UShort4.TestData_LHS[i].y;
+                result &= v4_5.x7  == UShort4.TestData_LHS[i].z;
+                result &= v4_5.x8  == UShort4.TestData_LHS[i].w;
+                result &= v4_5.x9  == TestData_LHS[i].x9;
+                result &= v4_5.x10 == TestData_LHS[i].x10;
+                result &= v4_5.x11 == TestData_LHS[i].x11;
+                result &= v4_5.x12 == TestData_LHS[i].x12;
+                result &= v4_5.x13 == TestData_LHS[i].x13;
+                result &= v4_5.x14 == TestData_LHS[i].x14;
+                result &= v4_5.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_6 = TestData_LHS[i];
+                v4_6.v4_6 = UShort4.TestData_LHS[i];
+                result &= v4_6.x0  == TestData_LHS[i].x0;
+                result &= v4_6.x1  == TestData_LHS[i].x1;
+                result &= v4_6.x2  == TestData_LHS[i].x2;
+                result &= v4_6.x3  == TestData_LHS[i].x3;
+                result &= v4_6.x4  == TestData_LHS[i].x4;
+                result &= v4_6.x5  == TestData_LHS[i].x5;
+                result &= v4_6.x6  == UShort4.TestData_LHS[i].x;
+                result &= v4_6.x7  == UShort4.TestData_LHS[i].y;
+                result &= v4_6.x8  == UShort4.TestData_LHS[i].z;
+                result &= v4_6.x9  == UShort4.TestData_LHS[i].w;
+                result &= v4_6.x10 == TestData_LHS[i].x10;
+                result &= v4_6.x11 == TestData_LHS[i].x11;
+                result &= v4_6.x12 == TestData_LHS[i].x12;
+                result &= v4_6.x13 == TestData_LHS[i].x13;
+                result &= v4_6.x14 == TestData_LHS[i].x14;
+                result &= v4_6.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_7 = TestData_LHS[i];
+                v4_7.v4_7 = UShort4.TestData_LHS[i];
+                result &= v4_7.x0  == TestData_LHS[i].x0;
+                result &= v4_7.x1  == TestData_LHS[i].x1;
+                result &= v4_7.x2  == TestData_LHS[i].x2;
+                result &= v4_7.x3  == TestData_LHS[i].x3;
+                result &= v4_7.x4  == TestData_LHS[i].x4;
+                result &= v4_7.x5  == TestData_LHS[i].x5;
+                result &= v4_7.x6  == TestData_LHS[i].x6;
+                result &= v4_7.x7  == UShort4.TestData_LHS[i].x;
+                result &= v4_7.x8  == UShort4.TestData_LHS[i].y;
+                result &= v4_7.x9  == UShort4.TestData_LHS[i].z;
+                result &= v4_7.x10 == UShort4.TestData_LHS[i].w;
+                result &= v4_7.x11 == TestData_LHS[i].x11;
+                result &= v4_7.x12 == TestData_LHS[i].x12;
+                result &= v4_7.x13 == TestData_LHS[i].x13;
+                result &= v4_7.x14 == TestData_LHS[i].x14;
+                result &= v4_7.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_8 = TestData_LHS[i];
+                v4_8.v4_8 = UShort4.TestData_LHS[i];
+                result &= v4_8.x0  == TestData_LHS[i].x0;
+                result &= v4_8.x1  == TestData_LHS[i].x1;
+                result &= v4_8.x2  == TestData_LHS[i].x2;
+                result &= v4_8.x3  == TestData_LHS[i].x3;
+                result &= v4_8.x4  == TestData_LHS[i].x4;
+                result &= v4_8.x5  == TestData_LHS[i].x5;
+                result &= v4_8.x6  == TestData_LHS[i].x6;
+                result &= v4_8.x7  == TestData_LHS[i].x7;
+                result &= v4_8.x8  == UShort4.TestData_LHS[i].x;
+                result &= v4_8.x9  == UShort4.TestData_LHS[i].y;
+                result &= v4_8.x10 == UShort4.TestData_LHS[i].z;
+                result &= v4_8.x11 == UShort4.TestData_LHS[i].w;
+                result &= v4_8.x12 == TestData_LHS[i].x12;
+                result &= v4_8.x13 == TestData_LHS[i].x13;
+                result &= v4_8.x14 == TestData_LHS[i].x14;
+                result &= v4_8.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_9 = TestData_LHS[i];
+                v4_9.v4_9 = UShort4.TestData_LHS[i];
+                result &= v4_9.x0  == TestData_LHS[i].x0;
+                result &= v4_9.x1  == TestData_LHS[i].x1;
+                result &= v4_9.x2  == TestData_LHS[i].x2;
+                result &= v4_9.x3  == TestData_LHS[i].x3;
+                result &= v4_9.x4  == TestData_LHS[i].x4;
+                result &= v4_9.x5  == TestData_LHS[i].x5;
+                result &= v4_9.x6  == TestData_LHS[i].x6;
+                result &= v4_9.x7  == TestData_LHS[i].x7;
+                result &= v4_9.x8  == TestData_LHS[i].x8;
+                result &= v4_9.x9  == UShort4.TestData_LHS[i].x;
+                result &= v4_9.x10 == UShort4.TestData_LHS[i].y;
+                result &= v4_9.x11 == UShort4.TestData_LHS[i].z;
+                result &= v4_9.x12 == UShort4.TestData_LHS[i].w;
+                result &= v4_9.x13 == TestData_LHS[i].x13;
+                result &= v4_9.x14 == TestData_LHS[i].x14;
+                result &= v4_9.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_10 = TestData_LHS[i];
+                v4_10.v4_10 = UShort4.TestData_LHS[i];
+                result &= v4_10.x0  == TestData_LHS[i].x0;
+                result &= v4_10.x1  == TestData_LHS[i].x1;
+                result &= v4_10.x2  == TestData_LHS[i].x2;
+                result &= v4_10.x3  == TestData_LHS[i].x3;
+                result &= v4_10.x4  == TestData_LHS[i].x4;
+                result &= v4_10.x5  == TestData_LHS[i].x5;
+                result &= v4_10.x6  == TestData_LHS[i].x6;
+                result &= v4_10.x7  == TestData_LHS[i].x7;
+                result &= v4_10.x8  == TestData_LHS[i].x8;
+                result &= v4_10.x9  == TestData_LHS[i].x9;
+                result &= v4_10.x10 == UShort4.TestData_LHS[i].x;
+                result &= v4_10.x11 == UShort4.TestData_LHS[i].y;
+                result &= v4_10.x12 == UShort4.TestData_LHS[i].z;
+                result &= v4_10.x13 == UShort4.TestData_LHS[i].w;
+                result &= v4_10.x14 == TestData_LHS[i].x14;
+                result &= v4_10.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_11 = TestData_LHS[i];
+                v4_11.v4_11 = UShort4.TestData_LHS[i];
+                result &= v4_11.x0  == TestData_LHS[i].x0;
+                result &= v4_11.x1  == TestData_LHS[i].x1;
+                result &= v4_11.x2  == TestData_LHS[i].x2;
+                result &= v4_11.x3  == TestData_LHS[i].x3;
+                result &= v4_11.x4  == TestData_LHS[i].x4;
+                result &= v4_11.x5  == TestData_LHS[i].x5;
+                result &= v4_11.x6  == TestData_LHS[i].x6;
+                result &= v4_11.x7  == TestData_LHS[i].x7;
+                result &= v4_11.x8  == TestData_LHS[i].x8;
+                result &= v4_11.x9  == TestData_LHS[i].x9;
+                result &= v4_11.x10 == TestData_LHS[i].x10;
+                result &= v4_11.x11 == UShort4.TestData_LHS[i].x;
+                result &= v4_11.x12 == UShort4.TestData_LHS[i].y;
+                result &= v4_11.x13 == UShort4.TestData_LHS[i].z;
+                result &= v4_11.x14 == UShort4.TestData_LHS[i].w;
+                result &= v4_11.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v4_12 = TestData_LHS[i];
+                v4_12.v4_12 = UShort4.TestData_LHS[i];
+                result &= v4_12.x0  == TestData_LHS[i].x0;
+                result &= v4_12.x1  == TestData_LHS[i].x1;
+                result &= v4_12.x2  == TestData_LHS[i].x2;
+                result &= v4_12.x3  == TestData_LHS[i].x3;
+                result &= v4_12.x4  == TestData_LHS[i].x4;
+                result &= v4_12.x5  == TestData_LHS[i].x5;
+                result &= v4_12.x6  == TestData_LHS[i].x6;
+                result &= v4_12.x7  == TestData_LHS[i].x7;
+                result &= v4_12.x8  == TestData_LHS[i].x8;
+                result &= v4_12.x9  == TestData_LHS[i].x9;
+                result &= v4_12.x10 == TestData_LHS[i].x10;
+                result &= v4_12.x11 == TestData_LHS[i].x11;
+                result &= v4_12.x12 == UShort4.TestData_LHS[i].x;
+                result &= v4_12.x13 == UShort4.TestData_LHS[i].y;
+                result &= v4_12.x14 == UShort4.TestData_LHS[i].z;
+                result &= v4_12.x15 == UShort4.TestData_LHS[i].w;
+                
+                
+                ushort16 v3_0 = TestData_LHS[i];
+                v3_0.v3_0 = UShort3.TestData_LHS[i];
+                result &= v3_0.x0  == UShort3.TestData_LHS[i].x;
+                result &= v3_0.x1  == UShort3.TestData_LHS[i].y;
+                result &= v3_0.x2  == UShort3.TestData_LHS[i].z;
+                result &= v3_0.x3  == TestData_LHS[i].x3;
+                result &= v3_0.x4  == TestData_LHS[i].x4;
+                result &= v3_0.x5  == TestData_LHS[i].x5;
+                result &= v3_0.x6  == TestData_LHS[i].x6;
+                result &= v3_0.x7  == TestData_LHS[i].x7;
+                result &= v3_0.x8  == TestData_LHS[i].x8;
+                result &= v3_0.x9  == TestData_LHS[i].x9;
+                result &= v3_0.x10 == TestData_LHS[i].x10;
+                result &= v3_0.x11 == TestData_LHS[i].x11;
+                result &= v3_0.x12 == TestData_LHS[i].x12;
+                result &= v3_0.x13 == TestData_LHS[i].x13;
+                result &= v3_0.x14 == TestData_LHS[i].x14;
+                result &= v3_0.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_1 = TestData_LHS[i];
+                v3_1.v3_1 = UShort3.TestData_LHS[i];
+                result &= v3_1.x0  == TestData_LHS[i].x0;
+                result &= v3_1.x1  == UShort3.TestData_LHS[i].x;
+                result &= v3_1.x2  == UShort3.TestData_LHS[i].y;
+                result &= v3_1.x3  == UShort3.TestData_LHS[i].z;
+                result &= v3_1.x4  == TestData_LHS[i].x4;
+                result &= v3_1.x5  == TestData_LHS[i].x5;
+                result &= v3_1.x6  == TestData_LHS[i].x6;
+                result &= v3_1.x7  == TestData_LHS[i].x7;
+                result &= v3_1.x8  == TestData_LHS[i].x8;
+                result &= v3_1.x9  == TestData_LHS[i].x9;
+                result &= v3_1.x10 == TestData_LHS[i].x10;
+                result &= v3_1.x11 == TestData_LHS[i].x11;
+                result &= v3_1.x12 == TestData_LHS[i].x12;
+                result &= v3_1.x13 == TestData_LHS[i].x13;
+                result &= v3_1.x14 == TestData_LHS[i].x14;
+                result &= v3_1.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_2 = TestData_LHS[i];
+                v3_2.v3_2 = UShort3.TestData_LHS[i];
+                result &= v3_2.x0  == TestData_LHS[i].x0;
+                result &= v3_2.x1  == TestData_LHS[i].x1;
+                result &= v3_2.x2  == UShort3.TestData_LHS[i].x;
+                result &= v3_2.x3  == UShort3.TestData_LHS[i].y;
+                result &= v3_2.x4  == UShort3.TestData_LHS[i].z;
+                result &= v3_2.x5  == TestData_LHS[i].x5;
+                result &= v3_2.x6  == TestData_LHS[i].x6;
+                result &= v3_2.x7  == TestData_LHS[i].x7;
+                result &= v3_2.x8  == TestData_LHS[i].x8;
+                result &= v3_2.x9  == TestData_LHS[i].x9;
+                result &= v3_2.x10 == TestData_LHS[i].x10;
+                result &= v3_2.x11 == TestData_LHS[i].x11;
+                result &= v3_2.x12 == TestData_LHS[i].x12;
+                result &= v3_2.x13 == TestData_LHS[i].x13;
+                result &= v3_2.x14 == TestData_LHS[i].x14;
+                result &= v3_2.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_3 = TestData_LHS[i];
+                v3_3.v3_3 = UShort3.TestData_LHS[i];
+                result &= v3_3.x0  == TestData_LHS[i].x0;
+                result &= v3_3.x1  == TestData_LHS[i].x1;
+                result &= v3_3.x2  == TestData_LHS[i].x2;
+                result &= v3_3.x3  == UShort3.TestData_LHS[i].x;
+                result &= v3_3.x4  == UShort3.TestData_LHS[i].y;
+                result &= v3_3.x5  == UShort3.TestData_LHS[i].z;
+                result &= v3_3.x6  == TestData_LHS[i].x6;
+                result &= v3_3.x7  == TestData_LHS[i].x7;
+                result &= v3_3.x8  == TestData_LHS[i].x8;
+                result &= v3_3.x9  == TestData_LHS[i].x9;
+                result &= v3_3.x10 == TestData_LHS[i].x10;
+                result &= v3_3.x11 == TestData_LHS[i].x11;
+                result &= v3_3.x12 == TestData_LHS[i].x12;
+                result &= v3_3.x13 == TestData_LHS[i].x13;
+                result &= v3_3.x14 == TestData_LHS[i].x14;
+                result &= v3_3.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_4 = TestData_LHS[i];
+                v3_4.v3_4 = UShort3.TestData_LHS[i];
+                result &= v3_4.x0  == TestData_LHS[i].x0;
+                result &= v3_4.x1  == TestData_LHS[i].x1;
+                result &= v3_4.x2  == TestData_LHS[i].x2;
+                result &= v3_4.x3  == TestData_LHS[i].x3;
+                result &= v3_4.x4  == UShort3.TestData_LHS[i].x;
+                result &= v3_4.x5  == UShort3.TestData_LHS[i].y;
+                result &= v3_4.x6  == UShort3.TestData_LHS[i].z;
+                result &= v3_4.x7  == TestData_LHS[i].x7;
+                result &= v3_4.x8  == TestData_LHS[i].x8;
+                result &= v3_4.x9  == TestData_LHS[i].x9;
+                result &= v3_4.x10 == TestData_LHS[i].x10;
+                result &= v3_4.x11 == TestData_LHS[i].x11;
+                result &= v3_4.x12 == TestData_LHS[i].x12;
+                result &= v3_4.x13 == TestData_LHS[i].x13;
+                result &= v3_4.x14 == TestData_LHS[i].x14;
+                result &= v3_4.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_5 = TestData_LHS[i];
+                v3_5.v3_5 = UShort3.TestData_LHS[i];
+                result &= v3_5.x0  == TestData_LHS[i].x0;
+                result &= v3_5.x1  == TestData_LHS[i].x1;
+                result &= v3_5.x2  == TestData_LHS[i].x2;
+                result &= v3_5.x3  == TestData_LHS[i].x3;
+                result &= v3_5.x4  == TestData_LHS[i].x4;
+                result &= v3_5.x5  == UShort3.TestData_LHS[i].x;
+                result &= v3_5.x6  == UShort3.TestData_LHS[i].y;
+                result &= v3_5.x7  == UShort3.TestData_LHS[i].z;
+                result &= v3_5.x8  == TestData_LHS[i].x8;
+                result &= v3_5.x9  == TestData_LHS[i].x9;
+                result &= v3_5.x10 == TestData_LHS[i].x10;
+                result &= v3_5.x11 == TestData_LHS[i].x11;
+                result &= v3_5.x12 == TestData_LHS[i].x12;
+                result &= v3_5.x13 == TestData_LHS[i].x13;
+                result &= v3_5.x14 == TestData_LHS[i].x14;
+                result &= v3_5.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_6 = TestData_LHS[i];
+                v3_6.v3_6 = UShort3.TestData_LHS[i];
+                result &= v3_6.x0  == TestData_LHS[i].x0;
+                result &= v3_6.x1  == TestData_LHS[i].x1;
+                result &= v3_6.x2  == TestData_LHS[i].x2;
+                result &= v3_6.x3  == TestData_LHS[i].x3;
+                result &= v3_6.x4  == TestData_LHS[i].x4;
+                result &= v3_6.x5  == TestData_LHS[i].x5;
+                result &= v3_6.x6  == UShort3.TestData_LHS[i].x;
+                result &= v3_6.x7  == UShort3.TestData_LHS[i].y;
+                result &= v3_6.x8  == UShort3.TestData_LHS[i].z;
+                result &= v3_6.x9  == TestData_LHS[i].x9;
+                result &= v3_6.x10 == TestData_LHS[i].x10;
+                result &= v3_6.x11 == TestData_LHS[i].x11;
+                result &= v3_6.x12 == TestData_LHS[i].x12;
+                result &= v3_6.x13 == TestData_LHS[i].x13;
+                result &= v3_6.x14 == TestData_LHS[i].x14;
+                result &= v3_6.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_7 = TestData_LHS[i];
+                v3_7.v3_7 = UShort3.TestData_LHS[i];
+                result &= v3_7.x0  == TestData_LHS[i].x0;
+                result &= v3_7.x1  == TestData_LHS[i].x1;
+                result &= v3_7.x2  == TestData_LHS[i].x2;
+                result &= v3_7.x3  == TestData_LHS[i].x3;
+                result &= v3_7.x4  == TestData_LHS[i].x4;
+                result &= v3_7.x5  == TestData_LHS[i].x5;
+                result &= v3_7.x6  == TestData_LHS[i].x6;
+                result &= v3_7.x7  == UShort3.TestData_LHS[i].x;
+                result &= v3_7.x8  == UShort3.TestData_LHS[i].y;
+                result &= v3_7.x9  == UShort3.TestData_LHS[i].z;
+                result &= v3_7.x10 == TestData_LHS[i].x10;
+                result &= v3_7.x11 == TestData_LHS[i].x11;
+                result &= v3_7.x12 == TestData_LHS[i].x12;
+                result &= v3_7.x13 == TestData_LHS[i].x13;
+                result &= v3_7.x14 == TestData_LHS[i].x14;
+                result &= v3_7.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_8 = TestData_LHS[i];
+                v3_8.v3_8 = UShort3.TestData_LHS[i];
+                result &= v3_8.x0  == TestData_LHS[i].x0;
+                result &= v3_8.x1  == TestData_LHS[i].x1;
+                result &= v3_8.x2  == TestData_LHS[i].x2;
+                result &= v3_8.x3  == TestData_LHS[i].x3;
+                result &= v3_8.x4  == TestData_LHS[i].x4;
+                result &= v3_8.x5  == TestData_LHS[i].x5;
+                result &= v3_8.x6  == TestData_LHS[i].x6;
+                result &= v3_8.x7  == TestData_LHS[i].x7;
+                result &= v3_8.x8  == UShort3.TestData_LHS[i].x;
+                result &= v3_8.x9  == UShort3.TestData_LHS[i].y;
+                result &= v3_8.x10 == UShort3.TestData_LHS[i].z;
+                result &= v3_8.x11 == TestData_LHS[i].x11;
+                result &= v3_8.x12 == TestData_LHS[i].x12;
+                result &= v3_8.x13 == TestData_LHS[i].x13;
+                result &= v3_8.x14 == TestData_LHS[i].x14;
+                result &= v3_8.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_9 = TestData_LHS[i];
+                v3_9.v3_9 = UShort3.TestData_LHS[i];
+                result &= v3_9.x0  == TestData_LHS[i].x0;
+                result &= v3_9.x1  == TestData_LHS[i].x1;
+                result &= v3_9.x2  == TestData_LHS[i].x2;
+                result &= v3_9.x3  == TestData_LHS[i].x3;
+                result &= v3_9.x4  == TestData_LHS[i].x4;
+                result &= v3_9.x5  == TestData_LHS[i].x5;
+                result &= v3_9.x6  == TestData_LHS[i].x6;
+                result &= v3_9.x7  == TestData_LHS[i].x7;
+                result &= v3_9.x8  == TestData_LHS[i].x8;
+                result &= v3_9.x9  == UShort3.TestData_LHS[i].x;
+                result &= v3_9.x10 == UShort3.TestData_LHS[i].y;
+                result &= v3_9.x11 == UShort3.TestData_LHS[i].z;
+                result &= v3_9.x12 == TestData_LHS[i].x12;
+                result &= v3_9.x13 == TestData_LHS[i].x13;
+                result &= v3_9.x14 == TestData_LHS[i].x14;
+                result &= v3_9.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_10 = TestData_LHS[i];
+                v3_10.v3_10 = UShort3.TestData_LHS[i];
+                result &= v3_10.x0  == TestData_LHS[i].x0;
+                result &= v3_10.x1  == TestData_LHS[i].x1;
+                result &= v3_10.x2  == TestData_LHS[i].x2;
+                result &= v3_10.x3  == TestData_LHS[i].x3;
+                result &= v3_10.x4  == TestData_LHS[i].x4;
+                result &= v3_10.x5  == TestData_LHS[i].x5;
+                result &= v3_10.x6  == TestData_LHS[i].x6;
+                result &= v3_10.x7  == TestData_LHS[i].x7;
+                result &= v3_10.x8  == TestData_LHS[i].x8;
+                result &= v3_10.x9  == TestData_LHS[i].x9;
+                result &= v3_10.x10 == UShort3.TestData_LHS[i].x;
+                result &= v3_10.x11 == UShort3.TestData_LHS[i].y;
+                result &= v3_10.x12 == UShort3.TestData_LHS[i].z;
+                result &= v3_10.x13 == TestData_LHS[i].x13;
+                result &= v3_10.x14 == TestData_LHS[i].x14;
+                result &= v3_10.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_11 = TestData_LHS[i];
+                v3_11.v3_11 = UShort3.TestData_LHS[i];
+                result &= v3_11.x0  == TestData_LHS[i].x0;
+                result &= v3_11.x1  == TestData_LHS[i].x1;
+                result &= v3_11.x2  == TestData_LHS[i].x2;
+                result &= v3_11.x3  == TestData_LHS[i].x3;
+                result &= v3_11.x4  == TestData_LHS[i].x4;
+                result &= v3_11.x5  == TestData_LHS[i].x5;
+                result &= v3_11.x6  == TestData_LHS[i].x6;
+                result &= v3_11.x7  == TestData_LHS[i].x7;
+                result &= v3_11.x8  == TestData_LHS[i].x8;
+                result &= v3_11.x9  == TestData_LHS[i].x9;
+                result &= v3_11.x10 == TestData_LHS[i].x10;
+                result &= v3_11.x11 == UShort3.TestData_LHS[i].x;
+                result &= v3_11.x12 == UShort3.TestData_LHS[i].y;
+                result &= v3_11.x13 == UShort3.TestData_LHS[i].z;
+                result &= v3_11.x14 == TestData_LHS[i].x14;
+                result &= v3_11.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_12 = TestData_LHS[i];
+                v3_12.v3_12 = UShort3.TestData_LHS[i];
+                result &= v3_12.x0  == TestData_LHS[i].x0;
+                result &= v3_12.x1  == TestData_LHS[i].x1;
+                result &= v3_12.x2  == TestData_LHS[i].x2;
+                result &= v3_12.x3  == TestData_LHS[i].x3;
+                result &= v3_12.x4  == TestData_LHS[i].x4;
+                result &= v3_12.x5  == TestData_LHS[i].x5;
+                result &= v3_12.x6  == TestData_LHS[i].x6;
+                result &= v3_12.x7  == TestData_LHS[i].x7;
+                result &= v3_12.x8  == TestData_LHS[i].x8;
+                result &= v3_12.x9  == TestData_LHS[i].x9;
+                result &= v3_12.x10 == TestData_LHS[i].x10;
+                result &= v3_12.x11 == TestData_LHS[i].x11;
+                result &= v3_12.x12 == UShort3.TestData_LHS[i].x;
+                result &= v3_12.x13 == UShort3.TestData_LHS[i].y;
+                result &= v3_12.x14 == UShort3.TestData_LHS[i].z;
+                result &= v3_12.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v3_13 = TestData_LHS[i];
+                v3_13.v3_13 = UShort3.TestData_LHS[i];
+                result &= v3_13.x0  == TestData_LHS[i].x0;
+                result &= v3_13.x1  == TestData_LHS[i].x1;
+                result &= v3_13.x2  == TestData_LHS[i].x2;
+                result &= v3_13.x3  == TestData_LHS[i].x3;
+                result &= v3_13.x4  == TestData_LHS[i].x4;
+                result &= v3_13.x5  == TestData_LHS[i].x5;
+                result &= v3_13.x6  == TestData_LHS[i].x6;
+                result &= v3_13.x7  == TestData_LHS[i].x7;
+                result &= v3_13.x8  == TestData_LHS[i].x8;
+                result &= v3_13.x9  == TestData_LHS[i].x9;
+                result &= v3_13.x10 == TestData_LHS[i].x10;
+                result &= v3_13.x11 == TestData_LHS[i].x11;
+                result &= v3_13.x12 == TestData_LHS[i].x12;
+                result &= v3_13.x13 == UShort3.TestData_LHS[i].x;
+                result &= v3_13.x14 == UShort3.TestData_LHS[i].y;
+                result &= v3_13.x15 == UShort3.TestData_LHS[i].z;
+
+
+                ushort16 v2_0 = TestData_LHS[i];
+                v2_0.v2_0 = UShort2.TestData_LHS[i];
+                result &= v2_0.x0  == UShort2.TestData_LHS[i].x;
+                result &= v2_0.x1  == UShort2.TestData_LHS[i].y;
+                result &= v2_0.x2  == TestData_LHS[i].x2;
+                result &= v2_0.x3  == TestData_LHS[i].x3;
+                result &= v2_0.x4  == TestData_LHS[i].x4;
+                result &= v2_0.x5  == TestData_LHS[i].x5;
+                result &= v2_0.x6  == TestData_LHS[i].x6;
+                result &= v2_0.x7  == TestData_LHS[i].x7;
+                result &= v2_0.x8  == TestData_LHS[i].x8;
+                result &= v2_0.x9  == TestData_LHS[i].x9;
+                result &= v2_0.x10 == TestData_LHS[i].x10;
+                result &= v2_0.x11 == TestData_LHS[i].x11;
+                result &= v2_0.x12 == TestData_LHS[i].x12;
+                result &= v2_0.x13 == TestData_LHS[i].x13;
+                result &= v2_0.x14 == TestData_LHS[i].x14;
+                result &= v2_0.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_1 = TestData_LHS[i];
+                v2_1.v2_1 = UShort2.TestData_LHS[i];
+                result &= v2_1.x0  == TestData_LHS[i].x0;
+                result &= v2_1.x1  == UShort2.TestData_LHS[i].x;
+                result &= v2_1.x2  == UShort2.TestData_LHS[i].y;
+                result &= v2_1.x3  == TestData_LHS[i].x3;
+                result &= v2_1.x4  == TestData_LHS[i].x4;
+                result &= v2_1.x5  == TestData_LHS[i].x5;
+                result &= v2_1.x6  == TestData_LHS[i].x6;
+                result &= v2_1.x7  == TestData_LHS[i].x7;
+                result &= v2_1.x8  == TestData_LHS[i].x8;
+                result &= v2_1.x9  == TestData_LHS[i].x9;
+                result &= v2_1.x10 == TestData_LHS[i].x10;
+                result &= v2_1.x11 == TestData_LHS[i].x11;
+                result &= v2_1.x12 == TestData_LHS[i].x12;
+                result &= v2_1.x13 == TestData_LHS[i].x13;
+                result &= v2_1.x14 == TestData_LHS[i].x14;
+                result &= v2_1.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_2 = TestData_LHS[i];
+                v2_2.v2_2 = UShort2.TestData_LHS[i];
+                result &= v2_2.x0  == TestData_LHS[i].x0;
+                result &= v2_2.x1  == TestData_LHS[i].x1;
+                result &= v2_2.x2  == UShort2.TestData_LHS[i].x;
+                result &= v2_2.x3  == UShort2.TestData_LHS[i].y;
+                result &= v2_2.x4  == TestData_LHS[i].x4;
+                result &= v2_2.x5  == TestData_LHS[i].x5;
+                result &= v2_2.x6  == TestData_LHS[i].x6;
+                result &= v2_2.x7  == TestData_LHS[i].x7;
+                result &= v2_2.x8  == TestData_LHS[i].x8;
+                result &= v2_2.x9  == TestData_LHS[i].x9;
+                result &= v2_2.x10 == TestData_LHS[i].x10;
+                result &= v2_2.x11 == TestData_LHS[i].x11;
+                result &= v2_2.x12 == TestData_LHS[i].x12;
+                result &= v2_2.x13 == TestData_LHS[i].x13;
+                result &= v2_2.x14 == TestData_LHS[i].x14;
+                result &= v2_2.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_3 = TestData_LHS[i];
+                v2_3.v2_3 = UShort2.TestData_LHS[i];
+                result &= v2_3.x0  == TestData_LHS[i].x0;
+                result &= v2_3.x1  == TestData_LHS[i].x1;
+                result &= v2_3.x2  == TestData_LHS[i].x2;
+                result &= v2_3.x3  == UShort2.TestData_LHS[i].x;
+                result &= v2_3.x4  == UShort2.TestData_LHS[i].y;
+                result &= v2_3.x5  == TestData_LHS[i].x5;
+                result &= v2_3.x6  == TestData_LHS[i].x6;
+                result &= v2_3.x7  == TestData_LHS[i].x7;
+                result &= v2_3.x8  == TestData_LHS[i].x8;
+                result &= v2_3.x9  == TestData_LHS[i].x9;
+                result &= v2_3.x10 == TestData_LHS[i].x10;
+                result &= v2_3.x11 == TestData_LHS[i].x11;
+                result &= v2_3.x12 == TestData_LHS[i].x12;
+                result &= v2_3.x13 == TestData_LHS[i].x13;
+                result &= v2_3.x14 == TestData_LHS[i].x14;
+                result &= v2_3.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_4 = TestData_LHS[i];
+                v2_4.v2_4 = UShort2.TestData_LHS[i];
+                result &= v2_4.x0  == TestData_LHS[i].x0;
+                result &= v2_4.x1  == TestData_LHS[i].x1;
+                result &= v2_4.x2  == TestData_LHS[i].x2;
+                result &= v2_4.x3  == TestData_LHS[i].x3;
+                result &= v2_4.x4  == UShort2.TestData_LHS[i].x;
+                result &= v2_4.x5  == UShort2.TestData_LHS[i].y;
+                result &= v2_4.x6  == TestData_LHS[i].x6;
+                result &= v2_4.x7  == TestData_LHS[i].x7;
+                result &= v2_4.x8  == TestData_LHS[i].x8;
+                result &= v2_4.x9  == TestData_LHS[i].x9;
+                result &= v2_4.x10 == TestData_LHS[i].x10;
+                result &= v2_4.x11 == TestData_LHS[i].x11;
+                result &= v2_4.x12 == TestData_LHS[i].x12;
+                result &= v2_4.x13 == TestData_LHS[i].x13;
+                result &= v2_4.x14 == TestData_LHS[i].x14;
+                result &= v2_4.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_5 = TestData_LHS[i];
+                v2_5.v2_5 = UShort2.TestData_LHS[i];
+                result &= v2_5.x0  == TestData_LHS[i].x0;
+                result &= v2_5.x1  == TestData_LHS[i].x1;
+                result &= v2_5.x2  == TestData_LHS[i].x2;
+                result &= v2_5.x3  == TestData_LHS[i].x3;
+                result &= v2_5.x4  == TestData_LHS[i].x4;
+                result &= v2_5.x5  == UShort2.TestData_LHS[i].x;
+                result &= v2_5.x6  == UShort2.TestData_LHS[i].y;
+                result &= v2_5.x7  == TestData_LHS[i].x7;
+                result &= v2_5.x8  == TestData_LHS[i].x8;
+                result &= v2_5.x9  == TestData_LHS[i].x9;
+                result &= v2_5.x10 == TestData_LHS[i].x10;
+                result &= v2_5.x11 == TestData_LHS[i].x11;
+                result &= v2_5.x12 == TestData_LHS[i].x12;
+                result &= v2_5.x13 == TestData_LHS[i].x13;
+                result &= v2_5.x14 == TestData_LHS[i].x14;
+                result &= v2_5.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_6 = TestData_LHS[i];
+                v2_6.v2_6 = UShort2.TestData_LHS[i];
+                result &= v2_6.x0  == TestData_LHS[i].x0;
+                result &= v2_6.x1  == TestData_LHS[i].x1;
+                result &= v2_6.x2  == TestData_LHS[i].x2;
+                result &= v2_6.x3  == TestData_LHS[i].x3;
+                result &= v2_6.x4  == TestData_LHS[i].x4;
+                result &= v2_6.x5  == TestData_LHS[i].x5;
+                result &= v2_6.x6  == UShort2.TestData_LHS[i].x;
+                result &= v2_6.x7  == UShort2.TestData_LHS[i].y;
+                result &= v2_6.x8  == TestData_LHS[i].x8;
+                result &= v2_6.x9  == TestData_LHS[i].x9;
+                result &= v2_6.x10 == TestData_LHS[i].x10;
+                result &= v2_6.x11 == TestData_LHS[i].x11;
+                result &= v2_6.x12 == TestData_LHS[i].x12;
+                result &= v2_6.x13 == TestData_LHS[i].x13;
+                result &= v2_6.x14 == TestData_LHS[i].x14;
+                result &= v2_6.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_7 = TestData_LHS[i];
+                v2_7.v2_7 = UShort2.TestData_LHS[i];
+                result &= v2_7.x0  == TestData_LHS[i].x0;
+                result &= v2_7.x1  == TestData_LHS[i].x1;
+                result &= v2_7.x2  == TestData_LHS[i].x2;
+                result &= v2_7.x3  == TestData_LHS[i].x3;
+                result &= v2_7.x4  == TestData_LHS[i].x4;
+                result &= v2_7.x5  == TestData_LHS[i].x5;
+                result &= v2_7.x6  == TestData_LHS[i].x6;
+                result &= v2_7.x7  == UShort2.TestData_LHS[i].x;
+                result &= v2_7.x8  == UShort2.TestData_LHS[i].y;
+                result &= v2_7.x9  == TestData_LHS[i].x9;
+                result &= v2_7.x10 == TestData_LHS[i].x10;
+                result &= v2_7.x11 == TestData_LHS[i].x11;
+                result &= v2_7.x12 == TestData_LHS[i].x12;
+                result &= v2_7.x13 == TestData_LHS[i].x13;
+                result &= v2_7.x14 == TestData_LHS[i].x14;
+                result &= v2_7.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_8 = TestData_LHS[i];
+                v2_8.v2_8 = UShort2.TestData_LHS[i];
+                result &= v2_8.x0  == TestData_LHS[i].x0;
+                result &= v2_8.x1  == TestData_LHS[i].x1;
+                result &= v2_8.x2  == TestData_LHS[i].x2;
+                result &= v2_8.x3  == TestData_LHS[i].x3;
+                result &= v2_8.x4  == TestData_LHS[i].x4;
+                result &= v2_8.x5  == TestData_LHS[i].x5;
+                result &= v2_8.x6  == TestData_LHS[i].x6;
+                result &= v2_8.x7  == TestData_LHS[i].x7;
+                result &= v2_8.x8  == UShort2.TestData_LHS[i].x;
+                result &= v2_8.x9  == UShort2.TestData_LHS[i].y;
+                result &= v2_8.x10 == TestData_LHS[i].x10;
+                result &= v2_8.x11 == TestData_LHS[i].x11;
+                result &= v2_8.x12 == TestData_LHS[i].x12;
+                result &= v2_8.x13 == TestData_LHS[i].x13;
+                result &= v2_8.x14 == TestData_LHS[i].x14;
+                result &= v2_8.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_9 = TestData_LHS[i];
+                v2_9.v2_9 = UShort2.TestData_LHS[i];
+                result &= v2_9.x0  == TestData_LHS[i].x0;
+                result &= v2_9.x1  == TestData_LHS[i].x1;
+                result &= v2_9.x2  == TestData_LHS[i].x2;
+                result &= v2_9.x3  == TestData_LHS[i].x3;
+                result &= v2_9.x4  == TestData_LHS[i].x4;
+                result &= v2_9.x5  == TestData_LHS[i].x5;
+                result &= v2_9.x6  == TestData_LHS[i].x6;
+                result &= v2_9.x7  == TestData_LHS[i].x7;
+                result &= v2_9.x8  == TestData_LHS[i].x8;
+                result &= v2_9.x9  == UShort2.TestData_LHS[i].x;
+                result &= v2_9.x10 == UShort2.TestData_LHS[i].y;
+                result &= v2_9.x11 == TestData_LHS[i].x11;
+                result &= v2_9.x12 == TestData_LHS[i].x12;
+                result &= v2_9.x13 == TestData_LHS[i].x13;
+                result &= v2_9.x14 == TestData_LHS[i].x14;
+                result &= v2_9.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_10 = TestData_LHS[i];
+                v2_10.v2_10 = UShort2.TestData_LHS[i];
+                result &= v2_10.x0  == TestData_LHS[i].x0;
+                result &= v2_10.x1  == TestData_LHS[i].x1;
+                result &= v2_10.x2  == TestData_LHS[i].x2;
+                result &= v2_10.x3  == TestData_LHS[i].x3;
+                result &= v2_10.x4  == TestData_LHS[i].x4;
+                result &= v2_10.x5  == TestData_LHS[i].x5;
+                result &= v2_10.x6  == TestData_LHS[i].x6;
+                result &= v2_10.x7  == TestData_LHS[i].x7;
+                result &= v2_10.x8  == TestData_LHS[i].x8;
+                result &= v2_10.x9  == TestData_LHS[i].x9;
+                result &= v2_10.x10 == UShort2.TestData_LHS[i].x;
+                result &= v2_10.x11 == UShort2.TestData_LHS[i].y;
+                result &= v2_10.x12 == TestData_LHS[i].x12;
+                result &= v2_10.x13 == TestData_LHS[i].x13;
+                result &= v2_10.x14 == TestData_LHS[i].x14;
+                result &= v2_10.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_11 = TestData_LHS[i];
+                v2_11.v2_11 = UShort2.TestData_LHS[i];
+                result &= v2_11.x0  == TestData_LHS[i].x0;
+                result &= v2_11.x1  == TestData_LHS[i].x1;
+                result &= v2_11.x2  == TestData_LHS[i].x2;
+                result &= v2_11.x3  == TestData_LHS[i].x3;
+                result &= v2_11.x4  == TestData_LHS[i].x4;
+                result &= v2_11.x5  == TestData_LHS[i].x5;
+                result &= v2_11.x6  == TestData_LHS[i].x6;
+                result &= v2_11.x7  == TestData_LHS[i].x7;
+                result &= v2_11.x8  == TestData_LHS[i].x8;
+                result &= v2_11.x9  == TestData_LHS[i].x9;
+                result &= v2_11.x10 == TestData_LHS[i].x10;
+                result &= v2_11.x11 == UShort2.TestData_LHS[i].x;
+                result &= v2_11.x12 == UShort2.TestData_LHS[i].y;
+                result &= v2_11.x13 == TestData_LHS[i].x13;
+                result &= v2_11.x14 == TestData_LHS[i].x14;
+                result &= v2_11.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_12 = TestData_LHS[i];
+                v2_12.v2_12 = UShort2.TestData_LHS[i];
+                result &= v2_12.x0  == TestData_LHS[i].x0;
+                result &= v2_12.x1  == TestData_LHS[i].x1;
+                result &= v2_12.x2  == TestData_LHS[i].x2;
+                result &= v2_12.x3  == TestData_LHS[i].x3;
+                result &= v2_12.x4  == TestData_LHS[i].x4;
+                result &= v2_12.x5  == TestData_LHS[i].x5;
+                result &= v2_12.x6  == TestData_LHS[i].x6;
+                result &= v2_12.x7  == TestData_LHS[i].x7;
+                result &= v2_12.x8  == TestData_LHS[i].x8;
+                result &= v2_12.x9  == TestData_LHS[i].x9;
+                result &= v2_12.x10 == TestData_LHS[i].x10;
+                result &= v2_12.x11 == TestData_LHS[i].x11;
+                result &= v2_12.x12 == UShort2.TestData_LHS[i].x;
+                result &= v2_12.x13 == UShort2.TestData_LHS[i].y;
+                result &= v2_12.x14 == TestData_LHS[i].x14;
+                result &= v2_12.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_13 = TestData_LHS[i];
+                v2_13.v2_13 = UShort2.TestData_LHS[i];
+                result &= v2_13.x0  == TestData_LHS[i].x0;
+                result &= v2_13.x1  == TestData_LHS[i].x1;
+                result &= v2_13.x2  == TestData_LHS[i].x2;
+                result &= v2_13.x3  == TestData_LHS[i].x3;
+                result &= v2_13.x4  == TestData_LHS[i].x4;
+                result &= v2_13.x5  == TestData_LHS[i].x5;
+                result &= v2_13.x6  == TestData_LHS[i].x6;
+                result &= v2_13.x7  == TestData_LHS[i].x7;
+                result &= v2_13.x8  == TestData_LHS[i].x8;
+                result &= v2_13.x9  == TestData_LHS[i].x9;
+                result &= v2_13.x10 == TestData_LHS[i].x10;
+                result &= v2_13.x11 == TestData_LHS[i].x11;
+                result &= v2_13.x12 == TestData_LHS[i].x12;
+                result &= v2_13.x13 == UShort2.TestData_LHS[i].x;
+                result &= v2_13.x14 == UShort2.TestData_LHS[i].y;
+                result &= v2_13.x15 == TestData_LHS[i].x15;
+                
+                ushort16 v2_14 = TestData_LHS[i];
+                v2_14.v2_14 = UShort2.TestData_LHS[i];
+                result &= v2_14.x0  == TestData_LHS[i].x0;
+                result &= v2_14.x1  == TestData_LHS[i].x1;
+                result &= v2_14.x2  == TestData_LHS[i].x2;
+                result &= v2_14.x3  == TestData_LHS[i].x3;
+                result &= v2_14.x4  == TestData_LHS[i].x4;
+                result &= v2_14.x5  == TestData_LHS[i].x5;
+                result &= v2_14.x6  == TestData_LHS[i].x6;
+                result &= v2_14.x7  == TestData_LHS[i].x7;
+                result &= v2_14.x8  == TestData_LHS[i].x8;
+                result &= v2_14.x9  == TestData_LHS[i].x9;
+                result &= v2_14.x10 == TestData_LHS[i].x10;
+                result &= v2_14.x11 == TestData_LHS[i].x11;
+                result &= v2_14.x12 == TestData_LHS[i].x12;
+                result &= v2_14.x13 == TestData_LHS[i].x13;
+                result &= v2_14.x14 == UShort2.TestData_LHS[i].x;
+                result &= v2_14.x15 == UShort2.TestData_LHS[i].y;
+            }
 
             Assert.AreEqual(true, result);
         }

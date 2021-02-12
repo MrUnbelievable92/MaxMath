@@ -26,13 +26,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Random32(Unity.Mathematics.Random input)
         {
-            return new Random32(input.state);
+            return *(Random32*)&input;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Unity.Mathematics.Random(Random32 input)
         {
-            return new Unity.Mathematics.Random(input.State);
+            return *(Unity.Mathematics.Random*)&input;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -60,13 +60,13 @@ namespace MaxMath
         {
  Assert.AreNotEqual(State, 0u);
 
-            uint t = State;
+            uint temp = State;
 
             State ^= State << 13;
             State ^= State >> 17;
             State ^= State << 5;
 
-            return t;
+            return temp;
         }
 
 
@@ -176,10 +176,17 @@ namespace MaxMath
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)(max - min));
-            hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
+            if (Sse2.IsSse2Supported)
+            {
+                v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)(max - min));
+                hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-            return min + *(int2*)&hiProd;
+                return min + *(int2*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextInt2(min, max);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -189,10 +196,17 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (long3)(max - min));
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
-        
-            return min + *(int3*)&hiProd;
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (long3)(max - min));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+
+                return min + *(int3*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextInt3(min, max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -203,10 +217,17 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)(max - min));
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)(max - min));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return min + *(int4*)&hiProd;
+                return min + *(int4*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextInt4(min, max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -221,15 +242,24 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            max -= min;
+            if (Avx2.IsAvx2Supported)
+            {
+                max -= min;
 
-            v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_0);
-            v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_4);
+                v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_0);
+                v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_4);
 
-            hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-            hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+                return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+            }
+            else
+            {
+                Unity.Mathematics.Random rng = this;
+
+                return new int8(rng.NextInt4(min.v4_0, max.v4_0), rng.NextInt4(min.v4_4, max.v4_4));
+            }
         }
 
 
@@ -273,40 +303,70 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 max)
         {
-            v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)max);
-            hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
+            if (Sse2.IsSse2Supported)
+            {
+                v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)max);
+                hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-            return *(uint2*)&hiProd;
+                return *(uint2*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt2(max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 max)
         {
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)max);
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)max);
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
 
-            return *(uint3*)&hiProd;
+                return *(uint3*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt3(max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 max)
         {
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max);
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max);
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return *(uint4*)&hiProd;
+                return *(uint4*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt4(max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8 NextUInt8(uint8 max)
         {
-            v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
-            v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
+                v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
 
-            hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-            hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+                return Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+            }
+            else
+            {
+                Unity.Mathematics.Random rng = this;
+
+                return new uint8(rng.NextUInt4(max.v4_0), rng.NextUInt4(max.v4_4));
+            }
         }
 
 
@@ -319,28 +379,49 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 min, uint2 max)
         {
-            v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)(max - min));
-            hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
+            if (Sse2.IsSse2Supported)
+            {
+                v128 hiProd = Sse2.mul_epu32(new v128(NextState(), 0, NextState(), 0), (ulong2)(max - min));
+                hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-            return min + *(uint2*)&hiProd;
+                return min + *(uint2*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt2(min, max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 min, uint3 max)
         {
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)(max - min));
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)(max - min));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
 
-            return min + *(uint3*)&hiProd;
+                return min + *(uint3*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt3(min, max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 min, uint4 max)
         {
-            v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)(max - min));
-            hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)(max - min));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return min + *(uint4*)&hiProd;
+                return min + *(uint4*)&hiProd;
+            }
+            else
+            {
+                return ((Unity.Mathematics.Random)this).NextUInt4(min, max);
+            }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -355,15 +436,24 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            max -= min;
+            if (Avx2.IsAvx2Supported)
+            {
+                max -= min;
 
-            v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
-            v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
+                v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
+                v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
 
-            hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-            hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
 
-            return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+                return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
+            }
+            else
+            {
+                Unity.Mathematics.Random rng = this;
+
+                return new uint8(rng.NextUInt4(min.v4_0, max.v4_0), rng.NextUInt4(min.v4_4, max.v4_4));
+            }
         }
 
 

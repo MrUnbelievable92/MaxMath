@@ -15,7 +15,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Random8(byte seed = 0x3A)
+        public Random8(byte seed = 0b0111_1001)
         {
             State = seed;
 
@@ -47,13 +47,13 @@ namespace MaxMath
         {
 Assert.AreNotEqual(State, 0);
 
-            byte t = State;
+            byte temp = State;
 
             State = (byte)(State ^ (State << 7));
             State = (byte)(State ^ (State >> 5));
             State = (byte)(State ^ (State << 3));
 
-            return t;
+            return temp;
         }
 
 
@@ -183,9 +183,16 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            ushort2 t = (ushort2)(max - min) * new ushort2(NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort2 temp = (ushort2)(max - min) * new ushort2(NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8),   0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 0, 0));
+            }
+            else
+            {
+                return min + (sbyte2)(((ushort2)(max - min) * new ushort2(NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -195,9 +202,16 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            ushort3 t = (ushort3)(max - min) * new ushort3(NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort3 temp = (ushort3)(max - min) * new ushort3(NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16),     0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 0));
+            }
+            else
+            {
+                return min + (sbyte3)(((ushort3)(max - min) * new ushort3(NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -208,9 +222,16 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            ushort4 t = (ushort4)(max - min) * new ushort4(NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort4 temp = (ushort4)(max - min) * new ushort4(NextState(), NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16) | (7 << 24),     0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 7));
+            }
+            else
+            {
+                return min + (sbyte4)(((ushort4)(max - min) * new ushort4(NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -225,9 +246,16 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            ushort8 t = (ushort8)(max - min) * new ushort8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort8 temp = (ushort8)(max - min) * new ushort8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1L | (3L << 8) | (5L << 16) | (7L << 24) | (9L << 32) | (11L << 40) | (13L << 48) | (15L << 56),     0L));
+                return min + Ssse3.shuffle_epi8(temp, new byte8(1, 3, 5, 7, 9, 11, 13, 15));
+            }
+            else
+            {
+                return min + (sbyte8)(((ushort8)(max - min) * new ushort8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -250,12 +278,19 @@ Assert.IsNotSmaller(max.x13, min.x13);
 Assert.IsNotSmaller(max.x14, min.x14);
 Assert.IsNotSmaller(max.x15, min.x15);
 
-            ushort16 t = (ushort16)(max - min) * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 temp = (ushort16)(max - min) * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            t = Avx2.mm256_shuffle_epi8(t, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                    1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                              1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(t, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+            }
+            else
+            {
+                return new sbyte16(NextSByte8(min.v8_0, max.v8_0), NextSByte8(min.v8_8, max.v8_8));
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -294,18 +329,25 @@ Assert.IsNotSmaller(max.x29, min.x29);
 Assert.IsNotSmaller(max.x30, min.x30);
 Assert.IsNotSmaller(max.x31, min.x31);
 
-            max -= min;
+            if (Avx2.IsAvx2Supported)
+            {
+                max -= min;
 
-            ushort16 lo = (ushort16)max.v16_0  * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
-            ushort16 hi = (ushort16)max.v16_16 * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+                ushort16 lo = (ushort16)max.v16_0  * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+                ushort16 hi = (ushort16)max.v16_16 * new ushort16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
-            hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
+                hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return min + new sbyte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                     Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new sbyte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                         Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+            }
+            else
+            {
+                return new sbyte32(NextSByte8(min.v8_0, max.v8_0), NextSByte8(min.v8_8, max.v8_8), NextSByte8(min.v8_16, max.v8_16), NextSByte8(min.v8_24, max.v8_24));
+            }
         }
 
 
@@ -361,62 +403,101 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
-            short2 t = (short2)max * new short2(NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short2 temp = (short2)max * new short2(NextState(), NextState());
 
-            return Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8),     0, 0, 0));
+                return Ssse3.shuffle_epi8(temp, new byte4(1, 3, 0, 0));
+            }
+            else
+            {
+                return (byte2)(((short2)max * new short2(NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
-            short3 t = (short3)max * new short3(NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short3 temp = (short3)max * new short3(NextState(), NextState(), NextState());
 
-            return Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16),     0, 0, 0));
-
+                return Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 0));
+            }
+            else
+            {
+                return (byte3)(((short3)max * new short3(NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
-            short4 t = (short4)max * new short4(NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short4 temp = (short4)max * new short4(NextState(), NextState(), NextState(), NextState());
 
-            return Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16) | (7 << 24),     0, 0, 0));
-
+                return Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 7));
+            }
+            else
+            {
+                return (byte4)(((short4)max * new short4(NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
-            short8 t = (short8)max * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short8 temp = (short8)max * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            return Ssse3.shuffle_epi8(t, new v128(1L | (3L << 8) | (5L << 16) | (7L << 24) | (9L << 32) | (11L << 40) | (13L << 48) | (15L << 56),     0L));
-
+                return Ssse3.shuffle_epi8(temp, new byte8(1, 3, 5, 7, 9, 11, 13, 15));
+            }
+            else
+            {
+                return (byte8)(((short8)max * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 max)
         {
-            short16 t = (short16)max * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Avx2.IsAvx2Supported)
+            {
+                short16 temp = (short16)max * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            t = Avx2.mm256_shuffle_epi8(t, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                    1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                              1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(t, Sse.SHUFFLE(0, 0, 2, 0)));
+                return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+            }
+            else
+            {
+                return new byte16(NextByte8(max.v8_0), NextByte8(max.v8_8));
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 max)
         {
-            short16 lo = (short16)max.v16_0  * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
-            short16 hi = (short16)max.v16_16 * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Avx2.IsAvx2Supported)
+            {
+                short16 lo = (short16)max.v16_0  * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+                short16 hi = (short16)max.v16_16 * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
-            hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
+                hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                              Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                  Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+            }
+            else
+            {
+                return new byte32(NextByte8(max.v8_0), NextByte8(max.v8_8), NextByte8(max.v8_16), NextByte8(max.v8_24));
+            }
         }
 
 
@@ -434,9 +515,16 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            short2 t = (short2)(max - min) * new short2(NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short2 temp = (short2)(max - min) * new short2(NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8),   0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 0, 0));
+            }
+            else
+            {
+                return min + (byte2)(((short2)(max - min) * new short2(NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -446,9 +534,16 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            short3 t = (short3)(max - min) * new short3(NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short3 temp = (short3)(max - min) * new short3(NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16),     0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 0));
+            }
+            else
+            {
+                return min + (byte3)(((short3)(max - min) * new short3(NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -459,9 +554,16 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            short4 t = (short4)(max - min) * new short4(NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short4 temp = (short4)(max - min) * new short4(NextState(), NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1 | (3 << 8) | (5 << 16) | (7 << 24),     0, 0, 0));
+                return min + Ssse3.shuffle_epi8(temp, new byte4(1, 3, 5, 7));
+            }
+            else
+            {
+                return min + (byte4)(((short4)(max - min) * new short4(NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -476,9 +578,16 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            short8 t = (short8)(max - min) * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Sse4_1.IsSse41Supported)
+            {
+                short8 temp = (short8)(max - min) * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            return min + Ssse3.shuffle_epi8(t, new v128(1L | (3L << 8) | (5L << 16) | (7L << 24) | (9L << 32) | (11L << 40) | (13L << 48) | (15L << 56),     0L));
+                return min + Ssse3.shuffle_epi8(temp, new byte8(1, 3, 5, 7, 9, 11, 13, 15));
+            }
+            else
+            {
+                return min + (byte8)(((short8)(max - min) * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 8);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -501,12 +610,19 @@ Assert.IsNotSmaller(max.x13, min.x13);
 Assert.IsNotSmaller(max.x14, min.x14);
 Assert.IsNotSmaller(max.x15, min.x15);
 
-            short16 t = (short16)(max - min) * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            if (Avx2.IsAvx2Supported)
+            {
+                short16 temp = (short16)(max - min) * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            t = Avx2.mm256_shuffle_epi8(t, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                    1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                              1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(t, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+            }
+            else
+            {
+                return new byte16(NextByte8(min.v8_0, max.v8_0), NextByte8(min.v8_8, max.v8_8));
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -545,18 +661,25 @@ Assert.IsNotSmaller(max.x29, min.x29);
 Assert.IsNotSmaller(max.x30, min.x30);
 Assert.IsNotSmaller(max.x31, min.x31);
 
-            max -= min;
+            if (Avx2.IsAvx2Supported)
+            {
+                max -= min;
 
-            short16 lo = (short16)max.v16_0  * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
-            short16 hi = (short16)max.v16_16 * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+                short16 lo = (short16)max.v16_0  * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+                short16 hi = (short16)max.v16_16 * new short16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
-            lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
-            hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0,
-                                                      1, 3, 5, 7, 9, 11, 13, 15,     0, 0, 0, 0, 0, 0, 0, 0));
+                lo = Avx2.mm256_shuffle_epi8(lo, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
+                hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                          1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-            return min + new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                    Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                        Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+            }
+            else
+            {
+                return new byte32(NextByte8(min.v8_0, max.v8_0), NextByte8(min.v8_8, max.v8_8), NextByte8(min.v8_16, max.v8_16), NextByte8(min.v8_24, max.v8_24));
+            }
         }
     }
 }

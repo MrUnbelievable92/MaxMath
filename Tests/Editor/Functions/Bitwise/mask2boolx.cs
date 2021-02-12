@@ -5,7 +5,7 @@ namespace MaxMath.Tests
 {
     unsafe public static class masktobool
     {
-        private const int NUM_TESTS = 48;
+        public const int NUM_TESTS = 48;
         private const uint RNG_SEED = 489373u;
 
 

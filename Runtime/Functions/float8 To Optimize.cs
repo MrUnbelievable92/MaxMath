@@ -1,5 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst.Intrinsics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -33,7 +36,7 @@ namespace MaxMath
             return new float8(math.atan(x.v4_0), math.atan(x.v4_4));
         }
 
-        ///		<summary>       Returns the componentwise 2-argument arctangent of a pair of floats4 vectors.      </summary>
+        ///		<summary>       Returns the componentwise 2-argument arctangent of a pair of float8 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 atan2(float8 y, float8 x)
         {

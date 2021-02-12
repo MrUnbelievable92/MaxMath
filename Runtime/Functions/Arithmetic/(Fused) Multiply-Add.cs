@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -11,7 +11,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 mad(float8 a, float8 b, float8 c)
         {
-            return Fma.mm256_fmadd_ps(a, b, c);
+            // fmad operations will be chosen if Burst.FloatMode.Fast is selected.
+
+            return (a * b) + c;
         }
 
 

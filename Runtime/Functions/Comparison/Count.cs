@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -55,7 +56,14 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (uint)math.countbits(*(long*)&x);
+            if (Sse2.IsSse2Supported)
+            {
+                return (uint)math.countbits(((v128)x).ULong0);
+            }
+            else
+            {
+                return (uint)math.countbits(*(long*)&x);
+            }
         }
 
         /// <summary>       Returns the number of true values in a bool16 vector.        </summary>
@@ -79,7 +87,14 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return (uint)math.countbits(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
+            if (Sse2.IsSse2Supported)
+            {
+                return (uint)math.countbits(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
+            }
+            else
+            {
+                return count(x.v8_0) + count(x.v8_8);
+            }
         }
 
         /// <summary>       Returns the number of true values in a bool32 vector.        </summary>
@@ -119,7 +134,14 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x30);
 Assert.IsSafeBoolean(x.x31);
 
-            return (uint)math.countbits(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
+            if (Avx2.IsAvx2Supported)
+            {
+                return (uint)math.countbits(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
+            }
+            else
+            {
+                return count(x.v16_0) + count(x.v16_16);
+            }
         }
     }
 }

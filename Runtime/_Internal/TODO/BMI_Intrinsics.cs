@@ -40,5 +40,43 @@ namespace MaxMath
         {
             return x ^ (x - 1);
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint blsi(uint x)
+        {
+            return x & (uint)-(int)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint blsr(uint x)
+        {
+            return x & (x - 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint blsmsk(uint x)
+        {
+            return x ^ (x - 1);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong blsi(ulong x)
+        {
+            return x & (ulong)-(long)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong blsr(ulong x)
+        {
+            return x & (x - 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong blsmsk(ulong x)
+        {
+            return x ^ (x - 1);
+        }
     }
 }

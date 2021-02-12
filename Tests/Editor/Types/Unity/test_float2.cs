@@ -5,7 +5,7 @@ namespace MaxMath.Tests
 {
     unsafe public static class Float2
     {
-        private const int NUM_TESTS = 4;
+        public const int NUM_TESTS = 4;
 
 
         internal static float2[] TestData_LHS => new float2[]

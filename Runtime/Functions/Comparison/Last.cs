@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -10,7 +11,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns the index of the last true bool value of a bool2 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 1)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)] 
         public static int last(bool2 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -20,7 +21,7 @@ Assert.IsSafeBoolean(x.y);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool3 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 2)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 2)] 
         public static int last(bool3 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -31,7 +32,7 @@ Assert.IsSafeBoolean(x.z);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool4 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 3)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 3)] 
         public static int last(bool4 x)
         {
 Assert.IsSafeBoolean(x.x);
@@ -43,7 +44,7 @@ Assert.IsSafeBoolean(x.w);
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool8 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 7)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 7)] 
         public static int last(bool8 x)
         {
 Assert.IsSafeBoolean(x.x0);
@@ -55,11 +56,18 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return 7 - (int)((uint)math.lzcnt(*(long*)&x) / 8);
+            if (Sse2.IsSse2Supported)
+            {
+                return 7 - (int)((uint)math.lzcnt(((v128)x).SLong0) / 8);
+            }
+            else
+            {
+                return 7 - (int)((uint)math.lzcnt(*(long*)&x) / 8);
+            }
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool16 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 15)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 15)]
         public static int last(bool16 x)
         {
 Assert.IsSafeBoolean(x.x0);
@@ -79,11 +87,27 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return 31 - math.lzcnt(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
+            if (Sse2.IsSse2Supported)
+            {
+                return 31 - math.lzcnt(Sse2.movemask_epi8(Sse2.slli_epi16(x, 7)));
+            }
+            else
+            {
+                int last8 = last(x.v8_8);
+
+                if (last8 != -1)
+                {
+                    return 8 + last8;
+                }
+                else
+                {
+                    return last(x.v8_0);
+                }
+            }
         }
 
         /// <summary>       Returns the index of the last true bool value of a bool32 vector or -1 if none are true.       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]   [return: AssumeRange(-1, 31)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 31)]
         public static int last(bool32 x)
         {
 Assert.IsSafeBoolean(x.x0);
@@ -119,7 +143,23 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x30);
 Assert.IsSafeBoolean(x.x31);
 
-            return 31 - math.lzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
+            if (Avx2.IsAvx2Supported)
+            {
+                return 31 - math.lzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
+            }
+            else
+            {
+                int last16 = last(x.v16_16);
+
+                if (last16 != -1)
+                {
+                    return 16 + last16;
+                }
+                else
+                {
+                    return last(x.v16_0);
+                }
+            }
         }
     }
 }

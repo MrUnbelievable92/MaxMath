@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+﻿using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -12,39 +11,60 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse2.IsSse2Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return (byte)math.min((uint)x.x, (uint)x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of a byte3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte3 x)
         {
-            x = min(x, x.zyz);
+            if (Sse2.IsSse2Supported)
+            {
+                x = min(x, x.zyz);
 
-            return min(x, x.yyy).x;
+                return min(x, x.yyy).x;
+            }
+            else
+            {
+                return (byte)math.min((uint)x.x, math.min((uint)x.y, (uint)x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of a byte4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte4 x)
         {
-            x = min(x, x.wzww);
+            if (Sse2.IsSse2Supported)
+            {
+                x = min(x, x.zwzw);
 
-            return min(x, x.yyyy).x;
+                return min(x, x.yyyy).x;
+            }
+            else
+            {
+                return (byte)math.min((uint)x.x, math.min((uint)x.y, math.min((uint)x.z, (uint)x.w)));
+            }
         }
 
         /// <summary>       Returns the minimum component of a byte8 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte8 x)
         {
-            return cmin(min(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 1, 2, 3))).v4_0);
+            return cmin(min(x.v4_0, x.v4_4));
         }
 
         /// <summary>       Returns the minimum component of a byte16 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte16 x)
         {
-            return cmin(min(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3))).v8_0);
+            return cmin(min(x.v8_0, x.v8_8));
         }
 
         /// <summary>       Returns the minimum component of a byte32 vector.       </summary>
@@ -59,39 +79,60 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse4_1.IsSse41Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return (sbyte)math.min((int)x.x, (int)x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of an sbyte3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte3 x)
         {
-            x = min(x, x.zyz);
+            if (Sse4_1.IsSse41Supported)
+            {
+                x = min(x, x.zyz);
 
-            return min(x, x.yyy).x;
+                return min(x, x.yyy).x;
+            }
+            else
+            {
+                return (sbyte)math.min((int)x.x, math.min((int)x.y, (int)x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of an sbyte4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte4 x)
         {
-            x = min(x, x.wzww);
+            if (Sse4_1.IsSse41Supported)
+            {
+                x = min(x, x.zwzw);
 
-            return min(x, x.yyyy).x;
+                return min(x, x.yyyy).x;
+            }
+            else
+            {
+                return (sbyte)math.min((int)x.x, math.min((int)x.y, math.min((int)x.z, (int)x.w)));
+            }
         }
 
         /// <summary>       Returns the minimum component of an sbyte8 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte8 x)
         {
-            return cmin(min(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 1, 2, 3))).v4_0);
+            return cmin(min(x.v4_0, x.v4_4));
         }
 
         /// <summary>       Returns the minimum component of an sbyte16 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte16 x)
         {
-            return cmin(min(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3))).v8_0);
+            return cmin(min(x.v8_0, x.v8_8));
         }
 
         /// <summary>       Returns the minimum component of an sbyte32 vector.       </summary>
@@ -106,32 +147,53 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse2.IsSse2Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return (short)math.min((int)x.x, (int)x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of a short3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short3 x)
         {
-            x = min(x, x.zyz);
+            if (Sse2.IsSse2Supported)
+            {
+                x = min(x, x.zyz);
 
-            return min(x, x.yyy).x;
+                return min(x, x.yyy).x;
+            }
+            else
+            {
+                return (short)math.min((int)x.x, math.min((int)x.y, (int)x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of a short4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short4 x)
         {
-            x = min(x, x.wzww);
+            if (Sse2.IsSse2Supported)
+            {
+                x = min(x, x.zwzw);
 
-            return min(x, x.yyyy).x;
+                return min(x, x.yyyy).x;
+            }
+            else
+            {
+                return (short)math.min((int)x.x, math.min((int)x.y, math.min((int)x.z, (int)x.w)));
+            }
         }
 
         /// <summary>       Returns the minimum component of a short8 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short8 x)
         {
-            return cmin(min(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 1, 2, 3))).v4_0);
+            return cmin(min(x.v4_0, x.v4_4));
         }
 
         /// <summary>       Returns the minimum component of a short16 vector.       </summary>
@@ -146,28 +208,53 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse4_1.IsSse41Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return (ushort)math.min((uint)x.x, (uint)x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of a ushort3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort3 x)
         {
-            return Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0u, 0xFFFF_0000u, uint.MaxValue, uint.MaxValue))).UShort0;
+            if (Sse4_1.IsSse41Supported)
+            {
+                x = min(x, x.zyz);
+
+                return min(x, x.yyy).x;
+            }
+            else
+            {
+                return (ushort)math.min((uint)x.x, math.min((uint)x.y, (uint)x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of a ushort4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort4 x)
         {
-            return Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0, 0, -1, -1))).UShort0;
+            if (Sse4_1.IsSse41Supported)
+            {
+                x = min(x, x.zwzw);
+
+                return min(x, x.yyyy).x;
+            }
+            else
+            {
+                return (ushort)math.min((uint)x.x, math.min((uint)x.y, math.min((uint)x.z, (uint)x.w)));
+            }
         }
 
         /// <summary>       Returns the minimum component of a ushort8 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort8 x)
         {
-            return Sse4_1.minpos_epu16(x).UShort0;
+            return cmin(min(x.v4_0, x.v4_4));
         }
 
         /// <summary>       Returns the minimum component of a ushort16 vector.       </summary>
@@ -182,11 +269,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int8 x)
         {
-            v128 int4 = Sse4_1.min_epi32(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
-
-            int4 = Sse4_1.min_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
-
-            return Sse4_1.min_epi32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).SInt0;
+            return math.cmin(math.min(x.v4_0, x.v4_4));
         }
 
 
@@ -194,11 +277,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint8 x)
         {
-            v128 int4 = Sse4_1.min_epu32(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
-
-            int4 = Sse4_1.min_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
-
-            return Sse4_1.min_epu32(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).UInt0;
+            return math.cmin(math.min(x.v4_0, x.v4_4));
         }
 
 
@@ -206,25 +285,46 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse4_2.IsSse42Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of a long3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long3 x)
         {
-            x = min(x, x.zyz);
+            if (Sse4_2.IsSse42Supported)
+            {
+                long2 temp = min(x.xy, x.yz);
 
-            return min(x, x.yyy).x;
+                return min(temp, temp.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, math.min(x.y, x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of a long4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long4 x)
         {
-            x = min(x, x.wzww);
+            if (Sse4_2.IsSse42Supported)
+            {
+                long2 temp = min(x.xy, x.zw);
 
-            return min(x, x.yyyy).x;
+                return min(temp, temp.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, math.min(x.y, math.min(x.z, x.w)));
+            }
         }
 
 
@@ -232,25 +332,46 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong2 x)
         {
-            return min(x, x.yy).x;
+            if (Sse4_2.IsSse42Supported)
+            {
+                return min(x, x.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, x.y);
+            }
         }
 
         /// <summary>       Returns the minimum component of a ulong3 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong3 x)
         {
-            x = min(x, x.zyz);
+            if (Sse4_2.IsSse42Supported)
+            {
+                ulong2 temp = min(x.xy, x.yz);
 
-            return min(x, x.yyy).x;
+                return min(temp, temp.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, math.min(x.y, x.z));
+            }
         }
 
         /// <summary>       Returns the minimum component of a ulong4 vector.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong4 x)
         {
-            x = min(x, x.wzww);
+            if (Sse4_2.IsSse42Supported)
+            {
+                ulong2 temp = min(x.xy, x.zw);
 
-            return min(x, x.yyyy).x;
+                return min(temp, temp.yy).x;
+            }
+            else
+            {
+                return math.min(x.x, math.min(x.y, math.min(x.z, x.w)));
+            }
         }
 
 
@@ -258,11 +379,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float8 x)
         {
-            v128 int4 = Sse.min_ps(Avx.mm256_castsi256_si128(x), Avx2.mm256_extracti128_si256(x, 1));
-
-            int4 = Sse.min_ps(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 1, 2, 3)));
-
-            return Sse.min_ss(int4, Sse2.shuffle_epi32(int4, Sse.SHUFFLE(0, 0, 0, 1))).Float0;
+            return math.cmin(math.min(x.v4_0, x.v4_4));
         }
     }
 }

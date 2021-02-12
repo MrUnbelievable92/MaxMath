@@ -5,7 +5,7 @@ namespace MaxMath.Tests
 {
     unsafe public static class last
     {
-        private const int NUM_TESTS = 8;
+        public const int NUM_TESTS = 8;
         private const uint RNG_SEED = 1747u;
 
 

@@ -6,9 +6,7 @@ Almost all functions present in Unity.Mathematics have been transcribed to work 
 
 Note: 
 - C Sharp Dev Tools (a repository of mine) is required. Unit tests for this library are included in this repository.
-- There are currently no fallback procedures regarding support for platforms without AVX2 apart from the managed C# software implementations. Thus, for the most part, AVX2 is required if used with Burst. (Work in progress) 
-
-UPDATE: Fallback procedures from 'AVX2' -> 'SSE4' -> 'SSE2' -> 'platform independent' with major performance optimizations have been completed. There are currently bugs related to the Burst compiler, which prevent me from releasing the updated library with the promise that these updates will work. I will upload the updates as 'version 2.0.0' as soon as Burst 1.5 is out of preview.
+- This library utilizes Avx2 as often as possible. Optimized fallback procedures for Sse4 and Sse2 are included, aswell as a managed C# implementation. There are currently no plans for supporting ARM or other instruction sets in the future, although Burst/LLVM is generally good at vectorizing the some of the code for them. 
 
 
 # How To Use This Library

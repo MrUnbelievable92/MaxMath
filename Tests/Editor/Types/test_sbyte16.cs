@@ -630,7 +630,7 @@ namespace MaxMath.Tests
                           x.x12 == (sbyte)(-TestData_LHS[i].x12) &
                           x.x13 == (sbyte)(-TestData_LHS[i].x13) &
                           x.x14 == (sbyte)(-TestData_LHS[i].x14) &
-                          x.x15 == (sbyte)(-TestData_LHS[i].x15); ;
+                          x.x15 == (sbyte)(-TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -751,7 +751,7 @@ namespace MaxMath.Tests
                           x.x12 == (sbyte)(~TestData_LHS[i].x12) &
                           x.x13 == (sbyte)(~TestData_LHS[i].x13) &
                           x.x14 == (sbyte)(~TestData_LHS[i].x14) &
-                          x.x15 == (sbyte)(~TestData_LHS[i].x15); ;
+                          x.x15 == (sbyte)(~TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);

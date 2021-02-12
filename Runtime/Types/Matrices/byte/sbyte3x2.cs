@@ -7,14 +7,14 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 6)]
+    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 3 * 2 * sizeof(sbyte))]
     unsafe public struct sbyte3x2 : IEquatable<sbyte3x2>, IFormattable
     {
         public sbyte3 c0;
         public sbyte3 c1;
 
 
-        public static sbyte3x2 zero => default(sbyte3x2);
+        public static sbyte3x2 zero => default;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,15 +193,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override bool Equals(object obj) => Equals((sbyte3x2)obj);
+        public readonly bool Equals(sbyte3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override readonly bool Equals(object obj) => Equals((sbyte3x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 8);
+        public override readonly int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 8);
 
 
-        public override string ToString() => $"sbyte3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
+        public override readonly string ToString() => $"sbyte3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
+        public readonly string ToString(string format, IFormatProvider formatProvider) => $"sbyte3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
     }
 }

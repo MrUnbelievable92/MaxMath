@@ -12,6 +12,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, byte.MaxValue)]
         public static int bitmask(bool8 x)
         {
+            if (Sse2.IsSse2Supported)
+            {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
 Assert.IsSafeBoolean(x.x2);
@@ -21,13 +23,20 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return byte.MaxValue & Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
+                return byte.MaxValue & Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
+            }
+            else
+            {
+                return ((toint32(x.x0) | (toint8(x.x1) << 1)) + ((toint8(x.x2) << 2) | (toint8(x.x3) << 3))) + (((toint8(x.x4) << 4) | (toint8(x.x5) << 5)) + ((toint8(x.x6) << 6) | (toint8(x.x7) << 7)));
+            }
         }
 
         ///<summary>        Returns a bitmask representation of a bool16. Storing one 1 bit per component in LSB order, from lower to higher bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, ushort.MaxValue)]
         public static int bitmask(bool16 x)
         {
+            if (Sse2.IsSse2Supported)
+            {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
 Assert.IsSafeBoolean(x.x2);
@@ -45,13 +54,20 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
+                return Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
+            }
+            else
+            {
+                return (((toint32(x.x0) | (toint8(x.x1) << 1)) + ((toint8(x.x2) << 2) | (toint8(x.x3) << 3))) + (((toint8(x.x4) << 4) | (toint8(x.x5) << 5)) + ((toint8(x.x6) << 6) | (toint8(x.x7) << 7)))) + ((((toint8(x.x8) << 8) | (toint8(x.x9) << 9)) + ((toint8(x.x10) << 10) | (toint8(x.x11) << 11))) + (((toint8(x.x12) << 12) | (toint8(x.x13) << 13)) + ((toint8(x.x14) << 14) | (toint8(x.x15) << 15))));
+            }
         }
 
         ///<summary>        Returns a bitmask representation of a bool32. Storing one 1 bit per component in LSB order, from lower to higher bits.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool32 x)
         {
+            if (Avx2.IsAvx2Supported)
+            {
 Assert.IsSafeBoolean(x.x0);
 Assert.IsSafeBoolean(x.x1);
 Assert.IsSafeBoolean(x.x2);
@@ -85,7 +101,12 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x31);
 Assert.IsSafeBoolean(x.x30);
 
-            return Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7));
+                return Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7));
+            }
+            else
+            {
+                return bitmask(x.v16_0) | (bitmask(x.v16_16) << 16);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using DevTools;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]
@@ -45,13 +47,13 @@ namespace MaxMath
         {
 Assert.AreNotEqual(State, 0ul);
 
-            ulong t = State;
+            ulong temp = State;
 
             State ^= State << 13;
             State ^= State >> 7;
             State ^= State << 17;
 
-            return t;
+            return temp;
         }
 
 
@@ -98,13 +100,27 @@ Assert.AreNotEqual(State, 0ul);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
-            return X86.Sse2.and_si128(new v128(0x0101_0101_0101_0101ul), new v128(NextState(), NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.and_si128(new v128(0x0101_0101_0101_0101ul), new v128(NextState(), NextState()));
+            }
+            else
+            {
+                return new bool16(NextBool8(), NextBool8());
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
-            return X86.Avx2.mm256_and_si256(new v256(0x0101_0101_0101_0101ul), new v256(NextState(), NextState(), NextState(), NextState()));
+            if (Avx2.IsAvx2Supported)
+            {
+                return Avx2.mm256_and_si256(new v256(0x0101_0101_0101_0101ul), new v256(NextState(), NextState(), NextState(), NextState()));
+            }
+            else
+            {
+                return new bool32(NextBool16(), NextBool16());
+            }
         }
 
 
@@ -149,7 +165,7 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            ulong2 result = default(ulong2);
+            ulong2 result = ulong2.zero;
             max -= min;
 
             Common.umul128(NextState(), (ulong)(max.x), out result.x);
@@ -165,7 +181,7 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            ulong3 result = default(ulong3);
+            ulong3 result = ulong3.zero;
             max -= min;
 
             Common.umul128(NextState(), (ulong)(max.x), out result.x);
@@ -183,7 +199,7 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            ulong4 result = default(ulong4);
+            ulong4 result = ulong4.zero;
             max -= min;
 
             Common.umul128(NextState(), (ulong)(max.x), out result.x);
@@ -231,7 +247,7 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2(ulong2 max)
         {
-            ulong2 result = default(ulong2);
+            ulong2 result = ulong2.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);
@@ -242,7 +258,7 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 max)
         {
-            ulong3 result = default(ulong3);
+            ulong3 result = ulong3.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);
@@ -254,7 +270,7 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 max)
         {
-            ulong4 result = default(ulong4);
+            ulong4 result = ulong4.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);
@@ -282,7 +298,7 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
             max -= min;
-            ulong2 result = default(ulong2);
+            ulong2 result = ulong2.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);
@@ -298,7 +314,7 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
             max -= min;
-            ulong3 result = default(ulong3);
+            ulong3 result = ulong3.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);
@@ -316,7 +332,7 @@ Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
             max -= min;
-            ulong4 result = default(ulong4);
+            ulong4 result = ulong4.zero;
 
             Common.umul128(NextState(), max.x, out result.x);
             Common.umul128(NextState(), max.y, out result.y);

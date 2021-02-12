@@ -7,7 +7,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 6)]
+    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 2 * 3 * sizeof(byte))]
     unsafe public struct byte2x3 : IEquatable<byte2x3>, IFormattable
     {
         public byte2 c0;
@@ -15,7 +15,7 @@ namespace MaxMath
         public byte2 c2;
 
 
-        public static byte2x3 zero => default(byte2x3);
+        public static byte2x3 zero => default;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,15 +193,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(byte2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override bool Equals(object obj) => Equals((byte2x3)obj);
+        public readonly bool Equals(byte2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override readonly bool Equals(object obj) => Equals((byte2x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => (c2.x ^ c0.GetHashCode() | (c2.y ^ (c1.GetHashCode() << 16)));
+        public override readonly int GetHashCode() => (c2.x ^ c0.GetHashCode() | (c2.y ^ (c1.GetHashCode() << 16)));
 
 
-        public override string ToString() => $"byte2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"byte2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
+        public override readonly string ToString() => $"byte2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
+        public readonly string ToString(string format, IFormatProvider formatProvider) => $"byte2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
     }
 }

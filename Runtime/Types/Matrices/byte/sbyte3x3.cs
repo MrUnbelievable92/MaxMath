@@ -7,7 +7,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 9)]
+    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 3 * 3 * sizeof(sbyte))]
     unsafe public struct sbyte3x3 : IEquatable<sbyte3x3>, IFormattable
     {
         public sbyte3 c0;
@@ -17,7 +17,7 @@ namespace MaxMath
 
         public static sbyte3x3 identity => new sbyte3x3(1, 0, 0,   0, 1, 0,   0, 0, 1);
 
-        public static sbyte3x3 zero => default(sbyte3x3);
+        public static sbyte3x3 zero => default;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -199,15 +199,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(sbyte3x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override bool Equals(object obj) => Equals((sbyte3x3)obj);
+        public readonly bool Equals(sbyte3x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override readonly bool Equals(object obj) => Equals((sbyte3x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() << 8);
+        public override readonly int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() << 8);
 
 
-        public override string ToString() => $"sbyte3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte3x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)})";
+        public override readonly string ToString() => $"sbyte3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
+        public readonly string ToString(string format, IFormatProvider formatProvider) => $"sbyte3x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)})";
     }
 }

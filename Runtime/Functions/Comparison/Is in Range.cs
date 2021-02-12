@@ -297,35 +297,50 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(float x, float min, float max)
         {
-            return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
         }
 
         /// <summary>       Returns a bool2 indicating for each component of a float2 vector whether it is within the corresponding interval [min, max], where min and max are float2 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(float2 x, float2 min, float2 max)
         {
-            return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
         }
 
         /// <summary>       Returns a bool3 indicating for each component of a float3 vector whether it is within the corresponding interval [min, max], where min and max are float3 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(float3 x, float3 min, float3 max)
         {
-            return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
         }
 
         /// <summary>       Returns a bool4 indicating for each component of a float4 vector whether it is within the corresponding interval [min, max], where min and max are float4 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(float4 x, float4 min, float4 max)
         {
-            return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return math.asint(math.min(math.max(x, min), max)) == math.asint(x);
         }
 
         /// <summary>       Returns a bool8 indicating for each component of a float8 vector whether it is within the corresponding interval [min, max], where min and max are float8 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(float8 x, float8 min, float8 max)
         {
-            return asint(maxmath.min(maxmath.max(x, min), max)) == asint(x);
+            return maxmath.min(maxmath.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return asint(maxmath.min(maxmath.max(x, min), max)) == asint(x);
         }
 
 
@@ -333,28 +348,40 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(double x, double min, double max)
         {
-            return math.aslong(math.min(math.max(x, min), max)) == math.aslong(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return math.aslong(math.min(math.max(x, min), max)) == math.aslong(x);
         }
 
         /// <summary>       Returns a bool2 indicating for each component of a double2 vector whether it is within the corresponding interval [min, max], where min and max are double2 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(double2 x, double2 min, double2 max)
         {
-            return aslong(math.min(math.max(x, min), max)) == aslong(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return aslong(math.min(math.max(x, min), max)) == aslong(x);
         }
 
         /// <summary>       Returns a bool3 indicating for each component of a double3 vector whether it is within the corresponding interval [min, max], where min and max are double3 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(double3 x, double3 min, double3 max)
         {
-            return aslong(math.min(math.max(x, min), max)) == aslong(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return aslong(math.min(math.max(x, min), max)) == aslong(x);
         }
 
         /// <summary>       Returns a bool4 indicating for each component of a double4 vector whether it is within the corresponding interval [min, max], where min and max are double4 vectors.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(double4 x, double4 min, double4 max)
         {
-            return aslong(math.min(math.max(x, min), max)) == aslong(x);
+            return math.min(math.max(x, min), max) == x;
+
+            //fails at +/- 0. Saving one or two clock cycles is not worth the risk
+            //return aslong(math.min(math.max(x, min), max)) == aslong(x);
         }
     }
 }

@@ -32,7 +32,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 rcp(float8 x)
         {
-            return Avx.mm256_rcp_ps(x);
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_rcp_ps(x);
+            }
+            else
+            {
+                return new float8(math.rcp(x.v4_0), math.rcp(x.v4_4));
+            }
         }
 
         /// <summary>       Returns the componentwise fractional parts of a float8 vector.      </summary>
@@ -69,14 +76,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 sqrt(float8 x)
         {
-            return Avx.mm256_sqrt_ps(x);
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_sqrt_ps(x);
+            }
+            else
+            {
+                return new float8(math.sqrt(x.v4_0), math.sqrt(x.v4_4));
+            }
         }
 
         /// <summary>       Returns the componentwise reciprocal square root of a float8 vector     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 rsqrt(float8 x)
         {
-            return Avx.mm256_rsqrt_ps(x);
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_rsqrt_ps(x);
+            }
+            else
+            {
+                return new float8(math.rsqrt(x.v4_0), math.rsqrt(x.v4_4));
+            }
         }
 
         /// <summary>       Returns the result of a componentwise linear interpolation from x to y using the corresponding components of the interpolation parameter s.     </summary>
@@ -104,16 +125,23 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 smoothstep(float8 a, float8 b, float8 x)
         {
-            float8 t = saturate(unlerp(a, b, x));
+            float8 temp = saturate(unlerp(a, b, x));
 
-            return (t * t) * mad(-2f, t, 3f);
+            return (temp * temp) * mad(-2f, temp, 3f);
         }
 
         /// <summary>       Returns the result of a componentwise step function where each component is 1.0f when x >= y and 0.0f otherwise.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 step(float8 y, float8 x) 
-        { 
-            return Avx.mm256_blendv_ps(default(float8), new float8(1f), Avx.mm256_cmp_ps(x, y, (int)Avx.CMP.GE_OS)); 
+        public static float8 step(float8 y, float8 x)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_blendv_ps(default(float8), new float8(1f), Avx.mm256_cmp_ps(x, y, (int)Avx.CMP.GE_OS));
+            }
+            else
+            {
+                return new float8(math.step(x.v4_0, y.v4_0), math.step(x.v4_4, y.v4_4));
+            }
         }
 
 

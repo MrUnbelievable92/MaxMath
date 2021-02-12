@@ -9,7 +9,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float repeat(float x, float length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)), 
+            return math.clamp(math.mad(math.floor(x / length), 
                                        -length, 
                                        x), 
                               0f, 
@@ -20,7 +20,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 repeat(float2 x, float2 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0f,
@@ -31,7 +31,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 repeat(float3 x, float3 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0f,
@@ -42,7 +42,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 repeat(float4 x, float4 length)
         {
-            return math.clamp(math.mad(math.floor(div(x, length)),
+            return math.clamp(math.mad(math.floor(x / length),
                                        -length,
                                        x),
                               0f,
@@ -53,7 +53,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 repeat(float8 x, float8 length)
         {
-            return clamp(mad(floor(div(x, length)), 
+            return clamp(mad(floor(x / length), 
                              -length, 
                              x), 
                          0f, 

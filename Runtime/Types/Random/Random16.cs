@@ -47,13 +47,13 @@ namespace MaxMath
         {
 Assert.AreNotEqual(State, 0);
 
-            ushort t = State;
+            ushort temp = State;
 
             State = (ushort)(State ^ (State << 7));
             State = (ushort)(State ^ (State >> 9));
             State = (ushort)(State ^ (State << 13));
 
-            return t;
+            return temp;
         }
 
 
@@ -175,7 +175,14 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            return min + Sse2.mulhi_epi16(max - min, new short2((short)NextState(), (short)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new short2((short)NextState(), (short)NextState()));
+            }
+            else
+            {
+                return min + (short2)(((uint2)(max - min) * new uint2(NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -185,7 +192,14 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            return min + Sse2.mulhi_epi16(max - min, new short3((short)NextState(), (short)NextState(), (short)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new short3((short)NextState(), (short)NextState(), (short)NextState()));
+            }
+            else
+            {
+                return min + (short3)(((uint3)(max - min) * new uint3(NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -196,7 +210,14 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            return min + Sse2.mulhi_epi16(max - min, new short4((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new short4((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            }
+            else
+            {
+                return min + (short4)(((uint4)(max - min) * new uint4(NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -211,7 +232,14 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            return min + Sse2.mulhi_epi16(max - min, new short8((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new short8((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            }
+            else
+            {
+                return min + (short8)(((uint8)(max - min) * new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -234,7 +262,14 @@ Assert.IsNotSmaller(max.x13, min.x13);
 Assert.IsNotSmaller(max.x14, min.x14);
 Assert.IsNotSmaller(max.x15, min.x15);
 
-            return min + Avx2.mm256_mulhi_epi16(max - min, new short16((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            if (Avx2.IsAvx2Supported)
+            {
+                return min + Avx2.mm256_mulhi_epi16(max - min, new short16((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+            }
+            else
+            {
+                return new short16(NextShort8(min.v8_0, max.v8_0), NextShort8(min.v8_8, max.v8_8));
+            }
         }
 
 
@@ -289,7 +324,14 @@ Assert.IsPositive(max);
 Assert.IsPositive(max.x);
 Assert.IsPositive(max.y);
 
-            return Sse2.mulhi_epi16(max, new ushort2((ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.mulhi_epi16(max, new ushort2((ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return (ushort2)(((uint2)max * new uint2(NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -299,7 +341,14 @@ Assert.IsPositive(max.x);
 Assert.IsPositive(max.y);
 Assert.IsPositive(max.z);
 
-            return Sse2.mulhi_epi16(max, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.mulhi_epi16(max, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return (ushort3)(((uint3)max * new uint3(NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -310,7 +359,14 @@ Assert.IsPositive(max.y);
 Assert.IsPositive(max.z);
 Assert.IsPositive(max.w);
 
-            return Sse2.mulhi_epi16(max, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.mulhi_epi16(max, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return (ushort4)(((uint4)max * new uint4(NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -325,7 +381,14 @@ Assert.IsPositive(max.x5);
 Assert.IsPositive(max.x6);
 Assert.IsPositive(max.x7);
 
-            return Sse2.mulhi_epi16(max, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.mulhi_epi16(max, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return (ushort8)(((uint8)max * new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -348,7 +411,14 @@ Assert.IsPositive(max.x13);
 Assert.IsPositive(max.x14);
 Assert.IsPositive(max.x15);
 
-            return Avx2.mm256_mulhi_epi16(max, new ushort16((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Avx2.IsAvx2Supported)
+            {
+                return Avx2.mm256_mulhi_epi16(max, new ushort16((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return new ushort16(NextUShort8(max.v8_0), NextUShort8(max.v8_8));
+            }
         }
 
 
@@ -366,7 +436,14 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            return min + Sse2.mulhi_epi16(max - min, new ushort2((ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new ushort2((ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return min + (ushort2)(((uint2)(max - min) * new uint2(NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -376,7 +453,14 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            return min + Sse2.mulhi_epi16(max - min, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return min + (ushort3)(((uint3)(max - min) * new uint3(NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -387,7 +471,14 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            return min + Sse2.mulhi_epi16(max - min, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return min + (ushort4)(((uint4)(max - min) * new uint4(NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -402,7 +493,14 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            return min + Sse2.mulhi_epi16(max - min, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Sse2.IsSse2Supported)
+            {
+                return min + Sse2.mulhi_epi16(max - min, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return min + (ushort8)(((uint8)(max - min) * new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 16);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -425,7 +523,14 @@ Assert.IsNotSmaller(max.x13, min.x13);
 Assert.IsNotSmaller(max.x14, min.x14);
 Assert.IsNotSmaller(max.x15, min.x15);
 
-            return min + Avx2.mm256_mulhi_epi16(max - min, new ushort16((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            if (Avx2.IsAvx2Supported)
+            {
+                return min + Avx2.mm256_mulhi_epi16(max - min, new ushort16((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+            }
+            else
+            {
+                return new ushort16(NextUShort8(min.v8_0, max.v8_0), NextUShort8(min.v8_8, max.v8_8));
+            }
         }
     }
 }

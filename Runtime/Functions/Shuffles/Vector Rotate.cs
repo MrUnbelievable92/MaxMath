@@ -46,17 +46,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vror(byte8 x, int n)
         {
-            switch (n % 8)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 3: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 7: return Ssse3.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6,      0, 0, 0, 0, 0, 0, 0, 0));
+                switch (n % 8)
+                {
+                    case 1: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+                    case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 3: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0));
+                    case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0));
+                    case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 7: return Ssse3.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new byte8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+                    case 2: return new byte8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 3: return new byte8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 4: return new byte8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 5: return new byte8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 6: return new byte8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 7: return new byte8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+
+                    default: return x;
+                }
             }
         }
 
@@ -64,25 +82,51 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vror(byte16 x, int n)
         {
-            switch (n % 16)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1:  return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
-                case 2:  return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
-                case 3:  return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
-                case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 5:  return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
-                case 6:  return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                case 7:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
-                case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 9:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
-                case 10: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                case 11: return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-                case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 13: return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
-                case 14: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
-                case 15: return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+                switch (n % 16)
+                {
+                    case 1:  return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
+                    case 2:  return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                    case 3:  return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
+                    case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 5:  return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
+                    case 6:  return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 7:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
+                    case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 9:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
+                    case 10: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 11: return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+                    case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 13: return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+                    case 14: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                    case 15: return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 16)
+                {
+                    case 1:  return new byte16(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0);
+                    case 2:  return new byte16(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1);
+                    case 3:  return new byte16(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2);
+                    case 4:  return new byte16(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3);
+                    case 5:  return new byte16(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 6:  return new byte16(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 7:  return new byte16(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 8:  return new byte16(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                    case 9:  return new byte16(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                    case 10: return new byte16(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                    case 11: return new byte16(x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                    case 12: return new byte16(x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                    case 13: return new byte16(x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                    case 14: return new byte16(x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                    case 15: return new byte16(x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+
+                    default: return x;
+                }
             }
         }
 
@@ -178,17 +222,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vror(short8 x, int n)
         {
-            switch (n % 8)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
-                case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 3: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 7: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                switch (n % 8)
+                {
+                    case 1: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                    case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 3: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 7: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new short8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+                    case 2: return new short8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 3: return new short8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 4: return new short8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 5: return new short8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 6: return new short8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 7: return new short8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+
+                    default: return x;
+                }
             }
         }
 
@@ -292,17 +354,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vror(int8 x, int n)
         {
-            switch (n % 8)
+            if (Avx2.IsAvx2Supported)
             {
-                case 1: return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
-                case 2: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 3: return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-                case 4: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-                case 6: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 7: return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
+                switch (n % 8)
+                {
+                    case 1: return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
+                    case 2: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 3: return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
+                    case 4: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
+                    case 6: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 7: return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new int8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+                    case 2: return new int8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 3: return new int8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 4: return new int8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 5: return new int8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 6: return new int8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 7: return new int8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+
+                    default: return x;
+                }
             }
         }
 
@@ -542,17 +622,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vror(float8 x, int n)
         {
-            switch (n % 8)
+            if (Avx2.IsAvx2Supported)
             {
-                case 1: return Avx2.mm256_permutevar8x32_ps(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
-                case 2: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 3: return Avx2.mm256_permutevar8x32_ps(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-                case 4: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Avx2.mm256_permutevar8x32_ps(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-                case 6: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 7: return Avx2.mm256_permutevar8x32_ps(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
+                switch (n % 8)
+                {
+                    case 1: return Avx2.mm256_permutevar8x32_ps(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
+                    case 2: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 3: return Avx2.mm256_permutevar8x32_ps(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
+                    case 4: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Avx2.mm256_permutevar8x32_ps(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
+                    case 6: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 7: return Avx2.mm256_permutevar8x32_ps(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new float8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+                    case 2: return new float8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 3: return new float8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 4: return new float8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 5: return new float8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 6: return new float8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 7: return new float8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+
+                    default: return x;
+                }
             }
         }
 
@@ -630,17 +728,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vrol(byte8 x, int n)
         {
-            switch (n % 8)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1: return Ssse3.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 3: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2,      0, 0, 0, 0, 0, 0, 0, 0));
-                case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 7: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0,      0, 0, 0, 0, 0, 0, 0, 0));
+                switch (n % 8)
+                {
+                    case 1: return Ssse3.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6,      0, 0, 0, 0, 0, 0, 0, 0));
+                    case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 3: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4,      0, 0, 0, 0, 0, 0, 0, 0));
+                    case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2,      0, 0, 0, 0, 0, 0, 0, 0));
+                    case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 7: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0,      0, 0, 0, 0, 0, 0, 0, 0));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new byte8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 2: return new byte8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 3: return new byte8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 4: return new byte8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new byte8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 6: return new byte8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 7: return new byte8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+
+                    default: return x;
+                }
             }
         }
 
@@ -648,25 +764,51 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vrol(byte16 x, int n)
         {
-            switch (n % 16)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1:  return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
-                case 2:  return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
-                case 3:  return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
-                case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 5:  return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-                case 6:  return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                case 7:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
-                case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 9:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
-                case 10: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                case 11: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
-                case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 13: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
-                case 14: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
-                case 15: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
+                switch (n % 16)
+                {
+                    case 1:  return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+                    case 2:  return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                    case 3:  return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+                    case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 5:  return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+                    case 6:  return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 7:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
+                    case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 9:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
+                    case 10: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 11: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
+                    case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 13: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
+                    case 14: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                    case 15: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 16)
+                {
+                    case 1:  return new byte16(x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                    case 2:  return new byte16(x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                    case 3:  return new byte16(x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                    case 4:  return new byte16(x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                    case 5:  return new byte16(x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                    case 6:  return new byte16(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                    case 7:  return new byte16(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                    case 8:  return new byte16(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                    case 9:  return new byte16(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 10: return new byte16(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 11: return new byte16(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 12: return new byte16(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3);
+                    case 13: return new byte16(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2);
+                    case 14: return new byte16(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1);
+                    case 15: return new byte16(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0);
+
+                    default: return x;
+                }
             }
         }
 
@@ -762,17 +904,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vrol(short8 x, int n)
         {
-            switch (n % 8)
+            if (Ssse3.IsSsse3Supported)
             {
-                case 1: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
-                case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 3: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 7: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                switch (n % 8)
+                {
+                    case 1: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                    case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 3: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 7: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new short8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 2: return new short8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 3: return new short8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 4: return new short8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new short8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 6: return new short8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 7: return new short8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+
+                    default: return x;
+                }
             }
         }
 
@@ -877,17 +1037,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vrol(int8 x, int n)
         {
-            switch (n % 8)
+            if (Avx2.IsAvx2Supported)
             {
-                case 1: return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
-                case 2: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 3: return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-                case 4: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-                case 6: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 7: return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
+                switch (n % 8)
+                {
+                    case 1: return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
+                    case 2: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 3: return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
+                    case 4: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
+                    case 6: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 7: return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new int8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 2: return new int8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 3: return new int8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 4: return new int8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new int8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 6: return new int8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 7: return new int8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+
+                    default: return x;
+                }
             }
         }
 
@@ -1126,17 +1304,35 @@ namespace MaxMath
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vrol(float8 x, int n)
         {
-            switch (n % 8)
+            if (Avx2.IsAvx2Supported)
             {
-                case 1: return Avx2.mm256_permutevar8x32_ps(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
-                case 2: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(2, 1, 0, 3));
-                case 3: return Avx2.mm256_permutevar8x32_ps(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-                case 4: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(1, 0, 3, 2));
-                case 5: return Avx2.mm256_permutevar8x32_ps(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-                case 6: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(0, 3, 2, 1));
-                case 7: return Avx2.mm256_permutevar8x32_ps(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
+                switch (n % 8)
+                {
+                    case 1: return Avx2.mm256_permutevar8x32_ps(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
+                    case 2: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(2, 1, 0, 3));
+                    case 3: return Avx2.mm256_permutevar8x32_ps(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
+                    case 4: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(1, 0, 3, 2));
+                    case 5: return Avx2.mm256_permutevar8x32_ps(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
+                    case 6: return Avx2.mm256_permute4x64_pd(x, Sse.SHUFFLE(0, 3, 2, 1));
+                    case 7: return Avx2.mm256_permutevar8x32_ps(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
 
-                default: return x;
+                    default: return x;
+                }
+            }
+            else
+            {
+                switch (n % 8)
+                {
+                    case 1: return new float8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                    case 2: return new float8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                    case 3: return new float8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 4: return new float8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new float8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 6: return new float8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
+                    case 7: return new float8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
+
+                    default: return x;
+                }
             }
         }
 

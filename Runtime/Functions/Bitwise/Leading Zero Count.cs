@@ -36,96 +36,124 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 lzcnt(byte4 x)
         {
-            byte4 y;
-            byte4 n = 8;
-            byte4 mask;
+            if (Sse2.IsSse2Supported)
+            {
+                byte4 y;
+                byte4 n = 8;
+                byte4 mask;
 
-            y = x >> 4;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 4, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 2;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 2, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 1;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
 
-            return Sse4_1.blendv_epi8(n - 2, n - x, mask);
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte4(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z), lzcnt(x.w));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte8 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 lzcnt(byte8 x)
         {
-            byte8 y;
-            byte8 n = 8;
-            byte8 mask;
+            if (Sse2.IsSse2Supported)
+            {
+                byte8 y;
+                byte8 n = 8;
+                byte8 mask;
 
-            y = x >> 4;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 4, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 2;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 2, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 1;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
 
-            return Sse4_1.blendv_epi8(n - 2, n - x, mask);
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte8(lzcnt(x.x0), lzcnt(x.x1), lzcnt(x.x2), lzcnt(x.x3), lzcnt(x.x4), lzcnt(x.x5), lzcnt(x.x6), lzcnt(x.x7));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte16 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 lzcnt(byte16 x)
         {
-            byte16 y;
-            byte16 n = 8;
-            byte16 mask;
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 y;
+                byte16 n = 8;
+                byte16 mask;
 
-            y = x >> 4;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 4, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 2;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 2, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 1;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
 
-            return Sse4_1.blendv_epi8(n - 2, n - x, mask);
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte16(lzcnt(x.x0), lzcnt(x.x1), lzcnt(x.x2), lzcnt(x.x3), lzcnt(x.x4), lzcnt(x.x5), lzcnt(x.x6), lzcnt(x.x7), lzcnt(x.x8), lzcnt(x.x9), lzcnt(x.x10), lzcnt(x.x11), lzcnt(x.x12), lzcnt(x.x13), lzcnt(x.x14), lzcnt(x.x15));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte32 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 lzcnt(byte32 x)
         {
-            byte32 y;
-            byte32 n = 8;
-            byte32 mask;
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 y;
+                byte32 n = 8;
+                byte32 mask;
 
-            y = x >> 4;
-            mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 2;
-            mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 1;
-            mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
+                y = x >> 1;
+                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
 
-            return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte32(lzcnt(x.v16_0), lzcnt(x.v16_16));
+            }
         }
 
 
@@ -206,87 +234,109 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 lzcnt(ushort4 x)
         {
-            ushort4 y;
-            ushort4 n = 16;
-            ushort4 mask;
+            if (Sse2.IsSse2Supported)
+            {
+                ushort4 y;
+                ushort4 n = 16;
+                ushort4 mask;
 
-            y = x >> 8;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 8, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 8;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 8, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 4;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 4, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 2;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 2, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 1;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
 
-            return Sse4_1.blendv_epi8(n - 2, n - x, mask);
+                return Mask.BlendV(n - 2, n - x, mask);
+
+            }
+            else
+            {
+                return new ushort4(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z), lzcnt(x.w));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort8 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 lzcnt(ushort8 x)
         {
-            ushort8 y;
-            ushort8 n = 16;
-            ushort8 mask;
+            if (Sse2.IsSse2Supported)
+            {
+                ushort8 y;
+                ushort8 n = 16;
+                ushort8 mask;
 
-            y = x >> 8;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 8, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 8;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 8, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 4;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 4, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 2;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
-            n = Sse4_1.blendv_epi8(n - 2, n, mask);
-            x = Sse4_1.blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
 
-            y = x >> 1;
-            mask = Sse2.cmpeq_epi16(y, default(v128));
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
 
-            return Sse4_1.blendv_epi8(n - 2, n - x, mask);
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new ushort8(lzcnt(x.x0), lzcnt(x.x1), lzcnt(x.x2), lzcnt(x.x3), lzcnt(x.x4), lzcnt(x.x5), lzcnt(x.x6), lzcnt(x.x7));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort16 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 lzcnt(ushort16 x)
         {
-            ushort16 y;
-            ushort16 n = 16;
-            ushort16 mask;
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 y;
+                ushort16 n = 16;
+                ushort16 mask;
 
-            y = x >> 8;
-            mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 8;
+                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 4;
-            mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 2;
-            mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 1;
-            mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
+                y = x >> 1;
+                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
 
-            return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new ushort16(lzcnt(x.v8_0), lzcnt(x.v8_8));
+            }
         }
 
 
@@ -337,34 +387,41 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 lzcnt(uint8 x)
         {
-            uint8 y;
-            uint8 n = 32;
-            uint8 mask;
+            if (Avx2.IsAvx2Supported)
+            {
+                uint8 y;
+                uint8 n = 32;
+                uint8 mask;
 
-            y = x >> 16;
-            mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 16, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 16;
+                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 16, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 8;
-            mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 8;
+                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 4;
-            mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 4;
+                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 2;
-            mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-            n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-            x = Avx2.mm256_blendv_epi8(y, x, mask);
+                y = x >> 2;
+                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
+                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
+                x = Avx2.mm256_blendv_epi8(y, x, mask);
 
-            y = x >> 1;
-            mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
+                y = x >> 1;
+                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
 
-            return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new uint8((uint4)math.lzcnt(x.v4_0), (uint4)math.lzcnt(x.v4_4));
+            }
         }
 
 
@@ -394,17 +451,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 lzcnt(ulong4 x)
         {
-            ulong4 y = x >> 32;
-            ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+            if (Avx2.IsAvx2Supported)
+            {
+                ulong4 y = x >> 32;
+                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
 
-            ulong4 bits = Avx2.mm256_blendv_epi8(y, 0x0000_0000_FFFF_FFFF & x, cmp);
-            ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x041E, (ulong4)0x043E, cmp);
+                ulong4 bits = Avx2.mm256_blendv_epi8(y, 0x0000_0000_FFFF_FFFF & x, cmp);
+                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x041E, (ulong4)0x043E, cmp);
 
-            bits += 0x4330_0000_0000_0000ul;
-            bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
-            bits = offset - bits >> 52;
+                bits += 0x4330_0000_0000_0000ul;
+                bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
+                bits = offset - bits >> 52;
 
-            return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
+                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
+            }
+            else
+            {
+                return new ulong4((ulong)math.lzcnt(x.x), (ulong)math.lzcnt(x.y), (ulong)math.lzcnt(x.z), (ulong)math.lzcnt(x.w));
+            }
         }
 
 

@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     unsafe public static partial class maxmath
@@ -40,7 +42,7 @@ Assert.IsSafeBoolean(x.w);
             return *(byte4*)&x;
         }
 
-        /// <summary>       Converts each value in a bool8 vector to its integer representation as a byte6 vector. The corresponding value is expected to be either 0 or 1.      </summary>
+        /// <summary>       Converts each value in a bool8 vector to its integer representation as a byte8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 touint8(bool8 x)
         {
@@ -53,7 +55,14 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a bool16 vector to its integer representation as a byte16 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -77,7 +86,14 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte16*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a bool32 vector to its integer representation as a byte32 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -117,7 +133,18 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x30);
 Assert.IsSafeBoolean(x.x31);
 
-            return (v256)x;
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new byte32 { _v16_0 = (v128)x._v16_0, _v16_16 = (v128)x._v16_16 };
+            }
+            else
+            {
+                return *(byte32*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a bool2 vector to its integer representation as an sbyte2 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -166,7 +193,14 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte8*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a bool16 vector to its integer representation as an sbyte16 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -190,7 +224,14 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte16*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a bool32 vector to its integer representation as an sbyte32 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -230,7 +271,18 @@ Assert.IsSafeBoolean(x.x29);
 Assert.IsSafeBoolean(x.x30);
 Assert.IsSafeBoolean(x.x31);
 
-            return (v256)x;
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new sbyte32 { _v16_0 = (v128)x._v16_0, _v16_16 = (v128)x._v16_16 };
+            }
+            else
+            {
+                return *(sbyte32*)&x;
+            }
         }
 
 
@@ -280,7 +332,14 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (ushort8)((byte8)(v128)x);
+            if (Sse2.IsSse2Supported)
+            {
+                return (ushort8)((byte8)(v128)x);
+            }
+            else
+            {
+                return (ushort8)(*(byte8*)&x);
+            }
         }
 
         /// <summary>       Converts each value in a bool16 vector to its integer representation as a ushort16 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -304,7 +363,18 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return (ushort16)((byte16)(v128)x);
+            if (Avx2.IsAvx2Supported)
+            {
+                return (ushort16)((byte16)(v128)x);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new ushort16(touint8(x.v8_0), touint8(x.v8_8));
+            }
+            else
+            {
+                return (ushort16)(*(byte16*)&x);
+            }
         }
 
 
@@ -354,7 +424,14 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (short8)((byte8)(v128)x);
+            if (Sse2.IsSse2Supported)
+            {
+                return (short8)((byte8)(v128)x);
+            }
+            else
+            {
+                return (short8)(*(byte8*)&x);
+            }
         }
 
         /// <summary>       Converts each value in a bool16 vector to its integer representation as a short16 vector. The corresponding value is expected to be either 0 or 1.      </summary>
@@ -378,7 +455,18 @@ Assert.IsSafeBoolean(x.x13);
 Assert.IsSafeBoolean(x.x14);
 Assert.IsSafeBoolean(x.x15);
 
-            return (short16)((byte16)(v128)x);
+            if (Avx2.IsAvx2Supported)
+            {
+                return (short16)((byte16)(v128)x);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new short16(touint8(x.v8_0), touint8(x.v8_8));
+            }
+            else
+            {
+                return (short16)(*(byte16*)&x);
+            }
         }
 
 
@@ -428,7 +516,18 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (uint8)((byte8)(v128)x);
+            if (Avx2.IsAvx2Supported)
+            {
+                return (uint8)((byte8)(v128)x);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                return new uint8(touint32(x.v4_0), touint32(x.v4_4));
+            }
+            else
+            {
+                return (uint8)(*(byte8*)&x);
+            }
         }
 
 
@@ -478,7 +577,18 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-            return (int8)((byte8)(v128)x);
+            if (Avx2.IsAvx2Supported)
+            {
+                return (int8)((byte8)(v128)x);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                return new int8(toint32(x.v4_0), toint32(x.v4_4));
+            }
+            else
+            {
+                return (int8)(*(byte8*)&x);
+            }
         }
 
 
@@ -554,56 +664,56 @@ Assert.IsSafeBoolean(x.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 tof8(bool2 x)
         {
-            return asquarter(select(default(byte2), ((quarter)1f).value, x));
+            return asquarter(select(byte2.zero, ((quarter)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool3 vector to its floating point representation as a quarter3 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 tof8(bool3 x)
         {
-            return asquarter(select(default(byte3), ((quarter)1f).value, x));
+            return asquarter(select(byte3.zero, ((quarter)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool4 vector to its floating point representation as a quarter4 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 tof8(bool4 x)
         {
-            return asquarter(select(default(byte4), ((quarter)1f).value, x));
+            return asquarter(select(byte4.zero, ((quarter)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool8 vector to its floating point representation as a quarter8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 tof8(bool8 x)
         {
-            return asquarter(select(default(byte8), ((quarter)1f).value, x));
+            return asquarter(select(byte8.zero, ((quarter)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool2 vector to its floating point representation as a half2 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 tof16(bool2 x)
         {
-            return ashalf(select(default(ushort2), ((half)1f).value, x));
+            return ashalf(select(ushort2.zero, ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool3 vector to its floating point representation as a half3 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 tof16(bool3 x)
         {
-            return ashalf(select(default(ushort3), ((half)1f).value, x));
+            return ashalf(select(ushort3.zero, ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool4 vector to its floating point representation as a half4 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 tof16(bool4 x)
         {
-            return ashalf(select(default(ushort4), ((half)1f).value, x));
+            return ashalf(select(ushort4.zero, ((half)1f).value, x));
         }
 
         /// <summary>       Converts each value in a bool8 vector to its floating point representation as a half8 vector. The corresponding value is expected to be either 0 or 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 tof16(bool8 x)
         {
-            return ashalf(select(default(ushort8), ((half)1f).value, x));
+            return ashalf(select(ushort8.zero, ((half)1f).value, x));
         }
 
 
@@ -997,7 +1107,14 @@ Assert.IsBetween(x.x5,  0, 1);
 Assert.IsBetween(x.x6,  0, 1);
 Assert.IsBetween(x.x7,  0, 1);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(bool8*)&x;
+            }
         }
 
         /// <summary>       Converts each value in an sbyte8 vector to its boolean representation as a bool8 vector. The corresponding value is expected to be either 0 or 1. 
@@ -1013,7 +1130,14 @@ Assert.IsBetween(x.x5,  0, 1);
 Assert.IsBetween(x.x6,  0, 1);
 Assert.IsBetween(x.x7,  0, 1);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(bool8*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a short8 vector to its boolean representation as a bool8 vector. The corresponding value is expected to be either 0 or 1. 
@@ -1114,7 +1238,14 @@ Assert.IsBetween(x.x13, 0, 1);
 Assert.IsBetween(x.x14, 0, 1);
 Assert.IsBetween(x.x15, 0, 1);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(bool16*)&x;
+            }
         }
 
         /// <summary>       Converts each value in an sbyte16 vector to its boolean representation as a bool16 vector. The corresponding value is expected to be either 0 or 1. 
@@ -1138,7 +1269,14 @@ Assert.IsBetween(x.x13, 0, 1);
 Assert.IsBetween(x.x14, 0, 1);
 Assert.IsBetween(x.x15, 0, 1);
 
-            return (v128)x;
+            if (Sse2.IsSse2Supported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(bool16*)&x;
+            }
         }
 
         /// <summary>       Converts each value in a short16 vector to its boolean representation as a bool16 vector. The corresponding value is expected to be either 0 or 1. 
@@ -1193,7 +1331,18 @@ Assert.IsBetween(x.x29, 0, 1);
 Assert.IsBetween(x.x30, 0, 1);
 Assert.IsBetween(x.x31, 0, 1);
 
-            return (v256)x;
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new bool32 { _v16_0 = (v128)x._v16_0, _v16_16 = (v128)x._v16_16 };
+            }
+            else
+            {
+                return *(bool32*)&x;
+            }
         }
 
         /// <summary>       Converts each value in an sbyte32 vector to its boolean representation as a bool32 vector. The corresponding value is expected to be either 0 or 1. 
@@ -1233,7 +1382,18 @@ Assert.IsBetween(x.x29, 0, 1);
 Assert.IsBetween(x.x30, 0, 1);
 Assert.IsBetween(x.x31, 0, 1);
 
-            return (v256)x;
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return new bool32 { _v16_0 = (v128)x._v16_0, _v16_16 = (v128)x._v16_16 };
+            }
+            else
+            {
+                return *(bool32*)&x;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 12)]
+    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 2 * 3 * sizeof(ushort))]
     unsafe public struct ushort2x3 : IEquatable<ushort2x3>, IFormattable
     {
         public ushort2 c0;
@@ -15,7 +15,7 @@ namespace MaxMath
         public ushort2 c2;
 
 
-        public static ushort2x3 zero => default(ushort2x3);
+        public static ushort2x3 zero => default;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -181,15 +181,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override bool Equals(object obj) => Equals((ushort2x3)obj);
+        public readonly bool Equals(ushort2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override readonly bool Equals(object obj) => Equals((ushort2x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode() ^ c2.GetHashCode();
+        public override readonly int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode() ^ c2.GetHashCode();
 
 
-        public override string ToString() => $"ushort2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"ushort2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
+        public override readonly string ToString() => $"ushort2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
+        public readonly string ToString(string format, IFormatProvider formatProvider) => $"ushort2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
     }
 }

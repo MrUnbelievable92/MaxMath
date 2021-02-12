@@ -12,16 +12,9 @@ namespace MaxMath
     // Additionally, each loop iteration is a fantastic candidate for instruction level parallelism.
 
     // There is no compare_greater instruction for unsigned types in <= Avx2. For the byte16 case, it is faster to up-/downcast to/from unsigned shorts,
-    // because the Operator.greater_mask_byte, which is called eight times, consists of two XOR's and one compare instruction - and bitshifting bytes in vector
-    // registers requires masking aswell, since there are no native 8-bit shifting instructions.
-
-    // The first and last loop iterations are inlined by hand, in order to not perform two unnecessary bitshift operations during the first iteration
-    // and operations on the now unneeded remainders and/or quotients during the last iteration. A decent compiler may remove a loop of eight iterations
-    // aswell as useless operations, but I have seen the opposite happen, since unrolling often results in the usage of SIMD registers. A compiler might decide
-    // that there is nothing to unroll here.
+    // because bitshifting bytes in vector registers requires masking, since there are no native 8-bit shifting instructions.
     unsafe internal static partial class Operator
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte32 vdivrem_byte(byte32 dividend, byte32 divisor, out byte32 remainder)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -57,39 +50,41 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            byte32 quotients = default(byte32); 
-            remainder = default(byte32);
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 quotients = byte32.zero;
+                remainder = byte32.zero;
+
+                remainder |= (new byte32(1) & (dividend >> 7));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainder), divisor);
+
+                remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte32(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, divisor, dividend);
+
+                remainder <<= 1; ;
+                quotients <<= 1;
+
+                remainder |= new byte32(1) & dividend;
+
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainder), divisor);
+
+                remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
 
-            remainder |= (new byte32(1) & (dividend >> 7));
-
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
-
-            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
-            quotients |= new byte32(1) & subtractDivisorFromRemainder;
-
-            divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, in divisor, in dividend);
-
-            remainder <<= 1;;
-            quotients <<= 1;
-
-            remainder |= new byte32(1) & dividend;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
-
-            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
-            quotients |= new byte32(1) & subtractDivisorFromRemainder;
-
-
-            return quotients;
+                return quotients;
+            }
+            else throw new BurstCompilerException();
         }
         
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte32 vdiv_byte(byte32 dividend, byte32 divisor)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -125,38 +120,41 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            byte32 quotients = default(byte32);
-            byte32 remainder = default(byte32);
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 quotients = byte32.zero;
+                byte32 remainder = byte32.zero;
 
 
-            remainder |= (new byte32(1) & (dividend >> 7));
+                remainder |= (new byte32(1) & (dividend >> 7));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainder), divisor);
 
-            remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
-            quotients |= new byte32(1) & subtractDivisorFromRemainder;
+                remainder -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
-            divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, in divisor, in dividend);
-            divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, in divisor, in dividend);
+                divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, divisor, dividend);
 
-            remainder <<= 1;;
-            quotients <<= 1;
+                remainder <<= 1;;
+                quotients <<= 1;
 
-            remainder |= new byte32(1) & dividend;
+                remainder |= new byte32(1) & dividend;
 
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainder), new v256(-1));
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainder), divisor);
 
-            quotients |= new byte32(1) & subtractDivisorFromRemainder;
+                quotients |= new byte32(1) & subtractDivisorFromRemainder;
 
 
-            return quotients;
+                return quotients;
+            }
+            else throw new BurstCompilerException();
         }
         
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte32 vrem_byte(byte32 dividend, byte32 divisor)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -192,73 +190,88 @@ Assert.AreNotEqual(divisor.x29, 0);
 Assert.AreNotEqual(divisor.x30, 0);
 Assert.AreNotEqual(divisor.x31, 0);
 
-            byte32 remainders = default(byte32);
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 remainders = byte32.zero;
 
 
-            remainders |= (new byte32(1) & (dividend >> 7));
+                remainders |= (new byte32(1) & (dividend >> 7));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainders), new v256(-1));
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainders), divisor);
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
 
-            rem_LOOPHEAD_byte(6, ref remainders, in divisor, in dividend);
-            rem_LOOPHEAD_byte(5, ref remainders, in divisor, in dividend);
-            rem_LOOPHEAD_byte(4, ref remainders, in divisor, in dividend);
-            rem_LOOPHEAD_byte(3, ref remainders, in divisor, in dividend);
-            rem_LOOPHEAD_byte(2, ref remainders, in divisor, in dividend);
-            rem_LOOPHEAD_byte(1, ref remainders, in divisor, in dividend);
+                rem_LOOPHEAD_byte(6, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(5, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(4, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(3, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(2, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(1, ref remainders, divisor, dividend);
 
-            remainders <<= 1;;
+                remainders <<= 1;;
 
-            remainders |= new byte32(1) & dividend;
+                remainders |= new byte32(1) & dividend;
 
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisor, remainders), new v256(-1));
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisor, remainders), divisor);
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisor, subtractDivisorFromRemainder);
 
 
-            return remainders;
+                return remainders;
+            }
+            else throw new BurstCompilerException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vdivrem_sbyte(sbyte32 dividend, sbyte32 divisor, out sbyte32 remainder)
         {
-            byte32 quotient = vdivrem_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor), out byte32 remainders);
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 quotient = vdivrem_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor), out byte32 remainders);
 
-            byte32 mustNegate = Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend);
+                byte32 mustNegate = Avx2.mm256_cmpgt_epi8(sbyte32.zero, dividend);
 
-            remainder = Avx2.mm256_blendv_epi8(remainders, -((sbyte32)remainders), mustNegate);
+                remainder = Avx2.mm256_blendv_epi8(remainders, -((sbyte32)remainders), mustNegate);
 
-            mustNegate = Avx2.mm256_xor_si256(Avx2.mm256_cmpgt_epi8(default(sbyte32), divisor),
-                                              Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend));
+                mustNegate = Avx2.mm256_xor_si256(Avx2.mm256_cmpgt_epi8(sbyte32.zero, divisor),
+                                                  Avx2.mm256_cmpgt_epi8(sbyte32.zero, dividend));
 
-            return Avx2.mm256_blendv_epi8(quotient, -((sbyte32)quotient), mustNegate);
+                return Avx2.mm256_blendv_epi8(quotient, -((sbyte32)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vdiv_sbyte(sbyte32 dividend, sbyte32 divisor)
         {
-            byte32 quotient = vdiv_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor));
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 quotient = vdiv_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor));
 
-            byte32 mustNegate = Avx2.mm256_xor_si256(Avx2.mm256_cmpgt_epi8(default(sbyte32), divisor),
-                                                     Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend));
+                byte32 mustNegate = Avx2.mm256_xor_si256(Avx2.mm256_cmpgt_epi8(sbyte32.zero, divisor),
+                                                         Avx2.mm256_cmpgt_epi8(sbyte32.zero, dividend));
 
-            return Avx2.mm256_blendv_epi8(quotient, -((sbyte32)quotient), mustNegate);
+                return Avx2.mm256_blendv_epi8(quotient, -((sbyte32)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vrem_sbyte(sbyte32 dividend, sbyte32 divisor)
         {
-            byte32 remainder = vrem_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor));
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 remainder = vrem_byte((byte32)maxmath.abs(dividend), (byte32)maxmath.abs(divisor));
 
-            byte32 mustNegate = Avx2.mm256_cmpgt_epi8(default(sbyte32), dividend);
+                byte32 mustNegate = Avx2.mm256_cmpgt_epi8(sbyte32.zero, dividend);
 
-            return Avx2.mm256_blendv_epi8(remainder, -((sbyte32)remainder), mustNegate);
+                return Avx2.mm256_blendv_epi8(remainder, -((sbyte32)remainder), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte16 vdivrem_byte(byte16 dividend, byte16 divisor, out byte16 remainder)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -278,43 +291,46 @@ Assert.AreNotEqual(divisor.x13, 0);
 Assert.AreNotEqual(divisor.x14, 0);
 Assert.AreNotEqual(divisor.x15, 0);
 
-            ushort16 quotients = default(ushort16);
-            ushort16 remainders = default(ushort16);
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 quotients = ushort16.zero;
+                ushort16 remainders = ushort16.zero;
 
-            ushort16 divisorCast = divisor;
-            ushort16 dividendCast = dividend;
-
-
-            remainders |= (new ushort16(1) & (dividendCast >> 7));
-
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-            quotients |= new ushort16(1) & subtractDivisorFromRemainder;
-
-            divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
-
-            remainders <<= 1;
-            quotients <<= 1;
-
-            remainders |= new ushort16(1) & dividendCast;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-            quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+                ushort16 divisorCast = divisor;
+                ushort16 dividendCast = dividend;
 
 
-            remainder = Sse2.packus_epi16(Avx.mm256_castsi256_si128(remainders), Avx2.mm256_extracti128_si256(remainders, 1));
-            return Sse2.packus_epi16(Avx.mm256_castsi256_si128(quotients), Avx2.mm256_extracti128_si256(quotients, 1));
+                remainders |= (new ushort16(1) & (dividendCast >> 7));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+                quotients <<= 1;
+
+                remainders |= new ushort16(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+
+
+                remainder = Sse2.packus_epi16(Avx.mm256_castsi256_si128(remainders), Avx2.mm256_extracti128_si256(remainders, 1));
+                return Sse2.packus_epi16(Avx.mm256_castsi256_si128(quotients), Avx2.mm256_extracti128_si256(quotients, 1));
+            }
+            else throw new BurstCompilerException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte16 vdiv_byte(byte16 dividend, byte16 divisor)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -334,41 +350,44 @@ Assert.AreNotEqual(divisor.x13, 0);
 Assert.AreNotEqual(divisor.x14, 0);
 Assert.AreNotEqual(divisor.x15, 0);
 
-            ushort16 quotients = default(ushort16);
-            ushort16 remainders = default(ushort16);
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 quotients = ushort16.zero;
+                ushort16 remainders = ushort16.zero;
 
-            ushort16 divisorCast = divisor;
-            ushort16 dividendCast = dividend;
-
-
-            remainders |= (new ushort16(1) & (dividendCast >> 7));
-
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-            quotients |= new ushort16(1) & subtractDivisorFromRemainder;
-
-            divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, in divisorCast, in dividendCast);
-            divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, in divisorCast, in dividendCast);
-
-            remainders <<= 1;
-            quotients <<= 1;
-
-            remainders |= new ushort16(1) & dividendCast;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+                ushort16 divisorCast = divisor;
+                ushort16 dividendCast = dividend;
 
 
-            return Sse2.packus_epi16(Avx.mm256_castsi256_si128(quotients), Avx2.mm256_extracti128_si256(quotients, 1));
+                remainders |= (new ushort16(1) & (dividendCast >> 7));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+                quotients <<= 1;
+
+                remainders |= new ushort16(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+
+
+                return Sse2.packus_epi16(Avx.mm256_castsi256_si128(quotients), Avx2.mm256_extracti128_si256(quotients, 1));
+            }
+            else throw new BurstCompilerException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte16 vrem_byte(byte16 dividend, byte16 divisor)
         {
 Assert.AreNotEqual(divisor.x0,  0);
@@ -388,126 +407,635 @@ Assert.AreNotEqual(divisor.x13, 0);
 Assert.AreNotEqual(divisor.x14, 0);
 Assert.AreNotEqual(divisor.x15, 0);
 
-            ushort16 remainders = default(ushort16);
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 remainders = ushort16.zero;
 
-            ushort16 divisorCast = divisor;
-            ushort16 dividendCast = dividend;
-
-
-            remainders |= (new ushort16(1) & (dividendCast >> 7));
-
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-
-            rem_LOOPHEAD_upcast(6, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD_upcast(5, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD_upcast(4, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD_upcast(3, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD_upcast(2, ref remainders, in divisorCast, in dividendCast);
-            rem_LOOPHEAD_upcast(1, ref remainders, in divisorCast, in dividendCast);
-
-            remainders <<= 1;
-
-            remainders |= new ushort16(1) & dividendCast;
-
-            subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
-
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                ushort16 divisorCast = divisor;
+                ushort16 dividendCast = dividend;
 
 
-            return Sse2.packus_epi16(Avx.mm256_castsi256_si128(remainders), Avx2.mm256_extracti128_si256(remainders, 1));
+                remainders |= (new ushort16(1) & (dividendCast >> 7));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+
+                rem_LOOPHEAD_upcast(6, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(5, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(4, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(3, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(2, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(1, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+
+                remainders |= new ushort16(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+
+
+                return Sse2.packus_epi16(Avx.mm256_castsi256_si128(remainders), Avx2.mm256_extracti128_si256(remainders, 1));
+            }
+            else throw new BurstCompilerException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdivrem_sbyte(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
-            byte16 quotient = vdivrem_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor), out byte16 remainders);
+            if (Avx2.IsAvx2Supported)
+            {
+                byte16 quotient = vdivrem_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor), out byte16 remainders);
 
-            byte16 mustNegate = Sse2.cmpgt_epi8(default(sbyte16), dividend);
+                byte16 mustNegate = Sse2.cmpgt_epi8(sbyte16.zero, dividend);
 
-            remainder = Sse4_1.blendv_epi8(remainders, -((sbyte16)remainders), mustNegate);
+                remainder = Mask.BlendV(remainders, -((sbyte16)remainders), mustNegate);
 
-            mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(default(sbyte16), divisor),
-                                        Sse2.cmpgt_epi8(default(sbyte16), dividend));
+                mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte16.zero, divisor),
+                                            Sse2.cmpgt_epi8(sbyte16.zero, dividend));
 
-            return Sse4_1.blendv_epi8(quotient, -((sbyte16)quotient), mustNegate);
+                return Mask.BlendV(quotient, -((sbyte16)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdiv_sbyte(sbyte16 dividend, sbyte16 divisor)
         {
-            byte16 quotient = vdiv_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
+            if (Avx2.IsAvx2Supported)
+            {
+                byte16 quotient = vdiv_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
 
-            byte16 mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(default(sbyte16), divisor),
-                                               Sse2.cmpgt_epi8(default(sbyte16), dividend));
+                byte16 mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte16.zero, divisor),
+                                                   Sse2.cmpgt_epi8(sbyte16.zero, dividend));
 
-            return Sse4_1.blendv_epi8(quotient, -((sbyte16)quotient), mustNegate);
+                return Mask.BlendV(quotient, -((sbyte16)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vrem_sbyte(sbyte16 dividend, sbyte16 divisor)
         {
-            byte16 remainder = vrem_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
+            if (Avx2.IsAvx2Supported)
+            {
+                byte16 remainder = vrem_byte((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
 
-            byte16 mustNegate = Sse2.cmpgt_epi8(default(sbyte16), dividend);
+                byte16 mustNegate = Sse2.cmpgt_epi8(sbyte16.zero, dividend);
 
-            return Sse4_1.blendv_epi8(remainder, -((sbyte16)remainder), mustNegate);
+                return Mask.BlendV(remainder, -((sbyte16)remainder), mustNegate);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        internal static byte8 vdivrem_byte_SSE_FALLBACK(byte8 dividend, byte8 divisor, out byte8 remainder)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort8 quotients = ushort8.zero;
+                ushort8 remainders = ushort8.zero;
+
+                ushort8 divisorCast = divisor;
+                ushort8 dividendCast = dividend;
+
+
+                remainders |= (new ushort8(1) & (dividendCast >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort8(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+                quotients <<= 1;
+
+                remainders |= new ushort8(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort8(1) & subtractDivisorFromRemainder;
+
+
+                byte16 temp = Sse2.packus_epi16(remainders, quotients);
+                remainder =  temp .v8_0;
+                return  temp .v8_8;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        internal static byte8 vdiv_byte_SSE_FALLBACK(byte8 dividend, byte8 divisor)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort8 quotients = ushort8.zero;
+                ushort8 remainders = ushort8.zero;
+
+                ushort8 divisorCast = divisor;
+                ushort8 dividendCast = dividend;
+
+
+                remainders |= (new ushort8(1) & (dividendCast >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort8(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_upcast(6, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(5, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(4, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(3, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(2, ref quotients, ref remainders, divisorCast, dividendCast);
+                divrem_LOOPHEAD_upcast(1, ref quotients, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+                quotients <<= 1;
+
+                remainders |= new ushort8(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                quotients |= new ushort8(1) & subtractDivisorFromRemainder;
+
+
+                return (byte8)quotients;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        internal static byte8 vrem_byte_SSE_FALLBACK(byte8 dividend, byte8 divisor)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+
+            if (Sse4_1.IsSse41Supported)
+            {
+                ushort8 remainders = ushort8.zero;
+
+                ushort8 divisorCast = divisor;
+                ushort8 dividendCast = dividend;
+
+
+                remainders |= (new ushort8(1) & (dividendCast >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+
+                rem_LOOPHEAD_upcast(6, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(5, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(4, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(3, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(2, ref remainders, divisorCast, dividendCast);
+                rem_LOOPHEAD_upcast(1, ref remainders, divisorCast, dividendCast);
+
+                remainders <<= 1;
+
+                remainders |= new ushort8(1) & dividendCast;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi16(Sse4_1.min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+
+
+                return (byte8)remainders;
+            }
+            else throw new BurstCompilerException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void divrem_LOOPHEAD_upcast(int i, ref ushort16 quotients, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
+        internal static sbyte8 vdivrem_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
-            quotients <<= 1;
-            remainders <<= 1;
+            if (Sse4_1.IsSse41Supported)
+            {
+                byte8 quotient = vdivrem_byte_SSE_FALLBACK((byte8)maxmath.abs(dividend), (byte8)maxmath.abs(divisor), out byte8 remainders);
 
-            remainders |= (new ushort16(1) & (dividendCast >> i));
+                byte8 mustNegate = Sse2.cmpgt_epi8(sbyte8.zero, dividend);
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
+                remainder = Mask.BlendV(remainders, -((sbyte8)remainders), mustNegate);
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-            quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+                mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte8.zero, divisor),
+                                            Sse2.cmpgt_epi8(sbyte8.zero, dividend));
+
+                return Mask.BlendV(quotient, -((sbyte8)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void rem_LOOPHEAD_upcast(int i, ref ushort16 remainders, in ushort16 divisorCast, in ushort16 dividendCast)
+        internal static sbyte8 vdiv_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor)
         {
-            remainders <<= 1;
+            if (Sse4_1.IsSse41Supported)
+            {
+                byte8 quotient = vdiv_byte_SSE_FALLBACK((byte8)maxmath.abs(dividend), (byte8)maxmath.abs(divisor));
 
-            remainders |= (new ushort16(1) & (dividendCast >> i));
+                byte8 mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte8.zero, divisor),
+                                                  Sse2.cmpgt_epi8(sbyte8.zero, dividend));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi16(divisorCast, remainders), new v256(-1));
+                return Mask.BlendV(quotient, -((sbyte8)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
+        }
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static sbyte8 vrem_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor)
+        {
+            if (Sse4_1.IsSse41Supported)
+            {
+                byte8 remainder = vrem_byte_SSE_FALLBACK((byte8)maxmath.abs(dividend), (byte8)maxmath.abs(divisor));
+
+                byte8 mustNegate = Sse2.cmpgt_epi8(sbyte8.zero, dividend);
+
+                return Mask.BlendV(remainder, -((sbyte8)remainder), mustNegate);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        internal static byte16 vdivrem_byte_SSE_FALLBACK(byte16 dividend, byte16 divisor, out byte16 remainder)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+Assert.AreNotEqual(divisor.x8,  0);
+Assert.AreNotEqual(divisor.x9,  0);
+Assert.AreNotEqual(divisor.x10, 0);
+Assert.AreNotEqual(divisor.x11, 0);
+Assert.AreNotEqual(divisor.x12, 0);
+Assert.AreNotEqual(divisor.x13, 0);
+Assert.AreNotEqual(divisor.x14, 0);
+Assert.AreNotEqual(divisor.x15, 0);
+
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 quotients = byte16.zero; 
+                remainder = byte16.zero;
+
+
+                remainder |= (new byte16(1) & (dividend >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainder), divisor);
+
+                remainder -= Mask.BlendV(default(v128), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte16(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, divisor, dividend);
+
+                remainder <<= 1;;
+                quotients <<= 1;
+
+                remainder |= new byte16(1) & dividend;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainder), divisor);
+
+                remainder -= Mask.BlendV(default(v128), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte16(1) & subtractDivisorFromRemainder;
+
+
+                return quotients;
+            }
+            else throw new BurstCompilerException();
+        }
+        
+        internal static byte16 vdiv_byte_SSE_FALLBACK(byte16 dividend, byte16 divisor)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+Assert.AreNotEqual(divisor.x8,  0);
+Assert.AreNotEqual(divisor.x9,  0);
+Assert.AreNotEqual(divisor.x10, 0);
+Assert.AreNotEqual(divisor.x11, 0);
+Assert.AreNotEqual(divisor.x12, 0);
+Assert.AreNotEqual(divisor.x13, 0);
+Assert.AreNotEqual(divisor.x14, 0);
+Assert.AreNotEqual(divisor.x15, 0);
+
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 quotients = byte16.zero;
+                byte16 remainder = byte16.zero;
+
+
+                remainder |= (new byte16(1) & (dividend >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainder), divisor);
+
+                remainder -= Mask.BlendV(default(v128), divisor, subtractDivisorFromRemainder);
+                quotients |= new byte16(1) & subtractDivisorFromRemainder;
+
+                divrem_LOOPHEAD_byte(6, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(5, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(4, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(3, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(2, ref quotients, ref remainder, divisor, dividend);
+                divrem_LOOPHEAD_byte(1, ref quotients, ref remainder, divisor, dividend);
+
+                remainder <<= 1;;
+                quotients <<= 1;
+
+                remainder |= new byte16(1) & dividend;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainder), divisor);
+
+                quotients |= new byte16(1) & subtractDivisorFromRemainder;
+
+
+                return quotients;
+            }
+            else throw new BurstCompilerException();
+        }
+        
+        internal static byte16 vrem_byte_SSE_FALLBACK(byte16 dividend, byte16 divisor)
+        {
+Assert.AreNotEqual(divisor.x0,  0);
+Assert.AreNotEqual(divisor.x1,  0);
+Assert.AreNotEqual(divisor.x2,  0);
+Assert.AreNotEqual(divisor.x3,  0);
+Assert.AreNotEqual(divisor.x4,  0);
+Assert.AreNotEqual(divisor.x5,  0);
+Assert.AreNotEqual(divisor.x6,  0);
+Assert.AreNotEqual(divisor.x7,  0);
+Assert.AreNotEqual(divisor.x8,  0);
+Assert.AreNotEqual(divisor.x9,  0);
+Assert.AreNotEqual(divisor.x10, 0);
+Assert.AreNotEqual(divisor.x11, 0);
+Assert.AreNotEqual(divisor.x12, 0);
+Assert.AreNotEqual(divisor.x13, 0);
+Assert.AreNotEqual(divisor.x14, 0);
+Assert.AreNotEqual(divisor.x15, 0);
+
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 remainders = byte16.zero;
+
+
+                remainders |= (new byte16(1) & (dividend >> 7));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainders), divisor);
+
+                remainders -= Mask.BlendV(default(v128), divisor, subtractDivisorFromRemainder);
+
+                rem_LOOPHEAD_byte(6, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(5, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(4, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(3, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(2, ref remainders, divisor, dividend);
+                rem_LOOPHEAD_byte(1, ref remainders, divisor, dividend);
+
+                remainders <<= 1;;
+
+                remainders |= new byte16(1) & dividend;
+
+                subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisor, remainders), divisor);
+
+                remainders -= Mask.BlendV(default(v128), divisor, subtractDivisorFromRemainder);
+
+
+                return remainders;
+            }
+            else throw new BurstCompilerException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void divrem_LOOPHEAD_byte(int i, ref byte32 quotients, ref byte32 remainders, in byte32 divisorCast, in byte32 dividendCast)
+        internal static sbyte16 vdivrem_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
-            quotients <<= 1;
-            remainders <<= 1;
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 quotient = vdivrem_byte_SSE_FALLBACK((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor), out byte16 remainders);
 
-            remainders |= (new byte32(1) & (dividendCast >> i));
+                byte16 mustNegate = Sse2.cmpgt_epi8(sbyte16.zero, dividend);
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisorCast, remainders), new v256(-1));
+                remainder = Mask.BlendV(remainders, -((sbyte16)remainders), mustNegate);
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
-            quotients |= new byte32(1) & subtractDivisorFromRemainder;
+                mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte16.zero, divisor),
+                                            Sse2.cmpgt_epi8(sbyte16.zero, dividend));
+
+                return Mask.BlendV(quotient, -((sbyte16)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void rem_LOOPHEAD_byte(int i, ref byte32 remainders, in byte32 divisorCast, in byte32 dividendCast)
+        internal static sbyte16 vdiv_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor)
         {
-            remainders <<= 1;
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 quotient = vdiv_byte_SSE_FALLBACK((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
 
-            remainders |= (new byte32(1) & (dividendCast >> i));
+                byte16 mustNegate = Sse2.xor_si128(Sse2.cmpgt_epi8(sbyte16.zero, divisor),
+                                                   Sse2.cmpgt_epi8(sbyte16.zero, dividend));
 
-            v256 subtractDivisorFromRemainder = Avx2.mm256_andnot_si256(Operator.greater_mask_byte(divisorCast, remainders), new v256(-1));
+                return Mask.BlendV(quotient, -((sbyte16)quotient), mustNegate);
+            }
+            else throw new BurstCompilerException();
+        }
 
-            remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static sbyte16 vrem_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 remainder = vrem_byte_SSE_FALLBACK((byte16)maxmath.abs(dividend), (byte16)maxmath.abs(divisor));
+
+                byte16 mustNegate = Sse2.cmpgt_epi8(sbyte16.zero, dividend);
+
+                return Mask.BlendV(remainder, -((sbyte16)remainder), mustNegate);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void divrem_LOOPHEAD_upcast(int i, ref ushort16 quotients, ref ushort16 remainders, ushort16 divisorCast, ushort16 dividendCast)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                quotients <<= 1;
+                remainders <<= 1;
+
+                remainders |= (new ushort16(1) & (dividendCast >> i));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort16(1) & subtractDivisorFromRemainder;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void rem_LOOPHEAD_upcast(int i, ref ushort16 remainders, ushort16 divisorCast, ushort16 dividendCast)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                remainders <<= 1;
+
+                remainders |= (new ushort16(1) & (dividendCast >> i));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void divrem_LOOPHEAD_upcast(int i, ref ushort8 quotients, ref ushort8 remainders, ushort8 divisorCast, ushort8 dividendCast)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                quotients <<= 1;
+                remainders <<= 1;
+
+                remainders |= (new ushort8(1) & (dividendCast >> i));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new ushort8(1) & subtractDivisorFromRemainder;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void rem_LOOPHEAD_upcast(int i, ref ushort8 remainders, ushort8 divisorCast, ushort8 dividendCast)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                remainders <<= 1;
+
+                remainders |= (new ushort8(1) & (dividendCast >> i));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void divrem_LOOPHEAD_byte(int i, ref byte32 quotients, ref byte32 remainders, byte32 divisorCast, byte32 dividendCast)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                quotients <<= 1;
+                remainders <<= 1;
+
+                remainders |= (new byte32(1) & (dividendCast >> i));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new byte32(1) & subtractDivisorFromRemainder;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void rem_LOOPHEAD_byte(int i, ref byte32 remainders, byte32 divisorCast, byte32 dividendCast)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                remainders <<= 1;
+
+                remainders |= (new byte32(1) & (dividendCast >> i));
+
+                v256 subtractDivisorFromRemainder = Avx2.mm256_cmpeq_epi8(Avx2.mm256_min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Avx2.mm256_blendv_epi8(default(v256), divisorCast, subtractDivisorFromRemainder);
+            }
+            else throw new BurstCompilerException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void divrem_LOOPHEAD_byte(int i, ref byte16 quotients, ref byte16 remainders, byte16 divisorCast, byte16 dividendCast)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                quotients <<= 1;
+                remainders <<= 1;
+
+                remainders |= (new byte16(1) & (dividendCast >> i));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+                quotients |= new byte16(1) & subtractDivisorFromRemainder;
+            }
+            else throw new BurstCompilerException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void rem_LOOPHEAD_byte(int i, ref byte16 remainders, byte16 divisorCast, byte16 dividendCast)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                remainders <<= 1;
+
+                remainders |= (new byte16(1) & (dividendCast >> i));
+
+                v128 subtractDivisorFromRemainder = Sse2.cmpeq_epi8(Sse2.min_epu8(divisorCast, remainders), divisorCast);
+
+                remainders -= Mask.BlendV(default(v128), divisorCast, subtractDivisorFromRemainder);
+            }
+            else throw new BurstCompilerException();
         }
     }
 }

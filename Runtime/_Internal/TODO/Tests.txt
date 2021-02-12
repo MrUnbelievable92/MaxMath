@@ -1,4 +1,4 @@
-﻿Vector shifts (trivial)
+﻿Vector shifts (correctness proven by shuffles)
 Vector Rotate
 All Equal
 All Different (some)

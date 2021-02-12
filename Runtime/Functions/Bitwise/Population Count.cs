@@ -13,49 +13,84 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 countbits(byte32 x)
         {
-            byte32 lookup = new byte32(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
+            if (Avx2.IsAvx2Supported)
+            {
+                byte32 lookup = new byte32(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
                                        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
 
-            byte32 mask = new byte32(0x0F);
-        
-            byte32 countLo = Avx2.mm256_shuffle_epi8(lookup, x & mask);
-            byte32 countHi = Avx2.mm256_shuffle_epi8(lookup, Avx2.mm256_srli_epi16(x, 4) & mask);
-        
-            return countLo + countHi;
+                byte32 mask = new byte32(0x0F);
+
+                byte32 countLo = Avx2.mm256_shuffle_epi8(lookup, x & mask);
+                byte32 countHi = Avx2.mm256_shuffle_epi8(lookup, Avx2.mm256_srli_epi16(x, 4) & mask);
+
+                return countLo + countHi;
+            }
+            else
+            {
+                return new byte32(countbits(x.v16_0), countbits(x.v16_16));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte16 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 countbits(byte16 x)
         {
-            byte16 lookup = new byte16(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
-            byte16 mask = new byte16(0x0F);
+            if (Ssse3.IsSsse3Supported)
+            {
+                byte16 lookup = new byte16(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+                byte16 mask = new byte16(0x0F);
 
-            byte16 countLo = Ssse3.shuffle_epi8(lookup, x & mask);
-            byte16 countHi = Ssse3.shuffle_epi8(lookup, Sse2.srli_epi16(x, 4) & mask);
+                byte16 countLo = Ssse3.shuffle_epi8(lookup, x & mask);
+                byte16 countHi = Ssse3.shuffle_epi8(lookup, Sse2.srli_epi16(x, 4) & mask);
 
-            return countLo + countHi;
+                return countLo + countHi;
+            }
+            else
+            {
+                return new byte16((byte)math.countbits((uint)x.x0), (byte)math.countbits((uint)x.x1), (byte)math.countbits((uint)x.x2), (byte)math.countbits((uint)x.x3), (byte)math.countbits((uint)x.x4), (byte)math.countbits((uint)x.x5), (byte)math.countbits((uint)x.x6), (byte)math.countbits((uint)x.x7), (byte)math.countbits((uint)x.x8), (byte)math.countbits((uint)x.x9), (byte)math.countbits((uint)x.x10), (byte)math.countbits((uint)x.x11), (byte)math.countbits((uint)x.x12), (byte)math.countbits((uint)x.x13), (byte)math.countbits((uint)x.x14), (byte)math.countbits((uint)x.x15));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte8 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 countbits(byte8 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            if (Ssse3.IsSsse3Supported)
+            {
+                return (v128)countbits((byte16)(v128)x);
+            }
+            else
+            {
+                return new byte8((byte)math.countbits((uint)x.x0), (byte)math.countbits((uint)x.x1), (byte)math.countbits((uint)x.x2), (byte)math.countbits((uint)x.x3), (byte)math.countbits((uint)x.x4), (byte)math.countbits((uint)x.x5), (byte)math.countbits((uint)x.x6), (byte)math.countbits((uint)x.x7));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte4 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 countbits(byte4 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            if (Ssse3.IsSsse3Supported)
+            {
+                return (v128)countbits((byte16)(v128)x);
+            }
+            else
+            {
+                return new byte4((byte)math.countbits((uint)x.x), (byte)math.countbits((uint)x.y), (byte)math.countbits((uint)x.z), (byte)math.countbits((uint)x.w));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte3 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 countbits(byte3 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            if (Ssse3.IsSsse3Supported)
+            {
+                return (v128)countbits((byte16)(v128)x);
+            }
+            else
+            {
+                return new byte3((byte)math.countbits((uint)x.x), (byte)math.countbits((uint)x.y), (byte)math.countbits((uint)x.z));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte2 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
@@ -70,35 +105,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 countbits(sbyte32 x)
         {
-            return (v256)countbits((byte32)x);
+            return (sbyte32)countbits((byte32)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of an sbyte16 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 countbits(sbyte16 x)
         {
-            return (v128)countbits((byte16)x);
+            return (sbyte16)countbits((byte16)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of an sbyte8 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 countbits(sbyte8 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            return (sbyte8)countbits((byte8)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of an sbyte4 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 countbits(sbyte4 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            return (sbyte4)countbits((byte4)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of an sbyte3 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 countbits(sbyte3 x)
         {
-            return (v128)countbits((byte16)(v128)x);
+            return (sbyte3)countbits((byte3)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of an sbyte2 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
@@ -113,27 +148,48 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 countbits(ushort16 x)
         {
-            ushort16 byteBits = (v256)countbits((byte32)(v256)x);
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort16 byteBits = (v256)countbits((byte32)(v256)x);
 
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+                return (byteBits & 0x00FF) + (byteBits >> 8);
+            }
+            else
+            {
+                return new ushort16(countbits(x.v8_0), countbits(x.v8_8));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a ushort8 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 countbits(ushort8 x)
         {
-            ushort8 byteBits = (v128)countbits((byte16)(v128)x);
+            if (Ssse3.IsSsse3Supported)
+            {
+                ushort8 byteBits = (v128)countbits((byte16)(v128)x);
 
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+                return (byteBits & 0x00FF) + (byteBits >> 8);
+            }
+            else
+            {
+                return new ushort8((ushort)math.countbits((uint)x.x0), (ushort)math.countbits((uint)x.x1), (ushort)math.countbits((uint)x.x2), (ushort)math.countbits((uint)x.x3), (ushort)math.countbits((uint)x.x4), (ushort)math.countbits((uint)x.x5), (ushort)math.countbits((uint)x.x6), (ushort)math.countbits((uint)x.x7));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a ushort4 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 countbits(ushort4 x)
         {
-            ushort4 byteBits = (v128)countbits((byte16)(v128)x);
+            if (Ssse3.IsSsse3Supported)
+            {
+                ushort4 byteBits = (v128)countbits((byte16)(v128)x);
 
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+                return (byteBits & 0x00FF) + (byteBits >> 8);
+            }
+            else
+            {
+                return new ushort4((ushort)math.countbits((uint)x.x), (ushort)math.countbits((uint)x.y), (ushort)math.countbits((uint)x.z), (ushort)math.countbits((uint)x.w));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a ushort3 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
@@ -155,27 +211,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 countbits(short16 x)
         {
-            short16 byteBits = (v256)countbits((byte32)(v256)x);
-
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+            return (short16)countbits((ushort16)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a short8 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 countbits(short8 x)
         {
-            short8 byteBits = (v128)countbits((byte16)(v128)x);
-
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+            return (short8)countbits((short8)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a short4 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 countbits(short4 x)
         {
-            short4 byteBits = (v128)countbits((byte16)(v128)x);
-
-            return (byteBits & 0x00FF) + (byteBits >> 8);
+            return (short4)countbits((short4)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a short3 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>

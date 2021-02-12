@@ -127,16 +127,31 @@ Assert.AreNotEqual(divisor.x5, 0);
 Assert.AreNotEqual(divisor.x6, 0);
 Assert.AreNotEqual(divisor.x7, 0);
 
-            float8 dividend_f32 = dividend;
-            float8 divisor_f32 = divisor;
+            if (Avx.IsAvxSupported)
+            {
+                float8 dividend_f32 = dividend;
+                float8 divisor_f32 = divisor;
 
-            float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
+                float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation *= divisor_f32_rcp;
-            precisionLossCompensation *= dividend_f32;
 
-            return precisionLossCompensation;
+                float8 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    precisionLossCompensation = maxmath.mad(-divisor_f32_rcp, divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+                }
+
+                precisionLossCompensation *= divisor_f32_rcp;
+                precisionLossCompensation *= dividend_f32;
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -195,46 +210,97 @@ Assert.AreNotEqual(divisor.x7, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 vdiv_byte_quotient(int4 dividend, int4 divisor)
         {
-            float4 dividend_f32 = dividend;
-            float4 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float4 dividend_f32 = dividend;
+                float4 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return precisionLossCompensation;
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float4 temp = math.mad(*(float4*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 vdiv_byte_quotient(int3 dividend, int3 divisor)
         {
-            float3 dividend_f32 = dividend;
-            float3 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float3 dividend_f32 = dividend;
+                float3 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return precisionLossCompensation;
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float3 temp = math.mad(*(float3*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 vdiv_byte_quotient(int2 dividend, int2 divisor)
         {
-            float2 dividend_f32 = dividend;
-            float2 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float2 dividend_f32 = dividend;
+                float2 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return precisionLossCompensation;
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float2 temp = math.mad(-(*(float2*)&divisor_f32_rcp), divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -504,16 +570,31 @@ Assert.AreNotEqual(divisor.x5, 0);
 Assert.AreNotEqual(divisor.x6, 0);
 Assert.AreNotEqual(divisor.x7, 0);
 
-            float8 dividend_f32 = dividend;
-            float8 divisor_f32 = divisor;
+            if (Avx.IsAvxSupported)
+            {
+                float8 dividend_f32 = dividend;
+                float8 divisor_f32 = divisor;
 
-            float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
+                float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation *= divisor_f32_rcp;
-            precisionLossCompensation *= dividend_f32;
 
-            return precisionLossCompensation;
+                float8 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    precisionLossCompensation = maxmath.mad(-divisor_f32_rcp, divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+                }
+
+                precisionLossCompensation *= divisor_f32_rcp;
+                precisionLossCompensation *= dividend_f32;
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -528,16 +609,31 @@ Assert.AreNotEqual(divisor.x5, 0);
 Assert.AreNotEqual(divisor.x6, 0);
 Assert.AreNotEqual(divisor.x7, 0);
 
-            float8 dividend_f32 = dividend;
-            float8 divisor_f32 = divisor;
+            if (Avx.IsAvxSupported)
+            {
+                float8 dividend_f32 = dividend;
+                float8 divisor_f32 = divisor;
 
-            float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
+                float8 divisor_f32_rcp = Avx.mm256_rcp_ps(divisor_f32);
 
-            float8 precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation *= divisor_f32_rcp;
-            precisionLossCompensation *= dividend_f32;
 
-            return precisionLossCompensation;
+                float8 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.mm256_fnmadd_ps(divisor_f32_rcp, divisor_f32, new v256(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    precisionLossCompensation = maxmath.mad(-divisor_f32_rcp, divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+                }
+
+                precisionLossCompensation *= divisor_f32_rcp;
+                precisionLossCompensation *= dividend_f32;
+
+                return precisionLossCompensation;
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -546,16 +642,33 @@ Assert.AreNotEqual(divisor.x7, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            float2 dividend_f32 = dividend;
-            float2 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float2 dividend_f32 = dividend;
+                float2 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (short2)(*(float2*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float2 temp = math.mad(-(*(float2*)&divisor_f32_rcp), divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (short2)(*(float2*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -564,16 +677,33 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 
-            float2 dividend_f32 = dividend;
-            float2 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float2 dividend_f32 = dividend;
+                float2 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (ushort2)(*(float2*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float2 temp = math.mad(-(*(float2*)&divisor_f32_rcp), divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (ushort2)(*(float2*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -583,16 +713,33 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            float3 dividend_f32 = dividend;
-            float3 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float3 dividend_f32 = dividend;
+                float3 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (short3)(*(float3*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float3 temp = math.mad(*(float3*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (short3)(*(float3*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -602,16 +749,33 @@ Assert.AreNotEqual(divisor.x, 0);
 Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 
-            float3 dividend_f32 = dividend;
-            float3 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float3 dividend_f32 = dividend;
+                float3 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (ushort3)(*(float3*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float3 temp = math.mad(*(float3*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (ushort3)(*(float3*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -622,16 +786,33 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            float4 dividend_f32 = dividend;
-            float4 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float4 dividend_f32 = dividend;
+                float4 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (short4)(*(float4*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float4 temp = math.mad(*(float4*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (short4)(*(float4*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -642,16 +823,33 @@ Assert.AreNotEqual(divisor.y, 0);
 Assert.AreNotEqual(divisor.z, 0);
 Assert.AreNotEqual(divisor.w, 0);
 
-            float4 dividend_f32 = dividend;
-            float4 divisor_f32 = divisor;
+            if (Sse2.IsSse2Supported)
+            {
+                float4 dividend_f32 = dividend;
+                float4 divisor_f32 = divisor;
 
-            v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
+                v128 divisor_f32_rcp = Sse.rcp_ps(*(v128*)&divisor_f32);
 
-            v128 precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
-            precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
 
-            return (ushort4)(*(float4*)&precisionLossCompensation);
+                v128 precisionLossCompensation;
+
+                if (Fma.IsFmaSupported)
+                {
+                    precisionLossCompensation = Fma.fnmadd_ps(divisor_f32_rcp, *(v128*)&divisor_f32, new v128(PRECISION_ADJUSTMENT_FACTOR));
+                }
+                else
+                {
+                    float4 temp = math.mad(*(float4*)&divisor_f32_rcp, -divisor_f32, math.asfloat(PRECISION_ADJUSTMENT_FACTOR));
+
+                    precisionLossCompensation = *(v128*)&temp;
+                }
+
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, divisor_f32_rcp);
+                precisionLossCompensation = Sse.mul_ps(precisionLossCompensation, *(v128*)&dividend_f32);
+
+                return (ushort4)(*(float4*)&precisionLossCompensation);
+            }
+            else throw new BurstCompilerException();
         }
 
 
@@ -670,21 +868,29 @@ Assert.AreNotEqual(divisor.w, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 vdiv_short(short16 dividend, short16 divisor)
         {
-            float8 lo = vdiv_short_AVX(dividend.v8_0, divisor.v8_0);
-            float8 hi = vdiv_short_AVX(dividend.v8_8, divisor.v8_8);
+            if (Avx2.IsAvx2Supported)
+            {
+                float8 lo = vdiv_short_AVX(dividend.v8_0, divisor.v8_0);
+                float8 hi = vdiv_short_AVX(dividend.v8_8, divisor.v8_8);
 
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi32((int8)lo, (int8)hi),
-                                                Sse.SHUFFLE(3, 1, 2, 0));
+                return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi32((int8)lo, (int8)hi),
+                                                    Sse.SHUFFLE(3, 1, 2, 0));
+            }
+            else throw new BurstCompilerException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vdiv_ushort(ushort16 dividend, ushort16 divisor)
         {
-            float8 lo = vdiv_ushort_AVX(dividend.v8_0, divisor.v8_0);
-            float8 hi = vdiv_ushort_AVX(dividend.v8_8, divisor.v8_8);
+            if (Avx2.IsAvx2Supported)
+            {
+                float8 lo = vdiv_ushort_AVX(dividend.v8_0, divisor.v8_0);
+                float8 hi = vdiv_ushort_AVX(dividend.v8_8, divisor.v8_8);
 
-            return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32((uint8)lo, (uint8)hi),
-                                                Sse.SHUFFLE(3, 1, 2, 0));
+                return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32((uint8)lo, (uint8)hi),
+                                                    Sse.SHUFFLE(3, 1, 2, 0));
+            }
+            else throw new BurstCompilerException();
         }
 
 

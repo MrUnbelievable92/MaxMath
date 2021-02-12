@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     unsafe public static partial class maxmath
@@ -21,42 +23,110 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 divrem(byte2 dividend, byte2 divisor, out byte2 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte3 vector by the second byte3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 divrem(byte3 dividend, byte3 divisor, out byte3 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte4 vector by the second byte4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 divrem(byte4 dividend, byte4 divisor, out byte4 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte8 vector by the second byte8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 divrem(byte8 dividend, byte8 divisor, out byte8 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                return Operator.vdivrem_byte_SSE_FALLBACK(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte16 vector by the second byte16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 divrem(byte16 dividend, byte16 divisor, out byte16 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_byte_SSE_FALLBACK(dividend, divisor, out remainder);
+            }
+            else
+            {
+                byte8 lo = divrem(dividend.v8_0, divisor.v8_0, out byte8 remLo);
+                byte8 hi = divrem(dividend.v8_8, divisor.v8_8, out byte8 remHi);
+
+                remainder = new byte16(remLo, remHi);
+                return new byte16(lo, hi);
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first byte32 vector by the second byte32 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 divrem(byte32 dividend, byte32 divisor, out byte32 remainder)
         {
-            return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_byte(dividend, divisor, out remainder);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                byte32 quotients = new byte32(divrem(dividend.v16_0,  divisor.v16_0,  out byte16 remLo),
+                                              divrem(dividend.v16_16, divisor.v16_16, out byte16 remHi));
+
+                remainder = new byte32(remLo, remHi);
+
+                return quotients;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
 
@@ -74,42 +144,110 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 divrem(sbyte2 dividend, sbyte2 divisor, out sbyte2 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte3 vector by the second sbyte3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 divrem(sbyte3 dividend, sbyte3 divisor, out sbyte3 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte4 vector by the second sbyte4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 divrem(sbyte4 dividend, sbyte4 divisor, out sbyte4 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte8 vector by the second sbyte8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 divrem(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                return Operator.vdivrem_sbyte_SSE_FALLBACK(dividend, divisor, out remainder);
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte16 vector by the second sbyte16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 divrem(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Operator.vdivrem_sbyte_SSE_FALLBACK(dividend, divisor, out remainder);
+            }
+            else
+            {
+                sbyte8 lo = divrem(dividend.v8_0, divisor.v8_0, out sbyte8 remLo);
+                sbyte8 hi = divrem(dividend.v8_8, divisor.v8_8, out sbyte8 remHi);
+
+                remainder = new sbyte16(remLo, remHi);
+                return new sbyte16(lo, hi);
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first sbyte32 vector by the second sbyte32 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 divrem(sbyte32 dividend, sbyte32 divisor, out sbyte32 remainder)
         {
-            return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                sbyte32 quotients = new sbyte32(divrem(dividend.v16_0,  divisor.v16_0,  out sbyte16 remLo),
+                                                divrem(dividend.v16_16, divisor.v16_16, out sbyte16 remHi));
+
+                remainder = new sbyte32(remLo, remHi);
+
+                return quotients;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+                return dividend / divisor;
+            }
         }
 
 

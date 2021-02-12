@@ -9,7 +9,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool testc(int4 a, int4 b)
+        internal static bool testc(int4 a, int4 b)
         {
             int4 CF_intermediate = ~a & b;
 
@@ -23,13 +23,13 @@ namespace MaxMath
 
         /// <summary>    For all corresponding values in two int4 vectors the following is true: NOT(both values are negative)    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool testz(int4 a, int4 b)
+        internal static bool testz(int4 a, int4 b)
         {
             return tobool(Avx.testz_ps(*(v128*)&a, *(v128*)&b));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool testznc(int4 a, int4 b)
+        internal static bool testznc(int4 a, int4 b)
         {
             bool CF = testc(a, b);
             bool ZF = testz(a, b);

@@ -12,35 +12,63 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter asquarter(sbyte x)
         {
-            return new quarter { value = (byte)x };
+            return *(quarter*)&x;
         }
 
         /// <summary>       Returns the bit pattern of an sbyte2 as a quarter2.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 asquarter(sbyte2 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter2*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of an sbyte3 as a quarter3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 asquarter(sbyte3 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter3*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of an sbyte4 as a quarter4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 asquarter(sbyte4 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter4*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of an sbyte8 as a quarter8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 asquarter(sbyte8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter8*)&x;
+            }
         }
 
 
@@ -48,35 +76,63 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter asquarter(byte x)
         {
-            return new quarter { value = x };
+            return *(quarter*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a byte2 as a quarter2.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 asquarter(byte2 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter2*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of a byte3 as a quarter3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 asquarter(byte3 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter3*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a byte4 as a quarter4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 asquarter(byte4 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter4*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a byte8 as a quarter8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 asquarter(byte8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter8*)&x;
+            }
         }
 
 
@@ -91,28 +147,56 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 assbyte(quarter2 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte2*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of a quarter3 as an sbyte3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 assbyte(quarter3 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte3*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a quarter4 as an sbyte4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 assbyte(quarter4 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte4*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a quarter8 as an sbyte8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 assbyte(quarter8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte8*)&x;
+            }
         }
 
 
@@ -127,28 +211,56 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 asbyte(quarter2 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte2*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of a quarter3 as a byte3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 asbyte(quarter3 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte3*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a quarter4 as a byte4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 asbyte(quarter4 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
         }
         
         /// <summary>       Returns the bit pattern of a quarter8 as a byte8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 asbyte(quarter8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
         }
 
 
@@ -156,7 +268,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half ashalf(short x)
         {
-            return new half { value = (ushort)x };
+            return *(half*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a short2 as a half2.     </summary>
@@ -184,7 +296,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 ashalf(short8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(half8*)&x;
+            }
         }
 
 
@@ -192,7 +311,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half ashalf(ushort x)
         {
-            return new half { value = x };
+            return *(half*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a ushort2 as a half2.     </summary>
@@ -220,7 +339,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 ashalf(ushort8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(half8*)&x;
+            }
         }
 
 
@@ -256,7 +382,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 asshort(half8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(short8*)&x;
+            }
         }
 
 
@@ -292,7 +425,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 asushort(half8 x)
         {
-            return (v128)x;
+            if (Sse.IsSseSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(ushort8*)&x;
+            }
         }
 
 
@@ -300,14 +440,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 asint(float8 x)
         {
-            return (v256)x;
+            if (Avx.IsAvxSupported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(int8*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of a float8 as a uint8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 asuint(float8 x)
         {
-            return (v256)x;
+            if (Avx.IsAvxSupported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(uint8*)&x;
+            }
         }
 
 
@@ -315,14 +469,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 asfloat(int8 x)
         {
-            return (v256)x;
+            if (Avx.IsAvxSupported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(float8*)&x;
+            }
         }
 
         /// <summary>       Returns the bit pattern of a uint8 as a float8.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 asfloat(uint8 x)
         {
-            return (v256)x;
+            if (Avx.IsAvxSupported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(float8*)&x;
+            }
         }
 
 
@@ -330,21 +498,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 aslong(double2 x)
         {
-            return *(v128*)&x;
+            return *(long2*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a double3 as a long3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 aslong(double3 x)
         {
-            return *(v256*)&x;
+            return *(long3*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a double4 as a long4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 aslong(double4 x)
         {
-            return *(v256*)&x;
+            return *(long4*)&x;
         }
 
 
@@ -352,21 +520,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 asulong(double2 x)
         {
-            return *(v128*)&x;
+            return *(ulong2*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a double3 as a ulong3.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 asulong(double3 x)
         {
-            return *(v256*)&x;
+            return *(ulong3*)&x;
         }
 
         /// <summary>       Returns the bit pattern of a double4 as a ulong4.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 asulong(double4 x)
         {
-            return *(v256*)&x;
+            return *(ulong4*)&x;
         }
 
 

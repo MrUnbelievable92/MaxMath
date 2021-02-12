@@ -145,7 +145,7 @@ Assert.IsDefinedBitShift<ulong>((uint)index.z);
 
         /// <summary>       Returns a 64-bit bitmask ulong4 vector with all componentwise bits set to 1 from index to (index + numBits - 1) in LSB order.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 bitmask64(ulong4 numBits, ulong4 index = new ulong4())
+        public static ulong4 bitmask64(ulong4 numBits, ulong4 index = default(ulong4))
         {
 Assert.IsDefinedBitShift<ulong>((uint)numBits.x);
 Assert.IsDefinedBitShift<ulong>((uint)numBits.y);

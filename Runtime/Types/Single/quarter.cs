@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using System.Globalization;
@@ -6,9 +7,20 @@ using System.Globalization;
 namespace MaxMath
 {
     /// <summary>       An 8-bit IEEE 754 floating point number, often called a "mini-float".        </summary>
-    [Serializable]
+    [Serializable]  [DebuggerTypeProxy(typeof(quarter.DebuggerProxy))]
     public struct quarter : IEquatable<quarter>, IComparable<quarter>, IComparable, IFormattable, IConvertible
     {
+        internal sealed class DebuggerProxy
+        {
+            public quarter value;
+
+            public DebuggerProxy(quarter v)
+            {
+                value = v;
+            }
+        }
+
+
         // changing any of these values does currently not work.
         internal const bool IEEE_754_STANDARD = true;                                    //standard: true
         internal const bool SIGN_BIT = IEEE_754_STANDARD || true;                        //standard: true
@@ -31,7 +43,7 @@ namespace MaxMath
         /// <summary>       15.5 as a float value.       </summary>
         public static quarter MaxValue => new quarter { value = 0b0110_1111 };
 
-        public static quarter Zero => default(quarter);
+        public static quarter Zero => default;
         public static quarter NaN => new quarter { value = 0b0111_1000 };
         public static quarter NegativeInfinity => new quarter { value = 0b1111_0000 };
         public static quarter PositiveInfinity => new quarter { value = 0b0111_0000 };
@@ -89,14 +101,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(half h)
         {
-            // remove when Unity accepts my proposal
-            static bool IsNaN_f16(half h)
-            {
-                return (h.value & 0x7FFF) > 0x7C00;
-            }
-
             byte f8_sign      = (byte)(((uint)h.value >> 15) << 7);
-            uint f16_exponent = ((uint)h.value >> 10) & 0x001Fu;
+            uint f16_exponent = ((uint)h.value << 1) >> 11;
             
 
             if (f16_exponent < 8) // underflow => preserve +/- 0
@@ -105,7 +111,7 @@ namespace MaxMath
             }
             else if (f16_exponent > 18) // overflow => +/- infinity or preserve NaN
             {
-                return new quarter { value = (byte)(f8_sign | PositiveInfinity.value | maxmath.touint8(IsNaN_f16(h))) };
+                return new quarter { value = (byte)(f8_sign | PositiveInfinity.value | maxmath.touint8(maxmath.isnan(h))) };
             }
             else
             {
@@ -131,7 +137,7 @@ namespace MaxMath
         public static explicit operator quarter(float f)
         {
             byte f8_sign      = (byte)((math.asuint(f) >> 31) << 7);
-            uint f32_exponent = (math.asuint(f) >> 23) & 0x00FFu;
+            uint f32_exponent = (math.asuint(f) << 1) >> 24;
             
 
             if (f32_exponent < 120) // underflow => preserve +/- 0
@@ -166,7 +172,7 @@ namespace MaxMath
         public static explicit operator quarter(double d)
         {
             byte f8_sign      = (byte)((math.asulong(d) >> 63) << 7);
-            uint f64_exponent = (uint)(math.asulong(d) >> 52) & 0x07FF;
+            uint f64_exponent = (uint)((math.asulong(d) << 1) >> 53);
             
 
             if (f64_exponent < 1016) // underflow => preserve +/- 0
@@ -179,7 +185,7 @@ namespace MaxMath
             }
             else
             {
-                ulong f64_mantissa = math.asulong(d) & 0x000F_FFFF_FFFF_FFFFul;
+                ulong f64_mantissa = (math.asulong(d) << 12) >> 12;
 
                 int cmp = 1021 - (int)f64_exponent;
                 int cmpIsZeroOrNegativeMask = (cmp - 1) >> 31;
@@ -365,14 +371,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half(quarter q)
         {
-            return (half)(float)q; // No hardware implemented half multiplication, could do it by adding exponents and multiplying significands but... no
+            return (half)(float)q; // No hardware implemented half multiplication, could do it by adding exponents and multiplying significands with carray but... no
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float(quarter q)
         {
-            int sign = (q.value & 0b1000_0000) << 24;
-            int fusedExponentMantissa = (q.value & 0b0111_1111) << (23 - MANTISSA_BITS);
+            int sign = (int)(((uint)q.value >> 7) << 31);
+            int fusedExponentMantissa = (int)(((uint)q.value << (32 - (MANTISSA_BITS + EXPONENT_BITS))) >> 6);
 
 
             if ((q.value & 0b0111_0000) == 0b0111_0000) // NaN/Infinity
@@ -390,8 +396,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double(quarter q)
         {
-            long sign = ((long)q.value & 0b1000_0000) << 56;
-            long fusedExponentMantissa = ((long)q.value & 0b0111_1111) << (52 - MANTISSA_BITS);
+            long sign = (long)(((ulong)q >> 7) << 63);
+            long fusedExponentMantissa = (long)(((ulong)q.value << (64 - (MANTISSA_BITS + EXPONENT_BITS))) >> 9);
 
 
             if ((q.value & 0b0111_0000) == 0b0111_0000) // NaN/Infinity
@@ -995,7 +1001,7 @@ namespace MaxMath
         }
         #endregion
 
-        #region COMPARETO
+        #region COMPARE_TO
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(quarter other)
         {
@@ -1009,38 +1015,38 @@ namespace MaxMath
 
         #region EQUALS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(quarter other)
+        public readonly bool Equals(quarter other)
         {
             return this == other;
         }
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             return Equals((quarter)obj);
         }
         #endregion
 
-        #region GETHASHCODE
+        #region GET_HASH_CODE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             return value;
         }
         #endregion
 
-        #region TOSTRING
-        public override string ToString()
+        #region TO_STRING
+        public override readonly string ToString()
         {
             return ((float)this).ToString();
         }
-        public string ToString(IFormatProvider provider)
+        public readonly string ToString(IFormatProvider provider)
         {
             return ((float)this).ToString(provider);
         }
-        public string ToString(string format)
+        public readonly string ToString(string format)
         {
             return ((float)this).ToString(format);
         }
-        public string ToString(string format, IFormatProvider provider)
+        public readonly string ToString(string format, IFormatProvider provider)
         {
             return ((float)this).ToString(format, provider);
         }

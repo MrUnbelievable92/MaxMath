@@ -8,7 +8,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath
 {
-    [StructLayout(LayoutKind.Sequential, Size = 4)]
+    [StructLayout(LayoutKind.Sequential, Size = 8)]
     unsafe internal struct complex //: IComparable, IComparable<complex>, IConvertible, IEquatable<complex>, IFormattable
     { 
         [NoAlias] public float real;
@@ -46,7 +46,7 @@ namespace MaxMath
         }
 
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"{ math.abs(real) } + { math.abs(imaginary) }i";
         }

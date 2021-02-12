@@ -7,7 +7,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 8)]
+    [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 2 * 2 * sizeof(ushort))]
     unsafe public struct ushort2x2 : IEquatable<ushort2x2>, IFormattable
     {
         public ushort2 c0;
@@ -16,7 +16,7 @@ namespace MaxMath
 
         public static ushort2x2 identity => new ushort2x2(1, 0,   0, 1);
 
-        public static ushort2x2 zero => default(ushort2x2);
+        public static ushort2x2 zero => default;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,15 +179,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(ushort2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override bool Equals(object obj) => Equals((ushort2x2)obj);
+        public readonly bool Equals(ushort2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override readonly bool Equals(object obj) => Equals((ushort2x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override readonly int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override string ToString() => $"ushort2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"ushort2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
+        public override readonly string ToString() => $"ushort2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
+        public readonly string ToString(string format, IFormatProvider formatProvider) => $"ushort2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
     }
 }
