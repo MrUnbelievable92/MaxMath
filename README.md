@@ -80,7 +80,7 @@ Note:
 
 <details><summary>Arithmetic</summary>
 
-![alt text](https://i.imgur.com/cmeTWQS.png)
+![alt text](https://i.imgur.com/YU2dSj5.png)
 
 ![alt text](https://i.imgur.com/r1f44Va.png)
 
