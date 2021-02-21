@@ -143,6 +143,16 @@ Note:
 
 ![alt text](https://i.imgur.com/Bi79n4Q.jpg)
 
+## Highlights
+
+- Division and modulo operations of (s)byte and (u)short vectors _by_ _other_ _vectors_ are implemented as either a long division algorithm ((s)byte32, (s)byte16 and (s)byte8 if not compiling for Avx2) or reciprocal multiplication after converting the vectors to float vectors (up to (s)byte8, all (u)short vectors) - it is very fast and, of course, 100% accurate!
+
+- This library uses Wojciech Mula's SIMD population count algorithm. You can count the amount of set bits of a contiguos block of memory very efficiently using either the (s)byte32 (Avx2) or (s)byte16 (Ssse3) type
+
+## Notes
+
+- It is recommended, just like with Unity.Mathematics, to use vector types that use up an entire SIMD register (128 and 256 bits, respectively). LLVM has a very hard time optimizing code which does not follow this recommendation
+
 # How To Install This Library
 
 Disclaimer: I firmly believe in open source - being able to copy/modify/understand other people's code is great :)
