@@ -5,7 +5,7 @@ It adds (s)byte, (u)short and (u)long SIMD vectors and matrices to the ones alre
 Almost all functions present in Unity.Mathematics have been transcribed to work with the new vector and matrix types in addition to many useful functions having been added.
 
 Note: 
-- [C Sharp Dev Tools](https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools) (a repository of mine) is required. Unit tests for this library are included in this repository.
+- [C Sharp Dev Tools](https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools) (conditionally compiled runtime checks) is required. Unit tests for this library are included in this repository.
 - This library utilizes Avx2 as often as possible. Optimized fallback procedures for Sse4 and Sse2 are included, aswell as a managed C# implementation. There are currently no plans for supporting ARM or other instruction sets in the future, although Burst/LLVM is generally good at vectorizing some of the code for them. 
 
 
