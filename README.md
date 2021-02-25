@@ -7,6 +7,7 @@ Almost all functions present in Unity.Mathematics have been transcribed to work 
 Note: 
 - [C Sharp Dev Tools](https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools) (conditionally compiled runtime checks) is required. Unit tests for this library are included in this repository.
 - This library utilizes Avx2 as often as possible. Optimized fallback procedures for Sse4 and Sse2 are included, aswell as a managed C# implementation. There are currently no plans for supporting ARM or other instruction sets in the future, although Burst/LLVM is generally good at vectorizing some of the code for them. 
+- The "float8" type does not support deterministic compilation across all platforms with Unity.Burst. Split up the vector into two "float4" vectors via the properties "myfloat8.v4_0" and "myfloat8.v4_4" to take advantage of deterministic compilation instead.
 
 
 # How To Use This Library
