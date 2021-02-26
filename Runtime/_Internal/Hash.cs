@@ -21,7 +21,7 @@ namespace MaxMath
             {
                 return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 2, 2))).SInt0;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -31,7 +31,7 @@ namespace MaxMath
             {
                 return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -43,7 +43,7 @@ namespace MaxMath
 
                 return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,7 +55,7 @@ namespace MaxMath
 
                 return v64(Sse2.xor_si128(Avx.mm256_castsi256_si128(x), hi));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -67,7 +67,7 @@ namespace MaxMath
                 return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x),
                                            Avx2.mm256_extracti128_si256(x, 1)));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -78,7 +78,7 @@ namespace MaxMath
                 return v128(Sse2.xor_si128(Avx.mm256_castps256_ps128(x),
                                            Avx.mm256_extractf128_ps(x, 1)));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
     }
 }

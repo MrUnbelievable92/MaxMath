@@ -22,7 +22,7 @@ namespace MaxMath
 
                 return Mask.BlendV(productEvenIndices, productOddIndices, new v128(0xFF00_FF00));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,7 +39,7 @@ namespace MaxMath
 
                 return Avx2.mm256_blendv_epi8(productEvenIndices, productOddIndices, new v256(0xFF00_FF00));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -56,7 +56,7 @@ namespace MaxMath
                 
                 return Sse2.add_epi64(product_Lo, product_Hi);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,7 +72,7 @@ namespace MaxMath
                 
                 return Avx2.mm256_add_epi64(product_Lo, product_Hi);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
     }
 }

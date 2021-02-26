@@ -158,15 +158,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(long4x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override readonly bool Equals(object obj) => Equals((long4x2)obj);
+        public  bool Equals(long4x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override  bool Equals(object obj) => Equals((long4x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override readonly string ToString() => $"long4x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z},  {c0.w}, {c1.w})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"long4x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)})";
+        public override  string ToString() => $"long4x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z},  {c0.w}, {c1.w})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"long4x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)})";
     }
 }

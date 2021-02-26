@@ -2,9 +2,9 @@
 
 namespace MaxMath
 {
-    public class BurstCompilerException : Exception
+    public class CPUFeatureCheckException : Exception
     {
-        public BurstCompilerException() 
+        public CPUFeatureCheckException() 
             : base("Internal CPU feature check error - please submit a bug report with the full call stack at https://github.com/MrUnbelievable92/MaxMath/issues") 
         { 
 

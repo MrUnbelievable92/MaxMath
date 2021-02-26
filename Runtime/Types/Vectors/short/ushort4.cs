@@ -198,7 +198,7 @@ namespace MaxMath
 
 		
         #region Shuffle
-        public readonly ushort4 xxxx
+        public  ushort4 xxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -213,7 +213,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxxy
+		public  ushort4 xxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -228,7 +228,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxxz
+		public  ushort4 xxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -243,7 +243,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxxw
+		public  ushort4 xxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -258,7 +258,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxyx
+		public  ushort4 xxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -273,7 +273,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxyy
+		public  ushort4 xxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -288,7 +288,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxyz
+		public  ushort4 xxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -303,7 +303,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxyw
+		public  ushort4 xxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -318,7 +318,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxzx
+		public  ushort4 xxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -333,7 +333,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxzy
+		public  ushort4 xxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -348,7 +348,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxzz
+		public  ushort4 xxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -363,7 +363,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxzw
+		public  ushort4 xxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -378,7 +378,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxwx
+		public  ushort4 xxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -393,7 +393,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxwy
+		public  ushort4 xxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -408,7 +408,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxwz
+		public  ushort4 xxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -423,7 +423,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xxww
+		public  ushort4 xxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -438,7 +438,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyxx
+		public  ushort4 xyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -453,7 +453,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyxy
+		public  ushort4 xyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -468,7 +468,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyxz
+		public  ushort4 xyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -483,7 +483,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyxw
+		public  ushort4 xyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -498,7 +498,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyyx
+		public  ushort4 xyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -513,7 +513,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyyy
+		public  ushort4 xyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -528,7 +528,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyyz
+		public  ushort4 xyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -543,7 +543,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyyw
+		public  ushort4 xyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -558,7 +558,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyzx
+		public  ushort4 xyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -573,7 +573,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyzy
+		public  ushort4 xyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -588,7 +588,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xyzz
+		public  ushort4 xyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -603,7 +603,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xywx
+		public  ushort4 xywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -618,7 +618,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xywy
+		public  ushort4 xywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -636,7 +636,7 @@ namespace MaxMath
 		public			ushort4 xywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -654,7 +654,7 @@ namespace MaxMath
 				this = value.xywz;
 			}
 		}
-		public readonly ushort4 xyww
+		public  ushort4 xyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -669,7 +669,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzxx
+		public  ushort4 xzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -684,7 +684,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzxy
+		public  ushort4 xzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -699,7 +699,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzxz
+		public  ushort4 xzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -714,7 +714,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzxw
+		public  ushort4 xzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -729,7 +729,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzyx
+		public  ushort4 xzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -744,7 +744,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzyy
+		public  ushort4 xzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -759,7 +759,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzyz
+		public  ushort4 xzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -777,7 +777,7 @@ namespace MaxMath
 		public			ushort4 xzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -795,7 +795,7 @@ namespace MaxMath
 				this = value.xzyw;
 			}
 		}
-		public readonly ushort4 xzzx
+		public  ushort4 xzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -810,7 +810,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzzy
+		public  ushort4 xzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -825,7 +825,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzzz
+		public  ushort4 xzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -840,7 +840,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzzw
+		public  ushort4 xzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -855,7 +855,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzwx
+		public  ushort4 xzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -873,7 +873,7 @@ namespace MaxMath
 		public			ushort4 xzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -891,7 +891,7 @@ namespace MaxMath
 				this = value.xwyz;
 			}
 		}
-		public readonly ushort4 xzwz
+		public  ushort4 xzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -906,7 +906,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xzww
+		public  ushort4 xzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -921,7 +921,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwxx
+		public  ushort4 xwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -936,7 +936,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwxy
+		public  ushort4 xwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -951,7 +951,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwxz
+		public  ushort4 xwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -966,7 +966,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwxw
+		public  ushort4 xwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -981,7 +981,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwyx
+		public  ushort4 xwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -996,7 +996,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwyy
+		public  ushort4 xwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1014,7 +1014,7 @@ namespace MaxMath
 		public			ushort4 xwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1032,7 +1032,7 @@ namespace MaxMath
 				this = value.xzwy;
 			}
 		}
-		public readonly ushort4 xwyw
+		public  ushort4 xwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1047,7 +1047,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwzx
+		public  ushort4 xwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1065,7 +1065,7 @@ namespace MaxMath
 		public			ushort4 xwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1083,7 +1083,7 @@ namespace MaxMath
 				this = value.xwzy;
 			}
 		}
-		public readonly ushort4 xwzz
+		public  ushort4 xwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1098,7 +1098,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwzw
+		public  ushort4 xwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1113,7 +1113,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwwx
+		public  ushort4 xwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1128,7 +1128,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwwy
+		public  ushort4 xwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1143,7 +1143,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwwz
+		public  ushort4 xwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1158,7 +1158,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 xwww
+		public  ushort4 xwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1173,7 +1173,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 yxxx
+		public  ushort4 yxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1188,7 +1188,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxxy
+        public  ushort4 yxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1203,7 +1203,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxxz
+        public  ushort4 yxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1218,7 +1218,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxxw
+        public  ushort4 yxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1233,7 +1233,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxyx
+        public  ushort4 yxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1248,7 +1248,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxyy
+        public  ushort4 yxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1263,7 +1263,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxyz
+        public  ushort4 yxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1278,7 +1278,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxyw
+        public  ushort4 yxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1293,7 +1293,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxzx
+        public  ushort4 yxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1308,7 +1308,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxzy
+        public  ushort4 yxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1323,7 +1323,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxzz
+        public  ushort4 yxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1341,7 +1341,7 @@ namespace MaxMath
         public			ushort4 yxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1359,7 +1359,7 @@ namespace MaxMath
 				this = value.yxzw;
 			}
 		}
-        public readonly ushort4 yxwx
+        public  ushort4 yxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1374,7 +1374,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yxwy
+        public  ushort4 yxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1392,7 +1392,7 @@ namespace MaxMath
         public			ushort4 yxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1410,7 +1410,7 @@ namespace MaxMath
 				this = value.yxwz;
 			}
 		}
-        public readonly ushort4 yxww
+        public  ushort4 yxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1425,7 +1425,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyxx
+        public  ushort4 yyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1440,7 +1440,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyxy
+        public  ushort4 yyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1455,7 +1455,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyxz
+        public  ushort4 yyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1470,7 +1470,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyxw
+        public  ushort4 yyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1485,7 +1485,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyyx
+        public  ushort4 yyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1500,7 +1500,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyyy
+        public  ushort4 yyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1515,7 +1515,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyyz
+        public  ushort4 yyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1530,7 +1530,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyyw
+        public  ushort4 yyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1545,7 +1545,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyzx
+        public  ushort4 yyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1560,7 +1560,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyzy
+        public  ushort4 yyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1575,7 +1575,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyzz
+        public  ushort4 yyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1590,7 +1590,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyzw
+        public  ushort4 yyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1605,7 +1605,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yywx
+        public  ushort4 yywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1620,7 +1620,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yywy
+        public  ushort4 yywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1635,7 +1635,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yywz
+        public  ushort4 yywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1650,7 +1650,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yyww
+        public  ushort4 yyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1665,7 +1665,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzxx
+        public  ushort4 yzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1680,7 +1680,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzxy
+        public  ushort4 yzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1695,7 +1695,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzxz
+        public  ushort4 yzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1713,7 +1713,7 @@ namespace MaxMath
         public			ushort4 yzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1731,7 +1731,7 @@ namespace MaxMath
 				this = value.zxyw;
 			}
 		}
-        public readonly ushort4 yzyx
+        public  ushort4 yzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1746,7 +1746,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzyy
+        public  ushort4 yzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1761,7 +1761,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzyz
+        public  ushort4 yzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1776,7 +1776,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzyw
+        public  ushort4 yzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1791,7 +1791,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzzx
+        public  ushort4 yzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1806,7 +1806,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzzy
+        public  ushort4 yzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1821,7 +1821,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzzz
+        public  ushort4 yzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1836,7 +1836,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzzw
+        public  ushort4 yzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1854,7 +1854,7 @@ namespace MaxMath
         public			ushort4 yzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1872,7 +1872,7 @@ namespace MaxMath
 				this = value.wxyz;
 			}
 		}
-        public readonly ushort4 yzwy
+        public  ushort4 yzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1887,7 +1887,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzwz
+        public  ushort4 yzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1902,7 +1902,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 yzww
+        public  ushort4 yzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1917,7 +1917,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywxx
+        public  ushort4 ywxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1932,7 +1932,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywxy
+        public  ushort4 ywxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1950,7 +1950,7 @@ namespace MaxMath
         public			ushort4 ywxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -1968,7 +1968,7 @@ namespace MaxMath
 				this = value.zxwy;
 			}
 		}
-        public readonly ushort4 ywxw
+        public  ushort4 ywxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1983,7 +1983,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywyx
+        public  ushort4 ywyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1998,7 +1998,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywyy
+        public  ushort4 ywyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2013,7 +2013,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywyz
+        public  ushort4 ywyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2028,7 +2028,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywyw
+        public  ushort4 ywyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2046,7 +2046,7 @@ namespace MaxMath
         public			ushort4 ywzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2064,7 +2064,7 @@ namespace MaxMath
 				this = value.wxzy;
 			}
 		}
-        public readonly ushort4 ywzy
+        public  ushort4 ywzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2079,7 +2079,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywzz
+        public  ushort4 ywzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2094,7 +2094,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywzw
+        public  ushort4 ywzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2109,7 +2109,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywwx
+        public  ushort4 ywwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2124,7 +2124,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywwy
+        public  ushort4 ywwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2139,7 +2139,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywwz
+        public  ushort4 ywwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2154,7 +2154,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 ywww
+        public  ushort4 ywww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2169,7 +2169,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxxx
+        public  ushort4 zxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2184,7 +2184,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxxy
+        public  ushort4 zxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2199,7 +2199,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxxz
+        public  ushort4 zxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2214,7 +2214,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxxw
+        public  ushort4 zxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2229,7 +2229,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxyx
+        public  ushort4 zxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2244,7 +2244,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxyy
+        public  ushort4 zxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2259,7 +2259,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ushort4 zxyz
+		public  ushort4 zxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2277,7 +2277,7 @@ namespace MaxMath
         public			ushort4 zxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2295,7 +2295,7 @@ namespace MaxMath
 				this = value.yzxw;
 			}
 		}
-        public readonly ushort4 zxzx
+        public  ushort4 zxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2310,7 +2310,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxzy
+        public  ushort4 zxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2325,7 +2325,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxzz
+        public  ushort4 zxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2340,7 +2340,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxzw
+        public  ushort4 zxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2355,7 +2355,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxwx
+        public  ushort4 zxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2373,7 +2373,7 @@ namespace MaxMath
         public			ushort4 zxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2391,7 +2391,7 @@ namespace MaxMath
 				this = value.ywxz;
 			}
 		}
-        public readonly ushort4 zxwz
+        public  ushort4 zxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2406,7 +2406,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zxww
+        public  ushort4 zxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2421,7 +2421,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyxx
+        public  ushort4 zyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2436,7 +2436,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyxy
+        public  ushort4 zyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2451,7 +2451,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyxz
+        public  ushort4 zyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2469,7 +2469,7 @@ namespace MaxMath
         public			ushort4 zyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2487,7 +2487,7 @@ namespace MaxMath
 				this = value.zyxw;
 			}
 		}
-        public readonly ushort4 zyyx
+        public  ushort4 zyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2502,7 +2502,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyyy
+        public  ushort4 zyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2517,7 +2517,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyyz
+        public  ushort4 zyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2532,7 +2532,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyyw
+        public  ushort4 zyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2547,7 +2547,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyzx
+        public  ushort4 zyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2562,7 +2562,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyzy
+        public  ushort4 zyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2577,7 +2577,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyzz
+        public  ushort4 zyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2592,7 +2592,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyzw
+        public  ushort4 zyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2610,7 +2610,7 @@ namespace MaxMath
         public			ushort4 zywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2628,7 +2628,7 @@ namespace MaxMath
 				this = value.wyxz;
 			}
 		}
-        public readonly ushort4 zywy
+        public  ushort4 zywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2643,7 +2643,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zywz
+        public  ushort4 zywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2658,7 +2658,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zyww
+        public  ushort4 zyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2673,7 +2673,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzxx
+        public  ushort4 zzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2688,7 +2688,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzxy
+        public  ushort4 zzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2703,7 +2703,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzxz
+        public  ushort4 zzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2718,7 +2718,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzxw
+        public  ushort4 zzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2733,7 +2733,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzyx
+        public  ushort4 zzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2748,7 +2748,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzyy
+        public  ushort4 zzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2763,7 +2763,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzyz
+        public  ushort4 zzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2778,7 +2778,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzyw
+        public  ushort4 zzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2793,7 +2793,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzzx
+        public  ushort4 zzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2808,7 +2808,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzzy
+        public  ushort4 zzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2823,7 +2823,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzzz
+        public  ushort4 zzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2838,7 +2838,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzzw
+        public  ushort4 zzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2853,7 +2853,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzwx
+        public  ushort4 zzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2868,7 +2868,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzwy
+        public  ushort4 zzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2883,7 +2883,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzwz
+        public  ushort4 zzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2898,7 +2898,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zzww
+        public  ushort4 zzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2913,7 +2913,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwxx
+        public  ushort4 zwxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2931,7 +2931,7 @@ namespace MaxMath
         public			ushort4 zwxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2949,7 +2949,7 @@ namespace MaxMath
 				this = value.zwxy;
 			}
 		}
-        public readonly ushort4 zwxz
+        public  ushort4 zwxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2964,7 +2964,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwxw
+        public  ushort4 zwxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2982,7 +2982,7 @@ namespace MaxMath
         public			ushort4 zwyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3000,7 +3000,7 @@ namespace MaxMath
 				this = value.wzxy;
 			}
 		}
-        public readonly ushort4 zwyy
+        public  ushort4 zwyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3015,7 +3015,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwyz
+        public  ushort4 zwyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3030,7 +3030,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwyw
+        public  ushort4 zwyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3045,7 +3045,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwzx
+        public  ushort4 zwzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3060,7 +3060,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwzy
+        public  ushort4 zwzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3075,7 +3075,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwzz
+        public  ushort4 zwzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3090,7 +3090,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwzw
+        public  ushort4 zwzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3105,7 +3105,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwwx
+        public  ushort4 zwwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3120,7 +3120,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwwy
+        public  ushort4 zwwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3135,7 +3135,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwwz
+        public  ushort4 zwwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3150,7 +3150,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 zwww
+        public  ushort4 zwww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3165,7 +3165,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxxx
+        public  ushort4 wxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3180,7 +3180,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxxy
+        public  ushort4 wxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3195,7 +3195,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxxz
+        public  ushort4 wxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3210,7 +3210,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxxw
+        public  ushort4 wxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3225,7 +3225,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxyx
+        public  ushort4 wxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3240,7 +3240,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxyy
+        public  ushort4 wxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3258,7 +3258,7 @@ namespace MaxMath
         public          ushort4 wxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3276,7 +3276,7 @@ namespace MaxMath
 				this = value.yzwx;
 			}
 		}
-        public readonly ushort4 wxyw
+        public  ushort4 wxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3291,7 +3291,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxzx
+        public  ushort4 wxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3309,7 +3309,7 @@ namespace MaxMath
         public          ushort4 wxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3327,7 +3327,7 @@ namespace MaxMath
 				this = value.ywzx;
 			}
 		}
-        public readonly ushort4 wxzz
+        public  ushort4 wxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3342,7 +3342,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxzw
+        public  ushort4 wxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3357,7 +3357,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxwx
+        public  ushort4 wxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3372,7 +3372,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxwy
+        public  ushort4 wxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3387,7 +3387,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxwz
+        public  ushort4 wxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3402,7 +3402,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wxww
+        public  ushort4 wxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3417,7 +3417,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyxx
+        public  ushort4 wyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3432,7 +3432,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyxy
+        public  ushort4 wyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3450,7 +3450,7 @@ namespace MaxMath
         public          ushort4 wyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3468,7 +3468,7 @@ namespace MaxMath
 				this = value.zywx;
 			}
 		}
-        public readonly ushort4 wyxw
+        public  ushort4 wyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3483,7 +3483,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyyx
+        public  ushort4 wyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3498,7 +3498,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyyy
+        public  ushort4 wyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3513,7 +3513,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyyz
+        public  ushort4 wyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3528,7 +3528,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyyw
+        public  ushort4 wyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3546,7 +3546,7 @@ namespace MaxMath
         public          ushort4 wyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3564,7 +3564,7 @@ namespace MaxMath
 				this = value.wyzx;
 			}
 		}
-        public readonly ushort4 wyzy
+        public  ushort4 wyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3579,7 +3579,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyzz
+        public  ushort4 wyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3594,7 +3594,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyzw
+        public  ushort4 wyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3609,7 +3609,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wywx
+        public  ushort4 wywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3624,7 +3624,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wywy
+        public  ushort4 wywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3639,7 +3639,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wywz
+        public  ushort4 wywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3654,7 +3654,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wyww
+        public  ushort4 wyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3669,7 +3669,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzxx
+        public  ushort4 wzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3687,7 +3687,7 @@ namespace MaxMath
         public          ushort4 wzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3705,7 +3705,7 @@ namespace MaxMath
 				this = value.zwyx;
 			}
 		}
-        public readonly ushort4 wzxz
+        public  ushort4 wzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3720,7 +3720,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzxw
+        public  ushort4 wzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3738,7 +3738,7 @@ namespace MaxMath
         public          ushort4 wzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -3756,7 +3756,7 @@ namespace MaxMath
 				this = value.wzyx;
 			}
 		}
-        public readonly ushort4 wzyy
+        public  ushort4 wzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3771,7 +3771,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzyz
+        public  ushort4 wzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3786,7 +3786,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzyw
+        public  ushort4 wzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3801,7 +3801,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzzx
+        public  ushort4 wzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3816,7 +3816,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzzy
+        public  ushort4 wzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3831,7 +3831,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzzz
+        public  ushort4 wzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3846,7 +3846,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzzw
+        public  ushort4 wzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3861,7 +3861,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzwx
+        public  ushort4 wzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3876,7 +3876,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzwy
+        public  ushort4 wzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3891,7 +3891,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzwz
+        public  ushort4 wzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3906,7 +3906,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wzww
+        public  ushort4 wzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3921,7 +3921,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwxx
+        public  ushort4 wwxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3936,7 +3936,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwxy
+        public  ushort4 wwxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3951,7 +3951,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwxz
+        public  ushort4 wwxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3966,7 +3966,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwxw
+        public  ushort4 wwxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3981,7 +3981,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwyx
+        public  ushort4 wwyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3996,7 +3996,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwyy
+        public  ushort4 wwyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4011,7 +4011,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwyz
+        public  ushort4 wwyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4026,7 +4026,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwyw
+        public  ushort4 wwyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4041,7 +4041,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwzx
+        public  ushort4 wwzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4056,7 +4056,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwzy
+        public  ushort4 wwzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4071,7 +4071,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwzz
+        public  ushort4 wwzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4086,7 +4086,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwzw
+        public  ushort4 wwzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4101,7 +4101,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwwx
+        public  ushort4 wwwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4116,7 +4116,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwwy
+        public  ushort4 wwwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4131,7 +4131,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwwz
+        public  ushort4 wwwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4146,7 +4146,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort4 wwww
+        public  ushort4 wwww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4162,7 +4162,7 @@ namespace MaxMath
 			}
 		}
 
-        public readonly ushort3 xxx
+        public  ushort3 xxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4177,7 +4177,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xxy
+        public  ushort3 xxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4192,7 +4192,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xxz
+        public  ushort3 xxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4207,7 +4207,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xxw
+        public  ushort3 xxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4222,7 +4222,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xyx
+        public  ushort3 xyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4237,7 +4237,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xyy
+        public  ushort3 xyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4255,7 +4255,7 @@ namespace MaxMath
         public          ushort3 xyz
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4272,7 +4272,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value, 0b0111);
+					}
 				}
 				else
 				{
@@ -4285,7 +4292,7 @@ namespace MaxMath
         public          ushort3 xyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4302,7 +4309,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xyzz, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xyzz, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xyzz, 0b1011);
+					}
 				}
 				else
 				{
@@ -4312,7 +4326,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xzx
+        public  ushort3 xzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4330,7 +4344,7 @@ namespace MaxMath
         public          ushort3 xzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4347,7 +4361,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xzyy, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xzyy, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xzyy, 0b0111);
+					}
 				}
 				else
 				{
@@ -4357,7 +4378,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xzz
+        public  ushort3 xzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4375,7 +4396,7 @@ namespace MaxMath
         public          ushort3 xzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4392,7 +4413,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyz, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyz, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyz, 0b1101);
+					}
 				}
 				else
 				{
@@ -4402,7 +4430,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xwx
+        public  ushort3 xwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4420,7 +4448,7 @@ namespace MaxMath
         public          ushort3 xwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4437,7 +4465,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xzzy, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xzzy, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xzzy, 0b1011);
+					}
 				}
 				else
 				{
@@ -4450,7 +4485,7 @@ namespace MaxMath
         public          ushort3 xwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4467,7 +4502,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxzy, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxzy, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxzy, 0b1101);
+					}
 				}
 				else
 				{
@@ -4477,7 +4519,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 xww
+        public  ushort3 xww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4492,7 +4534,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yxx
+        public  ushort3 yxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4507,7 +4549,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yxy
+        public  ushort3 yxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4525,7 +4567,7 @@ namespace MaxMath
         public          ushort3 yxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4542,7 +4584,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yxzz, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yxzz, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yxzz, 0b0111);
+					}
 				}
 				else
 				{
@@ -4555,7 +4604,7 @@ namespace MaxMath
         public          ushort3 yxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4572,7 +4621,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yxzz, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yxzz, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yxzz, 0b1011);
+					}
 				}
 				else
 				{
@@ -4582,7 +4638,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yyx
+        public  ushort3 yyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4597,7 +4653,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yyy
+        public  ushort3 yyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4612,7 +4668,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yyz
+        public  ushort3 yyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4627,7 +4683,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yyw
+        public  ushort3 yyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4645,7 +4701,7 @@ namespace MaxMath
         public          ushort3 yzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4662,7 +4718,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zxyy, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zxyy, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zxyy, 0b0111);
+					}
 				}
 				else
 				{
@@ -4672,7 +4735,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yzy
+        public  ushort3 yzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4687,7 +4750,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yzz
+        public  ushort3 yzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4705,7 +4768,7 @@ namespace MaxMath
         public          ushort3 yzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4722,7 +4785,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyz, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyz, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyz, 0b1110);
+					}
 				}
 				else
 				{
@@ -4735,7 +4805,7 @@ namespace MaxMath
         public          ushort3 ywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4752,7 +4822,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zxxy, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zxxy, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zxxy, 0b1011);
+					}
 				}
 				else
 				{
@@ -4762,7 +4839,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 ywy
+        public  ushort3 ywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4780,7 +4857,7 @@ namespace MaxMath
         public          ushort3 ywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4797,7 +4874,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxzy, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxzy, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxzy, 0b1110);
+					}
 				}
 				else
 				{
@@ -4807,7 +4891,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 yww
+        public  ushort3 yww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4822,7 +4906,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zxx
+        public  ushort3 zxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4840,7 +4924,7 @@ namespace MaxMath
         public          ushort3 zxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4857,7 +4941,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yzxx, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yzxx, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yzxx, 0b0111);
+					}
 				}
 				else
 				{
@@ -4867,7 +4958,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zxz
+        public  ushort3 zxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4885,7 +4976,7 @@ namespace MaxMath
         public          ushort3 zxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4902,7 +4993,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxz, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxz, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxz, 0b1101);
+					}
 				}
 				else
 				{
@@ -4915,7 +5013,7 @@ namespace MaxMath
         public          ushort3 zyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4932,7 +5030,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zyxx, 0b0111);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zyxx, 0b0111);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zyxx, 0b0111);
+					}
 				}
 				else
 				{
@@ -4942,7 +5047,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zyy
+        public  ushort3 zyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4957,7 +5062,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zyz
+        public  ushort3 zyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4975,7 +5080,7 @@ namespace MaxMath
         public          ushort3 zyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4992,7 +5097,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxz, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxz, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxz, 0b1110);
+					}
 				}
 				else
 				{
@@ -5002,7 +5114,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zzx
+        public  ushort3 zzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5017,7 +5129,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zzy
+        public  ushort3 zzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5032,7 +5144,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zzz
+        public  ushort3 zzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5047,7 +5159,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zzw
+        public  ushort3 zzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5065,7 +5177,7 @@ namespace MaxMath
         public          ushort3 zwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5082,7 +5194,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zzxy, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zzxy, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zzxy, 0b1101);
+					}
 				}
 				else
 				{
@@ -5095,7 +5214,7 @@ namespace MaxMath
         public          ushort3 zwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5112,7 +5231,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zzxy, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zzxy, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zzxy, 0b1110);
+					}
 				}
 				else
 				{
@@ -5122,7 +5248,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zwz
+        public  ushort3 zwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5137,7 +5263,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 zww
+        public  ushort3 zww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5152,7 +5278,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 wxx
+        public  ushort3 wxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5170,7 +5296,7 @@ namespace MaxMath
         public          ushort3 wxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5187,7 +5313,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yzzx, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yzzx, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yzzx, 0b1011);
+					}
 				}
 				else
 				{
@@ -5200,7 +5333,7 @@ namespace MaxMath
         public          ushort3 wxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5217,7 +5350,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyzx, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyzx, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyzx, 0b1101);
+					}
 				}
 				else
 				{
@@ -5227,7 +5367,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 wxw
+        public  ushort3 wxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5245,7 +5385,7 @@ namespace MaxMath
         public          ushort3 wyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5262,7 +5402,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zyyx, 0b1011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zyyx, 0b1011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zyyx, 0b1011);
+					}
 				}
 				else
 				{
@@ -5272,7 +5419,7 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ushort3 wyy
+        public  ushort3 wyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5290,7 +5437,7 @@ namespace MaxMath
         public          ushort3 wyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5307,7 +5454,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyzx, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyzx, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyzx, 0b1110);
+					}
 				}
 				else
 				{
@@ -5317,7 +5471,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wyw
+        public  ushort3 wyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5335,7 +5489,7 @@ namespace MaxMath
         public          ushort3 wzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5352,7 +5506,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zzyx, 0b1101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zzyx, 0b1101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zzyx, 0b1101);
+					}
 				}
 				else
 				{
@@ -5365,7 +5526,7 @@ namespace MaxMath
         public          ushort3 wzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5382,7 +5543,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.zzyx, 0b1110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.zzyx, 0b1110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.zzyx, 0b1110);
+					}
 				}
 				else
 				{
@@ -5392,7 +5560,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wzz
+        public  ushort3 wzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5407,7 +5575,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wzw
+        public  ushort3 wzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5422,7 +5590,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wwx
+        public  ushort3 wwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5437,7 +5605,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wwy
+        public  ushort3 wwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5452,7 +5620,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 wwz
+        public  ushort3 wwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5467,7 +5635,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort3 www
+        public  ushort3 www
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5483,7 +5651,7 @@ namespace MaxMath
 			}
         }
 
-        public readonly ushort2 xx
+        public  ushort2 xx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5501,7 +5669,7 @@ namespace MaxMath
         public          ushort2 xy
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5518,7 +5686,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value, 0b0011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value, 0b0011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value, 0b0011);
+					}
 				}
 				else
 				{
@@ -5530,7 +5705,7 @@ namespace MaxMath
         public          ushort2 xz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5547,7 +5722,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyy, 0b0101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyy, 0b0101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyy, 0b0101);
+					}
 				}
 				else
 				{
@@ -5559,7 +5741,7 @@ namespace MaxMath
         public          ushort2 xw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5576,7 +5758,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyy, 0b1001);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyy, 0b1001);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyy, 0b1001);
+					}
 				}
 				else
 				{
@@ -5588,7 +5777,7 @@ namespace MaxMath
         public          ushort2 yx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5605,7 +5794,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yx, 0b0011);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yx, 0b0011);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yx, 0b0011);
+					}
 				}
 				else
 				{
@@ -5614,7 +5810,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort2 yy
+        public  ushort2 yy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5632,7 +5828,7 @@ namespace MaxMath
         public          ushort2 yz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5649,7 +5845,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyy, 0b0110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyy, 0b0110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyy, 0b0110);
+					}
 				}
 				else
 				{
@@ -5661,7 +5864,7 @@ namespace MaxMath
         public          ushort2 yw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5678,7 +5881,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.xxyy, 0b1010);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.xxyy, 0b1010);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.xxyy, 0b1010);
+					}
 				}
 				else
 				{
@@ -5690,7 +5900,7 @@ namespace MaxMath
         public          ushort2 zx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5707,7 +5917,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxx, 0b0101);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxx, 0b0101);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxx, 0b0101);
+					}
 				}
 				else
 				{
@@ -5719,7 +5936,7 @@ namespace MaxMath
         public          ushort2 zy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5736,7 +5953,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxx, 0b0110);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxx, 0b0110);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxx, 0b0110);
+					}
 				}
 				else
 				{
@@ -5745,7 +5969,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort2 zz
+        public  ushort2 zz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5763,7 +5987,7 @@ namespace MaxMath
         public          ushort2 zw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5792,7 +6016,7 @@ namespace MaxMath
         public          ushort2 wx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5809,7 +6033,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxx, 0b1001);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxx, 0b1001);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxx, 0b1001);
+					}
 				}
 				else
 				{
@@ -5821,7 +6052,7 @@ namespace MaxMath
         public          ushort2 wy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5838,7 +6069,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yyxx, 0b1010);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yyxx, 0b1010);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yyxx, 0b1010);
+					}
 				}
 				else
 				{
@@ -5850,7 +6088,7 @@ namespace MaxMath
         public          ushort2 wz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5867,7 +6105,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yxyx, 0b1100);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yxyx, 0b1100);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yxyx, 0b1100);
+					}
 				}
 				else
 				{
@@ -5876,7 +6121,7 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ushort2 ww
+        public  ushort2 ww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5923,8 +6168,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Int4ToShort4(*(v128*)&input);
-            }
-            else
+			}
+			else if (Sse2.IsSse2Supported)
+			{
+				return Cast.Int4To_U_Short4_SSE2(*(v128*)&input);
+			}
+			else
             {
                 return new ushort4((ushort)input.x, (ushort)input.y, (ushort)input.z, (ushort)input.w);
             }
@@ -5936,8 +6185,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Int4ToShort4(*(v128*)&input);
-            }
-            else
+			}
+			else if (Sse2.IsSse2Supported)
+			{
+				return Cast.Int4To_U_Short4_SSE2(*(v128*)&input);
+			}
+			else
             {
                 return new ushort4((ushort)input.x, (ushort)input.y, (ushort)input.z, (ushort)input.w);
             }
@@ -6076,7 +6329,7 @@ namespace MaxMath
         public ushort this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 4);
 
@@ -6414,12 +6667,12 @@ Assert.IsWithinArrayBounds(index, 4);
 
 				return *(bool4*)&input;
 			}
-			else throw new BurstCompilerException();
+			else throw new CPUFeatureCheckException();
         }
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(ushort4 other)
+		public  bool Equals(ushort4 other)
 		{
 			if (Sse2.IsSse2Supported)
 			{
@@ -6431,11 +6684,11 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 		}
 
-		public override readonly bool Equals(object obj) => Equals((ushort4)obj);
+		public override  bool Equals(object obj) => Equals((ushort4)obj);
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
+		public override  int GetHashCode()
 		{
 			if (Sse2.IsSse2Supported)
 			{
@@ -6450,7 +6703,7 @@ Assert.IsWithinArrayBounds(index, 4);
 		}
 
 
-		public override readonly string ToString() => $"ushort4({x}, {y}, {z}, {w})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"ushort4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
+		public override  string ToString() => $"ushort4({x}, {y}, {z}, {w})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"ushort4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

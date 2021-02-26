@@ -20,7 +20,7 @@ namespace MaxMath
             }
             else
             {
-                return new float2(a.x - b.x, a.y + b.y);
+                return a - math.select(b, -b, new bool2(false, true));
             }
         }
 
@@ -36,7 +36,7 @@ namespace MaxMath
             }
             else
             {
-                return new float3(a.x - b.x, a.y + b.y, a.z - b.z);
+                return a - math.select(b, -b, new bool3(false, true, false));
             }
         }
 
@@ -52,7 +52,7 @@ namespace MaxMath
             }
             else
             {
-                return new float4(a.x - b.x, a.y + b.y, a.z - b.z, a.w + b.w);
+                return a - math.select(b, -b, new bool4(false, true, false, true));
             }
         }
 
@@ -83,7 +83,7 @@ namespace MaxMath
             }
             else
             {
-                return new double2(a.x - b.x, a.y + b.y);
+                return a - math.select(b, -b, new bool2(false, true));
             }
         }
 
@@ -99,7 +99,7 @@ namespace MaxMath
             }
             else
             {
-                return new double3(a.x - b.x, a.y + b.y, a.z - b.z);
+                return a - math.select(b, -b, new bool3(false, true, false));
             }
         }
 
@@ -115,7 +115,7 @@ namespace MaxMath
             }
             else
             {
-                return new double4(a.x - b.x, a.y + b.y, a.z - b.z, a.w + b.w);
+                return a - math.select(b, -b, new bool4(false, true, false, true));
             }
         }
 
@@ -130,7 +130,7 @@ namespace MaxMath
             }
             else
             {
-                return new byte2((byte)(a.x - b.x), (byte)(a.y + b.y));
+                return a - select(b, (byte2)(-(sbyte2)b), new bool2(false, true));
             }
         }
 
@@ -144,7 +144,7 @@ namespace MaxMath
             }
             else
             {
-                return new byte3((byte)(a.x - b.x), (byte)(a.y + b.y), (byte)(a.z - b.z));
+                return a - select(b, (byte3)(-(sbyte3)b), new bool3(false, true, false));
             }
         }
 
@@ -158,7 +158,7 @@ namespace MaxMath
             }
             else
             {
-                return new byte4((byte)(a.x - b.x), (byte)(a.y + b.y), (byte)(a.z - b.z), (byte)(a.w + b.w));
+                return a - select(b, (byte4)(-(sbyte4)b), new bool4(false, true, false, true));
             }
         }
 
@@ -172,7 +172,7 @@ namespace MaxMath
             }
             else
             {
-                return new byte8((byte)(a.x0 - b.x0), (byte)(a.x1 + b.x1), (byte)(a.x2 - b.x2), (byte)(a.x3 + b.x3), (byte)(a.x4 - b.x4), (byte)(a.x5 + b.x5), (byte)(a.x6 - b.x6), (byte)(a.x7 + b.x7));
+                return a - select(b, (byte8)(-(sbyte8)b), new bool8(false, true, false, true, false, true, false, true));
             }
         }
 
@@ -186,7 +186,7 @@ namespace MaxMath
             }
             else
             {
-                return new byte16((byte)(a.x0 - b.x0), (byte)(a.x1 + b.x1), (byte)(a.x2 - b.x2), (byte)(a.x3 + b.x3), (byte)(a.x4 - b.x4), (byte)(a.x5 + b.x5), (byte)(a.x6 - b.x6), (byte)(a.x7 + b.x7), (byte)(a.x8 - b.x8), (byte)(a.x9 + b.x9), (byte)(a.x10 - b.x10), (byte)(a.x11 + b.x11), (byte)(a.x12 - b.x12), (byte)(a.x13 + b.x13), (byte)(a.x14 - b.x14), (byte)(a.x15 + b.x15));
+                return a - select(b, (byte16)(-(sbyte16)b), new bool16(false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true));
             }
         }
 
@@ -215,7 +215,7 @@ namespace MaxMath
             }
             else
             {
-                return new sbyte2((sbyte)(a.x - b.x), (sbyte)(a.y + b.y));
+                return a - select(b, -b, new bool2(false, true));
             }
         }
 
@@ -229,7 +229,7 @@ namespace MaxMath
             }
             else
             {
-                return new sbyte3((sbyte)(a.x - b.x), (sbyte)(a.y + b.y), (sbyte)(a.z - b.z));
+                return a - select(b, -b, new bool3(false, true, false));
             }
         }
 
@@ -243,7 +243,7 @@ namespace MaxMath
             }
             else
             {
-                return new sbyte4((sbyte)(a.x - b.x), (sbyte)(a.y + b.y), (sbyte)(a.z - b.z), (sbyte)(a.w + b.w));
+                return a - select(b, -b, new bool4(false, true, false, true));
             }
         }
 
@@ -257,7 +257,7 @@ namespace MaxMath
             }
             else
             {
-                return new sbyte8((sbyte)(a.x0 - b.x0), (sbyte)(a.x1 + b.x1), (sbyte)(a.x2 - b.x2), (sbyte)(a.x3 + b.x3), (sbyte)(a.x4 - b.x4), (sbyte)(a.x5 + b.x5), (sbyte)(a.x6 - b.x6), (sbyte)(a.x7 + b.x7));
+                return a - select(b, -b, new bool8(false, true, false, true, false, true, false, true));
             }
         }
 
@@ -271,7 +271,7 @@ namespace MaxMath
             }
             else
             {
-                return new sbyte16((sbyte)(a.x0 - b.x0), (sbyte)(a.x1 + b.x1), (sbyte)(a.x2 - b.x2), (sbyte)(a.x3 + b.x3), (sbyte)(a.x4 - b.x4), (sbyte)(a.x5 + b.x5), (sbyte)(a.x6 - b.x6), (sbyte)(a.x7 + b.x7), (sbyte)(a.x8 - b.x8), (sbyte)(a.x9 + b.x9), (sbyte)(a.x10 - b.x10), (sbyte)(a.x11 + b.x11), (sbyte)(a.x12 - b.x12), (sbyte)(a.x13 + b.x13), (sbyte)(a.x14 - b.x14), (sbyte)(a.x15 + b.x15));
+                return a - select(b, -b, new bool16(false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true));
             }
         }
 
@@ -300,7 +300,7 @@ namespace MaxMath
             }
             else
             {
-                return new ushort2((ushort)(a.x - b.x), (ushort)(a.y + b.y));
+                return a - select(b, (ushort2)(-(short2)b), new bool2(false, true));
             }
         }
 
@@ -314,7 +314,7 @@ namespace MaxMath
             }
             else
             {
-                return new ushort3((ushort)(a.x - b.x), (ushort)(a.y + b.y), (ushort)(a.z - b.z));
+                return a - select(b, (ushort3)(-(short3)b), new bool3(false, true, false));
             }
         }
 
@@ -328,7 +328,7 @@ namespace MaxMath
             }
             else
             {
-                return new ushort4((ushort)(a.x - b.x), (ushort)(a.y + b.y), (ushort)(a.z - b.z), (ushort)(a.w + b.w));
+                return a - select(b, (ushort4)(-(short4)b), new bool4(false, true, false, true));
             }
         }
 
@@ -342,7 +342,7 @@ namespace MaxMath
             }
             else
             {
-                return new ushort8((ushort)(a.x0 - b.x0), (ushort)(a.x1 + b.x1), (ushort)(a.x2 - b.x2), (ushort)(a.x3 + b.x3), (ushort)(a.x4 - b.x4), (ushort)(a.x5 + b.x5), (ushort)(a.x6 - b.x6), (ushort)(a.x7 + b.x7));
+                return a - select(b, (ushort8)(-(short8)b), new bool8(false, true, false, true, false, true, false, true));
             }
         }
 
@@ -371,7 +371,7 @@ namespace MaxMath
             }
             else
             {
-                return new short2((short)(a.x - b.x), (short)(a.y + b.y));
+                return a - select(b, -b, new bool2(false, true));
             }
         }
 
@@ -385,7 +385,7 @@ namespace MaxMath
             }
             else
             {
-                return new short3((short)(a.x - b.x), (short)(a.y + b.y), (short)(a.z - b.z));
+                return a - select(b, -b, new bool3(false, true, false));
             }
         }
 
@@ -399,7 +399,7 @@ namespace MaxMath
             }
             else
             {
-                return new short4((short)(a.x - b.x), (short)(a.y + b.y), (short)(a.z - b.z), (short)(a.w + b.w));
+                return a - select(b, -b, new bool4(false, true, false, true));
             }
         }
 
@@ -413,7 +413,7 @@ namespace MaxMath
             }
             else
             {
-                return new short8((short)(a.x0 - b.x0), (short)(a.x1 + b.x1), (short)(a.x2 - b.x2), (short)(a.x3 + b.x3), (short)(a.x4 - b.x4), (short)(a.x5 + b.x5), (short)(a.x6 - b.x6), (short)(a.x7 + b.x7));
+                return a - select(b, -b, new bool8(false, true, false, true, false, true, false, true));
             }
         }
 
@@ -444,7 +444,7 @@ namespace MaxMath
             }
             else
             {
-                return new uint2(a.x - b.x, a.y + b.y);
+                return a - math.select(b, (uint2)(-(int2)b), new bool2(false, true));
             }
         }
 
@@ -460,7 +460,7 @@ namespace MaxMath
             }
             else
             {
-                return new uint3(a.x - b.x, a.y + b.y, a.z - b.z);
+                return a - math.select(b, (uint3)(-(int3)b), new bool3(false, true, false));
             }
         }
 
@@ -476,7 +476,7 @@ namespace MaxMath
             }
             else
             {
-                return new uint4(a.x - b.x, a.y + b.y, a.z - b.z, a.w + b.w);
+                return a - math.select(b, (uint4)(-(int4)b), new bool4(false, true, false, true));
             }
         }
 
@@ -507,7 +507,7 @@ namespace MaxMath
             }
             else
             {
-                return new int2(a.x - b.x, a.y + b.y);
+                return a - math.select(b, -b, new bool2(false, true));
             }
         }
 
@@ -523,7 +523,7 @@ namespace MaxMath
             }
             else
             {
-                return new int3(a.x - b.x, a.y + b.y, a.z - b.z);
+                return a - math.select(b, -b, new bool3(false, true, false));
             }
         }
 
@@ -539,7 +539,7 @@ namespace MaxMath
             }
             else
             {
-                return new int4(a.x - b.x, a.y + b.y, a.z - b.z, a.w + b.w);
+                return a - math.select(b, -b, new bool4(false, true, false, true));
             }
         }
 
@@ -564,7 +564,14 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return a + Mask.BlendEpi16(b, default(v128) - b, 0b0000_1111);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    return a + Sse4_1.blend_epi16(b, default(v128) - b, 0b0000_1111);
+                }
+                else
+                {
+                    return a + Mask.BlendEpi16_SSE2(b, default(v128) - b, 0b0000_1111);
+                }
             }
             else
             {
@@ -607,7 +614,14 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return a + Mask.BlendEpi16(b, -b, 0b0000_1111);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    return a + Sse4_1.blend_epi16(b, -b, 0b0000_1111);
+                }
+                else
+                {
+                    return a + Mask.BlendEpi16_SSE2(b, -b, 0b0000_1111);
+                }
             }
             else
             {

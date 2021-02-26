@@ -344,7 +344,7 @@ namespace MaxMath
             }
             else
             {
-                return math.all(a != b);
+                return all_dif(a.xy, b.xy) & a.z != b.z;
             }
         }
 
@@ -358,7 +358,7 @@ namespace MaxMath
             }
             else
             {
-                return math.all(a != b);
+                return all_dif(a.xy, b.xy) & all_dif(a.zw, b.zw);
             }
         }
 
@@ -389,7 +389,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif (byte3 c)
         {
-            return all_dif (c.xxzx, c.yzyy);
+            if (Ssse3.IsSsse3Supported)
+            {
+                return all_dif(c.xxzx, c.yzyy);
+            }
+            else
+            {
+                bool result = true;
+
+                for (int i = 0; i < 3 - 1; i++)
+                {
+                    for (int j = i + 1; j < 3; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
+            }
         }
 
         /// <summary>       Returns true if all of the components of a byte4 vector are unique within that vector.      </summary>
@@ -399,11 +416,21 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return all_dif ((byte16)Ssse3.shuffle_epi8(c, new v128(0, 0, 0, 1, 1, 2,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
-                               (byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 2, 3, 3,    1, 1, 1, 1, 1, 1, 1, 1, 1, 1)));
+                                (byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 2, 3, 3,    1, 1, 1, 1, 1, 1, 1, 1, 1, 1)));
             }
             else
             {
-                return (c.x != c.y & c.x != c.z) & (c.x != c.w & c.y != c.z) & (c.y != c.w & c.z != c.w);
+                bool result = true;
+
+                for (int i = 0; i < 4 - 1; i++)
+                {
+                    for (int j = i + 1; j < 4; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 
@@ -414,19 +441,23 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return all_dif (new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2)),
-                                          (byte16)Ssse3.shuffle_epi8(c, new v128(2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 0, 0, 0, 0))),
-                               new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6, 7, 3, 4, 5)),
-                                          (byte16)Ssse3.shuffle_epi8(c, new v128(6, 7, 4, 5, 6, 7, 5, 6, 7, 6, 7, 7, 1, 1, 1, 1))));
+                                           (byte16)Ssse3.shuffle_epi8(c, new v128(2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 0, 0, 0, 0))),
+                                new byte32((byte16)Ssse3.shuffle_epi8(c, new v128(1, 2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6, 7, 3, 4, 5)),
+                                           (byte16)Ssse3.shuffle_epi8(c, new v128(6, 7, 4, 5, 6, 7, 5, 6, 7, 6, 7, 7, 1, 1, 1, 1))));
             }
             else
             {
-                return (((c.x0 != c.x1 & c.x0 != c.x2)  &  (c.x0 != c.x3 & c.x0 != c.x4))  & ((c.x0 != c.x5  & c.x0 != c.x6)  & c.x0 != c.x7) &
-                        ((c.x1 != c.x2 & c.x1 != c.x3)  &  (c.x1 != c.x4 & c.x1 != c.x5))  & ((c.x1 != c.x6  & c.x1 != c.x7)) &
-                        ((c.x2 != c.x3 & c.x2 != c.x4)) & ((c.x2 != c.x5 & c.x2 != c.x6)   &   c.x2 != c.x7) &
-                        ((c.x3 != c.x4 & c.x3 != c.x5)  &  (c.x3 != c.x6 & c.x3 != c.x7))) &
-                       (((c.x4 != c.x5 & c.x4 != c.x6)  &   c.x4 != c.x7) &
-                        ((c.x5 != c.x6 & c.x5 != c.x7)  &
-                          c.x6 != c.x7));
+                bool result = true;
+
+                for (int i = 0; i < 8 - 1; i++)
+                {
+                    for (int j = i + 1; j < 8; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 
@@ -455,23 +486,82 @@ namespace MaxMath
 
                 return 0 == Avx2.mm256_movemask_epi8(or);
             }
+            else if (Ssse3.IsSsse3Supported)
+            {
+                v128 or = Sse2.or_si128(Sse2.or_si128(Sse2.or_si128(Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,  2))),
+                                                                    Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 3,  4,  5)))),
+                                                      Sse2.or_si128(Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  3,  3,  3,  3,  3,  3)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 4,  5,  6,  7,  8,  9))),
+                                                                    Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(10, 11, 12, 13, 14, 15, 5,  6,  7,  8,  9,  10, 11, 12, 13, 14))))),
+                                        Sse2.or_si128(Sse2.or_si128(Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(4,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  6,  6,  6,  6,  6)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(15, 6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 7,  8,  9,  10, 11))),
+                                                                    Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(6,  6,  6,  6,  7,  7,  7,  7,  7,  7,  7,  7,  8,  8,  8,  8)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8,  9,  10, 11, 12, 13, 14, 15, 9,  10, 11, 12)))),
+                                                      Sse2.or_si128(Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(8,  8,  8,  9,  9,  9,  9,  9,  9,  10, 10, 10, 10, 10, 11, 11)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(13, 14, 15, 10, 11, 12, 13, 14, 15, 11, 12, 13, 14, 15, 12, 13))),
+                                                                    Sse2.cmpeq_epi8(Ssse3.shuffle_epi8(c, new v128(11, 11, 12, 12, 12, 13, 13, 14, 0,  0,  0,  0,  0,  0,  0,  0)),
+                                                                                    Ssse3.shuffle_epi8(c, new v128(14, 15, 13, 14, 15, 14, 15, 15, 1,  1,  1,  1,  1,  1,  1,  1))))));
+
+                return 0 == Sse2.movemask_epi8(or);
+            }
             else
             {
-                return all_dif (c.v8_0) &
-                       all_dif (c.v8_8) &
-                       all_dif (new byte8(c.v4_0, c.v4_8)) &
-                       all_dif (new byte8(c.v4_0, c.v4_12)) &
-                       all_dif (new byte8(c.v4_4, c.v4_8)) &
-                       all_dif (new byte8(c.v4_4, c.v4_12));
+                bool result = true;
+
+                for (int i = 0; i < 16 - 1; i++)
+                {
+                    for (int j = i + 1; j < 16; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 
-        ///// <summary>       Returns true if all of the components of a byte32 vector are unique within that vector.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool all_dif (byte32 c)
-        //{
-        //
-        //}
+        /// <summary>       Returns true if all of the components of a byte32 vector are unique within that vector.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool all_dif (byte32 c)
+        {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            bool result = true;
+
+            for (int i = 0; i < 32 - 1; i++)
+            {
+                for (int j = i + 1; j < 32; j++)
+                {
+                    result &= c[i] != c[j];
+                }
+            }
+
+            return result;
+        }
 
 
         /// <summary>       Returns true if all of the components of an sbyte3 vector are unique within that vector.      </summary>
@@ -502,19 +592,36 @@ namespace MaxMath
             return all_dif ((byte16)c);
         }
 
-        ///// <summary>       Returns true if all of the components of an sbyte32 vector are unique within that vector.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool all_dif (sbyte32 c)
-        //{
-        //
-        //}
+        /// <summary>       Returns true if all of the components of an sbyte32 vector are unique within that vector.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool all_dif (sbyte32 c)
+        {
+            return all_dif((byte32)c);
+        }
 
 
         /// <summary>       Returns true if all of the components of a short3 vector are unique within that vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif (short3 c)
         {
-            return all_dif (c.xxzx, c.yzyy);
+            if (Sse2.IsSse2Supported)
+            {
+                return all_dif(c.xxzx, c.yzyy);
+            }
+            else
+            {
+                bool result = true;
+
+                for (int i = 0; i < 3 - 1; i++)
+                {
+                    for (int j = i + 1; j < 3; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
+            }
         }
 
         /// <summary>       Returns true if all of the components of a short4 vector are unique within that vector.      </summary>
@@ -524,11 +631,21 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return all_dif ((short8)Ssse3.shuffle_epi8(c, new v128(0, 1,  0, 1,  0, 1,  2, 3,  2, 3,  4, 5,    0, 1, 0, 1)),
-                               (short8)Ssse3.shuffle_epi8(c, new v128(2, 3,  4, 5,  6, 7,  4, 5,  6, 7,  6, 7,    2, 3, 2, 3)));
+                                (short8)Ssse3.shuffle_epi8(c, new v128(2, 3,  4, 5,  6, 7,  4, 5,  6, 7,  6, 7,    2, 3, 2, 3)));
             }
             else
             {
-                return (c.x != c.y & c.x != c.z) & (c.x != c.w & c.y != c.z) & (c.y != c.w & c.z != c.w);
+                bool result = true;
+
+                for (int i = 0; i < 4 - 1; i++)
+                {
+                    for (int j = i + 1; j < 4; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 
@@ -550,15 +667,32 @@ namespace MaxMath
                 return 0 == Avx2.mm256_movemask_epi8(or);
 
             }
+            else if (Ssse3.IsSsse3Supported)
+            {
+                v128 or = Sse2.or_si128(Sse2.or_si128(Sse2.cmpeq_epi16(Ssse3.shuffle_epi8(c, new v128(0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  0,  1,  2,  3)),
+                                                                       Ssse3.shuffle_epi8(c, new v128(2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 4,  5))),
+                                                      Sse2.cmpeq_epi16(Ssse3.shuffle_epi8(c, new v128(2,  3,  2,  3,  2,  3,  2,  3,  2,  3,  4,  5,  4,  5,  4,  5)),
+                                                                       Ssse3.shuffle_epi8(c, new v128(6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 6,  7,  8,  9,  10, 11)))),
+                                        Sse2.or_si128(Sse2.cmpeq_epi16(Ssse3.shuffle_epi8(c, new v128(4,  5,  4,  5,  6,  7,  6,  7,  6,  7,  6,  7,  8,  9,  8,  9)),
+                                                                       Ssse3.shuffle_epi8(c, new v128(12, 13, 14, 15, 8,  9,  10, 11, 12, 13, 14, 15, 10, 11, 12, 13))),
+                                                      Sse2.cmpeq_epi16(Ssse3.shuffle_epi8(c, new v128(8,  9,  10, 11, 10, 11, 12, 13, 0,  1,  0,  1,  0,  1,  0,  1)),
+                                                                       Ssse3.shuffle_epi8(c, new v128(14, 15, 12, 13, 14, 15, 14, 15, 2,  3,  2,  3,  2,  3,  2,  3)))));
+
+                return 0 == Sse2.movemask_epi8(or);
+            }
             else
             {
-                return (((c.x0 != c.x1 & c.x0 != c.x2)  &  (c.x0 != c.x3 & c.x0 != c.x4))  & ((c.x0 != c.x5  & c.x0 != c.x6)  & c.x0 != c.x7) &
-                        ((c.x1 != c.x2 & c.x1 != c.x3)  &  (c.x1 != c.x4 & c.x1 != c.x5))  & ((c.x1 != c.x6  & c.x1 != c.x7)) &
-                        ((c.x2 != c.x3 & c.x2 != c.x4)) & ((c.x2 != c.x5 & c.x2 != c.x6)   &   c.x2 != c.x7) &
-                        ((c.x3 != c.x4 & c.x3 != c.x5)  &  (c.x3 != c.x6 & c.x3 != c.x7))) &
-                       (((c.x4 != c.x5 & c.x4 != c.x6)  &   c.x4 != c.x7) &
-                        ((c.x5 != c.x6 & c.x5 != c.x7)  &
-                          c.x6 != c.x7));
+                bool result = true;
+
+                for (int i = 0; i < 8 - 1; i++)
+                {
+                    for (int j = i + 1; j < 8; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 
@@ -566,12 +700,39 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif (short16 c)
         {
-            return all_dif (c.v8_0) &
-                   all_dif (c.v8_8) &
-                   all_dif (new short8(c.v4_0, c.v4_8)) &
-                   all_dif (new short8(c.v4_0, c.v4_12)) &
-                   all_dif (new short8(c.v4_4, c.v4_8)) &
-                   all_dif (new short8(c.v4_4, c.v4_12));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            bool result = true;
+
+            for (int i = 0; i < 16 - 1; i++)
+            {
+                for (int j = i + 1; j < 16; j++)
+                {
+                    result &= c[i] != c[j];
+                }
+            }
+
+            return result;
         }
 
 
@@ -634,15 +795,89 @@ namespace MaxMath
                                                                                          Avx2.mm256_permutevar8x32_epi32(c, new v256(7, 6, 7, 7, 1, 1, 1, 1)))));
                 return 0 == Avx2.mm256_movemask_epi8(or);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                int4 lo = c.v4_0;
+                int4 hi = c.v4_4;
+
+
+                int4 _0000 = lo.xxxx;
+                int4 _1234 = math.shuffle(lo, hi, math.ShuffleComponent.LeftY,
+                                                  math.ShuffleComponent.LeftZ, 
+                                                  math.ShuffleComponent.LeftW, 
+                                                  math.ShuffleComponent.RightX);
+
+                v128 _1st_cmp = Sse2.cmpeq_epi32(*(v128*)&_0000, *(v128*)&_1234);
+
+
+                int4 _0001 = lo.xxxy;
+                int4 _5672 = math.shuffle(lo, hi, math.ShuffleComponent.RightY, 
+                                                  math.ShuffleComponent.RightZ, 
+                                                  math.ShuffleComponent.RightW, 
+                                                  math.ShuffleComponent.LeftZ);
+
+                v128 _2nd_cmp = Sse2.cmpeq_epi32(*(v128*)&_0001, *(v128*)&_5672);
+
+
+                int4 _1111 = lo.yyyy;
+                int4 _3456 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW, 
+                                                  math.ShuffleComponent.RightX, 
+                                                  math.ShuffleComponent.RightY, 
+                                                  math.ShuffleComponent.RightZ);
+
+                v128 _3rd_cmp = Sse2.cmpeq_epi32(*(v128*)&_1111, *(v128*)&_3456);
+
+
+                int4 _1222 = lo.yzzz;
+                int4 _7345 = math.shuffle(lo, hi, math.ShuffleComponent.RightW, 
+                                                  math.ShuffleComponent.LeftW, 
+                                                  math.ShuffleComponent.RightX, 
+                                                  math.ShuffleComponent.RightY);
+
+                v128 _4th_cmp = Sse2.cmpeq_epi32(*(v128*)&_1222, *(v128*)&_7345);
+
+
+                int4 _2233 = lo.zzww;
+                int4 _6745 = hi.zwxy;
+
+                v128 _5th_cmp = Sse2.cmpeq_epi32(*(v128*)&_2233, *(v128*)&_6745);
+
+
+                int4 _3344 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW, 
+                                                  math.ShuffleComponent.LeftW, 
+                                                  math.ShuffleComponent.RightX, 
+                                                  math.ShuffleComponent.RightX);
+                int4 _6756 = hi.zwyz;
+
+                v128 _6th_cmp = Sse2.cmpeq_epi32(*(v128*)&_3344, *(v128*)&_6756);
+
+
+                int4 _4556 = hi.xyyz;
+                int4 _7677 = hi.wzww;
+
+                v128 _7th_cmp = Sse2.cmpeq_epi32(*(v128*)&_4556, *(v128*)&_7677);
+
+
+                v128 or = Sse2.or_si128(Sse2.or_si128(Sse2.or_si128(_1st_cmp, _2nd_cmp),
+                                                      Sse2.or_si128(_3rd_cmp, _4th_cmp)),
+                                        Sse2.or_si128(Sse2.or_si128(_5th_cmp, _6th_cmp),
+                                                      _7th_cmp));
+
+                return 0 == Sse2.movemask_epi8(or);
+            }
             else
             {
-                return (((c.x0 != c.x1 & c.x0 != c.x2)  &  (c.x0 != c.x3 & c.x0 != c.x4))  & ((c.x0 != c.x5  & c.x0 != c.x6)  & c.x0 != c.x7) &
-                        ((c.x1 != c.x2 & c.x1 != c.x3)  &  (c.x1 != c.x4 & c.x1 != c.x5))  & ((c.x1 != c.x6  & c.x1 != c.x7)) &
-                        ((c.x2 != c.x3 & c.x2 != c.x4)) & ((c.x2 != c.x5 & c.x2 != c.x6)   &   c.x2 != c.x7) &
-                        ((c.x3 != c.x4 & c.x3 != c.x5)  &  (c.x3 != c.x6 & c.x3 != c.x7))) &
-                       (((c.x4 != c.x5 & c.x4 != c.x6)  &   c.x4 != c.x7) &
-                        ((c.x5 != c.x6 & c.x5 != c.x7)  &
-                          c.x6 != c.x7));
+                bool result = true;
+
+                for (int i = 0; i < 8 - 1; i++)
+                {
+                    for (int j = i + 1; j < 8; j++)
+                    {
+                        result &= c[i] != c[j];
+                    }
+                }
+
+                return result;
             }
         }
 

@@ -183,7 +183,7 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 ushort2 temp = (ushort2)(max - min) * new ushort2(NextState(), NextState());
 
@@ -202,7 +202,7 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 ushort3 temp = (ushort3)(max - min) * new ushort3(NextState(), NextState(), NextState());
 
@@ -222,7 +222,7 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 ushort4 temp = (ushort4)(max - min) * new ushort4(NextState(), NextState(), NextState(), NextState());
 
@@ -246,7 +246,7 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 ushort8 temp = (ushort8)(max - min) * new ushort8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
@@ -403,7 +403,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short2 temp = (short2)max * new short2(NextState(), NextState());
 
@@ -418,7 +418,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short3 temp = (short3)max * new short3(NextState(), NextState(), NextState());
 
@@ -433,7 +433,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short4 temp = (short4)max * new short4(NextState(), NextState(), NextState(), NextState());
 
@@ -448,7 +448,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short8 temp = (short8)max * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 
@@ -515,7 +515,7 @@ Assert.IsNotSmaller(max, min);
 Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short2 temp = (short2)(max - min) * new short2(NextState(), NextState());
 
@@ -534,7 +534,7 @@ Assert.IsNotSmaller(max.x, min.x);
 Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short3 temp = (short3)(max - min) * new short3(NextState(), NextState(), NextState());
 
@@ -554,7 +554,7 @@ Assert.IsNotSmaller(max.y, min.y);
 Assert.IsNotSmaller(max.z, min.z);
 Assert.IsNotSmaller(max.w, min.w);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short4 temp = (short4)(max - min) * new short4(NextState(), NextState(), NextState(), NextState());
 
@@ -578,7 +578,7 @@ Assert.IsNotSmaller(max.x5, min.x5);
 Assert.IsNotSmaller(max.x6, min.x6);
 Assert.IsNotSmaller(max.x7, min.x7);
 
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 short8 temp = (short8)(max - min) * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
 

@@ -110,7 +110,7 @@ namespace MaxMath
 
 
         #region Shuffle
-        public readonly long4 xxxx
+        public  long4 xxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -131,7 +131,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxxy
+        public  long4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -150,7 +150,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxxz
+        public  long4 xxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -169,7 +169,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxyx
+        public  long4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -188,7 +188,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxyy
+        public  long4 xxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -207,7 +207,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxyz
+        public  long4 xxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -226,7 +226,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxzx
+        public  long4 xxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -245,7 +245,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxzy
+        public  long4 xxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -264,7 +264,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxzz
+        public  long4 xxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -283,7 +283,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyxx
+        public  long4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -302,7 +302,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyxy
+        public  long4 xyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -321,7 +321,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyxz
+        public  long4 xyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -340,7 +340,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyyx
+        public  long4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -359,7 +359,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyyy
+        public  long4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -378,7 +378,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyyz
+        public  long4 xyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -397,7 +397,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyzx
+        public  long4 xyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -416,7 +416,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyzy
+        public  long4 xyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -435,7 +435,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyzz
+        public  long4 xyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -454,7 +454,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzxx
+        public  long4 xzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -473,7 +473,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzxy
+        public  long4 xzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -492,7 +492,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzxz
+        public  long4 xzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -513,7 +513,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzyx
+        public  long4 xzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -532,7 +532,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzyy
+        public  long4 xzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -551,7 +551,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzyz
+        public  long4 xzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -570,7 +570,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzzx
+        public  long4 xzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -589,7 +589,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzzy
+        public  long4 xzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -608,7 +608,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xzzz
+        public  long4 xzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -627,7 +627,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxxx
+        public  long4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -646,7 +646,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxxy
+        public  long4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -665,7 +665,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxxz
+        public  long4 yxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -684,7 +684,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxyx
+        public  long4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -705,7 +705,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxyy
+        public  long4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -724,7 +724,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxyz
+        public  long4 yxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -743,7 +743,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxzx
+        public  long4 yxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -762,7 +762,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxzy
+        public  long4 yxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -781,7 +781,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxzz
+        public  long4 yxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -800,7 +800,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyxx
+        public  long4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -819,7 +819,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyxy
+        public  long4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -838,7 +838,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyxz
+        public  long4 yyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -857,7 +857,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyyx
+        public  long4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -876,7 +876,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyyy
+        public  long4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -897,7 +897,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyyz
+        public  long4 yyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -916,7 +916,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyzx
+        public  long4 yyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -935,7 +935,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyzy
+        public  long4 yyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -954,7 +954,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyzz
+        public  long4 yyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -973,7 +973,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzxx
+        public  long4 yzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -992,7 +992,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzxy
+        public  long4 yzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1011,7 +1011,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzxz
+        public  long4 yzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1030,7 +1030,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzyx
+        public  long4 yzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1049,7 +1049,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzyy
+        public  long4 yzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1068,7 +1068,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzyz
+        public  long4 yzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1089,7 +1089,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzzx
+        public  long4 yzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1108,7 +1108,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzzy
+        public  long4 yzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1127,7 +1127,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yzzz
+        public  long4 yzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1146,7 +1146,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxxx
+        public  long4 zxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1165,7 +1165,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxxy
+        public  long4 zxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1184,7 +1184,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxxz
+        public  long4 zxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1203,7 +1203,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxyx
+        public  long4 zxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1222,7 +1222,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxyy
+        public  long4 zxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1241,7 +1241,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxyz
+        public  long4 zxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1260,7 +1260,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxzx
+        public  long4 zxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1281,7 +1281,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxzy
+        public  long4 zxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1300,7 +1300,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zxzz
+        public  long4 zxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1319,7 +1319,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyxx
+        public  long4 zyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1338,7 +1338,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyxy
+        public  long4 zyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1357,7 +1357,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyxz
+        public  long4 zyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1376,7 +1376,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyyx
+        public  long4 zyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1395,7 +1395,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyyy
+        public  long4 zyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1414,7 +1414,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyyz
+        public  long4 zyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1433,7 +1433,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyzx
+        public  long4 zyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1452,7 +1452,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyzy
+        public  long4 zyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1473,7 +1473,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zyzz
+        public  long4 zyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1492,7 +1492,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzxx
+        public  long4 zzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1511,7 +1511,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzxy
+        public  long4 zzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1530,7 +1530,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzxz
+        public  long4 zzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1549,7 +1549,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzyx
+        public  long4 zzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1568,7 +1568,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzyy
+        public  long4 zzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1587,7 +1587,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzyz
+        public  long4 zzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1606,7 +1606,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzzx
+        public  long4 zzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1625,7 +1625,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzzy
+        public  long4 zzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1644,7 +1644,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 zzzz
+        public  long4 zzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1666,7 +1666,7 @@ namespace MaxMath
             }
         }
 
-        public readonly long3 xxx
+        public  long3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1685,7 +1685,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xxy
+        public  long3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1704,7 +1704,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xxz
+        public  long3 xxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1723,7 +1723,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xyx
+        public  long3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1742,7 +1742,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xyy
+        public  long3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1761,7 +1761,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xzx
+        public  long3 xzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1783,7 +1783,7 @@ namespace MaxMath
         public          long3 xzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1805,7 +1805,7 @@ namespace MaxMath
                 this = value.xzy;
             }
         }
-        public readonly long3 xzz
+        public  long3 xzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1824,7 +1824,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yxx
+        public  long3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1843,7 +1843,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yxy
+        public  long3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1865,7 +1865,7 @@ namespace MaxMath
         public          long3 yxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1887,7 +1887,7 @@ namespace MaxMath
                 this = value.yxz;
             }
         }
-        public readonly long3 yyx
+        public  long3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1906,7 +1906,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yyy
+        public  long3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1925,7 +1925,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yyz
+        public  long3 yyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1947,7 +1947,7 @@ namespace MaxMath
         public          long3 yzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1969,7 +1969,7 @@ namespace MaxMath
                 this = value.zxy;
             }
         }
-        public readonly long3 yzy
+        public  long3 yzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1988,7 +1988,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yzz
+        public  long3 yzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2007,7 +2007,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 zxx
+        public  long3 zxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2029,7 +2029,7 @@ namespace MaxMath
         public          long3 zxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2051,7 +2051,7 @@ namespace MaxMath
                 this = value.yzx;
             }
         }
-        public readonly long3 zxz
+        public  long3 zxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2073,7 +2073,7 @@ namespace MaxMath
         public          long3 zyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2095,7 +2095,7 @@ namespace MaxMath
                 this = value.zyx;
             }
         }
-        public readonly long3 zyy
+        public  long3 zyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2114,7 +2114,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 zyz
+        public  long3 zyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2133,7 +2133,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 zzx
+        public  long3 zzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2152,7 +2152,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 zzy
+        public  long3 zzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2171,7 +2171,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 zzz
+        public  long3 zzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2191,7 +2191,7 @@ namespace MaxMath
             }
         }
 
-        public readonly long2 xx
+        public  long2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2209,7 +2209,7 @@ namespace MaxMath
         public          long2 xy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2237,7 +2237,7 @@ namespace MaxMath
         public          long2 xz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2272,7 +2272,7 @@ namespace MaxMath
         public          long2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2298,7 +2298,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long2 yy
+        public  long2 yy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2316,7 +2316,7 @@ namespace MaxMath
         public          long2 yz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2345,7 +2345,7 @@ namespace MaxMath
         public          long2 zx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2374,7 +2374,7 @@ namespace MaxMath
         public          long2 zy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2406,7 +2406,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long2 zz
+        public  long2 zz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2522,7 +2522,7 @@ namespace MaxMath
             }
             else
             {
-                return new uint3((uint)input.x, (uint)input.y, (uint)input.z);
+                return new uint3((uint2)input.xy, (uint)input.z);
             }
         }
 
@@ -2545,7 +2545,7 @@ namespace MaxMath
             }
             else
             {
-                return new int3((int)input.x, (int)input.y, (int)input.z);
+                return new int3((int2)input.xy, (int)input.z);
             }
         }
 
@@ -2562,7 +2562,7 @@ namespace MaxMath
         public long this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 3);
 
@@ -2901,7 +2901,7 @@ Assert.IsWithinArrayBounds(index, 3);
 
                 return *(bool3*)&cast;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2913,12 +2913,12 @@ Assert.IsWithinArrayBounds(index, 3);
 
                 return *(bool3*)&cast;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(long3 other)
+        public  bool Equals(long3 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2930,11 +2930,11 @@ Assert.IsWithinArrayBounds(index, 3);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((long3)obj);
+        public override  bool Equals(object obj) => Equals((long3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2951,7 +2951,7 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
 
-        public override readonly string ToString() => $"long3({x}, {y}, {z})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"long3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
+        public override  string ToString() => $"long3({x}, {y}, {z})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"long3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
     }
 }

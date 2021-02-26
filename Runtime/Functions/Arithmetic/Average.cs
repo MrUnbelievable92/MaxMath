@@ -8,21 +8,21 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the average value of two bytes with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two bytes with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte x, byte y)
         {
             return (byte)((x + y + 1u) / 2u);
         }
 
-        /// <summary>       Returns the average value of a byte2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte2 c)
         {
             return (byte)((1u + csum(c)) / 2u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 avg(byte2 x, byte2 y)
         {
@@ -36,14 +36,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a byte3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte3 c)
         {
             return (byte)((1u + csum(c)) / 3u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 avg(byte3 x, byte3 y)
         {
@@ -57,14 +57,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a byte4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte4 c)
         {
             return (byte)((1u + csum(c)) / 4u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 avg(byte4 x, byte4 y)
         {
@@ -78,14 +78,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a byte8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte8 c)
         {
             return (byte)((1u + csum(c)) / 8u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte8 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 avg(byte8 x, byte8 y)
         {
@@ -99,14 +99,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a byte16 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte16 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte16 c)
         {
             return (byte)((1u + csum(c)) / 16u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte16 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 avg(byte16 x, byte16 y)
         {
@@ -120,14 +120,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a byte32 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a byte32 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte32 c)
         {
             return (byte)((1u + csum(c)) / 32u);
         }
 
-        /// <summary>       Returns the componentwise average value of two byte32 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two byte32 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 avg(byte32 x, byte32 y)
         {
@@ -142,7 +142,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two sbytes with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two sbytes with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte x, sbyte y)
         {
@@ -151,20 +151,26 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 avg(sbyte2 x, sbyte2 y)
         {
             short2 result = ((short2)x + (short2)y);
 
-            // if intermediate sum is positive add 1
-            short2 isNegativeMask = result >> 15;
-            result = (result + andnot(new short2(1), isNegativeMask)) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                result -= Sse2.cmpgt_epi16(result, default(v128));
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (sbyte2)result;
+            return (sbyte2)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of an sbyte2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte2 c)
         {
@@ -173,20 +179,26 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 avg(sbyte3 x, sbyte3 y)
         {
             short3 result = ((short3)x + (short3)y);
 
-            // if intermediate sum is positive add 1
-            short3 isNegativeMask = result >> 15;
-            result = (result + andnot(new short3(1), isNegativeMask)) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                result -= Sse2.cmpgt_epi16(result, default(v128));
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (sbyte3)result;
+            return (sbyte3)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of an sbyte3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte3 c)
         {
@@ -195,20 +207,26 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 3);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 avg(sbyte4 x, sbyte4 y)
         {
             short4 result = ((short4)x + (short4)y);
 
-            // if intermediate sum is positive add 1
-            short4 isNegativeMask = result >> 15;
-            result = (result + andnot(new short4(1), isNegativeMask)) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                result -= Sse2.cmpgt_epi16(result, default(v128));
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (sbyte4)result;
+            return (sbyte4)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of an sbyte4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte4 c)
         {
@@ -217,20 +235,26 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte8 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 avg(sbyte8 x, sbyte8 y)
         {
             short8 result = ((short8)x + (short8)y);
 
-            // if intermediate sum is positive add 1
-            short8 isNegativeMask = result >> 15;
-            result = (result + andnot(new short8(1), isNegativeMask)) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                result -= Sse2.cmpgt_epi16(result, default(v128));
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (sbyte8)result;
+            return (sbyte8)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of an sbyte8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte8 c)
         {
@@ -239,20 +263,26 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte16 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 avg(sbyte16 x, sbyte16 y)
         {
-            short16 result = ((short16)x + (short16)y);
+            if (Avx2.IsAvx2Supported)
+            {
+                short16 result = ((short16)x + (short16)y);
 
-            // if intermediate sum is positive add 1
-            short16 isNegativeMask = result >> 15;
-            result = (result + andnot(new short16(1), isNegativeMask)) >> 1;
+                // if the intermediate sum is positive add 1
+                result -= Avx2.mm256_cmpgt_epi16(result, default(v256));
 
-            return (sbyte16)result;
+                return (sbyte16)(result >> 1);
+            }
+            else
+            {
+                return new sbyte16(avg(x.v8_0, y.v8_0), avg(x.v8_8, y.v8_8));
+            }
         }
 
-        /// <summary>       Returns the average value of an sbyte16 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte16 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte16 c)
         {
@@ -261,30 +291,30 @@ namespace MaxMath
             return (sbyte)((intermediate + touint8(intermediate > 0)) / 16);
         }
 
-        /// <summary>       Returns the componentwise average value of two sbyte32 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two sbyte32 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 avg(sbyte32 x, sbyte32 y)
         {
-            short16 result_lo = (short16)x.v16_0 + (short16)y.v16_0;
-            short16 result_hi = (short16)x.v16_16 + (short16)y.v16_16;
-
-            // if intermediate sum is positive add 1
-            short16 isNegativeMask = result_lo >> 15;
-            result_lo = (result_lo + andnot(new short16(1), isNegativeMask)) >> 1;
-            isNegativeMask = result_hi >> 15;
-            result_hi = (result_hi + andnot(new short16(1), isNegativeMask)) >> 1;
-
             if (Avx2.IsAvx2Supported)
             {
+                short16 result_lo = (short16)x.v16_0 + (short16)y.v16_0;
+                short16 result_hi = (short16)x.v16_16 + (short16)y.v16_16;
+
+                // if the intermediate sum is positive add 1
+                short16 isPositiveMask = Avx2.mm256_cmpgt_epi16(result_lo, default(v256));
+                result_lo = (result_lo - isPositiveMask) >> 1;
+                isPositiveMask = Avx2.mm256_cmpgt_epi16(result_hi, default(v256));
+                result_hi = (result_hi - isPositiveMask) >> 1;
+
                 return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi16(result_lo, result_hi), Sse.SHUFFLE(3, 1, 2, 0));
             }
             else
             {
-                return new sbyte32((sbyte16)result_lo, (sbyte16)result_hi);
+                return new sbyte32(avg(x.v8_0, y.v8_0), avg(x.v8_8, y.v8_8), avg(x.v8_16, y.v8_16), avg(x.v8_24, y.v8_24));
             }
         }
 
-        /// <summary>       Returns the average value of an sbyte32 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an sbyte32 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte avg(sbyte32 c)
         {
@@ -294,14 +324,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two ushorts with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two ushorts with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort x, ushort y)
         {
             return (ushort)((x + y + 1u) / 2u);
         }
 
-        /// <summary>       Returns the componentwise average value of two ushort2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ushort2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 avg(ushort2 x, ushort2 y)
         {
@@ -315,14 +345,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a ushort2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ushort2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort2 c)
         {
             return (ushort)((1u + csum(c)) / 2u);
         }
 
-        /// <summary>       Returns the componentwise average value of two ushort3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ushort3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 avg(ushort3 x, ushort3 y)
         {
@@ -336,14 +366,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a ushort3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ushort3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort3 c)
         {
             return (ushort)((1u + csum(c)) / 3u);
         }
 
-        /// <summary>       Returns the componentwise average value of two ushort4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ushort4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 avg(ushort4 x, ushort4 y)
         {
@@ -357,14 +387,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a ushort4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ushort4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort4 c)
         {
             return (ushort)((1u + csum(c)) / 4u);
         }
 
-        /// <summary>       Returns the componentwise average value of two ushort4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ushort4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 avg(ushort8 x, ushort8 y)
         {
@@ -378,14 +408,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a ushort8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ushort8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort8 c)
         {
             return (ushort)((1u + csum(c)) / 8u);
         }
 
-        /// <summary>       Returns the componentwise average value of two ushort16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ushort16 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 avg(ushort16 x, ushort16 y)
         {
@@ -399,7 +429,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a ushort16 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ushort16 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort16 c)
         {
@@ -407,7 +437,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two shorts with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two shorts with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short x, short y)
         {
@@ -416,20 +446,27 @@ namespace MaxMath
             return (short)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
-        /// <summary>       Returns the componentwise average value of two short2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two short2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 avg(short2 x, short2 y)
         {
             int2 result = ((int2)x + (int2)y);
 
-            // if intermediate sum is positive add 1
-            int2 isNegativeMask = andnot(1, result >> 31);
-            result = (result + isNegativeMask) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int2*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (short2)result;
+            return (short2)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of a short2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a short2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short2 c)
         {
@@ -438,20 +475,27 @@ namespace MaxMath
             return (short)((intermediate + touint8(intermediate > 0)) / 2);
         }
 
-        /// <summary>       Returns the componentwise average value of two short3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two short3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 avg(short3 x, short3 y)
         {
             int3 result = ((int3)x + (int3)y);
 
-            // if intermediate sum is positive add 1
-            int3 isNegativeMask = andnot(1, result >> 31);
-            result = (result + isNegativeMask) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int3*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (short3)result;
+            return (short3)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of a short3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a short3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short3 c)
         {
@@ -460,20 +504,27 @@ namespace MaxMath
             return (short)((intermediate + touint8(intermediate > 0)) / 3);
         }
 
-        /// <summary>       Returns the componentwise average value of two short4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two short4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 avg(short4 x, short4 y)
         {
             int4 result = ((int4)x + (int4)y);
 
-            // if intermediate sum is positive add 1
-            int4 isNegativeMask = andnot(1, result >> 31);
-            result = (result + isNegativeMask) >> 1;
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int4*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
-            return (short4)result;
+            return (short4)(result >> 1);
         }
 
-        /// <summary>       Returns the average value of a short4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a short4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short4 c)
         {
@@ -482,28 +533,28 @@ namespace MaxMath
             return (short)((intermediate + touint8(intermediate > 0)) / 4);
         }
 
-        /// <summary>       Returns the componentwise average value of two short8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two short8 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 avg(short8 x, short8 y)
         {
             int8 result = ((int8)x + (int8)y);
 
-            // if intermediate sum is positive add 1
-            int8 isNegativeMask = result >> 31;
-            result = (result + andnot(new int8(1), isNegativeMask)) >> 1;
-
+            // if the intermediate sum is positive add 1
             if (Avx2.IsAvx2Supported)
             {
+                int8 isPositiveMask = Avx2.mm256_cmpgt_epi32(result, default(v256));
+                result = (result - isPositiveMask) >> 1;
+
                 return Sse2.packs_epi32(Avx.mm256_castsi256_si128(result),
                                         Avx2.mm256_extracti128_si256(result, 1));
             }
             else
             {
-                return (short8)result;
+                return new short8(avg(x.v4_0, y.v4_0), avg(x.v4_4, y.v4_4));
             }
         }
 
-        /// <summary>       Returns the average value of a short8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a short8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short8 c)
         {
@@ -512,30 +563,30 @@ namespace MaxMath
             return (short)((intermediate + touint8(intermediate > 0)) / 8);
         }
 
-        /// <summary>       Returns the componentwise average value of two short16 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two short16 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 avg(short16 x, short16 y)
         {
-            int8 result_lo = (int8)x.v8_0 + (int8)y.v8_0;
-            int8 result_hi = (int8)x.v8_8 + (int8)y.v8_8;
-
-            // if intermediate sum is positive add 1
-            int8 isNegativeMask = result_lo >> 31;
-            result_lo = (result_lo + andnot(1, isNegativeMask)) >> 1;
-            isNegativeMask = result_hi >> 31;
-            result_hi = (result_hi + andnot(1, isNegativeMask)) >> 1;
-
             if (Avx2.IsAvx2Supported)
             {
+                int8 result_lo = (int8)x.v8_0 + (int8)y.v8_0;
+                int8 result_hi = (int8)x.v8_8 + (int8)y.v8_8;
+
+                // if the intermediate sum is positive add 1
+                int8 isPositiveMask = Avx2.mm256_cmpgt_epi32(result_lo, default(v256));
+                result_lo = (result_lo - isPositiveMask) >> 1;
+                isPositiveMask = Avx2.mm256_cmpgt_epi32(result_hi, default(v256));
+                result_hi = (result_hi - isPositiveMask) >> 1;
+
                 return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi32(result_lo, result_hi), Sse.SHUFFLE(3, 1, 2, 0));
             }
             else
             {
-                return new short16((short8)result_lo, (short8)result_hi);
+                return new short16(avg(x.v4_0, y.v4_0), avg(x.v4_4, y.v4_4), avg(x.v4_8, y.v4_8), avg(x.v4_12, y.v4_12));
             }
         }
 
-        /// <summary>       Returns the average value of a short16 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a short16 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short avg(short16 c)
         {
@@ -549,63 +600,63 @@ namespace MaxMath
         /////////////////////////////////////////
 
 
-        /// <summary>       Returns the average value of two uints with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two uints with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint avg(uint x, uint y)
         {
             return (x + y + 1u) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two uint2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two uint2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 avg(uint2 x, uint2 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a uint2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a uint2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint avg(uint2 c)
         {
             return (1u + math.csum(c)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two uint3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two uint3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 avg(uint3 x, uint3 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a uint3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a uint3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint avg(uint3 c)
         {
             return (1u + math.csum(c)) / 3;
         }
 
-        /// <summary>       Returns the componentwise average value of two uint4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two uint4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 avg(uint4 x, uint4 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a uint4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a uint4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint avg(uint4 c)
         {
             return (1u + math.csum(c)) / 4u;
         }
 
-        /// <summary>       Returns the componentwise average value of two uint8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two uint8 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 avg(uint8 x, uint8 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a uint8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a uint8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint avg(uint8 c)
         {
@@ -613,7 +664,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two ints with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two ints with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int avg(int x, int y)
         {
@@ -622,17 +673,27 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two int2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two int2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 avg(int2 x, int2 y)
         {
             int2 result = x + y;
-            result += math.select(default(int2), new int2(1), result > 0);
+
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int2*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
             return result >> 1;
         }
 
-        /// <summary>       Returns the average value of an int2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an int2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int avg(int2 c)
         {
@@ -641,17 +702,27 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two int3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two int3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 avg(int3 x, int3 y)
         {
             int3 result = x + y;
-            result += math.select(default(int3), new int3(1), result > 0);
+
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int3*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
             return result >> 1;
         }
 
-        /// <summary>       Returns the average value of an int3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an int3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int avg(int3 c)
         {
@@ -660,17 +731,27 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 3;
         }
 
-        /// <summary>       Returns the componentwise average value of two int4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two int4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 avg(int4 x, int4 y)
         {
             int4 result = x + y;
-            result += math.select(default(int4), new int4(1), result > 0);
+
+            // if the intermediate sum is positive add 1
+            if (Sse2.IsSse2Supported)
+            {
+                v128 isPositiveMask = Sse2.cmpgt_epi32(*(v128*)&result, default(v128));
+                result -= *(int4*)&isPositiveMask;
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
             return result >> 1;
         }
 
-        /// <summary>       Returns the average value of an int4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an int4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int avg(int4 c)
         {
@@ -679,20 +760,26 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 4;
         }
 
-        /// <summary>       Returns the componentwise average value of two int8 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two int8 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 avg(int8 x, int8 y)
         {
             int8 result = x + y;
 
-            // if intermediate sum is positive add 1
-            int8 isNegativeMask = result >> 31;
-            result += andnot(1, isNegativeMask);
+            // if the intermediate sum is positive add 1
+            if (Avx2.IsAvx2Supported)
+            {
+                result -= Avx2.mm256_cmpgt_epi32(result, default(v256));
+            }
+            else
+            {
+                result += toint8(result > 0);
+            }
 
             return result >> 1;
         }
 
-        /// <summary>       Returns the average value of an int8 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of an int8 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int avg(int8 c)
         {
@@ -702,49 +789,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two ulongs with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two ulongs with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong avg(ulong x, ulong y)
         {
             return (x + y + 1u) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two ulong2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ulong2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 avg(ulong2 x, ulong2 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a ulong2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ulong2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong avg(ulong2 c)
         {
             return (1u + csum(c)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two ulong3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ulong3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 avg(ulong3 x, ulong3 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a ulong3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ulong3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong avg(ulong3 c)
         {
             return (1u + csum(c)) / 3;
         }
 
-        /// <summary>       Returns the componentwise average value of two ulong4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two ulong4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 avg(ulong4 x, ulong4 y)
         {
             return (x + y + 1u) >> 1;
         }
 
-        /// <summary>       Returns the average value of a ulong4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a ulong4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong avg(ulong4 c)
         {
@@ -752,7 +839,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the average value of two longs with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of two longs with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long avg(long x, long y)
         {
@@ -761,17 +848,16 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two long2 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two long2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 avg(long2 x, long2 y)
         {
             long2 result = x + y;
 
-            // if intermediate sum is positive add 1
+            // if the intermediate sum is positive add 1
             if (Sse4_2.IsSse42Supported)
             {
-                long2 isNegativeMask = Sse4_2.cmpgt_epi64(result, long2.zero);
-                result += isNegativeMask & new long2(1);
+                result -= Sse4_2.cmpgt_epi64(result, default(v128));
             }
             else
             {
@@ -782,7 +868,7 @@ namespace MaxMath
             return result >> 1;
         }
 
-        /// <summary>       Returns the average value of a long2 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a long2 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long avg(long2 c)
         {
@@ -791,17 +877,16 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 2;
         }
 
-        /// <summary>       Returns the componentwise average value of two long3 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two long3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 avg(long3 x, long3 y)
         {
-            // if intermediate sum is positive add 1
+            // if the intermediate sum is positive add 1
             if (Avx2.IsAvx2Supported)
             {
                 long3 result = x + y;
 
-                long3 isNegativeMask = Avx2.mm256_cmpgt_epi64(result, long3.zero);
-                result += isNegativeMask & new long3(1);
+                result -= Avx2.mm256_cmpgt_epi64(result, default(v256));
 
                 return result >> 1;
             }
@@ -815,7 +900,7 @@ namespace MaxMath
             
         }
 
-        /// <summary>       Returns the average value of a long3 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a long3 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long avg(long3 c)
         {
@@ -824,17 +909,16 @@ namespace MaxMath
             return (intermediate + touint8(intermediate > 0)) / 3;
         }
 
-        /// <summary>       Returns the componentwise average value of two long4 vectors with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the componentwise average value of two long4 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 avg(long4 x, long4 y)
         {
-            // if intermediate sum is positive add 1
+            // if the intermediate sum is positive add 1
             if (Avx2.IsAvx2Supported)
             {
                 long4 result = x + y;
 
-                long4 isNegativeMask = Avx2.mm256_cmpgt_epi64(result, long4.zero);
-                result += isNegativeMask & new long4(1);
+                result -= Avx2.mm256_cmpgt_epi64(result, default(v256));
 
                 return result >> 1;
             }
@@ -844,7 +928,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the average value of a long4 vector with rounding from | x + 0.5 | to | x + 1 |.      </summary>
+        /// <summary>       Returns the average value of a long4 vector with rounding from |x| + 0.5 to |x| + 1.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long avg(long4 c)
         {

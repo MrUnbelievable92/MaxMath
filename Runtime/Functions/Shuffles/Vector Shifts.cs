@@ -487,15 +487,49 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of shifting the components within a byte32 vector left by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static byte32 vshl(byte32 x, int n)
-        //{
-        //    switch (n)
-        //    {
-        //
-        //    }
-        //}
+        /// <summary>       Returns the result of shifting the components within a byte32 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 vshl(byte32 x, int n)
+        {
+            switch (n)
+            {
+                case 0: return x;
+
+                case 1:  return new byte32(0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30);
+                case 2:  return new byte32(0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29);
+                case 3:  return new byte32(0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28);
+                case 4:  return new byte32(0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27);
+                case 5:  return new byte32(0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26);
+                case 6:  return new byte32(0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25);
+                case 7:  return new byte32(0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24);
+                case 8:  return new byte32(0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23);
+                case 9:  return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22);
+                case 10: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21);
+                case 11: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20);
+                case 12: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19);
+                case 13: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18);
+                case 14: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17);
+                case 15: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16);
+                case 16: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15);
+                case 17: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                case 18: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 19: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 20: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 21: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 22: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 23: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 24: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 25: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 26: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 27: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 28: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3);
+                case 29: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2);
+                case 30: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1);
+                case 31: return new byte32(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0);
+
+                default: return byte32.zero;
+            }
+        }
 
 
         /// <summary>       Returns the result of shifting the components within an sbyte2 vector left by n while shifting in zeros.      </summary>
@@ -533,12 +567,12 @@ namespace MaxMath
             return (sbyte16)vshl((byte16)x, n);
         }
 
-        ///// <summary>       Returns the result of shifting the components within an sbyte32 vector left by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static sbyte32 vshl(sbyte32 x, int n)
-        //{
-        //    return (sbyte32)vshl((byte32)x, n);
-        //}
+        /// <summary>       Returns the result of shifting the components within an sbyte32 vector left by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 vshl(sbyte32 x, int n)
+        {
+            return (sbyte32)vshl((byte32)x, n);
+        }
 
 
         /// <summary>       Returns the result of shifting the components within a short2 vector left by n while shifting in zeros.      </summary>
@@ -671,33 +705,33 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of shifting the components within a short16 vector left by n while shifting in zeros.      </summary>
+        /// <summary>       Returns the result of shifting the components within a short16 vector left by n while shifting in zeros.      </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static short16 vshl(short16 x, int n)
-        //{
-        //    switch (n)
-        //    {
-        //        case 0: return x;
-        //
-        //        case 1:  return Avx.mm256_insert_epi16(Avx.mm256_insert_epi16(Avx2.mm256_bslli_epi128(x, sizeof(short)), 0, 0), x.x7, 8);
-        //        case 2:  return Sse2.bslli_si128(x, 2 * sizeof(short));
-        //        case 3:  return Sse2.bslli_si128(x, 3 * sizeof(short));
-        //        case 4:  return Sse2.bslli_si128(x, 4 * sizeof(short));
-        //        case 5:  return Sse2.bslli_si128(x, 5 * sizeof(short));
-        //        case 6:  return Sse2.bslli_si128(x, 6 * sizeof(short));
-        //        case 7:  return Sse2.bslli_si128(x, 7 * sizeof(short));
-        //        case 8:  return Sse2.bslli_si128(x, 8 * sizeof(short));
-        //        case 9:  return Sse2.bslli_si128(x, 9 * sizeof(short));
-        //        case 10: return Sse2.bslli_si128(x, 10 * sizeof(short));
-        //        case 11: return Sse2.bslli_si128(x, 11 * sizeof(short));
-        //        case 12: return Sse2.bslli_si128(x, 12 * sizeof(short));
-        //        case 13: return Sse2.bslli_si128(x, 13 * sizeof(short));
-        //        case 14: return Sse2.bslli_si128(x, 14 * sizeof(short));
-        //        case 15: return Sse2.bslli_si128(x, 15 * sizeof(short));
-        //
-        //        default: return short16.zero;
-        //    }
-        //}
+        public static short16 vshl(short16 x, int n)
+        {
+            switch (n)
+            {
+                case 0: return x;
+
+                case 1:  return new short16(0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                case 2:  return new short16(0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 3:  return new short16(0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 4:  return new short16(0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 5:  return new short16(0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 6:  return new short16(0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 7:  return new short16(0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 8:  return new short16(0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 9:  return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 10: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 11: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 12: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2, x.x3);
+                case 13: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1, x.x2);
+                case 14: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0, x.x1);
+                case 15: return new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, x.x0);
+
+                default: return short16.zero;
+            }
+        }
 
 
         /// <summary>       Returns the result of shifting the components within a ushort2 vector left by n while shifting in zeros.      </summary>
@@ -729,11 +763,11 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the result of shifting the components within a ushort16 vector left by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ushort16 vshl(ushort16 x, int n)
-        //{
-        //    return (ushort16)vshl((short16)x, n);
-        //}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 vshl(ushort16 x, int n)
+        {
+            return (ushort16)vshl((short16)x, n);
+        }
 
 
         /// <summary>       Returns the result of shifting the components within a long2 vector left by n while shifting in zeros.      </summary>
@@ -1329,15 +1363,49 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of shifting the components within a byte32 vector right by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static byte32 vshr(byte32 x, int n)
-        //{
-        //    switch (n)
-        //    {
-        //
-        //    }
-        //}
+        /// <summary>       Returns the result of shifting the components within a byte32 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 vshr(byte32 x, int n)
+        {
+            switch (n)
+            {
+                case 0: return x;
+
+                case 1:  return new byte32(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0);
+                case 2:  return new byte32(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0);
+                case 3:  return new byte32(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0);
+                case 4:  return new byte32(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0);
+                case 5:  return new byte32(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0);
+                case 6:  return new byte32(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0);
+                case 7:  return new byte32(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0);
+                case 8:  return new byte32(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 9:  return new byte32(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 10: return new byte32(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 11: return new byte32(x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 12: return new byte32(x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 13: return new byte32(x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 14: return new byte32(x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 15: return new byte32(x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 16: return new byte32(x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 17: return new byte32(x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 18: return new byte32(x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 19: return new byte32(x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 20: return new byte32(x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 21: return new byte32(x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 22: return new byte32(x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 23: return new byte32(x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 24: return new byte32(x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 25: return new byte32(x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 26: return new byte32(x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 27: return new byte32(x.x27, x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 28: return new byte32(x.x28, x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 29: return new byte32(x.x29, x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 30: return new byte32(x.x30, x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 31: return new byte32(x.x31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                default: return byte32.zero;
+            }
+        }
 
 
         /// <summary>       Returns the result of shifting the components within an sbyte2 vector right by n while shifting in zeros.      </summary>
@@ -1375,12 +1443,12 @@ namespace MaxMath
             return (sbyte16)vshr((byte16)x, n);
         }
 
-        ///// <summary>       Returns the result of shifting the components within an sbyte32 vector right by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static sbyte32 vshr(sbyte32 x, int n)
-        //{
-        //    return (sbyte32)vshr((byte32)x, n);
-        //}
+        /// <summary>       Returns the result of shifting the components within an sbyte32 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 vshr(sbyte32 x, int n)
+        {
+            return (sbyte32)vshr((byte32)x, n);
+        }
 
 
         /// <summary>       Returns the result of shifting the components within a short2 vector right by n while shifting in zeros.      </summary>
@@ -1512,32 +1580,33 @@ namespace MaxMath
                 }
             }        }
 
-        ///// <summary>       Returns the result of shifting the components within a short16 vector right by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static short16 vshr(short16 x, int n)
-        //{
-        //    switch (n)
-        //    {
-        //        case 0: return x;
-        //
-        //        case 1:  return Sse2.bsrli_si128(x, sizeof(short));
-        //        case 2:  return Sse2.bsrli_si128(x, 2 * sizeof(short));
-        //        case 3:  return Sse2.bsrli_si128(x, 3 * sizeof(short));
-        //        case 4:  return Sse2.bsrli_si128(x, 4 * sizeof(short));
-        //        case 5:  return Sse2.bsrli_si128(x, 5 * sizeof(short));
-        //        case 6:  return Sse2.bsrli_si128(x, 6 * sizeof(short));
-        //        case 7:  return Sse2.bsrli_si128(x, 7 * sizeof(short));
-        //        case 8:  return Sse2.bsrli_si128(x, 8 * sizeof(short));
-        //        case 9:  return Sse2.bsrli_si128(x, 9 * sizeof(short));
-        //        case 10: return Sse2.bsrli_si128(x, 10 * sizeof(short));
-        //        case 12: return Sse2.bsrli_si128(x, 12 * sizeof(short));
-        //        case 13: return Sse2.bsrli_si128(x, 13 * sizeof(short));
-        //        case 14: return Sse2.bsrli_si128(x, 14 * sizeof(short));
-        //        case 15: return Sse2.bsrli_si128(x, 15 * sizeof(short));
-        //
-        //        default: return short16.zero;
-        //    }
-        //}
+        /// <summary>       Returns the result of shifting the components within a short16 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 vshr(short16 x, int n)
+        {
+            switch (n)
+            {
+                case 0: return x;
+
+                case 1:  return new short16(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0);
+                case 2:  return new short16(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0);
+                case 3:  return new short16(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0);
+                case 4:  return new short16(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0);
+                case 5:  return new short16(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0);
+                case 6:  return new short16(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0);
+                case 7:  return new short16(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0);
+                case 8:  return new short16(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 9:  return new short16(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 10: return new short16(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 11: return new short16(x.x11, x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 12: return new short16(x.x12, x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 13: return new short16(x.x13, x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 14: return new short16(x.x14, x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                case 15: return new short16(x.x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                default: return short16.zero;
+            }
+        }
 
 
         /// <summary>       Returns the result of shifting the components within a ushort2 vector right by n while shifting in zeros.      </summary>
@@ -1568,12 +1637,12 @@ namespace MaxMath
             return (ushort8)vshr((short8)x, n);
         }
 
-        ///// <summary>       Returns the result of shifting the components within a ushort16 vector right by n while shifting in zeros.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ushort16 vshr(ushort16 x, int n)
-        //{
-        //    return (ushort16)vshr((short16)x, n);
-        //}
+        /// <summary>       Returns the result of shifting the components within a ushort16 vector right by n while shifting in zeros.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 vshr(ushort16 x, int n)
+        {
+            return (ushort16)vshr((short16)x, n);
+        }
 
 
 

@@ -105,7 +105,14 @@ namespace MaxMath
                 v128 mid = Sse2.bsrli_si128(*(v128*)&x234, 2 * sizeof(int));
                 v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(int));
 
-                hi = Mask.BlendEpi16(mid, hi, 0b1111_1100);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    hi = Sse4_1.blend_epi16(mid, hi, 0b1111_1100);
+                }
+                else
+                {
+                    hi = Mask.BlendEpi16_SSE2(mid, hi, 0b1111_1100);
+                }
 
 
                 this = new int8(*(int4*)&lo, *(int4*)&hi);
@@ -125,13 +132,30 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(int));
-                v128 lo = Mask.BlendEpi16(*(v128*)&x012, mid, 0b1100_0000);
+                v128 lo;
+                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(int)); 
+                
+                if (Sse4_1.IsSse41Supported)
+                {
+                    lo = Sse4_1.blend_epi16(*(v128*)&x012, mid, 0b1100_0000);
+                }
+                else
+                {
+                    lo = Mask.BlendEpi16_SSE2(*(v128*)&x012, mid, 0b1100_0000);
+                }
 
                 mid = Sse2.bsrli_si128(*(v128*)&x34, sizeof(int));
 
                 v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(int));
-                hi = Mask.BlendEpi16(mid, hi, 0b1111_1100);
+
+                if (Sse4_1.IsSse41Supported)
+                {
+                    hi = Sse4_1.blend_epi16(mid, hi, 0b1111_1100);
+                }
+                else
+                {
+                    hi = Mask.BlendEpi16_SSE2(mid, hi, 0b1111_1100);
+                }
 
 
                 this = new int8(*(int4*)&lo, *(int4*)&hi);
@@ -151,12 +175,20 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
+                v128 lo;
                 v128 mid = Sse2.bsrli_si128(*(v128*)&x345, sizeof(int));
                 v128 hi = Sse2.unpacklo_epi64(mid, *(v128*)&x67);
 
                 mid = Sse2.bslli_si128(*(v128*)&x345, 3 * sizeof(int));
 
-                v128 lo = Mask.BlendEpi16(*(v128*)&x012, mid, 0b1100_0000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    lo = Sse4_1.blend_epi16(*(v128*)&x012, mid, 0b1100_0000);
+                }
+                else
+                {
+                    lo = Mask.BlendEpi16_SSE2(*(v128*)&x012, mid, 0b1100_0000);
+                }
 
 
                 this = new int8(*(int4*)&lo, *(int4*)&hi);
@@ -226,7 +258,7 @@ namespace MaxMath
         public int4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -256,7 +288,7 @@ namespace MaxMath
         public int4 v4_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -297,7 +329,7 @@ namespace MaxMath
         public int4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -338,7 +370,7 @@ namespace MaxMath
         public int4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -379,7 +411,7 @@ namespace MaxMath
         public int4 v4_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -410,7 +442,7 @@ namespace MaxMath
         public int3 v3_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -440,7 +472,7 @@ namespace MaxMath
         public int3 v3_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -470,7 +502,7 @@ namespace MaxMath
         public int3 v3_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -501,7 +533,7 @@ namespace MaxMath
         public int3 v3_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -532,7 +564,7 @@ namespace MaxMath
         public int3 v3_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -562,7 +594,7 @@ namespace MaxMath
         public int3 v3_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -593,7 +625,7 @@ namespace MaxMath
         public int2 v2_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -623,7 +655,7 @@ namespace MaxMath
         public int2 v2_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -653,7 +685,7 @@ namespace MaxMath
         public int2 v2_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -683,7 +715,7 @@ namespace MaxMath
         public int2 v2_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -714,7 +746,7 @@ namespace MaxMath
         public int2 v2_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -744,7 +776,7 @@ namespace MaxMath
         public int2 v2_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -774,7 +806,7 @@ namespace MaxMath
         public int2 v2_6
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -867,7 +899,7 @@ namespace MaxMath
         public int this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1206,12 +1238,12 @@ Assert.IsWithinArrayBounds(index, 8);
             {
                 return Sse2.andnot_si128((byte8)(int8)input, new byte8(1));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(int8 other)
+        public  bool Equals(int8 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1224,11 +1256,11 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly bool Equals(object obj) => Equals((int8)obj);
+        public override  bool Equals(object obj) => Equals((int8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1242,7 +1274,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override readonly string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"int8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override  string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"int8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

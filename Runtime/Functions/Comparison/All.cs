@@ -142,9 +142,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(byte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == (bitmask32(24) & Sse4_1.extract_epi32(Sse2.cmpeq_epi8(x, default(v128)), 0));
+                return 0 == (bitmask32(24) & Sse2.cmpeq_epi8(x, default(v128)).UInt0);
             }
             else
             {
@@ -156,9 +156,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(byte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == Sse4_1.extract_epi32(Sse2.cmpeq_epi8(x, default(v128)), 0);
+                return 0 == Sse2.cmpeq_epi8(x, default(v128)).UInt0;
             }
             else
             {
@@ -170,9 +170,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(byte8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == Sse4_1.extract_epi64(Sse2.cmpeq_epi8(x, default(v128)), 0);
+                return 0 == Sse2.cmpeq_epi8(x, default(v128)).ULong0;
             }
             else
             {
@@ -256,9 +256,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(short2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == Sse4_1.extract_epi32(Sse2.cmpeq_epi16(x, default(v128)), 0);
+                return 0 == Sse2.cmpeq_epi16(x, default(v128)).UInt0;
             }
             else
             {
@@ -270,9 +270,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(short3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == (bitmask64(48L) & Sse4_1.extract_epi64(Sse2.cmpeq_epi16(x, default(v128)), 0));
+                return 0 == (bitmask64(48ul) & Sse2.cmpeq_epi16(x, default(v128)).ULong0);
             }
             else
             {
@@ -284,9 +284,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all(short4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 == Sse4_1.extract_epi64(Sse2.cmpeq_epi16(x, default(v128)), 0);
+                return 0 == Sse2.cmpeq_epi16(x, default(v128)).ULong0;
             }
             else
             {
@@ -365,7 +365,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return 0 == Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(x, default(v256)));
+                return 0 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi32(x, default(v256)));
             }
             else
             {
@@ -387,7 +387,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return 0 == Sse2.movemask_pd(Sse4_1.cmpeq_epi64(x, default(v128)));
+                return 0 == Sse2.movemask_epi8(Sse4_1.cmpeq_epi64(x, default(v128)));
             }
             else
             {
@@ -401,7 +401,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return 0 == (bitmask32(3) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(x, default(v256))));
+                return 0 == (bitmask32(3 * sizeof(long)) & Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(x, default(v256))));
             }
             else
             {
@@ -415,7 +415,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return 0 == Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(x, default(v256)));
+                return 0 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(x, default(v256)));
             }
             else
             {

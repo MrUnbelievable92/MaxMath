@@ -11,7 +11,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 return max(x, x.yy).x;
             }
@@ -25,7 +25,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 x = max(x, x.zyz);
 
@@ -41,7 +41,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 x = max(x, x.zwzw);
 
@@ -79,7 +79,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 return max(x, x.yy).x;
             }
@@ -93,7 +93,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 x = max(x, x.zyz);
 
@@ -109,7 +109,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 x = max(x, x.zwzw);
 
@@ -208,7 +208,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return max(x, x.yy).x;
             }
@@ -222,7 +222,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 x = max(x, x.zyz);
 
@@ -238,7 +238,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 x = max(x, x.zwzw);
 

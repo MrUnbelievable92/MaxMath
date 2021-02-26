@@ -225,7 +225,7 @@ namespace MaxMath
         public short8 v8_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -253,7 +253,7 @@ namespace MaxMath
         public short8 v8_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -261,7 +261,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, sizeof(short)), Sse2.bslli_si128(_v8_8, 7 * sizeof(short)), 0b1000_0000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, sizeof(short)), Sse2.bslli_si128(_v8_8, 7 * sizeof(short)), 0b1000_0000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, sizeof(short)), Sse2.bslli_si128(_v8_8, 7 * sizeof(short)), 0b1000_0000);
+                    }
                 }
                 else
                 {
@@ -281,8 +288,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, sizeof(short)),     0b1111_1110);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 7 * sizeof(short)), 0b0000_0001);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, sizeof(short)), 0b1111_1110);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 7 * sizeof(short)), 0b0000_0001);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, sizeof(short)), 0b1111_1110);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 7 * sizeof(short)), 0b0000_0001);
+                    }
                 }
                 else
                 {
@@ -300,7 +315,7 @@ namespace MaxMath
         public short8 v8_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -308,7 +323,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 2 * sizeof(short)), Sse2.bslli_si128(_v8_8, 6 * sizeof(short)), 0b1100_0000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 2 * sizeof(short)), Sse2.bslli_si128(_v8_8, 6 * sizeof(short)), 0b1100_0000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 2 * sizeof(short)), Sse2.bslli_si128(_v8_8, 6 * sizeof(short)), 0b1100_0000);
+                    }
                 }
                 else
                 {
@@ -327,8 +349,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 2 * sizeof(short)), 0b1111_1100);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 6 * sizeof(short)), 0b0000_0011);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 2 * sizeof(short)), 0b1111_1100);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 6 * sizeof(short)), 0b0000_0011);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 2 * sizeof(short)), 0b1111_1100);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 6 * sizeof(short)), 0b0000_0011);
+                    }
                 }
                 else
                 {
@@ -346,7 +376,7 @@ namespace MaxMath
         public short8 v8_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -354,7 +384,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 3 * sizeof(short)), Sse2.bslli_si128(_v8_8, 5 * sizeof(short)), 0b1110_0000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 3 * sizeof(short)), Sse2.bslli_si128(_v8_8, 5 * sizeof(short)), 0b1110_0000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 3 * sizeof(short)), Sse2.bslli_si128(_v8_8, 5 * sizeof(short)), 0b1110_0000);
+                    }
                 }
                 else
                 {
@@ -374,8 +411,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 3 * sizeof(short)), 0b1111_1000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 5 * sizeof(short)), 0b0000_0111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 3 * sizeof(short)), 0b1111_1000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 5 * sizeof(short)), 0b0000_0111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 3 * sizeof(short)), 0b1111_1000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 5 * sizeof(short)), 0b0000_0111);
+                    }
                 }
                 else
                 {
@@ -393,7 +438,7 @@ namespace MaxMath
         public short8 v8_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -401,7 +446,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 4 * sizeof(short)), Sse2.bslli_si128(_v8_8, 4 * sizeof(short)), 0b1111_0000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 4 * sizeof(short)), Sse2.bslli_si128(_v8_8, 4 * sizeof(short)), 0b1111_0000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 4 * sizeof(short)), Sse2.bslli_si128(_v8_8, 4 * sizeof(short)), 0b1111_0000);
+                    }
                 }
                 else
                 {
@@ -420,8 +472,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 4 * sizeof(short)), 0b1111_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 4 * sizeof(short)), 0b0000_1111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 4 * sizeof(short)), 0b1111_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 4 * sizeof(short)), 0b0000_1111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 4 * sizeof(short)), 0b1111_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 4 * sizeof(short)), 0b0000_1111);
+                    }
                 }
                 else
                 {
@@ -439,7 +499,7 @@ namespace MaxMath
         public short8 v8_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -447,7 +507,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1111_1000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1111_1000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1111_1000);
+                    }
                 }
                 else
                 {
@@ -467,8 +534,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0001_1111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0001_1111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0001_1111);
+                    }
                 }
                 else
                 {
@@ -486,7 +561,7 @@ namespace MaxMath
         public short8 v8_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -494,7 +569,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1111_1100);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1111_1100);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1111_1100);
+                    }
                 }
                 else
                 {
@@ -513,8 +595,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0011_1111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0011_1111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0011_1111);
+                    }
                 }
                 else
                 {
@@ -532,7 +622,7 @@ namespace MaxMath
         public short8 v8_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -540,7 +630,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1111_1110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1111_1110);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1111_1110);
+                    }
                 }
                 else
                 {
@@ -560,8 +657,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0111_1111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0111_1111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0111_1111);
+                    }
                 }
                 else
                 {
@@ -579,7 +684,7 @@ namespace MaxMath
         public short8 v8_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -608,7 +713,7 @@ namespace MaxMath
         public short4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -636,7 +741,7 @@ namespace MaxMath
         public short4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -667,7 +772,7 @@ namespace MaxMath
         public short4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -697,7 +802,7 @@ namespace MaxMath
         public short4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -728,7 +833,7 @@ namespace MaxMath
         public short4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -756,7 +861,7 @@ namespace MaxMath
         public short4 v4_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -764,7 +869,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1000);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 5 * sizeof(short)), Sse2.bslli_si128(_v8_8, 3 * sizeof(short)), 0b1000);
+                    }
                 }
                 else
                 {
@@ -784,8 +896,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0000_0001);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0000_0001);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(short)), 0b1110_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(short)), 0b0000_0001);
+                    }
                 }
                 else
                 {
@@ -799,7 +919,7 @@ namespace MaxMath
         public short4 v4_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -807,7 +927,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1100);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1100);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b1100);
+                    }
                 }
                 else
                 {
@@ -826,8 +953,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0011);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0011);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0011);
+                    }
                 }
                 else
                 {
@@ -841,7 +976,7 @@ namespace MaxMath
         public short4 v4_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -849,7 +984,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
                 }
                 else
                 {
@@ -869,8 +1011,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0111);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0111);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0111);
+                    }
                 }
                 else
                 {
@@ -884,7 +1034,7 @@ namespace MaxMath
         public short4 v4_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -916,7 +1066,7 @@ namespace MaxMath
         public short4 v4_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -947,7 +1097,7 @@ namespace MaxMath
         public short4 v4_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -977,7 +1127,7 @@ namespace MaxMath
         public short4 v4_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1008,7 +1158,7 @@ namespace MaxMath
         public short4 v4_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1041,7 +1191,7 @@ namespace MaxMath
         public short3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1072,7 +1222,7 @@ namespace MaxMath
         public short3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1103,7 +1253,7 @@ namespace MaxMath
         public short3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1134,7 +1284,7 @@ namespace MaxMath
         public short3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1165,7 +1315,7 @@ namespace MaxMath
         public short3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1196,7 +1346,7 @@ namespace MaxMath
         public short3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1227,7 +1377,7 @@ namespace MaxMath
         public short3 v3_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1235,7 +1385,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b0100);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b0100);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 6 * sizeof(short)), Sse2.bslli_si128(_v8_8, 2 * sizeof(short)), 0b0100);
+                    }
                 }
                 else
                 {
@@ -1255,8 +1412,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0001);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0001);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(short)), 0b1100_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(short)), 0b0000_0001);
+                    }
                 }
                 else
                 {
@@ -1269,7 +1434,7 @@ namespace MaxMath
         public short3 v3_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1277,7 +1442,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
                 }
                 else
                 {
@@ -1297,8 +1469,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0011);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0011);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0011);
+                    }
                 }
                 else
                 {
@@ -1311,7 +1491,7 @@ namespace MaxMath
         public short3 v3_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1342,7 +1522,7 @@ namespace MaxMath
         public short3 v3_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1373,7 +1553,7 @@ namespace MaxMath
         public short3 v3_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1404,7 +1584,7 @@ namespace MaxMath
         public short3 v3_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1435,7 +1615,7 @@ namespace MaxMath
         public short3 v3_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1466,7 +1646,7 @@ namespace MaxMath
         public short3 v3_13
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 return v8_8.v3_5;
             }
@@ -1491,7 +1671,7 @@ namespace MaxMath
         public short2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1519,7 +1699,7 @@ namespace MaxMath
         public short2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1550,7 +1730,7 @@ namespace MaxMath
         public short2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1578,7 +1758,7 @@ namespace MaxMath
         public short2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1609,7 +1789,7 @@ namespace MaxMath
         public short2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1637,7 +1817,7 @@ namespace MaxMath
         public short2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1668,7 +1848,7 @@ namespace MaxMath
         public short2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1696,7 +1876,7 @@ namespace MaxMath
         public short2 v2_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1704,7 +1884,14 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return Mask.BlendEpi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
+                    else
+                    {
+                        return Mask.BlendEpi16_SSE2(Sse2.bsrli_si128(_v8_0, 7 * sizeof(short)), Sse2.bslli_si128(_v8_8, sizeof(short)), 0b1110);
+                    }
                 }
                 else
                 {
@@ -1726,8 +1913,16 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v8_0 = Mask.BlendEpi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
-                    this._v8_8 = Mask.BlendEpi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(short)),     0b0000_0001);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this._v8_0 = Sse4_1.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Sse4_1.blend_epi16(this._v8_8, Sse2.bsrli_si128(value,     sizeof(short)), 0b0000_0001);
+                    }
+                    else
+                    {
+                        this._v8_0 = Mask.BlendEpi16_SSE2(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(short)), 0b1000_0000);
+                        this._v8_8 = Mask.BlendEpi16_SSE2(this._v8_8, Sse2.bsrli_si128(value,     sizeof(short)), 0b0000_0001);
+                    }
                 }
                 else
                 {
@@ -1739,7 +1934,7 @@ namespace MaxMath
         public short2 v2_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1767,7 +1962,7 @@ namespace MaxMath
         public short2 v2_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1798,7 +1993,7 @@ namespace MaxMath
         public short2 v2_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -1832,7 +2027,7 @@ namespace MaxMath
         public short2 v2_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1863,7 +2058,7 @@ namespace MaxMath
         public short2 v2_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1895,7 +2090,7 @@ namespace MaxMath
         public short2 v2_13
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1926,7 +2121,7 @@ namespace MaxMath
         public short2 v2_14
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -1991,7 +2186,7 @@ namespace MaxMath
         public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 16);
 
@@ -2330,12 +2525,12 @@ Assert.IsWithinArrayBounds(index, 16);
             {
                 return Sse2.andnot_si128((byte16)(short16)input, new v128(0x0101_0101));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(short16 other)
+        public  bool Equals(short16 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2347,11 +2542,11 @@ Assert.IsWithinArrayBounds(index, 16);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((short16)obj);
+        public override  bool Equals(object obj) => Equals((short16)obj);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2364,7 +2559,7 @@ Assert.IsWithinArrayBounds(index, 16);
         }
 
 
-        public override readonly string ToString() =>  $"short16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"short16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
+        public override  string ToString() =>  $"short16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"short16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

@@ -1015,11 +1015,11 @@ namespace MaxMath
 
         #region EQUALS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(quarter other)
+        public  bool Equals(quarter other)
         {
             return this == other;
         }
-        public override readonly bool Equals(object obj)
+        public override  bool Equals(object obj)
         {
             return Equals((quarter)obj);
         }
@@ -1027,26 +1027,26 @@ namespace MaxMath
 
         #region GET_HASH_CODE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             return value;
         }
         #endregion
 
         #region TO_STRING
-        public override readonly string ToString()
+        public override  string ToString()
         {
             return ((float)this).ToString();
         }
-        public readonly string ToString(IFormatProvider provider)
+        public  string ToString(IFormatProvider provider)
         {
             return ((float)this).ToString(provider);
         }
-        public readonly string ToString(string format)
+        public  string ToString(string format)
         {
             return ((float)this).ToString(format);
         }
-        public readonly string ToString(string format, IFormatProvider provider)
+        public  string ToString(string format, IFormatProvider provider)
         {
             return ((float)this).ToString(format, provider);
         }

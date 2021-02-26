@@ -64,7 +64,7 @@ namespace MaxMath
 
 
         #region Shuffle
-        public readonly long4 xxxx
+        public  long4 xxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -85,7 +85,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxxx
+        public  long4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -104,7 +104,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyxx
+        public  long4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -123,7 +123,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxyx
+        public  long4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -142,7 +142,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxxy
+        public  long4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -161,7 +161,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyxx
+        public  long4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -180,7 +180,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxyx
+        public  long4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -201,7 +201,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxxy
+        public  long4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -220,7 +220,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyyx
+        public  long4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -239,7 +239,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyxy
+        public  long4 xyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -258,7 +258,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xxyy
+        public  long4 xxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -277,7 +277,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyyx
+        public  long4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -296,7 +296,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyxy
+        public  long4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -315,7 +315,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yxyy
+        public  long4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -334,7 +334,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 xyyy
+        public  long4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -353,7 +353,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long4 yyyy
+        public  long4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -375,7 +375,7 @@ namespace MaxMath
             }
         }
 
-        public readonly long3 xxx
+        public  long3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -394,7 +394,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yxx
+        public  long3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -413,7 +413,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xyx
+        public  long3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -432,7 +432,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xxy
+        public  long3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -451,7 +451,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yyx
+        public  long3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -470,7 +470,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yxy
+        public  long3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -489,7 +489,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 xyy
+        public  long3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -508,7 +508,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly long3 yyy
+        public  long3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -528,7 +528,7 @@ namespace MaxMath
             }
         }
 
-        public readonly long2 xx
+        public  long2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -546,7 +546,7 @@ namespace MaxMath
         public          long2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -563,7 +563,7 @@ namespace MaxMath
                 this = value.yx;
             }
         }
-        public readonly long2 yy
+        public  long2 yy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -683,7 +683,7 @@ namespace MaxMath
         public long this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 2);
 
@@ -968,7 +968,7 @@ Assert.IsWithinArrayBounds(index, 2);
 
                 return *(bool2*)&cast;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -980,12 +980,12 @@ Assert.IsWithinArrayBounds(index, 2);
 
                 return *(bool2*)&result;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(long2 other)
+        public  bool Equals(long2 other)
         {
             if (Sse4_1.IsSse41Supported)
             {
@@ -997,11 +997,11 @@ Assert.IsWithinArrayBounds(index, 2);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((long2)obj);
+        public override  bool Equals(object obj) => Equals((long2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1016,7 +1016,7 @@ Assert.IsWithinArrayBounds(index, 2);
         }
 
 
-        public override readonly string ToString() => $"long2({x}, {y})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"long2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
+        public override  string ToString() => $"long2({x}, {y})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"long2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
     }
 }

@@ -130,15 +130,47 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of rotating the components within a byte32 vector right by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static byte32 vror(byte32 x, int n)
-        //{
-        //    switch (n % 32)
-        //    {
-        //        
-        //    }
-        //}
+        /// <summary>       Returns the result of rotating the components within a byte32 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 vror(byte32 x, int n)
+        {
+            switch (n % 32)
+            {
+                case 1:  return new byte32(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0);
+                case 2:  return new byte32(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1);
+                case 3:  return new byte32(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2);
+                case 4:  return new byte32(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3);
+                case 5:  return new byte32(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 6:  return new byte32(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 7:  return new byte32(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 8:  return new byte32(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 9:  return new byte32(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 10: return new byte32(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 11: return new byte32(x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 12: return new byte32(x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 13: return new byte32(x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 14: return new byte32(x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 15: return new byte32(x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                case 16: return new byte32(x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15);
+                case 17: return new byte32(x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16);
+                case 18: return new byte32(x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17);
+                case 19: return new byte32(x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18);
+                case 20: return new byte32(x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19);
+                case 21: return new byte32(x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20);
+                case 22: return new byte32(x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21);
+                case 23: return new byte32(x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22);
+                case 24: return new byte32(x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23);
+                case 25: return new byte32(x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24);
+                case 26: return new byte32(x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25);
+                case 27: return new byte32(x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26);
+                case 28: return new byte32(x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27);
+                case 29: return new byte32(x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28);
+                case 30: return new byte32(x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29);
+                case 31: return new byte32(x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30);
+
+                default: return x;
+            }
+        }
 
 
         /// <summary>       Returns the result of rotating the components within an sbyte2 vector right by n.      </summary>
@@ -176,12 +208,12 @@ namespace MaxMath
             return (sbyte16)vror((byte16)x, n);
         }
 
-        ///// <summary>       Returns the result of rotating the components within an sbyte32 vector right by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static sbyte32 vror(sbyte32 x, int n)
-        //{
-        //    return (sbyte32)vror((byte32)x, n);
-        //}
+        /// <summary>       Returns the result of rotating the components within an sbyte32 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 vror(sbyte32 x, int n)
+        {
+            return (sbyte32)vror((byte32)x, n);
+        }
 
 
         /// <summary>       Returns the result of rotating the components within a short2 vector right by n.      </summary>
@@ -254,31 +286,31 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of rotating the components within a short16 vector right by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static short16 vror(short16 x, int n)
-        //{
-        //    switch (n % 16)
-        //    {
-        //        case 1:  return Avx.mm256_insert_epi16(Avx.mm256_insert_epi16(Avx2.mm256_bsrli_epi128(x, 1 * sizeof(short)), x.x8, 7), x.x0, 15);
-        //        case 2:  return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
-        //
-        //        case 4:  return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
-        //        
-        //        case 6:  return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-        //            
-        //        case 8:  return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
-        //        
-        //        case 10: return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-        //        
-        //        case 12: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
-        //        
-        //        case 14: return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
-        //
-        //
-        //        default: return x;
-        //    }
-        //}
+        /// <summary>       Returns the result of rotating the components within a short16 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 vror(short16 x, int n)
+        {
+            switch (n % 16)
+            {
+                case 1:  return new short16(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0);
+                case 2:  return new short16(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1);
+                case 3:  return new short16(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2);
+                case 4:  return new short16(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3);
+                case 5:  return new short16(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 6:  return new short16(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 7:  return new short16(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 8:  return new short16(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 9:  return new short16(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 10: return new short16(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 11: return new short16(x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 12: return new short16(x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 13: return new short16(x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 14: return new short16(x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 15: return new short16(x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+
+                default: return x;
+            }
+        }
 
         /// <summary>       Returns the result of rotating the components within a ushort2 vector right by n.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -308,12 +340,12 @@ namespace MaxMath
             return (ushort8)vror((short8)x, n);
         }
 
-        ///// <summary>       Returns the result of rotating the components within a ushort16 vector right by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ushort16 vror(ushort16 x, int n)
-        //{
-        //    return (ushort16)vror((short16)x, n);
-        //}
+        /// <summary>       Returns the result of rotating the components within a ushort16 vector right by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 vror(ushort16 x, int n)
+        {
+            return (ushort16)vror((short16)x, n);
+        }
 
 
         /// <summary>       Returns the result of rotating the components within an int2 vector right by n.      </summary>
@@ -812,15 +844,47 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of rotating the components within a byte32 vector left by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static byte32 vrol(byte32 x, int n)
-        //{
-        //    switch (n % 32)
-        //    {
-        //        
-        //    }
-        //}
+        /// <summary>       Returns the result of rotating the components within a byte32 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 vrol(byte32 x, int n)
+        {
+            switch (n % 32)
+            {
+                case 1:  return new byte32(x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30);
+                case 2:  return new byte32(x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29);
+                case 3:  return new byte32(x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28);
+                case 4:  return new byte32(x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27);
+                case 5:  return new byte32(x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26);
+                case 6:  return new byte32(x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25);
+                case 7:  return new byte32(x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24);
+                case 8:  return new byte32(x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23);
+                case 9:  return new byte32(x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22);
+                case 10: return new byte32(x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21);
+                case 11: return new byte32(x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20);
+                case 12: return new byte32(x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19);
+                case 13: return new byte32(x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18);
+                case 14: return new byte32(x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17);
+                case 15: return new byte32(x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16);
+                case 16: return new byte32(x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15);
+                case 17: return new byte32(x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                case 18: return new byte32(x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 19: return new byte32(x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 20: return new byte32(x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 21: return new byte32(x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 22: return new byte32(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 23: return new byte32(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 24: return new byte32(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 25: return new byte32(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 26: return new byte32(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 27: return new byte32(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 28: return new byte32(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2, x.x3);
+                case 29: return new byte32(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1, x.x2);
+                case 30: return new byte32(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0, x.x1);
+                case 31: return new byte32(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30, x.x31, x.x0);
+
+                default: return x;
+            }
+        }
 
 
         /// <summary>       Returns the result of rotating the components within a sbyte2 vector left by n.      </summary>
@@ -858,12 +922,12 @@ namespace MaxMath
             return (sbyte16)vrol((byte16)x, n);
         }
 
-        ///// <summary>       Returns the result of rotating the components within an sbyte32 vector left by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static sbyte32 vrol(sbyte32 x, int n)
-        //{
-        //    return (sbyte32)vrol((byte32)x, n);
-        //}
+        /// <summary>       Returns the result of rotating the components within an sbyte32 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 vrol(sbyte32 x, int n)
+        {
+            return (sbyte32)vrol((byte32)x, n);
+        }
 
 
         /// <summary>       Returns the result of rotating the components within a short2 vector left by n.      </summary>
@@ -936,31 +1000,31 @@ namespace MaxMath
             }
         }
 
-        ///// <summary>       Returns the result of rotating the components within a short16 vector left by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static short16 vrol(short16 x, int n)
-        //{
-        //    switch (n % 16)
-        //    {
-        //        
-        //        case 2:  return Avx2.mm256_permutevar8x32_epi32(x, new v256(7, 0, 1, 2, 3, 4, 5, 6));
-        //                 
-        //        case 4:  return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 1, 0, 3));
-        //                 
-        //        case 6:  return Avx2.mm256_permutevar8x32_epi32(x, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-        //                 
-        //        case 8:  return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2));
-        //
-        //        case 10: return Avx2.mm256_permutevar8x32_epi32(x, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-        //
-        //        case 12: return Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 3, 2, 1));
-        //
-        //        case 14: return Avx2.mm256_permutevar8x32_epi32(x, new v256(1, 2, 3, 4, 5, 6, 7, 0));
-        //        case 15: return Avx.mm256_insert_epi16(Avx.mm256_insert_epi16(Avx2.mm256_bslli_epi128(x, 1 * sizeof(short)), x.x15, 0), x.x7, 8);
-        //
-        //        default: return x;
-        //    }
-        //}
+        /// <summary>       Returns the result of rotating the components within a short16 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 vrol(short16 x, int n)
+        {
+            switch (n % 16)
+            {
+                case 1:  return new short16(x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
+                case 2:  return new short16(x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13);
+                case 3:  return new short16(x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12);
+                case 4:  return new short16(x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11);
+                case 5:  return new short16(x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10);
+                case 6:  return new short16(x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9);
+                case 7:  return new short16(x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8);
+                case 8:  return new short16(x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7);
+                case 9:  return new short16(x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
+                case 10: return new short16(x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
+                case 11: return new short16(x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3, x.x4);
+                case 12: return new short16(x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2, x.x3);
+                case 13: return new short16(x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1, x.x2);
+                case 14: return new short16(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0, x.x1);
+                case 15: return new short16(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x0);
+
+                default: return x;
+            }
+        }
 
 
         /// <summary>       Returns the result of rotating the components within a ushort2 vector left by n.      </summary>
@@ -991,12 +1055,12 @@ namespace MaxMath
             return (ushort8)vrol((short8)x, n);
         }
 
-        ///// <summary>       Returns the result of rotating the components within a ushort16 vector left by n.      </summary>
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static ushort16 vrol(ushort16 x, int n)
-        //{
-        //    return (ushort16)vrol((short16)x, n);
-        //}
+        /// <summary>       Returns the result of rotating the components within a ushort16 vector left by n.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 vrol(ushort16 x, int n)
+        {
+            return (ushort16)vrol((short16)x, n);
+        }
 
 
         /// <summary>       Returns the result of rotating the components within an int2 vector left by n.      </summary>

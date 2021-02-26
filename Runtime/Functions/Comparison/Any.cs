@@ -142,9 +142,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != (bitmask32(24) & Sse4_1.extract_epi32(x, 0));
+                return 0 != (bitmask32(24) & ((v128)x).UInt0);
             }
             else
             {
@@ -156,9 +156,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != Sse4_1.extract_epi32(x, 0);
+                return 0 != ((v128)x).UInt0;
             }
             else
             {
@@ -170,9 +170,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != Sse4_1.extract_epi64(x, 0);
+                return 0 != ((v128)x).ULong0;
             }
             else
             {
@@ -256,9 +256,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != Sse4_1.extract_epi32(x, 0);
+                return 0 != ((v128)x).UInt0;
             }
             else
             {
@@ -270,9 +270,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != (bitmask64(48L) & Sse4_1.extract_epi64(x, 0));
+                return 0 != (bitmask64(48ul) & ((v128)x).ULong0);
             }
             else
             {
@@ -284,9 +284,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return 0 != Sse4_1.extract_epi64(x, 0);
+                return 0 != ((v128)x).ULong0;
             }
             else
             {
@@ -365,7 +365,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return bitmask32(8) != Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(x, default(v256)));
+                return bitmask32(8 * sizeof(int)) != Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi32(x, default(v256)));
             }
             else
             {
@@ -387,7 +387,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return bitmask32(2) != Sse2.movemask_pd(Sse4_1.cmpeq_epi64(x, default(v128)));
+                return bitmask32(2 * sizeof(long)) != Sse2.movemask_epi8(Sse4_1.cmpeq_epi64(x, default(v128)));
             }
             else
             {
@@ -401,7 +401,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return bitmask32(3) != (bitmask32(3) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(x, default(v256))));
+                return bitmask32(3 * sizeof(long)) != (bitmask32(3 * sizeof(long)) & Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(x, default(v256))));
             }
             else
             {
@@ -415,7 +415,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return bitmask32(4) != Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(x, default(v256)));
+                return bitmask32(4 * sizeof(long)) != Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(x, default(v256)));
             }
             else
             {

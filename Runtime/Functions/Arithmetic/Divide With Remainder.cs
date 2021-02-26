@@ -72,7 +72,7 @@ namespace MaxMath
             {
                 return Operator.vdivrem_byte(dividend, divisor, out remainder);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 return Operator.vdivrem_byte_SSE_FALLBACK(dividend, divisor, out remainder);
             }
@@ -113,7 +113,7 @@ namespace MaxMath
             {
                 return Operator.vdivrem_byte(dividend, divisor, out remainder);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else
             {
                 byte32 quotients = new byte32(divrem(dividend.v16_0,  divisor.v16_0,  out byte16 remLo),
                                               divrem(dividend.v16_16, divisor.v16_16, out byte16 remHi));
@@ -121,11 +121,6 @@ namespace MaxMath
                 remainder = new byte32(remLo, remHi);
 
                 return quotients;
-            }
-            else
-            {
-                remainder = dividend % divisor;
-                return dividend / divisor;
             }
         }
 
@@ -193,7 +188,7 @@ namespace MaxMath
             {
                 return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 return Operator.vdivrem_sbyte_SSE_FALLBACK(dividend, divisor, out remainder);
             }
@@ -234,7 +229,7 @@ namespace MaxMath
             {
                 return Operator.vdivrem_sbyte(dividend, divisor, out remainder);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else
             {
                 sbyte32 quotients = new sbyte32(divrem(dividend.v16_0,  divisor.v16_0,  out sbyte16 remLo),
                                                 divrem(dividend.v16_16, divisor.v16_16, out sbyte16 remHi));
@@ -242,11 +237,6 @@ namespace MaxMath
                 remainder = new sbyte32(remLo, remHi);
 
                 return quotients;
-            }
-            else
-            {
-                remainder = dividend % divisor;
-                return dividend / divisor;
             }
         }
 
@@ -265,50 +255,95 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 divrem(ushort2 dividend, ushort2 divisor, out ushort2 remainder)
         {
-            ushort2 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                ushort2 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort3 vector by the second ushort3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 divrem(ushort3 dividend, ushort3 divisor, out ushort3 remainder)
         {
-            ushort3 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                ushort3 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort4 vector by the second ushort4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 divrem(ushort4 dividend, ushort4 divisor, out ushort4 remainder)
         {
-            ushort4 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                ushort4 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort8 vector by the second ushort8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 divrem(ushort8 dividend, ushort8 divisor, out ushort8 remainder)
         {
-            ushort8 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                ushort8 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first ushort16 vector by the second ushort16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 divrem(ushort16 dividend, ushort16 divisor, out ushort16 remainder)
         {
-            ushort16 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                ushort16 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
 
@@ -326,50 +361,95 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 divrem(short2 dividend, short2 divisor, out short2 remainder)
         {
-            short2 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                short2 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short3 vector by the second short3 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 divrem(short3 dividend, short3 divisor, out short3 remainder)
         {
-            short3 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                short3 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short4 vector by the second short4 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 divrem(short4 dividend, short4 divisor, out short4 remainder)
         {
-            short4 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                short4 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short8 vector by the second short8 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 divrem(short8 dividend, short8 divisor, out short8 remainder)
         {
-            short8 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                short8 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the first short16 vector by the second short16 vector with the remainders as an out parameter.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 divrem(short16 dividend, short16 divisor, out short16 remainder)
         {
-            short16 quotient = dividend / divisor;
-            remainder = dividend - (quotient * divisor);
+            if (Sse2.IsSse2Supported)
+            {
+                short16 quotient = dividend / divisor;
+                remainder = dividend - (quotient * divisor);
 
-            return quotient;
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
         }
 
 

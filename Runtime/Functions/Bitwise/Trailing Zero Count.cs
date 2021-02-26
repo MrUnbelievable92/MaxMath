@@ -40,12 +40,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte4)(-(sbyte4)x);
 
-                byte4 first  = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(x, default(v128)));
-                byte4 second = Mask.BlendV(new byte4(4), default(v128), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
-                byte4 third  = Mask.BlendV(new byte4(2), default(v128), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
-                byte4 fourth = Mask.BlendV(new byte4(1), default(v128), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
-
-                return (7 + first) - (second - third) - fourth;
+                byte4 first  = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
+                byte4 second = Mask.BlendV(default(v128), new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
+                byte4 third  = Mask.BlendV(default(v128), new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
+                byte4 fourth = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
+                
+                return (first + second) + (third + fourth);
             }
             else
             {
@@ -61,12 +61,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte8)(-(sbyte8)x);
 
-                byte8 first  = Mask.BlendV(default(v128), new byte8(1), Sse2.cmpeq_epi8(x, default(v128)));
-                byte8 second = Mask.BlendV(new byte8(4), default(v128), Sse2.cmpeq_epi8(compareMask & (byte8)0x0F, default(v128)));
-                byte8 third  = Mask.BlendV(new byte8(2), default(v128), Sse2.cmpeq_epi8(compareMask & (byte8)0x33, default(v128)));
-                byte8 fourth = Mask.BlendV(new byte8(1), default(v128), Sse2.cmpeq_epi8(compareMask & (byte8)0x55, default(v128)));
-
-                return (7 + first) - (second - third) - fourth;
+                byte8 first  = Mask.BlendV(default(v128), new byte8(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
+                byte8 second = Mask.BlendV(default(v128), new byte8(4), Sse2.cmpeq_epi8(compareMask & (byte8)0x0F, default(v128)));
+                byte8 third  = Mask.BlendV(default(v128), new byte8(2), Sse2.cmpeq_epi8(compareMask & (byte8)0x33, default(v128)));
+                byte8 fourth = Mask.BlendV(default(v128), new byte8(1), Sse2.cmpeq_epi8(compareMask & (byte8)0x55, default(v128)));
+                
+                return (first + second) + (third + fourth);
             }
             else
             {
@@ -82,12 +82,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte16)(-(sbyte16)x);
 
-                byte16 first  = Mask.BlendV(default(v128), new byte16(1), Sse2.cmpeq_epi8(x, default(v128)));
-                byte16 second = Mask.BlendV(new byte16(4), default(v128), Sse2.cmpeq_epi8(compareMask & (byte16)0x0F, default(v128)));
-                byte16 third  = Mask.BlendV(new byte16(2), default(v128), Sse2.cmpeq_epi8(compareMask & (byte16)0x33, default(v128)));
-                byte16 fourth = Mask.BlendV(new byte16(1), default(v128), Sse2.cmpeq_epi8(compareMask & (byte16)0x55, default(v128)));
+                byte16 first  = Mask.BlendV(default(v128), new byte16(1), Sse2.cmpeq_epi8(compareMask,                default(v128)));
+                byte16 second = Mask.BlendV(default(v128), new byte16(4), Sse2.cmpeq_epi8(compareMask & (byte16)0x0F, default(v128)));
+                byte16 third  = Mask.BlendV(default(v128), new byte16(2), Sse2.cmpeq_epi8(compareMask & (byte16)0x33, default(v128)));
+                byte16 fourth = Mask.BlendV(default(v128), new byte16(1), Sse2.cmpeq_epi8(compareMask & (byte16)0x55, default(v128)));
                 
-                return (7 + first) - (second - third) - fourth;
+                return (first + second) + (third + fourth);
             }
             else
             {
@@ -103,12 +103,12 @@ namespace MaxMath
             {
                 v256 compareMask = x & (byte32)(-(sbyte32)x);
 
-                byte32 first  = Avx2.mm256_blendv_epi8(default(v256), new byte32(1), Avx2.mm256_cmpeq_epi8(x, default(v256)));
-                byte32 second = Avx2.mm256_blendv_epi8(new byte32(4), default(v256), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x0F, default(v256)));
-                byte32 third  = Avx2.mm256_blendv_epi8(new byte32(2), default(v256), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x33, default(v256)));
-                byte32 fourth = Avx2.mm256_blendv_epi8(new byte32(1), default(v256), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x55, default(v256)));
+                byte32 first  = Avx2.mm256_blendv_epi8(default(v256), new byte32(1), Avx2.mm256_cmpeq_epi8(compareMask,                default(v256)));
+                byte32 second = Avx2.mm256_blendv_epi8(default(v256), new byte32(4), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x0F, default(v256)));
+                byte32 third  = Avx2.mm256_blendv_epi8(default(v256), new byte32(2), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x33, default(v256)));
+                byte32 fourth = Avx2.mm256_blendv_epi8(default(v256), new byte32(1), Avx2.mm256_cmpeq_epi8(compareMask & (byte32)0x55, default(v256)));
 
-                return (7 + first) - (second - third) - fourth;
+                return (first + second) + (third + fourth);
             }
             else
             {
@@ -196,15 +196,15 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 compareMask = x & (ushort4)(-(short4)x);
+                v128 compareMask = x & (ushort4)(-((short4)x));
 
-                ushort4 first  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(x, default(v128)));
-                ushort4 second = Mask.BlendV(new ushort4(8), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
-                ushort4 third  = Mask.BlendV(new ushort4(4), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
-                ushort4 fourth = Mask.BlendV(new ushort4(2), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
-                ushort4 fifth  = Mask.BlendV(new ushort4(1), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
+                ushort4 first  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
+                ushort4 second = Mask.BlendV(default(v128), new ushort4(8), Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
+                ushort4 third  = Mask.BlendV(default(v128), new ushort4(4), Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
+                ushort4 fourth = Mask.BlendV(default(v128), new ushort4(2), Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
+                ushort4 fifth  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
 
-                return (15 + first) - ((second - third) - (fourth - fifth));
+                return (first + second) + ((third + fourth) + fifth);
             }
             else
             {
@@ -218,15 +218,15 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 compareMask = x & (ushort8)(-(short8)x);
+                v128 compareMask = x & (ushort8)(-((short8)x));
 
-                ushort8 first  = Mask.BlendV(default(v128), new ushort8(1), Sse2.cmpeq_epi16(x, default(v128)));
-                ushort8 second = Mask.BlendV(new ushort8(8), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort8)0x00FF, default(v128)));
-                ushort8 third  = Mask.BlendV(new ushort8(4), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort8)0x0F0F, default(v128)));
-                ushort8 fourth = Mask.BlendV(new ushort8(2), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort8)0x3333, default(v128)));
-                ushort8 fifth  = Mask.BlendV(new ushort8(1), default(v128), Sse2.cmpeq_epi16(compareMask & (ushort8)0x5555, default(v128)));
+                ushort8 first  = Mask.BlendV(default(v128), new ushort8(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
+                ushort8 second = Mask.BlendV(default(v128), new ushort8(8), Sse2.cmpeq_epi16(compareMask & (ushort8)0x00FF, default(v128)));
+                ushort8 third  = Mask.BlendV(default(v128), new ushort8(4), Sse2.cmpeq_epi16(compareMask & (ushort8)0x0F0F, default(v128)));
+                ushort8 fourth = Mask.BlendV(default(v128), new ushort8(2), Sse2.cmpeq_epi16(compareMask & (ushort8)0x3333, default(v128)));
+                ushort8 fifth  = Mask.BlendV(default(v128), new ushort8(1), Sse2.cmpeq_epi16(compareMask & (ushort8)0x5555, default(v128)));
 
-                return (15 + first) - ((second - third) - (fourth - fifth));
+                return (first + second) + ((third + fourth) + fifth);
             }
             else
             {
@@ -240,15 +240,15 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 compareMask = x & (ushort16)(-(short16)x);
+                v256 compareMask = x & (ushort16)(-((short16)x));
 
-                ushort16 first  = Avx2.mm256_blendv_epi8(default(v256), new ushort16(1), Avx2.mm256_cmpeq_epi16(x, default(v256)));
-                ushort16 second = Avx2.mm256_blendv_epi8(new ushort16(8), default(v256), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x00FF, default(v256)));
-                ushort16 third  = Avx2.mm256_blendv_epi8(new ushort16(4), default(v256), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x0F0F, default(v256)));
-                ushort16 fourth = Avx2.mm256_blendv_epi8(new ushort16(2), default(v256), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x3333, default(v256)));
-                ushort16 fifth  = Avx2.mm256_blendv_epi8(new ushort16(1), default(v256), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x5555, default(v256)));
+                ushort16 first  = Avx2.mm256_blendv_epi8(default(v256), new ushort16(1), Avx2.mm256_cmpeq_epi16(compareMask,                    default(v256)));
+                ushort16 second = Avx2.mm256_blendv_epi8(default(v256), new ushort16(8), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x00FF, default(v256)));
+                ushort16 third  = Avx2.mm256_blendv_epi8(default(v256), new ushort16(4), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x0F0F, default(v256)));
+                ushort16 fourth = Avx2.mm256_blendv_epi8(default(v256), new ushort16(2), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x3333, default(v256)));
+                ushort16 fifth  = Avx2.mm256_blendv_epi8(default(v256), new ushort16(1), Avx2.mm256_cmpeq_epi16(compareMask & (ushort16)0x5555, default(v256)));
 
-                return (15 + first) - ((second - third) - (fourth - fifth));
+                return (first + second) + ((third + fourth) + fifth);
             }
             else
             {
@@ -306,16 +306,16 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 compareMask = x & Avx2.mm256_sign_epi16(x, new v256(-1));
+                v256 compareMask = x & (uint8)(-((int8)x));
 
-                uint8 first  = Avx2.mm256_blendv_epi8(default(v256),  new uint8(1), Avx2.mm256_cmpeq_epi32(x, default(v256)));
-                uint8 second = Avx2.mm256_blendv_epi8(new uint8(16), default(v256), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x0000_FFFF, default(v256)));
-                uint8 third  = Avx2.mm256_blendv_epi8(new uint8(8),  default(v256), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x00FF_00FF, default(v256)));
-                uint8 fourth = Avx2.mm256_blendv_epi8(new uint8(4),  default(v256), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x0F0F_0F0F, default(v256)));
-                uint8 fifth  = Avx2.mm256_blendv_epi8(new uint8(2),  default(v256), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x3333_3333, default(v256)));
-                uint8 sixth  = Avx2.mm256_blendv_epi8(new uint8(1),  default(v256), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x5555_5555, default(v256)));
+                uint8 first  = Avx2.mm256_blendv_epi8(default(v256), new uint8(1),  Avx2.mm256_cmpeq_epi32(compareMask,                      default(v256)));
+                uint8 second = Avx2.mm256_blendv_epi8(default(v256), new uint8(16), Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x0000_FFFF, default(v256)));
+                uint8 third  = Avx2.mm256_blendv_epi8(default(v256), new uint8(8),  Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x00FF_00FF, default(v256)));
+                uint8 fourth = Avx2.mm256_blendv_epi8(default(v256), new uint8(4),  Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x0F0F_0F0F, default(v256)));
+                uint8 fifth  = Avx2.mm256_blendv_epi8(default(v256), new uint8(2),  Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x3333_3333, default(v256)));
+                uint8 sixth  = Avx2.mm256_blendv_epi8(default(v256), new uint8(1),  Avx2.mm256_cmpeq_epi32(compareMask & (uint8)0x5555_5555, default(v256)));
 
-                return (31 + first) - ((second - third) - (fourth - fifth)) - sixth;
+                return (first + second) + (third + fourth) + (fifth + sixth);
             }
             else
             {

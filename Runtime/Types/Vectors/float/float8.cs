@@ -200,7 +200,7 @@ namespace MaxMath
         public float4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -230,7 +230,7 @@ namespace MaxMath
         public float4 v4_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -271,7 +271,7 @@ namespace MaxMath
         public float4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -312,7 +312,7 @@ namespace MaxMath
         public float4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -353,7 +353,7 @@ namespace MaxMath
         public float4 v4_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -384,7 +384,7 @@ namespace MaxMath
         public float3 v3_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -414,7 +414,7 @@ namespace MaxMath
         public float3 v3_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -444,7 +444,7 @@ namespace MaxMath
         public float3 v3_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -475,7 +475,7 @@ namespace MaxMath
         public float3 v3_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -506,7 +506,7 @@ namespace MaxMath
         public float3 v3_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -536,7 +536,7 @@ namespace MaxMath
         public float3 v3_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -567,7 +567,7 @@ namespace MaxMath
         public float2 v2_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -597,7 +597,7 @@ namespace MaxMath
         public float2 v2_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get
+             get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -627,7 +627,7 @@ namespace MaxMath
         public float2 v2_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -657,7 +657,7 @@ namespace MaxMath
         public float2 v2_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -688,7 +688,7 @@ namespace MaxMath
         public float2 v2_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get
+             get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -718,7 +718,7 @@ namespace MaxMath
         public float2 v2_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -748,7 +748,7 @@ namespace MaxMath
         public float2 v2_6
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            readonly get 
+             get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -791,7 +791,7 @@ namespace MaxMath
         public float this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1104,7 +1104,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(float8 other)
+        public  bool Equals(float8 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1117,11 +1117,11 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly bool Equals(object obj) => Equals((float8)obj);
+        public override  bool Equals(object obj) => Equals((float8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Avx.IsAvxSupported)
             {
@@ -1135,7 +1135,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override readonly string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
+        public override  string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
     }
 }

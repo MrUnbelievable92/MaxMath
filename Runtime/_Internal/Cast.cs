@@ -26,7 +26,7 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi8(x, default(v128));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -40,7 +40,7 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi8(x, Sse2.cmpgt_epi8(default(v128), x));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -57,7 +57,7 @@ namespace MaxMath
 
                 return Sse2.unpacklo_epi16(shorts, zero);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -75,7 +75,7 @@ namespace MaxMath
                 sign = Sse2.unpacklo_epi8(sign, sign);
                 return Sse2.unpacklo_epi16(shorts, sign);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -93,7 +93,7 @@ namespace MaxMath
 
                 return Sse2.unpacklo_epi32(ints, zero);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -114,7 +114,7 @@ namespace MaxMath
                 sign = Sse2.unpacklo_epi16(sign, sign);
                 return Sse2.unpacklo_epi16(ints, sign);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -129,7 +129,7 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi16(x, default(v128));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -143,7 +143,7 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi16(x, Sse2.cmpgt_epi16(default(v128), x));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -160,7 +160,7 @@ namespace MaxMath
 
                 return Sse2.unpacklo_epi32(shorts, zero);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -178,7 +178,7 @@ namespace MaxMath
                 sign = Sse2.unpacklo_epi16(sign, sign);
                 return Sse2.unpacklo_epi32(shorts, sign);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -193,7 +193,7 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi32(*(v128*)&x, default(v128));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,10 +207,180 @@ namespace MaxMath
             {
                 return Sse2.unpacklo_epi32(*(v128*)&x, Sse2.cmpgt_epi32(default(v128), *(v128*)&x));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Short2To_S_Byte2_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
+
+                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Short3To_S_Byte3_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
+
+                v128 xy = Mask.BlendV(x, y_shifted, new byte2(0, 255));
+
+                return Mask.BlendV(xy, z_shifted, new byte4(0, 0, 255, 0));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Short4To_S_Byte4_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
+                v128 w_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+
+                byte4 mask = new byte4(0, 255, 0, 255);
+
+                v128 xy = Mask.BlendV(x,         y_shifted, mask);
+                v128 zw = Mask.BlendV(z_shifted, w_shifted, mask);
+
+                return Mask.BlendV(xy, zw, new byte4(0, 0, 255, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Short8To_S_Byte8_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 x1_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
+                v128 x2_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
+                v128 x3_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+                v128 x4_shifted = Sse2.bsrli_si128(x, 4 * sizeof(byte));
+                v128 x5_shifted = Sse2.bsrli_si128(x, 5 * sizeof(byte));
+                v128 x6_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
+                v128 x7_shifted = Sse2.bsrli_si128(x, 7 * sizeof(byte));
+
+                byte8 mask = new byte8(0, 255, 0, 255, 0, 255, 0, 255);
+                v128 x0x1 = Mask.BlendV(x, x1_shifted, mask);
+                v128 x2x3 = Mask.BlendV(x2_shifted, x3_shifted, mask);
+                v128 x4x5 = Mask.BlendV(x4_shifted, x5_shifted, mask);
+                v128 x6x7 = Mask.BlendV(x6_shifted, x7_shifted, mask);
+
+                mask = new byte8(0, 0, 255, 255, 0, 0, 255, 255);
+                v128 x0x3 = Mask.BlendV(x0x1, x2x3, mask);
+                v128 x4x7 = Mask.BlendV(x4x5, x6x7, mask);
+
+                return Mask.BlendV(x0x3, x4x7, new byte8(0, 0, 0, 0, 255, 255, 255, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Int2To_S_Byte2_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+
+                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Int3To_S_Byte3_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+                v128 z_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
+
+                v128 xy = Mask.BlendV(x, y_shifted, new byte2(0, 255));
+
+                return Mask.BlendV(xy, z_shifted, new byte4(0, 0, 255, 0));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Int4To_S_Byte4_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+                v128 z_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
+                v128 w_shifted = Sse2.bsrli_si128(x, 9 * sizeof(byte));
+
+                byte4 mask = new byte4(0, 255, 0, 255);
+
+                v128 xy = Mask.BlendV(x, y_shifted, mask);
+                v128 zw = Mask.BlendV(z_shifted, w_shifted, mask);
+
+                return Mask.BlendV(xy, zw, new byte4(0, 0, 255, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Long2To_S_Byte2_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.bsrli_si128(x, 7 * sizeof(byte));
+
+                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Int3To_U_Short3_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 lo = Sse2.shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+
+                return Mask.BlendV(lo, Sse2.bsrli_si128(x, 2 * sizeof(short)), new byte8(0, 0, 0, 0, 255, 255, 0, 0));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Int4To_U_Short4_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 lo = Sse2.shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 hi = Sse2.shufflehi_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+
+                return Mask.BlendV(lo, Sse2.bsrli_si128(hi, 2 * sizeof(short)), new byte8(0, 0, 0, 0, 255, 255, 255, 255));
+            }
+            else throw new CPUFeatureCheckException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 Long2To_U_Short2_SSE2(v128 x)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                v128 y_shifted = Sse2.shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
+
+                return Sse2.shufflelo_epi16(y_shifted, Sse.SHUFFLE(3, 3, 2, 0));
+            }
+            else throw new CPUFeatureCheckException();
+        }
         //////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////
@@ -229,7 +399,7 @@ namespace MaxMath
 
                 return Sse.sub_ps(temp, shorter);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -245,7 +415,7 @@ namespace MaxMath
 
                 return Sse.sub_ps(x, new v128(F32_PRECISION_THRESHOLD));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -259,7 +429,7 @@ namespace MaxMath
                 return Sse.sub_ps(Sse2.unpacklo_epi16(x, new ushort2(0x4B00)),
                                   shorter);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -270,7 +440,7 @@ namespace MaxMath
                 return Sse.sub_ps(Sse2.unpacklo_epi16(x, new ushort4(0x4B00)),
                                   new v128(F32_PRECISION_THRESHOLD));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -283,7 +453,7 @@ namespace MaxMath
                 return Avx.mm256_sub_ps(Avx2.mm256_unpacklo_epi16(interleave, new ushort16(0x4B00)),
                                         new v256(F32_PRECISION_THRESHOLD));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -294,7 +464,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte4(0, 2, 4, 6));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -304,7 +474,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte8(0, 2, 4, 6, 8, 10, 12, 14));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -314,7 +484,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte8(0, 2, 4, 6, 8, 10, 12, 14));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -326,7 +496,7 @@ namespace MaxMath
                 return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(Avx2.mm256_shuffle_epi8(x, new v256(0, 2, 4, 6, 8, 10, 12, 14,    0, 0, 0, 0, 0, 0, 0, 0, 0,  2, 4, 6, 8, 10, 12, 14,     0, 0, 0, 0, 0, 0, 0, 0)),
                                                                               Sse.SHUFFLE(0, 0, 2, 0)));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -337,7 +507,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte4(0, 4, 8, 12));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -347,10 +517,9 @@ namespace MaxMath
             {
                 x = Avx2.mm256_shuffle_epi8(x, new v256(0, 4, 8, 12,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     0, 4, 8, 12,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return Sse2.unpacklo_epi32(Avx.mm256_castsi256_si128(x),
-                                           Avx2.mm256_extracti128_si256(x, 1));
+                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 4, 0, 0))));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -361,7 +530,7 @@ namespace MaxMath
             {
                 return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -371,7 +540,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte8(0, 1, 4, 5, 8, 9, 12, 13));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
          
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -382,10 +551,9 @@ namespace MaxMath
                 x = Avx2.mm256_shuffle_epi8(x, new v256(0, 1,   4, 5,   8, 9,   12, 13,   0, 0, 0, 0, 0, 0, 0, 0,
                                                         0, 1,   4, 5,   8, 9,   12, 13,   0, 0, 0, 0, 0, 0, 0, 0));
 
-                return Sse2.unpacklo_epi64(Avx.mm256_castsi256_si128(x),
-                                           Avx2.mm256_extracti128_si256(x, 1));
+                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 1, 4, 5))));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -396,7 +564,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte4(0, 8, 0, 0));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -413,7 +581,7 @@ namespace MaxMath
             {
                 return Ssse3.shuffle_epi8(x, new byte4(0, 1, 8, 9));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -430,7 +598,7 @@ namespace MaxMath
             {
                 return Sse2.shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -440,7 +608,7 @@ namespace MaxMath
             {
                 return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 2, 4, 6))));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -463,7 +631,7 @@ namespace MaxMath
 
                 return *(double4*)&result;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -485,7 +653,7 @@ namespace MaxMath
 
                 return *(double4*)&result;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 

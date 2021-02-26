@@ -12,13 +12,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte3 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
-                return ((byte16)Avx2.broadcastb_epi8(c)).Equals((byte16)Ssse3.shuffle_epi8(c, new v128(0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0)));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return c.xxxx.Equals(c);
+                return c.xxx.Equals(c);
             }
             else
             {
@@ -31,11 +27,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte4 c)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return ((byte16)Avx2.broadcastb_epi8(c)).Equals((byte16)Avx2.broadcastd_epi32(c));
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
                 return c.xxxx.Equals(c);
             }
@@ -50,13 +42,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte8 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
-                return ((byte16)Avx2.broadcastb_epi8(c)).Equals((byte16)Ssse3.shuffle_epi8(c, new v128(1L | (2L << 8) | (3L << 16) | (4L << 24) | (5L << 32) | (6L << 40) | (7L << 48), 0L)));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new byte8(c.x0).Equals(c);
+                return ((byte8)Ssse3.shuffle_epi8(c, default(v128))).Equals(c);
             }
             else
             {
@@ -69,13 +57,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte16 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
-                return ((byte16)Avx2.broadcastb_epi8(c)).Equals(c);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new byte16(c.x0).Equals(c);
+                return ((byte16)Ssse3.shuffle_epi8(c, default(v128))).Equals(c);
             }
             else
             {
@@ -94,7 +78,7 @@ namespace MaxMath
             }
             else
             {
-                return ((((c.x0 == c.x1 & c.x0 == c.x2) & (c.x0 == c.x3 & c.x0 == c.x4)) & ((c.x0 == c.x5 & c.x0 == c.x6) & (c.x0 == c.x7 & c.x0 == c.x8))) & (((c.x0 == c.x9 & c.x0 == c.x10) & (c.x0 == c.x11 & c.x0 == c.x12)) & ((c.x0 == c.x13 & c.x0 == c.x14) & (c.x0 == c.x15 & c.x0 == c.x16)))) & ((((c.x0 == c.x17 & c.x0 == c.x18) & (c.x0 == c.x19 & c.x0 == c.x20)) & ((c.x0 == c.x21 & c.x0 == c.x22) & (c.x0 == c.x23 & c.x0 == c.x24))) & (((c.x0 == c.x25 & c.x0 == c.x26) & (c.x0 == c.x27 & c.x0 == c.x28)) & ((c.x0 == c.x29 & c.x0 == c.x30) & c.x0 == c.x31)));
+                return all_eq(c.v16_0) & all_eq(c.v16_16) & c.v16_0.Equals(c.v16_16);
             }
         }
 
@@ -140,13 +124,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short3 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return ((short8)Avx2.broadcastw_epi16(c)).Equals((short8)Ssse3.shuffle_epi8(c, new v128(0, 1, 2, 3, 4, 5, 0, 1, 0, 1, 2, 3, 4, 5, 0, 1)));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return c.xxxx.Equals(c);
+                return c.xxx.Equals(c);
             }
             else
             {
@@ -158,11 +138,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short4 c)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return ((short8)Avx2.broadcastw_epi16(c)).Equals((short8)Avx2.broadcastq_epi64(c));
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return c.xxxx.Equals(c);
             }
@@ -176,13 +152,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short8 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Ssse3.IsSsse3Supported)
             {
-                return ((short8)Avx2.broadcastw_epi16(c)).Equals(c);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new short8(c.x0).Equals(c);
+                return ((short8)Ssse3.shuffle_epi8(c, new v128(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1))).Equals(c);
             }
             else
             {
@@ -198,13 +170,9 @@ namespace MaxMath
             {
                 return ((short16)Avx2.mm256_broadcastw_epi16(Avx.mm256_castsi256_si128(c))).Equals(c);
             }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new short16(c.x0).Equals(c);
-            }
             else
             {
-                return (((c.x0 == c.x1 & c.x0 == c.x2) & (c.x0 == c.x3 & c.x0 == c.x4)) & ((c.x0 == c.x5 & c.x0 == c.x6) & (c.x0 == c.x7 & c.x0 == c.x8))) & (((c.x0 == c.x9 & c.x0 == c.x10) & (c.x0 == c.x11 & c.x0 == c.x12)) & ((c.x0 == c.x13 & c.x0 == c.x14) & c.x0 == c.x15));
+                return all_eq(c.v8_0) & all_eq(c.v8_8) & c.v8_0.Equals(c.v8_8);
             }
         }
 
@@ -242,7 +210,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(int3 c)
         {
-            return c.xx.Equals(c.yz);
+            return c.xxx.Equals(c);
         }
 
         /// <summary>       Returns true if all components of an int4 vector have the same value.       </summary>
@@ -260,13 +228,9 @@ namespace MaxMath
             {
                 return Avx2.mm256_broadcastd_epi32(Avx.mm256_castsi256_si128(c)).Equals(c);
             }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new int8(c.x0).Equals(c);
-            }
             else
             {
-                return ((c.x0 == c.x1 & c.x0 == c.x2) & (c.x0 == c.x3 & c.x0 == c.x4)) & ((c.x0 == c.x5 & c.x0 == c.x6) & c.x0 == c.x7);
+                return all_eq(c.v4_0) & all_eq(c.v4_4) & c.v4_0.Equals(c.v4_4);
             }
         }
 
@@ -275,7 +239,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(uint3 c)
         {
-            return c.xx.Equals(c.yz);
+            return c.xxx.Equals(c);
         }
 
         /// <summary>       Returns true if all components of a uint4 vector have the same value.       </summary>

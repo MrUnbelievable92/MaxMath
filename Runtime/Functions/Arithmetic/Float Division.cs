@@ -80,7 +80,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return new float8(div(dividend.v4_0, divisor.v4_0), div(dividend.v4_4, divisor.v4_4));
             }
         }
     }

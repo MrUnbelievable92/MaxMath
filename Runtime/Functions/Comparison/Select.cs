@@ -334,7 +334,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (byte2)Mask.Int2FromInt(c));
             }
@@ -348,7 +348,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (byte3)Mask.Int3FromInt(c));
             }
@@ -362,7 +362,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (byte4)Mask.Int4FromInt(c));
             }
@@ -376,7 +376,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (byte8)Mask.Int8FromInt(c));
             }
@@ -390,7 +390,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (sbyte16)Mask.Short16FromInt(c));
             }
@@ -476,7 +476,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (short3)Mask.Int3FromInt(c));
             }
@@ -490,7 +490,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (short4)Mask.Int4FromInt(c));
             }
@@ -504,7 +504,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, int c)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Mask.BlendV(a, b, (short8)Mask.Int8FromInt(c));
             }
@@ -787,9 +787,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 select(double2 a, double2 b, int c)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                v128 temp = Sse4_1.blendv_pd(*(v128*)&a, *(v128*)&b, Mask.Long2FromInt(c));
+                v128 temp = Mask.BlendV(*(v128*)&a, *(v128*)&b, Mask.Long2FromInt(c));
 
                 return *(double2*)&temp;
             }
@@ -836,12 +836,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 select(float2 a, float2 b, int c)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 int2 mask = Mask.Int2FromInt(c);
-                v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
-                return *(float2*)&temp;
+                if (Sse4_1.IsSse41Supported)
+                {
+                    v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float2*)&temp;
+                }
+                else
+                {
+                    v128 temp = Mask.BlendV(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float2*)&temp;
+                }
             }
             else
             {
@@ -853,12 +863,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 select(float3 a, float3 b, int c)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 int3 mask = Mask.Int3FromInt(c);
-                v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
-                return *(float3*)&temp;
+                if (Sse4_1.IsSse41Supported)
+                {
+                    v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float3*)&temp;
+                }
+                else
+                {
+                    v128 temp = Mask.BlendV(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float3*)&temp;
+                }
             }
             else
             {
@@ -870,12 +890,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 select(float4 a, float4 b, int c)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 int4 mask = Mask.Int4FromInt(c);
-                v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
 
-                return *(float4*)&temp;
+                if (Sse4_1.IsSse41Supported)
+                {
+                    v128 temp = Sse4_1.blendv_ps(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float4*)&temp;
+                }
+                else
+                {
+                    v128 temp = Mask.BlendV(*(v128*)&a, *(v128*)&b, *(v128*)&mask);
+
+                    return *(float4*)&temp;
+                }
             }
             else
             {

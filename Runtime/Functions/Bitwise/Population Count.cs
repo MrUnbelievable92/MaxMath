@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using DevTools;
+using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
@@ -9,6 +10,163 @@ namespace MaxMath
     // Wojciech Mula's algorithm
     unsafe public static partial class maxmath
     {
+        /// <summary>       Returns the number of 1-bits in the binary representation of a contiguous block of memory from the memory address ptr to ptr + bytes.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong countbits(void* ptr, ulong bytes)
+        {
+Assert.IsNotNull(ptr);
+
+            if (Avx2.IsAvx2Supported)
+            {
+                // cannot enforce aligned loads :( doesn't matter in case Avx2 is supported, anyway
+                
+                ulong bits = 0;
+                byte32 sum;
+
+
+                while (bytes >= 31 * 32)
+                {
+                    sum = countbits(*(byte32*)ptr);
+
+                    ptr = (byte32*)ptr + 1;
+
+
+                    // floor(255 / 8) = 31 (maximum byte value divided by maximum set bits in a byte)
+                    // => 31 is the maximum amount of additions of byte vectors before the column sum has to be calculated
+                    for (int i = 1; i < 31; i++)
+                    {
+                        sum += countbits(*(byte32*)ptr);
+
+                        ptr = (byte32*)ptr + 1;
+                    }
+                
+                    bits += csum(sum);
+                    bytes -= 31 * 32;
+                }
+
+
+                sum = byte32.zero;
+
+                while (bytes >= 32)
+                {
+                    sum += countbits(*(byte32*)ptr);
+
+                    ptr = (byte32*)ptr + 1;
+                    bytes -= 32;
+                }
+
+                bits += csum(sum);
+
+
+                while(bytes >= 8)
+                {
+                    bits += (ulong)math.countbits(*(ulong*)ptr);
+
+                    ptr = (ulong*)ptr + 1;
+                    bytes -= 8;
+                }
+
+
+                while(bytes != 0)
+                {
+                    bits += (ulong)math.countbits((uint)*((byte*)ptr));
+
+                    ptr = (byte*)ptr + 1;
+                    bytes--;
+                }
+
+
+                return bits;
+            }
+            else if (Ssse3.IsSsse3Supported)
+            {
+                // cannot enforce aligned loads :(
+
+                ulong bits = 0;
+                byte16 sum;
+
+
+                while (bytes >= 31 * 16)
+                {
+                    sum = countbits(*(byte16*)ptr);
+
+                    ptr = (byte16*)ptr + 1;
+
+
+                    // floor(255 / 8) = 31 (maximum byte value divided by maximum set bits in a byte)
+                    // => 31 is the maximum amount of additions of byte vectors before the column sum has to be calculated
+                    for (int i = 1; i < 31; i++)
+                    {
+                        sum += countbits(*(byte16*)ptr);
+
+                        ptr = (byte16*)ptr + 1;
+                    }
+
+                    bits += csum(sum);
+                    bytes -= 31 * 16;
+                }
+
+
+                sum = byte16.zero;
+
+                while (bytes >= 16)
+                {
+                    sum += countbits(*(byte16*)ptr);
+
+                    ptr = (byte16*)ptr + 1;
+                    bytes -= 16;
+                }
+
+                bits += csum(sum);
+
+
+                while (bytes >= 8)
+                {
+                    bits += (ulong)math.countbits(*(ulong*)ptr);
+
+                    ptr = (ulong*)ptr + 1;
+                    bytes -= 8;
+                }
+
+
+                while (bytes != 0)
+                {
+                    bits += (ulong)math.countbits((uint)*((byte*)ptr));
+
+                    ptr = (byte*)ptr + 1;
+                    bytes--;
+                }
+
+
+                return bits;
+            }
+            else
+            {
+                ulong longs = divrem(bytes, 8, out ulong residuals);
+
+                ulong bits = 0;
+
+
+                for (ulong i = 0; i < longs; i++)
+                {
+                    bits += (ulong)math.countbits(*((ulong*)ptr + i));
+                }
+
+                ptr = (ulong*)ptr + longs;
+
+                while (residuals != 0)
+                {
+                    bits += (ulong)math.countbits((uint)(*(byte*)ptr));
+
+                    ptr = (byte*)ptr + 1;
+                    residuals--;
+                }
+
+                return bits;
+            }
+        }
+
+
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a byte32 vector. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 countbits(byte32 x)
@@ -16,7 +174,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 byte32 lookup = new byte32(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
-                                       0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+                                           0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
 
                 byte32 mask = new byte32(0x0F);
 

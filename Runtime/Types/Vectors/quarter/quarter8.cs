@@ -114,26 +114,26 @@ namespace MaxMath
         }
 
 
-        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
-        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
-        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.asquarter(maxmath.asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_6 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_6 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -162,7 +162,7 @@ namespace MaxMath
                 v128 notZeroMask = Sse2.cmpeq_epi8(input, default(v128));
 
                 byte8 infinity = quarter.PositiveInfinity.value;
-                byte8 regular = Sse2.andnot_si128(notZeroMask, Cast.Int4ToByte4(*(v128*)&f32));
+                byte8 regular = Sse2.andnot_si128(notZeroMask, (byte8)f32);
 
                 return Mask.BlendV(regular, infinity, overflowMask);
             }
@@ -190,7 +190,7 @@ namespace MaxMath
                 v128 notZeroMask = Sse2.cmpeq_epi8(abs, default(v128));
 
                 sbyte8 infinity = (sbyte)quarter.PositiveInfinity.value;
-                sbyte8 regular = Sse2.andnot_si128(notZeroMask, Cast.Int4ToByte4(*(v128*)&f32));
+                sbyte8 regular = Sse2.andnot_si128(notZeroMask, (sbyte8)f32);
 
                 return (v128)(sign | Mask.BlendV(regular, infinity, overflowMask));
             }
@@ -220,7 +220,7 @@ namespace MaxMath
 
                 return Sse4_1.blendv_epi8(regular, infinity, overflowMask);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 v128 overflowMask = (sbyte8)(ushort8)Sse2.cmpgt_epi16(input, new ushort4(15));
 
@@ -235,7 +235,7 @@ namespace MaxMath
                 byte8 infinity = quarter.PositiveInfinity.value;
                 byte8 regular = notZeroMask & (byte8)f32;
 
-                return Sse4_1.blendv_epi8(regular, infinity, overflowMask);
+                return Mask.BlendV(regular, infinity, overflowMask);
             }
             else
             {
@@ -265,7 +265,7 @@ namespace MaxMath
 
                 return (v128)(sign | Sse4_1.blendv_epi8(regular, infinity, overflowMask));
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 sbyte8 sign = (sbyte8)((ushort8)input >> 15) << 7;
                 short8 abs = maxmath.abs(input);
@@ -282,7 +282,7 @@ namespace MaxMath
                 sbyte8 infinity = (sbyte)quarter.PositiveInfinity.value;
                 sbyte8 regular = (notZeroMask & (sbyte8)f32);
 
-                return (v128)(sign | Sse4_1.blendv_epi8(regular, infinity, overflowMask));
+                return (v128)(sign | Mask.BlendV(regular, infinity, overflowMask));
             }
             else
             {
@@ -500,7 +500,7 @@ namespace MaxMath
         public quarter this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -571,7 +571,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(quarter8 other)
+        public  bool Equals(quarter8 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -598,11 +598,11 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((quarter8)obj);
+        public override  bool Equals(object obj) => Equals((quarter8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -616,7 +616,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
 
-        public override readonly string ToString() => $"quarter8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"quarter8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override  string ToString() => $"quarter8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"quarter8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

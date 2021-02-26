@@ -20,17 +20,13 @@ namespace MaxMath
                 return Sse2.or_si128(Sse2.and_si128(mask, b),
                                      Sse2.andnot_si128(mask, a));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
     }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 BlendEpi16(v128 a, v128 b, int mask)
+        internal static v128 BlendEpi16_SSE2(v128 a, v128 b, int mask)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
-                return Sse4_1.blend_epi16(a, b, mask);
-            }
-            else
+            if (Sse2.IsSse2Supported)
             {
                 return BlendV(a, b, new v128((short)(-((mask >> 0) & 1)),
                                              (short)(-((mask >> 1) & 1)),
@@ -41,6 +37,7 @@ namespace MaxMath
                                              (short)(-((mask >> 6) & 1)),
                                              (short)(-((mask >> 7) & 1))));
             }
+            else throw new CPUFeatureCheckException();
         }
 
 

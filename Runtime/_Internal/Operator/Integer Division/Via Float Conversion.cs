@@ -151,7 +151,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -236,7 +236,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -268,7 +268,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -300,7 +300,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -594,7 +594,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -633,7 +633,7 @@ Assert.AreNotEqual(divisor.x7, 0);
 
                 return precisionLossCompensation;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -668,7 +668,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
                 return (short2)(*(float2*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -703,7 +703,7 @@ Assert.AreNotEqual(divisor.y, 0);
 
                 return (ushort2)(*(float2*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -739,7 +739,7 @@ Assert.AreNotEqual(divisor.z, 0);
 
                 return (short3)(*(float3*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -775,7 +775,7 @@ Assert.AreNotEqual(divisor.z, 0);
 
                 return (ushort3)(*(float3*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -812,7 +812,7 @@ Assert.AreNotEqual(divisor.w, 0);
 
                 return (short4)(*(float4*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -849,7 +849,7 @@ Assert.AreNotEqual(divisor.w, 0);
 
                 return (ushort4)(*(float4*)&precisionLossCompensation);
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
@@ -876,7 +876,7 @@ Assert.AreNotEqual(divisor.w, 0);
                 return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packs_epi32((int8)lo, (int8)hi),
                                                     Sse.SHUFFLE(3, 1, 2, 0));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -890,7 +890,7 @@ Assert.AreNotEqual(divisor.w, 0);
                 return Avx2.mm256_permute4x64_epi64(Avx2.mm256_packus_epi32((uint8)lo, (uint8)hi),
                                                     Sse.SHUFFLE(3, 1, 2, 0));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 

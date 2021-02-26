@@ -64,7 +64,7 @@ namespace MaxMath
 
 
         #region Shuffle
-        public readonly byte4 xxxx
+        public  byte4 xxxx
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
             get
@@ -79,7 +79,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxxx
+        public  byte4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -94,7 +94,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyxx
+        public  byte4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -109,7 +109,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxyx
+        public  byte4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -124,7 +124,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxxy
+        public  byte4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -139,7 +139,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyxx
+        public  byte4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -154,7 +154,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxyx
+        public  byte4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -169,7 +169,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxxy
+        public  byte4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -184,7 +184,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyyx
+        public  byte4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -199,7 +199,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyxy
+        public  byte4 xyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -214,7 +214,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxyy
+        public  byte4 xxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -229,7 +229,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyyx
+        public  byte4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -244,7 +244,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyxy
+        public  byte4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -259,7 +259,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxyy
+        public  byte4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -274,7 +274,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyyy
+        public  byte4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -289,7 +289,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyyy
+        public  byte4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -305,7 +305,7 @@ namespace MaxMath
             }
         }
 
-        public readonly byte3 xxx
+        public  byte3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -320,7 +320,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yxx
+        public  byte3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -335,7 +335,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xyx
+        public  byte3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -350,7 +350,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xxy
+        public  byte3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -365,7 +365,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yyx
+        public  byte3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -380,7 +380,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yxy
+        public  byte3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -395,7 +395,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xyy
+        public  byte3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -410,7 +410,7 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yyy
+        public  byte3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -426,7 +426,7 @@ namespace MaxMath
             }
         }
 
-        public readonly byte2 xx
+        public  byte2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -444,7 +444,7 @@ namespace MaxMath
         public          byte2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Ssse3.IsSsse3Supported)
                 {
@@ -461,7 +461,7 @@ namespace MaxMath
                 this = value.yx; 
             }
         }
-        public readonly byte2 yy
+        public  byte2 yy
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
             get 
@@ -519,6 +519,10 @@ namespace MaxMath
             {
                 return Cast.ShortToByte(input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Short2To_S_Byte2_SSE2(input);
+            }
             else
             {
                 return new byte2((byte)input.x, (byte)input.y);
@@ -531,6 +535,10 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.ShortToByte(input);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Short2To_S_Byte2_SSE2(input);
             }
             else
             {
@@ -545,6 +553,10 @@ namespace MaxMath
             {
                 return Cast.Int4ToByte4(*(v128*)&input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Int2To_S_Byte2_SSE2(*(v128*)&input);
+            }
             else
             {
                 return new byte2((byte)input.x, (byte)input.y);
@@ -557,6 +569,10 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Int4ToByte4(*(v128*)&input);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Int2To_S_Byte2_SSE2(*(v128*)&input);
             }
             else
             {
@@ -571,6 +587,10 @@ namespace MaxMath
             {
                 return Cast.Long2ToByte2(input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Long2To_S_Byte2_SSE2(*(v128*)&input);
+            }
             else
             {
                 return new byte2((byte)input.x, (byte)input.y);
@@ -583,6 +603,10 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Long2ToByte2(input);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Long2To_S_Byte2_SSE2(*(v128*)&input);
             }
             else
             {
@@ -696,7 +720,7 @@ namespace MaxMath
             }
             else
             {
-                return new float2((float)input.x, (float)input.y);
+                return (float2)(int2)input;
             }
         }
 
@@ -707,7 +731,7 @@ namespace MaxMath
         public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 2);
 
@@ -1016,12 +1040,12 @@ Assert.IsWithinArrayBounds(index, 2);
 
                 return *(bool2*)&input;
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(byte2 other)
+        public  bool Equals(byte2 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1033,11 +1057,11 @@ Assert.IsWithinArrayBounds(index, 2);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((byte2)obj);
+        public override  bool Equals(object obj) => Equals((byte2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Sse.IsSseSupported)
             {
@@ -1052,7 +1076,7 @@ Assert.IsWithinArrayBounds(index, 2);
         }
 
 
-        public override readonly string ToString() => $"byte2({x}, {y})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"byte2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
+        public override  string ToString() => $"byte2({x}, {y})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"byte2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
     }
 }

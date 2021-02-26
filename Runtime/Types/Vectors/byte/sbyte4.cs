@@ -180,7 +180,7 @@ namespace MaxMath
 
 
 		#region Shuffle
-		public readonly sbyte4 xxxx
+		public  sbyte4 xxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -195,7 +195,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxxy
+		public  sbyte4 xxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -210,7 +210,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxxz
+		public  sbyte4 xxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -225,7 +225,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxxw
+		public  sbyte4 xxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -240,7 +240,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxyx
+		public  sbyte4 xxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -255,7 +255,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxyy
+		public  sbyte4 xxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -270,7 +270,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxyz
+		public  sbyte4 xxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -285,7 +285,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxyw
+		public  sbyte4 xxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -300,7 +300,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxzx
+		public  sbyte4 xxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -315,7 +315,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxzy
+		public  sbyte4 xxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -330,7 +330,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxzz
+		public  sbyte4 xxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -345,7 +345,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxzw
+		public  sbyte4 xxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -360,7 +360,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxwx
+		public  sbyte4 xxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -375,7 +375,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxwy
+		public  sbyte4 xxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -390,7 +390,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxwz
+		public  sbyte4 xxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -405,7 +405,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xxww
+		public  sbyte4 xxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -420,7 +420,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyxx
+		public  sbyte4 xyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -435,7 +435,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyxy
+		public  sbyte4 xyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -450,7 +450,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyxz
+		public  sbyte4 xyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -465,7 +465,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyxw
+		public  sbyte4 xyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -480,7 +480,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyyx
+		public  sbyte4 xyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -495,7 +495,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyyy
+		public  sbyte4 xyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -510,7 +510,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyyz
+		public  sbyte4 xyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -525,7 +525,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyyw
+		public  sbyte4 xyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -540,7 +540,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyzx
+		public  sbyte4 xyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -555,7 +555,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyzy
+		public  sbyte4 xyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -570,7 +570,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xyzz
+		public  sbyte4 xyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -585,7 +585,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xywx
+		public  sbyte4 xywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -600,7 +600,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xywy
+		public  sbyte4 xywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -618,7 +618,7 @@ namespace MaxMath
 		public sbyte4 xywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -636,7 +636,7 @@ namespace MaxMath
 				this = value.xywz;
 			}
 		}
-		public readonly sbyte4 xyww
+		public  sbyte4 xyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -651,7 +651,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzxx
+		public  sbyte4 xzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -666,7 +666,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzxy
+		public  sbyte4 xzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -681,7 +681,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzxz
+		public  sbyte4 xzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -696,7 +696,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzxw
+		public  sbyte4 xzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -711,7 +711,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzyx
+		public  sbyte4 xzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -726,7 +726,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzyy
+		public  sbyte4 xzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -741,7 +741,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzyz
+		public  sbyte4 xzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -759,7 +759,7 @@ namespace MaxMath
 		public sbyte4 xzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -777,7 +777,7 @@ namespace MaxMath
 				this = value.xzyw;
 			}
 		}
-		public readonly sbyte4 xzzx
+		public  sbyte4 xzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -792,7 +792,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzzy
+		public  sbyte4 xzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -807,7 +807,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzzz
+		public  sbyte4 xzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -822,7 +822,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzzw
+		public  sbyte4 xzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -837,7 +837,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzwx
+		public  sbyte4 xzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -855,7 +855,7 @@ namespace MaxMath
 		public sbyte4 xzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -873,7 +873,7 @@ namespace MaxMath
 				this = value.xwyz;
 			}
 		}
-		public readonly sbyte4 xzwz
+		public  sbyte4 xzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -888,7 +888,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xzww
+		public  sbyte4 xzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -903,7 +903,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwxx
+		public  sbyte4 xwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -918,7 +918,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwxy
+		public  sbyte4 xwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -933,7 +933,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwxz
+		public  sbyte4 xwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -948,7 +948,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwxw
+		public  sbyte4 xwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -963,7 +963,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwyx
+		public  sbyte4 xwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -978,7 +978,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwyy
+		public  sbyte4 xwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -996,7 +996,7 @@ namespace MaxMath
 		public sbyte4 xwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1014,7 +1014,7 @@ namespace MaxMath
 				this = value.xzwy;
 			}
 		}
-		public readonly sbyte4 xwyw
+		public  sbyte4 xwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1029,7 +1029,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwzx
+		public  sbyte4 xwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1047,7 +1047,7 @@ namespace MaxMath
 		public sbyte4 xwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1065,7 +1065,7 @@ namespace MaxMath
 				this = value.xwzy;
 			}
 		}
-		public readonly sbyte4 xwzz
+		public  sbyte4 xwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1080,7 +1080,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwzw
+		public  sbyte4 xwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1095,7 +1095,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwwx
+		public  sbyte4 xwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1110,7 +1110,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwwy
+		public  sbyte4 xwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1125,7 +1125,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwwz
+		public  sbyte4 xwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1140,7 +1140,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 xwww
+		public  sbyte4 xwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1155,7 +1155,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxxx
+		public  sbyte4 yxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1170,7 +1170,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxxy
+		public  sbyte4 yxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1185,7 +1185,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxxz
+		public  sbyte4 yxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1200,7 +1200,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxxw
+		public  sbyte4 yxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1215,7 +1215,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxyx
+		public  sbyte4 yxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1230,7 +1230,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxyy
+		public  sbyte4 yxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1245,7 +1245,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxyz
+		public  sbyte4 yxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1260,7 +1260,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxyw
+		public  sbyte4 yxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1275,7 +1275,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxzx
+		public  sbyte4 yxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1290,7 +1290,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxzy
+		public  sbyte4 yxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1305,7 +1305,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxzz
+		public  sbyte4 yxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1323,7 +1323,7 @@ namespace MaxMath
 		public sbyte4 yxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1341,7 +1341,7 @@ namespace MaxMath
 				this = value.yxzw;
 			}
 		}
-		public readonly sbyte4 yxwx
+		public  sbyte4 yxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1356,7 +1356,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yxwy
+		public  sbyte4 yxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1374,7 +1374,7 @@ namespace MaxMath
 		public sbyte4 yxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1392,7 +1392,7 @@ namespace MaxMath
 				this = value.yxwz;
 			}
 		}
-		public readonly sbyte4 yxww
+		public  sbyte4 yxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1407,7 +1407,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyxx
+		public  sbyte4 yyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1422,7 +1422,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyxy
+		public  sbyte4 yyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1437,7 +1437,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyxz
+		public  sbyte4 yyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1452,7 +1452,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyxw
+		public  sbyte4 yyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1467,7 +1467,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyyx
+		public  sbyte4 yyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1482,7 +1482,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyyy
+		public  sbyte4 yyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1497,7 +1497,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyyz
+		public  sbyte4 yyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1512,7 +1512,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyyw
+		public  sbyte4 yyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1527,7 +1527,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyzx
+		public  sbyte4 yyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1542,7 +1542,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyzy
+		public  sbyte4 yyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1557,7 +1557,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyzz
+		public  sbyte4 yyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1572,7 +1572,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyzw
+		public  sbyte4 yyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1587,7 +1587,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yywx
+		public  sbyte4 yywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1602,7 +1602,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yywy
+		public  sbyte4 yywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1617,7 +1617,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yywz
+		public  sbyte4 yywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1632,7 +1632,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yyww
+		public  sbyte4 yyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1647,7 +1647,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzxx
+		public  sbyte4 yzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1662,7 +1662,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzxy
+		public  sbyte4 yzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1677,7 +1677,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzxz
+		public  sbyte4 yzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1695,7 +1695,7 @@ namespace MaxMath
 		public sbyte4 yzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1713,7 +1713,7 @@ namespace MaxMath
 				this = value.zxyw;
 			}
 		}
-		public readonly sbyte4 yzyx
+		public  sbyte4 yzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1728,7 +1728,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzyy
+		public  sbyte4 yzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1743,7 +1743,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzyz
+		public  sbyte4 yzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1758,7 +1758,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzyw
+		public  sbyte4 yzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1773,7 +1773,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzzx
+		public  sbyte4 yzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1788,7 +1788,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzzy
+		public  sbyte4 yzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1803,7 +1803,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzzz
+		public  sbyte4 yzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1818,7 +1818,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzzw
+		public  sbyte4 yzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1836,7 +1836,7 @@ namespace MaxMath
 		public sbyte4 yzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1854,7 +1854,7 @@ namespace MaxMath
 				this = value.wxyz;
 			}
 		}
-		public readonly sbyte4 yzwy
+		public  sbyte4 yzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1869,7 +1869,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzwz
+		public  sbyte4 yzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1884,7 +1884,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 yzww
+		public  sbyte4 yzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1899,7 +1899,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywxx
+		public  sbyte4 ywxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1914,7 +1914,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywxy
+		public  sbyte4 ywxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1932,7 +1932,7 @@ namespace MaxMath
 		public sbyte4 ywxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -1950,7 +1950,7 @@ namespace MaxMath
 				this = value.zxwy;
 			}
 		}
-		public readonly sbyte4 ywxw
+		public  sbyte4 ywxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1965,7 +1965,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywyx
+		public  sbyte4 ywyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1980,7 +1980,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywyy
+		public  sbyte4 ywyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1995,7 +1995,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywyz
+		public  sbyte4 ywyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2010,7 +2010,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywyw
+		public  sbyte4 ywyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2028,7 +2028,7 @@ namespace MaxMath
 		public sbyte4 ywzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2046,7 +2046,7 @@ namespace MaxMath
 				this = value.wxzy;
 			}
 		}
-		public readonly sbyte4 ywzy
+		public  sbyte4 ywzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2061,7 +2061,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywzz
+		public  sbyte4 ywzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2076,7 +2076,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywzw
+		public  sbyte4 ywzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2091,7 +2091,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywwx
+		public  sbyte4 ywwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2106,7 +2106,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywwy
+		public  sbyte4 ywwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2121,7 +2121,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywwz
+		public  sbyte4 ywwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2136,7 +2136,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 ywww
+		public  sbyte4 ywww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2151,7 +2151,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxxx
+		public  sbyte4 zxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2166,7 +2166,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxxy
+		public  sbyte4 zxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2181,7 +2181,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxxz
+		public  sbyte4 zxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2196,7 +2196,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxxw
+		public  sbyte4 zxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2211,7 +2211,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxyx
+		public  sbyte4 zxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2226,7 +2226,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxyy
+		public  sbyte4 zxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2241,7 +2241,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxyz
+		public  sbyte4 zxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2259,7 +2259,7 @@ namespace MaxMath
 		public sbyte4 zxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2277,7 +2277,7 @@ namespace MaxMath
 				this = value.yzxw;
 			}
 		}
-		public readonly sbyte4 zxzx
+		public  sbyte4 zxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2292,7 +2292,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxzy
+		public  sbyte4 zxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2307,7 +2307,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxzz
+		public  sbyte4 zxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2322,7 +2322,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxzw
+		public  sbyte4 zxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2337,7 +2337,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxwx
+		public  sbyte4 zxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2355,7 +2355,7 @@ namespace MaxMath
 		public sbyte4 zxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2373,7 +2373,7 @@ namespace MaxMath
 				this = value.ywxz;
 			}
 		}
-		public readonly sbyte4 zxwz
+		public  sbyte4 zxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2388,7 +2388,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zxww
+		public  sbyte4 zxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2403,7 +2403,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyxx
+		public  sbyte4 zyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2418,7 +2418,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyxy
+		public  sbyte4 zyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2433,7 +2433,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyxz
+		public  sbyte4 zyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2451,7 +2451,7 @@ namespace MaxMath
 		public sbyte4 zyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2469,7 +2469,7 @@ namespace MaxMath
 				this = value.zyxw;
 			}
 		}
-		public readonly sbyte4 zyyx
+		public  sbyte4 zyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2484,7 +2484,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyyy
+		public  sbyte4 zyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2499,7 +2499,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyyz
+		public  sbyte4 zyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2514,7 +2514,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyyw
+		public  sbyte4 zyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2529,7 +2529,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyzx
+		public  sbyte4 zyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2544,7 +2544,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyzy
+		public  sbyte4 zyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2559,7 +2559,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyzz
+		public  sbyte4 zyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2574,7 +2574,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyzw
+		public  sbyte4 zyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2592,7 +2592,7 @@ namespace MaxMath
 		public sbyte4 zywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2610,7 +2610,7 @@ namespace MaxMath
 				this = value.wyxz;
 			}
 		}
-		public readonly sbyte4 zywy
+		public  sbyte4 zywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2625,7 +2625,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zywz
+		public  sbyte4 zywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2640,7 +2640,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zyww
+		public  sbyte4 zyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2655,7 +2655,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzxx
+		public  sbyte4 zzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2670,7 +2670,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzxy
+		public  sbyte4 zzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2685,7 +2685,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzxz
+		public  sbyte4 zzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2700,7 +2700,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzxw
+		public  sbyte4 zzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2715,7 +2715,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzyx
+		public  sbyte4 zzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2730,7 +2730,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzyy
+		public  sbyte4 zzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2745,7 +2745,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzyz
+		public  sbyte4 zzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2760,7 +2760,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzyw
+		public  sbyte4 zzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2775,7 +2775,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzzx
+		public  sbyte4 zzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2790,7 +2790,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzzy
+		public  sbyte4 zzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2805,7 +2805,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzzz
+		public  sbyte4 zzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2820,7 +2820,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzzw
+		public  sbyte4 zzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2835,7 +2835,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzwx
+		public  sbyte4 zzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2850,7 +2850,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzwy
+		public  sbyte4 zzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2865,7 +2865,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzwz
+		public  sbyte4 zzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2880,7 +2880,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zzww
+		public  sbyte4 zzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2895,7 +2895,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwxx
+		public  sbyte4 zwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2913,7 +2913,7 @@ namespace MaxMath
 		public sbyte4 zwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -2931,7 +2931,7 @@ namespace MaxMath
 				this = value.zwxy;
 			}
 		}
-		public readonly sbyte4 zwxz
+		public  sbyte4 zwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2946,7 +2946,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwxw
+		public  sbyte4 zwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2964,7 +2964,7 @@ namespace MaxMath
 		public sbyte4 zwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -2982,7 +2982,7 @@ namespace MaxMath
 				this = value.wzxy;
 			}
 		}
-		public readonly sbyte4 zwyy
+		public  sbyte4 zwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2997,7 +2997,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwyz
+		public  sbyte4 zwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3012,7 +3012,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwyw
+		public  sbyte4 zwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3027,7 +3027,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwzx
+		public  sbyte4 zwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3042,7 +3042,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwzy
+		public  sbyte4 zwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3057,7 +3057,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwzz
+		public  sbyte4 zwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3072,7 +3072,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwzw
+		public  sbyte4 zwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3087,7 +3087,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwwx
+		public  sbyte4 zwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3102,7 +3102,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwwy
+		public  sbyte4 zwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3117,7 +3117,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwwz
+		public  sbyte4 zwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3132,7 +3132,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 zwww
+		public  sbyte4 zwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3147,7 +3147,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxxx
+		public  sbyte4 wxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3162,7 +3162,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxxy
+		public  sbyte4 wxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3177,7 +3177,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxxz
+		public  sbyte4 wxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3192,7 +3192,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxxw
+		public  sbyte4 wxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3207,7 +3207,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxyx
+		public  sbyte4 wxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3222,7 +3222,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxyy
+		public  sbyte4 wxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3240,7 +3240,7 @@ namespace MaxMath
 		public sbyte4 wxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3258,7 +3258,7 @@ namespace MaxMath
 				this = value.yzwx;
 			}
 		}
-		public readonly sbyte4 wxyw
+		public  sbyte4 wxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3273,7 +3273,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxzx
+		public  sbyte4 wxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3291,7 +3291,7 @@ namespace MaxMath
 		public sbyte4 wxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3309,7 +3309,7 @@ namespace MaxMath
 				this = value.ywzx;
 			}
 		}
-		public readonly sbyte4 wxzz
+		public  sbyte4 wxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3324,7 +3324,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxzw
+		public  sbyte4 wxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3339,7 +3339,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxwx
+		public  sbyte4 wxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3354,7 +3354,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxwy
+		public  sbyte4 wxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3369,7 +3369,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxwz
+		public  sbyte4 wxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3384,7 +3384,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wxww
+		public  sbyte4 wxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3399,7 +3399,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyxx
+		public  sbyte4 wyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3414,7 +3414,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyxy
+		public  sbyte4 wyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3432,7 +3432,7 @@ namespace MaxMath
 		public sbyte4 wyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3450,7 +3450,7 @@ namespace MaxMath
 				this = value.zywx;
 			}
 		}
-		public readonly sbyte4 wyxw
+		public  sbyte4 wyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3465,7 +3465,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyyx
+		public  sbyte4 wyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3480,7 +3480,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyyy
+		public  sbyte4 wyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3495,7 +3495,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyyz
+		public  sbyte4 wyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3510,7 +3510,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyyw
+		public  sbyte4 wyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3528,7 +3528,7 @@ namespace MaxMath
 		public sbyte4 wyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3546,7 +3546,7 @@ namespace MaxMath
 				this = value.wyzx;
 			}
 		}
-		public readonly sbyte4 wyzy
+		public  sbyte4 wyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3561,7 +3561,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyzz
+		public  sbyte4 wyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3576,7 +3576,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyzw
+		public  sbyte4 wyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3591,7 +3591,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wywx
+		public  sbyte4 wywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3606,7 +3606,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wywy
+		public  sbyte4 wywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3621,7 +3621,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wywz
+		public  sbyte4 wywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3636,7 +3636,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wyww
+		public  sbyte4 wyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3651,7 +3651,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzxx
+		public  sbyte4 wzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3669,7 +3669,7 @@ namespace MaxMath
 		public sbyte4 wzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3687,7 +3687,7 @@ namespace MaxMath
 				this = value.zwyx;
 			}
 		}
-		public readonly sbyte4 wzxz
+		public  sbyte4 wzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3702,7 +3702,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzxw
+		public  sbyte4 wzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3720,7 +3720,7 @@ namespace MaxMath
 		public sbyte4 wzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -3738,7 +3738,7 @@ namespace MaxMath
 				this = value.wzyx;
 			}
 		}
-		public readonly sbyte4 wzyy
+		public  sbyte4 wzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3753,7 +3753,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzyz
+		public  sbyte4 wzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3768,7 +3768,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzyw
+		public  sbyte4 wzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3783,7 +3783,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzzx
+		public  sbyte4 wzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3798,7 +3798,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzzy
+		public  sbyte4 wzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3813,7 +3813,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzzz
+		public  sbyte4 wzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3828,7 +3828,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzzw
+		public  sbyte4 wzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3843,7 +3843,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzwx
+		public  sbyte4 wzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3858,7 +3858,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzwy
+		public  sbyte4 wzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3873,7 +3873,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzwz
+		public  sbyte4 wzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3888,7 +3888,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wzww
+		public  sbyte4 wzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3903,7 +3903,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwxx
+		public  sbyte4 wwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3918,7 +3918,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwxy
+		public  sbyte4 wwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3933,7 +3933,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwxz
+		public  sbyte4 wwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3948,7 +3948,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwxw
+		public  sbyte4 wwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3963,7 +3963,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwyx
+		public  sbyte4 wwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3978,7 +3978,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwyy
+		public  sbyte4 wwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3993,7 +3993,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwyz
+		public  sbyte4 wwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4008,7 +4008,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwyw
+		public  sbyte4 wwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4023,7 +4023,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwzx
+		public  sbyte4 wwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4038,7 +4038,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwzy
+		public  sbyte4 wwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4053,7 +4053,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwzz
+		public  sbyte4 wwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4068,7 +4068,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwzw
+		public  sbyte4 wwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4083,7 +4083,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwwx
+		public  sbyte4 wwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4098,7 +4098,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwwy
+		public  sbyte4 wwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4113,7 +4113,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwwz
+		public  sbyte4 wwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4128,7 +4128,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte4 wwww
+		public  sbyte4 wwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4144,7 +4144,7 @@ namespace MaxMath
 			}
 		}
 
-		public readonly sbyte3 xxx
+		public  sbyte3 xxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4159,7 +4159,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xxy
+		public  sbyte3 xxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4174,7 +4174,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xxz
+		public  sbyte3 xxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4189,7 +4189,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xxw
+		public  sbyte3 xxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4204,7 +4204,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xyx
+		public  sbyte3 xyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4219,7 +4219,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xyy
+		public  sbyte3 xyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4237,7 +4237,7 @@ namespace MaxMath
 		public sbyte3 xyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4267,7 +4267,7 @@ namespace MaxMath
 		public sbyte3 xyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4294,7 +4294,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xzx
+		public  sbyte3 xzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4312,7 +4312,7 @@ namespace MaxMath
 		public sbyte3 xzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4339,7 +4339,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xzz
+		public  sbyte3 xzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4357,7 +4357,7 @@ namespace MaxMath
 		public sbyte3 xzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4384,7 +4384,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xwx
+		public  sbyte3 xwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4402,7 +4402,7 @@ namespace MaxMath
 		public sbyte3 xwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4432,7 +4432,7 @@ namespace MaxMath
 		public sbyte3 xwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4459,7 +4459,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 xww
+		public  sbyte3 xww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4474,7 +4474,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yxx
+		public  sbyte3 yxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4489,7 +4489,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yxy
+		public  sbyte3 yxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4507,7 +4507,7 @@ namespace MaxMath
 		public sbyte3 yxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4537,7 +4537,7 @@ namespace MaxMath
 		public sbyte3 yxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4564,7 +4564,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yyx
+		public  sbyte3 yyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4579,7 +4579,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yyy
+		public  sbyte3 yyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4594,7 +4594,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yyz
+		public  sbyte3 yyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4609,7 +4609,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yyw
+		public  sbyte3 yyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4627,7 +4627,7 @@ namespace MaxMath
 		public sbyte3 yzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4654,7 +4654,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yzy
+		public  sbyte3 yzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4669,7 +4669,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yzz
+		public  sbyte3 yzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4687,7 +4687,7 @@ namespace MaxMath
 		public sbyte3 yzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -4717,7 +4717,7 @@ namespace MaxMath
 		public sbyte3 ywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4744,7 +4744,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 ywy
+		public  sbyte3 ywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4762,7 +4762,7 @@ namespace MaxMath
 		public sbyte3 ywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4789,7 +4789,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 yww
+		public  sbyte3 yww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4804,7 +4804,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zxx
+		public  sbyte3 zxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4822,7 +4822,7 @@ namespace MaxMath
 		public sbyte3 zxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4849,7 +4849,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zxz
+		public  sbyte3 zxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4867,7 +4867,7 @@ namespace MaxMath
 		public sbyte3 zxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4897,7 +4897,7 @@ namespace MaxMath
 		public sbyte3 zyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4924,7 +4924,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zyy
+		public  sbyte3 zyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4939,7 +4939,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zyz
+		public  sbyte3 zyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4957,7 +4957,7 @@ namespace MaxMath
 		public sbyte3 zyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -4984,7 +4984,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zzx
+		public  sbyte3 zzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4999,7 +4999,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zzy
+		public  sbyte3 zzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5014,7 +5014,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zzz
+		public  sbyte3 zzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5029,7 +5029,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zzw
+		public  sbyte3 zzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5047,7 +5047,7 @@ namespace MaxMath
 		public sbyte3 zwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5077,7 +5077,7 @@ namespace MaxMath
 		public sbyte3 zwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5104,7 +5104,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zwz
+		public  sbyte3 zwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5119,7 +5119,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 zww
+		public  sbyte3 zww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5134,7 +5134,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wxx
+		public  sbyte3 wxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5152,7 +5152,7 @@ namespace MaxMath
 		public sbyte3 wxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5182,7 +5182,7 @@ namespace MaxMath
 		public sbyte3 wxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5209,7 +5209,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wxw
+		public  sbyte3 wxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5227,7 +5227,7 @@ namespace MaxMath
 		public sbyte3 wyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5254,7 +5254,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wyy
+		public  sbyte3 wyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5272,7 +5272,7 @@ namespace MaxMath
 		public sbyte3 wyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5299,7 +5299,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wyw
+		public  sbyte3 wyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5317,7 +5317,7 @@ namespace MaxMath
 		public sbyte3 wzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5347,7 +5347,7 @@ namespace MaxMath
 		public sbyte3 wzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5374,7 +5374,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wzz
+		public  sbyte3 wzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5389,7 +5389,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wzw
+		public  sbyte3 wzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5404,7 +5404,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wwx
+		public  sbyte3 wwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5419,7 +5419,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wwy
+		public  sbyte3 wwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5434,7 +5434,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 wwz
+		public  sbyte3 wwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5449,7 +5449,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte3 www
+		public  sbyte3 www
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5465,7 +5465,7 @@ namespace MaxMath
 			}
 		}
 
-		public readonly sbyte2 xx
+		public  sbyte2 xx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5483,7 +5483,7 @@ namespace MaxMath
 		public sbyte2 xy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5500,7 +5500,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value, 0b01);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value, 0b01);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value, 0b01);
+					}
 				}
 				else
 				{
@@ -5512,7 +5519,7 @@ namespace MaxMath
 		public sbyte2 xz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5541,7 +5548,7 @@ namespace MaxMath
 		public sbyte2 xw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5570,7 +5577,7 @@ namespace MaxMath
 		public sbyte2 yx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5587,7 +5594,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yx, 0b01);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yx, 0b01);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yx, 0b01);
+					}
 				}
 				else
 				{
@@ -5596,7 +5610,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte2 yy
+		public  sbyte2 yy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5614,7 +5628,7 @@ namespace MaxMath
 		public sbyte2 yz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5643,7 +5657,7 @@ namespace MaxMath
 		public sbyte2 yw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5672,7 +5686,7 @@ namespace MaxMath
 		public sbyte2 zx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5701,7 +5715,7 @@ namespace MaxMath
 		public sbyte2 zy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5727,7 +5741,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte2 zz
+		public  sbyte2 zz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5745,7 +5759,7 @@ namespace MaxMath
 		public sbyte2 zw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Sse2.IsSse2Supported)
 				{
@@ -5774,7 +5788,7 @@ namespace MaxMath
 		public sbyte2 wx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5803,7 +5817,7 @@ namespace MaxMath
 		public sbyte2 wy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5832,7 +5846,7 @@ namespace MaxMath
 		public sbyte2 wz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			 get
 			{
 				if (Ssse3.IsSsse3Supported)
 				{
@@ -5849,7 +5863,14 @@ namespace MaxMath
 			{
 				if (Sse2.IsSse2Supported)
 				{
-					this = Mask.BlendEpi16(this, value.yxyx, 0b10);
+					if (Sse4_1.IsSse41Supported)
+					{
+						this = Sse4_1.blend_epi16(this, value.yxyx, 0b10);
+					}
+					else
+					{
+						this = Mask.BlendEpi16_SSE2(this, value.yxyx, 0b10);
+					}
 				}
 				else
 				{
@@ -5858,7 +5879,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly sbyte2 ww
+		public  sbyte2 ww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5905,8 +5926,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.ShortToByte(input);
-            }
-            else
+			}
+			if (Sse2.IsSse2Supported)
+			{
+				return Cast.Short4To_S_Byte4_SSE2(input);
+			}
+			else
             {
                 return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
             }
@@ -5918,8 +5943,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.ShortToByte(input);
-            }
-            else
+			}
+			if (Sse2.IsSse2Supported)
+			{
+				return Cast.Short4To_S_Byte4_SSE2(input);
+			}
+			else
 			{
 				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
 			}
@@ -5931,8 +5960,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Int4ToByte4(*(v128*)&input);
-            }
-            else
+			}
+			else if (Sse2.IsSse2Supported)
+			{
+				return Cast.Int4To_S_Byte4_SSE2(*(v128*)&input);
+			}
+			else
 			{
 				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
 			}
@@ -5944,8 +5977,12 @@ namespace MaxMath
             if (Ssse3.IsSsse3Supported)
             {
                 return Cast.Int4ToByte4(*(v128*)&input);
-            }
-            else
+			}
+			else if (Sse2.IsSse2Supported)
+			{
+				return Cast.Int4To_S_Byte4_SSE2(*(v128*)&input);
+			}
+			else
 			{
 				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
 			}
@@ -6098,7 +6135,7 @@ namespace MaxMath
         public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 4);
 
@@ -6420,12 +6457,12 @@ Assert.IsWithinArrayBounds(index, 4);
 
 				return *(bool4*)&input;
 			}
-			else throw new BurstCompilerException();
+			else throw new CPUFeatureCheckException();
         }
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(sbyte4 other)
+		public  bool Equals(sbyte4 other)
 		{
 			if (Sse2.IsSse2Supported)
 			{
@@ -6438,11 +6475,11 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 		}
 
-        public override readonly bool Equals(object obj) => Equals((sbyte4)obj);
+        public override  bool Equals(object obj) => Equals((sbyte4)obj);
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
+		public override  int GetHashCode()
 		{
 			if (Sse2.IsSse2Supported)
 			{
@@ -6457,7 +6494,7 @@ Assert.IsWithinArrayBounds(index, 4);
 		}
 
 
-        public override readonly string ToString() => $"sbyte4({x}, {y}, {z}, {w})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"sbyte4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
+        public override  string ToString() => $"sbyte4({x}, {y}, {z}, {w})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"sbyte4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

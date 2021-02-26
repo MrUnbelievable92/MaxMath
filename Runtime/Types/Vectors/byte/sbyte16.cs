@@ -157,7 +157,14 @@ namespace MaxMath
                 v128 lo = Mask.BlendV(_0_6, _7_9,     new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0));
                 v128 hi = Mask.BlendV(_10_12, _13_15, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
 
-                this = Mask.BlendEpi16(lo, hi, 0b1110_0000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    this = Sse4_1.blend_epi16(lo, hi, 0b1110_0000);
+                }
+                else
+                {
+                    this = Mask.BlendEpi16_SSE2(lo, hi, 0b1110_0000);
+                }
             }
             else
             {
@@ -193,7 +200,14 @@ namespace MaxMath
                 v128 lo = Mask.BlendV(x012, _3_9, new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0));
                 v128 hi = Mask.BlendV(_10_12, _13_15, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
 
-                this = Mask.BlendEpi16(lo, hi, 0b1110_0000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    this = Sse4_1.blend_epi16(lo, hi, 0b1110_0000);
+                }
+                else
+                {
+                    this = Mask.BlendEpi16_SSE2(lo, hi, 0b1110_0000);
+                }
             }
             else
             {
@@ -229,7 +243,14 @@ namespace MaxMath
                 v128 lo = Mask.BlendV(x012, _3_5, new v128(0, 0, 0, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
                 v128 hi = Mask.BlendV(_6_12, _13_15, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
 
-                this = Mask.BlendEpi16(lo, hi, 0b1111_1000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    this = Sse4_1.blend_epi16(lo, hi, 0b1111_1000);
+                }
+                else
+                {
+                    this = Mask.BlendEpi16_SSE2(lo, hi, 0b1111_1000);
+                }
             }
             else
             {
@@ -302,7 +323,14 @@ namespace MaxMath
                 v128 mid = Mask.BlendV(_6_8, _9_11, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 0, 0, 0, 0));
                 lo       = Mask.BlendV(lo, mid,     new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0));
 
-                this = Mask.BlendEpi16(lo, _12_15, 0b1100_0000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    this = Sse4_1.blend_epi16(lo, _12_15, 0b1100_0000);
+                }
+                else
+                {
+                    this = Mask.BlendEpi16_SSE2(lo, _12_15, 0b1100_0000);
+                }
             }
             else
             {
@@ -399,7 +427,7 @@ namespace MaxMath
         public sbyte8 v8_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -434,7 +462,7 @@ namespace MaxMath
         public sbyte8 v8_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -469,7 +497,7 @@ namespace MaxMath
         public sbyte8 v8_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -486,7 +514,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0001_1110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0001_1110);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0001_1110);
+                    }
                 }
                 else
                 {
@@ -504,7 +539,7 @@ namespace MaxMath
         public sbyte8 v8_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -539,7 +574,7 @@ namespace MaxMath
         public sbyte8 v8_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -556,7 +591,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 4 * sizeof(sbyte)), 0b0011_1100);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 4 * sizeof(sbyte)), 0b0011_1100);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 4 * sizeof(sbyte)), 0b0011_1100);
+                    }
                 }
                 else
                 {
@@ -574,7 +616,7 @@ namespace MaxMath
         public sbyte8 v8_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -609,7 +651,7 @@ namespace MaxMath
         public sbyte8 v8_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -626,7 +668,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0111_1000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0111_1000);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0111_1000);
+                    }
                 }
                 else
                 {
@@ -644,7 +693,7 @@ namespace MaxMath
         public sbyte8 v8_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -679,7 +728,7 @@ namespace MaxMath
         public sbyte8 v8_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -715,7 +764,7 @@ namespace MaxMath
         public sbyte4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -746,7 +795,7 @@ namespace MaxMath
         public sbyte4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -777,7 +826,7 @@ namespace MaxMath
         public sbyte4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -794,7 +843,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0000_0110);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0000_0110);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 2 * sizeof(sbyte)), 0b0000_0110);
+                    }
                 }
                 else
                 {
@@ -808,7 +864,7 @@ namespace MaxMath
         public sbyte4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -839,7 +895,7 @@ namespace MaxMath
         public sbyte4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -870,7 +926,7 @@ namespace MaxMath
         public sbyte4 v4_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -901,7 +957,7 @@ namespace MaxMath
         public sbyte4 v4_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -918,7 +974,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0001_1000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0001_1000);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 6 * sizeof(sbyte)), 0b0001_1000);
+                    }
                 }
                 else
                 {
@@ -932,7 +995,7 @@ namespace MaxMath
         public sbyte4 v4_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -963,7 +1026,7 @@ namespace MaxMath
         public sbyte4 v4_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -994,7 +1057,7 @@ namespace MaxMath
         public sbyte4 v4_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1025,7 +1088,7 @@ namespace MaxMath
         public sbyte4 v4_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1042,7 +1105,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Mask.BlendEpi16(this, Sse2.bslli_si128(value, 10 * sizeof(sbyte)), 0b0110_0000);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 10 * sizeof(sbyte)), 0b0110_0000);
+                    }
+                    else
+                    {
+                        this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 10 * sizeof(sbyte)), 0b0110_0000);
+                    }
                 }
                 else
                 {
@@ -1056,7 +1126,7 @@ namespace MaxMath
         public sbyte4 v4_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1087,7 +1157,7 @@ namespace MaxMath
         public sbyte4 v4_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1119,7 +1189,7 @@ namespace MaxMath
         public sbyte3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1149,7 +1219,7 @@ namespace MaxMath
         public sbyte3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1179,7 +1249,7 @@ namespace MaxMath
         public sbyte3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1209,7 +1279,7 @@ namespace MaxMath
         public sbyte3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1239,7 +1309,7 @@ namespace MaxMath
         public sbyte3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1269,7 +1339,7 @@ namespace MaxMath
         public sbyte3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1299,7 +1369,7 @@ namespace MaxMath
         public sbyte3 v3_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1329,7 +1399,7 @@ namespace MaxMath
         public sbyte3 v3_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1359,7 +1429,7 @@ namespace MaxMath
         public sbyte3 v3_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1389,7 +1459,7 @@ namespace MaxMath
         public sbyte3 v3_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1419,7 +1489,7 @@ namespace MaxMath
         public sbyte3 v3_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1449,7 +1519,7 @@ namespace MaxMath
         public sbyte3 v3_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1479,7 +1549,7 @@ namespace MaxMath
         public sbyte3 v3_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1509,7 +1579,7 @@ namespace MaxMath
         public sbyte3 v3_13
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1540,7 +1610,7 @@ namespace MaxMath
         public sbyte2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1569,7 +1639,7 @@ namespace MaxMath
         public sbyte2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1598,7 +1668,7 @@ namespace MaxMath
         public sbyte2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1627,7 +1697,7 @@ namespace MaxMath
         public sbyte2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1656,7 +1726,7 @@ namespace MaxMath
         public sbyte2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1685,7 +1755,7 @@ namespace MaxMath
         public sbyte2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1714,7 +1784,7 @@ namespace MaxMath
         public sbyte2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1743,7 +1813,7 @@ namespace MaxMath
         public sbyte2 v2_7
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1772,7 +1842,7 @@ namespace MaxMath
         public sbyte2 v2_8
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1801,7 +1871,7 @@ namespace MaxMath
         public sbyte2 v2_9
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1830,7 +1900,7 @@ namespace MaxMath
         public sbyte2 v2_10
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1859,7 +1929,7 @@ namespace MaxMath
         public sbyte2 v2_11
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1888,7 +1958,7 @@ namespace MaxMath
         public sbyte2 v2_12
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1917,7 +1987,7 @@ namespace MaxMath
         public sbyte2 v2_13
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1946,7 +2016,7 @@ namespace MaxMath
         public sbyte2 v2_14
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -2055,7 +2125,7 @@ namespace MaxMath
         public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 16);
 
@@ -2128,7 +2198,7 @@ Assert.IsWithinArrayBounds(index, 16);
             }
             else
             {
-                return new sbyte16(left.v8_0 / right.v8_0, left.v8_8 / right.v8_8);
+                return new sbyte16((sbyte)(left.x0 / right.x0), (sbyte)(left.x1 / right.x1), (sbyte)(left.x2 / right.x2), (sbyte)(left.x3 / right.x3), (sbyte)(left.x4 / right.x4), (sbyte)(left.x5 / right.x5), (sbyte)(left.x6 / right.x6), (sbyte)(left.x7 / right.x7), (sbyte)(left.x8 / right.x8), (sbyte)(left.x9 / right.x9), (sbyte)(left.x10 / right.x10), (sbyte)(left.x11 / right.x11), (sbyte)(left.x12 / right.x12), (sbyte)(left.x13 / right.x13), (sbyte)(left.x14 / right.x14), (sbyte)(left.x15 / right.x15));
             }
         }
                                                                        
@@ -2145,7 +2215,7 @@ Assert.IsWithinArrayBounds(index, 16);
             }
             else
             {
-                return new sbyte16(left.v8_0 % right.v8_0, left.v8_8 % right.v8_8);
+                return new sbyte16((sbyte)(left.x0 % right.x0), (sbyte)(left.x1 % right.x1), (sbyte)(left.x2 % right.x2), (sbyte)(left.x3 % right.x3), (sbyte)(left.x4 % right.x4), (sbyte)(left.x5 % right.x5), (sbyte)(left.x6 % right.x6), (sbyte)(left.x7 % right.x7), (sbyte)(left.x8 % right.x8), (sbyte)(left.x9 % right.x9), (sbyte)(left.x10 % right.x10), (sbyte)(left.x11 % right.x11), (sbyte)(left.x12 % right.x12), (sbyte)(left.x13 % right.x13), (sbyte)(left.x14 % right.x14), (sbyte)(left.x15 % right.x15));
             }
         }
 
@@ -2385,12 +2455,12 @@ Assert.IsWithinArrayBounds(index, 16);
             {
                 return Sse2.andnot_si128(input, new v128(0x0101_0101));
             }
-            else throw new BurstCompilerException();
+            else throw new CPUFeatureCheckException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(sbyte16 other)
+        public  bool Equals(sbyte16 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -2402,11 +2472,11 @@ Assert.IsWithinArrayBounds(index, 16);
             }
         }
 
-        public override readonly bool Equals(object obj) => Equals((sbyte16)obj);
+        public override  bool Equals(object obj) => Equals((sbyte16)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
+        public override  int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -2421,7 +2491,7 @@ Assert.IsWithinArrayBounds(index, 16);
         }
 
 
-        public override readonly string ToString() => $"sbyte16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"sbyte16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
+        public override  string ToString() => $"sbyte16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public  string ToString(string format, IFormatProvider formatProvider) => $"sbyte16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

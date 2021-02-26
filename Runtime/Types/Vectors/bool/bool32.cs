@@ -278,7 +278,7 @@ namespace MaxMath
         public bool this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+             get
             {
 Assert.IsWithinArrayBounds(index, 32);
 
@@ -296,13 +296,13 @@ Assert.IsWithinArrayBounds(index, 32);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(bool32 other) => maxmath.touint8(this).Equals(maxmath.touint8(other));
+        public  bool Equals(bool32 other) => maxmath.touint8(this).Equals(maxmath.touint8(other));
 
-        public override readonly bool Equals(object obj) => Equals((bool32)obj);
+        public override  bool Equals(object obj) => Equals((bool32)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => maxmath.touint8(this).GetHashCode();
+        public override  int GetHashCode() => maxmath.touint8(this).GetHashCode();
 
-        public override readonly string ToString() => $"bool32({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15},    {x16}, {x17}, {x18}, {x19},    {x20}, {x21}, {x22}, {x23},    {x24}, {x25}, {x26}, {x27},    {x28}, {x29}, {x30}, {x31})";
+        public override  string ToString() => $"bool32({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15},    {x16}, {x17}, {x18}, {x19},    {x20}, {x21}, {x22}, {x23},    {x24}, {x25}, {x26}, {x27},    {x28}, {x29}, {x30}, {x31})";
     }
 }

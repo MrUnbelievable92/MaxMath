@@ -13,9 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static byte lzcnt(byte x)
         {
-            // eliminates second test hardcoded by Unity; min(lzcnt, 8) adds another branch (for whatever reason)
-
-            return (x == 0) ? (byte)8 : (byte)math.lzcnt((uint)x);
+            return (byte)math.max(math.lzcnt((uint)x) - 24, 0);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte2 vector.     </summary>
@@ -29,7 +27,31 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 lzcnt(byte3 x)
         {
-            return new byte3(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z));
+            if (Sse2.IsSse2Supported)
+            {
+                byte3 y;
+                byte3 n = 8;
+                byte3 mask;
+
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte3(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte4 vector.     </summary>
@@ -43,17 +65,17 @@ namespace MaxMath
                 byte4 mask;
 
                 y = x >> 4;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 4, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 2;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 2, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 1;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
 
                 return Mask.BlendV(n - 2, n - x, mask);
             }
@@ -74,17 +96,17 @@ namespace MaxMath
                 byte8 mask;
 
                 y = x >> 4;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 4, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 2;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 2, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 1;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
 
                 return Mask.BlendV(n - 2, n - x, mask);
             }
@@ -105,17 +127,17 @@ namespace MaxMath
                 byte16 mask;
 
                 y = x >> 4;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 4, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 2;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
                 n = Mask.BlendV(n - 2, n, mask);
                 x = Mask.BlendV(y, x, mask);
 
                 y = x >> 1;
-                mask = Sse2.cmpeq_epi16(y, default(v128));
+                mask = Sse2.cmpeq_epi8(y, default(v128));
 
                 return Mask.BlendV(n - 2, n - x, mask);
             }
@@ -211,9 +233,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static ushort lzcnt(ushort x)
         {
-            // eliminates second test hardcoded by Unity; min(lzcnt, 16) adds another branch (for whatever reason)
-
-            return (x == 0) ? (ushort)16 : (ushort)math.lzcnt((uint)x);
+            return (ushort)math.max(math.lzcnt((uint)x) - 16, 0);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort2 vector.     </summary>
@@ -227,7 +247,36 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 lzcnt(ushort3 x)
         {
-            return new ushort3(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z));
+            if (Sse2.IsSse2Supported)
+            {
+                ushort3 y;
+                ushort3 n = 16;
+                ushort3 mask;
+
+                y = x >> 8;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 8, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new ushort3(lzcnt(x.x), lzcnt(x.y), lzcnt(x.z));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort4 vector.     </summary>
@@ -259,7 +308,6 @@ namespace MaxMath
                 mask = Sse2.cmpeq_epi16(y, default(v128));
 
                 return Mask.BlendV(n - 2, n - x, mask);
-
             }
             else
             {
@@ -444,7 +492,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 lzcnt(ulong3 x)
         {
-            return new ulong3((ulong)math.lzcnt(x.x), (ulong)math.lzcnt(x.y), (ulong)math.lzcnt(x.z));
+            if (Avx2.IsAvx2Supported)
+            {
+                ulong3 y = x >> 32;
+                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+
+                ulong4 bits = Avx2.mm256_blendv_epi8(y, 0x0000_0000_FFFF_FFFF & x, cmp);
+                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x041E, (ulong4)0x043E, cmp);
+
+                bits += 0x4330_0000_0000_0000ul;
+                bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
+                bits = offset - (bits >> 52);
+
+                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
+            }
+            else
+            {
+                return new ulong3((ulong)math.lzcnt(x.x), (ulong)math.lzcnt(x.y), (ulong)math.lzcnt(x.z));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ulong4 vector.     </summary>
@@ -461,7 +526,7 @@ namespace MaxMath
 
                 bits += 0x4330_0000_0000_0000ul;
                 bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
-                bits = offset - bits >> 52;
+                bits = offset - (bits >> 52);
 
                 return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
             }

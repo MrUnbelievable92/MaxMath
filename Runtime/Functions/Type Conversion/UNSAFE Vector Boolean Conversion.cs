@@ -520,7 +520,7 @@ Assert.IsSafeBoolean(x.x7);
             {
                 return (uint8)((byte8)(v128)x);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 return new uint8(touint32(x.v4_0), touint32(x.v4_4));
             }
@@ -581,7 +581,7 @@ Assert.IsSafeBoolean(x.x7);
             {
                 return (int8)((byte8)(v128)x);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 return new int8(toint32(x.v4_0), toint32(x.v4_4));
             }
