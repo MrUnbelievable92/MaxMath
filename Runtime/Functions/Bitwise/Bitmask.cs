@@ -162,7 +162,7 @@ Assert.IsBetween(numBits.y, 0ul, 64ul - index.y);
             // mask
             index = shl(ulong.MaxValue, index);
 
-            if (Sse2.IsSse2Supported)
+            if (Sse4_1.IsSse41Supported)
             {
                 v128 isMaxBitsMask = Sse4_1.cmpeq_epi64(numBits, new v128(64ul));
 
