@@ -86,21 +86,21 @@ namespace MaxMath
             {
                 switch (n % 16)
                 {
-                    case 1:  return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
-                    case 2:  return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
-                    case 3:  return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
+                    case 1:  return Ssse3.alignr_epi8(x, x, 1  * sizeof(byte));
+                    case 2:  return Ssse3.alignr_epi8(x, x, 2  * sizeof(byte));
+                    case 3:  return Ssse3.alignr_epi8(x, x, 3  * sizeof(byte));
                     case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                    case 5:  return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
-                    case 6:  return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                    case 7:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
+                    case 5:  return Ssse3.alignr_epi8(x, x, 5  * sizeof(byte));
+                    case 6:  return Ssse3.alignr_epi8(x, x, 6  * sizeof(byte));
+                    case 7:  return Ssse3.alignr_epi8(x, x, 7  * sizeof(byte));
                     case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                    case 9:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
-                    case 10: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                    case 11: return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+                    case 9:  return Ssse3.alignr_epi8(x, x, 9  * sizeof(byte));
+                    case 10: return Ssse3.alignr_epi8(x, x, 10 * sizeof(byte));
+                    case 11: return Ssse3.alignr_epi8(x, x, 11 * sizeof(byte));
                     case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                    case 13: return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
-                    case 14: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
-                    case 15: return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+                    case 13: return Ssse3.alignr_epi8(x, x, 13 * sizeof(byte));
+                    case 14: return Ssse3.alignr_epi8(x, x, 14 * sizeof(byte));
+                    case 15: return Ssse3.alignr_epi8(x, x, 15 * sizeof(byte));
 
                     default: return x;
                 }
@@ -258,13 +258,13 @@ namespace MaxMath
             {
                 switch (n % 8)
                 {
-                    case 1: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                    case 1: return Ssse3.alignr_epi8(x, x, 1 * sizeof(short));
                     case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                    case 3: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 3: return Ssse3.alignr_epi8(x, x, 3 * sizeof(short));
                     case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                    case 5: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 5: return Ssse3.alignr_epi8(x, x, 5 * sizeof(short));
                     case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                    case 7: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                    case 7: return Ssse3.alignr_epi8(x, x, 7 * sizeof(short));
 
                     default: return x;
                 }
@@ -275,10 +275,10 @@ namespace MaxMath
                 {
                     case 1: return new short8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
                     case 2: return new short8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
-                    case 3: return new short8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
-                    case 4: return new short8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
-                    case 5: return new short8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
-                    case 6: return new short8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 3: return new short8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
+                    case 4: return new short8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new short8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 6: return new short8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
                     case 7: return new short8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
 
                     default: return x;
@@ -407,10 +407,10 @@ namespace MaxMath
                 {
                     case 1: return new int8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
                     case 2: return new int8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
-                    case 3: return new int8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
-                    case 4: return new int8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
-                    case 5: return new int8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
-                    case 6: return new int8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 3: return new int8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2); 
+                    case 4: return new int8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new int8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4); 
+                    case 6: return new int8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
                     case 7: return new int8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
 
                     default: return x;
@@ -675,10 +675,10 @@ namespace MaxMath
                 {
                     case 1: return new float8(x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0);
                     case 2: return new float8(x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1);
-                    case 3: return new float8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
-                    case 4: return new float8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2);
-                    case 5: return new float8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
-                    case 6: return new float8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 3: return new float8(x.x3, x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2); 
+                    case 4: return new float8(x.x4, x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3);
+                    case 5: return new float8(x.x5, x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4);
+                    case 6: return new float8(x.x6, x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5);
                     case 7: return new float8(x.x7, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6);
 
                     default: return x;
@@ -800,21 +800,21 @@ namespace MaxMath
             {
                 switch (n % 16)
                 {
-                    case 1:  return Ssse3.shuffle_epi8(x, new v128(15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
-                    case 2:  return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
-                    case 3:  return Ssse3.shuffle_epi8(x, new v128(13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+                    case 1:  return Ssse3.alignr_epi8(x, x, 15 * sizeof(byte));
+                    case 2:  return Ssse3.alignr_epi8(x, x, 14 * sizeof(byte));
+                    case 3:  return Ssse3.alignr_epi8(x, x, 13 * sizeof(byte));
                     case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                    case 5:  return Ssse3.shuffle_epi8(x, new v128(11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-                    case 6:  return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-                    case 7:  return Ssse3.shuffle_epi8(x, new v128(9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8));
+                    case 5:  return Ssse3.alignr_epi8(x, x, 11 * sizeof(byte));
+                    case 6:  return Ssse3.alignr_epi8(x, x, 10 * sizeof(byte));
+                    case 7:  return Ssse3.alignr_epi8(x, x,  9 * sizeof(byte));
                     case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                    case 9:  return Ssse3.shuffle_epi8(x, new v128(7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6));
-                    case 10: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
-                    case 11: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4));
+                    case 9:  return Ssse3.alignr_epi8(x, x,  7 * sizeof(byte));
+                    case 10: return Ssse3.alignr_epi8(x, x,  6 * sizeof(byte));
+                    case 11: return Ssse3.alignr_epi8(x, x,  5 * sizeof(byte));
                     case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                    case 13: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2));
-                    case 14: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
-                    case 15: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0));
+                    case 13: return Ssse3.alignr_epi8(x, x,  3 * sizeof(byte));
+                    case 14: return Ssse3.alignr_epi8(x, x,  2 * sizeof(byte));
+                    case 15: return Ssse3.alignr_epi8(x, x,  1 * sizeof(byte));
 
                     default: return x;
                 }
@@ -972,13 +972,13 @@ namespace MaxMath
             {
                 switch (n % 8)
                 {
-                    case 1: return Ssse3.shuffle_epi8(x, new v128(14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+                    case 1: return Ssse3.alignr_epi8(x, x, 7 * sizeof(short));
                     case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
-                    case 3: return Ssse3.shuffle_epi8(x, new v128(10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    case 3: return Ssse3.alignr_epi8(x, x, 5 * sizeof(short));
                     case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
-                    case 5: return Ssse3.shuffle_epi8(x, new v128(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5));
+                    case 5: return Ssse3.alignr_epi8(x, x, 3 * sizeof(short));
                     case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
-                    case 7: return Ssse3.shuffle_epi8(x, new v128(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1));
+                    case 7: return Ssse3.alignr_epi8(x, x, 1 * sizeof(short));
 
                     default: return x;
                 }

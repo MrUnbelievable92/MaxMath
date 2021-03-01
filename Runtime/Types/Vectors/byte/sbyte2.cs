@@ -765,7 +765,7 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 operator * (sbyte2 left, sbyte2 right)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return (sbyte2)((short2)left * (short2)right);
             }
@@ -882,7 +882,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.add_epi8(x, new sbyte2(1));
+                return Sse2.sub_epi8(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {
@@ -895,7 +895,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(x, new sbyte2(1));
+                return Sse2.add_epi8(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {
@@ -908,7 +908,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.andnot_si128(x, new sbyte2(-1));
+                return Sse2.xor_si128(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {

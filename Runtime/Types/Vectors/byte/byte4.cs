@@ -6189,8 +6189,8 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator * (byte4 left, byte4 right)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
+            if (Sse2.IsSse2Supported)
+			{
                 return (byte4)((ushort4)left * (ushort4)right);
             }
             else
@@ -6293,8 +6293,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.add_epi8(x, new byte4(1));
-            }
+                return Sse2.sub_epi8(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new byte4((byte)(x.x + 1), (byte)(x.y + 1), (byte)(x.z + 1), (byte)(x.w + 1));
@@ -6306,8 +6306,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(x, new byte4(1));
-            }
+                return Sse2.add_epi8(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new byte4((byte)(x.x - 1), (byte)(x.y - 1), (byte)(x.z - 1), (byte)(x.w - 1));
@@ -6319,8 +6319,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.andnot_si128(x, new sbyte4(-1));
-            }
+                return Sse2.xor_si128(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new byte4((byte)(~x.x), (byte)(~x.y), (byte)(~x.z), (byte)(~x.w));

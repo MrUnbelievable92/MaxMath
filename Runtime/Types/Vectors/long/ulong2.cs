@@ -804,7 +804,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.add_epi64(x, new v128(1L));
+                return Sse2.sub_epi64(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {
@@ -817,7 +817,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi64(x, new v128(1L));
+                return Sse2.add_epi64(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {
@@ -830,7 +830,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.andnot_si128(x, new v128(-1L));
+                return Sse2.xor_si128(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
             }
             else
             {

@@ -20,14 +20,56 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 lzcnt(byte2 x)
         {
-            return new byte2(lzcnt(x.x), lzcnt(x.y));
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                return Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                     Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                byte2 y;
+                byte2 n = 8;
+                byte2 mask;
+
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi8(y, default(v128));
+
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new byte2(lzcnt(x.x), lzcnt(x.y));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte3 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 lzcnt(byte3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                return Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                     Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 byte3 y;
                 byte3 n = 8;
@@ -58,7 +100,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 lzcnt(byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                return Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                     Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 byte4 y;
                 byte4 n = 8;
@@ -89,7 +140,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 lzcnt(byte8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                return Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                     Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 byte8 y;
                 byte8 n = 8;
@@ -120,7 +180,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 lzcnt(byte16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                return Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                     Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 byte16 y;
                 byte16 n = 8;
@@ -153,24 +222,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                byte32 y;
-                byte32 n = 8;
-                byte32 mask;
+                v256 NIBBLE_MASK = new v256(0x0F0F_0F0F);
+                v256 SHUFFLE_MASK_LO = new v256(8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4,
+                                                8, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v256 SHUFFLE_MASK_HI = new v256(8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                8, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
-                y = x >> 4;
-                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 2;
-                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 1;
-                mask = Avx2.mm256_cmpeq_epi8(y, default(v256));
-
-                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return Avx2.mm256_min_epu8(Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_LO, Avx2.mm256_and_si256(NIBBLE_MASK, x)),
+                                           Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(NIBBLE_MASK, Avx2.mm256_srli_epi16(x, 4))));
             }
             else
             {
@@ -240,14 +299,67 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 lzcnt(ushort2 x)
         {
-            return new ushort2(lzcnt(x.x), lzcnt(x.y));
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                v128 lzcnt_bytes = Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                                 Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+
+                return Sse2.min_epu8(Sse2.add_epi8(lzcnt_bytes, Sse2.set1_epi16(8)),
+                                     Sse2.srli_epi16(lzcnt_bytes, 8));
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                ushort2 y;
+                ushort2 n = 16;
+                ushort2 mask;
+
+                y = x >> 8;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 8, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 4;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 4, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 2;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+                n = Mask.BlendV(n - 2, n, mask);
+                x = Mask.BlendV(y, x, mask);
+
+                y = x >> 1;
+                mask = Sse2.cmpeq_epi16(y, default(v128));
+
+                return Mask.BlendV(n - 2, n - x, mask);
+            }
+            else
+            {
+                return new ushort2(lzcnt(x.x), lzcnt(x.y));
+            }
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort3 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 lzcnt(ushort3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                v128 lzcnt_bytes = Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                                 Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+
+                return Sse2.min_epu8(Sse2.add_epi8(lzcnt_bytes, Sse2.set1_epi16(8)),
+                                     Sse2.srli_epi16(lzcnt_bytes, 8));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 ushort3 y;
                 ushort3 n = 16;
@@ -283,7 +395,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 lzcnt(ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                v128 lzcnt_bytes = Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                                 Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+
+                return Sse2.min_epu8(Sse2.add_epi8(lzcnt_bytes, Sse2.set1_epi16(8)),
+                                     Sse2.srli_epi16(lzcnt_bytes, 8));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 ushort4 y;
                 ushort4 n = 16;
@@ -319,30 +443,42 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 lzcnt(ushort8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Ssse3.IsSsse3Supported)
+            {
+                v128 NIBBLE_MASK = new v128(0x0F0F_0F0F);
+                v128 SHUFFLE_MASK_LO = new v128(16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v128 SHUFFLE_MASK_HI = new v128(16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                v128 lzcnt_bytes = Sse2.min_epu8(Ssse3.shuffle_epi8(SHUFFLE_MASK_LO, Sse2.and_si128(NIBBLE_MASK, x)),
+                                                 Ssse3.shuffle_epi8(SHUFFLE_MASK_HI, Sse2.and_si128(NIBBLE_MASK, Sse2.srli_epi16(x, 4))));
+
+                return Sse2.min_epu8(Sse2.add_epi8(lzcnt_bytes, Sse2.set1_epi16(8)),
+                                     Sse2.srli_epi16(lzcnt_bytes, 8));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 ushort8 y;
                 ushort8 n = 16;
                 ushort8 mask;
-
+            
                 y = x >> 8;
                 mask = Sse2.cmpeq_epi16(y, default(v128));
                 n = Mask.BlendV(n - 8, n, mask);
                 x = Mask.BlendV(y, x, mask);
-
+            
                 y = x >> 4;
                 mask = Sse2.cmpeq_epi16(y, default(v128));
                 n = Mask.BlendV(n - 4, n, mask);
                 x = Mask.BlendV(y, x, mask);
-
+            
                 y = x >> 2;
                 mask = Sse2.cmpeq_epi16(y, default(v128));
                 n = Mask.BlendV(n - 2, n, mask);
                 x = Mask.BlendV(y, x, mask);
-
+            
                 y = x >> 1;
                 mask = Sse2.cmpeq_epi16(y, default(v128));
-
+            
                 return Mask.BlendV(n - 2, n - x, mask);
             }
             else
@@ -357,29 +493,17 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                ushort16 y;
-                ushort16 n = 16;
-                ushort16 mask;
+                v256 NIBBLE_MASK = new v256(0x0F0F_0F0F);
+                v256 SHUFFLE_MASK_LO = new v256(16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4,
+                                                16, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4);
+                v256 SHUFFLE_MASK_HI = new v256(16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                16, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
-                y = x >> 8;
-                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
+                v256 lzcnt_bytes = Avx2.mm256_min_epu8(Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_LO, Avx2.mm256_and_si256(NIBBLE_MASK, x)),
+                                                       Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(NIBBLE_MASK, Avx2.mm256_srli_epi16(x, 4))));
 
-                y = x >> 4;
-                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 2;
-                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 1;
-                mask = Avx2.mm256_cmpeq_epi16(y, default(v256));
-
-                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return Avx2.mm256_min_epu8(Avx2.mm256_add_epi8(lzcnt_bytes, Avx.mm256_set1_epi16(8)),
+                                           Avx2.mm256_srli_epi16(lzcnt_bytes, 8));
             }
             else
             {
@@ -437,34 +561,30 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                uint8 y;
-                uint8 n = 32;
-                uint8 mask;
+                v256 ymm0, ymm1, ymm2, ymm3, ymm4;
 
-                y = x >> 16;
-                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 16, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
+                v256 ZERO = default(v256);
+                v256 MASK = new v256(0x0101_0101_0202_0304L, 0L, 0x0101_0101_0202_0304L, 0L);
 
-                y = x >> 8;
-                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 8, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
+                ymm2 = Avx2.mm256_shuffle_epi8  (MASK, x);
+                ymm3 = Avx2.mm256_srli_epi16    (x, 4);
+                ymm3 = Avx2.mm256_and_si256     (ymm3, new v256(0x0F0F_0F0F));
+                ymm4 = Avx2.mm256_cmpeq_epi8    (ymm3, ZERO);
+                ymm2 = Avx2.mm256_and_si256     (ymm2, ymm4);
+                ymm1 = Avx2.mm256_shuffle_epi8  (MASK, ymm3);
+                ymm1 = Avx2.mm256_add_epi8      (ymm2, ymm1);
+                ymm2 = Avx2.mm256_cmpeq_epi8    (x, ZERO);
+                ymm2 = Avx2.mm256_srli_epi16    (ymm2, 8);
+                ymm2 = Avx2.mm256_and_si256     (ymm1, ymm2);
+                ymm1 = Avx2.mm256_srli_epi16    (ymm1, 8);
+                ymm1 = Avx2.mm256_add_epi8      (ymm1, ymm2);
+                ymm0 = Avx2.mm256_cmpeq_epi16   (x, ZERO);
+                ymm0 = Avx2.mm256_srli_epi32    (ymm0, 16);
+                ymm0 = Avx2.mm256_and_si256     (ymm1, ymm0);
+                ymm1 = Avx2.mm256_srli_epi32    (ymm1, 16);
+                ymm0 = Avx2.mm256_add_epi32     (ymm1, ymm0);
 
-                y = x >> 4;
-                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 4, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 2;
-                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-                n = Avx2.mm256_blendv_epi8(n - 2, n, mask);
-                x = Avx2.mm256_blendv_epi8(y, x, mask);
-
-                y = x >> 1;
-                mask = Avx2.mm256_cmpeq_epi32(y, default(v256));
-
-                return Avx2.mm256_blendv_epi8(n - 2, n - x, mask);
+                return ymm0;
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+﻿using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -8,7 +7,6 @@ namespace MaxMath
     unsafe internal static partial class Operator
     {
         // AVX2 to SSE fallback
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 mul_byte(v128 left, v128 right)
         {
             if (Sse2.IsSse2Supported)
@@ -25,7 +23,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 mul_byte(v256 left, v256 right)
         {
             if (Avx2.IsAvx2Supported)
@@ -43,7 +40,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 mul_long(v128 left, v128 right)
         {
             if (Sse4_1.IsSse41Supported)
@@ -59,7 +55,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 mul_long(v256 left, v256 right)
         {
             if (Avx2.IsAvx2Supported)

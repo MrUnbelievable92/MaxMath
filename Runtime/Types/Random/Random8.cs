@@ -56,7 +56,7 @@ Assert.AreNotEqual(State, 0);
             return temp;
         }
 
-
+        /// <summary>       Returns a uniformly random bool value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
@@ -65,6 +65,7 @@ Assert.AreNotEqual(State, 0);
             return *(bool*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool2 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -75,6 +76,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random bool3 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -85,6 +87,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random bool4 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -95,6 +98,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random bool8 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -105,6 +109,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random bool16 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -115,6 +120,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random bool32 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -126,42 +132,49 @@ Assert.AreNotEqual(State, 0);
         }
 
 
+        /// <summary>       Returns a uniformly random sbyte value in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte NextSByte()
         {
             return (sbyte)(sbyte.MinValue ^ NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte2 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2()
         {
             return sbyte.MinValue ^ new sbyte2((sbyte)NextState(), (sbyte)NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte3 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3()
         {
             return sbyte.MinValue ^ new sbyte3((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte4 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4()
         {
             return sbyte.MinValue ^ new sbyte4((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte8 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8()
         {
             return sbyte.MinValue ^ new sbyte8((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte16 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16()
         {
             return sbyte.MinValue ^ new sbyte16((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
         }
 
+        /// <summary>       Returns a uniformly random sbyte32 vector with all components in the interval [-127, 127].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32()
         {
@@ -169,6 +182,7 @@ Assert.AreNotEqual(State, 0);
         }
 
 
+        /// <summary>       Returns a uniformly random sbyte value in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte NextSByte(sbyte min, sbyte max)
         {
@@ -177,6 +191,7 @@ Assert.IsNotSmaller(max, min);
             return (sbyte)(min + (((uint)NextState() * (max - min)) >> 8));
         }
 
+        /// <summary>       Returns a uniformly random sbyte2 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2(sbyte2 min, sbyte2 max)
         {
@@ -195,6 +210,7 @@ Assert.IsNotSmaller(max.y, min.y);
             }
         }
 
+        /// <summary>       Returns a uniformly random sbyte3 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3(sbyte3 min, sbyte3 max)
         {
@@ -214,6 +230,7 @@ Assert.IsNotSmaller(max.z, min.z);
             }
         }
 
+        /// <summary>       Returns a uniformly random sbyte4 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4(sbyte4 min, sbyte4 max)
         {
@@ -234,6 +251,7 @@ Assert.IsNotSmaller(max.w, min.w);
             }
         }
 
+        /// <summary>       Returns a uniformly random sbyte8 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8(sbyte8 min, sbyte8 max)
         {
@@ -258,6 +276,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             }
         }
 
+        /// <summary>       Returns a uniformly random sbyte16 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16(sbyte16 min, sbyte16 max)
         {
@@ -285,7 +304,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -293,6 +312,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
             }
         }
 
+        /// <summary>       Returns a uniformly random sbyte32 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32(sbyte32 min, sbyte32 max)
         {
@@ -341,8 +361,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + new sbyte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                         Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new sbyte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                         Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {
@@ -351,42 +371,49 @@ Assert.IsNotSmaller(max.x31, min.x31);
         }
 
 
+        /// <summary>       Returns a uniformly random byte value in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte NextByte()
         {
             return (byte)(byte.MaxValue + NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte2 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2()
         {
             return byte.MaxValue + new byte2(NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte3 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3()
         {
             return byte.MaxValue + new byte3(NextState(), NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte4 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4()
         {
             return byte.MaxValue + new byte4(NextState(), NextState(), NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte8 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8()
         {
             return byte.MaxValue + new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte16 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16()
         {
             return byte.MaxValue + new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random byte32 vector with all components in the interval [0, 254].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32()
         {
@@ -394,12 +421,14 @@ Assert.IsNotSmaller(max.x31, min.x31);
         }
 
 
+        /// <summary>       Returns a uniformly random byte value in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte NextByte(byte max)
         {
             return (byte)(((uint)NextState() * max) >> 8);
         }
 
+        /// <summary>       Returns a uniformly random byte2 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
@@ -415,6 +444,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte3 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
@@ -430,6 +460,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte4 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
@@ -445,6 +476,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte8 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
@@ -460,6 +492,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte16 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 max)
         {
@@ -470,7 +503,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -478,6 +511,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte32 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 max)
         {
@@ -491,8 +525,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                  Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return new byte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                  Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {
@@ -501,6 +535,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         }
 
 
+        /// <summary>       Returns a uniformly random byte value in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte NextByte(byte min, byte max)
         {
@@ -509,6 +544,7 @@ Assert.IsNotSmaller(max, min);
             return (byte)(min + (((uint)NextState() * (max - min)) >> 8));
         }
 
+        /// <summary>       Returns a uniformly random byte2 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2(byte2 min, byte2 max)
         {
@@ -527,6 +563,7 @@ Assert.IsNotSmaller(max.y, min.y);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte3 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 min, byte3 max)
         {
@@ -546,6 +583,7 @@ Assert.IsNotSmaller(max.z, min.z);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte4 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 min, byte4 max)
         {
@@ -566,6 +604,7 @@ Assert.IsNotSmaller(max.w, min.w);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte8 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 min, byte8 max)
         {
@@ -590,6 +629,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte16 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 min, byte16 max)
         {
@@ -617,7 +657,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -625,6 +665,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
             }
         }
 
+        /// <summary>       Returns a uniformly random byte32 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 min, byte32 max)
         {
@@ -673,8 +714,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                        Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new byte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                        Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {

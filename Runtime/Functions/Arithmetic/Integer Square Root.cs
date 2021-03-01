@@ -83,7 +83,15 @@ namespace MaxMath
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -159,7 +167,15 @@ namespace MaxMath
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -235,7 +251,15 @@ namespace MaxMath
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -342,7 +366,15 @@ namespace MaxMath
                     mask = Sse2.srli_epi16(mask, 2);
 
                     doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi16(toUShort_x, max(mask, toUShort_x)));
-                    tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                    }
+                    else
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi16(default, tempMask), doneMask));
+                    }
                 }
 
                 mask = tempMask;
@@ -452,7 +484,15 @@ namespace MaxMath
                     mask >>= 2;
 
                     doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi8(x, max(mask, x)));
-                    tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                    }
+                    else
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi8(default, tempMask), doneMask));
+                    }
                 }
 
                 mask = tempMask;
@@ -742,7 +782,15 @@ Assert.IsNonNegative(x.x31);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -818,7 +866,15 @@ Assert.IsNonNegative(x.x31);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -894,7 +950,15 @@ Assert.IsNonNegative(x.x31);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -999,7 +1063,15 @@ Assert.IsNonNegative(x.x31);
                     mask = Sse2.srli_epi16(mask, 2);
 
                     doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi16(x, max(mask, x)));
-                    tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                    }
+                    else
+                    {
+                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi16(default, tempMask), doneMask));
+                    }
                 }
 
                 mask = tempMask;
@@ -1249,7 +1321,15 @@ Assert.IsNonNegative(x.x15);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -1325,7 +1405,15 @@ Assert.IsNonNegative(x.x15);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -1401,7 +1489,15 @@ Assert.IsNonNegative(x.x15);
                         mask = Sse2.srli_epi32(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
@@ -1621,7 +1717,7 @@ Assert.IsNonNegative(x.x7);
                         mask = Sse2.srli_epi64(mask, 2);
 
                         doneMask = Sse2.or_si128(doneMask, Sse4_1.cmpeq_epi64(x, max(mask, x)));
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        tempMask = Sse4_1.blendv_epi8(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
                     }
 
                     mask = tempMask;

@@ -57,6 +57,7 @@ Assert.AreNotEqual(State, 0ul);
         }
 
 
+        /// <summary>       Returns a uniformly random bool value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
@@ -65,6 +66,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool2 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -73,6 +75,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool2*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool3 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -81,6 +84,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool3*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool4 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -89,6 +93,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool4*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool8 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -97,6 +102,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool8*)&result;
         }
 
+        /// <summary>       Returns a uniformly random bool16 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -110,6 +116,7 @@ Assert.AreNotEqual(State, 0ul);
             }
         }
 
+        /// <summary>       Returns a uniformly random bool32 vector.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -124,24 +131,28 @@ Assert.AreNotEqual(State, 0ul);
         }
 
 
+        /// <summary>       Returns a uniformly random long value in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long NextLong()
         {
             return long.MinValue ^ (long)NextState();
         }
 
+        /// <summary>       Returns a uniformly random long2 vector with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2 NextLong2()
         {
             return long.MinValue ^ new long2((long)NextState(), (long)NextState());
         }
 
+        /// <summary>       Returns a uniformly random long3 vector with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3()
         {
             return long.MinValue ^ new long3((long)NextState(), (long)NextState(), (long)NextState());
         }
 
+        /// <summary>       Returns a uniformly random long4 vector with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4()
         {
@@ -149,6 +160,7 @@ Assert.AreNotEqual(State, 0ul);
         }
 
 
+        /// <summary>       Returns a uniformly random long value in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long NextLong(long min, long max)
         {
@@ -159,6 +171,7 @@ Assert.IsNotSmaller(max, min);
             return min + (long)result;
         }
 
+        /// <summary>       Returns a uniformly random long2 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2 NextLong2(long2 min, long2 max)
         {
@@ -174,6 +187,7 @@ Assert.IsNotSmaller(max.y, min.y);
             return min + (long2)result;
         }
 
+        /// <summary>       Returns a uniformly random long3 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3(long3 min, long3 max)
         {
@@ -191,6 +205,7 @@ Assert.IsNotSmaller(max.z, min.z);
             return min + (long3)result;
         }
 
+        /// <summary>       Returns a uniformly random long4 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4(long4 min, long4 max)
         {
@@ -211,24 +226,28 @@ Assert.IsNotSmaller(max.w, min.w);
         }
 
 
+        /// <summary>       Returns a uniformly random ulong value in the interval [0, 18.446.744.073.709.551.615].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong NextULong()
         {
             return ulong.MaxValue + NextState();
         }
 
+        /// <summary>       Returns a uniformly random ulong2 vector with all components in the interval [min, 18.446.744.073.709.551.615].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2()
         {
             return ulong.MaxValue + new ulong2(NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random ulong3 vector with all components in the interval [min, 18.446.744.073.709.551.615].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3()
         {
             return ulong.MaxValue + new ulong3(NextState(), NextState(), NextState());
         }
 
+        /// <summary>       Returns a uniformly random ulong4 vector with all components in the interval [min, 18.446.744.073.709.551.615].        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4()
         {
@@ -236,6 +255,7 @@ Assert.IsNotSmaller(max.w, min.w);
         }
 
 
+        /// <summary>       Returns a uniformly random ulong value in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong NextULong(ulong max)
         {
@@ -244,6 +264,7 @@ Assert.IsNotSmaller(max.w, min.w);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random ulong2 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2(ulong2 max)
         {
@@ -255,6 +276,7 @@ Assert.IsNotSmaller(max.w, min.w);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random ulong3 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 max)
         {
@@ -267,6 +289,7 @@ Assert.IsNotSmaller(max.w, min.w);
             return result;
         }
 
+        /// <summary>       Returns a uniformly random ulong4 vector with all components in the interval [0, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 max)
         {
@@ -281,6 +304,7 @@ Assert.IsNotSmaller(max.w, min.w);
         }
 
 
+        /// <summary>       Returns a uniformly random ulong value in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong NextULong(ulong min, ulong max)
         {
@@ -291,6 +315,7 @@ Assert.IsNotSmaller(max, min);
             return min + result;
         }
 
+        /// <summary>       Returns a uniformly random ulong2 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2(ulong2 min, ulong2 max)
         {
@@ -306,6 +331,7 @@ Assert.IsNotSmaller(max.y, min.y);
             return min + result;
         }
 
+        /// <summary>       Returns a uniformly random ulong3 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 min, ulong3 max)
         {
@@ -323,6 +349,7 @@ Assert.IsNotSmaller(max.z, min.z);
             return min + result;
         }
 
+        /// <summary>       Returns a uniformly random ulong4 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 min, ulong4 max)
         {
@@ -343,24 +370,28 @@ Assert.IsNotSmaller(max.w, min.w);
         }
 
 
+        /// <summary>       Returns a uniformly random double value in the interval [0, 1).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double NextDouble()
         {
             return -1d + math.asdouble(0x3FF0_0000_0000_0000 | (NextState() >> 12));
         }
 
+        /// <summary>       Returns a uniformly random double2 vector with all components in the interval [0, 1).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double2 NextDouble2()
         {
             return -1d + maxmath.asdouble(0x3FF0_0000_0000_0000 | (new ulong2(NextState(), NextState()) >> 12));
         }
 
+        /// <summary>       Returns a uniformly random double3 vector with all components in the interval [0, 1).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3()
         {
             return -1d + maxmath.asdouble(0x3FF0_0000_0000_0000 | (new ulong3(NextState(), NextState(), NextState()) >> 12));
         }
 
+        /// <summary>       Returns a uniformly random double4 vector with all components in the interval [0, 1).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4()
         {
@@ -368,6 +399,7 @@ Assert.IsNotSmaller(max.w, min.w);
         }
 
 
+        /// <summary>       Returns a uniformly random double value in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double NextDouble(double min, double max) 
         { 
@@ -376,6 +408,7 @@ Assert.IsNotSmaller(max, min);
             return math.mad(NextDouble(), (max - min), min);
         }
 
+        /// <summary>       Returns a uniformly random double2 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double2 NextDouble2(double2 min, double2 max) 
         { 
@@ -385,6 +418,7 @@ Assert.IsNotSmaller(max.y, min.y);
             return math.mad(NextDouble2(), (max - min), min);
         }
 
+        /// <summary>       Returns a uniformly random double3 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3(double3 min, double3 max) 
         { 
@@ -395,6 +429,7 @@ Assert.IsNotSmaller(max.z, min.z);
             return math.mad(NextDouble3(), (max - min), min);
         }
 
+        /// <summary>       Returns a uniformly random double4 vector with all components in the interval [min, max).        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4(double4 min, double4 max) 
         { 

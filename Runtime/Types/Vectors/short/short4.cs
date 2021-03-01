@@ -6501,8 +6501,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.add_epi16(x, new short4(1));
-            }
+                return Sse2.sub_epi16(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new short4((short)(x.x + 1), (short)(x.y + 1), (short)(x.z + 1), (short)(x.w + 1));
@@ -6514,8 +6514,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi16(x, new short4(1));
-            }
+                return Sse2.add_epi16(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new short4((short)(x.x - 1), (short)(x.y - 1), (short)(x.z - 1), (short)(x.w - 1));
@@ -6527,8 +6527,8 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.andnot_si128(x, new short4(-1));
-            }
+                return Sse2.xor_si128(x, Sse2.cmpeq_epi32(default(v128), default(v128)));
+			}
             else
             {
                 return new short4((short)(~x.x), (short)(~x.y), (short)(~x.z), (short)(~x.w));

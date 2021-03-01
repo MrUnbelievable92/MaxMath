@@ -1,5 +1,4 @@
 ﻿using DevTools;
-using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -223,7 +222,6 @@ Assert.AreNotEqual(divisor.x31, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vdivrem_sbyte(sbyte32 dividend, sbyte32 divisor, out sbyte32 remainder)
         {
             if (Avx2.IsAvx2Supported)
@@ -242,7 +240,6 @@ Assert.AreNotEqual(divisor.x31, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vdiv_sbyte(sbyte32 dividend, sbyte32 divisor)
         {
             if (Avx2.IsAvx2Supported)
@@ -257,7 +254,6 @@ Assert.AreNotEqual(divisor.x31, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 vrem_sbyte(sbyte32 dividend, sbyte32 divisor)
         {
             if (Avx2.IsAvx2Supported)
@@ -443,7 +439,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdivrem_sbyte(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
             if (Avx2.IsAvx2Supported)
@@ -462,7 +457,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdiv_sbyte(sbyte16 dividend, sbyte16 divisor)
         {
             if (Avx2.IsAvx2Supported)
@@ -477,7 +471,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vrem_sbyte(sbyte16 dividend, sbyte16 divisor)
         {
             if (Avx2.IsAvx2Supported)
@@ -640,7 +633,6 @@ Assert.AreNotEqual(divisor.x7,  0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte8 vdivrem_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor, out sbyte8 remainder)
         {
             if (Sse2.IsSse2Supported)
@@ -659,7 +651,6 @@ Assert.AreNotEqual(divisor.x7,  0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte8 vdiv_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor)
         {
             if (Sse2.IsSse2Supported)
@@ -674,7 +665,6 @@ Assert.AreNotEqual(divisor.x7,  0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte8 vrem_sbyte_SSE_FALLBACK(sbyte8 dividend, sbyte8 divisor)
         {
             if (Sse2.IsSse2Supported)
@@ -850,7 +840,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdivrem_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor, out sbyte16 remainder)
         {
             if (Sse2.IsSse2Supported)
@@ -869,7 +858,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vdiv_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor)
         {
             if (Sse2.IsSse2Supported)
@@ -884,7 +872,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte16 vrem_sbyte_SSE_FALLBACK(sbyte16 dividend, sbyte16 divisor)
         {
             if (Sse2.IsSse2Supported)
@@ -899,7 +886,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void divrem_LOOPHEAD_upcast(int i, ref ushort16 quotients, ref ushort16 remainders, ushort16 divisorCast, ushort16 dividendCast)
         {
             if (Avx2.IsAvx2Supported)
@@ -917,7 +903,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void rem_LOOPHEAD_upcast(int i, ref ushort16 remainders, ushort16 divisorCast, ushort16 dividendCast)
         {
             if (Avx2.IsAvx2Supported)
@@ -934,7 +919,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void divrem_LOOPHEAD_upcast(int i, ref ushort8 quotients, ref ushort8 remainders, ushort8 divisorCast, ushort8 dividendCast)
         {
             if (Sse2.IsSse2Supported)
@@ -952,7 +936,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void rem_LOOPHEAD_upcast(int i, ref ushort8 remainders, ushort8 divisorCast, ushort8 dividendCast)
         {
             if (Sse2.IsSse2Supported)
@@ -969,7 +952,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void divrem_LOOPHEAD_byte(int i, ref byte32 quotients, ref byte32 remainders, byte32 divisorCast, byte32 dividendCast)
         {
             if (Avx2.IsAvx2Supported)
@@ -987,7 +969,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void rem_LOOPHEAD_byte(int i, ref byte32 remainders, byte32 divisorCast, byte32 dividendCast)
         {
             if (Avx2.IsAvx2Supported)
@@ -1004,7 +985,6 @@ Assert.AreNotEqual(divisor.x15, 0);
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void divrem_LOOPHEAD_byte(int i, ref byte16 quotients, ref byte16 remainders, byte16 divisorCast, byte16 dividendCast)
         {
             if (Sse2.IsSse2Supported)
@@ -1022,7 +1002,6 @@ Assert.AreNotEqual(divisor.x15, 0);
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void rem_LOOPHEAD_byte(int i, ref byte16 remainders, byte16 divisorCast, byte16 dividendCast)
         {
             if (Sse2.IsSse2Supported)

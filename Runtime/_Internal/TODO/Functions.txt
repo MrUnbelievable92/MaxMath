@@ -1,3 +1,0 @@
-﻿Vector shifts (s)byte32, (u)short16
-
-countbits(void* address, int bytes)

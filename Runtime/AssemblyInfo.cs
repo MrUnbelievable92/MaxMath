@@ -31,8 +31,8 @@ using System.Diagnostics.CodeAnalysis;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.1.0")]
-[assembly: AssemblyFileVersion("2.1.0")]
+[assembly: AssemblyVersion("2.1.1")]
+[assembly: AssemblyFileVersion("2.1.1")]
 [assembly: AssemblyInformationalVersion("2.1 Release")]
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity.Mathematics API consistency")]

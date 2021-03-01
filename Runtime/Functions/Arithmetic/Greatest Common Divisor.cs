@@ -329,11 +329,21 @@ namespace MaxMath
                     uint2 temp_y = shrl(*(uint2*)&_y, math.tzcnt(*(uint2*)&_y));
                     _y = *(v128*)&temp_y;
 
-                    v128 tempX = _x;
-                    v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = _x;
 
-                    _x = Mask.BlendV(_x, _y, x_greater_y);
-                    _y = Mask.BlendV(_y, tempX, x_greater_y);
+                        _x = Sse4_1.min_epu32(_x, _y);
+                        _y = Sse4_1.max_epu32(_y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = _x;
+                        v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+
+                        _x = Mask.BlendV(_x, _y, x_greater_y);
+                        _y = Mask.BlendV(_y, tempX, x_greater_y);
+                    }
 
                     _y = Sse2.sub_epi32(_y, _x);
 
@@ -389,11 +399,21 @@ namespace MaxMath
                     uint3 temp_y = shrl(*(uint3*)&_y, math.tzcnt(*(uint3*)&_y));
                     _y = *(v128*)&temp_y;
 
-                    v128 tempX = _x;
-                    v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = _x;
 
-                    _x = Mask.BlendV(_x, _y, x_greater_y);
-                    _y = Mask.BlendV(_y, tempX, x_greater_y);
+                        _x = Sse4_1.min_epu32(_x, _y);
+                        _y = Sse4_1.max_epu32(_y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = _x;
+                        v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+
+                        _x = Mask.BlendV(_x, _y, x_greater_y);
+                        _y = Mask.BlendV(_y, tempX, x_greater_y);
+                    }
 
                     _y = Sse2.sub_epi32(_y, _x);
 
@@ -449,11 +469,21 @@ namespace MaxMath
                     uint4 temp_y = shrl(*(uint4*)&_y, math.tzcnt(*(uint4*)&_y));
                     _y = *(v128*)&temp_y;
 
-                    v128 tempX = _x;
-                    v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = _x;
 
-                    _x = Mask.BlendV(_x, _y, x_greater_y);
-                    _y = Mask.BlendV(_y, tempX, x_greater_y);
+                        _x = Sse4_1.min_epu32(_x, _y);
+                        _y = Sse4_1.max_epu32(_y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = _x;
+                        v128 x_greater_y = Operator.greater_mask_uint(_x, _y);
+
+                        _x = Mask.BlendV(_x, _y, x_greater_y);
+                        _y = Mask.BlendV(_y, tempX, x_greater_y);
+                    }
 
                     _y = Sse2.sub_epi32(_y, _x);
 
@@ -505,10 +535,9 @@ namespace MaxMath
                     y = Avx2.mm256_srlv_epi32(y, tzcnt(y));
 
                     v256 tempX = x;
-                    v256 x_greater_y = Operator.greater_mask_uint(x, y);
 
-                    x = Avx2.mm256_blendv_epi8(x, y, x_greater_y);
-                    y = Avx2.mm256_blendv_epi8(y, tempX, x_greater_y);
+                    x = Avx2.mm256_min_epu32(x, y);
+                    y = Avx2.mm256_max_epu32(y, tempX);
 
                     y -= x;
 
@@ -571,11 +600,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 gcd(ushort2 x, ushort2 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (ushort2)gcd((uint2)x, (uint2)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -599,11 +624,21 @@ namespace MaxMath
                 {
                     y = shrl(y, tzcnt(y));
 
-                    v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = x;
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                        x = Sse4_1.min_epu16(x, y);
+                        y = Sse4_1.max_epu16(y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = x;
+                        v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+
+                        x = Mask.BlendV(x, y, x_greater_y);
+                        y = Mask.BlendV(y, tempX, x_greater_y);
+                    }
 
                     y -= x;
 
@@ -629,11 +664,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 gcd(ushort3 x, ushort3 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (ushort3)gcd((uint3)x, (uint3)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -657,11 +688,21 @@ namespace MaxMath
                 {
                     y = shrl(y, tzcnt(y));
 
-                    v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = x;
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                        x = Sse4_1.min_epu16(x, y);
+                        y = Sse4_1.max_epu16(y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = x;
+                        v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+
+                        x = Mask.BlendV(x, y, x_greater_y);
+                        y = Mask.BlendV(y, tempX, x_greater_y);
+                    }
 
                     y -= x;
 
@@ -687,11 +728,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 gcd(ushort4 x, ushort4 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (ushort4)gcd((uint4)x, (uint4)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -715,11 +752,21 @@ namespace MaxMath
                 {
                     y = shrl(y, tzcnt(y));
 
-                    v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = x;
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                        x = Sse4_1.min_epu16(x, y);
+                        y = Sse4_1.max_epu16(y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = x;
+                        v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+
+                        x = Mask.BlendV(x, y, x_greater_y);
+                        y = Mask.BlendV(y, tempX, x_greater_y);
+                    }
 
                     y -= x;
 
@@ -745,11 +792,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 gcd(ushort8 x, ushort8 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (ushort8)gcd((uint8)x, (uint8)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -773,11 +816,21 @@ namespace MaxMath
                 {
                     y = shrl(y, tzcnt(y));
 
-                    v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        v128 tempX = x;
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                        x = Sse4_1.min_epu16(x, y);
+                        y = Sse4_1.max_epu16(y, tempX);
+                    }
+                    else
+                    {
+                        v128 tempX = x;
+                        v128 x_greater_y = Operator.greater_mask_ushort(x, y);
+
+                        x = Mask.BlendV(x, y, x_greater_y);
+                        y = Mask.BlendV(y, tempX, x_greater_y);
+                    }
 
                     y -= x;
 
@@ -835,10 +888,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v256 tempX = x;
-                    v256 x_greater_y = Operator.greater_mask_ushort(x, y);
 
-                    x = Avx2.mm256_blendv_epi8(x, y, x_greater_y);
-                    y = Avx2.mm256_blendv_epi8(y, tempX, x_greater_y);
+                    x = Avx2.mm256_min_epu16(x, y);
+                    y = Avx2.mm256_max_epu16(y, tempX);
 
                     y -= x;
 
@@ -908,11 +960,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 gcd(byte2 x, byte2 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (byte2)gcd((uint2)x, (uint2)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -937,10 +985,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                    x = Sse2.min_epu8(x, y);
+                    y = Sse2.max_epu8(y, tempX);
 
                     y -= x;
 
@@ -966,11 +1013,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 gcd(byte3 x, byte3 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (byte3)gcd((uint3)x, (uint3)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -995,10 +1038,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                    x = Sse2.min_epu8(x, y);
+                    y = Sse2.max_epu8(y, tempX);
 
                     y -= x;
 
@@ -1024,11 +1066,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 gcd(byte4 x, byte4 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (byte4)gcd((uint4)x, (uint4)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -1053,10 +1091,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                    x = Sse2.min_epu8(x, y);
+                    y = Sse2.max_epu8(y, tempX);
 
                     y -= x;
 
@@ -1082,11 +1119,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 gcd(byte8 x, byte8 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (byte8)gcd((uint8)x, (uint8)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -1111,10 +1144,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                    x = Sse2.min_epu8(x, y);
+                    y = Sse2.max_epu8(y, tempX);
 
                     y -= x;
 
@@ -1147,11 +1179,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 gcd(byte16 x, byte16 y)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (byte16)gcd((ushort16)x, (ushort16)y);
-            }
-            else if (Sse2.IsSse2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -1176,10 +1204,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v128 tempX = x;
-                    v128 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Mask.BlendV(x, y, x_greater_y);
-                    y = Mask.BlendV(y, tempX, x_greater_y);
+                    x = Sse2.min_epu8(x, y);
+                    y = Sse2.max_epu8(y, tempX);
 
                     y -= x;
 
@@ -1245,10 +1272,9 @@ namespace MaxMath
                     y = shrl(y, tzcnt(y));
 
                     v256 tempX = x;
-                    v256 x_greater_y = Operator.greater_mask_byte(x, y);
 
-                    x = Avx2.mm256_blendv_epi8(x, y, x_greater_y);
-                    y = Avx2.mm256_blendv_epi8(y, tempX, x_greater_y);
+                    x = Avx2.mm256_min_epu8(x, y);
+                    y = Avx2.mm256_max_epu8(y, tempX);
 
                     y -= x;
 

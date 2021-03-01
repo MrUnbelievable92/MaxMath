@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+﻿using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,7 +6,6 @@ namespace MaxMath
 {
     unsafe internal static partial class Operator
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_byte(v128 left, v128 right)
         {
             if (Sse2.IsSse2Supported)
@@ -20,7 +18,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_byte(byte8 left, byte8 right)
         {
             if (Sse2.IsSse2Supported)
@@ -33,7 +30,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_byte(byte16 left, byte16 right)
         {
             if (Sse2.IsSse2Supported)
@@ -46,7 +42,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 greater_mask_byte(byte32 left, byte32 right)
         {
             if (Avx2.IsAvx2Supported)
@@ -60,7 +55,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_ushort(ushort2 left, ushort2 right)
         {
             if (Sse2.IsSse2Supported)
@@ -73,7 +67,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_ushort(ushort3 left, ushort3 right)
         {
             if (Sse2.IsSse2Supported)
@@ -86,7 +79,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_ushort(ushort4 left, ushort4 right)
         {
             if (Sse2.IsSse2Supported)
@@ -99,7 +91,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_ushort(ushort8 left, ushort8 right)
         {
             if (Sse2.IsSse2Supported)
@@ -112,7 +103,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 greater_mask_ushort(ushort16 left, ushort16 right)
         {
             if (Avx2.IsAvx2Supported)
@@ -126,7 +116,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_uint(v128 left, v128 right)
         {
             if (Sse2.IsSse2Supported)
@@ -139,7 +128,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 greater_mask_uint(uint8 left, uint8 right)
         {
             if (Avx2.IsAvx2Supported)
@@ -152,7 +140,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 greater_mask_ulong(ulong2 left, ulong2 right)
         {
             if (Sse4_2.IsSse42Supported)
@@ -165,7 +152,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 greater_mask_ulong(v256 left, v256 right)
         {
             if (Avx2.IsAvx2Supported)

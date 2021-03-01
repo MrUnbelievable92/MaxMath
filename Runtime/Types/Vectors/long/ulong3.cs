@@ -2737,7 +2737,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_add_epi64(x, new v256(1L));
+                return Avx2.mm256_sub_epi64(x, Avx2.mm256_cmpeq_epi32(default(v256), default(v256)));
             }
             else
             {
@@ -2750,7 +2750,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(x, new v256(1L));
+                return Avx2.mm256_add_epi64(x, Avx2.mm256_cmpeq_epi32(default(v256), default(v256)));
             }
             else
             {
@@ -2763,7 +2763,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_andnot_si256(x, new v256(-1L));
+                return Avx2.mm256_xor_si256(x, Avx2.mm256_cmpeq_epi32(default(v256), default(v256)));
             }
             else
             {

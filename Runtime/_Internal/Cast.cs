@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+﻿using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -15,7 +14,6 @@ namespace MaxMath
         /////////////////////////////////////  SSE2 FALLBACK  ////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////
         
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ByteToShort(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -29,7 +27,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SByteToShort(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -43,7 +40,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ByteToInt(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -60,7 +56,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SByteToInt(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -78,7 +73,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ByteToLong(byte2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -96,7 +90,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SByteToLong(sbyte2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -118,7 +111,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UShortToInt(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -132,7 +124,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToInt(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -146,7 +137,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UShortToLong(ushort2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -163,7 +153,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToLong(short2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -182,7 +171,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UIntToLong(uint2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -196,7 +184,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IntToLong(int2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -211,173 +198,155 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Short2To_S_Byte2_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(short));
 
-                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+                return Sse2.unpacklo_epi8(x, y_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Short3To_S_Byte3_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
-                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(short));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(short));
 
-                v128 xy = Mask.BlendV(x, y_shifted, new byte2(0, 255));
+                v128 xy = Sse2.unpacklo_epi8(x, y_shifted);
 
-                return Mask.BlendV(xy, z_shifted, new byte4(0, 0, 255, 0));
+                return Sse2.unpacklo_epi16(xy, z_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Short4To_S_Byte4_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
-                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
-                v128 w_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(short));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(short));
+                v128 w_shifted = Sse2.bsrli_si128(x, 3 * sizeof(short));
 
-                byte4 mask = new byte4(0, 255, 0, 255);
+                v128 xy = Sse2.unpacklo_epi8(x, y_shifted);
+                v128 zw = Sse2.unpacklo_epi8(z_shifted, w_shifted);
 
-                v128 xy = Mask.BlendV(x,         y_shifted, mask);
-                v128 zw = Mask.BlendV(z_shifted, w_shifted, mask);
-
-                return Mask.BlendV(xy, zw, new byte4(0, 0, 255, 255));
+                return Sse2.unpacklo_epi16(xy, zw);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Short8To_S_Byte8_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 x1_shifted = Sse2.bsrli_si128(x, 1 * sizeof(byte));
-                v128 x2_shifted = Sse2.bsrli_si128(x, 2 * sizeof(byte));
-                v128 x3_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
-                v128 x4_shifted = Sse2.bsrli_si128(x, 4 * sizeof(byte));
-                v128 x5_shifted = Sse2.bsrli_si128(x, 5 * sizeof(byte));
-                v128 x6_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
-                v128 x7_shifted = Sse2.bsrli_si128(x, 7 * sizeof(byte));
+                v128 x1x5_shifted = Sse2.bsrli_si128(x, 1 * sizeof(short));
+                v128 x2x6_shifted = Sse2.bsrli_si128(x, 2 * sizeof(short));
+                v128 x3x7_shifted = Sse2.bsrli_si128(x, 3 * sizeof(short));
 
-                byte8 mask = new byte8(0, 255, 0, 255, 0, 255, 0, 255);
-                v128 x0x1 = Mask.BlendV(x, x1_shifted, mask);
-                v128 x2x3 = Mask.BlendV(x2_shifted, x3_shifted, mask);
-                v128 x4x5 = Mask.BlendV(x4_shifted, x5_shifted, mask);
-                v128 x6x7 = Mask.BlendV(x6_shifted, x7_shifted, mask);
+                v128 x0x1 = Sse2.unpacklo_epi8(x,            x1x5_shifted);
+                v128 x2x3 = Sse2.unpacklo_epi8(x2x6_shifted, x3x7_shifted);
+                v128 x4x5 = Sse2.unpackhi_epi8(x,            x1x5_shifted);
+                v128 x6x7 = Sse2.unpackhi_epi8(x2x6_shifted, x3x7_shifted);
 
-                mask = new byte8(0, 0, 255, 255, 0, 0, 255, 255);
-                v128 x0x3 = Mask.BlendV(x0x1, x2x3, mask);
-                v128 x4x7 = Mask.BlendV(x4x5, x6x7, mask);
+                v128 x0x3 = Sse2.unpacklo_epi16(x0x1, x2x3);
+                v128 x4x7 = Sse2.unpacklo_epi16(x4x5, x6x7);
 
-                return Mask.BlendV(x0x3, x4x7, new byte8(0, 0, 0, 0, 255, 255, 255, 255));
+                return Sse2.unpacklo_epi32(x0x3, x4x7);
             }
             else throw new CPUFeatureCheckException();
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int2To_S_Byte2_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(int));
 
-                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+                return Sse2.unpacklo_epi8(x, y_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int3To_S_Byte3_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
-                v128 z_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(int));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(int));
 
-                v128 xy = Mask.BlendV(x, y_shifted, new byte2(0, 255));
+                v128 xy = Sse2.unpacklo_epi8(x, y_shifted);
 
-                return Mask.BlendV(xy, z_shifted, new byte4(0, 0, 255, 0));
+                return Sse2.unpacklo_epi16(xy, z_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4To_S_Byte4_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 3 * sizeof(byte));
-                v128 z_shifted = Sse2.bsrli_si128(x, 6 * sizeof(byte));
-                v128 w_shifted = Sse2.bsrli_si128(x, 9 * sizeof(byte));
+                v128 yw_shifted = Sse2.bsrli_si128(x, 1 * sizeof(int));
 
-                byte4 mask = new byte4(0, 255, 0, 255);
+                v128 xy = Sse2.unpacklo_epi8(x, yw_shifted);
+                v128 zw = Sse2.unpackhi_epi8(x, yw_shifted);
 
-                v128 xy = Mask.BlendV(x, y_shifted, mask);
-                v128 zw = Mask.BlendV(z_shifted, w_shifted, mask);
-
-                return Mask.BlendV(xy, zw, new byte4(0, 0, 255, 255));
+                return Sse2.unpacklo_epi16(xy, zw);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2To_S_Byte2_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.bsrli_si128(x, 7 * sizeof(byte));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(long));
 
-                return Mask.BlendV(x, y_shifted, new byte2(0, 255));
+                return Sse2.unpacklo_epi8(x, y_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int3To_U_Short3_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(int));
+                v128 z_shifted = Sse2.bsrli_si128(x, 2 * sizeof(int));
 
-                return Mask.BlendV(lo, Sse2.bsrli_si128(x, 2 * sizeof(short)), new byte8(0, 0, 0, 0, 255, 255, 0, 0));
+                v128 xy = Sse2.unpacklo_epi16(x, y_shifted);
+
+                return Sse2.unpacklo_epi32(xy, z_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4To_U_Short4_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
-                v128 hi = Sse2.shufflehi_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 yw_shifted = Sse2.bsrli_si128(x, 1 * sizeof(int));
 
-                return Mask.BlendV(lo, Sse2.bsrli_si128(hi, 2 * sizeof(short)), new byte8(0, 0, 0, 0, 255, 255, 255, 255));
+                v128 xy = Sse2.unpacklo_epi16(x, yw_shifted);
+                v128 zw = Sse2.unpackhi_epi16(x, yw_shifted);
+
+                return Sse2.unpacklo_epi32(xy, zw);
             }
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2To_U_Short2_SSE2(v128 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 y_shifted = Sse2.shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 y_shifted = Sse2.bsrli_si128(x, 1 * sizeof(long));
 
-                return Sse2.shufflelo_epi16(y_shifted, Sse.SHUFFLE(3, 3, 2, 0));
+                return Sse2.unpacklo_epi16(x, y_shifted);
             }
             else throw new CPUFeatureCheckException();
         }
@@ -386,7 +355,6 @@ namespace MaxMath
         //////////////////////////////////////////////////////////////////////////////////////////
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ByteToFloat(byte2 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -402,7 +370,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ByteToFloat(v128 x)
         {
             if (Sse4_1.IsSse41Supported)
@@ -419,7 +386,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UShortToFloat(ushort2 x)
         {
             if (Sse2.IsSse2Supported)
@@ -432,7 +398,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 UShortToFloat(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -443,7 +408,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 UShort8ToFloat8(ushort8 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -457,7 +421,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(v128 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -467,7 +430,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(ushort8 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -477,7 +439,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(short8 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -488,7 +449,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ShortToByte(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -500,7 +460,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4ToByte4(v128 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -510,7 +469,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int8ToByte8(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -523,7 +481,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int2ToShort2(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -533,7 +490,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int4ToShort4(v128 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -543,7 +499,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
          
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int8ToShort8(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -557,7 +512,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2ToByte2(v128 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -567,14 +521,12 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long4ToByte4(v256 x)
         {
             return Int4ToByte4(Long4ToInt4(x));
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2ToShort2(v128 x)
         {
             if (Ssse3.IsSsse3Supported)
@@ -584,14 +536,12 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long4ToShort4(v256 x)
         {
             return Int4ToShort4(Long4ToInt4(x));
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long2ToInt2(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -601,7 +551,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Long4ToInt4(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -612,7 +561,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double4 Long4ToDouble4(long4 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -634,7 +582,6 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double4 ULong4ToDouble4(ulong4 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -657,7 +604,6 @@ namespace MaxMath
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float8 UInt8ToFloat8(uint8 x)
         {
             int8 signed = (int8)x & 0x7FFF_FFFF;
