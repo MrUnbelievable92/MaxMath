@@ -304,7 +304,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -361,8 +361,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + new sbyte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                         Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new sbyte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                         Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {
@@ -503,7 +503,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -525,8 +525,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return new byte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                  Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                  Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {
@@ -657,7 +657,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
                 temp = Avx2.mm256_shuffle_epi8(temp, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                               1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
+                return min + Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(temp, Sse.SHUFFLE(0, 0, 2, 0)));
             }
             else
             {
@@ -714,8 +714,8 @@ Assert.IsNotSmaller(max.x31, min.x31);
                 hi = Avx2.mm256_shuffle_epi8(hi, new v256(1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                                           1, 3, 5, 7, 9, 11, 13, 15, 0, 0, 0, 0, 0, 0, 0, 0));
 
-                return min + new byte32(Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
-                                        Avx.mm256_castsi256_si127(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
+                return min + new byte32(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(lo, Sse.SHUFFLE(0, 0, 2, 0))),
+                                        Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(hi, Sse.SHUFFLE(0, 0, 2, 0))));
             }
             else
             {
