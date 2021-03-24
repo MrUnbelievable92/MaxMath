@@ -46,7 +46,7 @@ namespace MaxMath
         }
 
 
-        public override  string ToString()
+        public override string ToString()
         {
             return $"{ math.abs(real) } + { math.abs(imaginary) }i";
         }

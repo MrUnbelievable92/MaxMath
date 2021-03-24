@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -64,7 +65,7 @@ namespace MaxMath
 
 
         #region Shuffle
-        public  short4 xxxx
+        public short4 xxxx
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
             get
@@ -79,7 +80,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yxxx
+        public short4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -94,7 +95,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xyxx
+        public short4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -109,7 +110,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xxyx
+        public short4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -124,7 +125,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xxxy
+        public short4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -139,7 +140,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yyxx
+        public short4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -154,7 +155,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yxyx
+        public short4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -169,7 +170,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yxxy
+        public short4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -184,7 +185,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xyyx
+        public short4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -199,7 +200,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xyxy
+        public short4 xyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -214,7 +215,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xxyy
+        public short4 xxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -229,7 +230,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yyyx
+        public short4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -244,7 +245,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yyxy
+        public short4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -259,7 +260,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yxyy
+        public short4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -274,7 +275,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 xyyy
+        public short4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -289,7 +290,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short4 yyyy
+        public short4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -305,7 +306,7 @@ namespace MaxMath
             }
         }
 
-        public  short3 xxx
+        public short3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -320,7 +321,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 yxx
+        public short3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -335,7 +336,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 xyx
+        public short3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -350,7 +351,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 xxy
+        public short3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -365,7 +366,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 yyx
+        public short3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -380,7 +381,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 yxy
+        public short3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -395,7 +396,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 xyy
+        public short3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -410,7 +411,7 @@ namespace MaxMath
                 }
             }
         }
-        public  short3 yyy
+        public short3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -426,7 +427,7 @@ namespace MaxMath
             }
         }
 
-        public  short2 xx
+        public short2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -444,7 +445,7 @@ namespace MaxMath
         public          short2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -461,7 +462,7 @@ namespace MaxMath
                 this = value.yx; 
             }
         }
-        public  short2 yy
+        public short2 yy
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
             get 
@@ -655,7 +656,7 @@ namespace MaxMath
         public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 2);
 
@@ -746,12 +747,13 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return (v128)((short8)((v128)left) * right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((short8)((v128)left) * right);
+                }
             }
-            else
-            {
-                return left * (short2)right;
-            }
+
+            return left * (short2)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -759,12 +761,13 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return (v128)((short8)((v128)left) / right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((short8)((v128)left) / right);
+                }
             }
-            else
-            {
-                return left / (short2)right;
-            }
+
+            return left / (short2)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -772,12 +775,13 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return (v128)((short8)((v128)left) % right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((short8)((v128)left) % right);
+                }
             }
-            else
-            {
-                return left % (short2)right;
-            }
+
+            return left % (short2)right;
         }
 
 
@@ -1003,7 +1007,7 @@ Assert.IsWithinArrayBounds(index, 2);
     
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short2 other)
+        public bool Equals(short2 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1015,11 +1019,11 @@ Assert.IsWithinArrayBounds(index, 2);
             }
         } 
 
-        public override  bool Equals(object obj) => Equals((short2)obj);
+        public override bool Equals(object obj) => Equals((short2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Sse4_1.IsSse41Supported)
             {
@@ -1034,7 +1038,7 @@ Assert.IsWithinArrayBounds(index, 2);
         }
 
 
-        public override  string ToString() => $"short2({x}, {y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
+        public override string ToString() => $"short2({x}, {y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short2({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)})";
     }
 }

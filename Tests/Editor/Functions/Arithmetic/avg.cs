@@ -7,6 +7,118 @@ namespace MaxMath.Tests
         [Test]
         public static void Byte2()
         {
+            for (int i = 0; i < Tests.Byte2.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte2.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.Byte2.TestData_LHS[i])) / 2);
+            }
+        }
+
+        [Test]
+        public static void Byte3()
+        {
+            for (int i = 0; i < Tests.Byte3.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte3.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.Byte3.TestData_LHS[i])) / 3);
+            }
+        }
+
+        [Test]
+        public static void Byte4()
+        {
+            for (int i = 0; i < Tests.Byte4.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte4.TestData_LHS[i]),
+                                (1u + maxmath.csum(Tests.Byte4.TestData_LHS[i])) / 4u);
+            }
+        }
+
+        [Test]
+        public static void Byte8()
+        {
+            for (int i = 0; i < Tests.Byte8.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte8.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.Byte8.TestData_LHS[i])) / 8);
+            }
+        }
+
+        [Test]
+        public static void Byte16()
+        {
+            for (int i = 0; i < Tests.Byte16.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte16.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.Byte16.TestData_LHS[i])) / 16);
+            }
+        }
+
+        [Test]
+        public static void Byte32()
+        {
+            for (int i = 0; i < Tests.Byte32.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.Byte32.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.Byte32.TestData_LHS[i])) / 32);
+            }
+        }
+
+
+        [Test]
+        public static void UShort2()
+        {
+            for (int i = 0; i < Tests.UShort2.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.UShort2.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.UShort2.TestData_LHS[i])) / 2);
+            }
+        }
+
+        [Test]
+        public static void UShort3()
+        {
+            for (int i = 0; i < Tests.UShort3.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.UShort3.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.UShort3.TestData_LHS[i])) / 3);
+            }
+        }
+
+        [Test]
+        public static void UShort4()
+        {
+            for (int i = 0; i < Tests.UShort4.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.UShort4.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.UShort4.TestData_LHS[i])) / 4);
+            }
+        }
+
+        [Test]
+        public static void UShort8()
+        {
+            for (int i = 0; i < Tests.UShort8.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.UShort8.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.UShort8.TestData_LHS[i])) / 8);
+            }
+        }
+
+        [Test]
+        public static void UShort16()
+        {
+            for (int i = 0; i < Tests.UShort16.TestData_LHS.Length; i++)
+            {
+                Assert.AreEqual(maxmath.avg(Tests.UShort16.TestData_LHS[i]),
+                                (1 + maxmath.csum(Tests.UShort16.TestData_LHS[i])) / 16);
+            }
+        }
+
+
+        [Test]
+        public static void Byte2x2()
+        {
             bool result = true;
 
             for (int i = 0; i < Tests.Byte2.NUM_TESTS; i++)
@@ -21,7 +133,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Byte3()
+        public static void Byte3x2()
         {
             bool result = true;
 
@@ -38,7 +150,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Byte4()
+        public static void Byte4x2()
         {
             bool result = true;
 
@@ -56,7 +168,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Byte8()
+        public static void Byte8x2()
         {
             bool result = true;
 
@@ -78,7 +190,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte16()
+        public static void SByte16x2()
         {
             bool result = true;
 
@@ -108,7 +220,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte32()
+        public static void SByte32x2()
         {
             bool result = true;
 
@@ -155,7 +267,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Short2()
+        public static void Short2x2()
         {
             bool result = true;
 
@@ -171,7 +283,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short3()
+        public static void Short3x2()
         {
             bool result = true;
 
@@ -188,7 +300,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short4()
+        public static void Short4x2()
         {
             bool result = true;
 
@@ -206,7 +318,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short8()
+        public static void Short8x2()
         {
             bool result = true;
 
@@ -228,7 +340,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short16()
+        public static void Short16x2()
         {
             bool result = true;
 

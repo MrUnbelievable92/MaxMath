@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -302,7 +303,7 @@ namespace MaxMath
         public short4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -333,7 +334,7 @@ namespace MaxMath
         public short4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -371,7 +372,7 @@ namespace MaxMath
         public short4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -409,7 +410,7 @@ namespace MaxMath
         public short4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -447,7 +448,7 @@ namespace MaxMath
         public short4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -479,7 +480,7 @@ namespace MaxMath
         public short3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -516,7 +517,7 @@ namespace MaxMath
         public short3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -553,7 +554,7 @@ namespace MaxMath
         public short3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -590,7 +591,7 @@ namespace MaxMath
         public short3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -627,7 +628,7 @@ namespace MaxMath
         public short3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -664,7 +665,7 @@ namespace MaxMath
         public short3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -702,7 +703,7 @@ namespace MaxMath
         public short2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -731,7 +732,7 @@ namespace MaxMath
         public short2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -767,7 +768,7 @@ namespace MaxMath
         public short2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -796,7 +797,7 @@ namespace MaxMath
         public short2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -832,7 +833,7 @@ namespace MaxMath
         public short2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -861,7 +862,7 @@ namespace MaxMath
         public short2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -897,7 +898,7 @@ namespace MaxMath
         public short2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1018,7 +1019,7 @@ namespace MaxMath
         public short this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1105,13 +1106,46 @@ Assert.IsWithinArrayBounds(index, 8);
         public static short8 operator * (short left, short8 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short8 operator * (short8 left, short right) => new short8((short)(left.x0 * right), (short)(left.x1 * right), (short)(left.x2 * right), (short)(left.x3 * right), (short)(left.x4 * right), (short)(left.x5 * right), (short)(left.x6 * right), (short)(left.x7 * right));
+        public static short8 operator * (short8 left, short right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new short8((short)(left.x0 * right), (short)(left.x1 * right), (short)(left.x2 * right), (short)(left.x3 * right), (short)(left.x4 * right), (short)(left.x5 * right), (short)(left.x6 * right), (short)(left.x7 * right));
+                }
+            }
+
+            return left * (short8)right;
+        } 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short8 operator / (short8 left, short right) => new short8((short)(left.x0 / right), (short)(left.x1 / right), (short)(left.x2 / right), (short)(left.x3 / right), (short)(left.x4 / right), (short)(left.x5 / right), (short)(left.x6 / right), (short)(left.x7 / right));
+        public static short8 operator / (short8 left, short right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new short8((short)(left.x0 / right), (short)(left.x1 / right), (short)(left.x2 / right), (short)(left.x3 / right), (short)(left.x4 / right), (short)(left.x5 / right), (short)(left.x6 / right), (short)(left.x7 / right));
+                }
+            }
+
+            return left / (short8)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short8 operator % (short8 left, short right) => new short8((short)(left.x0 % right), (short)(left.x1 % right), (short)(left.x2 % right), (short)(left.x3 % right), (short)(left.x4 % right), (short)(left.x5 % right), (short)(left.x6 % right), (short)(left.x7 % right));
+        public static short8 operator % (short8 left, short right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new short8((short)(left.x0 % right), (short)(left.x1 % right), (short)(left.x2 % right), (short)(left.x3 % right), (short)(left.x4 % right), (short)(left.x5 % right), (short)(left.x6 % right), (short)(left.x7 % right));
+                }
+            }
+
+            return left % (short8)right;
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1332,7 +1366,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short8 other)
+        public bool Equals(short8 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1344,11 +1378,11 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override  bool Equals(object obj) => Equals((short8)obj);
+        public override bool Equals(object obj) => Equals((short8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1363,7 +1397,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
 
-        public override  string ToString() => $"short8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"short8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

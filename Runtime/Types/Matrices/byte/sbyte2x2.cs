@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -124,10 +127,35 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte2x2 operator * (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator / (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2 (left.c0 / right.c0, left.c1 / right.c1);
+        public static sbyte2x2 operator / (sbyte2x2 left, sbyte2x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                sbyte4 fused = new sbyte4(left.c0, left.c1) / new sbyte4(right.c0, right.c1);
+
+                return new sbyte2x2(fused.xy, fused.zw);
+            }
+            else
+            {
+                return new sbyte2x2(left.c0 / right.c0, left.c1 / right.c1);
+            }
+        }
+            
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator % (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2 (left.c0 % right.c0, left.c1 % right.c1);
+        public static sbyte2x2 operator % (sbyte2x2 left, sbyte2x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                sbyte4 fused = new sbyte4(left.c0, left.c1) % new sbyte4(right.c0, right.c1);
+
+                return new sbyte2x2(fused.xy, fused.zw);
+            }
+            else
+            {
+                return new sbyte2x2(left.c0 % right.c0, left.c1 % right.c1);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -137,10 +165,36 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte2x2 operator * (sbyte left, sbyte2x2 right) => new sbyte2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator / (sbyte2x2 left, sbyte right) => new sbyte2x2 (left.c0 / right, left.c1 / right);
+        public static sbyte2x2 operator / (sbyte2x2 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    sbyte4 fused = new sbyte4(left.c0, left.c1) / right;
+
+                    return new sbyte2x2(fused.xy, fused.zw);
+                }
+            }
+            
+            return new sbyte2x2(left.c0 / right, left.c1 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator % (sbyte2x2 left, sbyte right) => new sbyte2x2 (left.c0 % right, left.c1 % right);
+        public static sbyte2x2 operator % (sbyte2x2 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    sbyte4 fused = new sbyte4(left.c0, left.c1) % right;
+
+                    return new sbyte2x2(fused.xy, fused.zw);
+                }
+            }
+
+            return new sbyte2x2(left.c0 % right, left.c1 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -194,15 +248,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(sbyte2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((sbyte2x2)obj);
+        public bool Equals(sbyte2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((sbyte2x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 16);
+        public override int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 16);
 
 
-        public override  string ToString() => $"sbyte2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"sbyte2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"sbyte2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
     }
 }

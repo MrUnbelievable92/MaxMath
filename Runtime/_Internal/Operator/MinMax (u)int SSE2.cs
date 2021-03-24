@@ -1,4 +1,5 @@
-﻿using Unity.Burst.Intrinsics;
+﻿using System.Runtime.CompilerServices;
+using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -6,6 +7,7 @@ namespace MaxMath
 {
     unsafe internal static partial class Operator
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 min_int(v128 a, v128 b)
         {
             if (Sse4_1.IsSse41Supported)
@@ -19,6 +21,7 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 min_uint(v128 a, v128 b)
         {
             if (Sse4_1.IsSse41Supported)
@@ -33,6 +36,7 @@ namespace MaxMath
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 max_int(v128 a, v128 b)
         {
             if (Sse4_1.IsSse41Supported)
@@ -46,6 +50,7 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 max_uint(v128 a, v128 b)
         {
             if (Sse4_1.IsSse41Supported)

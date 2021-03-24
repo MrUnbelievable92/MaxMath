@@ -19,7 +19,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte avg(byte2 c)
         {
-            return (byte)((1u + csum(c)) / 2u);
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.avg_epu8(c, Sse2.bsrli_si128(c, 1 * sizeof(byte))).Byte0;
+            }
+            else
+            {
+                return (byte)((1u + csum(c)) / 2u);
+            }
         }
 
         /// <summary>       Returns the componentwise average value of two byte2 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
@@ -349,7 +356,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort avg(ushort2 c)
         {
-            return (ushort)((1u + csum(c)) / 2u);
+            if (Sse2.IsSse2Supported)
+            {
+                return Sse2.avg_epu16(c, Sse2.bsrli_si128(c, 1 * sizeof(ushort))).UShort0;
+            }
+            else
+            {
+                return (ushort)((1u + csum(c)) / 2u);
+            }
         }
 
         /// <summary>       Returns the componentwise average value of two ushort3 vectors with rounding from |x| + 0.5 to |x| + 1.      </summary>
@@ -855,9 +869,9 @@ namespace MaxMath
             long2 result = x + y;
 
             // if the intermediate sum is positive add 1
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
-                result -= Sse4_2.cmpgt_epi64(result, default(v128));
+                result -= Operator.greater_mask_long(result, default(v128));
             }
             else
             {

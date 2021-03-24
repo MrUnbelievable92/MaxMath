@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 2 * 4 * sizeof(ushort))]
@@ -30,7 +32,7 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2x4(ushort m00, ushort m01, ushort m02, ushort m03,
-                        ushort m10, ushort m11, ushort m12, ushort m13)
+                         ushort m10, ushort m11, ushort m12, ushort m13)
         {
             this.c0 = new ushort2(m00, m10);
             this.c1 = new ushort2(m01, m11);
@@ -118,10 +120,48 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ushort2x4 operator * (ushort2x4 left, ushort2x4 right) => new ushort2x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator / (ushort2x4 left, ushort2x4 right) => new ushort2x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        public static ushort2x4 operator / (ushort2x4 left, ushort2x4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) / new ushort8(right.c0, right.c1, right.c2, right.c3);
+
+                return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                ushort4 lo = new ushort4(left.c0, left.c1) / new ushort4(right.c0, right.c1);
+                ushort4 hi = new ushort4(left.c2, left.c3) / new ushort4(right.c2, right.c3);
+
+                return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+            }
+            else
+            {
+                return new ushort2x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator % (ushort2x4 left, ushort2x4 right) => new ushort2x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        public static ushort2x4 operator % (ushort2x4 left, ushort2x4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) % new ushort8(right.c0, right.c1, right.c2, right.c3);
+
+                return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                ushort4 lo = new ushort4(left.c0, left.c1) % new ushort4(right.c0, right.c1);
+                ushort4 hi = new ushort4(left.c2, left.c3) % new ushort4(right.c2, right.c3);
+
+                return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+            }
+            else
+            {
+                return new ushort2x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,10 +171,58 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ushort2x4 operator * (ushort left, ushort2x4 right) => new ushort2x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator / (ushort2x4 left, ushort right) => new ushort2x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        public static ushort2x4 operator / (ushort2x4 left, ushort right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) / right;
+
+                    return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort4 divisor = right;
+                    ushort4 lo = new ushort4(left.c0, left.c1) / divisor;
+                    ushort4 hi = new ushort4(left.c2, left.c3) / divisor;
+
+                    return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+                }
+            }
+
+            return new ushort2x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator % (ushort2x4 left, ushort right) => new ushort2x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        public static ushort2x4 operator % (ushort2x4 left, ushort right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort8 rem = new ushort8(left.c0, left.c1, left.c2, left.c3) % right;
+
+                    return new ushort2x4(rem.v2_0, rem.v2_2, rem.v2_4, rem.v2_6);
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort4 divisor = right;
+                    ushort4 lo = new ushort4(left.c0, left.c1) % divisor;
+                    ushort4 hi = new ushort4(left.c2, left.c3) % divisor;
+
+                    return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+                }
+            }
+
+            return new ushort2x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -185,15 +273,15 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(ushort2x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
-        public override  bool Equals(object obj) => Equals((ushort2x4)obj);
+        public bool Equals(ushort2x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
+        public override bool Equals(object obj) => Equals((ushort2x4)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
+        public override int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
 
 
-        public override  string ToString() => $"ushort2x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"ushort2x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"ushort2x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort2x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)})";
     }
 }

@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -126,10 +129,66 @@ Assert.IsWithinArrayBounds(index, 3);
         public static byte2x3 operator * (byte2x3 left, byte2x3 right) => new byte2x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x3 operator / (byte2x3 left, byte2x3 right) => new byte2x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        public static byte2x3 operator / (byte2x3 left, byte2x3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+#if DEBUG
+                byte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       Sse2.unpacklo_epi16(left.c2, new byte2(1)));
+                byte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
+                                                       Sse2.unpacklo_epi16(right.c2, new byte2(1)));
+
+                byte8 div = packed_LHS / packed_RHS;
+
+                return new byte2x3(div.v2_0, div.v2_2, div.v2_4);
+#else
+                byte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       left.c2);
+                byte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
+                                                       right.c2);
+
+                byte8 div = packed_LHS / packed_RHS;
+
+                return new byte2x3(div.v2_0, div.v2_2, div.v2_4);
+#endif
+            }
+            else
+            {
+                return new byte2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x3 operator % (byte2x3 left, byte2x3 right) => new byte2x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        public static byte2x3 operator % (byte2x3 left, byte2x3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+#if DEBUG
+                byte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       Sse2.unpacklo_epi16(left.c2, new byte2(1)));
+                byte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
+                                                       Sse2.unpacklo_epi16(right.c2, new byte2(1)));
+
+                byte8 rem = packed_LHS % packed_RHS;
+
+                return new byte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#else
+                byte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       left.c2);
+                byte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
+                                                       right.c2);
+
+                byte8 rem = packed_LHS % packed_RHS;
+
+                return new byte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#endif
+            }
+            else
+            {
+                return new byte2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -139,10 +198,60 @@ Assert.IsWithinArrayBounds(index, 3);
         public static byte2x3 operator * (byte left, byte2x3 right) => new byte2x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x3 operator / (byte2x3 left, byte right) => new byte2x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        public static byte2x3 operator / (byte2x3 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+#if DEBUG
+                    byte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       Sse2.unpacklo_epi16(left.c2, new byte2(1)));
+
+                    byte8 div = packed / right;
+
+                    return new byte2x3(div.v2_0, div.v2_2, div.v2_4);
+#else
+                    byte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       left.c2);
+
+                    byte8 div = packed / right;
+
+                    return new byte2x3(div.v2_0, div.v2_2, div.v2_4);
+#endif
+                }
+            }
+            
+            return new byte2x3(left.c0 / right, left.c1 / right, left.c2 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x3 operator % (byte2x3 left, byte right) => new byte2x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        public static byte2x3 operator % (byte2x3 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+#if DEBUG
+                    byte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       Sse2.unpacklo_epi16(left.c2, new byte2(1)));
+
+                    byte8 rem = packed % right;
+
+                    return new byte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#else
+                    byte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
+                                                       left.c2);
+
+                    byte8 rem = packed % right;
+
+                    return new byte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#endif
+                }
+            }
+            
+            return new byte2x3(left.c0 % right, left.c1 % right, left.c2 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,15 +302,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(byte2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override  bool Equals(object obj) => Equals((byte2x3)obj);
+        public bool Equals(byte2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override bool Equals(object obj) => Equals((byte2x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => (c2.x ^ c0.GetHashCode() | (c2.y ^ (c1.GetHashCode() << 16)));
+        public override int GetHashCode() => (c2.x ^ c0.GetHashCode() | (c2.y ^ (c1.GetHashCode() << 16)));
 
 
-        public override  string ToString() => $"byte2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"byte2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"byte2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
     }
 }

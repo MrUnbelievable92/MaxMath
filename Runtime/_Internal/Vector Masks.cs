@@ -1,4 +1,5 @@
-﻿using Unity.Burst.Intrinsics;
+﻿using System.Runtime.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -7,21 +8,38 @@ namespace MaxMath
 {
     internal static class Mask
     {
-        internal static v128 BlendV(v128 a, v128 b, v128 mask)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 BlendV(v128 a, v128 b, v128 mask, bool integer = true)
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return Sse4_1.blendv_epi8(a, b, mask);
+                if (integer)
+                {
+                    return Sse4_1.blendv_epi8(a, b, mask);
+                }
+                else
+                {
+                    return Sse4_1.blendv_ps(a, b, mask);
+                }
             }
             else if (Sse2.IsSse2Supported)
             {
                 // UNSAFE - performs bit-by-bit blend and not byte-by-byte
-                return Sse2.or_si128(Sse2.and_si128(mask, b),
-                                     Sse2.andnot_si128(mask, a));
+                if (integer)
+                {
+                    return Sse2.or_si128(Sse2.and_si128(mask, b),
+                                         Sse2.andnot_si128(mask, a));
+                }
+                else
+                {
+                    return Sse.or_ps(Sse.and_ps(mask, b),
+                                     Sse.andnot_ps(mask, a));
+                }
             }
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 BlendEpi16_SSE2(v128 a, v128 b, int mask)
         {
             if (Sse2.IsSse2Supported)
@@ -44,11 +62,13 @@ namespace MaxMath
         //   a) a workaround for the compiler requiring a constant
         //   b) useful for runtime bit-arrays
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static long2 Long2FromInt(int mask)
         {
             return new long2((long)(mask << 63) >> 63, (long)(mask << 62) >> 63);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static long3 Long3FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -63,6 +83,7 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static long4 Long4FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -78,6 +99,7 @@ namespace MaxMath
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int2 Int2FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -90,6 +112,7 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int3 Int3FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -104,6 +127,7 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int4 Int4FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -118,6 +142,7 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int8 Int8FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -133,11 +158,13 @@ namespace MaxMath
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static short2 Short2FromInt(int mask)
         {
             return new short2((short)(mask << 15), (short)(mask << 14)) >> 15;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static short16 Short16FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)
@@ -157,6 +184,7 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte32 SByte32FromInt(int mask)
         {
             if (Avx2.IsAvx2Supported)

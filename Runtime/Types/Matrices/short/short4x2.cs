@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -112,10 +115,34 @@ Assert.IsWithinArrayBounds(index, 2);
         public static short4x2 operator * (short4x2 left, short4x2 right) => new short4x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x2 operator / (short4x2 left, short4x2 right) => new short4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        public static short4x2 operator / (short4x2 left, short4x2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 div = new short8(left.c0, left.c1) / new short8(right.c0, right.c1);
+
+                return new short4x2(div.v4_0, div.v4_4);
+            }
+            else
+            {
+                return new short4x2(left.c0 / right.c0, left.c1 / right.c1);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x2 operator % (short4x2 left, short4x2 right) => new short4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        public static short4x2 operator % (short4x2 left, short4x2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 rem = new short8(left.c0, left.c1) % new short8(right.c0, right.c1);
+
+                return new short4x2(rem.v4_0, rem.v4_4);
+            }
+            else
+            {
+                return new short4x2(left.c0 % right.c0, left.c1 % right.c1);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -125,10 +152,36 @@ Assert.IsWithinArrayBounds(index, 2);
         public static short4x2 operator * (short left, short4x2 right) => new short4x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x2 operator / (short4x2 left, short right) => new short4x2 (left.c0 / right, left.c1 / right);
+        public static short4x2 operator / (short4x2 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 div = new short8(left.c0, left.c1) / right;
+
+                    return new short4x2(div.v4_0, div.v4_4);
+                }
+            }
+
+            return new short4x2(left.c0 / right, left.c1 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x2 operator % (short4x2 left, short right) => new short4x2 (left.c0 % right, left.c1 % right);
+        public static short4x2 operator % (short4x2 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 rem = new short8(left.c0, left.c1) % right;
+
+                    return new short4x2(rem.v4_0, rem.v4_4);
+                }
+            }
+
+            return new short4x2(left.c0 % right, left.c1 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -182,15 +235,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short4x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((short4x2)obj);
+        public bool Equals(short4x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((short4x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override  string ToString() => $"short4x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z},  {c0.w}, {c1.w})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short4x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)})";
+        public override string ToString() => $"short4x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z},  {c0.w}, {c1.w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short4x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)})";
     }
 }

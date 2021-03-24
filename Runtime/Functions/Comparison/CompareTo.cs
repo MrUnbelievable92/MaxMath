@@ -706,8 +706,8 @@ namespace MaxMath
         {
             if (Sse4_2.IsSse42Supported)
             {
-                long2 xGreatery = Sse4_2.cmpgt_epi64(x, y);
-                long2 yGreaterx = Sse4_2.cmpgt_epi64(y, x);
+                long2 xGreatery = Operator.greater_mask_long(x, y);
+                long2 yGreaterx = Operator.greater_mask_long(y, x);
 
                 return (0 - xGreatery) + yGreaterx;
             }

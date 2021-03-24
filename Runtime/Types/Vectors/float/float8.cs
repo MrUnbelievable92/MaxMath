@@ -73,13 +73,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float3 x234, float3 x567)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 lo = Sse2.unpacklo_pd(*(v128*)&x01, *(v128*)&x234);
                 v128 mid = Sse2.bsrli_si128(*(v128*)&x234, 2 * sizeof(float));
                 v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(float));
 
-                hi = Sse4_1.blend_ps(mid, hi, 0b1110);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    hi = Sse4_1.blend_ps(mid, hi, 0b1110);
+                }
+                else
+                {
+                    hi = Mask.BlendV(mid, hi, new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255), false);
+                }
 
 
                 this = new float8(*(float4*)&lo, *(float4*)&hi);
@@ -110,6 +117,19 @@ namespace MaxMath
 
                 this = new float8(*(float4*)&lo, *(float4*)&hi);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(float));
+                v128 lo = Mask.BlendV(*(v128*)&x012, mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
+
+                mid = Sse2.bsrli_si128(*(v128*)&x34, sizeof(float));
+
+                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(float));
+                hi = Mask.BlendV(mid, hi, new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255), false);
+
+
+                this = new float8(*(float4*)&lo, *(float4*)&hi);
+            }
             else
             {
                 this = new float8
@@ -123,14 +143,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float3 x012, float3 x345, float2 x67)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 mid = Sse2.bsrli_si128(*(v128*)&x345, sizeof(float));
                 v128 hi = Sse2.unpacklo_pd(mid, *(v128*)&x67);
 
                 mid = Sse2.bslli_si128(*(v128*)&x345, 3 * sizeof(float));
+                v128 lo;
 
-                v128 lo = Sse4_1.blend_ps(*(v128*)&x012, mid, 0b1000);
+                if (Sse4_1.IsSse41Supported)
+                {
+                    lo = Sse4_1.blend_ps(*(v128*)&x012, mid, 0b1000);
+                }
+                else
+                {
+                    lo = Mask.BlendV(*(v128*)&x012, mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
+                }
 
 
                 this = new float8(*(float4*)&lo, *(float4*)&hi);
@@ -200,11 +228,11 @@ namespace MaxMath
         public float4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(this);
+                    v128 temp = Avx.mm256_castps256_ps128(this);
 
                     return *(float4*)&temp;
                 }
@@ -217,9 +245,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castsi128_si256(*(v128*)&value), 0b0000_1111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_1111);
                 }
                 else
                 {
@@ -230,11 +258,11 @@ namespace MaxMath
         public float4 v4_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
 
                     return *(float4*)&temp;
                 }
@@ -252,7 +280,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 1, 2, 3, 0, 0, 0)), 0b0001_1110);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 1), 0b0001_1110);
                 }
                 else
                 {
@@ -271,11 +299,11 @@ namespace MaxMath
         public float4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
+                    v128 temp = Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
 
                     return *(float4*)&temp;
                 }
@@ -293,7 +321,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 3, 0, 0)), 0b0011_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
                 }
                 else
                 {
@@ -312,11 +340,11 @@ namespace MaxMath
         public float4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
 
                     return *(float4*)&temp;
                 }
@@ -334,7 +362,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 3, 0)), 0b0111_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0111_1000);
                 }
                 else
                 {
@@ -353,11 +381,11 @@ namespace MaxMath
         public float4 v4_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx2.mm256_extracti128_si256(this, 1);
+                    v128 temp = Avx.mm256_extractf128_ps(this, 1);
 
                     return *(float4*)&temp;
                 }
@@ -372,7 +400,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 3)), 0b1111_0000);
+                    this = Avx.mm256_insertf128_ps(this, *(v128*)&value, 1);
                 }
                 else
                 {
@@ -384,11 +412,11 @@ namespace MaxMath
         public float3 v3_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(this);
+                    v128 temp = Avx.mm256_castps256_ps128(this);
 
                     return *(float3*)&temp;
                 }
@@ -401,9 +429,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castsi128_si256(*(v128*)&value), 0b0000_0111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_0111);
                 }
                 else
                 {
@@ -414,11 +442,11 @@ namespace MaxMath
         public float3 v3_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float));
+                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float));
 
                     return *(float3*)&temp;
                 }
@@ -431,9 +459,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
                 }
                 else
                 {
@@ -444,11 +472,11 @@ namespace MaxMath
         public float3 v3_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
+                    v128 temp = Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
 
                     return *(float3*)&temp;
                 }
@@ -463,7 +491,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 0, 0, 0)), 0b0001_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
                 }
                 else
                 {
@@ -475,11 +503,11 @@ namespace MaxMath
         public float3 v3_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 0))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
 
                     return *(float3*)&temp;
                 }
@@ -494,7 +522,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 0, 0)), 0b0011_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0011_1000);
                 }
                 else
                 {
@@ -506,11 +534,11 @@ namespace MaxMath
         public float3 v3_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx2.mm256_extracti128_si256(this, 1);
+                    v128 temp = Avx.mm256_extractf128_ps(this, 1);
 
                     return *(float3*)&temp;
                 }
@@ -525,7 +553,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 0)), 0b0111_0000);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
                 }
                 else
                 {
@@ -536,11 +564,11 @@ namespace MaxMath
         public float3 v3_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5, 6, 7, 0))));
+                    v128 temp = Sse2.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
 
                     return *(float3*)&temp;
                 }
@@ -555,7 +583,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 2)), 0b1110_0000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 5), 0b1110_0000);
                 }
                 else
                 {
@@ -567,11 +595,11 @@ namespace MaxMath
         public float2 v2_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(this);
+                    v128 temp = Avx.mm256_castps256_ps128(this);
 
                     return *(float2*)&temp;
                 }
@@ -597,11 +625,11 @@ namespace MaxMath
         public float2 v2_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get
+            get
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(float));
+                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float));
 
                     return *(float2*)&temp;
                 }
@@ -614,9 +642,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
                 }
                 else
                 {
@@ -627,11 +655,11 @@ namespace MaxMath
         public float2 v2_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(float));
+                    v128 temp = Sse2.bsrli_si128(Avx.mm256_castps256_ps128(this), 2 * sizeof(float));
 
                     return *(float2*)&temp;
                 }
@@ -657,11 +685,11 @@ namespace MaxMath
         public float2 v2_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(3, 4, 0, 0))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
 
                     return *(float2*)&temp;
                 }
@@ -676,7 +704,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 0, 0, 0)), 0b0001_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0001_1000);
                 }
                 else
                 {
@@ -688,11 +716,11 @@ namespace MaxMath
         public float2 v2_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get
+            get
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx2.mm256_extracti128_si256(this, 1);
+                    v128 temp = Avx.mm256_extractf128_ps(this, 1);
 
                     return *(float2*)&temp;
                 }
@@ -718,11 +746,11 @@ namespace MaxMath
         public float2 v2_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_ps(this, Avx.mm256_castsi128_si256(new v128(5, 6, 0, 0))));
+                    v128 temp = Sse2.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
 
                     return *(float2*)&temp;
                 }
@@ -737,7 +765,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permutevar8x32_ps(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 0)), 0b0110_0000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 5), 0b0110_0000);
                 }
                 else
                 {
@@ -748,11 +776,11 @@ namespace MaxMath
         public float2 v2_6
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
+                    v128 temp = Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 0, 3)));
 
                     return *(float2*)&temp;
                 }
@@ -791,7 +819,7 @@ namespace MaxMath
         public float this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1104,7 +1132,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(float8 other)
+        public bool Equals(float8 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1117,11 +1145,11 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  bool Equals(object obj) => Equals((float8)obj);
+        public override bool Equals(object obj) => Equals((float8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Avx.IsAvxSupported)
             {
@@ -1135,7 +1163,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override  string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
+        public override string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
+        public string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
     }
 }

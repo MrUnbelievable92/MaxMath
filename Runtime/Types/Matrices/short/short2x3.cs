@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -28,7 +31,7 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short2x3(short m00, short m01, short m02,
-                         short m10, short m11, short m12)
+                        short m10, short m11, short m12)
         {
             this.c0 = new short2(m00, m10);
             this.c1 = new short2(m01, m11);
@@ -114,10 +117,84 @@ Assert.IsWithinArrayBounds(index, 3);
         public static short2x3 operator * (short2x3 left, short2x3 right) => new short2x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator / (short2x3 left, short2x3 right) => new short2x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        public static short2x3 operator / (short2x3 left, short2x3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+#if DEBUG
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+                short8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                        Sse2.unpacklo_epi32(right.c2, new short2(1)));
+
+                short8 div = packed_LHS / packed_RHS;
+
+                return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#else
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        left.c2);
+                short8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                        right.c2);
+
+                short8 div = packed_LHS / packed_RHS;
+
+                return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#endif
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+
+                short4 div = new short4(left.c0, left.c1) / new short4(right.c0, right.c1);
+
+                return new short2x3(div.xy, div.zw, left.c2 / right.c2);
+            }
+            else
+            {
+                return new short2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator % (short2x3 left, short2x3 right) => new short2x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        public static short2x3 operator % (short2x3 left, short2x3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+#if DEBUG
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+                short8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                        Sse2.unpacklo_epi32(right.c2, new short2(1)));
+
+                short8 rem = packed_LHS % packed_RHS;
+
+                return new short2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#else
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        left.c2);
+                short8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                        right.c2);
+
+                short8 rem = packed_LHS % packed_RHS;
+
+                return new short2x3(rem.v2_0, rem.v2_2, rem.v2_4);
+#endif
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                short8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+
+                short4 rem = new short4(left.c0, left.c1) % new short4(right.c0, right.c1);
+
+                return new short2x3(rem.xy, rem.zw, left.c2 % right.c2);
+            }
+            else
+            {
+                return new short2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -127,10 +204,80 @@ Assert.IsWithinArrayBounds(index, 3);
         public static short2x3 operator * (short left, short2x3 right) => new short2x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator / (short2x3 left, short right) => new short2x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        public static short2x3 operator / (short2x3 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+#if DEBUG
+                    short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+
+                    short8 div = packed / right;
+
+                    return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#else
+                    short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        left.c2);
+
+                    short8 div = packed / right;
+
+                    return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#endif
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    v128 divisor = (short4)right;
+                    short4 lo = new short4(left.c0, left.c1) / divisor;
+
+                    return new short2x3(lo.xy, lo.zw, left.c2 / divisor);
+                }
+            }
+
+            return new short2x3(left.c0 / right, left.c1 / right, left.c2 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x3 operator % (short2x3 left, short right) => new short2x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        public static short2x3 operator % (short2x3 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+#if DEBUG
+                    short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+
+                    short8 div = packed % right;
+
+                    return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#else
+                    short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                        left.c2);
+
+                    short8 div = packed % right;
+
+                    return new short2x3(div.v2_0, div.v2_2, div.v2_4);
+#endif
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    v128 divisor = (short4)right;
+                    short4 lo = new short4(left.c0, left.c1) % divisor;
+
+                    return new short2x3(lo.xy, lo.zw, left.c2 % divisor);
+                }
+            }
+
+            return new short2x3(left.c0 % right, left.c1 % right, left.c2 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,15 +331,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override  bool Equals(object obj) => Equals((short2x3)obj);
+        public bool Equals(short2x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override bool Equals(object obj) => Equals((short2x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode() ^ c2.GetHashCode();
+        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode() ^ c2.GetHashCode();
 
 
-        public override  string ToString() => $"short2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"short2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short2x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)})";
     }
 }

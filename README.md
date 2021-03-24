@@ -148,7 +148,7 @@ Note:
 
 - Division and modulo operations of (s)byte and (u)short vectors _by_ _other_ _vectors_ are implemented as either a long division algorithm ((s)byte32, (s)byte16 and (s)byte8 if not compiling for Avx2) or reciprocal multiplication after converting the vectors to float vectors (up to (s)byte8, all (u)short vectors) - it is very fast and, of course, 100% accurate!
 
-- This library uses Wojciech Mula's SIMD population count algorithm. Population count functions for (s)byte and (u)short types are very fast, and this library contains a function to sum up the number of 1-bits in a given block of memory based on it, too
+- This library uses Wojciech Mula's SIMD population count algorithm. You can count the amount of set bits of a contiguous block of memory very efficiently using either the (s)byte32 (Avx2) or (s)byte16 (Ssse3) type
 
 ### Notes
 

@@ -58,6 +58,20 @@ namespace MaxMath
             {
                 return (sbyte8)shl((int8)x, (int8)n);
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                sbyte8 result = sbyte8.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (sbyte i = 1; i < 8; i++)
+                {
+                    x <<= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new sbyte8(i), n));
+                }
+
+                return result;
+            }
             else
             {
                 return new sbyte8((sbyte)(x.x0 << n.x0), (sbyte)(x.x1 << n.x1), (sbyte)(x.x2 << n.x2), (sbyte)(x.x3 << n.x3), (sbyte)(x.x4 << n.x4), (sbyte)(x.x5 << n.x5), (sbyte)(x.x6 << n.x6), (sbyte)(x.x7 << n.x7));
@@ -68,14 +82,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 shl(sbyte16 x, sbyte16 n)
         {
-            return new sbyte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            if (Avx2.IsAvx2Supported)
+            {
+                return new sbyte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                sbyte16 result = sbyte16.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (sbyte i = 1; i < 8; i++)
+                {
+                    x <<= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new sbyte16(i), n));
+                }
+
+                return result;
+            }
+            else
+            {
+                return new sbyte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            }
         }
 
         /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 shl(sbyte32 x, sbyte32 n)
         {
-            return new sbyte32(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8), shl(x.v8_16, n.v8_16), shl(x.v8_24, n.v8_24));
+            return new sbyte32(shl(x.v16_0, n.v16_0), shl(x.v16_16, n.v16_16));
         }
 
 
@@ -129,6 +164,20 @@ namespace MaxMath
             {
                 return (byte8)shl((uint8)x, (uint8)n);
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                byte8 result = byte8.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (byte i = 1; i < 8; i++)
+                {
+                    x <<= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new byte8(i), n));
+                }
+
+                return result;
+            }
             else
             {
                 return new byte8((byte)(x.x0 << n.x0), (byte)(x.x1 << n.x1), (byte)(x.x2 << n.x2), (byte)(x.x3 << n.x3), (byte)(x.x4 << n.x4), (byte)(x.x5 << n.x5), (byte)(x.x6 << n.x6), (byte)(x.x7 << n.x7));
@@ -139,14 +188,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shl(byte16 x, byte16 n)
         {
-            return new byte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            if (Avx2.IsAvx2Supported)
+            {
+                return new byte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                byte16 result = byte16.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (byte i = 1; i < 8; i++)
+                {
+                    x <<= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new byte16(i), n));
+                }
+
+                return result;
+            }
+            else
+            {
+                return new byte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
+            }
         }
 
         /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 shl(byte32 x, byte32 n)
         {
-            return new byte32(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8), shl(x.v8_16, n.v8_16), shl(x.v8_24, n.v8_24));
+            return new byte32(shl(x.v16_0, n.v16_0), shl(x.v16_16, n.v16_16));
         }
 
         /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
@@ -242,6 +312,46 @@ namespace MaxMath
             {
                 return (short8)shl((int8)x, (int8)n);
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                short8 result = short8.zero;
+
+
+                v128 shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0010);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0100);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_1000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0001_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 10, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0010_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0100_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 14, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b1000_0000);
+
+
+                return result;
+            }
             else
             {
                 return new short8((short)(x.x0 << n.x0), (short)(x.x1 << n.x1), (short)(x.x2 << n.x2), (short)(x.x3 << n.x3), (short)(x.x4 << n.x4), (short)(x.x5 << n.x5), (short)(x.x6 << n.x6), (short)(x.x7 << n.x7));
@@ -305,6 +415,46 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort8)shl((uint8)x, (uint8)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                ushort8 result = ushort8.zero;
+
+
+                v128 shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0010);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0100);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_1000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0001_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 10, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0010_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0100_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 14, 0);
+                shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b1000_0000);
+
+
+                return result;
             }
             else
             {
@@ -656,6 +806,20 @@ namespace MaxMath
             {
                 return (byte8)shrl((uint8)x, (uint8)n);
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                byte8 result = byte8.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (byte i = 1; i < 8; i++)
+                {
+                    x >>= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new byte8(i), n));
+                }
+
+                return result;
+            }
             else
             {
                 return new byte8((byte)(x.x0 >> n.x0), (byte)(x.x1 >> n.x1), (byte)(x.x2 >> n.x2), (byte)(x.x3 >> n.x3), (byte)(x.x4 >> n.x4), (byte)(x.x5 >> n.x5), (byte)(x.x6 >> n.x6), (byte)(x.x7 >> n.x7));
@@ -672,9 +836,23 @@ namespace MaxMath
                 uint8 hi = shrl((uint8)x.v8_8, (uint8)n.v8_8);
 
                 v256 shorts = Avx2.mm256_packus_epi32(lo, hi);
-                v256 bytes_unordered = Avx2.mm256_packus_epi16(shorts, default(v256));
+                v256 bytes = Avx2.mm256_packus_epi16(shorts, default(v256));
 
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(bytes_unordered, Avx.mm256_castsi128_si256(new v128(0, 4, 1, 5))));
+                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(bytes, Avx.mm256_castsi128_si256(new v128(0, 4, 1, 5))));
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                byte16 result = byte16.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (byte i = 1; i < 8; i++)
+                {
+                    x >>= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new byte16(i), n));
+                }
+
+                return result;
             }
             else
             {
@@ -797,6 +975,46 @@ namespace MaxMath
             {
                 return (short8)shrl((ushort8)x, (ushort8)n);
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                short8 result = short8.zero;
+
+
+                v128 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0010);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0100);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_1000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0001_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 10, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0010_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0100_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 14, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b1000_0000);
+
+
+                return result;
+            }
             else
             {
                 return new short8((short)((ushort)x.x0 >> n.x0), (short)((ushort)x.x1 >> n.x1), (short)((ushort)x.x2 >> n.x2), (short)((ushort)x.x3 >> n.x3), (short)((ushort)x.x4 >> n.x4), (short)((ushort)x.x5 >> n.x5), (short)((ushort)x.x6 >> n.x6), (short)((ushort)x.x7 >> n.x7));
@@ -870,6 +1088,46 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort8)shrl((uint8)x, (uint8)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                ushort8 result = ushort8.zero;
+
+
+                v128 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0010);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0100);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_1000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0001_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 10, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0010_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0100_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 14, 0);
+                shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b1000_0000);
+
+
+                return result;
             }
             else
             {
@@ -1200,6 +1458,20 @@ namespace MaxMath
 
                 return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(bytes_unordered, Avx.mm256_castsi128_si256(new v128(0, 4, 1, 5))));
             }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                sbyte16 result = sbyte16.zero;
+
+                result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
+
+                for (sbyte i = 1; i < 8; i++)
+                {
+                    x >>= 1;
+                    result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(new sbyte16(i), n));
+                }
+
+                return result;
+            }
             else
             {
                 return new sbyte16(shra(x.v8_0, n.v8_0), shra(x.v8_8, n.v8_8));
@@ -1278,6 +1550,46 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return (short8)shra((int8)x, (int8)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                short8 result = short8.zero;
+
+
+                v128 shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0010);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_0100);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0000_1000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0001_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 10, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0010_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b0100_0000);
+
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 14, 0);
+                shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                result = Sse4_1.blend_epi16(result, shift, 0b1000_0000);
+
+
+                return result;
             }
             else
             {
@@ -1372,8 +1684,8 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                long2 mask = Sse2.and_si128(Sse4_2.cmpgt_epi64(n, default(v128)),
-                                            Sse4_2.cmpgt_epi64(default(v128), x));
+                long2 mask = Sse2.and_si128(Operator.greater_mask_long(n, default(v128)),
+                                            Operator.greater_mask_long(default(v128), x));
 
                 mask = Avx2.sllv_epi64(mask, (64L - n));
 

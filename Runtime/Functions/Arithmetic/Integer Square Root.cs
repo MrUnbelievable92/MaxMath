@@ -14,399 +14,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)] [return: AssumeRange(0ul, 15ul)]
         public static byte intsqrt(byte x)
         {
-            byte result = 0;
-            byte mask = 1 << 6;
-
-            while (mask > x)
-            {
-                mask >>= 2;
-            }
-
-            while (mask != 0)
-            {
-                byte resultShifted = (byte)(result >> 1);
-                byte resultAdded = (byte)(result + mask);
-
-                if (x >= resultAdded)
-                {
-                    x -= resultAdded;
-                    result = (byte)(resultShifted + mask);
-                }
-                else
-                {
-                    result = resultShifted;
-                }
-
-                mask >>= 2;
-            }
-
-            return result;
+            return (byte)math.sqrt(x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a byte2 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 intsqrt(byte2 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 6);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.ByteToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (doneMask.SLong0 != -1)
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (byte2)(*(uint2*)&result);
-            }
-            else
-            {
-                return new byte2(intsqrt(x.x), intsqrt(x.y));
-            }
+            return (byte2)(math.sqrt(x));
         } 
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a byte3 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 intsqrt(byte3 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 6);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.ByteToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (byte3)(*(uint3*)&result);
-            }
-            else
-            {
-                return new byte3(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z));
-            }
+            return (byte3)(math.sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a byte4 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 intsqrt(byte4 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 6);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.ByteToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (byte4)(*(uint4*)&result);
-            }
-            else
-            {
-                return new byte4(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z), intsqrt(x.w));
-            }
+            return (byte4)(math.sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a byte8 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 intsqrt(byte8 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 ZERO = default(v256);
-
-                uint8 result = ZERO;
-                uint8 mask = new uint8(1 << 6);
-
-                v256 doneMask = ZERO;
-
-                uint8 toUInt_x = x;
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x));
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    mask = Avx2.mm256_srlv_epi32(mask, Avx2.mm256_blendv_epi8(new uint8(2), ZERO, doneMask));
-
-                    doneMask = Avx2.mm256_or_si256(doneMask, Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x)));
-                }
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    v256 result_shifted = Avx2.mm256_srli_epi32(result, 1);
-                    v256 result_added = Avx2.mm256_add_epi32(result, mask);
-
-                    v256 blendMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(toUInt_x, result_added));
-                    v256 result_if_true = Avx2.mm256_add_epi32(result_shifted, mask);
-                    v256 x_if_true = Avx2.mm256_sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Avx2.mm256_blendv_epi8(toUInt_x, x_if_true, blendMask);
-                    result = Avx2.mm256_blendv_epi8(Avx2.mm256_blendv_epi8(result_shifted, result, doneMask), result_if_true, Avx2.mm256_andnot_si256(doneMask, blendMask));
-
-
-                    mask = Avx2.mm256_srli_epi32(mask, 2);
-
-                    doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (byte8)result;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                ushort8 result = ZERO;
-                ushort8 mask = new ushort8(1 << 6);
-
-                v128 doneMask = ZERO;
-
-                ushort8 toUShort_x = x;
-
-
-                v128 tempMask = Sse2.cmpeq_epi16(ZERO, ZERO);
-
-                doneMask = Sse2.cmpeq_epi16(toUShort_x, max(mask, toUShort_x));
-                tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                while (bitmask32(8 * sizeof(ushort)) != Sse2.movemask_epi8(doneMask))
-                {
-                    mask = Sse2.srli_epi16(mask, 2);
-
-                    doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi16(toUShort_x, max(mask, toUShort_x)));
-
-                    if (Sse4_1.IsSse41Supported)
-                    {
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                    }
-                    else
-                    {
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi16(default, tempMask), doneMask));
-                    }
-                }
-
-                mask = tempMask;
-
-
-                doneMask = Sse2.cmpeq_epi16(mask, ZERO);
-
-                while (bitmask32(8 * sizeof(ushort)) != Sse2.movemask_epi8(doneMask))
-                {
-                    v128 result_shifted = Sse2.srli_epi16(result, 1);
-                    v128 result_added = Sse2.add_epi16(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi16(toUShort_x, max(toUShort_x, result_added));
-                    v128 result_if_true = Sse2.add_epi16(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi16(toUShort_x, result_added);
-
-                    toUShort_x = Mask.BlendV(toUShort_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi16(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi16(mask, ZERO);
-                }
-
-
-                return (byte8)result;
-            }
-            else
-            {
-                return new byte8(intsqrt(x.x0), intsqrt(x.x1), intsqrt(x.x2), intsqrt(x.x3), intsqrt(x.x4), intsqrt(x.x5), intsqrt(x.x6), intsqrt(x.x7));
-            }
+            return (byte8)sqrt(x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a byte16 vector.     </summary>
@@ -415,54 +51,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 ZERO = default(v256);
-
-                ushort16 result = ZERO;
-                ushort16 mask = new ushort16(1 << 6);
-
-                v256 doneMask = ZERO;
-
-                ushort16 toUShort_x = x;
-
-
-                v256 tempMask = Avx2.mm256_cmpeq_epi16(ZERO, ZERO);
-
-                doneMask = Avx2.mm256_cmpeq_epi16(toUShort_x, max(mask, toUShort_x));
-                tempMask = Avx2.mm256_blendv_epi8(tempMask, mask, doneMask);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    mask = Avx2.mm256_srli_epi16(mask, 2);
-
-                    doneMask = Avx2.mm256_or_si256(doneMask, Avx2.mm256_cmpeq_epi16(toUShort_x, max(mask, toUShort_x)));
-                    tempMask = Avx2.mm256_blendv_epi8(tempMask, mask, Avx2.mm256_and_si256(tempMask, doneMask));
-                }
-
-                mask = tempMask;
-
-
-                doneMask = Avx2.mm256_cmpeq_epi16(mask, ZERO);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    v256 result_shifted = Avx2.mm256_srli_epi16(result, 1);
-                    v256 result_added = Avx2.mm256_add_epi16(result, mask);
-
-                    v256 blendMask = Avx2.mm256_cmpeq_epi16(toUShort_x, max(toUShort_x, result_added));
-                    v256 result_if_true = Avx2.mm256_add_epi16(result_shifted, mask);
-                    v256 x_if_true = Avx2.mm256_sub_epi16(toUShort_x, result_added);
-
-                    toUShort_x = Avx2.mm256_blendv_epi8(toUShort_x, x_if_true, blendMask);
-                    result = Avx2.mm256_blendv_epi8(Avx2.mm256_blendv_epi8(result_shifted, result, doneMask), result_if_true, Avx2.mm256_andnot_si256(doneMask, blendMask));
-
-
-                    mask = Avx2.mm256_srli_epi16(mask, 2);
-
-                    doneMask = Avx2.mm256_cmpeq_epi16(mask, ZERO);
-                }
-
-
-                return (byte16)result;
+                return new byte16(intsqrt(x.v8_0), intsqrt(x.v8_8));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -713,456 +302,42 @@ Assert.IsNonNegative(x.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] [return: AssumeRange(0ul, (ulong)byte.MaxValue)]
         public static ushort intsqrt(ushort x)
         {
-            ushort result = 0;
-            ushort mask = 1 << 14;
-
-            while (mask > x)
-            {
-                mask >>= 2;
-            }
-
-            while (mask != 0)
-            {
-                ushort resultShifted = (ushort)(result >> 1);
-                ushort resultAdded = (ushort)(result + mask);
-
-                if (x >= resultAdded)
-                {
-                    x -= resultAdded;
-                    result = (ushort)(resultShifted + mask);
-                }
-                else
-                {
-                    result = resultShifted;
-                }
-
-                mask >>= 2;
-            }
-
-            return result;
+            return (ushort)math.sqrt(x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a ushort2 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 intsqrt(ushort2 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 14);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.UShortToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (doneMask.SLong0 != -1)
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (ushort2)(*(uint2*)&result);
-            }
-            else
-            {
-                return new ushort2(intsqrt(x.x), intsqrt(x.y));
-            }
+            return (ushort2)(math.sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a ushort3 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 intsqrt(ushort3 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 14);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.UShortToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (ushort3)(*(uint3*)&result);
-            }
-            else
-            {
-                return new ushort3(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z));
-            }
+            return (ushort3)(math.sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a ushort4 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 intsqrt(ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 14);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = Cast.UShortToInt(x);
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (ushort4)(*(uint4*)&result);
-            }
-            else
-            {
-                return new ushort4(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z), intsqrt(x.w));
-            }
+            return (ushort4)(math.sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a ushort8 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 intsqrt(ushort8 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 ZERO = default(v256);
-
-                uint8 result = ZERO;
-                uint8 mask = new uint8(1 << 14);
-
-                v256 doneMask = ZERO;
-
-                uint8 toUInt_x = x;
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x));
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    mask = Avx2.mm256_srlv_epi32(mask, Avx2.mm256_blendv_epi8(new uint8(2), ZERO, doneMask));
-
-                    doneMask = Avx2.mm256_or_si256(doneMask, Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x)));
-                }
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    v256 result_shifted = Avx2.mm256_srli_epi32(result, 1);
-                    v256 result_added = Avx2.mm256_add_epi32(result, mask);
-
-                    v256 blendMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(toUInt_x, result_added));
-                    v256 result_if_true = Avx2.mm256_add_epi32(result_shifted, mask);
-                    v256 x_if_true = Avx2.mm256_sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Avx2.mm256_blendv_epi8(toUInt_x, x_if_true, blendMask);
-                    result = Avx2.mm256_blendv_epi8(Avx2.mm256_blendv_epi8(result_shifted, result, doneMask), result_if_true, Avx2.mm256_andnot_si256(doneMask, blendMask));
-
-
-                    mask = Avx2.mm256_srli_epi32(mask, 2);
-
-                    doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (ushort8)result;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                ushort8 result = ZERO;
-                ushort8 mask = new ushort8(1 << 14);
-
-                v128 doneMask = ZERO;
-
-
-                v128 tempMask = Sse2.cmpeq_epi16(ZERO, ZERO);
-
-                doneMask = Sse2.cmpeq_epi16(x, max(mask, x));
-                tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                while (bitmask32(8 * sizeof(ushort)) != Sse2.movemask_epi8(doneMask))
-                {
-                    mask = Sse2.srli_epi16(mask, 2);
-
-                    doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi16(x, max(mask, x)));
-
-                    if (Sse4_1.IsSse41Supported)
-                    {
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                    }
-                    else
-                    {
-                        tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi16(default, tempMask), doneMask));
-                    }
-                }
-
-                mask = tempMask;
-
-
-                doneMask = Sse2.cmpeq_epi16(mask, ZERO);
-
-                while (bitmask32(8 * sizeof(ushort)) != Sse2.movemask_epi8(doneMask))
-                {
-                    v128 result_shifted = Sse2.srli_epi16(result, 1);
-                    v128 result_added = Sse2.add_epi16(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi16(x, max(x, result_added));
-                    v128 result_if_true = Sse2.add_epi16(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi16(x, result_added);
-
-                    x = Mask.BlendV(x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi16(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi16(mask, ZERO);
-                }
-
-
-                return result;
-            }
-            else
-            {
-                return new ushort8(intsqrt(x.x0), intsqrt(x.x1), intsqrt(x.x2), intsqrt(x.x3), intsqrt(x.x4), intsqrt(x.x5), intsqrt(x.x6), intsqrt(x.x7));
-            }
+            return (ushort8)(sqrt(x));
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a ushort16 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 intsqrt(ushort16 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 ZERO = default(v256);
-
-                ushort16 result = ZERO;
-                ushort16 mask = new ushort16(1 << 14);
-
-                v256 doneMask = ZERO;
-
-
-                v256 tempMask = Avx2.mm256_cmpeq_epi16(ZERO, ZERO);
-
-                doneMask = Avx2.mm256_cmpeq_epi16(x, max(mask, x));
-                tempMask = Avx2.mm256_blendv_epi8(tempMask, mask, doneMask);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    mask = Avx2.mm256_srli_epi16(mask, 2);
-
-                    doneMask = Avx2.mm256_or_si256(doneMask, Avx2.mm256_cmpeq_epi16(x, max(mask, x)));
-                    tempMask = Avx2.mm256_blendv_epi8(tempMask, mask, Avx2.mm256_and_si256(tempMask, doneMask));
-                }
-
-                mask = tempMask;
-
-
-                doneMask = Avx2.mm256_cmpeq_epi16(mask, ZERO);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    v256 result_shifted = Avx2.mm256_srli_epi16(result, 1);
-                    v256 result_added = Avx2.mm256_add_epi16(result, mask);
-
-                    v256 blendMask = Avx2.mm256_cmpeq_epi16(x, max(x, result_added));
-                    v256 result_if_true = Avx2.mm256_add_epi16(result_shifted, mask);
-                    v256 x_if_true = Avx2.mm256_sub_epi16(x, result_added);
-
-                    x = Avx2.mm256_blendv_epi8(x, x_if_true, blendMask);
-                    result = Avx2.mm256_blendv_epi8(Avx2.mm256_blendv_epi8(result_shifted, result, doneMask), result_if_true, Avx2.mm256_andnot_si256(doneMask, blendMask));
-
-
-                    mask = Avx2.mm256_srli_epi16(mask, 2);
-
-                    doneMask = Avx2.mm256_cmpeq_epi16(mask, ZERO);
-                }
-
-
-                return result;
-            }
-            else
-            {
-                return new ushort16(intsqrt(x.v8_0), intsqrt(x.v8_8));
-            }
+            return new ushort16(intsqrt(x.v8_0), intsqrt(x.v8_8));
         }
 
         /// <summary>       Computes the integer square root ⌊√x⌋ of a non-negative short value.     </summary>
@@ -1252,340 +427,35 @@ Assert.IsNonNegative(x.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)] [return: AssumeRange(0ul, (ulong)ushort.MaxValue)]
         public static uint intsqrt(uint x)
         {
-            uint result = 0;
-            uint mask = 1 << 30;
-
-            while (mask > x)
-            {
-                mask >>= 2;
-            }
-
-            while (mask != 0)
-            {
-                uint resultShifted = result >> 1;
-                uint resultAdded = result + mask;
-
-                if (x >= resultAdded)
-                {
-                    x -= resultAdded;
-                    result = resultShifted + mask;
-                }
-                else
-                {
-                    result = resultShifted;
-                }
-
-                mask >>= 2;
-            }
-
-            return result;
+            return (uint)math.sqrt((double)x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a uint2 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intsqrt(uint2 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 30);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = *(v128*)&x;
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (doneMask.SLong0 != -1)
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (doneMask.SLong0 != -1)
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (uint2)(*(uint2*)&result);
-            }
-            else
-            {
-                return new uint2(intsqrt(x.x), intsqrt(x.y));
-            }
+            return (uint2)math.sqrt((double2)x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a uint3 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intsqrt(uint3 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 30);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = *(v128*)&x;
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(3 * sizeof(uint)) != (bitmask32(3 * sizeof(uint)) & Sse2.movemask_epi8(doneMask)))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return (uint3)(*(uint3*)&result);
-            }
-            else
-            {
-                return new uint3(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z));
-            }
+            return (uint3)math.sqrt((double3)x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a uint4 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intsqrt(uint4 x)
         {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 ZERO = default(v128);
-
-                // these are uint vectors
-                v128 result = ZERO;
-                v128 mask = new v128(1 << 30);
-
-                v128 doneMask = ZERO;
-
-                v128 toUInt_x = *(v128*)&x;
-
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x));
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Avx2.srlv_epi32(mask, Mask.BlendV(new v128(2), ZERO, doneMask));
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Sse4_1.max_epu32(mask, toUInt_x)));
-                    }
-                }
-                else
-                {
-                    v128 tempMask = Sse2.cmpeq_epi32(ZERO, ZERO);
-
-                    doneMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x));
-                    tempMask = Mask.BlendV(tempMask, mask, doneMask);
-
-                    while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                    {
-                        mask = Sse2.srli_epi32(mask, 2);
-
-                        doneMask = Sse2.or_si128(doneMask, Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(mask, toUInt_x)));
-
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
-                        }
-                        else
-                        {
-                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Sse2.cmpgt_epi32(default, tempMask), doneMask));
-                        }
-                    }
-
-                    mask = tempMask;
-                }
-
-
-                doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-
-                while (bitmask32(4 * sizeof(uint)) != Sse2.movemask_epi8(doneMask))
-                {
-                    v128 result_shifted = Sse2.srli_epi32(result, 1);
-                    v128 result_added = Sse2.add_epi32(result, mask);
-
-                    v128 blendMask = Sse2.cmpeq_epi32(toUInt_x, Operator.max_uint(toUInt_x, result_added));
-                    v128 result_if_true = Sse2.add_epi32(result_shifted, mask);
-                    v128 x_if_true = Sse2.sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Mask.BlendV(toUInt_x, x_if_true, blendMask);
-                    result = Mask.BlendV(Mask.BlendV(result_shifted, result, doneMask), result_if_true, Sse2.andnot_si128(doneMask, blendMask));
-
-
-                    mask = Sse2.srli_epi32(mask, 2);
-
-                    doneMask = Sse2.cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return *(uint4*)&result;
-            }
-            else
-            {
-                return new uint4(intsqrt(x.x), intsqrt(x.y), intsqrt(x.z), intsqrt(x.w));
-            }
+            return (uint4)math.sqrt((double4)x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√x⌋ of a uint8 vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 intsqrt(uint8 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 ZERO = default(v256);
-
-                uint8 result = ZERO;
-                uint8 mask = new uint8(1 << 30);
-
-                v256 doneMask = ZERO;
-
-                uint8 toUInt_x = x;
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x));
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    mask = Avx2.mm256_srlv_epi32(mask, Avx2.mm256_blendv_epi8(new uint8(2), ZERO, doneMask));
-
-                    doneMask = Avx2.mm256_or_si256(doneMask, Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(mask, toUInt_x)));
-                }
-
-
-                doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-
-                while (-1 != Avx2.mm256_movemask_epi8(doneMask))
-                {
-                    v256 result_shifted = Avx2.mm256_srli_epi32(result, 1);
-                    v256 result_added = Avx2.mm256_add_epi32(result, mask);
-
-                    v256 blendMask = Avx2.mm256_cmpeq_epi32(toUInt_x, Avx2.mm256_max_epu32(toUInt_x, result_added));
-                    v256 result_if_true = Avx2.mm256_add_epi32(result_shifted, mask);
-                    v256 x_if_true = Avx2.mm256_sub_epi32(toUInt_x, result_added);
-
-                    toUInt_x = Avx2.mm256_blendv_epi8(toUInt_x, x_if_true, blendMask);
-                    result = Avx2.mm256_blendv_epi8(Avx2.mm256_blendv_epi8(result_shifted, result, doneMask), result_if_true, Avx2.mm256_andnot_si256(doneMask, blendMask));
-
-
-                    mask = Avx2.mm256_srli_epi32(mask, 2);
-
-                    doneMask = Avx2.mm256_cmpeq_epi32(mask, ZERO);
-                }
-
-
-                return result;
-            }
-            else
-            {
-                return new uint8(intsqrt(x.v4_0), intsqrt(x.v4_4));
-            }
+            return new uint8(intsqrt(x.v4_0), intsqrt(x.v4_4));
         }
 
         /// <summary>       Computes the integer square root ⌊√x⌋ of a non-negative int value.     </summary>
@@ -1684,7 +554,7 @@ Assert.IsNonNegative(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 intsqrt(ulong2 x)
         {
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
@@ -1696,42 +566,50 @@ Assert.IsNonNegative(x.x7);
 
                 if (Avx2.IsAvx2Supported)
                 {
-                    doneMask = Sse4_1.cmpeq_epi64(x, max(mask, x));
+                    doneMask = Operator.equals_mask_long(x, max(mask, x));
 
                     while (bitmask32(2 * sizeof(ulong)) != Sse2.movemask_epi8(doneMask))
                     {
                         mask = Avx2.srlv_epi64(mask, Mask.BlendV(new v128(2ul), ZERO, doneMask));
 
-                        doneMask = Sse2.or_si128(doneMask, Sse4_1.cmpeq_epi64(x, max(mask, x)));
+                        doneMask = Sse2.or_si128(doneMask, Operator.equals_mask_long(x, max(mask, x)));
                     }
                 }
                 else
                 {
-                    v128 tempMask = Sse4_1.cmpeq_epi64(ZERO, ZERO);
+                    v128 tempMask = Operator.equals_mask_long(ZERO, ZERO);
 
-                    doneMask = Sse4_1.cmpeq_epi64(x, max(mask, x));
+                    doneMask = Operator.equals_mask_long(x, max(mask, x));
                     tempMask = Mask.BlendV(tempMask, mask, doneMask);
 
                     while (bitmask32(2 * sizeof(ulong)) != Sse2.movemask_epi8(doneMask))
                     {
                         mask = Sse2.srli_epi64(mask, 2);
 
-                        doneMask = Sse2.or_si128(doneMask, Sse4_1.cmpeq_epi64(x, max(mask, x)));
-                        tempMask = Sse4_1.blendv_epi8(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        doneMask = Sse2.or_si128(doneMask, Operator.equals_mask_long(x, max(mask, x)));
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(tempMask, doneMask));
+                        }
+                        else
+                        {
+                            tempMask = Mask.BlendV(tempMask, mask, Sse2.and_si128(Operator.greater_mask_long(default, tempMask), doneMask));
+                        }
                     }
 
                     mask = tempMask;
                 }
 
 
-                doneMask = Sse4_1.cmpeq_epi64(mask, ZERO);
+                doneMask = Operator.equals_mask_long(mask, ZERO);
 
                 while (bitmask32(2 * sizeof(ulong)) != Sse2.movemask_epi8(doneMask))
                 {
                     v128 result_shifted = Sse2.srli_epi64(result, 1);
                     v128 result_added = Sse2.add_epi64(result, mask);
 
-                    v128 blendMask = Sse4_1.cmpeq_epi64(x, max(x, result_added));
+                    v128 blendMask = Operator.equals_mask_long(x, max(x, result_added));
                     v128 result_if_true = Sse2.add_epi64(result_shifted, mask);
                     v128 x_if_true = Sse2.sub_epi64(x, result_added);
 
@@ -1741,7 +619,7 @@ Assert.IsNonNegative(x.x7);
 
                     mask = Sse2.srli_epi64(mask, 2);
 
-                    doneMask = Sse4_1.cmpeq_epi64(mask, ZERO);
+                    doneMask = Operator.equals_mask_long(mask, ZERO);
                 }
 
 

@@ -71,19 +71,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 gcd(ulong2 x, ulong2 y)
         {
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
                 v128 ZERO = default(v128);
 
                 v128 result = ZERO;
                 v128 result_if_zero_any = ZERO;
 
-                v128 x_is_zero = Sse4_1.cmpeq_epi64(x, ZERO);
-                v128 y_is_zero = Sse4_1.cmpeq_epi64(y, ZERO);
+                v128 x_is_zero = Operator.equals_mask_long(x, ZERO);
+                v128 y_is_zero = Operator.equals_mask_long(y, ZERO);
                 v128 any_zero = Sse2.or_si128(x_is_zero, y_is_zero);
 
-                result_if_zero_any = Sse4_1.blendv_epi8(result_if_zero_any, y, x_is_zero);
-                result_if_zero_any = Sse4_1.blendv_epi8(result_if_zero_any, x, y_is_zero);
+                result_if_zero_any = Mask.BlendV(result_if_zero_any, y, x_is_zero);
+                result_if_zero_any = Mask.BlendV(result_if_zero_any, x, y_is_zero);
 
                 v128 doneMask = any_zero;
 
@@ -98,20 +98,20 @@ namespace MaxMath
                     v128 tempX = x;
                     v128 x_greater_y = Operator.greater_mask_ulong(x, y);
 
-                    x = Sse4_1.blendv_epi8(x, y, x_greater_y);
-                    y = Sse4_1.blendv_epi8(y, tempX, x_greater_y);
+                    x = Mask.BlendV(x, y, x_greater_y);
+                    y = Mask.BlendV(y, tempX, x_greater_y);
 
                     y -= x;
 
-                    v128 loopCheck = Sse2.andnot_si128(doneMask, Sse4_1.cmpeq_epi64(y, ZERO));
-                    result = Sse4_1.blendv_epi8(result, x, loopCheck);
+                    v128 loopCheck = Sse2.andnot_si128(doneMask, Operator.equals_mask_long(y, ZERO));
+                    result = Mask.BlendV(result, x, loopCheck);
                     doneMask = Sse2.or_si128(doneMask, loopCheck);
 
                 } while (bitmask32(2 * sizeof(ulong)) != Sse2.movemask_epi8(doneMask));
 
                 result = shl(result, shift);
 
-                result = Sse4_1.blendv_epi8(result, result_if_zero_any, any_zero);
+                result = Mask.BlendV(result, result_if_zero_any, any_zero);
 
                 return result;
             }

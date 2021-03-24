@@ -94,6 +94,28 @@ namespace MaxMath.Tests
             Assert.AreEqual(true, result);
         }
 
+        [Test]
+        public static void Byte32()
+        {
+            bool result = true;
+
+            for (int i = 0; i < 32; i++)
+            {
+                byte32 a = 0;
+
+                for (int j = 0; j < 32; j++)
+                {
+                    a[j] = (byte)j;
+                }
+
+                result &= (maxmath.all_dif(a) == true);
+                a[i] = (byte)((i == 1) ? 2 : 1);
+                result &= (maxmath.all_dif(a) == false);
+            }
+
+            Assert.AreEqual(true, result);
+        }
+
 
         [Test]
         public static void Short3()

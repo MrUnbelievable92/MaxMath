@@ -547,25 +547,25 @@ namespace MaxMath.Tests
                           v4_0.y == TestData_LHS[i].x1 &
                           v4_0.z == TestData_LHS[i].x2 &
                           v4_0.w == TestData_LHS[i].x3;
-
+                
                 float4 v4_1 = TestData_LHS[i].v4_1;
                 result &= v4_1.x == TestData_LHS[i].x1 &
                           v4_1.y == TestData_LHS[i].x2 &
                           v4_1.z == TestData_LHS[i].x3 &
                           v4_1.w == TestData_LHS[i].x4;
-
+                
                 float4 v4_2 = TestData_LHS[i].v4_2;
                 result &= v4_2.x == TestData_LHS[i].x2 &
                           v4_2.y == TestData_LHS[i].x3 &
                           v4_2.z == TestData_LHS[i].x4 &
                           v4_2.w == TestData_LHS[i].x5;
-
+                
                 float4 v4_3 = TestData_LHS[i].v4_3;
                 result &= v4_3.x == TestData_LHS[i].x3 &
                           v4_3.y == TestData_LHS[i].x4 &
                           v4_3.z == TestData_LHS[i].x5 &
                           v4_3.w == TestData_LHS[i].x6;
-
+                
                 float4 v4_4 = TestData_LHS[i].v4_4;
                 result &= v4_4.x == TestData_LHS[i].x4 &
                           v4_4.y == TestData_LHS[i].x5 &
@@ -577,27 +577,27 @@ namespace MaxMath.Tests
                 result &= v3_0.x == TestData_LHS[i].x0 &
                           v3_0.y == TestData_LHS[i].x1 &
                           v3_0.z == TestData_LHS[i].x2;
-
+                
                 float3 v3_1 = TestData_LHS[i].v3_1;
                 result &= v3_1.x == TestData_LHS[i].x1 &
                           v3_1.y == TestData_LHS[i].x2 &
                           v3_1.z == TestData_LHS[i].x3;
-
+                
                 float3 v3_2 = TestData_LHS[i].v3_2;
                 result &= v3_2.x == TestData_LHS[i].x2 &
                           v3_2.y == TestData_LHS[i].x3 &
                           v3_2.z == TestData_LHS[i].x4;
-
+                
                 float3 v3_3 = TestData_LHS[i].v3_3;
                 result &= v3_3.x == TestData_LHS[i].x3 &
                           v3_3.y == TestData_LHS[i].x4 &
                           v3_3.z == TestData_LHS[i].x5;
-
+                
                 float3 v3_4 = TestData_LHS[i].v3_4;
                 result &= v3_4.x == TestData_LHS[i].x4 &
                           v3_4.y == TestData_LHS[i].x5 &
                           v3_4.z == TestData_LHS[i].x6;
-
+                
                 float3 v3_5 = TestData_LHS[i].v3_5;
                 result &= v3_5.x == TestData_LHS[i].x5 &
                           v3_5.y == TestData_LHS[i].x6 &
@@ -607,15 +607,15 @@ namespace MaxMath.Tests
                 float2 v2_0 = TestData_LHS[i].v2_0;
                 result &= v2_0.x == TestData_LHS[i].x0 &
                           v2_0.y == TestData_LHS[i].x1;
-
+                
                 float2 v2_1 = TestData_LHS[i].v2_1;
                 result &= v2_1.x == TestData_LHS[i].x1 &
                           v2_1.y == TestData_LHS[i].x2;
-
+                
                 float2 v2_2 = TestData_LHS[i].v2_2;
                 result &= v2_2.x == TestData_LHS[i].x2 &
                           v2_2.y == TestData_LHS[i].x3;
-
+                
                 float2 v2_3 = TestData_LHS[i].v2_3;
                 result &= v2_3.x == TestData_LHS[i].x3 &
                           v2_3.y == TestData_LHS[i].x4;
@@ -623,7 +623,7 @@ namespace MaxMath.Tests
                 float2 v2_4 = TestData_LHS[i].v2_4;
                 result &= v2_4.x == TestData_LHS[i].x4 &
                           v2_4.y == TestData_LHS[i].x5;
-
+                
                 float2 v2_5 = TestData_LHS[i].v2_5;
                 result &= v2_5.x == TestData_LHS[i].x5 &
                           v2_5.y == TestData_LHS[i].x6;

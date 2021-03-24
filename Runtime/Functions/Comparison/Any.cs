@@ -385,9 +385,9 @@ Assert.IsSafeBoolean(x.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(long2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return bitmask32(2 * sizeof(long)) != Sse2.movemask_epi8(Sse4_1.cmpeq_epi64(x, default(v128)));
+                return bitmask32(2 * sizeof(long)) != Sse2.movemask_epi8(Operator.equals_mask_long(x, default(v128)));
             }
             else
             {

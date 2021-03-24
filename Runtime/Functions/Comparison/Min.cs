@@ -391,9 +391,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 min(ulong2 a, ulong2 b)
         {
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Sse4_1.blendv_epi8(a, b, Operator.greater_mask_ulong(a, b));
+                return Mask.BlendV(a, b, Operator.greater_mask_ulong(a, b));
             }
             else
             {
@@ -434,9 +434,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 min(long2 a, long2 b)
         {
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Sse4_1.blendv_epi8(a, b, Sse4_2.cmpgt_epi64(a, b));
+                return Mask.BlendV(a, b, Operator.greater_mask_long(a, b));
             }
             else
             {

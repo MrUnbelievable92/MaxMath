@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -111,10 +114,47 @@ Assert.IsWithinArrayBounds(index, 2);
         public static short3x2 operator * (short3x2 left, short3x2 right) => new short3x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator / (short3x2 left, short3x2 right) => new short3x2 (left.c0 / right.c0, left.c1 / right.c1);
+        public static short3x2 operator / (short3x2 left, short3x2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
+                short8 divisor  = Sse2.unpacklo_epi64(right.c0, right.c1);
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+#endif
+                short8 div = dividend / divisor;
+
+                return new short3x2(div.v3_0, div.v3_4);
+            }
+            else
+            {
+                return new short3x2(left.c0 / right.c0, left.c1 / right.c1);
+            }
+        }
+            
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator % (short3x2 left, short3x2 right) => new short3x2 (left.c0 % right.c0, left.c1 % right.c1);
+        public static short3x2 operator % (short3x2 left, short3x2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
+                short8 divisor  = Sse2.unpacklo_epi64(right.c0, right.c1);
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+#endif
+                short8 rem = dividend % divisor;
+
+                return new short3x2(rem.v3_0, rem.v3_4);
+            }
+            else
+            {
+                return new short3x2(left.c0 % right.c0, left.c1 % right.c1);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -124,10 +164,40 @@ Assert.IsWithinArrayBounds(index, 2);
         public static short3x2 operator * (short left, short3x2 right) => new short3x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator / (short3x2 left, short right) => new short3x2 (left.c0 / right, left.c1 / right);
+        public static short3x2 operator / (short3x2 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
+
+                    short8 div = dividend / right;
+
+                    return new short3x2(div.v3_0, div.v3_4);
+                }
+            }
+
+            return new short3x2(left.c0 / right, left.c1 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator % (short3x2 left, short right) => new short3x2 (left.c0 % right, left.c1 % right);
+        public static short3x2 operator % (short3x2 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
+
+                    short8 rem = dividend % right;
+
+                    return new short3x2(rem.v3_0, rem.v3_4);
+                }
+            }
+
+            return new short3x2(left.c0 % right, left.c1 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -181,15 +251,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((short3x2)obj);
+        public bool Equals(short3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((short3x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override  string ToString() => $"short3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
+        public override string ToString() => $"short3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
     }
 }

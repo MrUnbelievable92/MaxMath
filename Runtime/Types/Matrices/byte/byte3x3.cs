@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 3 * 3 * sizeof(byte))]
@@ -129,10 +131,52 @@ Assert.IsWithinArrayBounds(index, 3);
         public static byte3x3 operator * (byte3x3 left, byte3x3 right) => new byte3x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x3 operator / (byte3x3 left, byte3x3 right) => new byte3x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        public static byte3x3 operator / (byte3x3 left, byte3x3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
+                byte16 divisor  = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1), right.c2);
+
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+                divisor.x11 = 1;
+                divisor.v4_4 = 1;
+#endif
+                byte16 div = dividend / divisor;
+
+                return new byte3x3(div.v3_0, div.v3_4, div.v3_8);
+            }
+            else
+            {
+                return new byte3x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x3 operator % (byte3x3 left, byte3x3 right) => new byte3x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        public static byte3x3 operator % (byte3x3 left, byte3x3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
+                byte16 divisor  = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1), right.c2);
+
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+                divisor.x11 = 1;
+                divisor.v4_4 = 1;
+#endif
+                byte16 rem = dividend % divisor;
+
+                return new byte3x3(rem.v3_0, rem.v3_4, rem.v3_8);
+            }
+            else
+            {
+                return new byte3x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -142,10 +186,40 @@ Assert.IsWithinArrayBounds(index, 3);
         public static byte3x3 operator * (byte left, byte3x3 right) => new byte3x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x3 operator / (byte3x3 left, byte right) => new byte3x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        public static byte3x3 operator / (byte3x3 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
+
+                    byte16 div = dividend / right;
+
+                    return new byte3x3(div.v3_0, div.v3_4, div.v3_8);
+                }
+            }
+                
+            return new byte3x3(left.c0 / right, left.c1 / right, left.c2 / right); 
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x3 operator % (byte3x3 left, byte right) => new byte3x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        public static byte3x3 operator % (byte3x3 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
+
+                    byte16 rem = dividend % right;
+
+                    return new byte3x3(rem.v3_0, rem.v3_4, rem.v3_8);
+                }
+            }
+                
+            return new byte3x3(left.c0 % right, left.c1 % right, left.c2 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -196,15 +270,15 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(byte3x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
-        public override  bool Equals(object obj) => Equals((byte3x3)obj);
+        public bool Equals(byte3x3 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1) & this.c2.Equals(other.c2);
+        public override bool Equals(object obj) => Equals((byte3x3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() << 8);
+        public override int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() << 8);
 
 
-        public override  string ToString() => $"byte3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"byte3x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)})";
+        public override string ToString() => $"byte3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte3x3({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)})";
     }
 }

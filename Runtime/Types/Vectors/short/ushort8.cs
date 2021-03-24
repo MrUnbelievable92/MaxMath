@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -302,7 +303,7 @@ namespace MaxMath
         public ushort4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -333,7 +334,7 @@ namespace MaxMath
         public ushort4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -371,7 +372,7 @@ namespace MaxMath
         public ushort4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -409,7 +410,7 @@ namespace MaxMath
         public ushort4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -447,7 +448,7 @@ namespace MaxMath
         public ushort4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -479,7 +480,7 @@ namespace MaxMath
         public ushort3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -516,7 +517,7 @@ namespace MaxMath
         public ushort3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -553,7 +554,7 @@ namespace MaxMath
         public ushort3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -590,7 +591,7 @@ namespace MaxMath
         public ushort3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -627,7 +628,7 @@ namespace MaxMath
         public ushort3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -664,7 +665,7 @@ namespace MaxMath
         public ushort3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -702,7 +703,7 @@ namespace MaxMath
         public ushort2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -731,7 +732,7 @@ namespace MaxMath
         public ushort2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -767,7 +768,7 @@ namespace MaxMath
         public ushort2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -796,7 +797,7 @@ namespace MaxMath
         public ushort2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -832,7 +833,7 @@ namespace MaxMath
         public ushort2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -861,7 +862,7 @@ namespace MaxMath
         public ushort2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -897,7 +898,7 @@ namespace MaxMath
         public ushort2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1014,21 +1015,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(ushort8 input)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Cast.UShort8ToFloat8(input);
-            }
-            else
-            {
-                return new float8((float4)input.v4_0, (float4)input.v4_4);
-            }
+            return (float8)(int8)input;
         }
 
 
         public ushort this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1115,13 +1109,46 @@ Assert.IsWithinArrayBounds(index, 8);
         public static ushort8 operator * (ushort left, ushort8 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator * (ushort8 left, ushort right) => new ushort8((ushort)(left.x0 * right), (ushort)(left.x1 * right), (ushort)(left.x2 * right), (ushort)(left.x3 * right), (ushort)(left.x4 * right), (ushort)(left.x5 * right), (ushort)(left.x6 * right), (ushort)(left.x7 * right));
+        public static ushort8 operator * (ushort8 left, ushort right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new ushort8((ushort)(left.x0 * right), (ushort)(left.x1 * right), (ushort)(left.x2 * right), (ushort)(left.x3 * right), (ushort)(left.x4 * right), (ushort)(left.x5 * right), (ushort)(left.x6 * right), (ushort)(left.x7 * right));
+                }
+            }
+
+            return left * (ushort8)right;
+        } 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator / (ushort8 left, ushort right) => new ushort8((ushort)(left.x0 / right), (ushort)(left.x1 / right), (ushort)(left.x2 / right), (ushort)(left.x3 / right), (ushort)(left.x4 / right), (ushort)(left.x5 / right), (ushort)(left.x6 / right), (ushort)(left.x7 / right));
+        public static ushort8 operator / (ushort8 left, ushort right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new ushort8((ushort)(left.x0 / right), (ushort)(left.x1 / right), (ushort)(left.x2 / right), (ushort)(left.x3 / right), (ushort)(left.x4 / right), (ushort)(left.x5 / right), (ushort)(left.x6 / right), (ushort)(left.x7 / right));
+                }
+            }
+
+            return left / (ushort8)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 operator % (ushort8 left, ushort right) => new ushort8((ushort)(left.x0 % right), (ushort)(left.x1 % right), (ushort)(left.x2 % right), (ushort)(left.x3 % right), (ushort)(left.x4 % right), (ushort)(left.x5 % right), (ushort)(left.x6 % right), (ushort)(left.x7 % right));
+        public static ushort8 operator % (ushort8 left, ushort right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new ushort8((ushort)(left.x0 % right), (ushort)(left.x1 % right), (ushort)(left.x2 % right), (ushort)(left.x3 % right), (ushort)(left.x4 % right), (ushort)(left.x5 % right), (ushort)(left.x6 % right), (ushort)(left.x7 % right));
+                }
+            }
+
+            return left % (ushort8)right;
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1337,7 +1364,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(ushort8 other)
+        public bool Equals(ushort8 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1349,11 +1376,11 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override  bool Equals(object obj) => Equals((ushort8)obj);
+        public override bool Equals(object obj) => Equals((ushort8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1368,7 +1395,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
 
-        public override  string ToString() => $"ushort8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"ushort8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"ushort8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

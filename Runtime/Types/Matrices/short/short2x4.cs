@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 2 * 4 * sizeof(short))]
@@ -118,10 +120,48 @@ Assert.IsWithinArrayBounds(index, 4);
         public static short2x4 operator * (short2x4 left, short2x4 right) => new short2x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x4 operator / (short2x4 left, short2x4 right) => new short2x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        public static short2x4 operator / (short2x4 left, short2x4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 div = new short8(left.c0, left.c1, left.c2, left.c3) / new short8(right.c0, right.c1, right.c2, right.c3);
+
+                return new short2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                short4 lo = new short4(left.c0, left.c1) / new short4(right.c0, right.c1);
+                short4 hi = new short4(left.c2, left.c3) / new short4(right.c2, right.c3);
+
+                return new short2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+            }
+            else
+            {
+                return new short2x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x4 operator % (short2x4 left, short2x4 right) => new short2x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        public static short2x4 operator % (short2x4 left, short2x4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                short8 div = new short8(left.c0, left.c1, left.c2, left.c3) % new short8(right.c0, right.c1, right.c2, right.c3);
+
+                return new short2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                short4 lo = new short4(left.c0, left.c1) % new short4(right.c0, right.c1);
+                short4 hi = new short4(left.c2, left.c3) % new short4(right.c2, right.c3);
+
+                return new short2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+            }
+            else
+            {
+                return new short2x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,10 +171,58 @@ Assert.IsWithinArrayBounds(index, 4);
         public static short2x4 operator * (short left, short2x4 right) => new short2x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x4 operator / (short2x4 left, short right) => new short2x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        public static short2x4 operator / (short2x4 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 div = new short8(left.c0, left.c1, left.c2, left.c3) / right;
+
+                    return new short2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short4 divisor = right;
+                    short4 lo = new short4(left.c0, left.c1) / divisor;
+                    short4 hi = new short4(left.c2, left.c3) / divisor;
+
+                    return new short2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+                }
+            }
+
+            return new short2x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short2x4 operator % (short2x4 left, short right) => new short2x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        public static short2x4 operator % (short2x4 left, short right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short8 rem = new short8(left.c0, left.c1, left.c2, left.c3) % right;
+
+                    return new short2x4(rem.v2_0, rem.v2_2, rem.v2_4, rem.v2_6);
+                }
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    short4 divisor = right;
+                    short4 lo = new short4(left.c0, left.c1) % divisor;
+                    short4 hi = new short4(left.c2, left.c3) % divisor;
+
+                    return new short2x4(lo.xy, lo.zw, hi.xy, hi.zw);
+                }
+            }
+
+            return new short2x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -188,15 +276,15 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(short2x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
-        public override  bool Equals(object obj) => Equals((short2x4)obj);
+        public bool Equals(short2x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
+        public override bool Equals(object obj) => Equals((short2x4)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
+        public override int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
 
 
-        public override  string ToString() => $"short2x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"short2x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"short2x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"short2x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.y.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)})";
     }
 }

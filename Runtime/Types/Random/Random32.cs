@@ -214,7 +214,7 @@ Assert.IsNotSmaller(max.z, min.z);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (long3)(max - min));
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + *(int3*)&hiProd;
             }
@@ -236,7 +236,7 @@ Assert.IsNotSmaller(max.w, min.w);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)(max - min));
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + *(int4*)&hiProd;
             }
@@ -266,8 +266,8 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_0);
                 v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (long4)max.v4_4);
 
-                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
             }
@@ -347,7 +347,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)max);
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return *(uint3*)&hiProd;
             }
@@ -364,7 +364,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max);
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return *(uint4*)&hiProd;
             }
@@ -383,8 +383,8 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
                 v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
 
-                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
             }
@@ -428,7 +428,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, 0, 0), (ulong3)(max - min));
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 0, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + *(uint3*)&hiProd;
             }
@@ -445,7 +445,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
             if (Avx2.IsAvx2Supported)
             {
                 v256 hiProd = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)(max - min));
-                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd = Avx2.mm256_permutevar8x32_epi32(hiProd, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + *(uint4*)&hiProd;
             }
@@ -475,8 +475,8 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 v256 hiProd_lo = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_0);
                 v256 hiProd_hi = Avx2.mm256_mul_epu32(new v256(NextState(), 0, NextState(), 0, NextState(), 0, NextState(), 0), (ulong4)max.v4_4);
 
-                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, new v256(1, 3, 5, 7, 0, 0, 0, 0));
-                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, new v256(1, 3, 5, 7, 0, 0, 0, 0));
+                hiProd_lo = Avx2.mm256_permutevar8x32_epi32(hiProd_lo, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
+                hiProd_hi = Avx2.mm256_permutevar8x32_epi32(hiProd_hi, Avx.mm256_castsi128_si256(new v128(1, 3, 5, 7)));
 
                 return min + Avx.mm256_set_m128i(Avx.mm256_castsi256_si128(hiProd_hi), Avx.mm256_castsi256_si128(hiProd_lo));
             }

@@ -237,9 +237,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 abs(long2 x)
         {
-            if (Sse4_2.IsSse42Supported)
+            if (Sse2.IsSse2Supported)
             {
-                long2 mask = Sse4_2.cmpgt_epi64(default(v128), x);
+                long2 mask = Operator.greater_mask_long(default(v128), x);
 
                 return (x + mask) ^ mask;
             }

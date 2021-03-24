@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -294,7 +295,7 @@ namespace MaxMath
         public sbyte4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -332,7 +333,7 @@ namespace MaxMath
         public sbyte4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -363,7 +364,7 @@ namespace MaxMath
         public sbyte4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -401,7 +402,7 @@ namespace MaxMath
         public sbyte4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -432,7 +433,7 @@ namespace MaxMath
         public sbyte4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -464,7 +465,7 @@ namespace MaxMath
         public sbyte3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -494,7 +495,7 @@ namespace MaxMath
         public sbyte3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -524,7 +525,7 @@ namespace MaxMath
         public sbyte3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -554,7 +555,7 @@ namespace MaxMath
         public sbyte3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -584,7 +585,7 @@ namespace MaxMath
         public sbyte3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -614,7 +615,7 @@ namespace MaxMath
         public sbyte3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -645,7 +646,7 @@ namespace MaxMath
         public sbyte2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -685,7 +686,7 @@ namespace MaxMath
         public sbyte2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -714,7 +715,7 @@ namespace MaxMath
         public sbyte2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -743,7 +744,7 @@ namespace MaxMath
         public sbyte2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -772,7 +773,7 @@ namespace MaxMath
         public sbyte2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -801,7 +802,7 @@ namespace MaxMath
         public sbyte2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -830,7 +831,7 @@ namespace MaxMath
         public sbyte2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -1011,7 +1012,7 @@ namespace MaxMath
         public sbyte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -1106,13 +1107,46 @@ Assert.IsWithinArrayBounds(index, 8);
         public static sbyte8 operator * (sbyte left, sbyte8 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator * (sbyte8 left, sbyte right) => new sbyte8((sbyte)(left.x0 * right), (sbyte)(left.x1 * right), (sbyte)(left.x2 * right), (sbyte)(left.x3 * right), (sbyte)(left.x4 * right), (sbyte)(left.x5 * right), (sbyte)(left.x6 * right), (sbyte)(left.x7 * right));
+        public static sbyte8 operator * (sbyte8 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((sbyte16)((v128)left) * right);
+                }
+            }
+
+            return left * (sbyte8)right;
+        } 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator / (sbyte8 left, sbyte right) => new sbyte8((sbyte)(left.x0 / right), (sbyte)(left.x1 / right), (sbyte)(left.x2 / right), (sbyte)(left.x3 / right), (sbyte)(left.x4 / right), (sbyte)(left.x5 / right), (sbyte)(left.x6 / right), (sbyte)(left.x7 / right));
+        public static sbyte8 operator / (sbyte8 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((sbyte16)((v128)left) / right);
+                }
+            }
+
+            return left / (sbyte8)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte8 operator % (sbyte8 left, sbyte right) => new sbyte8((sbyte)(left.x0 % right), (sbyte)(left.x1 % right), (sbyte)(left.x2 % right), (sbyte)(left.x3 % right), (sbyte)(left.x4 % right), (sbyte)(left.x5 % right), (sbyte)(left.x6 % right), (sbyte)(left.x7 % right));
+        public static sbyte8 operator % (sbyte8 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v128)((sbyte16)((v128)left) % right);
+                }
+            }
+
+            return left % (sbyte8)right;
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1337,7 +1371,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(sbyte8 other)
+        public bool Equals(sbyte8 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1349,11 +1383,11 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override  bool Equals(object obj) => Equals((sbyte8)obj);
+        public override bool Equals(object obj) => Equals((sbyte8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -1368,7 +1402,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
 
-        public override  string ToString() => $"sbyte8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"sbyte8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"sbyte8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

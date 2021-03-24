@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -253,12 +254,12 @@ namespace MaxMath
             }
         }
 
-
+        
         #region Shuffle
         public uint4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -288,11 +289,20 @@ namespace MaxMath
         public uint4 v4_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(1, 2, 3, 4))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint));
+
+                    return *(uint4*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 1 * sizeof(uint));
 
                     return *(uint4*)&temp;
                 }
@@ -310,7 +320,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 1, 2, 3, 0, 0, 0)), 0b0001_1110);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 1), 0b0001_1110);
                 }
                 else
                 {
@@ -329,11 +339,20 @@ namespace MaxMath
         public uint4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1)));
+
+                    return *(uint4*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 2 * sizeof(uint));
 
                     return *(uint4*)&temp;
                 }
@@ -351,7 +370,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 3, 0, 0)), 0b0011_1100);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
                 }
                 else
                 {
@@ -370,11 +389,20 @@ namespace MaxMath
         public uint4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 6))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint));
+
+                    return *(uint4*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(uint));
 
                     return *(uint4*)&temp;
                 }
@@ -392,7 +420,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 3, 0)), 0b0111_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0111_1000);
                 }
                 else
                 {
@@ -411,7 +439,7 @@ namespace MaxMath
         public uint4 v4_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -430,7 +458,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 3)), 0b1111_0000);
+                    this = Avx2.mm256_inserti128_si256(this, *(v128*)&value, 1);
                 }
                 else
                 {
@@ -442,7 +470,7 @@ namespace MaxMath
         public uint3 v3_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -472,7 +500,7 @@ namespace MaxMath
         public uint3 v3_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -502,11 +530,20 @@ namespace MaxMath
         public uint3 v3_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1)));
+
+                    return *(uint3*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 2 * sizeof(uint));
 
                     return *(uint3*)&temp;
                 }
@@ -521,7 +558,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 1, 2, 0, 0, 0)), 0b0001_1100);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
                 }
                 else
                 {
@@ -533,11 +570,20 @@ namespace MaxMath
         public uint3 v3_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3, 4, 5, 0))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint));
+
+                    return *(uint3*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(uint));
 
                     return *(uint3*)&temp;
                 }
@@ -552,7 +598,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 2, 0, 0)), 0b0011_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0011_1000);
                 }
                 else
                 {
@@ -564,7 +610,7 @@ namespace MaxMath
         public uint3 v3_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -583,7 +629,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 1, 2, 0)), 0b0111_0000);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
                 }
                 else
                 {
@@ -594,11 +640,11 @@ namespace MaxMath
         public uint3 v3_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(5, 6, 7, 0))));
+                    v128 temp = Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint));
 
                     return *(uint3*)&temp;
                 }
@@ -613,7 +659,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 2)), 0b1110_0000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 5), 0b1110_0000);
                 }
                 else
                 {
@@ -625,7 +671,7 @@ namespace MaxMath
         public uint2 v2_0
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -655,7 +701,7 @@ namespace MaxMath
         public uint2 v2_1
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get
+            get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -685,7 +731,7 @@ namespace MaxMath
         public uint2 v2_2
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -715,11 +761,20 @@ namespace MaxMath
         public uint2 v2_3
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(3, 4, 0, 0))));
+                    v128 temp = Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint));
+
+                    return *(uint2*)&temp;
+                }
+                else if (Ssse3.IsSsse3Supported)
+                {
+                    uint4 lo = this._v4_0;
+                    uint4 hi = this._v4_4;
+
+                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(uint));
 
                     return *(uint2*)&temp;
                 }
@@ -734,7 +789,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 1, 0, 0, 0)), 0b0001_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0001_1000);
                 }
                 else
                 {
@@ -746,7 +801,7 @@ namespace MaxMath
         public uint2 v2_4
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -776,11 +831,11 @@ namespace MaxMath
         public uint2 v2_5
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v128 temp = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(this, Avx.mm256_castsi128_si256(new v128(5, 6, 0, 0))));
+                    v128 temp = Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint));
 
                     return *(uint2*)&temp;
                 }
@@ -795,7 +850,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permutevar8x32_epi32(Avx.mm256_castsi128_si256(*(v128*)&value), new v256(0, 0, 0, 0, 0, 0, 1, 0)), 0b0110_0000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((uint8)Avx.mm256_castsi128_si256(*(v128*)&value), 5), 0b0110_0000);
                 }
                 else
                 {
@@ -806,7 +861,7 @@ namespace MaxMath
         public uint2 v2_6
         { 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-             get 
+            get 
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -889,7 +944,7 @@ namespace MaxMath
         public uint this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -980,7 +1035,14 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return new uint8((left.x0 * right), (left.x1 * right), (left.x2 * right), (left.x3 * right), (left.x4 * right), (left.x5 * right), (left.x6 * right), (left.x7 * right));
+                if (Constant.IsConstantExpression(right))
+                {
+                    return new uint8((left.x0 * right), (left.x1 * right), (left.x2 * right), (left.x3 * right), (left.x4 * right), (left.x5 * right), (left.x6 * right), (left.x7 * right));
+                }
+                else
+                {
+                    return left * (uint8)right;
+                }
             }
             else
             {
@@ -1220,7 +1282,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(uint8 other)
+        public bool Equals(uint8 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1233,11 +1295,11 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  bool Equals(object obj) => Equals((uint8)obj);
+        public override bool Equals(object obj) => Equals((uint8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1252,7 +1314,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
         
 
-        public override  string ToString() => $"uint8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"uint8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"uint8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"uint8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

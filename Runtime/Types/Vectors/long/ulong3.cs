@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -110,7 +111,7 @@ namespace MaxMath
 
         
         #region Shuffle
-        public  ulong4 xxxx
+        public ulong4 xxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -131,7 +132,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxxy
+        public ulong4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -150,7 +151,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxxz
+        public ulong4 xxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -169,7 +170,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxyx
+        public ulong4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -188,7 +189,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxyy
+        public ulong4 xxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -207,7 +208,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxyz
+        public ulong4 xxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -226,7 +227,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxzx
+        public ulong4 xxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -245,7 +246,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxzy
+        public ulong4 xxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -264,7 +265,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xxzz
+        public ulong4 xxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -283,7 +284,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyxx
+        public ulong4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -302,7 +303,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyxy
+        public ulong4 xyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -321,7 +322,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyxz
+        public ulong4 xyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -340,7 +341,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyyx
+        public ulong4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -359,7 +360,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyyy
+        public ulong4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -378,7 +379,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyyz
+        public ulong4 xyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -397,7 +398,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyzx
+        public ulong4 xyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -416,7 +417,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyzy
+        public ulong4 xyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -435,7 +436,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xyzz
+        public ulong4 xyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -454,7 +455,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzxx
+        public ulong4 xzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -473,7 +474,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzxy
+        public ulong4 xzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -492,7 +493,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzxz
+        public ulong4 xzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -513,7 +514,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzyx
+        public ulong4 xzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -532,7 +533,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzyy
+        public ulong4 xzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -551,7 +552,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzyz
+        public ulong4 xzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -570,7 +571,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzzx
+        public ulong4 xzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -589,7 +590,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzzy
+        public ulong4 xzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -608,7 +609,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 xzzz
+        public ulong4 xzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -627,7 +628,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxxx
+        public ulong4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -646,7 +647,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxxy
+        public ulong4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -665,7 +666,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxxz
+        public ulong4 yxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -684,7 +685,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxyx
+        public ulong4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -705,7 +706,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxyy
+        public ulong4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -724,7 +725,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxyz
+        public ulong4 yxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -743,7 +744,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxzx
+        public ulong4 yxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -762,7 +763,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxzy
+        public ulong4 yxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -781,7 +782,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yxzz
+        public ulong4 yxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -800,7 +801,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyxx
+        public ulong4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -819,7 +820,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyxy
+        public ulong4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -838,7 +839,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyxz
+        public ulong4 yyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -857,7 +858,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyyx
+        public ulong4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -876,7 +877,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyyy
+        public ulong4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -897,7 +898,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyyz
+        public ulong4 yyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -916,7 +917,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyzx
+        public ulong4 yyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -935,7 +936,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyzy
+        public ulong4 yyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -954,7 +955,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yyzz
+        public ulong4 yyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -973,7 +974,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzxx
+        public ulong4 yzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -992,7 +993,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzxy
+        public ulong4 yzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1011,7 +1012,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzxz
+        public ulong4 yzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1030,7 +1031,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzyx
+        public ulong4 yzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1049,7 +1050,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzyy
+        public ulong4 yzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1068,7 +1069,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzyz
+        public ulong4 yzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1089,7 +1090,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzzx
+        public ulong4 yzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1108,7 +1109,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzzy
+        public ulong4 yzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1127,7 +1128,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 yzzz
+        public ulong4 yzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1146,7 +1147,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxxx
+        public ulong4 zxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1165,7 +1166,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxxy
+        public ulong4 zxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1184,7 +1185,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxxz
+        public ulong4 zxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1203,7 +1204,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxyx
+        public ulong4 zxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1222,7 +1223,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxyy
+        public ulong4 zxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1241,7 +1242,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxyz
+        public ulong4 zxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1260,7 +1261,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxzx
+        public ulong4 zxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1281,7 +1282,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxzy
+        public ulong4 zxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1300,7 +1301,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zxzz
+        public ulong4 zxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1319,7 +1320,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyxx
+        public ulong4 zyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1338,7 +1339,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyxy
+        public ulong4 zyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1357,7 +1358,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyxz
+        public ulong4 zyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1376,7 +1377,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyyx
+        public ulong4 zyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1395,7 +1396,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyyy
+        public ulong4 zyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1414,7 +1415,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyyz
+        public ulong4 zyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1433,7 +1434,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyzx
+        public ulong4 zyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1452,7 +1453,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyzy
+        public ulong4 zyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1473,7 +1474,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zyzz
+        public ulong4 zyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1492,7 +1493,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzxx
+        public ulong4 zzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1511,7 +1512,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzxy
+        public ulong4 zzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1530,7 +1531,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzxz
+        public ulong4 zzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1549,7 +1550,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzyx
+        public ulong4 zzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1568,7 +1569,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzyy
+        public ulong4 zzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1587,7 +1588,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzyz
+        public ulong4 zzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1606,7 +1607,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzzx
+        public ulong4 zzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1625,7 +1626,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzzy
+        public ulong4 zzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1644,7 +1645,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong4 zzzz
+        public ulong4 zzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1666,7 +1667,7 @@ namespace MaxMath
             }
         }
 
-        public  ulong3 xxx
+        public ulong3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1685,7 +1686,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 xxy
+        public ulong3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1704,7 +1705,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 xxz
+        public ulong3 xxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1723,7 +1724,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 xyx
+        public ulong3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1742,7 +1743,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 xyy
+        public ulong3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1761,7 +1762,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 xzx
+        public ulong3 xzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1783,7 +1784,7 @@ namespace MaxMath
         public          ulong3 xzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1805,7 +1806,7 @@ namespace MaxMath
                 this = value.xzy;
             }
         }
-        public  ulong3 xzz
+        public ulong3 xzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1824,7 +1825,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 yxx
+        public ulong3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1843,7 +1844,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 yxy
+        public ulong3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1865,7 +1866,7 @@ namespace MaxMath
         public          ulong3 yxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1887,7 +1888,7 @@ namespace MaxMath
                 this = value.yxz;
             }
         }
-        public  ulong3 yyx
+        public ulong3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1906,7 +1907,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 yyy
+        public ulong3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1925,7 +1926,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 yyz
+        public ulong3 yyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1947,7 +1948,7 @@ namespace MaxMath
         public          ulong3 yzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1969,7 +1970,7 @@ namespace MaxMath
                 this = value.zxy;
             }
         }
-        public  ulong3 yzy
+        public ulong3 yzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1988,7 +1989,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 yzz
+        public ulong3 yzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2007,7 +2008,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 zxx
+        public ulong3 zxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2029,7 +2030,7 @@ namespace MaxMath
         public          ulong3 zxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2051,7 +2052,7 @@ namespace MaxMath
                 this = value.yzx;
             }
         }
-        public  ulong3 zxz
+        public ulong3 zxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2073,7 +2074,7 @@ namespace MaxMath
         public          ulong3 zyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2095,7 +2096,7 @@ namespace MaxMath
                 this = value.zyx;
             }
         }
-        public  ulong3 zyy
+        public ulong3 zyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2114,7 +2115,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 zyz
+        public ulong3 zyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2133,7 +2134,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 zzx
+        public ulong3 zzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2152,7 +2153,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 zzy
+        public ulong3 zzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2171,7 +2172,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong3 zzz
+        public ulong3 zzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2191,7 +2192,7 @@ namespace MaxMath
             }
         }
 
-        public  ulong2 xx
+        public ulong2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2209,7 +2210,7 @@ namespace MaxMath
         public          ulong2 xy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2237,7 +2238,7 @@ namespace MaxMath
         public          ulong2 xz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2272,7 +2273,7 @@ namespace MaxMath
         public          ulong2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2298,7 +2299,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong2 yy
+        public ulong2 yy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2316,7 +2317,7 @@ namespace MaxMath
         public          ulong2 yz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2345,7 +2346,7 @@ namespace MaxMath
         public          ulong2 zx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2374,7 +2375,7 @@ namespace MaxMath
         public          ulong2 zy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2406,7 +2407,7 @@ namespace MaxMath
                 }
             }
         }
-        public  ulong2 zz
+        public ulong2 zz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2562,7 +2563,7 @@ namespace MaxMath
         public ulong this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 3);
 
@@ -2612,7 +2613,7 @@ Assert.IsWithinArrayBounds(index, 3);
             {
                 return Operator.mul_long(left, right);
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Sse2.IsSse2Supported)
             {
                 return new ulong3(Operator.mul_long(left._xy, right._xy), left.z * right.z);
             }
@@ -2657,7 +2658,14 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return (v256)((ulong4)((v256)left) * right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v256)((ulong4)((v256)left) * right);
+                }
+                else
+                {
+                    return new ulong3(left.x * right, left.y * right, left.z * right);
+                }
             }
             else
             {
@@ -2670,7 +2678,14 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return (v256)((ulong4)((v256)left) / right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v256)((ulong4)((v256)left) / right);
+                }
+                else
+                {
+                    return new ulong3(left.x / right, left.y / right, left.z / right);
+                }
             }
             else
             {
@@ -2683,7 +2698,14 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return (v256)((ulong4)((v256)left) % right);
+                if (Constant.IsConstantExpression(right))
+                {
+                    return (v256)((ulong4)((v256)left) % right);
+                }
+                else
+                {
+                    return new ulong3(left.x % right, left.y % right, left.z % right);
+                }
             }
             else
             {
@@ -2905,7 +2927,7 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(ulong3 other)
+        public bool Equals(ulong3 other)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2917,11 +2939,11 @@ Assert.IsWithinArrayBounds(index, 3);
             }
         }
 
-        public override  bool Equals(object obj) => Equals((ulong3)obj);
+        public override bool Equals(object obj) => Equals((ulong3)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -2938,7 +2960,7 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
 
-        public override  string ToString() => $"ulong3({x}, {y}, {z})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"ulong3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
+        public override string ToString() => $"ulong3({x}, {y}, {z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ulong3({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)})";
     }
 }

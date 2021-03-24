@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 4 * 4 * sizeof(sbyte))]
@@ -134,10 +136,44 @@ Assert.IsWithinArrayBounds(index, 4);
         public static sbyte4x4 operator * (sbyte4x4 left, sbyte4x4 right) => new sbyte4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x4 operator / (sbyte4x4 left, sbyte4x4 right) => new sbyte4x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        public static sbyte4x4 operator / (sbyte4x4 left, sbyte4x4 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                      Sse2.unpacklo_epi32(left.c2, left.c3));
+                sbyte16 divisor = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                     Sse2.unpacklo_epi32(right.c2, right.c3));
+
+                sbyte16 div = dividend / divisor;
+
+                return new sbyte4x4(div.v4_0, div.v4_4, div.v4_8, div.v4_12);
+            }
+            else
+            {
+                return new sbyte4x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x4 operator % (sbyte4x4 left, sbyte4x4 right) => new sbyte4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        public static sbyte4x4 operator % (sbyte4x4 left, sbyte4x4 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                      Sse2.unpacklo_epi32(left.c2, left.c3));
+                sbyte16 divisor = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
+                                                     Sse2.unpacklo_epi32(right.c2, right.c3));
+
+                sbyte16 rem = dividend % divisor;
+
+                return new sbyte4x4(rem.v4_0, rem.v4_4, rem.v4_8, rem.v4_12);
+            }
+            else
+            {
+                return new sbyte4x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -147,10 +183,40 @@ Assert.IsWithinArrayBounds(index, 4);
         public static sbyte4x4 operator * (sbyte left, sbyte4x4 right) => new sbyte4x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x4 operator / (sbyte4x4 left, sbyte right) => new sbyte4x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        public static sbyte4x4 operator / (sbyte4x4 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                          Sse2.unpacklo_epi32(left.c2, left.c3));
+                    sbyte16 div = dividend / right;
+
+                    return new sbyte4x4(div.v4_0, div.v4_4, div.v4_8, div.v4_12);
+                }
+            }
+            
+            return new sbyte4x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x4 operator % (sbyte4x4 left, sbyte right) => new sbyte4x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        public static sbyte4x4 operator % (sbyte4x4 left, sbyte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
+                                                          Sse2.unpacklo_epi32(left.c2, left.c3));
+                    sbyte16 rem = dividend % right;
+
+                    return new sbyte4x4(rem.v4_0, rem.v4_4, rem.v4_8, rem.v4_12);
+                }
+            }
+
+            return new sbyte4x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,15 +270,15 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(sbyte4x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
-        public override  bool Equals(object obj) => Equals((sbyte4x4)obj);
+        public bool Equals(sbyte4x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
+        public override bool Equals(object obj) => Equals((sbyte4x4)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
+        public override int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
 
 
-        public override  string ToString() => $"sbyte4x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z},  {c0.w}, {c1.w}, {c2.w}, {c3.w})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"sbyte4x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)}, {c3.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)}, {c2.w.ToString(format, formatProvider)}, {c3.w.ToString(format, formatProvider)})";
+        public override string ToString() => $"sbyte4x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z},  {c0.w}, {c1.w}, {c2.w}, {c3.w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte4x4({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)}, {c2.x.ToString(format, formatProvider)}, {c3.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)}, {c3.y.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)}, {c2.z.ToString(format, formatProvider)}, {c3.z.ToString(format, formatProvider)},  {c0.w.ToString(format, formatProvider)}, {c1.w.ToString(format, formatProvider)}, {c2.w.ToString(format, formatProvider)}, {c3.w.ToString(format, formatProvider)})";
     }
 }

@@ -317,7 +317,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint andnot(uint left, uint right)
         {
-            return left & ~right;
+            if (Bmi1.IsBmi1Supported)
+            {
+                return Bmi1.andn_u32(right, left);
+            }
+            else
+            {
+                return left & ~right;
+            }
         }
 
         /// <summary>       Returns the result of the componentwise logical AND operation between left and NOT(right) of two uint2 vectors.      </summary>
@@ -403,7 +410,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong andnot(ulong left, ulong right)
         {
-            return left & ~right;
+            if (Bmi1.IsBmi1Supported)
+            {
+                return Bmi1.andn_u64(right, left);
+            }
+            else
+            {
+                return left & ~right;
+            }
         }
 
         /// <summary>       Returns the result of the componentwise logical AND operation between left and NOT(right) of two ulong2 vectors.      </summary>

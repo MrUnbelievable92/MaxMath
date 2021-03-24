@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
     [Serializable]  [StructLayout(LayoutKind.Sequential, Size = 3 * 2 * sizeof(byte))]
@@ -123,10 +125,50 @@ Assert.IsWithinArrayBounds(index, 2);
         public static byte3x2 operator * (byte3x2 left, byte3x2 right) => new byte3x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator / (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 / right.c0, left.c1 / right.c1);
+        public static byte3x2 operator / (byte3x2 left, byte3x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
+                byte8 divisor  = Sse2.unpacklo_epi32(right.c0, right.c1);
+
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+#endif
+
+                byte8 quotient = dividend / divisor;
+
+                return new byte3x2(quotient.v3_0, quotient.v3_4);
+            }
+            else
+            {
+                return new byte3x2(left.c0 / right.c0, left.c1 / right.c1);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator % (byte3x2 left, byte3x2 right) => new byte3x2 (left.c0 % right.c0, left.c1 % right.c1);
+        public static byte3x2 operator % (byte3x2 left, byte3x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
+                byte8 divisor  = Sse2.unpacklo_epi32(right.c0, right.c1);
+
+#if DEBUG
+                divisor.x3 = 1;
+                divisor.x7 = 1;
+#endif
+
+                byte8 remainder = dividend % divisor;
+
+                return new byte3x2(remainder.v3_0, remainder.v3_4);
+            }
+            else
+            {
+                return new byte3x2(left.c0 % right.c0, left.c1 % right.c1);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -136,10 +178,42 @@ Assert.IsWithinArrayBounds(index, 2);
         public static byte3x2 operator * (byte left, byte3x2 right) => new byte3x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator / (byte3x2 left, byte right) => new byte3x2 (left.c0 / right, left.c1 / right);
+        public static byte3x2 operator / (byte3x2 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+
+                    byte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
+
+                    byte8 quotient = dividend / right;
+
+                    return new byte3x2(quotient.v3_0, quotient.v3_4);
+                }
+            }
+
+            return new byte3x2 (left.c0 / right, left.c1 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3x2 operator % (byte3x2 left, byte right) => new byte3x2 (left.c0 % right, left.c1 % right);
+        public static byte3x2 operator % (byte3x2 left, byte right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+
+                    byte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
+
+                    byte8 quotient = dividend % right;
+
+                    return new byte3x2(quotient.v3_0, quotient.v3_4);
+                }
+            }
+
+            return new byte3x2(left.c0 % right, left.c1 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -190,15 +264,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(byte3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((byte3x2)obj);
+        public bool Equals(byte3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((byte3x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 8);
+        public override int GetHashCode() => c0.GetHashCode() | (c1.GetHashCode() << 8);
 
 
-        public override  string ToString() => $"byte3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"byte3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
+        public override string ToString() => $"byte3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte3x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)},  {c0.z.ToString(format, formatProvider)}, {c1.z.ToString(format, formatProvider)})";
     }
 }

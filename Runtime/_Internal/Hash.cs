@@ -1,4 +1,5 @@
-﻿using Unity.Burst.Intrinsics;
+﻿using System.Runtime.CompilerServices;
+using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,11 +8,13 @@ namespace MaxMath
     // Simple hashing based on the .NET standard => XOR
     internal static class Hash
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v24(v128 x)
         {
             return maxmath.bitmask32(24) & x.SInt0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v48(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -21,6 +24,7 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v64(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -29,7 +33,8 @@ namespace MaxMath
             }
             else throw new CPUFeatureCheckException();
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v128(v128 x)
         {
             if (Sse2.IsSse2Supported)
@@ -41,6 +46,7 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v192(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -53,6 +59,7 @@ namespace MaxMath
         }
 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v256(v256 x)
         {
             if (Avx2.IsAvx2Supported)
@@ -63,6 +70,7 @@ namespace MaxMath
             else throw new CPUFeatureCheckException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v256(float8 x)
         {
             if (Avx.IsAvxSupported)

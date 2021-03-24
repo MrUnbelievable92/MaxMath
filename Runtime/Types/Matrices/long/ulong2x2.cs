@@ -155,15 +155,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(ulong2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((ulong2x2)obj);
+        public bool Equals(ulong2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((ulong2x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override  string ToString() => $"ulong2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"ulong2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"ulong2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ulong2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
     }
 }

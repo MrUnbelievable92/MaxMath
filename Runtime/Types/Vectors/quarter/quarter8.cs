@@ -114,26 +114,26 @@ namespace MaxMath
         }
 
 
-        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v4_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
-        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v3_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
-        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
-        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)]  get => maxmath.asquarter(maxmath.asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_6 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_0 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_1 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_2 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_3 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_4 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_5 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
+        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.asquarter(maxmath.asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.asbyte(this); temp.v2_6 = maxmath.asbyte(value); this = maxmath.asquarter(temp); } }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -500,7 +500,7 @@ namespace MaxMath
         public quarter this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-             get
+            get
             {
 Assert.IsWithinArrayBounds(index, 8);
 
@@ -571,7 +571,7 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(quarter8 other)
+        public bool Equals(quarter8 other)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -598,11 +598,11 @@ Assert.IsWithinArrayBounds(index, 8);
             }
         }
 
-        public override  bool Equals(object obj) => Equals((quarter8)obj);
+        public override bool Equals(object obj) => Equals((quarter8)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode()
+        public override int GetHashCode()
         {
             if (Sse2.IsSse2Supported)
             {
@@ -616,7 +616,7 @@ Assert.IsWithinArrayBounds(index, 8);
         }
 
 
-        public override  string ToString() => $"quarter8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"quarter8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"quarter8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"quarter8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

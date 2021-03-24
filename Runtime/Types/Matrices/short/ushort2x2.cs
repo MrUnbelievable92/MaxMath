@@ -3,7 +3,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -112,10 +115,35 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort2x2 operator * (ushort2x2 left, ushort2x2 right) => new ushort2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator / (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 / right.c0, left.c1 / right.c1);
+        public static ushort2x2 operator / (ushort2x2 left, ushort2x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                ushort4 fused = new ushort4(left.c0, left.c1) / new ushort4(right.c0, right.c1);
+
+                return new ushort2x2(fused.xy, fused.zw);
+            }
+            else
+            {
+                return new ushort2x2(left.c0 / right.c0, left.c1 / right.c1);
+            }
+        }
+            
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator % (ushort2x2 left, ushort2x2 right) => new ushort2x2 (left.c0 % right.c0, left.c1 % right.c1);
+        public static ushort2x2 operator % (ushort2x2 left, ushort2x2 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                ushort4 fused = new ushort4(left.c0, left.c1) % new ushort4(right.c0, right.c1);
+
+                return new ushort2x2(fused.xy, fused.zw);
+            }
+            else
+            {
+                return new ushort2x2(left.c0 % right.c0, left.c1 % right.c1);
+            }
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -125,10 +153,36 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort2x2 operator * (ushort left, ushort2x2 right) => new ushort2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator / (ushort2x2 left, ushort right) => new ushort2x2 (left.c0 / right, left.c1 / right);
+        public static ushort2x2 operator / (ushort2x2 left, ushort right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort4 fused = new ushort4(left.c0, left.c1) / right;
+
+                    return new ushort2x2(fused.xy, fused.zw);
+                }
+            }
+            
+            return new ushort2x2(left.c0 / right, left.c1 / right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x2 operator % (ushort2x2 left, ushort right) => new ushort2x2 (left.c0 % right, left.c1 % right);
+        public static ushort2x2 operator % (ushort2x2 left, ushort right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (!Constant.IsConstantExpression(right))
+                {
+                    ushort4 fused = new ushort4(left.c0, left.c1) % right;
+
+                    return new ushort2x2(fused.xy, fused.zw);
+                }
+            }
+
+            return new ushort2x2(left.c0 % right, left.c1 % right);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,15 +233,15 @@ Assert.IsWithinArrayBounds(index, 2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  bool Equals(ushort2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
-        public override  bool Equals(object obj) => Equals((ushort2x2)obj);
+        public bool Equals(ushort2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public override bool Equals(object obj) => Equals((ushort2x2)obj);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override  int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
 
 
-        public override  string ToString() => $"ushort2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
-        public  string ToString(string format, IFormatProvider formatProvider) => $"ushort2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
+        public override string ToString() => $"ushort2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ushort2x2({c0.x.ToString(format, formatProvider)}, {c1.x.ToString(format, formatProvider)},  {c0.y.ToString(format, formatProvider)}, {c1.y.ToString(format, formatProvider)})";
     }
 }

@@ -402,7 +402,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ispow2(ulong x)
         {
-            return (x > 0) & (blsr(x) == 0);
+            return (x > 0) & (bits_resetlowest(x) == 0);
         }
 
         /// <summary>       Checks if each component of the input is a power of two. If a component of x is equal to zero, then this function returns false in that component.        </summary>
@@ -412,7 +412,7 @@ namespace MaxMath
             if (Sse4_2.IsSse42Supported)
             {
                 v128 result = (byte2)(new ulong2(1) & Sse2.and_si128(Operator.greater_mask_ulong(x, default(v128)),
-                                                                     Sse4_1.cmpeq_epi64(default(v128), x & (x - 1))));
+                                                                     Operator.equals_mask_long(default(v128), x & (x - 1))));
                 return *(bool2*)&result;
             }
             else
@@ -458,7 +458,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ispow2(long x)
         {
-            return (x > 0) & (blsr(x) == 0);
+            return (x > 0) & (bits_resetlowest(x) == 0);
         }
 
         /// <summary>       Checks if each component of the input is a power of two. If a component of x is equal to zero, then this function returns false in that component.        </summary>
@@ -467,8 +467,8 @@ namespace MaxMath
         {
             if (Sse4_2.IsSse42Supported)
             {
-                v128 result = (byte2)(new long2(1) & Sse2.and_si128(Sse4_2.cmpgt_epi64(x, default(v128)),
-                                                                    Sse4_1.cmpeq_epi64(default(v128), x & (x - 1))));
+                v128 result = (byte2)(new long2(1) & Sse2.and_si128(Operator.greater_mask_long(x, default(v128)),
+                                                                    Operator.equals_mask_long(default(v128), x & (x - 1))));
                 return *(bool2*)&result;
             }
             else

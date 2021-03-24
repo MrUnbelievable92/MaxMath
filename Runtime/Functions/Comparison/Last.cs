@@ -147,6 +147,10 @@ Assert.IsSafeBoolean(x.x31);
             {
                 return 31 - math.lzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_slli_epi16(x, 7)));
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return 31 - math.lzcnt(Sse2.movemask_epi8(Sse2.slli_epi16(x._v16_0, 7)) | (Sse2.movemask_epi8(Sse2.slli_epi16(x._v16_16, 7)) << 16));
+            }
             else
             {
                 int last16 = last(x.v16_16);
