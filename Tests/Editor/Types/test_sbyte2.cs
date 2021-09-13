@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class SByte2
+    unsafe public static class __sbyte2
     {
         internal const int NUM_TESTS = 4;
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_SByte_SByte()
+        public static void Constructor___sbyte_SByte()
         {
             sbyte2 x = new sbyte2(TestData_LHS[0].x, TestData_LHS[0].y);
 
@@ -95,6 +95,51 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] * (sbyte)i, new sbyte2((sbyte)(TestData_LHS[0].x * (sbyte)i), 
+                                                                       (sbyte)(TestData_LHS[0].y * (sbyte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] / (sbyte)i, new sbyte2((sbyte)(TestData_LHS[0].x / (sbyte)i), 
+                                                                       (sbyte)(TestData_LHS[0].y / (sbyte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] % (sbyte)i, new sbyte2((sbyte)(TestData_LHS[0].x % (sbyte)i), 
+                                                                       (sbyte)(TestData_LHS[0].y % (sbyte)i)));
+            }
         }
 
         [Test]

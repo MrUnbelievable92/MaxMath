@@ -15,7 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("MaxMath.Tests")]
-[assembly: InternalsVisibleTo("NativeArrayExtensions")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -32,8 +31,8 @@ using System.Diagnostics.CodeAnalysis;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.1.2")]
-[assembly: AssemblyFileVersion("2.1.2")]
-[assembly: AssemblyInformationalVersion("2.1 Release")]
+[assembly: AssemblyVersion("2.2.0")]
+[assembly: AssemblyFileVersion("2.2.0")]
+[assembly: AssemblyInformationalVersion("2.2 Release")]
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity.Mathematics API consistency")]

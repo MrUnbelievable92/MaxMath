@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class UShort4
+    unsafe public static class __ushort4
     {
         internal const int NUM_TESTS = 4;
 
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_UShort_UShort_UShort_UShort()
+        public static void Constructor___ushort___ushort___ushort_UShort()
         {
             ushort4 x = new ushort4(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort2_UShort_UShort()
+        public static void Constructor___ushort2___ushort_UShort()
         {
             ushort4 x = new ushort4(new ushort2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort_UShort2_UShort()
+        public static void Constructor___ushort___ushort2_UShort()
         {
             ushort4 x = new ushort4(TestData_LHS[0].x, new ushort2(TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort_UShort_UShort2()
+        public static void Constructor___ushort___ushort_UShort2()
         {
             ushort4 x = new ushort4(TestData_LHS[0].x, TestData_LHS[0].y, new ushort2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort2_UShort2()
+        public static void Constructor___ushort2_UShort2()
         {
             ushort4 x = new ushort4(new ushort2(TestData_LHS[0].x, TestData_LHS[0].y), new ushort2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort3_UShort()
+        public static void Constructor___ushort3_UShort()
         {
             ushort4 x = new ushort4(new ushort3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_UShort_UShort3()
+        public static void Constructor___ushort_UShort3()
         {
             ushort4 x = new ushort4(TestData_LHS[0].x, new ushort3(TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w));
 

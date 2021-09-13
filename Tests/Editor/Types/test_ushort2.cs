@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class UShort2
+    unsafe public static class __ushort2
     {
         internal const int NUM_TESTS = 4;
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_UShort_UShort()
+        public static void Constructor___ushort_UShort()
         {
             ushort2 x = new ushort2(TestData_LHS[0].x, TestData_LHS[0].y);
 

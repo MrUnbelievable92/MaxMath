@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -8,10 +9,15 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 shl(sbyte2 x, sbyte2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte2)shl((int2)x, (int2)n);
@@ -22,10 +28,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 shl(sbyte3 x, sbyte3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte3)shl((int3)x, (int3)n);
@@ -36,10 +47,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 shl(sbyte4 x, sbyte4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte4)shl((int4)x, (int4)n);
@@ -50,17 +66,22 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 shl(sbyte8 x, sbyte8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte8)shl((int8)x, (int8)n);
             }
             else if (Sse4_1.IsSse41Supported)
             {
-                sbyte8 result = sbyte8.zero;
+                sbyte8 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -78,17 +99,22 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 shl(sbyte16 x, sbyte16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return new sbyte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
             }
             else if (Sse2.IsSse2Supported)
             {
-                sbyte16 result = sbyte16.zero;
+                sbyte16 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -106,18 +132,28 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 shl(sbyte32 x, sbyte32 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             return new sbyte32(shl(x.v16_0, n.v16_0), shl(x.v16_16, n.v16_16));
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shl(byte2 x, byte2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte2)shl((uint2)x, (uint2)n);
@@ -128,10 +164,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shl(byte3 x, byte3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte3)shl((uint3)x, (uint3)n);
@@ -142,10 +183,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shl(byte4 x, byte4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte4)shl((uint4)x, (uint4)n);
@@ -156,17 +202,22 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shl(byte8 x, byte8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte8)shl((uint8)x, (uint8)n);
             }
             else if (Sse4_1.IsSse41Supported)
             {
-                byte8 result = byte8.zero;
+                byte8 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -184,17 +235,22 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shl(byte16 x, byte16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return new byte16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
             }
             else if (Sse2.IsSse2Supported)
             {
-                byte16 result = byte16.zero;
+                byte16 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -212,49 +268,54 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 shl(byte32 x, byte32 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             return new byte32(shl(x.v16_0, n.v16_0), shl(x.v16_16, n.v16_16));
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shl(byte2 x, sbyte2 n)
         {
             return shl(x, (byte2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shl(byte3 x, sbyte3 n)
         {
             return shl(x, (byte3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shl(byte4 x, sbyte4 n)
         {
             return shl(x, (byte4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shl(byte8 x, sbyte8 n)
         {
             return shl(x, (byte8)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shl(byte16 x, sbyte16 n)
         {
             return shl(x, (byte16)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 shl(byte32 x, sbyte32 n)
         {
@@ -262,13 +323,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shl(short2 x, short2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short2)shl((int2)x, (int2)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
             }
             else
             {
@@ -276,13 +351,31 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shl(short3 x, short3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short3)shl((int3)x, (int3)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+
+                return Sse4_1.blend_epi16(_xy, _z, 0b0000_0100);
             }
             else
             {
@@ -290,13 +383,34 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shl(short4 x, short4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short4)shl((int4)x, (int4)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                v128 _w = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b0000_1000);
+
+                return Sse4_1.blend_epi16(_xy, _zw, 0b0000_1100);
             }
             else
             {
@@ -304,10 +418,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shl(short8 x, short8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short8)shl((int8)x, (int8)n);
@@ -315,7 +434,7 @@ namespace MaxMath
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-                short8 result = short8.zero;
+                short8 result = Sse2.setzero_si128();
 
 
                 v128 shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
@@ -358,21 +477,40 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 shl(short16 x, short16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             return new short16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shl(ushort2 x, ushort2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort2)shl((uint2)x, (uint2)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
             }
             else
             {
@@ -380,13 +518,31 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shl(ushort3 x, ushort3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort3)shl((uint3)x, (uint3)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+
+                return Sse4_1.blend_epi16(_xy, _z, 0b0000_0100);
             }
             else
             {
@@ -394,13 +550,34 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shl(ushort4 x, ushort4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort4)shl((uint4)x, (uint4)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                v128 _w = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b0000_1000);
+
+                return Sse4_1.blend_epi16(_xy, _zw, 0b0000_1100);
             }
             else
             {
@@ -408,10 +585,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 shl(ushort8 x, ushort8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort8)shl((uint8)x, (uint8)n);
@@ -419,11 +601,11 @@ namespace MaxMath
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-                ushort8 result = ushort8.zero;
+                ushort8 result;
 
 
                 v128 shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
-                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+                result = shift;
 
                 shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
                 shift = Sse2.sll_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
@@ -462,42 +644,47 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 shl(ushort16 x, ushort16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             return new ushort16(shl(x.v8_0, n.v8_0), shl(x.v8_8, n.v8_8));
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shl(ushort2 x, short2 n)
         {
             return shl(x, (ushort2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shl(ushort3 x, short3 n)
         {
             return shl(x, (ushort3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shl(ushort4 x, short4 n)
         {
             return shl(x, (ushort4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 shl(ushort8 x, short8 n)
         {
             return shl(x, (ushort8)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 shl(ushort16 x, short16 n)
         {
@@ -505,15 +692,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shl(int2 x, int2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.sllv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.sllv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
             
                 return *(int2*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 result = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                return *(int2*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+
+                v128 result = Sse2.unpacklo_epi32(_x, _y);
+
+                return *(int2*)&result;
             }
             else
             {
@@ -521,15 +735,48 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shl(int3 x, int3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.sllv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.sllv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
             
                 return *(int3*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _z, 0b0011_0000);
+
+                return *(int3*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+                v128 _z = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 2 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 2 * sizeof(int))));
+
+                v128 lo = Sse2.unpacklo_epi32(_x, _y);
+                v128 result = Sse2.unpacklo_epi64(lo, _z);
+
+                return *(int3*)&result;
             }
             else
             {
@@ -537,15 +784,53 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shl(int4 x, int4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.sllv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.sllv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
             
                 return *(int4*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                v128 _w = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b1100_0000);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _zw, 0b1111_0000);
+
+                return *(int4*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.sll_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+                v128 _z = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 2 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 2 * sizeof(int))));
+                v128 _w = Sse2.sll_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 3 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 3 * sizeof(int))));
+
+                v128 lo = Sse2.unpacklo_epi32(_x, _y);
+                v128 hi = Sse2.unpacklo_epi32(_z, _w);
+                v128 result = Sse2.unpacklo_epi64(lo, hi);
+
+                return *(int4*)&result;
             }
             else
             {
@@ -553,10 +838,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 shl(int8 x, int8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_sllv_epi32(x, n);
@@ -568,28 +858,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 shl(uint2 x, uint2 n)
         {
             return (uint2)shl((int2)x, (int2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 shl(uint3 x, uint3 n)
         {
             return (uint3)shl((int3)x, (int3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 shl(uint4 x, uint4 n)
         {
             return (uint4)shl((int4)x, (int4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 shl(uint8 x, uint8 n)
         {
@@ -597,28 +887,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 shl(uint2 x, int2 n)
         {
             return shl(x, (uint2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 shl(uint3 x, int3 n)
         {
             return shl(x, (uint3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 shl(uint4 x, int4 n)
         {
             return shl(x, (uint4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 shl(uint8 x, int8 n)
         {
@@ -626,13 +916,36 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shl(long2 x, long2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.sllv_epi64(x, n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sll_epi64(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _y = Sse2.sll_epi64(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b1111_0000);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.sll_epi64(x,                                      Sse2.and_si128(MASK, n));
+                v128 _y = Sse2.sll_epi64(Sse2.bsrli_si128(x, 1 * sizeof(ulong)), Sse2.and_si128(MASK, Sse2.bsrli_si128(n, 1 * sizeof(ulong))));
+
+                return Sse2.unpacklo_epi64(_x, _y);
             }
             else
             {
@@ -640,10 +953,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 shl(long3 x, long3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_sllv_epi64(x, n);
@@ -654,10 +972,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 shl(long4 x, long4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x << (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_sllv_epi64(x, n);
@@ -669,21 +992,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 shl(ulong2 x, ulong2 n)
         {
             return (ulong2)shl((long2)x, (long2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 shl(ulong3 x, ulong3 n)
         {
             return (ulong3)shl((long3)x, (long3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 shl(ulong4 x, ulong4 n)
         {
@@ -691,21 +1014,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 shl(ulong2 x, long2 n)
         {
             return shl(x, (ulong2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 shl(ulong3 x, long3 n)
         {
             return shl(x, (ulong3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 shl(ulong4 x, long4 n)
         {
@@ -713,42 +1036,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 shrl(sbyte2 x, sbyte2 n)
         {
             return (sbyte2)shrl((byte2)x, (byte2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 shrl(sbyte3 x, sbyte3 n)
         {
             return (sbyte3)shrl((byte3)x, (byte3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the byteerval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the byteerval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 shrl(sbyte4 x, sbyte4 n)
         {
             return (sbyte4)shrl((byte4)x, (byte4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the byteerval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the byteerval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 shrl(sbyte8 x, sbyte8 n)
         {
             return (sbyte8)shrl((byte8)x, (byte8)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 shrl(sbyte16 x, sbyte16 n)
         {
             return (sbyte16)shrl((byte16)x, (byte16)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 shrl(sbyte32 x, sbyte32 n)
         {
@@ -756,10 +1079,15 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shrl(byte2 x, byte2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte2)shrl((uint2)x, (uint2)n);
@@ -770,10 +1098,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shrl(byte3 x, byte3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte3)shrl((uint3)x, (uint3)n);
@@ -784,10 +1117,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shrl(byte4 x, byte4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte4)shrl((uint4)x, (uint4)n);
@@ -798,17 +1136,22 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shrl(byte8 x, byte8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (byte8)shrl((uint8)x, (uint8)n);
             }
             else if (Sse4_1.IsSse41Supported)
             {
-                byte8 result = byte8.zero;
+                byte8 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -826,10 +1169,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shrl(byte16 x, byte16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 uint8 lo = shrl((uint8)x.v8_0, (uint8)n.v8_0);
@@ -842,7 +1190,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                byte16 result = byte16.zero;
+                byte16 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -860,10 +1208,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 shrl(byte32 x, byte32 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 uint8 lo_lo = shrl((uint8)x.v8_0,  (uint8)n.v8_0);
@@ -874,7 +1227,11 @@ namespace MaxMath
                 ushort16 lo = Avx2.mm256_packus_epi32(lo_lo, lo_hi);
                 ushort16 hi = Avx2.mm256_packus_epi32(hi_lo, hi_hi);
 
-                return Avx2.mm256_permutevar8x32_epi32(Avx2.mm256_packus_epi16(lo, hi), new v256(0, 4, 1, 5, 2, 6, 3, 7));
+                v256 bytes = Avx2.mm256_packus_epi16(lo, hi);
+                bytes = Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(3, 1, 2, 0));
+                bytes = Avx2.mm256_shuffle_epi32(bytes, Sse.SHUFFLE(3, 1, 2, 0));
+
+                return bytes;
             }
             else
             {
@@ -882,42 +1239,42 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shrl(byte2 x, sbyte2 n)
         {
             return shrl(x, (byte2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shrl(byte3 x, sbyte3 n)
         {
             return shrl(x, (byte3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shrl(byte4 x, sbyte4 n)
         {
             return shrl(x, (byte4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shrl(byte8 x, sbyte8 n)
         {
             return shrl(x, (byte8)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shrl(byte16 x, sbyte16 n)
         {
             return shrl(x, (byte16)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 shrl(byte32 x, sbyte32 n)
         {
@@ -925,13 +1282,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shrl(short2 x, short2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (short2)((ushort2)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short2)shrl((ushort2)x, (ushort2)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
             }
             else
             {
@@ -939,13 +1310,31 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shrl(short3 x, short3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (short3)((ushort3)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short3)shrl((ushort3)x, (ushort3)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+
+                return Sse4_1.blend_epi16(_xy, _z, 0b0000_0100);
             }
             else
             {
@@ -953,13 +1342,34 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shrl(short4 x, short4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (short4)((ushort4)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short4)shrl((ushort4)x, (ushort4)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                v128 _w = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b0000_1000);
+
+                return Sse4_1.blend_epi16(_xy, _zw, 0b0000_1100);
             }
             else
             {
@@ -967,10 +1377,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shrl(short8 x, short8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (short8)((ushort8)x >> n.x0);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short8)shrl((ushort8)x, (ushort8)n);
@@ -978,11 +1393,11 @@ namespace MaxMath
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-                short8 result = short8.zero;
+                short8 result;
 
 
                 v128 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
-                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+                result = shift;
 
                 shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
                 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
@@ -1021,10 +1436,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 shrl(short16 x, short16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (short16)((ushort16)x >> n.x0);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 uint8 lo = shrl((uint8)(ushort8)x.v8_0, (uint8)(ushort8)n.v8_0);
@@ -1039,13 +1459,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shrl(ushort2 x, ushort2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort2)shrl((uint2)x, (uint2)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
             }
             else
             {
@@ -1053,13 +1487,31 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shrl(ushort3 x, ushort3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort3)shrl((uint3)x, (uint3)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+
+                return Sse4_1.blend_epi16(_xy, _z, 0b0000_0100);
             }
             else
             {
@@ -1067,13 +1519,34 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shrl(ushort4 x, ushort4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort4)shrl((uint4)x, (uint4)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                v128 _w = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b0000_1000);
+
+                return Sse4_1.blend_epi16(_xy, _zw, 0b0000_1100);
             }
             else
             {
@@ -1081,10 +1554,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 shrl(ushort8 x, ushort8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (ushort8)shrl((uint8)x, (uint8)n);
@@ -1092,11 +1570,11 @@ namespace MaxMath
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-                ushort8 result = ushort8.zero;
+                ushort8 result;
 
 
                 v128 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
-                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+                result = shift;
 
                 shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
                 shift = Sse2.srl_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
@@ -1135,10 +1613,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the uinterval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 shrl(ushort16 x, ushort16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 uint8 lo = shrl((uint8)x.v8_0, (uint8)n.v8_0);
@@ -1152,43 +1635,70 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shrl(ushort3 x, short3 n)
         {
             return shrl(x, (ushort3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shrl(ushort4 x, short4 n)
         {
             return shrl(x, (ushort4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 shrl(ushort8 x, short8 n)
         {
             return shrl(x, (ushort8)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift left operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift left operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 shrl(ushort16 x, short16 n)
         {
             return shrl(x, (ushort16)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shrl(int2 x, int2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (int2)((uint2)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srlv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srlv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int2*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 result = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                return *(int2*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+
+                v128 result = Sse2.unpacklo_epi32(_x, _y);
+
+                return *(int2*)&result;
             }
             else
             {
@@ -1196,15 +1706,48 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shrl(int3 x, int3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (int3)((uint3)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srlv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srlv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int3*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _z, 0b0011_0000);
+
+                return *(int3*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+                v128 _z = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 2 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 2 * sizeof(int))));
+
+                v128 lo = Sse2.unpacklo_epi32(_x, _y);
+                v128 result = Sse2.unpacklo_epi64(lo, _z);
+
+                return *(int3*)&result;
             }
             else
             {
@@ -1212,15 +1755,53 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shrl(int4 x, int4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (int4)((uint4)x >> n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srlv_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srlv_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int4*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                v128 _w = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b1100_0000);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _zw, 0b1111_0000);
+
+                return *(int4*)&result;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.srl_epi32(UnityMathematicsLink.Tov128(x),                                    Sse2.and_si128(MASK, UnityMathematicsLink.Tov128(n)));
+                v128 _y = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 1 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 1 * sizeof(int))));
+                v128 _z = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 2 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 2 * sizeof(int))));
+                v128 _w = Sse2.srl_epi32(Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x), 3 * sizeof(int)), Sse2.and_si128(MASK, Sse2.bsrli_si128(UnityMathematicsLink.Tov128(n), 3 * sizeof(int))));
+
+                v128 lo = Sse2.unpacklo_epi32(_x, _y);
+                v128 hi = Sse2.unpacklo_epi32(_z, _w);
+                v128 result = Sse2.unpacklo_epi64(lo, hi);
+
+                return *(int4*)&result;
             }
             else
             {
@@ -1228,10 +1809,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 shrl(int8 x, int8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (int8)((uint8)x >> n.x0);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_srlv_epi32(x, n);
@@ -1243,28 +1829,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 shrl(uint2 x, uint2 n)
         {
             return (uint2)shrl((int2)x, (int2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 shrl(uint3 x, uint3 n)
         {
             return (uint3)shrl((int3)x, (int3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 shrl(uint4 x, uint4 n)
         {
             return (uint4)shrl((int4)x, (int4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 shrl(uint8 x, uint8 n)
         {
@@ -1272,28 +1858,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 shrl(uint2 x, int2 n)
         {
             return shrl(x, (uint2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 shrl(uint3 x, int3 n)
         {
             return shrl(x, (uint3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 shrl(uint4 x, int4 n)
         {
             return shrl(x, (uint4)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 shrl(uint8 x, int8 n)
         {
@@ -1301,13 +1887,36 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shrl(long2 x, long2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (long2)((ulong2)x >> (int)n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.srlv_epi64(x, n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.srl_epi64(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _y = Sse2.srl_epi64(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b1111_0000);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 MASK = Sse2.cvtsi32_si128(255);
+
+                v128 _x = Sse2.srl_epi64(x,                                      Sse2.and_si128(MASK, n));
+                v128 _y = Sse2.srl_epi64(Sse2.bsrli_si128(x, 1 * sizeof(ulong)), Sse2.and_si128(MASK, Sse2.bsrli_si128(n, sizeof(ulong))));
+
+                return Sse2.unpacklo_epi64(_x, _y);
             }
             else
             {
@@ -1315,10 +1924,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 shrl(long3 x, long3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (long3)((ulong3)x >> (int)n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_srlv_epi64(x, n);
@@ -1329,10 +1943,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 shrl(long4 x, long4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return (long4)((ulong4)x >> (int)n.x);
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_srlv_epi64(x, n);
@@ -1344,21 +1963,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 shrl(ulong2 x, ulong2 n)
         {
             return (ulong2)shrl((long2)x, (long2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 shrl(ulong3 x, ulong3 n)
         {
             return (ulong3)shrl((long3)x, (long3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 shrl(ulong4 x, ulong4 n)
         {
@@ -1366,21 +1985,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 shrl(ulong2 x, long2 n)
         {
             return shrl(x, (ulong2)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 shrl(ulong3 x, long3 n)
         {
             return shrl(x, (ulong3)n);
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (logical) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 shrl(ulong4 x, long4 n)
         {
@@ -1388,10 +2007,15 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 shra(sbyte2 x, sbyte2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte2)shra((int2)x, (int2)n);
@@ -1402,10 +2026,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 shra(sbyte3 x, sbyte3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte3)shra((int3)x, (int3)n);
@@ -1416,10 +2045,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 shra(sbyte4 x, sbyte4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte4)shra((int4)x, (int4)n);
@@ -1430,10 +2064,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 shra(sbyte8 x, sbyte8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (sbyte8)shra((int8)x, (int8)n);
@@ -1444,10 +2083,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 shra(sbyte16 x, sbyte16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 int8 lo = shra((int8)x.v8_0, (int8)n.v8_0);
@@ -1460,7 +2104,7 @@ namespace MaxMath
             }
             else if (Sse4_1.IsSse41Supported)
             {
-                sbyte16 result = sbyte16.zero;
+                sbyte16 result = Sse2.setzero_si128();
 
                 result = Mask.BlendV(result, x, Sse2.cmpeq_epi8(result, n));
 
@@ -1478,10 +2122,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 7] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 shra(sbyte32 x, sbyte32 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 int8 lo_lo = shra((int8)x.v8_0,  (int8)n.v8_0);
@@ -1492,7 +2141,11 @@ namespace MaxMath
                 short16 lo = Avx2.mm256_packs_epi32(lo_lo, lo_hi);
                 short16 hi = Avx2.mm256_packs_epi32(hi_lo, hi_hi);
 
-                return Avx2.mm256_permutevar8x32_epi32(Avx2.mm256_packs_epi16(lo, hi), new v256(0, 4, 1, 5, 2, 6, 3, 7));
+                v256 bytes = Avx2.mm256_packs_epi16(lo, hi);
+                bytes = Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(3, 1, 2, 0));
+                bytes = Avx2.mm256_shuffle_epi32(bytes, Sse.SHUFFLE(3, 1, 2, 0));
+
+                return bytes;
             }
             else
             {
@@ -1501,13 +2154,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shra(short2 x, short2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short2)shra((int2)x, (int2)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                return Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
             }
             else
             {
@@ -1515,13 +2182,31 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shra(short3 x, short3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short3)shra((int3)x, (int3)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+
+                return Sse4_1.blend_epi16(_xy, _z, 0b0000_0100);
             }
             else
             {
@@ -1529,13 +2214,34 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shra(short4 x, short4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short4)shra((int4)x, (int4)n);
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
+                v128 _y = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _z = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 6, 0);
+                v128 _w = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_0010);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b0000_1000);
+
+                return Sse4_1.blend_epi16(_xy, _zw, 0b0000_1100);
             }
             else
             {
@@ -1543,10 +2249,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shra(short8 x, short8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return (short8)shra((int8)x, (int8)n);
@@ -1554,11 +2265,11 @@ namespace MaxMath
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-                short8 result = short8.zero;
+                short8 result;
 
 
                 v128 shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
-                result = Sse4_1.blend_epi16(result, shift, 0b0000_0001);
+                result = shift;
 
                 shuffleMask = Sse4_1.insert_epi8(shuffleMask, 2, 0);
                 shift = Sse2.sra_epi16(x, Ssse3.shuffle_epi8(n, shuffleMask));
@@ -1597,10 +2308,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 15] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 shra(short16 x, short16 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 int8 lo = shra((int8)x.v8_0, (int8)n.v8_0);
@@ -1615,15 +2331,31 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shra(int2 x, int2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srav_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srav_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int2*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 result = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                return *(int2*)&result;
             }
             else
             {
@@ -1631,15 +2363,35 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shra(int3 x, int3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srav_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srav_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int3*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _z, 0b0011_0000);
+
+                return *(int3*)&result;
             }
             else
             {
@@ -1647,15 +2399,38 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shra(int4 x, int4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Avx2.srav_epi32(*(v128*)&x, *(v128*)&n);
+                v128 temp = Avx2.srav_epi32(UnityMathematicsLink.Tov128(x), UnityMathematicsLink.Tov128(n));
 
                 return *(int4*)&temp;
+            }
+            else if (Sse4_1.IsSse41Supported)
+            {
+                v128 shuffleMask = new v128(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+                v128 _x = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 4, 0);
+                v128 _y = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 8, 0);
+                v128 _z = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+                shuffleMask = Sse4_1.insert_epi8(shuffleMask, 12, 0);
+                v128 _w = Sse2.sra_epi32(UnityMathematicsLink.Tov128(x), Ssse3.shuffle_epi8(UnityMathematicsLink.Tov128(n), shuffleMask));
+
+                v128 _xy = Sse4_1.blend_epi16(_x, _y, 0b0000_1100);
+                v128 _zw = Sse4_1.blend_epi16(_z, _w, 0b1100_0000);
+
+                v128 result = Sse4_1.blend_epi16(_xy, _zw, 0b1111_0000);
+
+                return *(int4*)&result;
             }
             else
             {
@@ -1663,10 +2438,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 31] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 shra(int8 x, int8 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> n.x0;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_srav_epi32(x, n);
@@ -1678,10 +2458,15 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shra(long2 x, long2 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 long2 mask = Sse2.and_si128(Operator.greater_mask_long(n, default(v128)),
@@ -1697,10 +2482,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 shra(long3 x, long3 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 long3 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),
@@ -1716,10 +2506,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of x by the corresponding value in n. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.       </summary>
+        /// <summary>       Returns the result of a componentwise bitshift right (arithmetic) operation of <paramref name="x"/> by the corresponding value in <paramref name="n"/>. Shifting by a value outside of the interval [0, 63] is undefined behavior and yields different results when compiling managed C#, for SSE or for AVX.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 shra(long4 x, long4 n)
         {
+            if (Constant.IsConstantExpression(n) && all_eq(n))
+            {
+                return x >> (int)n.x;
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 long4 mask = Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi64(n, default(v256)),

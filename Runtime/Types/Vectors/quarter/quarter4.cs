@@ -431,21 +431,21 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(quarter4 input) => maxmath.asbyte(input);
+        public static implicit operator v128(quarter4 input) => new v128(*(int*)&input, 0, 0, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator quarter4(v128 input) => maxmath.asquarter((byte4)input);
+        public static implicit operator quarter4(v128 input) { int x = input.SInt0; return *(quarter4*)&x; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator quarter4(quarter input) => new quarter4(input);
 
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(sbyte4 input)
+        internal static quarter4 SByte4ToQuarter4(sbyte4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
-                sbyte4 sign = input & (sbyte)-0b1000_0000;
+                sbyte4 sign = input & unchecked((sbyte)0b1000_0000);
                 sbyte4 abs = maxmath.abs(input);
                 v128 overflowMask = Sse2.cmpgt_epi8(abs, new sbyte4(15));
 
@@ -457,23 +457,33 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi8(abs, default(v128));
 
-                sbyte4 infinity = (sbyte)quarter.PositiveInfinity.value;
+                sbyte4 infinity = (sbyte)overflowValue.value;
                 sbyte4 regular = Sse2.andnot_si128(notZeroMask, (sbyte4)f32);
 
                 return (v128)(sign | Mask.BlendV(regular, infinity, overflowMask));
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.SByteToQuarter(input.x, overflowValue), 
+                                    quarter.SByteToQuarter(input.y, overflowValue), 
+                                    quarter.SByteToQuarter(input.z, overflowValue), 
+                                    quarter.SByteToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(byte4 input)
+        public static explicit operator quarter4(sbyte4 input)
+        {
+            return SByte4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 Byte4ToQuarter4(byte4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 overflowMask = Sse2.cmpgt_epi8(input, new byte4(15));
+                v128 overflowMask = Operator.greater_mask_byte(input, new byte4(15));
 
 
                 float4 f = input;
@@ -483,19 +493,29 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi8(input, default(v128));
 
-                byte4 infinity = quarter.PositiveInfinity.value;
+                byte4 infinity = overflowValue.value;
                 byte4 regular = Sse2.andnot_si128(notZeroMask, (byte4)f32);
 
                 return Mask.BlendV(regular, infinity, overflowMask);
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.ByteToQuarter(input.x, overflowValue), 
+                                    quarter.ByteToQuarter(input.y, overflowValue), 
+                                    quarter.ByteToQuarter(input.z, overflowValue), 
+                                    quarter.ByteToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(short4 input)
+        public static explicit operator quarter4(byte4 input)
+        {
+            return Byte4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 Short4ToQuarter4(short4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
@@ -511,24 +531,34 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi32(Cast.ShortToInt(abs), default(v128));
 
-                sbyte4 infinity = (sbyte)quarter.PositiveInfinity.value;
-                v128 masked = Sse2.andnot_si128(notZeroMask, *(v128*)&f32);
+                sbyte4 infinity = (sbyte)overflowValue.value;
+                v128 masked = Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32));
                 sbyte4 regular = (sbyte4)(*(int4*)&masked);
 
                 return (v128)(sign | Mask.BlendV(regular, infinity, overflowMask));
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.ShortToQuarter(input.x, overflowValue), 
+                                    quarter.ShortToQuarter(input.y, overflowValue), 
+                                    quarter.ShortToQuarter(input.z, overflowValue), 
+                                    quarter.ShortToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(ushort4 input)
+        public static explicit operator quarter4(short4 input)
+        {
+            return Short4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 UShort4ToQuarter4(ushort4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 overflowMask = (sbyte4)(ushort4)Sse2.cmpgt_epi16(input, new ushort4(15));
+                v128 overflowMask = (sbyte4)(ushort4)Operator.greater_mask_ushort(input, new ushort4(15));
 
 
                 float4 f = input;
@@ -538,26 +568,36 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi32(Cast.ShortToInt(input), default(v128));
 
-                byte4 infinity = quarter.PositiveInfinity.value;
-                v128 masked = Sse2.andnot_si128(notZeroMask, *(v128*)&f32);
+                byte4 infinity = overflowValue.value;
+                v128 masked = Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32));
                 byte4 regular = (byte4)(*(int4*)&masked);
 
                 return Mask.BlendV(regular, infinity, overflowMask);
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.UShortToQuarter(input.x, overflowValue), 
+                                    quarter.UShortToQuarter(input.y, overflowValue), 
+                                    quarter.UShortToQuarter(input.z, overflowValue), 
+                                    quarter.UShortToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(int4 input)
+        public static explicit operator quarter4(ushort4 input)
+        {
+            return UShort4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 Int4ToQuarter4(int4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
                 sbyte4 sign = (sbyte4)((uint4)input >> 31) << 7;
                 int4 abs = math.abs(input);
-                v128 overflowMask = Sse2.cmpgt_epi32(*(v128*)&abs, new v128(15));
+                v128 overflowMask = Sse2.cmpgt_epi32(UnityMathematicsLink.Tov128(abs), new v128(15));
                 overflowMask = (sbyte4)(*(int4*)&overflowMask);
 
 
@@ -566,27 +606,37 @@ namespace MaxMath
                 int4 f32 = math.asint(f) - ((127 + quarter.EXPONENT_BIAS) << 23);
                 f32 >>= 19;
 
-                v128 notZeroMask = Sse2.cmpeq_epi32(*(v128*)&abs, default(v128));
+                v128 notZeroMask = Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(abs), default(v128));
 
-                sbyte4 infinity = (sbyte)quarter.PositiveInfinity.value;
-                v128 masked = Sse2.andnot_si128(notZeroMask, *(v128*)&f32);
+                sbyte4 infinity = (sbyte)overflowValue.value;
+                v128 masked = Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32));
                 sbyte4 regular = (sbyte4)(*(int4*)&masked);
 
                 return (v128)(sign | Mask.BlendV(regular, infinity, overflowMask));
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.IntToQuarter(input.x, overflowValue), 
+                                    quarter.IntToQuarter(input.y, overflowValue), 
+                                    quarter.IntToQuarter(input.z, overflowValue), 
+                                    quarter.IntToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(uint4 input)
+        public static explicit operator quarter4(int4 input)
+        {
+            return Int4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 UInt4ToQuarter4(uint4 input, quarter overflowValue)
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 overflowMask = Sse2.cmpgt_epi32(*(v128*)&input, new v128(15));
-                overflowMask = (sbyte3)(*(int3*)&overflowMask);
+                v128 overflowMask = Operator.greater_mask_uint(UnityMathematicsLink.Tov128(input), new v128(15));
+                overflowMask = (sbyte4)(*(int4*)&overflowMask);
 
 
                 float4 f = input;
@@ -594,22 +644,32 @@ namespace MaxMath
                 int4 f32 = math.asint(f) - ((127 + quarter.EXPONENT_BIAS) << 23);
                 f32 >>= 19;
 
-                v128 notZeroMask = Sse2.cmpeq_epi32(*(v128*)&input, default(v128));
+                v128 notZeroMask = Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(input), default(v128));
 
-                byte4 infinity = quarter.PositiveInfinity.value;
-                v128 masked = Sse2.andnot_si128(notZeroMask, *(v128*)&f32);
+                byte4 infinity = overflowValue.value;
+                v128 masked = Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32));
                 byte4 regular = (byte4)(*(int4*)&masked);
 
                 return Mask.BlendV(regular, infinity, overflowMask);
             }
             else
             {
-                return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+                return new quarter4(quarter.UIntToQuarter(input.x, overflowValue), 
+                                    quarter.UIntToQuarter(input.y, overflowValue), 
+                                    quarter.UIntToQuarter(input.z, overflowValue), 
+                                    quarter.UIntToQuarter(input.w, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(long4 input)
+        public static explicit operator quarter4(uint4 input)
+        {
+            return UInt4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 Long4ToQuarter4(long4 input, quarter overflowValue)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -626,23 +686,31 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi32(castToInt, default(v128));
 
-                sbyte4 infinity = (sbyte)quarter.PositiveInfinity.value;
-                sbyte4 regular = Cast.Int4ToByte4(Sse2.andnot_si128(notZeroMask, *(v128*)&f32));
+                sbyte4 infinity = (sbyte)overflowValue.value;
+                sbyte4 regular = Cast.Int4ToByte4(Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32)));
 
                 return (v128)(sign | Sse4_1.blendv_epi8(regular, infinity, overflowMask));
             }
             else
             {
-                return new quarter4((quarter2)input.xy, (quarter2)input.zw);
+                return new quarter4(quarter2.Long2ToQuarter2(input.xy, overflowValue), 
+                                    quarter2.Long2ToQuarter2(input.zw, overflowValue));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter4(ulong4 input)
+        public static explicit operator quarter4(long4 input)
+        {
+            return Long4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter4 ULong4ToQuarter4(ulong4 input, quarter overflowValue)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v128 overflowMask = (sbyte4)(ulong4)Avx2.mm256_cmpgt_epi64(input, new ulong4(15));
+                v128 overflowMask = (sbyte4)(ulong4)Operator.greater_mask_ulong(input, new ulong4(15));
 
 
                 v128 castToInt = Cast.Long4ToInt4(input);
@@ -653,14 +721,69 @@ namespace MaxMath
 
                 v128 notZeroMask = Sse2.cmpeq_epi32(castToInt, default(v128));
 
-                byte4 infinity = quarter.PositiveInfinity.value;
-                byte4 regular = Cast.Int4ToByte4(Sse2.andnot_si128(notZeroMask, *(v128*)&f32));
+                byte4 infinity = overflowValue.value;
+                byte4 regular = Cast.Int4ToByte4(Sse2.andnot_si128(notZeroMask, UnityMathematicsLink.Tov128(f32)));
 
                 return Sse4_1.blendv_epi8(regular, infinity, overflowMask);
             }
             else
             {
-                return new quarter4((quarter2)input.xy, (quarter2)input.zw);
+                return new quarter4(quarter2.ULong2ToQuarter2(input.xy, overflowValue), 
+                                    quarter2.ULong2ToQuarter2(input.zw, overflowValue));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter4(ulong4 input)
+        {
+            return ULong4ToQuarter4(input, quarter.PositiveInfinity);
+        }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 Half4ToQuarter4InRange(half4 input)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte4 f8_sign = (byte4)((maxmath.asushort(input) >> 15) << 7);
+                uint4 f16_exponent = (maxmath.asushort(input) << 1) >> 11;
+
+
+                uint4 f16_mantissa = (maxmath.asushort(input) << 6) >> 6;
+
+                int4 cmp = 13 - (int4)f16_exponent;
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
+
+                int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
+                denormalExponent = Sse2.add_epi32(denormalExponent,
+                                                  Sse2.and_si128(new v128(1),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_exponent), new v128(9)),
+                                                                                Sse2.andnot_si128(Sse2.cmpgt_epi32(new v128(0x0200),
+                                                                                                                   UnityMathematicsLink.Tov128(f16_mantissa)),
+                                                                                                  new v128(-1)))));
+
+                v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_exponent), new v128(8)),
+                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_mantissa), default(v128)), new v128(-1))));
+
+                int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f16_exponent - (15 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
+
+                int4 mantissaShift = 6 + maxmath.andnot(cmp, *(int4*)&cmpIsZeroOrNegativeMask);
+                uint4 shifted = maxmath.shrl(f16_mantissa, mantissaShift);
+
+
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
+                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, UnityMathematicsLink.Tov128(shifted)));
+
+                return maxmath.asquarter(f8_sign | (byte4)(*(uint4*)&exponentMantissa));
+            }
+            else
+            {
+                return new quarter4(quarter.HalfToQuarterInRange(input.x, (byte)(((uint)maxmath.asushort(input.x) >> 15) << 7), ((uint)maxmath.asushort(input.x) << 17) >> 27),
+                                    quarter.HalfToQuarterInRange(input.y, (byte)(((uint)maxmath.asushort(input.y) >> 15) << 7), ((uint)maxmath.asushort(input.y) << 17) >> 27),
+                                    quarter.HalfToQuarterInRange(input.z, (byte)(((uint)maxmath.asushort(input.z) >> 15) << 7), ((uint)maxmath.asushort(input.z) << 17) >> 27),
+                                    quarter.HalfToQuarterInRange(input.w, (byte)(((uint)maxmath.asushort(input.w) >> 15) << 7), ((uint)maxmath.asushort(input.w) << 17) >> 27));
             }
         }
 
@@ -676,20 +799,20 @@ namespace MaxMath
                 uint4 f16_mantissa = (maxmath.asushort(input) << 6) >> 6;
 
                 int4 cmp = 13 - (int4)f16_exponent;
-                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), *(v128*)&cmp);
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
 
                 int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
-                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, *(v128*)&denormalShift);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
                 denormalExponent = Sse2.add_epi32(denormalExponent,
                                                   Sse2.and_si128(new v128(1),
-                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f16_exponent, new v128(9)),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_exponent), new v128(9)),
                                                                                 Sse2.andnot_si128(Sse2.cmpgt_epi32(new v128(0x0200),
-                                                                                                                   *(v128*)&f16_mantissa),
+                                                                                                                   UnityMathematicsLink.Tov128(f16_mantissa)),
                                                                                                   new v128(-1)))));
 
                 v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
-                                                               Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f16_exponent, new v128(8)),
-                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(*(v128*)&f16_mantissa, default(v128)), new v128(-1))));
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_exponent), new v128(8)),
+                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f16_mantissa), default(v128)), new v128(-1))));
 
                 int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f16_exponent - (15 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
 
@@ -697,25 +820,73 @@ namespace MaxMath
                 uint4 shifted = maxmath.shrl(f16_mantissa, mantissaShift);
 
 
-                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(*(v128*)&normalExponent, denormalExponent),
-                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, *(v128*)&shifted));
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
+                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, UnityMathematicsLink.Tov128(shifted)));
 
                 v128 infNanexponentMantissa = Sse2.or_si128(new v128((int)quarter.PositiveInfinity.value),
                                                             Sse2.and_si128(new v128(1),
                                                                            Sse2.cmpgt_epi32(Sse2.and_si128(Cast.UShortToInt(maxmath.asushort(input)), new v128(maxmath.bitmask32(15))),
                                                                                             new v128(0x7C00))));
 
-                v128 underflowMask = Sse2.cmpgt_epi32(new v128(8), *(v128*)&f16_exponent);
-                v128 overflowMask = Sse2.cmpgt_epi32(*(v128*)&f16_exponent, new v128(18));
-
-                exponentMantissa = Mask.BlendV(exponentMantissa, default(v128), underflowMask);
-                exponentMantissa = Mask.BlendV(exponentMantissa, *(v128*)&infNanexponentMantissa, overflowMask);
+                v128 underflowMask = Sse2.cmpgt_epi32(new v128(8), UnityMathematicsLink.Tov128(f16_exponent));
+                v128 overflowMask = Sse2.cmpgt_epi32(UnityMathematicsLink.Tov128(f16_exponent), new v128(18));
+                
+                exponentMantissa = Sse2.andnot_si128(underflowMask, exponentMantissa);
+                exponentMantissa = Mask.BlendV(exponentMantissa, infNanexponentMantissa, overflowMask);
 
                 return maxmath.asquarter(f8_sign | (byte4)(*(uint4*)&exponentMantissa));
             }
             else
             {
                 return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+            }
+        }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 Float4ToQuarter4InRange(float4 input)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                byte4 f8_sign = (byte4)((math.asuint(input) >> 31) << 7);
+                uint4 f32_exponent = (math.asuint(input) << 1) >> 24;
+
+
+                uint4 f32_mantissa = (math.asuint(input) << 9) >> 9;
+
+                int4 cmp = 125 - (int4)f32_exponent;
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
+
+                int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
+                denormalExponent = Sse2.add_epi32(denormalExponent,
+                                                  Sse2.and_si128(new v128(1),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_exponent), new v128(121)),
+                                                                                Sse2.andnot_si128(Sse2.cmpgt_epi32(new v128(0x0040_0000),
+                                                                                                                   UnityMathematicsLink.Tov128(f32_mantissa)),
+                                                                                                  new v128(-1)))));
+
+                v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_exponent), new v128(120)),
+                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_mantissa), default(v128)), new v128(-1))));
+
+                int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f32_exponent - (127 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
+
+                int4 mantissaShift = 19 + maxmath.andnot(cmp, *(int4*)&cmpIsZeroOrNegativeMask);
+                uint4 shifted = maxmath.shrl(f32_mantissa, mantissaShift);
+
+
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
+                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, UnityMathematicsLink.Tov128(shifted)));
+
+                return maxmath.asquarter(f8_sign | (byte4)(*(uint4*)&exponentMantissa));
+            }
+            else
+            {
+                return new quarter4(quarter.FloatToQuarterInRange(input.x, (byte)((math.asuint(input.x) >> 31) << 7), (math.asuint(input.x) << 1) >> 24),
+                                    quarter.FloatToQuarterInRange(input.y, (byte)((math.asuint(input.y) >> 31) << 7), (math.asuint(input.y) << 1) >> 24),
+                                    quarter.FloatToQuarterInRange(input.z, (byte)((math.asuint(input.z) >> 31) << 7), (math.asuint(input.z) << 1) >> 24),
+                                    quarter.FloatToQuarterInRange(input.w, (byte)((math.asuint(input.w) >> 31) << 7), (math.asuint(input.w) << 1) >> 24));
             }
         }
 
@@ -731,20 +902,20 @@ namespace MaxMath
                 uint4 f32_mantissa = (math.asuint(input) << 9) >> 9;
 
                 int4 cmp = 125 - (int4)f32_exponent;
-                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), *(v128*)&cmp);
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
 
                 int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
-                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, *(v128*)&denormalShift);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
                 denormalExponent = Sse2.add_epi32(denormalExponent,
                                                   Sse2.and_si128(new v128(1),
-                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f32_exponent, new v128(121)),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_exponent), new v128(121)),
                                                                                 Sse2.andnot_si128(Sse2.cmpgt_epi32(new v128(0x0040_0000),
-                                                                                                                   *(v128*)&f32_mantissa),
+                                                                                                                   UnityMathematicsLink.Tov128(f32_mantissa)),
                                                                                                   new v128(-1)))));
 
                 v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
-                                                               Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f32_exponent, new v128(120)),
-                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(*(v128*)&f32_mantissa, default(v128)), new v128(-1))));
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_exponent), new v128(120)),
+                                                                              Sse2.andnot_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f32_mantissa), default(v128)), new v128(-1))));
 
                 int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f32_exponent - (127 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
 
@@ -752,25 +923,70 @@ namespace MaxMath
                 uint4 shifted = maxmath.shrl(f32_mantissa, mantissaShift);
 
 
-                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(*(v128*)&normalExponent, denormalExponent),
-                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, *(v128*)&shifted));
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
+                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, UnityMathematicsLink.Tov128(shifted)));
 
                 v128 infNanexponentMantissa = Sse2.or_si128(new v128((int)quarter.PositiveInfinity.value),
                                                             Sse2.and_si128(new v128(1),
-                                                                           Sse2.cmpgt_epi32(Sse.and_ps(*(v128*)&input, new v128(maxmath.bitmask32(31))),
+                                                                           Sse2.cmpgt_epi32(Sse.and_ps(UnityMathematicsLink.Tov128(input), new v128(maxmath.bitmask32(31))),
                                                                                             new v128(0x7F80_0000))));
 
-                v128 underflowMask = Sse2.cmpgt_epi32(new v128(120), *(v128*)&f32_exponent);
-                v128 overflowMask = Sse2.cmpgt_epi32(*(v128*)&f32_exponent, new v128(130));
-
-                exponentMantissa = Mask.BlendV(exponentMantissa, default(v128), underflowMask);
-                exponentMantissa = Mask.BlendV(exponentMantissa, *(v128*)&infNanexponentMantissa, overflowMask);
+                v128 underflowMask = Sse2.cmpgt_epi32(new v128(120), UnityMathematicsLink.Tov128(f32_exponent));
+                v128 overflowMask = Sse2.cmpgt_epi32(UnityMathematicsLink.Tov128(f32_exponent), new v128(130));
+                
+                exponentMantissa = Sse2.andnot_si128(underflowMask, exponentMantissa);
+                exponentMantissa = Mask.BlendV(exponentMantissa, infNanexponentMantissa, overflowMask);
 
                 return maxmath.asquarter(f8_sign | (byte4)(*(uint4*)&exponentMantissa));
             }
             else
             {
                 return new quarter4((quarter)input.x, (quarter)input.y, (quarter)input.z, (quarter)input.w);
+            }
+        }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 Double4ToQuarter4InRange(double4 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                byte4 f8_sign = (byte4)((maxmath.asulong(input) >> 63) << 7);
+                uint4 f64_exponent = (uint4)((maxmath.asulong(input) << 1) >> 53);
+
+
+                ulong4 f64_mantissa = (maxmath.asulong(input) << 12) >> 12;
+
+                int4 cmp = 1021 - (int4)f64_exponent;
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
+
+                int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
+                denormalExponent = Sse2.add_epi32(denormalExponent,
+                                                  Sse2.and_si128(new v128(1),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f64_exponent), new v128(1017)),
+                                                                                Cast.Long4ToInt4(Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi64(new v256(0x0008_0000_0000_0000ul),
+                                                                                                                                                f64_mantissa),
+                                                                                                                             new v256(-1))))));
+
+                v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f64_exponent), new v128(1016)),
+                                                                               Cast.Long4ToInt4(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi32(f64_mantissa, default(v256)), new v256(-1)))));
+
+                int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f64_exponent - (1023 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
+
+                int4 mantissaShift = 48 + maxmath.andnot(cmp, *(int4*)&cmpIsZeroOrNegativeMask);
+
+
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
+                                                      Sse2.or_si128(mantissaIfSmallerEpsilon, Cast.Long4ToInt4(Avx2.mm256_srlv_epi64(f64_mantissa, (ulong4)mantissaShift))));
+
+                return maxmath.asquarter(f8_sign | Cast.Int4ToByte4(exponentMantissa));
+            }
+            else
+            {
+                return new quarter4(quarter2.Double2ToQuarter2InRange(input.xy),
+                                    quarter2.Double2ToQuarter2InRange(input.zw));
             }
         }
 
@@ -786,19 +1002,19 @@ namespace MaxMath
                 ulong4 f64_mantissa = (maxmath.asulong(input) << 12) >> 12;
 
                 int4 cmp = 1021 - (int4)f64_exponent;
-                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), *(v128*)&cmp);
+                v128 cmpIsZeroOrNegativeMask = Sse2.cmpgt_epi32(new v128(1), UnityMathematicsLink.Tov128(cmp));
 
                 int4 denormalShift = maxmath.shrl((int4)0b0001_0000, cmp);
-                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, *(v128*)&denormalShift);
+                v128 denormalExponent = Sse2.andnot_si128(cmpIsZeroOrNegativeMask, UnityMathematicsLink.Tov128(denormalShift));
                 denormalExponent = Sse2.add_epi32(denormalExponent,
                                                   Sse2.and_si128(new v128(1),
-                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f64_exponent, new v128(1017)),
+                                                                 Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f64_exponent), new v128(1017)),
                                                                                 Cast.Long4ToInt4(Avx2.mm256_andnot_si256(Avx2.mm256_cmpgt_epi64(new v256(0x0008_0000_0000_0000ul),
                                                                                                                                                 f64_mantissa),
                                                                                                                              new v256(-1))))));
 
                 v128 mantissaIfSmallerEpsilon = Sse2.and_si128(new v128(1),
-                                                               Sse2.and_si128(Sse2.cmpeq_epi32(*(v128*)&f64_exponent, new v128(1016)),
+                                                               Sse2.and_si128(Sse2.cmpeq_epi32(UnityMathematicsLink.Tov128(f64_exponent), new v128(1016)),
                                                                                Cast.Long4ToInt4(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi32(f64_mantissa, default(v256)), new v256(-1)))));
 
                 int4 normalExponent = (*(int4*)&cmpIsZeroOrNegativeMask & ((int4)f64_exponent - (1023 + quarter.EXPONENT_BIAS))) << quarter.MANTISSA_BITS;
@@ -806,19 +1022,19 @@ namespace MaxMath
                 int4 mantissaShift = 48 + maxmath.andnot(cmp, *(int4*)&cmpIsZeroOrNegativeMask);
 
 
-                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(*(v128*)&normalExponent, denormalExponent),
+                v128 exponentMantissa = Sse2.or_si128(Sse2.or_si128(UnityMathematicsLink.Tov128(normalExponent), denormalExponent),
                                                       Sse2.or_si128(mantissaIfSmallerEpsilon, Cast.Long4ToInt4(Avx2.mm256_srlv_epi64(f64_mantissa, (ulong4)mantissaShift))));
 
                 v128 infNanexponentMantissa = Sse2.or_si128(new v128((int)quarter.PositiveInfinity.value),
                                                             Sse2.and_si128(new v128(1),
-                                                                           Cast.Long4ToInt4(Avx2.mm256_cmpgt_epi64(Avx.mm256_and_pd(*(v256*)&input, new v256(maxmath.bitmask64(63L))),
+                                                                           Cast.Long4ToInt4(Avx2.mm256_cmpgt_epi64(Avx.mm256_and_pd(UnityMathematicsLink.Tov256(input), new v256(maxmath.bitmask64(63L))),
                                                                                                                    new v256(0x7FF0_0000_0000_0000L)))));
 
-                v128 underflowMask = Sse2.cmpgt_epi32(new v128(1016), *(v128*)&f64_exponent);
-                v128 overflowMask = Sse2.cmpgt_epi32(*(v128*)&f64_exponent, new v128(1026));
-
-                exponentMantissa = Sse4_1.blendv_epi8(exponentMantissa, default(v128), underflowMask);
-                exponentMantissa = Sse4_1.blendv_epi8(exponentMantissa, *(v128*)&infNanexponentMantissa, overflowMask);
+                v128 underflowMask = Sse2.cmpgt_epi32(new v128(1016), UnityMathematicsLink.Tov128(f64_exponent));
+                v128 overflowMask = Sse2.cmpgt_epi32(UnityMathematicsLink.Tov128(f64_exponent), new v128(1026));
+                
+                exponentMantissa = Sse2.andnot_si128(underflowMask, exponentMantissa);
+                exponentMantissa = Sse4_1.blendv_epi8(exponentMantissa, infNanexponentMantissa, overflowMask);
 
                 return maxmath.asquarter(f8_sign | Cast.Int4ToByte4(exponentMantissa));
             }
@@ -830,28 +1046,28 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte4(quarter4 input) => (sbyte4)(float4)input;
+        public static explicit operator sbyte4(quarter4 input) => (sbyte4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(quarter4 input) => (byte4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short4(quarter4 input) => (short4)(float4)input;
+        public static explicit operator short4(quarter4 input) => (short4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort4(quarter4 input) => (ushort4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator int4(quarter4 input) => (int4)(float4)input;
+        public static explicit operator int4(quarter4 input) => (int4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint4(quarter4 input) => (uint4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long4(quarter4 input) => (int4)(float4)input;
+        public static explicit operator long4(quarter4 input) => (int4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong4(quarter4 input) => (uint4)(float4)input;
+        public static explicit operator ulong4(quarter4 input) => (ulong4)(int4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half4(quarter4 input) => (half4)(float4)input;

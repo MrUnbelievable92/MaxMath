@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -8,7 +7,29 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise maximum of two byte2 vectors.     </summary>
+        /// <summary>       Returns the maximum of two <see cref="UInt128"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 max(UInt128 a, UInt128 b)
+        {
+            return select(b, a, a > b);
+        }
+
+        /// <summary>       Returns the maximum of two <see cref="Int128"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 max(Int128 a, Int128 b)
+        {
+            return select(b, a, a > b);
+        }
+
+
+        /// <summary>       Returns the maximum of two <see cref="byte"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte max(byte a, byte b)
+        {
+            return a > b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 max(byte2 a, byte2 b)
         {
@@ -22,7 +43,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two byte3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 max(byte3 a, byte3 b)
         {
@@ -36,7 +57,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two byte4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 max(byte4 a, byte4 b)
         {
@@ -50,7 +71,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two byte8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 max(byte8 a, byte8 b)
         {
@@ -64,7 +85,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two byte16 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 max(byte16 a, byte16 b)
         {
@@ -78,7 +99,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two byte32 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 max(byte32 a, byte32 b)
         {
@@ -93,7 +114,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two sbyte2 vectors.     </summary>
+        /// <summary>       Returns the maximum of two <see cref="sbyte"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte max(sbyte a, sbyte b)
+        {
+            return a > b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 max(sbyte2 a, sbyte2 b)
         {
@@ -111,7 +139,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two sbyte3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 max(sbyte3 a, sbyte3 b)
         {
@@ -129,7 +157,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two sbyte4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 max(sbyte4 a, sbyte4 b)
         {
@@ -147,7 +175,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two sbyte8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 max(sbyte8 a, sbyte8 b)
         {
@@ -165,7 +193,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two sbyte16 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 max(sbyte16 a, sbyte16 b)
         {
@@ -183,7 +211,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two sbyte32 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 max(sbyte32 a, sbyte32 b)
         {
@@ -198,7 +226,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two ushort2 vectors.     </summary>
+        /// <summary>       Returns the maximum of two <see cref="ushort"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort max(ushort a, ushort b)
+        {
+            return a > b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 max(ushort2 a, ushort2 b)
         {
@@ -208,7 +243,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(b, a));
+                ushort2 mask = 1 << 15;
+                
+                return Sse2.xor_si128(mask,
+                                      Sse2.max_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -216,7 +255,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ushort3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 max(ushort3 a, ushort3 b)
         {
@@ -226,7 +265,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(b, a));
+                ushort3 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.max_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -234,7 +277,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ushort4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 max(ushort4 a, ushort4 b)
         {
@@ -244,7 +287,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(b, a));
+                ushort4 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.max_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -252,7 +299,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ushort8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 max(ushort8 a, ushort8 b)
         {
@@ -262,7 +309,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(b, a));
+                ushort8 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.max_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -270,7 +321,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ushort16 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 max(ushort16 a, ushort16 b)
         {
@@ -285,7 +336,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two short2 vectors.     </summary>
+        /// <summary>       Returns the maximum of two <see cref="short"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short max(short a, short b)
+        {
+            return a > b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 max(short2 a, short2 b)
         {
@@ -299,7 +357,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two short3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 max(short3 a, short3 b)
         {
@@ -313,7 +371,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two short4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 max(short4 a, short4 b)
         {
@@ -327,7 +385,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two short8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 max(short8 a, short8 b)
         {
@@ -341,7 +399,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two short16 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 max(short16 a, short16 b)
         {
@@ -356,7 +414,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two int8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 max(int8 a, int8 b)
         {
@@ -371,7 +429,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two uint8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 max(uint8 a, uint8 b)
         {
@@ -386,7 +444,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two ulong2 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 max(ulong2 a, ulong2 b)
         {
@@ -400,7 +458,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ulong3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 max(ulong3 a, ulong3 b)
         {
@@ -414,7 +472,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two ulong4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 max(ulong4 a, ulong4 b)
         {
@@ -429,7 +487,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two long2 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 max(long2 a, long2 b)
         {
@@ -443,7 +501,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two long3 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 max(long3 a, long3 b)
         {
@@ -457,7 +515,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two long4 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 max(long4 a, long4 b)
         {
@@ -472,7 +530,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two float8 vectors.     </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 max(float8 a, float8 b)
         {

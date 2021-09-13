@@ -423,7 +423,7 @@ namespace MaxMath
             }
         }
 
-
+        
         #region Shuffle
         public sbyte8 v8_0
         {
@@ -445,7 +445,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi64(this, *(long*)&value, 0);
+                    this = Sse4_1.blend_epi16(this, value, 0b0000_1111);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, value, 0b0000_1111);
                 }
                 else
                 {
@@ -746,7 +750,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi64(this, *(long*)&value, 1);
+                    this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 8 * sizeof(sbyte)), 0b1111_0000);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 8 * sizeof(sbyte)), 0b1111_0000);
                 }
                 else
                 {
@@ -782,7 +790,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi32(this, *(int*)&value, 0);
+                    this = Sse4_1.blend_epi16(this, value, 0b0000_0011);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, value, 0b0000_0011);
                 }
                 else
                 {
@@ -913,7 +925,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi32(this, *(int*)&value, 1);
+                    this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 4 * sizeof(sbyte)), 0b0000_1100);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 4 * sizeof(sbyte)), 0b0000_1100);
                 }
                 else
                 {
@@ -1044,7 +1060,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi32(this, *(int*)&value, 2);
+                    this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 8 * sizeof(sbyte)), 0b0011_0000);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 8 * sizeof(sbyte)), 0b0011_0000);
                 }
                 else
                 {
@@ -1175,7 +1195,11 @@ namespace MaxMath
             {
                 if (Sse4_1.IsSse41Supported)
                 {
-                    this = Sse4_1.insert_epi32(this, *(int*)&value, 3);
+                    this = Sse4_1.blend_epi16(this, Sse2.bslli_si128(value, 12 * sizeof(sbyte)), 0b1100_0000);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    this = Mask.BlendEpi16_SSE2(this, Sse2.bslli_si128(value, 12 * sizeof(sbyte)), 0b1100_0000);
                 }
                 else
                 {
@@ -2076,6 +2100,10 @@ namespace MaxMath
             {
                 return Cast.ShortToByte(input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Short16To_S_Byte16_SSE2(input._v8_0, input._v8_8);
+            }
             else
             {
                 return new sbyte16((sbyte8)input.v8_0, (sbyte8)input.v8_8);
@@ -2089,6 +2117,10 @@ namespace MaxMath
             {
                 return Cast.ShortToByte(input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Short16To_S_Byte16_SSE2(input._v8_0, input._v8_8);
+            }
             else
             {
                 return new sbyte16((sbyte8)input.v8_0, (sbyte8)input.v8_8);
@@ -2099,9 +2131,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short16(sbyte16 input)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Avx2.mm256_cvtepi8_epi16(input);
+                return Cast.SByte16ToShort16(input);
             }
             else
             {
@@ -2112,9 +2144,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ushort16(sbyte16 input)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Avx2.mm256_cvtepi8_epi16(input);
+                return (ushort16)Cast.SByte16ToShort16(input);
             }
             else
             {
@@ -2174,10 +2206,38 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
+                if (Constant.IsConstantExpression(right))
+                {
+                    bool sameValue = maxmath.all_eq(right);
+
+                    if (sameValue)
+                    {
+                        return left * right.x0;
+                    }
+                    else if (maxmath.all(right != 0) && maxmath.all(maxmath.ispow2(right)))
+                    {
+                        return maxmath.shl(left, maxmath.tzcnt(right));
+                    }
+                }
+                
                 return (sbyte16)((short16)left * (short16)right);
             }
             else if (Sse2.IsSse2Supported)
             {
+                if (Constant.IsConstantExpression(right))
+                {
+                    bool sameValue = maxmath.all_eq(right);
+
+                    if (sameValue)
+                    {
+                        return left * right.x0;
+                    }
+                    else if (maxmath.all(right != 0) && maxmath.all(maxmath.ispow2(right)))
+                    {
+                        return maxmath.shl(left, maxmath.tzcnt(right));
+                    }
+                }
+                
                 return Operator.mul_byte(left, right);
             }
             else
@@ -2189,13 +2249,14 @@ Assert.IsWithinArrayBounds(index, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 operator / (sbyte16 left, sbyte16 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Constant.IsConstantExpression(right) && maxmath.all_eq(right))
+            {
+                return Operator.Constant.vdiv_sbyte(left, right.x0, 16);
+            }
+
+            if (Sse2.IsSse2Supported)
             {
                 return Operator.vdiv_sbyte(left, right);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Operator.vdiv_sbyte_SSE_FALLBACK(left, right);
             }
             else
             {
@@ -2206,13 +2267,9 @@ Assert.IsWithinArrayBounds(index, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]             
         public static sbyte16 operator % (sbyte16 left, sbyte16 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Operator.vrem_sbyte(left, right);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Operator.vrem_sbyte_SSE_FALLBACK(left, right);
             }
             else
             {
@@ -2242,7 +2299,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Constant.IsConstantExpression(right))
             {
-                return new sbyte16((sbyte)(left.x0 / right), (sbyte)(left.x1 / right), (sbyte)(left.x2 / right), (sbyte)(left.x3 / right), (sbyte)(left.x4 / right), (sbyte)(left.x5 / right), (sbyte)(left.x6 / right), (sbyte)(left.x7 / right), (sbyte)(left.x8 / right), (sbyte)(left.x9 / right), (sbyte)(left.x10 / right), (sbyte)(left.x11 / right), (sbyte)(left.x12 / right), (sbyte)(left.x13 / right), (sbyte)(left.x14 / right), (sbyte)(left.x15 / right));
+                return Operator.Constant.vdiv_sbyte(left, right, 16);
             }
             else
             {
@@ -2389,7 +2446,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi8(left, right));
+                return ConvertToBool.IsTrue8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -2402,7 +2459,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpgt_epi8(right, left));
+                return ConvertToBool.IsTrue8(Sse2.cmpgt_epi8(right, left));
             }
             else
             {
@@ -2415,7 +2472,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpgt_epi8(left, right));
+                return ConvertToBool.IsTrue8(Sse2.cmpgt_epi8(left, right));
             }
             else
             {
@@ -2429,7 +2486,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpeq_epi8(left, right));
+                return ConvertToBool.IsFalse8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -2442,7 +2499,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpgt_epi8(left, right));
+                return ConvertToBool.IsFalse8(Sse2.cmpgt_epi8(left, right));
             }
             else
             {
@@ -2455,29 +2512,12 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpgt_epi8(right, left));
+                return ConvertToBool.IsFalse8(Sse2.cmpgt_epi8(right, left));
             }
             else
             {
                 return new bool16(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7, left.x8 >= right.x8, left.x9 >= right.x9, left.x10 >= right.x10, left.x11 >= right.x11, left.x12 >= right.x12, left.x13 >= right.x13, left.x14 >= right.x14, left.x15 >= right.x15);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool16 TestIsTrue(v128 input)
-        {
-            return (v128)(-((sbyte16)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool16 TestIsFalse(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.andnot_si128(input, new v128(0x0101_0101));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

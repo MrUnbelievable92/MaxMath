@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class ULong3
+    unsafe public static class __ulong3
     {
         internal const int NUM_TESTS = 4;
 
@@ -47,7 +47,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_ULong_ULong_ULong()
+        public static void Constructor___ulong___ulong_ULong()
         {
             ulong3 x = new ulong3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z);
 
@@ -67,7 +67,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong2_ULong()
+        public static void Constructor___ulong2_ULong()
         {
             ulong3 x = new ulong3(new ulong2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z);
 
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong_ULong2()
+        public static void Constructor___ulong_ULong2()
         {
             ulong3 x = new ulong3(TestData_LHS[0].x, new ulong2(TestData_LHS[0].y, TestData_LHS[0].z));
 

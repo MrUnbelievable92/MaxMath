@@ -9,21 +9,21 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the horizontal product of components of a float2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float2 x)
         {
             return (x * x.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a float3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float3 x)
         {
             return ((x * x.yyy) * x.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a float4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float4 x)
         {
@@ -33,7 +33,7 @@ namespace MaxMath
             return x.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a float8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float8 x)
         {
@@ -53,21 +53,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a double2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double2 x)
         {
             return (x * x.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a double3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double3 x)
         {
             return ((x * x.yyy) * x.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a double4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double4 x)
         {
@@ -78,21 +78,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a byte2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul)]
         public static uint cprod(byte2 x)
         {
             return (uint)x.x * (uint)x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a byte3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul * 255ul)]
         public static uint cprod(byte3 x)
         {
             return ((uint)x.x * (uint)x.y) * (uint)x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a byte4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 255ul * 255ul * 255ul * 255ul)]
         public static uint cprod(byte4 x)
         {
@@ -104,21 +104,21 @@ namespace MaxMath
             return cast.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a byte8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte8 x)
         {
             return cprod((uint4)x.v4_0 * (uint4)x.v4_4);
         }
 
-        /// <summary>       Returns the horizontal product of components of a byte16 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte16"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte16 x)
         {
             return cprod((uint8)x.v8_0 * (uint8)x.v8_8);
         }
 
-        /// <summary>       Returns the horizontal product of components of a byte32 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte32"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte32 x)
         {
@@ -126,21 +126,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of an sbyte2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-127 * 128,    128 * 128)]
         public static int cprod(sbyte2 x)
         {
             return x.x * x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of an sbyte3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-128 * 128 * 128,    127 * 128 * 128)]
         public static int cprod(sbyte3 x)
         {
             return (x.x * x.y) * x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of an sbyte4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-127 * 128 * 128 * 128,    128 * 128 * 128 * 128)]
         public static int cprod(sbyte4 x)
         {
@@ -152,21 +152,21 @@ namespace MaxMath
             return cast.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of an sbyte8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte8 x)
         {
             return cprod((int4)x.v4_0 * (int4)x.v4_4);
         }
 
-        /// <summary>       Returns the horizontal product of components of an sbyte16 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte16"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte16 x)
         {
             return cprod((int8)x.v8_0 * (int8)x.v8_8);
         }
 
-        /// <summary>       Returns the horizontal product of components of an sbyte32 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte32"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte32 x)
         {
@@ -174,21 +174,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a short2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-32768L * 32767L,    32767L * 32767L)]
         public static int cprod(short2 x)
         {
             return x.x * x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a short3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short3 x)
         {
             return (x.x * x.y) * x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a short4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short4 x)
         {
@@ -200,7 +200,7 @@ namespace MaxMath
             return cast.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a short8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short8 x)
         {
@@ -217,7 +217,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a short16 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short16"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short16 x)
         {
@@ -240,21 +240,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a ushort2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul,    65535ul * 65535ul)]
         public static uint cprod(ushort2 x)
         {
             return (uint)x.x * (uint)x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a ushort3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort3 x)
         {
             return ((uint)x.x * (uint)x.y) * (uint)x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a ushort4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort4 x)
         {
@@ -266,7 +266,7 @@ namespace MaxMath
             return cast.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a ushort8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort8 x)
         {
@@ -283,7 +283,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a ushort16 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort16"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort16 x)
         {
@@ -306,21 +306,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of an int2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int2 x)
         {
             return (x * x.yy).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of an int3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int3 x)
         {
             return ((x * x.yyy) * x.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of an int4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int4 x)
         {
@@ -330,7 +330,7 @@ namespace MaxMath
             return x.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of an int8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int8 x)
         {
@@ -350,21 +350,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a uint2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint2 x)
         {
             return (x * x.yy).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a uint3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint3 x)
         {
             return ((x * x.yyy) * x.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a uint4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint4 x)
         {
@@ -374,7 +374,7 @@ namespace MaxMath
             return x.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a uint8 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint8 x)
         {
@@ -382,21 +382,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a long2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long2 x)
         {
             return x.x * x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a long3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long3 x)
         {
             return (x.x * x.y) * x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a long4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long4 x)
         {
@@ -404,21 +404,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a ulong2 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong2 x)
         {
             return x.x * x.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a ulong3 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong3 x)
         {
             return (x.x * x.y) * x.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a ulong4 vector.        </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong4 x)
         {

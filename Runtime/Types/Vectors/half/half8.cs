@@ -137,10 +137,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse2.load(u)_[...].
-        public static implicit operator v128(half8 input) => maxmath.asushort(input);
+        public static implicit operator v128(half8 input) => new v128(input.x0.value, input.x1.value, input.x2.value, input.x3.value, input.x4.value, input.x5.value, input.x6.value, input.x7.value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v128 x)
-        public static implicit operator half8(v128 input) => maxmath.ashalf((ushort8)input);
+        public static implicit operator half8(v128 input) => new half8 { x0 = maxmath.ashalf(input.UShort0), x1 = maxmath.ashalf(input.UShort1), x2 = maxmath.ashalf(input.UShort2), x3 = maxmath.ashalf(input.UShort3), x4 = maxmath.ashalf(input.UShort4), x5 = maxmath.ashalf(input.UShort5), x6 = maxmath.ashalf(input.UShort6), x7 = maxmath.ashalf(input.UShort7) };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half8(half input) => new half8(input);
@@ -198,7 +198,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi16(left, right));
+                return ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {
@@ -211,29 +211,12 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpeq_epi16(left, right));
+                return ConvertToBool.IsFalse16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {
                 return new bool8(left.v4_0 != right.v4_0, left.v4_4 != right.v4_4);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsTrue(v128 input)
-        {
-            return (v128)((byte8)(-(short8)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsFalse(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.andnot_si128((byte8)(ushort8)input, new byte8(1));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

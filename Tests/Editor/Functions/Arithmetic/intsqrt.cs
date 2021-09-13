@@ -36,138 +36,137 @@ namespace MaxMath.Tests
             return result;
         }
 
+        //[BurstCompile(CompileSynchronously = true, FloatMode = FloatMode.Fast)]
+        //unsafe public struct a : IJob
+        //{
+        //    public NativeArray<int> ints;
+        //
+        //    public void Execute()
+        //    {
+        //        for (int i = 0;i < ints.Length;i++)
+        //        {
+        //            ints[i] = X86.Sse2.cvttps_epi32(X86.Sse.rcp_ss(X86.Sse.rsqrt_ss(X86.Sse2.cvtepi32_ps(X86.Sse2.cvtsi32_si128(ints[i]))))).SInt0;
+        //        }
+        //    }
+        //}
         [Test]
         public static void byte2()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte2 x = rng.NextByte2();
-
-                Assert.AreEqual(new byte2((byte)_intsqrt(x.x), (byte)_intsqrt(x.y)), maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
         [Test]
         public static void byte3()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte3 x = rng.NextByte3();
-
-                Assert.AreEqual(new byte3((byte)_intsqrt(x.x), (byte)_intsqrt(x.y), (byte)_intsqrt(x.z)), maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
         [Test]
         public static void byte4()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte4 x = rng.NextByte4();
-
-                Assert.AreEqual(new byte4((byte)_intsqrt(x.x), (byte)_intsqrt(x.y), (byte)_intsqrt(x.z), (byte)_intsqrt(x.w)), maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
         [Test]
         public static void byte8()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte8 x = rng.NextByte8();
-
-                Assert.AreEqual(new byte8((byte)_intsqrt(x.x0), 
-                                          (byte)_intsqrt(x.x1), 
-                                          (byte)_intsqrt(x.x2), 
-                                          (byte)_intsqrt(x.x3),
-                                          (byte)_intsqrt(x.x4),
-                                          (byte)_intsqrt(x.x5),
-                                          (byte)_intsqrt(x.x6),
-                                          (byte)_intsqrt(x.x7)), 
-                                maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
         [Test]
         public static void byte16()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte16 x = rng.NextByte16();
-
-                Assert.AreEqual(new byte16((byte)_intsqrt(x.x0),
-                                           (byte)_intsqrt(x.x1),
-                                           (byte)_intsqrt(x.x2),
-                                           (byte)_intsqrt(x.x3),
-                                           (byte)_intsqrt(x.x4),
-                                           (byte)_intsqrt(x.x5),
-                                           (byte)_intsqrt(x.x6),
-                                           (byte)_intsqrt(x.x7),
-                                           (byte)_intsqrt(x.x8),
-                                           (byte)_intsqrt(x.x9),
-                                           (byte)_intsqrt(x.x10),
-                                           (byte)_intsqrt(x.x11),
-                                           (byte)_intsqrt(x.x12),
-                                           (byte)_intsqrt(x.x13),
-                                           (byte)_intsqrt(x.x14),
-                                           (byte)_intsqrt(x.x15)),
-                                maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
         [Test]
         public static void byte32()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
-            {
-                byte32 x = rng.NextByte32();
-
-                Assert.AreEqual(new byte32((byte)_intsqrt(x.x0),
-                                           (byte)_intsqrt(x.x1),
-                                           (byte)_intsqrt(x.x2),
-                                           (byte)_intsqrt(x.x3),
-                                           (byte)_intsqrt(x.x4),
-                                           (byte)_intsqrt(x.x5),
-                                           (byte)_intsqrt(x.x6),
-                                           (byte)_intsqrt(x.x7),
-                                           (byte)_intsqrt(x.x8),
-                                           (byte)_intsqrt(x.x9),
-                                           (byte)_intsqrt(x.x10),
-                                           (byte)_intsqrt(x.x11),
-                                           (byte)_intsqrt(x.x12),
-                                           (byte)_intsqrt(x.x13),
-                                           (byte)_intsqrt(x.x14),
-                                           (byte)_intsqrt(x.x15),
-                                           (byte)_intsqrt(x.x16),
-                                           (byte)_intsqrt(x.x17),
-                                           (byte)_intsqrt(x.x18),
-                                           (byte)_intsqrt(x.x19),
-                                           (byte)_intsqrt(x.x20),
-                                           (byte)_intsqrt(x.x21),
-                                           (byte)_intsqrt(x.x22),
-                                           (byte)_intsqrt(x.x23),
-                                           (byte)_intsqrt(x.x24),
-                                           (byte)_intsqrt(x.x25),
-                                           (byte)_intsqrt(x.x26),
-                                           (byte)_intsqrt(x.x27),
-                                           (byte)_intsqrt(x.x28),
-                                           (byte)_intsqrt(x.x29),
-                                           (byte)_intsqrt(x.x30),
-                                           (byte)_intsqrt(x.x31)),
-                                maxmath.intsqrt(x));
-            }
+            //NativeArray<int> arr = new NativeArray<int>(256, Allocator.TempJob);
+            //JobHandle j = new a { ints = arr }.Schedule();
+            //JobHandle.ScheduleBatchedJobs();
+            //j.Complete();
+            //
+            //int wrong = 0;
+            //for (int i = 0;i < 256;i++)
+            //{
+            //    if (maxmath.intsqrt(i) != arr[i])
+            //    {
+            //        UnityEngine.Debug.Log("AT: " + i.ToString() + " EXPECTED: " + maxmath.intsqrt(i).ToString() + " ACTUAL: " + arr[i].ToString());
+            //        wrong++;
+            //    }
+            //}
+            //UnityEngine.Debug.Log(wrong);
         }
 
 
@@ -346,6 +345,16 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(new ulong3((ulong)_intsqrt(x.x), (ulong)_intsqrt(x.y), (ulong)_intsqrt(x.z)), maxmath.intsqrt(x));
             }
+
+                ulong3 y = ulong.MaxValue;
+
+                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
+                y = 1ul << 63;
+
+                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
+                y = 1ul << 62;
+
+                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
         }
 
         [Test]

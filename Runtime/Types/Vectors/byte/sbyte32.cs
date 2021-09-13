@@ -163,6 +163,12 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte32(sbyte4 x0_3, sbyte4 x4_7, sbyte4 x8_11, sbyte4 x12_15, sbyte4 x16_19, sbyte4 x20_23, sbyte4 x24_27, sbyte4 x28_31)
+        {
+            this = new sbyte32(new sbyte16(x0_3, x4_7, x8_11, x12_15), new sbyte16(x16_19, x20_23, x24_27, x28_31));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32(sbyte8 v8_0, sbyte8 v8_8, sbyte8 v8_16, sbyte8 v8_24)
         {
             this = new sbyte32(new sbyte16(v8_0, v8_8), new sbyte16(v8_16, v8_24));
@@ -218,7 +224,7 @@ namespace MaxMath
         public sbyte16 v16_0
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
@@ -246,7 +252,7 @@ namespace MaxMath
         public sbyte16 v16_1
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -307,7 +313,7 @@ namespace MaxMath
         public sbyte16 v16_2
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -377,7 +383,7 @@ namespace MaxMath
         public sbyte16 v16_3
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -438,7 +444,7 @@ namespace MaxMath
         public sbyte16 v16_4
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -506,7 +512,7 @@ namespace MaxMath
         public sbyte16 v16_5
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -567,7 +573,7 @@ namespace MaxMath
         public sbyte16 v16_6
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -636,7 +642,7 @@ namespace MaxMath
         public sbyte16 v16_7
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -697,7 +703,7 @@ namespace MaxMath
         public sbyte16 v16_8
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -763,7 +769,7 @@ namespace MaxMath
         public sbyte16 v16_9
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -824,7 +830,7 @@ namespace MaxMath
         public sbyte16 v16_10
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -893,7 +899,7 @@ namespace MaxMath
         public sbyte16 v16_11
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -954,7 +960,7 @@ namespace MaxMath
         public sbyte16 v16_12
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1022,7 +1028,7 @@ namespace MaxMath
         public sbyte16 v16_13
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1083,7 +1089,7 @@ namespace MaxMath
         public sbyte16 v16_14
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1152,7 +1158,7 @@ namespace MaxMath
         public sbyte16 v16_15
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1213,7 +1219,7 @@ namespace MaxMath
         public sbyte16 v16_16
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1242,16 +1248,9 @@ namespace MaxMath
         public sbyte8 v8_0
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_0;
-                }
-                else
-                {
-                    return new sbyte8(x0, x1, x2, x3, x4, x5, x6, x7);
-                }
+			readonly get
+            {
+                return v16_0.v8_0;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1259,38 +1258,20 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi64(this, *(long*)&value, 0);
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_0 = value;
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(value), 0b0000_0011);
                 }
                 else
                 {
-                    this.x0  = value.x0;
-                    this.x1  = value.x1;
-                    this.x2  = value.x2;
-                    this.x3  = value.x3;
-                    this.x4  = value.x4;
-                    this.x5  = value.x5;
-                    this.x6  = value.x6;
-                    this.x7  = value.x7;
+                    this._v16_0.v8_0 = value;
                 }
             }
         }
         public sbyte8 v8_1
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_1;
-                }
-                else
-                {
-                    return new sbyte8(x1, x2, x3, x4, x5, x6, x7, x8);
-                }
+			readonly get
+            {
+                return v16_0.v8_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1303,36 +1284,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_1 = value;
-                }
                 else
                 {
-                    this.x1  = value.x0;
-                    this.x2  = value.x1;
-                    this.x3  = value.x2;
-                    this.x4  = value.x3;
-                    this.x5  = value.x4;
-                    this.x6  = value.x5;
-                    this.x7  = value.x6;
-                    this.x8  = value.x7;
+                    this._v16_0.v8_1 = value;
                 }
             }
         }
         public sbyte8 v8_2
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_2;
-                }
-                else
-                {
-                    return new sbyte8(x2, x3, x4, x5, x6, x7, x8, x9);
-                }
+			readonly get
+            {
+                return v16_0.v8_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1345,36 +1308,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_2 = value;
-                }
                 else
                 {
-                    this.x2  = value.x0;
-                    this.x3  = value.x1;
-                    this.x4  = value.x2;
-                    this.x5  = value.x3;
-                    this.x6  = value.x4;
-                    this.x7  = value.x5;
-                    this.x8  = value.x6;
-                    this.x9  = value.x7;
+                    this._v16_0.v8_2 = value;
                 }
             }
         }
         public sbyte8 v8_3
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_3;
-                }
-                else
-                {
-                    return new sbyte8(x3, x4, x5, x6, x7, x8, x9, x10);
-                }
+			readonly get
+            {
+                return v16_0.v8_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1387,36 +1332,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_3 = value;
-                }
                 else
                 {
-                    this.x3  = value.x0;
-                    this.x4  = value.x1;
-                    this.x5  = value.x2;
-                    this.x6  = value.x3;
-                    this.x7  = value.x4;
-                    this.x8  = value.x5;
-                    this.x9  = value.x6;
-                    this.x10 = value.x7;
+                    this._v16_0.v8_3 = value;
                 }
             }
         }
         public sbyte8 v8_4
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_4;
-                }
-                else
-                {
-                    return new sbyte8(x4, x5, x6, x7, x8, x9, x10, x11);
-                }
+			readonly get
+            {
+                return v16_0.v8_4;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1428,36 +1355,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0000_0110);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_4 = value;
-                }
                 else
                 {
-                    this.x4  = value.x0;
-                    this.x5  = value.x1;
-                    this.x6  = value.x2;
-                    this.x7  = value.x3;
-                    this.x8  = value.x4;
-                    this.x9  = value.x5;
-                    this.x10 = value.x6;
-                    this.x11 = value.x7;
+                    this._v16_0.v8_4 = value;
                 }
             }
         }
         public sbyte8 v8_5
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_5;
-                }
-                else
-                {
-                    return new sbyte8(x5, x6, x7, x8, x9, x10, x11, x12);
-                }
+			readonly get
+            {
+                return v16_0.v8_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1470,36 +1379,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_5 = value;
-                }
                 else
                 {
-                    this.x5  = value.x0;
-                    this.x6  = value.x1;
-                    this.x7  = value.x2;
-                    this.x8  = value.x3;
-                    this.x9  = value.x4;
-                    this.x10 = value.x5;
-                    this.x11 = value.x6;
-                    this.x12 = value.x7;
+                    this._v16_0.v8_5 = value;
                 }
             }
         }
         public sbyte8 v8_6
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_6;
-                }
-                else
-                {
-                    return new sbyte8(x6, x7, x8, x9, x10, x11, x12, x13);
-                }
+			readonly get
+            {
+                return v16_0.v8_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1512,36 +1403,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_6 = value;
-                }
                 else
                 {
-                    this.x6  = value.x0;
-                    this.x7  = value.x1;
-                    this.x8  = value.x2;
-                    this.x9  = value.x3;
-                    this.x10 = value.x4;
-                    this.x11 = value.x5;
-                    this.x12 = value.x6;
-                    this.x13 = value.x7;
+                    this._v16_0.v8_6 = value;
                 }
             }
         }
         public sbyte8 v8_7
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_7;
-                }
-                else
-                {
-                    return new sbyte8(x7, x8, x9, x10, x11, x12, x13, x14);
-                }
+			readonly get
+            {
+                return v16_0.v8_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1554,36 +1427,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_7 = value;
-                }
                 else
                 {
-                    this.x7  = value.x0;
-                    this.x8  = value.x1;
-                    this.x9  = value.x2;
-                    this.x10 = value.x3;
-                    this.x11 = value.x4;
-                    this.x12 = value.x5;
-                    this.x13 = value.x6;
-                    this.x14 = value.x7;
+                    this._v16_0.v8_7 = value;
                 }
             }
         }
         public sbyte8 v8_8
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v8_8;
-                }
-                else
-                {
-                    return new sbyte8(x8, x9, x10, x11, x12, x13, x14, x15);
-                }
+			readonly get
+            {
+                return v16_0.v8_8;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1591,29 +1446,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi64(this, *(long*)&value, 1);
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v8_8 = value;
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 8 * sizeof(sbyte))), 0b0000_1100);
                 }
                 else
                 {
-                    this.x8  = value.x0;
-                    this.x9  = value.x1;
-                    this.x10 = value.x2;
-                    this.x11 = value.x3;
-                    this.x12 = value.x4;
-                    this.x13 = value.x5;
-                    this.x14 = value.x6;
-                    this.x15 = value.x7;
+                    this._v16_0.v8_8 = value;
                 }
             }
         }
         public sbyte8 v8_9
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1666,7 +1510,7 @@ namespace MaxMath
         public sbyte8 v8_10
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1719,7 +1563,7 @@ namespace MaxMath
         public sbyte8 v8_11
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1770,7 +1614,7 @@ namespace MaxMath
         public sbyte8 v8_12
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1820,7 +1664,7 @@ namespace MaxMath
         public sbyte8 v8_13
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1871,7 +1715,7 @@ namespace MaxMath
         public sbyte8 v8_14
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1922,7 +1766,7 @@ namespace MaxMath
         public sbyte8 v8_15
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1973,16 +1817,9 @@ namespace MaxMath
         public sbyte8 v8_16
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_0;
-                }
-                else
-                {
-                    return new sbyte8(x16, x17, x18, x19, x20, x21, x22, x23);
-                }
+                return v16_16.v8_0;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1992,27 +1829,16 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi64(this, *(long*)&value, 2);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_0 = value;
-                }
                 else
                 {
-                    this.x16 = value.x0;
-                    this.x17 = value.x1;
-                    this.x18 = value.x2;
-                    this.x19 = value.x3;
-                    this.x20 = value.x4;
-                    this.x21 = value.x5;
-                    this.x22 = value.x6;
-                    this.x23 = value.x7;
+                    this._v16_16.v8_0 = value;
                 }
             }
         }
         public sbyte8 v8_17
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2020,13 +1846,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_1;
-                }
                 else
                 {
-                    return new sbyte8(x17, x18, x19, x20, x21, x22, x23, x24);
+                    return v16_16.v8_1;
                 }
             }
 
@@ -2040,27 +1862,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_1 = value;
-                }
                 else
                 {
-                    this.x17 = value.x0;
-                    this.x18 = value.x1;
-                    this.x19 = value.x2;
-                    this.x20 = value.x3;
-                    this.x21 = value.x4;
-                    this.x22 = value.x5;
-                    this.x23 = value.x6;
-                    this.x24 = value.x7;
+                    this._v16_16.v8_1 = value;
                 }
             }
         }
         public sbyte8 v8_18
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2068,13 +1879,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, 2 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_2;
-                }
                 else
                 {
-                    return new sbyte8(x18, x19, x20, x21, x22, x23, x24, x25);
+                    return v16_16.v8_2;
                 }
             }
 
@@ -2088,27 +1895,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_2 = value;
-                }
                 else
                 {
-                    this.x18 = value.x0;
-                    this.x19 = value.x1;
-                    this.x20 = value.x2;
-                    this.x21 = value.x3;
-                    this.x22 = value.x4;
-                    this.x23 = value.x5;
-                    this.x24 = value.x6;
-                    this.x25 = value.x7;
+                    this._v16_16.v8_2 = value;
                 }
             }
         }
         public sbyte8 v8_19
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2116,13 +1912,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, 3 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_3;
-                }
                 else
                 {
-                    return new sbyte8(x19, x20, x21, x22, x23, x24, x25, x26);
+                    return v16_16.v8_3;
                 }
             }
 
@@ -2136,39 +1928,24 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_3 = value;
-                }
                 else
                 {
-                    this.x19 = value.x0;
-                    this.x20 = value.x1;
-                    this.x21 = value.x2;
-                    this.x22 = value.x3;
-                    this.x23 = value.x4;
-                    this.x24 = value.x5;
-                    this.x25 = value.x6;
-                    this.x26 = value.x7;
+                    this._v16_16.v8_3 = value;
                 }
             }
         }
         public sbyte8 v8_20
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     return Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 4 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_4;
-                }
                 else
                 {
-                    return new sbyte8(x20, x21, x22, x23, x24, x25, x26, x27);
+                    return v16_16.v8_4;
                 }
             }
 
@@ -2181,27 +1958,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0110_0000);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_4 = value;
-                }
                 else
                 {
-                    this.x20 = value.x0;
-                    this.x21 = value.x1;
-                    this.x22 = value.x2;
-                    this.x23 = value.x3;
-                    this.x24 = value.x4;
-                    this.x25 = value.x5;
-                    this.x26 = value.x6;
-                    this.x27 = value.x7;
+                    this._v16_16.v8_4 = value;
                 }
             }
         }
         public sbyte8 v8_21
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2209,13 +1975,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, 5 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_5;
-                }
                 else
                 {
-                    return new sbyte8(x21, x22, x23, x24, x25, x26, x27, x28);
+                    return v16_16.v8_5;
                 }
             }
 
@@ -2229,27 +1991,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_5 = value;
-                }
                 else
                 {
-                    this.x21 = value.x0;
-                    this.x22 = value.x1;
-                    this.x23 = value.x2;
-                    this.x24 = value.x3;
-                    this.x25 = value.x4;
-                    this.x26 = value.x5;
-                    this.x27 = value.x6;
-                    this.x28 = value.x7;
+                    this._v16_16.v8_5 = value;
                 }
             }
         }
         public sbyte8 v8_22
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2257,13 +2008,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, 6 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_6;
-                }
                 else
                 {
-                    return new sbyte8(x22, x23, x24, x25, x26, x27, x28, x29);
+                    return v16_16.v8_6;
                 }
             }
 
@@ -2277,27 +2024,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_6 = value;
-                }
                 else
                 {
-                    this.x22 = value.x0;
-                    this.x23 = value.x1;
-                    this.x24 = value.x2;
-                    this.x25 = value.x3;
-                    this.x26 = value.x4;
-                    this.x27 = value.x5;
-                    this.x28 = value.x6;
-                    this.x29 = value.x7;
+                    this._v16_16.v8_6 = value;
                 }
             }
         }
         public sbyte8 v8_23
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2305,13 +2041,9 @@ namespace MaxMath
 
                     return Sse2.bsrli_si128(perm, 7 * sizeof(sbyte));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v8_7;
-                }
                 else
                 {
-                    return new sbyte8(x23, x24, x25, x26, x27, x28, x29, x30);
+                    return v16_16.v8_7;
                 }
             }
 
@@ -2325,41 +2057,25 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_7 = value;
-                }
                 else
                 {
-                    this.x23 = value.x0;
-                    this.x24 = value.x1;
-                    this.x25 = value.x2;
-                    this.x26 = value.x3;
-                    this.x27 = value.x4;
-                    this.x28 = value.x5;
-                    this.x29 = value.x6;
-                    this.x30 = value.x7;
+                    this._v16_16.v8_7 = value;
                 }
             }
         }
         public sbyte8 v8_24
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
+                else
                 {
                     return v16_16.v8_8;
                 }
-                else
-                {
-                    return new sbyte8(x24, x25, x26, x27, x28, x29, x30, x31);
-                }
-                
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2369,20 +2085,9 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi64(this, *(long*)&value, 3);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v8_8 = value;
-                }
                 else
                 {
-                    this.x24 = value.x0;
-                    this.x25 = value.x1;
-                    this.x26 = value.x2;
-                    this.x27 = value.x3;
-                    this.x28 = value.x4;
-                    this.x29 = value.x5;
-                    this.x30 = value.x6;
-                    this.x31 = value.x7;
+                    this._v16_16.v8_8 = value;
                 }
             }
         }
@@ -2390,51 +2095,30 @@ namespace MaxMath
         public sbyte4 v4_0
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_0;
-                }
-                else
-                {
-                    return new sbyte4(x0, x1, x2, x3);
-                }
+			readonly get
+            {
+                return v16_0.v4_0;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx.IsAvxSupported)
+                if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi32(this, *(int*)&value, 0);
-                }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_0 = Sse4_1.insert_epi32(this._v16_0, *(int*)&value, 0);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(value), 0b0000_0001);
                 }
                 else
                 {
-                    this.x0  = value.x;
-                    this.x1  = value.y;
-                    this.x2  = value.z;
-                    this.x3  = value.w;
+                    this._v16_0.v4_0 = value;
                 }
             }
         }
         public sbyte4 v4_1
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_1;
-                }
-                else
-                {
-                    return new sbyte4(x1, x2, x3, x4);
-                }
+			readonly get
+            {
+                return v16_0.v4_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2447,32 +2131,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_1 = value;
-                }
                 else
                 {
-                    this.x1  = value.x;
-                    this.x2  = value.y;
-                    this.x3  = value.z;
-                    this.x4  = value.w;
+                    this._v16_0.v4_1 = value;
                 }
             }
         }
         public sbyte4 v4_2
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_2;
-                }
-                else
-                {
-                    return new sbyte4(x2, x3, x4, x5);
-                }
+			readonly get
+            {
+                return v16_0.v4_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2485,32 +2155,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_2 = value;
-                }
                 else
                 {
-                    this.x2  = value.x;
-                    this.x3  = value.y;
-                    this.x4  = value.z;
-                    this.x5  = value.w;
+                    this._v16_0.v4_2 = value;
                 }
             }
         }
         public sbyte4 v4_3
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_3;
-                }
-                else
-                {
-                    return new sbyte4(x3, x4, x5, x6);
-                }
+			readonly get
+            {
+                return v16_0.v4_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2523,67 +2179,39 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_3 = value;
-                }
                 else
                 {
-                    this.x3  = value.x;
-                    this.x4  = value.y;
-                    this.x5  = value.z;
-                    this.x6  = value.w;
+                    this._v16_0.v4_3 = value;
                 }
             }
         }
         public sbyte4 v4_4
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_4;
-                }
-                else
-                {
-                    return new sbyte4(x4, x5, x6, x7);
-                }
+			readonly get
+            {
+                return v16_0.v4_4;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx.IsAvxSupported)
+                if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi32(this, *(int*)&value, 1);
-                }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_0 = Sse4_1.insert_epi32(this._v16_0, *(int*)&value, 1);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 4 * sizeof(sbyte))), 0b0000_0010);
                 }
                 else
                 {
-                    this.x4  = value.x;
-                    this.x5  = value.y;
-                    this.x6  = value.z;
-                    this.x7  = value.w;
+                    this._v16_0.v4_4 = value;
                 }
             }
         }
         public sbyte4 v4_5
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_5;
-                }
-                else
-                {
-                    return new sbyte4(x5, x6, x7, x8);
-                }
+			readonly get
+            {
+                return v16_0.v4_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2596,32 +2224,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_5 = value;
-                }
                 else
                 {
-                    this.x5  = value.x;
-                    this.x6  = value.y;
-                    this.x7  = value.z;
-                    this.x8  = value.w;
+                    this._v16_0.v4_5 = value;
                 }
             }
         }
         public sbyte4 v4_6
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_6;
-                }
-                else
-                {
-                    return new sbyte4(x6, x7, x8, x9);
-                }
+			readonly get
+            {
+                return v16_0.v4_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2634,32 +2248,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_6 = value;
-                }
                 else
                 {
-                    this.x6  = value.x;
-                    this.x7  = value.y;
-                    this.x8  = value.z;
-                    this.x9  = value.w;
+                    this._v16_0.v4_6 = value;
                 }
             }
         }
         public sbyte4 v4_7
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_7;
-                }
-                else
-                {
-                    return new sbyte4(x7, x8, x9, x10);
-                }
+			readonly get
+            {
+                return v16_0.v4_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2672,67 +2272,39 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_7 = value;
-                }
                 else
                 {
-                    this.x7  = value.x;
-                    this.x8  = value.y;
-                    this.x9  = value.z;
-                    this.x10 = value.w;
+                    this._v16_0.v4_7 = value;
                 }
             }
         }
         public sbyte4 v4_8
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_8;
-                }
-                else
-                {
-                    return new sbyte4(x8, x9, x10, x11);
-                }
+			readonly get
+            {
+                return v16_0.v4_8;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx.IsAvxSupported)
+                if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi32(this, *(int*)&value, 2);
-                }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_0 = Sse4_1.insert_epi32(this._v16_0, *(int*)&value, 2);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 8 * sizeof(sbyte))), 0b0000_0100);
                 }
                 else
                 {
-                    this.x8  = value.x;
-                    this.x9  = value.y;
-                    this.x10 = value.z;
-                    this.x11 = value.w;
+                    this._v16_0.v4_8 = value;
                 }
             }
         }
         public sbyte4 v4_9
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_9;
-                }
-                else
-                {
-                    return new sbyte4(x9, x10, x11, x12);
-                }
+			readonly get
+            {
+                return v16_0.v4_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2745,33 +2317,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else
                 {
                     this._v16_0.v4_9 = value;
                 }
-                else
-                {
-                    this.x9  = value.x;
-                    this.x10 = value.y;
-                    this.x11 = value.z;
-                    this.x12 = value.w;
-                }
-
             }
         }
         public sbyte4 v4_10
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_10;
-                }
-                else
-                {
-                    return new sbyte4(x10, x11, x12, x13);
-                }
+			readonly get
+            {
+                return v16_0.v4_10;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2784,32 +2341,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_10 = value;
-                }
                 else
                 {
-                    this.x10 = value.x;
-                    this.x11 = value.y;
-                    this.x12 = value.z;
-                    this.x13 = value.w;
+                    this._v16_0.v4_10 = value;
                 }
             }
         }
         public sbyte4 v4_11
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_11;
-                }
-                else
-                {
-                    return new sbyte4(x11, x12, x13, x14);
-                }
+			readonly get
+            {
+                return v16_0.v4_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2822,58 +2365,37 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v4_11 = value;
-                }
                 else
                 {
-                    this.x11 = value.x;
-                    this.x12 = value.y;
-                    this.x13 = value.z;
-                    this.x14 = value.w;
+                    this._v16_0.v4_11 = value;
                 }
             }
         }
         public sbyte4 v4_12
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v4_12;
-                }
-                else
-                {
-                    return new sbyte4(x12, x13, x14, x15);
-                }
+			readonly get
+            {
+                return v16_0.v4_12;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Avx.IsAvxSupported)
+                if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insert_epi32(this, *(int*)&value, 3);
-                }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_0 = Sse4_1.insert_epi32(this._v16_0, *(int*)&value, 3);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 12 * sizeof(sbyte))), 0b0000_1000);
                 }
                 else
                 {
-                    this.x12 = value.x;
-                    this.x13 = value.y;
-                    this.x14 = value.z;
-                    this.x15 = value.w;
+                    this._v16_0.v4_12 = value;
                 }
             }
         }
         public sbyte4 v4_13
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2922,7 +2444,7 @@ namespace MaxMath
         public sbyte4 v4_14
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -2969,7 +2491,7 @@ namespace MaxMath
         public sbyte4 v4_15
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -3018,19 +2540,15 @@ namespace MaxMath
         public sbyte4 v4_16
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
                     return Avx2.mm256_extracti128_si256(this, 1);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_0;
-                }
                 else
                 {
-                    return new sbyte4(x16, x17, x18, x19);
+                    return v16_16.v4_0;
                 }
             }
 
@@ -3041,32 +2559,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi32(this, *(int*)&value, 4);
                 }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_16 = Sse4_1.insert_epi32(this._v16_16, *(int*)&value, 0);
-                }
                 else
                 {
-                    this.x16 = value.x;
-                    this.x17 = value.y;
-                    this.x18 = value.z;
-                    this.x19 = value.w;
+                    this._v16_16.v4_0 = value;
                 }
             }
         }
         public sbyte4 v4_17
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_1;
-                }
-                else
-                {
-                    return new sbyte4(x17, x18, x19, x20);
-                }
+			readonly get
+            {
+                return v16_16.v4_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3079,32 +2583,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_1 = value;
-                }
                 else
                 {
-                    this.x17 = value.x;
-                    this.x18 = value.y;
-                    this.x19 = value.z;
-                    this.x20 = value.w;
+                    this._v16_16.v4_1 = value;
                 }
             }
         }
         public sbyte4 v4_18
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_2;
-                }
-                else
-                {
-                    return new sbyte4(x18, x19, x20, x21);
-                }
+			readonly get
+            {
+                return v16_16.v4_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3117,32 +2607,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_2 = value;
-                }
                 else
                 {
-                    this.x18 = value.x;
-                    this.x19 = value.y;
-                    this.x20 = value.z;
-                    this.x21 = value.w;
+                    this._v16_16.v4_2 = value;
                 }
             }
         }
         public sbyte4 v4_19
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_3;
-                }
-                else
-                {
-                    return new sbyte4(x19, x20, x21, x22);
-                }
+			readonly get
+            {
+                return v16_16.v4_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3155,23 +2631,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_3 = value;
-                }
                 else
                 {
-                    this.x19 = value.x;
-                    this.x20 = value.y;
-                    this.x21 = value.z;
-                    this.x22 = value.w;
+                    this._v16_16.v4_3 = value;
                 }
             }
         }
         public sbyte4 v4_20
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -3179,13 +2648,9 @@ namespace MaxMath
 
                     return *(sbyte4*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_4;
-                }
                 else
                 {
-                    return new sbyte4(x20, x21, x22, x23);
+                    return v16_16.v4_4;
                 }
             }
 
@@ -3196,32 +2661,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi32(this, *(int*)&value, 5);
                 }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_16 = Sse4_1.insert_epi32(this._v16_16, *(int*)&value, 1);
-                }
                 else
                 {
-                    this.x20 = value.x;
-                    this.x21 = value.y;
-                    this.x22 = value.z;
-                    this.x23 = value.w;
+                    this._v16_16.v4_4 = value;
                 }
             }
         }
         public sbyte4 v4_21
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_5;
-                }
-                else
-                {
-                    return new sbyte4(x21, x22, x23, x24);
-                }
+			readonly get
+            {
+                return v16_16.v4_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3234,32 +2685,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_5 = value;
-                }
                 else
                 {
-                    this.x21 = value.x;
-                    this.x22 = value.y;
-                    this.x23 = value.z;
-                    this.x24 = value.w;
+                    this._v16_16.v4_5 = value;
                 }
             }
         }
         public sbyte4 v4_22
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_6;
-                }
-                else
-                {
-                    return new sbyte4(x22, x23, x24, x25);
-                }
+			readonly get
+            {
+                return v16_16.v4_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3272,32 +2709,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_6 = value;
-                }
                 else
                 {
-                    this.x22 = value.x;
-                    this.x23 = value.y;
-                    this.x24 = value.z;
-                    this.x25 = value.w;
+                    this._v16_16.v4_6 = value;
                 }
             }
         }
         public sbyte4 v4_23
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_7;
-                }
-                else
-                {
-                    return new sbyte4(x23, x24, x25, x26);
-                }
+			readonly get
+            {
+                return v16_16.v4_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3310,35 +2733,24 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_7 = value;
-                }
                 else
                 {
-                    this.x23 = value.x;
-                    this.x24 = value.y;
-                    this.x25 = value.z;
-                    this.x26 = value.w;
+                    this._v16_16.v4_7 = value;
                 }
             }
         }
         public sbyte4 v4_24
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_8;
-                }
                 else
                 {
-                    return new sbyte4(x24, x25, x26, x27);
+                    return v16_16.v4_8;
                 }
             }
 
@@ -3349,32 +2761,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi32(this, *(int*)&value, 6);
                 }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_16 = Sse4_1.insert_epi32(this._v16_16, *(int*)&value, 2);
-                }
                 else
                 {
-                    this.x24 = value.x;
-                    this.x25 = value.y;
-                    this.x26 = value.z;
-                    this.x27 = value.w;
+                    this._v16_16.v4_8 = value;
                 }
             }
         }
         public sbyte4 v4_25
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_9;
-                }
-                else
-                {
-                    return new sbyte4(x25, x26, x27, x28);
-                }
+			readonly get
+            {
+                return v16_16.v4_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3387,32 +2785,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_9 = value;
-                }
                 else
                 {
-                    this.x25 = value.x;
-                    this.x26 = value.y;
-                    this.x27 = value.z;
-                    this.x28 = value.w;
+                    this._v16_16.v4_9 = value;
                 }
             }
         }
         public sbyte4 v4_26
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_10;
-                }
-                else
-                {
-                    return new sbyte4(x26, x27, x28, x29);
-                }
+			readonly get
+            {
+                return v16_16.v4_10;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3425,32 +2809,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_10 = value;
-                }
                 else
                 {
-                    this.x26 = value.x;
-                    this.x27 = value.y;
-                    this.x28 = value.z;
-                    this.x29 = value.w;
+                    this._v16_16.v4_10 = value;
                 }
             }
         }
         public sbyte4 v4_27
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_11;
-                }
-                else
-                {
-                    return new sbyte4(x27, x28, x29, x30);
-                }
+			readonly get
+            {
+                return v16_16.v4_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3463,23 +2833,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v4_11 = value;
-                }
                 else
                 {
-                    this.x27 = value.x;
-                    this.x28 = value.y;
-                    this.x29 = value.z;
-                    this.x30 = value.w;
+                    this._v16_16.v4_11 = value;
                 }
             }
         }
         public sbyte4 v4_28
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get
+			readonly get
             {
                 if (Avx.IsAvxSupported)
                 {
@@ -3487,13 +2850,9 @@ namespace MaxMath
 
                     return *(sbyte4*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v4_12;
-                }
                 else
                 {
-                    return new sbyte4( x28, x29, x30, x31);
+                    return v16_16.v4_12;
                 }
             }
 
@@ -3504,16 +2863,9 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi32(this, *(int*)&value, 7);
                 }
-                else if (Sse4_1.IsSse41Supported)
-                {
-                    this._v16_16 = Sse4_1.insert_epi32(this._v16_16, *(int*)&value, 3);
-                }
                 else
                 {
-                    this.x28 = value.x;
-                    this.x29 = value.y;
-                    this.x30 = value.z;
-                    this.x31 = value.w;
+                    this._v16_16.v4_12 = value;
                 }
             }
         }
@@ -3521,16 +2873,9 @@ namespace MaxMath
         public sbyte3 v3_0
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_0;
-                }
-                else
-                {
-                    return new sbyte3(x0, x1, x2);
-                }
+			readonly get
+            {
+                return v16_0.v3_0;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3543,32 +2888,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else
                 {
                     this._v16_0.v3_0 = value;
                 }
-                else
-                {
-                    this.x0  = value.x;
-                    this.x1  = value.y;
-                    this.x2  = value.z;
-                }
-
             }
         }
         public sbyte3 v3_1
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_1;
-                }
-                else
-                {
-                    return new sbyte3(x1, x2, x3);
-                }
+			readonly get
+            {
+                return v16_0.v3_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3581,31 +2912,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_1 = value;
-                }
                 else
                 {
-                    this.x1  = value.x;
-                    this.x2  = value.y;
-                    this.x3  = value.z;
+                    this._v16_0.v3_1 = value;
                 }
             }
         }
         public sbyte3 v3_2
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_2;
-                }
-                else
-                {
-                    return new sbyte3(x2, x3, x4);
-                }
+			readonly get
+            {
+                return v16_0.v3_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3618,31 +2936,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_2 = value;
-                }
                 else
                 {
-                    this.x2  = value.x;
-                    this.x3  = value.y;
-                    this.x4  = value.z;
+                    this._v16_0.v3_2 = value;
                 }
             }
         }
         public sbyte3 v3_3
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_3;
-                }
-                else
-                {
-                    return new sbyte3(x3, x4, x5);
-                }
+			readonly get
+            {
+                return v16_0.v3_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3655,31 +2960,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_3 = value;
-                }
                 else
                 {
-                    this.x3  = value.x;
-                    this.x4  = value.y;
-                    this.x5  = value.z;
+                    this._v16_0.v3_3 = value;
                 }
             }
         }
         public sbyte3 v3_4
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_4;
-                }
-                else
-                {
-                    return new sbyte3(x4, x5, x6);
-                }
+			readonly get
+            {
+                return v16_0.v3_4;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3692,31 +2984,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_4 = value;
-                }
                 else
                 {
-                    this.x4  = value.x;
-                    this.x5  = value.y;
-                    this.x6  = value.z;
+                    this._v16_0.v3_4 = value;
                 }
             }
         }
         public sbyte3 v3_5
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_5;
-                }
-                else
-                {
-                    return new sbyte3(x5, x6, x7);
-                }
+			readonly get
+            {
+                return v16_0.v3_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3729,31 +3008,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_5 = value;
-                }
                 else
                 {
-                    this.x5  = value.x;
-                    this.x6  = value.y;
-                    this.x7  = value.z;
+                    this._v16_0.v3_5 = value;
                 }
             }
         }
         public sbyte3 v3_6
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_6;
-                }
-                else
-                {
-                    return new sbyte3(x6, x7, x8);
-                }
+			readonly get
+            {
+                return v16_0.v3_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3766,31 +3032,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_6 = value;
-                }
                 else
                 {
-                    this.x6  = value.x;
-                    this.x7  = value.y;
-                    this.x8  = value.z;
+                    this._v16_0.v3_6 = value;
                 }
             }
         }
         public sbyte3 v3_7
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_7;
-                }
-                else
-                {
-                    return new sbyte3(x7, x8, x9);
-                }
+			readonly get
+            {
+                return v16_0.v3_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3803,31 +3056,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_7 = value;
-                }
                 else
                 {
-                    this.x7  = value.x;
-                    this.x8  = value.y;
-                    this.x9  = value.z;
+                    this._v16_0.v3_7 = value;
                 }
             }
         }
         public sbyte3 v3_8
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_8;
-                }
-                else
-                {
-                    return new sbyte3(x8, x9, x10);
-                }
+			readonly get
+            {
+                return v16_0.v3_8;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3840,31 +3080,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_8 = value;
-                }
                 else
                 {
-                    this.x8  = value.x;
-                    this.x9  = value.y;
-                    this.x10 = value.z;
+                    this._v16_0.v3_8 = value;
                 }
             }
         }
         public sbyte3 v3_9
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_9;
-                }
-                else
-                {
-                    return new sbyte3(x9, x10, x11);
-                }
+			readonly get
+            {
+                return v16_0.v3_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3877,31 +3104,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_9 = value;
-                }
                 else
                 {
-                    this.x9  = value.x;
-                    this.x10 = value.y;
-                    this.x11 = value.z;
+                    this._v16_0.v3_9 = value;
                 }
             }
         }
         public sbyte3 v3_10
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_10;
-                }
-                else
-                {
-                    return new sbyte3(x10, x11, x12);
-                }
+			readonly get
+            {
+                return v16_0.v3_10;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3914,31 +3128,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_10 = value;
-                }
                 else
                 {
-                    this.x10 = value.x;
-                    this.x11 = value.y;
-                    this.x12 = value.z;
+                    this._v16_0.v3_10 = value;
                 }
             }
         }
         public sbyte3 v3_11
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_11;
-                }
-                else
-                {
-                    return new sbyte3(x11, x12, x13);
-                }
+			readonly get
+            {
+                return v16_0.v3_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3951,31 +3152,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_11 = value;
-                }
                 else
                 {
-                    this.x11 = value.x;
-                    this.x12 = value.y;
-                    this.x13 = value.z;
+                    this._v16_0.v3_11 = value;
                 }
             }
         }
         public sbyte3 v3_12
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_12;
-                }
-                else
-                {
-                    return new sbyte3(x12, x13, x14);
-                }
+			readonly get
+            {
+                return v16_0.v3_12;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3988,31 +3176,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_12 = value;
-                }
                 else
                 {
-                    this.x12 = value.x;
-                    this.x13 = value.y;
-                    this.x14 = value.z;
+                    this._v16_0.v3_12 = value;
                 }
             }
         }
         public sbyte3 v3_13
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v3_13;
-                }
-                else
-                {
-                    return new sbyte3(x13, x14, x15);
-                }
+			readonly get
+            {
+                return v16_0.v3_13;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4025,22 +3200,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v3_13 = value;
-                }
                 else
                 {
-                    this.x13 = value.x;
-                    this.x14 = value.y;
-                    this.x15 = value.z;
+                    this._v16_0.v3_13 = value;
                 }
             }
         }
         public sbyte3 v3_14
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -4086,7 +3255,7 @@ namespace MaxMath
         public sbyte3 v3_15
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -4134,19 +3303,15 @@ namespace MaxMath
         public sbyte3 v3_16
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
                     return Avx2.mm256_extracti128_si256(this, 1);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_0;
-                }
                 else
                 {
-                    return new sbyte3(x16, x17, x18);
+                    return v16_16.v3_0;
                 }
             }
 
@@ -4160,31 +3325,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_0 = value;
-                }
                 else
                 {
-                    this.x16 = value.x;
-                    this.x17 = value.y;
-                    this.x18 = value.z;
+                    this._v16_16.v3_0 = value;
                 }
             }
         }
         public sbyte3 v3_17
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_1;
-                }
-                else
-                {
-                    return new sbyte3(x17, x18, x19);
-                }
+			readonly get
+            {
+                return v16_16.v3_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4197,31 +3349,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_1 = value;
-                }
                 else
                 {
-                    this.x17 = value.x;
-                    this.x18 = value.y;
-                    this.x19 = value.z;
+                    this._v16_16.v3_1 = value;
                 }
             }
         }
         public sbyte3 v3_18
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_2;
-                }
-                else
-                {
-                    return new sbyte3(x18, x19, x20);
-                }
+			readonly get
+            {
+                return v16_16.v3_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4234,31 +3373,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_2 = value;
-                }
                 else
                 {
-                    this.x18 = value.x;
-                    this.x19 = value.y;
-                    this.x20 = value.z;
+                    this._v16_16.v3_2 = value;
                 }
             }
         }
         public sbyte3 v3_19
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_3;
-                }
-                else
-                {
-                    return new sbyte3(x19, x20, x21);
-                }
+			readonly get
+            {
+                return v16_16.v3_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4271,22 +3397,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_3 = value;
-                }
                 else
                 {
-                    this.x19 = value.x;
-                    this.x20 = value.y;
-                    this.x21 = value.z;
+                    this._v16_16.v3_3 = value;
                 }
             }
         }
         public sbyte3 v3_20
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
@@ -4294,13 +3414,9 @@ namespace MaxMath
 
                     return *(sbyte3*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_4;
-                }
                 else
                 {
-                    return new sbyte3(x20, x21, x22);
+                    return v16_16.v3_4;
                 }
             }
 
@@ -4314,31 +3430,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_4 = value;
-                }
                 else
                 {
-                    this.x20 = value.x;
-                    this.x21 = value.y;
-                    this.x22 = value.z;
+                    this._v16_16.v3_4 = value;
                 }
             }
         }
         public sbyte3 v3_21
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_5;
-                }
-                else
-                {
-                    return new sbyte3(x21, x22, x23);
-                }
+			readonly get
+            {
+                return v16_16.v3_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4351,31 +3454,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_5 = value;
-                }
                 else
                 {
-                    this.x21 = value.x;
-                    this.x22 = value.y;
-                    this.x23 = value.z;
+                    this._v16_16.v3_5 = value;
                 }
             }
         }
         public sbyte3 v3_22
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_6;
-                }
-                else
-                {
-                    return new sbyte3(x22, x23, x24);
-                }
+			readonly get
+            {
+                return v16_16.v3_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4388,31 +3478,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_6 = value;
-                }
                 else
                 {
-                    this.x22 = value.x;
-                    this.x23 = value.y;
-                    this.x24 = value.z;
+                    this._v16_16.v3_6 = value;
                 }
             }
         }
         public sbyte3 v3_23
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_7;
-                }
-                else
-                {
-                    return new sbyte3(x23, x24, x25);
-                }
+			readonly get
+            {
+                return v16_16.v3_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4425,34 +3502,24 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_7 = value;
-                }
                 else
                 {
-                    this.x23 = value.x;
-                    this.x24 = value.y;
-                    this.x25 = value.z;
+                    this._v16_16.v3_7 = value;
                 }
             }
         }
         public sbyte3 v3_24
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_8;
-                }
                 else
                 {
-                    return new sbyte3(x24, x25, x26);
+                    return v16_16.v3_8;
                 }
             }
 
@@ -4466,31 +3533,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_8 = value;
-                }
                 else
                 {
-                    this.x24 = value.x;
-                    this.x25 = value.y;
-                    this.x26 = value.z;
+                    this._v16_16.v3_8 = value;
                 }
             }
         }
         public sbyte3 v3_25
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_9;
-                }
-                else
-                {
-                    return new sbyte3(x25, x26, x27);
-                }
+			readonly get
+            {
+                return v16_16.v3_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4503,31 +3557,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_9 = value;
-                }
                 else
                 {
-                    this.x25 = value.x;
-                    this.x26 = value.y;
-                    this.x27 = value.z;
+                    this._v16_16.v3_9 = value;
                 }
             }
         }
         public sbyte3 v3_26
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_10;
-                }
-                else
-                {
-                    return new sbyte3(x26, x27, x28);
-                }
+			readonly get
+            {
+                return v16_16.v3_10;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4540,31 +3581,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_10 = value;
-                }
                 else
                 {
-                    this.x26 = value.x;
-                    this.x27 = value.y;
-                    this.x28 = value.z;
+                    this._v16_16.v3_10 = value;
                 }
             }
         }
         public sbyte3 v3_27
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_11;
-                }
-                else
-                {
-                    return new sbyte3(x27, x28, x29);
-                }
+			readonly get
+            {
+                return v16_16.v3_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4577,22 +3605,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_11 = value;
-                }
                 else
                 {
-                    this.x27 = value.x;
-                    this.x28 = value.y;
-                    this.x29 = value.z;
+                    this._v16_16.v3_11 = value;
                 }
             }
         }
         public sbyte3 v3_28
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
@@ -4600,13 +3622,9 @@ namespace MaxMath
 
                     return *(sbyte3*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_12;
-                }
                 else
                 {
-                    return new sbyte3(x28, x29, x30);
+                    return v16_16.v3_12;
                 }
             }
 
@@ -4620,31 +3638,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_12 = value;
-                }
                 else
                 {
-                    this.x28 = value.x;
-                    this.x29 = value.y;
-                    this.x30 = value.z;
+                    this._v16_16.v3_12 = value;
                 }
             }
         }
         public sbyte3 v3_29
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v3_13;
-                }
-                else
-                {
-                    return new sbyte3(x29, x30, x31);
-                }
+			readonly get
+            {
+                return v16_16.v3_13;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4657,15 +3662,9 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v3_13 = value;
-                }
                 else
                 {
-                    this.x29 = value.x;
-                    this.x30 = value.y;
-                    this.x31 = value.z;
+                    this._v16_16.v3_13 = value;
                 }
             }
         }
@@ -4673,16 +3672,9 @@ namespace MaxMath
         public sbyte2 v2_0
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_0;
-                }
-                else
-                {
-                    return new sbyte2(x0, x1);
-                }
+			readonly get
+            {
+                return v16_0.v2_0;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4692,30 +3684,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 0);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 0);
-                }
                 else
                 {
-                    this.x0  = value.x;
-                    this.x1  = value.y;
+                    this._v16_0.v2_0 = value;
                 }
             }
         }
         public sbyte2 v2_1
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_1;
-                }
-                else
-                {
-                    return new sbyte2(x1, x2);
-                }
+			readonly get
+            {
+                return v16_0.v2_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4728,30 +3708,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_1 = value;
-                }
                 else
                 {
-                    this.x1  = value.x;
-                    this.x2  = value.y;
+                    this._v16_0.v2_1 = value;
                 }
             }
         }
         public sbyte2 v2_2
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_2;
-                }
-                else
-                {
-                    return new sbyte2(x2, x3);
-                }
+			readonly get
+            {
+                return v16_0.v2_2;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4761,30 +3729,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 1);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 1);
-                }
                 else
                 {
-                    this.x2  = value.x;
-                    this.x3  = value.y;
+                    this._v16_0.v2_2 = value;
                 }
             }
         }
         public sbyte2 v2_3
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_3;
-                }
-                else
-                {
-                    return new sbyte2(x3, x4);
-                }
+			readonly get
+            {
+                return v16_0.v2_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4797,30 +3753,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_3 = value;
-                }
                 else
                 {
-                    this.x3  = value.x;
-                    this.x4  = value.y;
+                    this._v16_0.v2_3 = value;
                 }
             }
         }
         public sbyte2 v2_4
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_4;
-                }
-                else
-                {
-                    return new sbyte2(x4, x5);
-                }
+			readonly get
+            {
+                return v16_0.v2_4;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4830,30 +3774,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 2);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 2);
-                }
                 else
                 {
-                    this.x4  = value.x;
-                    this.x5  = value.y;
+                    this._v16_0.v2_4 = value;
                 }
             }
         }
         public sbyte2 v2_5
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_5;
-                }
-                else
-                {
-                    return new sbyte2(x5, x6);
-                }
+			readonly get
+            {
+                return v16_0.v2_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4866,30 +3798,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_5 = value;
-                }
                 else
                 {
-                    this.x5  = value.x;
-                    this.x6  = value.y;
+                    this._v16_0.v2_5 = value;
                 }
             }
         }
         public sbyte2 v2_6
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_6;
-                }
-                else
-                {
-                    return new sbyte2(x6, x7);
-                }
+			readonly get
+            {
+                return v16_0.v2_6;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4899,30 +3819,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 3);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 3);
-                }
                 else
                 {
-                    this.x6  = value.x;
-                    this.x7  = value.y;
+                    this._v16_0.v2_6 = value;
                 }
             }
         }
         public sbyte2 v2_7
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_7;
-                }
-                else
-                {
-                    return new sbyte2(x7, x8);
-                }
+			readonly get
+            {
+                return v16_0.v2_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4935,30 +3843,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_7 = value;
-                }
                 else
                 {
-                    this.x7  = value.x;
-                    this.x8  = value.y;
+                    this._v16_0.v2_7 = value;
                 }
             }
         }
         public sbyte2 v2_8
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_8;
-                }
-                else
-                {
-                    return new sbyte2(x8, x9);
-                }
+			readonly get
+            {
+                return v16_0.v2_8;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4968,30 +3864,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 4);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 4);
-                }
                 else
                 {
-                    this.x8  = value.x;
-                    this.x9  = value.y;
+                    this._v16_0.v2_8 = value;
                 }
             }
         }
         public sbyte2 v2_9
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_9;
-                }
-                else
-                {
-                    return new sbyte2(x9, x10);
-                }
+			readonly get
+            {
+                return v16_0.v2_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5004,30 +3888,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_9 = value;
-                }
                 else
                 {
-                    this.x9  = value.x;
-                    this.x10 = value.y;
+                    this._v16_0.v2_9 = value;
                 }
             }
         }
         public sbyte2 v2_10
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_10;
-                }
-                else
-                {
-                    return new sbyte2(x10, x11);
-                }
+			readonly get
+            {
+                return v16_0.v2_10;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5037,30 +3909,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 5);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 5);
-                }
                 else
                 {
-                    this.x10 = value.x;
-                    this.x11 = value.y;
+                    this._v16_0.v2_10 = value;
                 }
             }
         }
         public sbyte2 v2_11
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_11;
-                }
-                else
-                {
-                    return new sbyte2(x11, x12);
-                }
+			readonly get
+            {
+                return v16_0.v2_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5073,30 +3933,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_11 = value;
-                }
                 else
                 {
-                    this.x11 = value.x;
-                    this.x12 = value.y;
+                    this._v16_0.v2_11 = value;
                 }
             }
         }
         public sbyte2 v2_12
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_12;
-                }
-                else
-                {
-                    return new sbyte2(x12, x13);
-                }
+			readonly get
+            {
+                return v16_0.v2_12;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5106,30 +3954,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 6);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 6);
-                }
                 else
                 {
-                    this.x12 = value.x;
-                    this.x13 = value.y;
+                    this._v16_0.v2_12 = value;
                 }
             }
         }
         public sbyte2 v2_13
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_13;
-                }
-                else
-                {
-                    return new sbyte2(x13, x14);
-                }
+			readonly get
+            {
+                return v16_0.v2_13;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5142,30 +3978,18 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0.v2_13 = value;
-                }
                 else
                 {
-                    this.x13 = value.x;
-                    this.x14 = value.y;
+                    this._v16_0.v2_13 = value;
                 }
             }
         }
         public sbyte2 v2_14
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_0.v2_14;
-                }
-                else
-                {
-                    return new sbyte2(x14, x15);
-                }
+			readonly get
+            {
+                return v16_0.v2_14;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5175,21 +3999,16 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 7);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_0 = Sse2.insert_epi16(this._v16_0, *(short*)&value, 7);
-                }
                 else
                 {
-                    this.x14 = value.x;
-                    this.x15 = value.y;
+                    this._v16_0.v2_14 = value;
                 }
             }
         }
         public sbyte2 v2_15
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5234,19 +4053,15 @@ namespace MaxMath
         public sbyte2 v2_16
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
                     return Avx2.mm256_extracti128_si256(this, 1);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_0;
-                }
                 else
                 {
-                    return new sbyte2(x16, x17);
+                    return v16_16.v2_0;
                 }
             }
 
@@ -5257,30 +4072,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 8);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 0);
-                }
                 else
                 {
-                    this.x16 = value.x;
-                    this.x17 = value.y;
+                    this._v16_16.v2_0 = value;
                 }
             }
         }
         public sbyte2 v2_17
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_1;
-                }
-                else
-                {
-                    return new sbyte2(x17, x18);
-                }
+			readonly get
+            {
+                return v16_16.v2_1;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5293,21 +4096,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_1 = value;
-                }
                 else
                 {
-                    this.x17 = value.x;
-                    this.x18 = value.y;
+                    this._v16_16.v2_1 = value;
                 }
             }
         }
         public sbyte2 v2_18
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5315,13 +4113,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_2;
-                }
                 else
                 {
-                    return new sbyte2(x18, x19);
+                    return v16_16.v2_2;
                 }
             }
 
@@ -5332,30 +4126,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 9);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 1);
-                }
                 else
                 {
-                    this.x18 = value.x;
-                    this.x19 = value.y;
+                    this._v16_16.v2_2 = value;
                 }
             }
         }
         public sbyte2 v2_19
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_3;
-                }
-                else
-                {
-                    return new sbyte2(x19, x20);
-                }
+			readonly get
+            {
+                return v16_16.v2_3;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5368,21 +4150,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_3 = value;
-                }
                 else
                 {
-                    this.x19 = value.x;
-                    this.x20 = value.y;
+                    this._v16_16.v2_3 = value;
                 }
             }
         }
         public sbyte2 v2_20
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5390,13 +4167,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_4;
-                }
                 else
                 {
-                    return new sbyte2(x20, x21);
+                    return v16_16.v2_4;
                 }
             }
 
@@ -5421,16 +4194,9 @@ namespace MaxMath
         public sbyte2 v2_21
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_5;
-                }
-                else
-                {
-                    return new sbyte2(x21, x22);
-                }
+			readonly get
+            {
+                return v16_16.v2_5;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5443,21 +4209,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_5 = value;
-                }
                 else
                 {
-                    this.x21 = value.x;
-                    this.x22 = value.y;
+                    this._v16_16.v2_5 = value;
                 }
             }
         }
         public sbyte2 v2_22
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5465,13 +4226,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_6;
-                }
                 else
                 {
-                    return new sbyte2(x22, x23);
+                    return v16_16.v2_6;
                 }
             }
 
@@ -5496,16 +4253,9 @@ namespace MaxMath
         public sbyte2 v2_23
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_7;
-                }
-                else
-                {
-                    return new sbyte2(x23, x24);
-                }
+			readonly get
+            {
+                return v16_16.v2_7;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5518,33 +4268,24 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_7 = value;
-                }
                 else
                 {
-                    this.x23 = value.x;
-                    this.x24 = value.y;
+                    this._v16_16.v2_7 = value;
                 }
             }
         }
         public sbyte2 v2_24
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx.IsAvxSupported)
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_8;
-                }
                 else
                 {
-                    return new sbyte2(x24, x25);
+                    return v16_16.v2_8;
                 }
             }
 
@@ -5555,30 +4296,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 12);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 4);
-                }
                 else
                 {
-                    this.x24 = value.x;
-                    this.x25 = value.y;
+                    this._v16_16.v2_8 = value;
                 }
             }
         }
         public sbyte2 v2_25
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_9;
-                }
-                else
-                {
-                    return new sbyte2(x25, x26);
-                }
+			readonly get
+            {
+                return v16_16.v2_9;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5591,21 +4320,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_9 = value;
-                }
                 else
                 {
-                    this.x25 = value.x;
-                    this.x26 = value.y;
+                    this._v16_16.v2_9 = value;
                 }
             }
         }
         public sbyte2 v2_26
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5613,13 +4337,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_10;
-                }
                 else
                 {
-                    return new sbyte2(x26, x27);
+                    return v16_16.v2_10;
                 }
             }
 
@@ -5630,30 +4350,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 13);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 5);
-                }
                 else
                 {
-                    this.x26 = value.x;
-                    this.x27 = value.y;
+                    this._v16_16.v2_10 = value;
                 }
             }
         }
         public sbyte2 v2_27
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_11;
-                }
-                else
-                {
-                    return new sbyte2(x27, x28);
-                }
+			readonly get
+            {
+                return v16_16.v2_11;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5666,21 +4374,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_11 = value;
-                }
                 else
                 {
-                    this.x27 = value.x;
-                    this.x28 = value.y;
+                    this._v16_16.v2_11 = value;
                 }
             }
         }
         public sbyte2 v2_28
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5688,13 +4391,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_12;
-                }
                 else
                 {
-                    return new sbyte2(x28, x29);
+                    return v16_16.v2_12;
                 }
             }
 
@@ -5705,30 +4404,18 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 14);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 6);
-                }
                 else
                 {
-                    this.x28 = value.x;
-                    this.x29 = value.y;
+                    this._v16_16.v2_12 = value;
                 }
             }
         }
         public sbyte2 v2_29
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
-                if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_13;
-                }
-                else
-                {
-                    return new sbyte2(x29, x30);
-                }
+                return v16_16.v2_13;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5741,21 +4428,16 @@ namespace MaxMath
 
                     this = Avx2.mm256_blendv_epi8(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16.v2_13 = value;
-                }
                 else
                 {
-                    this.x29 = value.x;
-                    this.x30 = value.y;
+                    this._v16_16.v2_13 = value;
                 }
             }
         }
         public sbyte2 v2_30
         { 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			get 
+			readonly get 
 			{
                 if (Avx2.IsAvx2Supported)
                 {
@@ -5763,13 +4445,9 @@ namespace MaxMath
 
                     return *(sbyte2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return v16_16.v2_14;
-                }
                 else
                 {
-                    return new sbyte2(x30, x31);
+                    return v16_16.v2_14;
                 }
 			}
 
@@ -5780,14 +4458,9 @@ namespace MaxMath
                 {
                     this = Avx.mm256_insert_epi16(this, *(short*)&value, 15);
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 7);
-                }
                 else
                 {
-                    this.x30 = value.x;
-                    this.x31 = value.y;
+                    this._v16_16.v2_14 = value;
                 }
             }
         }
@@ -5874,6 +4547,20 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
+                if (Constant.IsConstantExpression(right))
+                {
+                    bool sameValue = maxmath.all_eq(right);
+
+                    if (sameValue)
+                    {
+                        return left * right.x0;
+                    }
+                    else if (maxmath.all(right != 0) && maxmath.all(maxmath.ispow2(right)))
+                    {
+                        return maxmath.shl(left, maxmath.tzcnt(right));
+                    }
+                }
+                
                 return Operator.mul_byte(left, right);
             }
             else
@@ -5885,6 +4572,14 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 operator / (sbyte32 left, sbyte32 right)
         {
+            if (Constant.IsConstantExpression(right))
+            {
+                if (maxmath.all_eq(right))
+                {
+                    return Operator.Constant.vdiv_sbyte(left, right.x0);
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Operator.vdiv_sbyte(left, right);
@@ -5939,7 +4634,7 @@ Assert.IsWithinArrayBounds(index, 32);
             {
                 if (Constant.IsConstantExpression(right))
                 {
-                    return new sbyte32((sbyte)(left.x0 / right), (sbyte)(left.x1 / right), (sbyte)(left.x2 / right), (sbyte)(left.x3 / right), (sbyte)(left.x4 / right), (sbyte)(left.x5 / right), (sbyte)(left.x6 / right), (sbyte)(left.x7 / right), (sbyte)(left.x8 / right), (sbyte)(left.x9 / right), (sbyte)(left.x10 / right), (sbyte)(left.x11 / right), (sbyte)(left.x12 / right), (sbyte)(left.x13 / right), (sbyte)(left.x14 / right), (sbyte)(left.x15 / right), (sbyte)(left.x16 / right), (sbyte)(left.x17 / right), (sbyte)(left.x18 / right), (sbyte)(left.x19 / right), (sbyte)(left.x20 / right), (sbyte)(left.x21 / right), (sbyte)(left.x22 / right), (sbyte)(left.x23 / right), (sbyte)(left.x24 / right), (sbyte)(left.x25 / right), (sbyte)(left.x26 / right), (sbyte)(left.x27 / right), (sbyte)(left.x28 / right), (sbyte)(left.x29 / right), (sbyte)(left.x30 / right), (sbyte)(left.x31 / right));
+                    return Operator.Constant.vdiv_sbyte(left, right);
                 }
                 else
                 {
@@ -6098,7 +4793,7 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi8(left, right));
+                return ConvertToBool.IsTrue8(Avx2.mm256_cmpeq_epi8(left, right));
             }
             else
             {
@@ -6111,7 +4806,7 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi8(right, left));
+                return ConvertToBool.IsTrue8(Avx2.mm256_cmpgt_epi8(right, left));
             }
             else
             {
@@ -6124,7 +4819,7 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi8(left, right));
+                return ConvertToBool.IsTrue8(Avx2.mm256_cmpgt_epi8(left, right));
             }
             else
             {
@@ -6138,7 +4833,7 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpeq_epi8(left, right));
+                return ConvertToBool.IsFalse8(Avx2.mm256_cmpeq_epi8(left, right));
             }
             else
             {
@@ -6151,7 +4846,7 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi8(left, right));
+                return ConvertToBool.IsFalse8(Avx2.mm256_cmpgt_epi8(left, right));
             }
             else
             {
@@ -6164,29 +4859,12 @@ Assert.IsWithinArrayBounds(index, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi8(right, left));
+                return ConvertToBool.IsFalse8(Avx2.mm256_cmpgt_epi8(right, left));
             }
             else
             {
                 return new bool32(left._v16_0 >= right._v16_0, left._v16_16 >= right._v16_16);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool32 TestIsTrue(v256 input)
-        {
-            return (v256)(-((sbyte32)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool32 TestIsFalse(v256 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_andnot_si256(input, new v256(0x0101_0101));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

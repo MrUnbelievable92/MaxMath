@@ -10,7 +10,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the number of true values in a bool2 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="bool2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 2ul)]
         public static uint count(bool2 x)
         {
@@ -20,7 +20,7 @@ Assert.IsSafeBoolean(x.y);
             return (uint)math.countbits((uint)(*(ushort*)&x));
         }
 
-        /// <summary>       Returns the number of true values in a bool3 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="bool3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 3ul)]
         public static uint count(bool3 x)
         {
@@ -28,10 +28,13 @@ Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return (uint)math.countbits(0x00FF_FFFF & *(int*)&x);
+            int toInt = *(byte*)&x.z << 16;
+            *(ushort*)&toInt = *(ushort*)&x;
+
+            return (uint)math.countbits(toInt);
         }
 
-        /// <summary>       Returns the number of true values in a bool4 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="bool4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 4ul)]
         public static uint count(bool4 x)
         {
@@ -43,7 +46,7 @@ Assert.IsSafeBoolean(x.w);
             return (uint)math.countbits(*(int*)&x);
         }
 
-        /// <summary>       Returns the number of true values in a bool8 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="MaxMath.bool8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static uint count(bool8 x)
         {
@@ -66,7 +69,7 @@ Assert.IsSafeBoolean(x.x7);
             }
         }
 
-        /// <summary>       Returns the number of true values in a bool16 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="MaxMath.bool16"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static uint count(bool16 x)
         {
@@ -97,7 +100,7 @@ Assert.IsSafeBoolean(x.x15);
             }
         }
 
-        /// <summary>       Returns the number of true values in a bool32 vector.        </summary>
+        /// <summary>       Returns the number of <see langword="true" />s in a <see cref="MaxMath.bool32"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 32ul)]
         public static uint count(bool32 x)
         {

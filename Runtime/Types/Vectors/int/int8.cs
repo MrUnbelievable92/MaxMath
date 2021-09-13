@@ -102,9 +102,9 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.unpacklo_epi64(*(v128*)&x01, *(v128*)&x234);
-                v128 mid = Sse2.bsrli_si128(*(v128*)&x234, 2 * sizeof(int));
-                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(int));
+                v128 lo = Sse2.unpacklo_epi64(UnityMathematicsLink.Tov128(x01), UnityMathematicsLink.Tov128(x234));
+                v128 mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x234), 2 * sizeof(int));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x567), sizeof(int));
 
                 if (Sse4_1.IsSse41Supported)
                 {
@@ -134,20 +134,20 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 lo;
-                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(int)); 
+                v128 mid = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x34), 3 * sizeof(int)); 
                 
                 if (Sse4_1.IsSse41Supported)
                 {
-                    lo = Sse4_1.blend_epi16(*(v128*)&x012, mid, 0b1100_0000);
+                    lo = Sse4_1.blend_epi16(UnityMathematicsLink.Tov128(x012), mid, 0b1100_0000);
                 }
                 else
                 {
-                    lo = Mask.BlendEpi16_SSE2(*(v128*)&x012, mid, 0b1100_0000);
+                    lo = Mask.BlendEpi16_SSE2(UnityMathematicsLink.Tov128(x012), mid, 0b1100_0000);
                 }
 
-                mid = Sse2.bsrli_si128(*(v128*)&x34, sizeof(int));
+                mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x34), sizeof(int));
 
-                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(int));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x567), sizeof(int));
 
                 if (Sse4_1.IsSse41Supported)
                 {
@@ -177,18 +177,18 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 lo;
-                v128 mid = Sse2.bsrli_si128(*(v128*)&x345, sizeof(int));
-                v128 hi = Sse2.unpacklo_epi64(mid, *(v128*)&x67);
+                v128 mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x345), sizeof(int));
+                v128 hi = Sse2.unpacklo_epi64(mid, UnityMathematicsLink.Tov128(x67));
 
-                mid = Sse2.bslli_si128(*(v128*)&x345, 3 * sizeof(int));
+                mid = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x345), 3 * sizeof(int));
 
                 if (Sse4_1.IsSse41Supported)
                 {
-                    lo = Sse4_1.blend_epi16(*(v128*)&x012, mid, 0b1100_0000);
+                    lo = Sse4_1.blend_epi16(UnityMathematicsLink.Tov128(x012), mid, 0b1100_0000);
                 }
                 else
                 {
-                    lo = Mask.BlendEpi16_SSE2(*(v128*)&x012, mid, 0b1100_0000);
+                    lo = Mask.BlendEpi16_SSE2(UnityMathematicsLink.Tov128(x012), mid, 0b1100_0000);
                 }
 
 
@@ -215,9 +215,9 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.unpacklo_epi64(*(v128*)&x01, *(v128*)&x2345);
-                v128 hi = Sse2.bslli_si128(*(v128*)&x67, 2 * sizeof(int));
-                hi = Sse2.unpackhi_epi64(*(v128*)&x2345, hi);
+                v128 lo = Sse2.unpacklo_epi64(UnityMathematicsLink.Tov128(x01), UnityMathematicsLink.Tov128(x2345));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x67), 2 * sizeof(int));
+                hi = Sse2.unpackhi_epi64(UnityMathematicsLink.Tov128(x2345), hi);
 
                 this = new int8(*(int4*)&lo, *(int4*)&hi);
             }
@@ -242,7 +242,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                this = Avx.mm256_set_m128i(*(v128*)&x4567, *(v128*)&x0123);
+                this = Avx.mm256_set_m128i(UnityMathematicsLink.Tov128(x4567), UnityMathematicsLink.Tov128(x0123));
             }
             else
             {
@@ -278,7 +278,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(*(v128*)&value), 0b0000_1111);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 0b0000_1111);
                 }
                 else
                 {
@@ -302,7 +302,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 1 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 1 * sizeof(int));
 
                     return *(int4*)&temp;
                 }
@@ -320,7 +320,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 1), 0b0001_1110);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 1), 0b0001_1110);
                 }
                 else
                 {
@@ -352,7 +352,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 2 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 2 * sizeof(int));
 
                     return *(int4*)&temp;
                 }
@@ -370,7 +370,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
                 }
                 else
                 {
@@ -402,7 +402,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 3 * sizeof(int));
 
                     return *(int4*)&temp;
                 }
@@ -420,7 +420,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0111_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 3), 0b0111_1000);
                 }
                 else
                 {
@@ -458,7 +458,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_inserti128_si256(this, *(v128*)&value, 1);
+                    this = Avx2.mm256_inserti128_si256(this, UnityMathematicsLink.Tov128(value), 1);
                 }
                 else
                 {
@@ -489,7 +489,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(*(v128*)&value), 0b0000_0111);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 0b0000_0111);
                 }
                 else
                 {
@@ -519,7 +519,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(UnityMathematicsLink.Tov128(value), Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
                 }
                 else
                 {
@@ -543,7 +543,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 2 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 2 * sizeof(int));
 
                     return *(int3*)&temp;
                 }
@@ -558,7 +558,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
                 }
                 else
                 {
@@ -583,7 +583,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 3 * sizeof(int));
 
                     return *(int3*)&temp;
                 }
@@ -598,7 +598,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0011_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 3), 0b0011_1000);
                 }
                 else
                 {
@@ -629,7 +629,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(*(v128*)&value), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
+                    this = Avx2.mm256_blend_epi32(this, Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
                 }
                 else
                 {
@@ -659,7 +659,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 5), 0b1110_0000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 5), 0b1110_0000);
                 }
                 else
                 {
@@ -720,7 +720,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
+                    this = Avx2.mm256_blend_epi32(this, Avx.mm256_castsi128_si256(Sse2.shuffle_epi32(UnityMathematicsLink.Tov128(value), Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
                 }
                 else
                 {
@@ -774,7 +774,7 @@ namespace MaxMath
                     int4 lo = this._v4_0;
                     int4 hi = this._v4_4;
 
-                    v128 temp = Ssse3.alignr_epi8(*(v128*)&lo, *(v128*)&hi, 3 * sizeof(int));
+                    v128 temp = Ssse3.alignr_epi8(UnityMathematicsLink.Tov128(lo), UnityMathematicsLink.Tov128(hi), 3 * sizeof(int));
 
                     return *(int2*)&temp;
                 }
@@ -789,7 +789,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 3), 0b0001_1000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 3), 0b0001_1000);
                 }
                 else
                 {
@@ -850,7 +850,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(*(v128*)&value), 5), 0b0110_0000);
+                    this = Avx2.mm256_blend_epi32(this, maxmath.vrol((int8)Avx.mm256_castsi128_si256(UnityMathematicsLink.Tov128(value)), 5), 0b0110_0000);
                 }
                 else
                 {
@@ -1002,6 +1002,20 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
+                if (Constant.IsConstantExpression(right))
+                {
+                    bool sameValue = maxmath.all_eq(right);
+
+                    if (sameValue)
+                    {
+                        return left * right.x0;
+                    }
+                    else if (maxmath.all(right != 0) && maxmath.all(maxmath.ispow2(right)))
+                    {
+                        return maxmath.shl(left, maxmath.tzcnt(right));
+                    }
+                }
+
                 return Avx2.mm256_mullo_epi32(left, right);
             }
             else
@@ -1013,26 +1027,62 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator / (int8 left, int8 right)
         {
-            if (Avx2.IsAvx2Supported)
+Assert.AreNotEqual(right.x0, 0);
+Assert.AreNotEqual(right.x1, 0);
+Assert.AreNotEqual(right.x2, 0);
+Assert.AreNotEqual(right.x3, 0);
+Assert.AreNotEqual(right.x4, 0);
+Assert.AreNotEqual(right.x5, 0);
+Assert.AreNotEqual(right.x6, 0);
+Assert.AreNotEqual(right.x7, 0);
+
+Assert.IsFalse(left.x0 == int.MinValue && right.x0 == -1);
+Assert.IsFalse(left.x1 == int.MinValue && right.x1 == -1);
+Assert.IsFalse(left.x2 == int.MinValue && right.x2 == -1);
+Assert.IsFalse(left.x3 == int.MinValue && right.x3 == -1);
+Assert.IsFalse(left.x4 == int.MinValue && right.x4 == -1);
+Assert.IsFalse(left.x5 == int.MinValue && right.x5 == -1);
+Assert.IsFalse(left.x6 == int.MinValue && right.x6 == -1);
+Assert.IsFalse(left.x7 == int.MinValue && right.x7 == -1);
+
+            if (Sse2.IsSse2Supported)
             {
-                return new int8((left.x0 / right.x0), (left.x1 / right.x1), (left.x2 / right.x2), (left.x3 / right.x3), (left.x4 / right.x4), (left.x5 / right.x5), (left.x6 / right.x6), (left.x7 / right.x7));
+                return new int8((int4)((double4)left.v4_0 / (double4)right.v4_0), (int4)((double4)left.v4_4 / (double4)right.v4_4)); 
             }
             else
             {
-                return new int8(left._v4_0 / right._v4_0, left._v4_4 / right._v4_4);
+                return new int8((left.x0 / right.x0), (left.x1 / right.x1), (left.x2 / right.x2), (left.x3 / right.x3), (left.x4 / right.x4), (left.x5 / right.x5), (left.x6 / right.x6), (left.x7 / right.x7));
             }
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator % (int8 left, int8 right)
         {
-            if (Avx2.IsAvx2Supported)
+Assert.AreNotEqual(right.x0, 0);
+Assert.AreNotEqual(right.x1, 0);
+Assert.AreNotEqual(right.x2, 0);
+Assert.AreNotEqual(right.x3, 0);
+Assert.AreNotEqual(right.x4, 0);
+Assert.AreNotEqual(right.x5, 0);
+Assert.AreNotEqual(right.x6, 0);
+Assert.AreNotEqual(right.x7, 0);
+            
+Assert.IsFalse(left.x0 == int.MinValue && right.x0 == -1);
+Assert.IsFalse(left.x1 == int.MinValue && right.x1 == -1);
+Assert.IsFalse(left.x2 == int.MinValue && right.x2 == -1);
+Assert.IsFalse(left.x3 == int.MinValue && right.x3 == -1);
+Assert.IsFalse(left.x4 == int.MinValue && right.x4 == -1);
+Assert.IsFalse(left.x5 == int.MinValue && right.x5 == -1);
+Assert.IsFalse(left.x6 == int.MinValue && right.x6 == -1);
+Assert.IsFalse(left.x7 == int.MinValue && right.x7 == -1);
+
+            if (Sse2.IsSse2Supported)
             {
-                return new int8((left.x0 % right.x0), (left.x1 % right.x1), (left.x2 % right.x2), (left.x3 % right.x3), (left.x4 % right.x4), (left.x5 % right.x5), (left.x6 % right.x6), (left.x7 % right.x7));
+                return left - ((left / right) * right); 
             }
             else
             {
-                return new int8(left._v4_0 % right._v4_0, left._v4_4 % right._v4_4);
+                return new int8((left.x0 % right.x0), (left.x1 % right.x1), (left.x2 % right.x2), (left.x3 % right.x3), (left.x4 % right.x4), (left.x5 % right.x5), (left.x6 % right.x6), (left.x7 % right.x7));
             }
         }
 
@@ -1063,26 +1113,58 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator / (int8 left, int right)
         {
-            if (Avx2.IsAvx2Supported)
+Assert.AreNotEqual(right, 0);
+            
+Assert.IsFalse(left.x0 == int.MinValue && right == -1);
+Assert.IsFalse(left.x1 == int.MinValue && right == -1);
+Assert.IsFalse(left.x2 == int.MinValue && right == -1);
+Assert.IsFalse(left.x3 == int.MinValue && right == -1);
+Assert.IsFalse(left.x4 == int.MinValue && right == -1);
+Assert.IsFalse(left.x5 == int.MinValue && right == -1);
+Assert.IsFalse(left.x6 == int.MinValue && right == -1);
+Assert.IsFalse(left.x7 == int.MinValue && right == -1);
+
+            if (Constant.IsConstantExpression(right))
             {
                 return new int8((left.x0 / right), (left.x1 / right), (left.x2 / right), (left.x3 / right), (left.x4 / right), (left.x5 / right), (left.x6 / right), (left.x7 / right));
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                double4 r = (double)right;
+
+                return new int8((int4)((double4)left.v4_0 / r), (int4)((double4)left.v4_4 / r)); 
+            }
             else
             {
-                return new int8(left._v4_0 / right, left._v4_4 / right);
+                return new int8((left.x0 / right), (left.x1 / right), (left.x2 / right), (left.x3 / right), (left.x4 / right), (left.x5 / right), (left.x6 / right), (left.x7 / right));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 operator % (int8 left, int right)
         {
-            if (Avx2.IsAvx2Supported)
+Assert.AreNotEqual(right, 0);
+            
+Assert.IsFalse(left.x0 == int.MinValue && right == -1);
+Assert.IsFalse(left.x1 == int.MinValue && right == -1);
+Assert.IsFalse(left.x2 == int.MinValue && right == -1);
+Assert.IsFalse(left.x3 == int.MinValue && right == -1);
+Assert.IsFalse(left.x4 == int.MinValue && right == -1);
+Assert.IsFalse(left.x5 == int.MinValue && right == -1);
+Assert.IsFalse(left.x6 == int.MinValue && right == -1);
+Assert.IsFalse(left.x7 == int.MinValue && right == -1);
+
+            if (Constant.IsConstantExpression(right))
             {
                 return new int8((left.x0 % right), (left.x1 % right), (left.x2 % right), (left.x3 % right), (left.x4 % right), (left.x5 % right), (left.x6 % right), (left.x7 % right));
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return left - ((left / right) * right);
+            }
             else
             {
-                return new int8(left._v4_0 % right, left._v4_4 % right);
+                return new int8((left.x0 % right), (left.x1 % right), (left.x2 % right), (left.x3 % right), (left.x4 % right), (left.x5 % right), (left.x6 % right), (left.x7 % right));
             }
         }
 
@@ -1212,7 +1294,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi32(left, right));
+                return ConvertToBool.IsTrue32(Avx2.mm256_cmpeq_epi32(left, right));
             }
             else
             {
@@ -1225,7 +1307,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi32(right, left));
+                return ConvertToBool.IsTrue32(Avx2.mm256_cmpgt_epi32(right, left));
             }
             else
             {
@@ -1238,7 +1320,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi32(left, right));
+                return ConvertToBool.IsTrue32(Avx2.mm256_cmpgt_epi32(left, right));
             }
             else
             {
@@ -1252,7 +1334,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpeq_epi32(left, right));
+                return ConvertToBool.IsFalse32(Avx2.mm256_cmpeq_epi32(left, right));
             }
             else
             {
@@ -1265,7 +1347,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi32(left, right));
+                return ConvertToBool.IsFalse32(Avx2.mm256_cmpgt_epi32(left, right));
             }
             else
             {
@@ -1278,29 +1360,12 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi32(right, left));
+                return ConvertToBool.IsFalse32(Avx2.mm256_cmpgt_epi32(right, left));
             }
             else
             {
                 return new bool8(left._v4_0 >= right._v4_0, left._v4_4 >= right._v4_4);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsTrue(v256 input)
-        {
-            return (v128)((byte8)(-(int8)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsFalse(v256 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.andnot_si128((byte8)(int8)input, new byte8(1));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

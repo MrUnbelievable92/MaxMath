@@ -8,7 +8,27 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise absolute value of an sbyte2 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="Int128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 abs(Int128 x)
+        {
+            ulong mask = (ulong)((long)x.intern.hi >> 63);
+
+            ulong lo = x.intern.lo ^ mask;
+            ulong hi = x.intern.hi ^ mask;
+
+            return new Int128(lo, hi) + ((ulong)-(long)mask);
+        }
+
+
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte abs(sbyte x)
+        {
+            return (sbyte)math.abs(x);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 abs(sbyte2 x)
         {
@@ -18,7 +38,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi8(default(v128), x);
+                v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -28,7 +48,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an sbyte3 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 abs(sbyte3 x)
         {
@@ -38,7 +58,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi8(default(v128), x);
+                v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -48,7 +68,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an sbyte4 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 abs(sbyte4 x)
         {
@@ -58,7 +78,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi8(default(v128), x);
+                v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -68,7 +88,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an sbyte8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 abs(sbyte8 x)
         {
@@ -78,7 +98,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi8(default(v128), x);
+                v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -88,7 +108,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an sbyte16 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 abs(sbyte16 x)
         {
@@ -98,7 +118,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi8(default(v128), x);
+                v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -108,7 +128,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an sbyte32 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 abs(sbyte32 x)
         {
@@ -123,7 +143,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise absolute value of a short2 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short abs(short x)
+        {
+            return (short)math.abs(x);
+        }
+
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 abs(short2 x)
         {
@@ -133,9 +160,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi16(default(v128), x);
-
-                return (x + mask) ^ mask;
+                return Sse2.max_epi16(Sse2.sub_epi16(Sse2.setzero_si128(), x), x);
             }
             else
             {
@@ -143,7 +168,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a short3 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 abs(short3 x)
         {
@@ -153,9 +178,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi16(default(v128), x);
-
-                return (x + mask) ^ mask;
+                return Sse2.max_epi16(Sse2.sub_epi16(Sse2.setzero_si128(), x), x);
             }
             else
             {
@@ -163,7 +186,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a short4 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 abs(short4 x)
         {
@@ -173,9 +196,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi16(default(v128), x);
-
-                return (x + mask) ^ mask;
+                return Sse2.max_epi16(Sse2.sub_epi16(Sse2.setzero_si128(), x), x);
             }
             else
             {
@@ -183,7 +204,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a short8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 abs(short8 x)
         {
@@ -193,9 +214,7 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mask = Sse2.cmpgt_epi16(default(v128), x);
-
-                return (x + mask) ^ mask;
+                return Sse2.max_epi16(Sse2.sub_epi16(Sse2.setzero_si128(), x), x);
             }
             else
             {
@@ -203,7 +222,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a short16 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 abs(short16 x)
         {
@@ -218,7 +237,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise absolute value of an int8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 abs(int8 x)
         {
@@ -233,13 +252,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise absolute value of a long2 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 abs(long2 x)
         {
             if (Sse2.IsSse2Supported)
             {
-                long2 mask = Operator.greater_mask_long(default(v128), x);
+                long2 mask = Operator.greater_mask_long(Sse2.setzero_si128(), x);
 
                 return (x + mask) ^ mask;
             }
@@ -249,7 +268,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a long3 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 abs(long3 x)
         {
@@ -265,7 +284,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a long4 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 abs(long4 x)
         {
@@ -282,35 +301,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the absolute value of a quarter value.     </summary>
+        /// <summary>       Returns the absolute value of a <see cref="quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter abs(quarter x)
         {
             return asquarter((byte)(asbyte(x) & 0b0111_1111));
         }
 
-        /// <summary>       Returns the componentwise absolute value of a quarter2 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 abs(quarter2 x)
         {
             return asquarter(asbyte(x) & 0b0111_1111);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a quarter3 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 abs(quarter3 x)
         {
             return asquarter(asbyte(x) & 0b0111_1111);
         }
         
-        /// <summary>       Returns the componentwise absolute value of a quarter4 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 abs(quarter4 x)
         {
             return asquarter(asbyte(x) & 0b0111_1111);
         }
         
-        /// <summary>       Returns the componentwise absolute value of a quarter8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 abs(quarter8 x)
         {
@@ -318,35 +337,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the absolute value of a half value.     </summary>
+        /// <summary>       Returns the absolute value of a <see cref="half"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half abs(half x)
         {
             return new half { value = ((ushort)(x.value & 0x7FFF)) };
         }
 
-        /// <summary>       Returns the componentwise absolute value of a half2 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 abs(half2 x)
         {
             return ashalf(asushort(x) & 0x7FFF);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a half3 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 abs(half3 x)
         {
             return ashalf(asushort(x) & 0x7FFF);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a half4 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 abs(half4 x)
         {
             return ashalf(asushort(x) & 0x7FFF);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a half8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 abs(half8 x)
         {
@@ -354,7 +373,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise absolute value of a float8 vector.     </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.float8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 abs(float8 x)
         {

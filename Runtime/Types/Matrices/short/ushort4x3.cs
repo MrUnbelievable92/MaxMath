@@ -160,7 +160,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 div = new ushort8(left.c0, left.c1) / right;
 
@@ -176,7 +176,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 rem = new ushort8(left.c0, left.c1) % right;
 

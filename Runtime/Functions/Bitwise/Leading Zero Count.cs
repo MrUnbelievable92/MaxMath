@@ -9,14 +9,36 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns number of leading zeros in the binary representations of a byte value.     </summary>
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="UInt128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0L, 128L)]
+        public static int lzcnt(UInt128 x)
+        {
+            if (x.hi == 0)
+            {
+                return 64 + math.lzcnt(x.lo); 
+            }
+            else
+            {
+                return math.lzcnt(x.hi);
+            }
+        }
+
+        /// <summary>       Returns number of leading zeros in the binary representation of an <see cref="Int128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0L, 128L)]
+        public static int lzcnt(Int128 x)
+        {
+            return lzcnt(x.intern);
+        }
+
+
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="byte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static byte lzcnt(byte x)
         {
             return (byte)math.max(math.lzcnt((uint)x) - 24, 0);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 lzcnt(byte2 x)
         {
@@ -56,7 +78,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 lzcnt(byte3 x)
         {
@@ -96,7 +118,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 lzcnt(byte4 x)
         {
@@ -136,7 +158,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 lzcnt(byte8 x)
         {
@@ -176,7 +198,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 lzcnt(byte16 x)
         {
@@ -216,7 +238,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a byte32 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 lzcnt(byte32 x)
         {
@@ -238,49 +260,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of leading zeros in the binary representations of an sbyte value.     </summary>
+        /// <summary>       Returns number of leading zeros in the binary representation of an <see cref="sbyte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
         public static sbyte lzcnt(sbyte x)
         {
             return (sbyte)lzcnt((byte)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 lzcnt(sbyte2 x)
         {
             return (sbyte2)lzcnt((byte2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 lzcnt(sbyte3 x)
         {
             return (sbyte3)lzcnt((byte3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 lzcnt(sbyte4 x)
         {
             return (sbyte4)lzcnt((byte4)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 lzcnt(sbyte8 x)
         {
             return (sbyte8)lzcnt((byte8)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 lzcnt(sbyte16 x)
         {
             return (sbyte16)lzcnt((byte16)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an sbyte32 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 lzcnt(sbyte32 x)
         {
@@ -288,14 +310,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of leading zeros in the binary representations of a ushort value.     </summary>
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="ushort"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static ushort lzcnt(ushort x)
         {
             return (ushort)math.max(math.lzcnt((uint)x) - 16, 0);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 lzcnt(ushort2 x)
         {
@@ -343,7 +365,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 lzcnt(ushort3 x)
         {
@@ -391,7 +413,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 lzcnt(ushort4 x)
         {
@@ -439,7 +461,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 lzcnt(ushort8 x)
         {
@@ -487,7 +509,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ushort16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 lzcnt(ushort16 x)
         {
@@ -512,42 +534,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of leading zeros in the binary representations of a short value.     </summary>
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="short"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
         public static short lzcnt(short x)
         {
             return (short)lzcnt((ushort)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a short2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 lzcnt(short2 x)
         {
             return (short2)lzcnt((ushort2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a short3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 lzcnt(short3 x)
         {
             return (short3)lzcnt((ushort3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a short4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 lzcnt(short4 x)
         {
             return (short4)lzcnt((ushort4)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a short8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 lzcnt(short8 x)
         {
             return (short8)lzcnt((ushort8)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a short16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 lzcnt(short16 x)
         {
@@ -555,7 +577,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a uint8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 lzcnt(uint8 x)
         {
@@ -563,7 +585,7 @@ namespace MaxMath
             {
                 v256 ymm0, ymm1, ymm2, ymm3, ymm4;
 
-                v256 ZERO = default(v256);
+                v256 ZERO = Avx.mm256_setzero_si256();
                 v256 MASK = new v256(0x0101_0101_0202_0304L, 0L, 0x0101_0101_0202_0304L, 0L);
 
                 ymm2 = Avx2.mm256_shuffle_epi8  (MASK, x);
@@ -593,7 +615,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an int8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 lzcnt(int8 x)
         {
@@ -601,30 +623,32 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ulong2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 lzcnt(ulong2 x)
         {
             return new ulong2((ulong)math.lzcnt(x.x), (ulong)math.lzcnt(x.y));
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ulong3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 lzcnt(ulong3 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                ulong3 y = x >> 32;
-                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+                v256 ZERO = Avx.mm256_setzero_si256();
 
-                ulong4 bits = Avx2.mm256_blendv_epi8(y, 0x0000_0000_FFFF_FFFF & x, cmp);
-                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x041E, (ulong4)0x043E, cmp);
+                v256 y = Avx2.mm256_srli_epi64(x, 32);
+                v256 cmp = Avx2.mm256_cmpeq_epi64(y, ZERO);
+                
+                v256 bits = Avx2.mm256_blendv_epi8(y, Avx2.mm256_blend_epi32(ZERO, x, 0b0101_0101), cmp);
+                v256 offset = Avx2.mm256_blendv_epi8(new v256(0x041Eul), new v256(0x043Eul), cmp);
 
-                bits += 0x4330_0000_0000_0000ul;
-                bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
-                bits = offset - (bits >> 52);
+                bits = Avx2.mm256_add_epi64(bits, new v256(0x4330_0000_0000_0000ul));
+                bits = Avx.mm256_sub_pd(bits, new v256(4503_5996_2737_0496d));
+                bits = Avx2.mm256_sub_epi64(offset, Avx2.mm256_srli_epi64(bits, 52));
 
-                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
+                return Avx2.mm256_blendv_epi8(bits, new v256(64ul), Avx2.mm256_cmpeq_epi64(x, ZERO));
             }
             else
             {
@@ -632,23 +656,26 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a ulong4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+          
         public static ulong4 lzcnt(ulong4 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                ulong4 y = x >> 32;
-                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+                v256 ZERO = Avx.mm256_setzero_si256();
 
-                ulong4 bits = Avx2.mm256_blendv_epi8(y, 0x0000_0000_FFFF_FFFF & x, cmp);
-                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x041E, (ulong4)0x043E, cmp);
+                v256 y = Avx2.mm256_srli_epi64(x, 32);
+                v256 cmp = Avx2.mm256_cmpeq_epi64(y, ZERO);
+                
+                v256 bits = Avx2.mm256_blendv_epi8(y, Avx2.mm256_blend_epi32(ZERO, x, 0b0101_0101), cmp);
+                v256 offset = Avx2.mm256_blendv_epi8(new v256(0x041Eul), new v256(0x043Eul), cmp);
 
-                bits += 0x4330_0000_0000_0000ul;
-                bits = Avx.mm256_sub_pd(bits, new v256(4503599627370496d));
-                bits = offset - (bits >> 52);
+                bits = Avx2.mm256_add_epi64(bits, new v256(0x4330_0000_0000_0000ul));
+                bits = Avx.mm256_sub_pd(bits, new v256(4503_5996_2737_0496d));
+                bits = Avx2.mm256_sub_epi64(offset, Avx2.mm256_srli_epi64(bits, 52));
 
-                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), Avx2.mm256_cmpeq_epi64(x, default(v256)));
+                return Avx2.mm256_blendv_epi8(bits, new v256(64ul), Avx2.mm256_cmpeq_epi64(x, ZERO));
             }
             else
             {
@@ -657,21 +684,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a long2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 lzcnt(long2 x)
         {
             return (long2)lzcnt((ulong2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a long3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 lzcnt(long3 x)
         {
             return (long3)lzcnt((ulong3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a long4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 lzcnt(long4 x)
         {

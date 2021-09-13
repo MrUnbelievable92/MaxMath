@@ -121,25 +121,14 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-#if DEBUG
                 ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
+                                                         Sse2.unpacklo_epi32(left.c2, Sse2.cmpeq_epi32(default(v128), default(v128))));
                 ushort8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                         Sse2.unpacklo_epi32(right.c2, new ushort2(1)));
+                                                         Sse2.unpacklo_epi32(right.c2, Sse2.cmpeq_epi32(default(v128), default(v128))));
 
                 ushort8 div = packed_LHS / packed_RHS;
 
                 return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         left.c2);
-                ushort8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                         right.c2);
-
-                ushort8 div = packed_LHS / packed_RHS;
-
-                return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -208,7 +197,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
 #if DEBUG
                     ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
@@ -229,7 +218,7 @@ Assert.IsWithinArrayBounds(index, 3);
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     v128 divisor = (ushort4)right;
                     ushort4 lo = new ushort4(left.c0, left.c1) / divisor;
@@ -246,7 +235,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
 #if DEBUG
                     ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
@@ -267,7 +256,7 @@ Assert.IsWithinArrayBounds(index, 3);
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     v128 divisor = (ushort4)right;
                     ushort4 lo = new ushort4(left.c0, left.c1) % divisor;

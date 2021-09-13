@@ -2,7 +2,7 @@
 
 namespace MaxMath.Tests
 {
-    /// Float/Double implicitly tested by testing Int/Long
+    /// __float/__double implicitly tested by testing Int/__long
     unsafe public static class cprod
     {
         [Test]
@@ -10,12 +10,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte2.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte2.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte2.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte2.TestData_LHS[i].x *
-                                (uint)Tests.Byte2.TestData_LHS[i].y);
+                result &= x == ((uint)Tests.__byte2.TestData_LHS[i].x *
+                                (uint)Tests.__byte2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -26,13 +26,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte3.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte3.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte3.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte3.TestData_LHS[i].x *
-                                (uint)Tests.Byte3.TestData_LHS[i].y *
-                                (uint)Tests.Byte3.TestData_LHS[i].z);
+                result &= x == ((uint)Tests.__byte3.TestData_LHS[i].x *
+                                (uint)Tests.__byte3.TestData_LHS[i].y *
+                                (uint)Tests.__byte3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -43,14 +43,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte4.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte4.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte4.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte4.TestData_LHS[i].x *
-                                (uint)Tests.Byte4.TestData_LHS[i].y *
-                                (uint)Tests.Byte4.TestData_LHS[i].z *
-                                (uint)Tests.Byte4.TestData_LHS[i].w);
+                result &= x == ((uint)Tests.__byte4.TestData_LHS[i].x *
+                                (uint)Tests.__byte4.TestData_LHS[i].y *
+                                (uint)Tests.__byte4.TestData_LHS[i].z *
+                                (uint)Tests.__byte4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -61,18 +61,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte8.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte8.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte8.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte8.TestData_LHS[i].x0 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x1 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x2 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x3 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x4 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x5 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x6 *
-                                (uint)Tests.Byte8.TestData_LHS[i].x7);
+                result &= x == ((uint)Tests.__byte8.TestData_LHS[i].x0 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x1 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x2 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x3 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x4 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x5 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x6 *
+                                (uint)Tests.__byte8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -83,26 +83,26 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte16.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte16.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte16.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte16.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte16.TestData_LHS[i].x0 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x1 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x2 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x3 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x4 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x5 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x6 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x7 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x8 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x9 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x10 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x11 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x12 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x13 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x14 *
-                                (uint)Tests.Byte16.TestData_LHS[i].x15);
+                result &= x == ((uint)Tests.__byte16.TestData_LHS[i].x0 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x1 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x2 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x3 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x4 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x5 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x6 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x7 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x8 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x9 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x10 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x11 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x12 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x13 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x14 *
+                                (uint)Tests.__byte16.TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -113,42 +113,42 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Byte32.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__byte32.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.Byte32.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__byte32.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.Byte32.TestData_LHS[i].x0 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x1 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x2 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x3 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x4 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x5 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x6 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x7 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x8 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x9 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x10 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x11 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x12 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x13 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x14 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x15 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x16 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x17 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x18 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x19 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x20 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x21 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x22 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x23 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x24 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x25 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x26 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x27 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x28 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x29 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x30 *
-                                (uint)Tests.Byte32.TestData_LHS[i].x31);
+                result &= x == ((uint)Tests.__byte32.TestData_LHS[i].x0 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x1 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x2 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x3 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x4 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x5 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x6 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x7 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x8 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x9 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x10 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x11 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x12 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x13 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x14 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x15 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x16 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x17 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x18 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x19 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x20 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x21 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x22 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x23 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x24 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x25 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x26 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x27 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x28 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x29 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x30 *
+                                (uint)Tests.__byte32.TestData_LHS[i].x31);
             }
 
             Assert.AreEqual(true, result);
@@ -160,12 +160,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte2.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte2.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte2.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte2.TestData_LHS[i].x *
-                                (int)Tests.SByte2.TestData_LHS[i].y);
+                result &= x == ((int)Tests.__sbyte2.TestData_LHS[i].x *
+                                (int)Tests.__sbyte2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -176,13 +176,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte3.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte3.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte3.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte3.TestData_LHS[i].x *
-                                (int)Tests.SByte3.TestData_LHS[i].y *
-                                (int)Tests.SByte3.TestData_LHS[i].z);
+                result &= x == ((int)Tests.__sbyte3.TestData_LHS[i].x *
+                                (int)Tests.__sbyte3.TestData_LHS[i].y *
+                                (int)Tests.__sbyte3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -193,14 +193,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte4.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte4.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte4.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte4.TestData_LHS[i].x *
-                                (int)Tests.SByte4.TestData_LHS[i].y *
-                                (int)Tests.SByte4.TestData_LHS[i].z *
-                                (int)Tests.SByte4.TestData_LHS[i].w);
+                result &= x == ((int)Tests.__sbyte4.TestData_LHS[i].x *
+                                (int)Tests.__sbyte4.TestData_LHS[i].y *
+                                (int)Tests.__sbyte4.TestData_LHS[i].z *
+                                (int)Tests.__sbyte4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -211,18 +211,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte8.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte8.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte8.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte8.TestData_LHS[i].x0 *
-                                (int)Tests.SByte8.TestData_LHS[i].x1 *
-                                (int)Tests.SByte8.TestData_LHS[i].x2 *
-                                (int)Tests.SByte8.TestData_LHS[i].x3 *
-                                (int)Tests.SByte8.TestData_LHS[i].x4 *
-                                (int)Tests.SByte8.TestData_LHS[i].x5 *
-                                (int)Tests.SByte8.TestData_LHS[i].x6 *
-                                (int)Tests.SByte8.TestData_LHS[i].x7);
+                result &= x == ((int)Tests.__sbyte8.TestData_LHS[i].x0 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x1 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x2 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x3 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x4 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x5 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x6 *
+                                (int)Tests.__sbyte8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -233,26 +233,26 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte16.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte16.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte16.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte16.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte16.TestData_LHS[i].x0 *
-                                (int)Tests.SByte16.TestData_LHS[i].x1 *
-                                (int)Tests.SByte16.TestData_LHS[i].x2 *
-                                (int)Tests.SByte16.TestData_LHS[i].x3 *
-                                (int)Tests.SByte16.TestData_LHS[i].x4 *
-                                (int)Tests.SByte16.TestData_LHS[i].x5 *
-                                (int)Tests.SByte16.TestData_LHS[i].x6 *
-                                (int)Tests.SByte16.TestData_LHS[i].x7 *
-                                (int)Tests.SByte16.TestData_LHS[i].x8 *
-                                (int)Tests.SByte16.TestData_LHS[i].x9 *
-                                (int)Tests.SByte16.TestData_LHS[i].x10 *
-                                (int)Tests.SByte16.TestData_LHS[i].x11 *
-                                (int)Tests.SByte16.TestData_LHS[i].x12 *
-                                (int)Tests.SByte16.TestData_LHS[i].x13 *
-                                (int)Tests.SByte16.TestData_LHS[i].x14 *
-                                (int)Tests.SByte16.TestData_LHS[i].x15);
+                result &= x == ((int)Tests.__sbyte16.TestData_LHS[i].x0 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x1 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x2 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x3 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x4 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x5 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x6 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x7 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x8 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x9 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x10 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x11 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x12 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x13 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x14 *
+                                (int)Tests.__sbyte16.TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -263,42 +263,42 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.SByte32.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__sbyte32.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.SByte32.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__sbyte32.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.SByte32.TestData_LHS[i].x0 *
-                                (int)Tests.SByte32.TestData_LHS[i].x1 *
-                                (int)Tests.SByte32.TestData_LHS[i].x2 *
-                                (int)Tests.SByte32.TestData_LHS[i].x3 *
-                                (int)Tests.SByte32.TestData_LHS[i].x4 *
-                                (int)Tests.SByte32.TestData_LHS[i].x5 *
-                                (int)Tests.SByte32.TestData_LHS[i].x6 *
-                                (int)Tests.SByte32.TestData_LHS[i].x7 *
-                                (int)Tests.SByte32.TestData_LHS[i].x8 *
-                                (int)Tests.SByte32.TestData_LHS[i].x9 *
-                                (int)Tests.SByte32.TestData_LHS[i].x10 *
-                                (int)Tests.SByte32.TestData_LHS[i].x11 *
-                                (int)Tests.SByte32.TestData_LHS[i].x12 *
-                                (int)Tests.SByte32.TestData_LHS[i].x13 *
-                                (int)Tests.SByte32.TestData_LHS[i].x14 *
-                                (int)Tests.SByte32.TestData_LHS[i].x15 *
-                                (int)Tests.SByte32.TestData_LHS[i].x16 *
-                                (int)Tests.SByte32.TestData_LHS[i].x17 *
-                                (int)Tests.SByte32.TestData_LHS[i].x18 *
-                                (int)Tests.SByte32.TestData_LHS[i].x19 *
-                                (int)Tests.SByte32.TestData_LHS[i].x20 *
-                                (int)Tests.SByte32.TestData_LHS[i].x21 *
-                                (int)Tests.SByte32.TestData_LHS[i].x22 *
-                                (int)Tests.SByte32.TestData_LHS[i].x23 *
-                                (int)Tests.SByte32.TestData_LHS[i].x24 *
-                                (int)Tests.SByte32.TestData_LHS[i].x25 *
-                                (int)Tests.SByte32.TestData_LHS[i].x26 *
-                                (int)Tests.SByte32.TestData_LHS[i].x27 *
-                                (int)Tests.SByte32.TestData_LHS[i].x28 *
-                                (int)Tests.SByte32.TestData_LHS[i].x29 *
-                                (int)Tests.SByte32.TestData_LHS[i].x30 *
-                                (int)Tests.SByte32.TestData_LHS[i].x31);
+                result &= x == ((int)Tests.__sbyte32.TestData_LHS[i].x0 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x1 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x2 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x3 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x4 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x5 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x6 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x7 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x8 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x9 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x10 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x11 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x12 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x13 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x14 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x15 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x16 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x17 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x18 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x19 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x20 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x21 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x22 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x23 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x24 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x25 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x26 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x27 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x28 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x29 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x30 *
+                                (int)Tests.__sbyte32.TestData_LHS[i].x31);
             }
 
             Assert.AreEqual(true, result);
@@ -310,12 +310,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UShort2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ushort2.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UShort2.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__ushort2.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.UShort2.TestData_LHS[i].x *
-                                (uint)Tests.UShort2.TestData_LHS[i].y);
+                result &= x == ((uint)Tests.__ushort2.TestData_LHS[i].x *
+                                (uint)Tests.__ushort2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -326,13 +326,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UShort3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ushort3.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UShort3.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__ushort3.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.UShort3.TestData_LHS[i].x *
-                                (uint)Tests.UShort3.TestData_LHS[i].y *
-                                (uint)Tests.UShort3.TestData_LHS[i].z);
+                result &= x == ((uint)Tests.__ushort3.TestData_LHS[i].x *
+                                (uint)Tests.__ushort3.TestData_LHS[i].y *
+                                (uint)Tests.__ushort3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -343,14 +343,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UShort4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ushort4.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UShort4.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__ushort4.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.UShort4.TestData_LHS[i].x *
-                                (uint)Tests.UShort4.TestData_LHS[i].y *
-                                (uint)Tests.UShort4.TestData_LHS[i].z *
-                                (uint)Tests.UShort4.TestData_LHS[i].w);
+                result &= x == ((uint)Tests.__ushort4.TestData_LHS[i].x *
+                                (uint)Tests.__ushort4.TestData_LHS[i].y *
+                                (uint)Tests.__ushort4.TestData_LHS[i].z *
+                                (uint)Tests.__ushort4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -361,18 +361,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UShort8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ushort8.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UShort8.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__ushort8.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.UShort8.TestData_LHS[i].x0 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x1 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x2 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x3 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x4 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x5 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x6 *
-                                (uint)Tests.UShort8.TestData_LHS[i].x7);
+                result &= x == ((uint)Tests.__ushort8.TestData_LHS[i].x0 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x1 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x2 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x3 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x4 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x5 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x6 *
+                                (uint)Tests.__ushort8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -383,26 +383,26 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UShort16.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ushort16.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UShort16.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__ushort16.TestData_LHS[i]);
 
-                result &= x == ((uint)Tests.UShort16.TestData_LHS[i].x0 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x1 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x2 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x3 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x4 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x5 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x6 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x7 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x8 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x9 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x10 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x11 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x12 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x13 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x14 *
-                                (uint)Tests.UShort16.TestData_LHS[i].x15);
+                result &= x == ((uint)Tests.__ushort16.TestData_LHS[i].x0 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x1 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x2 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x3 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x4 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x5 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x6 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x7 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x8 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x9 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x10 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x11 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x12 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x13 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x14 *
+                                (uint)Tests.__ushort16.TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -414,12 +414,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Short2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__short2.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Short2.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__short2.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.Short2.TestData_LHS[i].x *
-                                (int)Tests.Short2.TestData_LHS[i].y);
+                result &= x == ((int)Tests.__short2.TestData_LHS[i].x *
+                                (int)Tests.__short2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -430,13 +430,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Short3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__short3.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Short3.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__short3.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.Short3.TestData_LHS[i].x *
-                                (int)Tests.Short3.TestData_LHS[i].y *
-                                (int)Tests.Short3.TestData_LHS[i].z);
+                result &= x == ((int)Tests.__short3.TestData_LHS[i].x *
+                                (int)Tests.__short3.TestData_LHS[i].y *
+                                (int)Tests.__short3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -447,14 +447,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Short4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__short4.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Short4.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__short4.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.Short4.TestData_LHS[i].x *
-                                (int)Tests.Short4.TestData_LHS[i].y *
-                                (int)Tests.Short4.TestData_LHS[i].z *
-                                (int)Tests.Short4.TestData_LHS[i].w);
+                result &= x == ((int)Tests.__short4.TestData_LHS[i].x *
+                                (int)Tests.__short4.TestData_LHS[i].y *
+                                (int)Tests.__short4.TestData_LHS[i].z *
+                                (int)Tests.__short4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -465,18 +465,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Short8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__short8.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Short8.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__short8.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.Short8.TestData_LHS[i].x0 *
-                                (int)Tests.Short8.TestData_LHS[i].x1 *
-                                (int)Tests.Short8.TestData_LHS[i].x2 *
-                                (int)Tests.Short8.TestData_LHS[i].x3 *
-                                (int)Tests.Short8.TestData_LHS[i].x4 *
-                                (int)Tests.Short8.TestData_LHS[i].x5 *
-                                (int)Tests.Short8.TestData_LHS[i].x6 *
-                                (int)Tests.Short8.TestData_LHS[i].x7);
+                result &= x == ((int)Tests.__short8.TestData_LHS[i].x0 *
+                                (int)Tests.__short8.TestData_LHS[i].x1 *
+                                (int)Tests.__short8.TestData_LHS[i].x2 *
+                                (int)Tests.__short8.TestData_LHS[i].x3 *
+                                (int)Tests.__short8.TestData_LHS[i].x4 *
+                                (int)Tests.__short8.TestData_LHS[i].x5 *
+                                (int)Tests.__short8.TestData_LHS[i].x6 *
+                                (int)Tests.__short8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -487,26 +487,26 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Short16.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__short16.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Short16.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__short16.TestData_LHS[i]);
 
-                result &= x == ((int)Tests.Short16.TestData_LHS[i].x0 *
-                                (int)Tests.Short16.TestData_LHS[i].x1 *
-                                (int)Tests.Short16.TestData_LHS[i].x2 *
-                                (int)Tests.Short16.TestData_LHS[i].x3 *
-                                (int)Tests.Short16.TestData_LHS[i].x4 *
-                                (int)Tests.Short16.TestData_LHS[i].x5 *
-                                (int)Tests.Short16.TestData_LHS[i].x6 *
-                                (int)Tests.Short16.TestData_LHS[i].x7 *
-                                (int)Tests.Short16.TestData_LHS[i].x8 *
-                                (int)Tests.Short16.TestData_LHS[i].x9 *
-                                (int)Tests.Short16.TestData_LHS[i].x10 *
-                                (int)Tests.Short16.TestData_LHS[i].x11 *
-                                (int)Tests.Short16.TestData_LHS[i].x12 *
-                                (int)Tests.Short16.TestData_LHS[i].x13 *
-                                (int)Tests.Short16.TestData_LHS[i].x14 *
-                                (int)Tests.Short16.TestData_LHS[i].x15);
+                result &= x == ((int)Tests.__short16.TestData_LHS[i].x0 *
+                                (int)Tests.__short16.TestData_LHS[i].x1 *
+                                (int)Tests.__short16.TestData_LHS[i].x2 *
+                                (int)Tests.__short16.TestData_LHS[i].x3 *
+                                (int)Tests.__short16.TestData_LHS[i].x4 *
+                                (int)Tests.__short16.TestData_LHS[i].x5 *
+                                (int)Tests.__short16.TestData_LHS[i].x6 *
+                                (int)Tests.__short16.TestData_LHS[i].x7 *
+                                (int)Tests.__short16.TestData_LHS[i].x8 *
+                                (int)Tests.__short16.TestData_LHS[i].x9 *
+                                (int)Tests.__short16.TestData_LHS[i].x10 *
+                                (int)Tests.__short16.TestData_LHS[i].x11 *
+                                (int)Tests.__short16.TestData_LHS[i].x12 *
+                                (int)Tests.__short16.TestData_LHS[i].x13 *
+                                (int)Tests.__short16.TestData_LHS[i].x14 *
+                                (int)Tests.__short16.TestData_LHS[i].x15);
             }
 
             Assert.AreEqual(true, result);
@@ -518,12 +518,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Int2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__int2.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int2.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__int2.TestData_LHS[i]);
 
-                result &= x == (Tests.Int2.TestData_LHS[i].x *
-                                Tests.Int2.TestData_LHS[i].y);
+                result &= x == (Tests.__int2.TestData_LHS[i].x *
+                                Tests.__int2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -534,13 +534,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Int3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__int3.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int3.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__int3.TestData_LHS[i]);
 
-                result &= x == (Tests.Int3.TestData_LHS[i].x *
-                                Tests.Int3.TestData_LHS[i].y *
-                                Tests.Int3.TestData_LHS[i].z);
+                result &= x == (Tests.__int3.TestData_LHS[i].x *
+                                Tests.__int3.TestData_LHS[i].y *
+                                Tests.__int3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -551,14 +551,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Int4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__int4.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int4.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__int4.TestData_LHS[i]);
 
-                result &= x == (Tests.Int4.TestData_LHS[i].x *
-                                Tests.Int4.TestData_LHS[i].y *
-                                Tests.Int4.TestData_LHS[i].z *
-                                Tests.Int4.TestData_LHS[i].w);
+                result &= x == (Tests.__int4.TestData_LHS[i].x *
+                                Tests.__int4.TestData_LHS[i].y *
+                                Tests.__int4.TestData_LHS[i].z *
+                                Tests.__int4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -569,18 +569,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Int8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__int8.NUM_TESTS; i++)
             {
-                int x = maxmath.cprod(Tests.Int8.TestData_LHS[i]);
+                int x = maxmath.cprod(Tests.__int8.TestData_LHS[i]);
 
-                result &= x == (Tests.Int8.TestData_LHS[i].x0 *
-                                Tests.Int8.TestData_LHS[i].x1 *
-                                Tests.Int8.TestData_LHS[i].x2 *
-                                Tests.Int8.TestData_LHS[i].x3 *
-                                Tests.Int8.TestData_LHS[i].x4 *
-                                Tests.Int8.TestData_LHS[i].x5 *
-                                Tests.Int8.TestData_LHS[i].x6 *
-                                Tests.Int8.TestData_LHS[i].x7);
+                result &= x == (Tests.__int8.TestData_LHS[i].x0 *
+                                Tests.__int8.TestData_LHS[i].x1 *
+                                Tests.__int8.TestData_LHS[i].x2 *
+                                Tests.__int8.TestData_LHS[i].x3 *
+                                Tests.__int8.TestData_LHS[i].x4 *
+                                Tests.__int8.TestData_LHS[i].x5 *
+                                Tests.__int8.TestData_LHS[i].x6 *
+                                Tests.__int8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -592,12 +592,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UInt2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__uint2.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt2.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__uint2.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt2.TestData_LHS[i].x *
-                                Tests.UInt2.TestData_LHS[i].y);
+                result &= x == (Tests.__uint2.TestData_LHS[i].x *
+                                Tests.__uint2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -608,13 +608,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UInt3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__uint3.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt3.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__uint3.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt3.TestData_LHS[i].x *
-                                Tests.UInt3.TestData_LHS[i].y *
-                                Tests.UInt3.TestData_LHS[i].z);
+                result &= x == (Tests.__uint3.TestData_LHS[i].x *
+                                Tests.__uint3.TestData_LHS[i].y *
+                                Tests.__uint3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -625,14 +625,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UInt4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__uint4.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt4.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__uint4.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt4.TestData_LHS[i].x *
-                                Tests.UInt4.TestData_LHS[i].y *
-                                Tests.UInt4.TestData_LHS[i].z *
-                                Tests.UInt4.TestData_LHS[i].w);
+                result &= x == (Tests.__uint4.TestData_LHS[i].x *
+                                Tests.__uint4.TestData_LHS[i].y *
+                                Tests.__uint4.TestData_LHS[i].z *
+                                Tests.__uint4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -643,18 +643,18 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.UInt8.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__uint8.NUM_TESTS; i++)
             {
-                uint x = maxmath.cprod(Tests.UInt8.TestData_LHS[i]);
+                uint x = maxmath.cprod(Tests.__uint8.TestData_LHS[i]);
 
-                result &= x == (Tests.UInt8.TestData_LHS[i].x0 *
-                                Tests.UInt8.TestData_LHS[i].x1 *
-                                Tests.UInt8.TestData_LHS[i].x2 *
-                                Tests.UInt8.TestData_LHS[i].x3 *
-                                Tests.UInt8.TestData_LHS[i].x4 *
-                                Tests.UInt8.TestData_LHS[i].x5 *
-                                Tests.UInt8.TestData_LHS[i].x6 *
-                                Tests.UInt8.TestData_LHS[i].x7);
+                result &= x == (Tests.__uint8.TestData_LHS[i].x0 *
+                                Tests.__uint8.TestData_LHS[i].x1 *
+                                Tests.__uint8.TestData_LHS[i].x2 *
+                                Tests.__uint8.TestData_LHS[i].x3 *
+                                Tests.__uint8.TestData_LHS[i].x4 *
+                                Tests.__uint8.TestData_LHS[i].x5 *
+                                Tests.__uint8.TestData_LHS[i].x6 *
+                                Tests.__uint8.TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);
@@ -666,12 +666,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Long2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__long2.NUM_TESTS; i++)
             {
-                long x = maxmath.cprod(Tests.Long2.TestData_LHS[i]);
+                long x = maxmath.cprod(Tests.__long2.TestData_LHS[i]);
 
-                result &= x == (Tests.Long2.TestData_LHS[i].x *
-                                Tests.Long2.TestData_LHS[i].y);
+                result &= x == (Tests.__long2.TestData_LHS[i].x *
+                                Tests.__long2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -682,13 +682,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Long3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__long3.NUM_TESTS; i++)
             {
-                long x = maxmath.cprod(Tests.Long3.TestData_LHS[i]);
+                long x = maxmath.cprod(Tests.__long3.TestData_LHS[i]);
 
-                result &= x == (Tests.Long3.TestData_LHS[i].x *
-                                Tests.Long3.TestData_LHS[i].y *
-                                Tests.Long3.TestData_LHS[i].z);
+                result &= x == (Tests.__long3.TestData_LHS[i].x *
+                                Tests.__long3.TestData_LHS[i].y *
+                                Tests.__long3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -699,14 +699,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.Long4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__long4.NUM_TESTS; i++)
             {
-                long x = maxmath.cprod(Tests.Long4.TestData_LHS[i]);
+                long x = maxmath.cprod(Tests.__long4.TestData_LHS[i]);
 
-                result &= x == (Tests.Long4.TestData_LHS[i].x *
-                                Tests.Long4.TestData_LHS[i].y *
-                                Tests.Long4.TestData_LHS[i].z *
-                                Tests.Long4.TestData_LHS[i].w);
+                result &= x == (Tests.__long4.TestData_LHS[i].x *
+                                Tests.__long4.TestData_LHS[i].y *
+                                Tests.__long4.TestData_LHS[i].z *
+                                Tests.__long4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -718,12 +718,12 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.ULong2.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ulong2.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cprod(Tests.ULong2.TestData_LHS[i]);
+                ulong x = maxmath.cprod(Tests.__ulong2.TestData_LHS[i]);
 
-                result &= x == (Tests.ULong2.TestData_LHS[i].x *
-                                Tests.ULong2.TestData_LHS[i].y);
+                result &= x == (Tests.__ulong2.TestData_LHS[i].x *
+                                Tests.__ulong2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -734,13 +734,13 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.ULong3.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ulong3.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cprod(Tests.ULong3.TestData_LHS[i]);
+                ulong x = maxmath.cprod(Tests.__ulong3.TestData_LHS[i]);
 
-                result &= x == (Tests.ULong3.TestData_LHS[i].x *
-                                Tests.ULong3.TestData_LHS[i].y *
-                                Tests.ULong3.TestData_LHS[i].z);
+                result &= x == (Tests.__ulong3.TestData_LHS[i].x *
+                                Tests.__ulong3.TestData_LHS[i].y *
+                                Tests.__ulong3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -751,14 +751,14 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            for (int i = 0; i < Tests.ULong4.NUM_TESTS; i++)
+            for (int i = 0; i < Tests.__ulong4.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cprod(Tests.ULong4.TestData_LHS[i]);
+                ulong x = maxmath.cprod(Tests.__ulong4.TestData_LHS[i]);
 
-                result &= x == (Tests.ULong4.TestData_LHS[i].x *
-                                Tests.ULong4.TestData_LHS[i].y *
-                                Tests.ULong4.TestData_LHS[i].z *
-                                Tests.ULong4.TestData_LHS[i].w);
+                result &= x == (Tests.__ulong4.TestData_LHS[i].x *
+                                Tests.__ulong4.TestData_LHS[i].y *
+                                Tests.__ulong4.TestData_LHS[i].z *
+                                Tests.__ulong4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);

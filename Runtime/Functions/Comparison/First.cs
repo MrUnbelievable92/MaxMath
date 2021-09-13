@@ -10,7 +10,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the first true bool value of a bool2 vector or 4 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool2"/> or 4 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)] 
         public static int first(bool2 x)
         {
@@ -20,7 +20,7 @@ Assert.IsSafeBoolean(x.y);
             return (int)((uint)math.tzcnt((uint)*(ushort*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the first true bool value of a bool3 vector or 4 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool3"/> or 4 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)] 
         public static int first(bool3 x)
         {
@@ -28,10 +28,13 @@ Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return (int)((uint)math.tzcnt(0x00FF_FFFF & *(uint*)&x) / 8);
+            int toInt = *(byte*)&x.z << 16;
+            *(ushort*)&toInt = *(ushort*)&x;
+
+            return (int)((uint)math.tzcnt(toInt) / 8);
         }
 
-        /// <summary>       Returns the index of the first true bool value of a bool4 vector or 4 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool4"/> or 4 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 4)] 
         public static int first(bool4 x)
         {
@@ -43,7 +46,7 @@ Assert.IsSafeBoolean(x.w);
             return (int)((uint)math.tzcnt(*(int*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the first true bool value of a bool8 vector or 8 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool8"/> or 8 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)] 
         public static int first(bool8 x)
         {
@@ -66,7 +69,7 @@ Assert.IsSafeBoolean(x.x7);
             }
         }
 
-        /// <summary>       Returns the index of the first true bool value of a bool16 vector or 32 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool16"/> or 32 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 32)]
         public static int first(bool16 x)
         {
@@ -108,7 +111,7 @@ Assert.IsSafeBoolean(x.x15);
             }
         }
 
-        /// <summary>       Returns the index of the first true bool value of a bool32 vector or 32 if none are true.       </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool32"/> or 32 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 32)]
         public static int first(bool32 x)
         {

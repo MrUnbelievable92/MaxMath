@@ -9,7 +9,29 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns number of trailing zeros in the binary representations of a byte value.     </summary>
+        /// <summary>       Returns number of trailing zeros in the binary representation of a <see cref="UInt128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0L, 128L)]
+        public static int tzcnt(UInt128 x)
+        {
+            if (x.lo == 0)
+            {
+                return 64 + math.tzcnt(x.hi); 
+            }
+            else
+            {
+                return math.tzcnt(x.lo);
+            }
+        }
+
+        /// <summary>       Returns number of trailing zeros in the binary representation of an <see cref="Int128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0L, 128L)]
+        public static int tzcnt(Int128 x)
+        {
+            return tzcnt(x.intern);
+        }
+
+
+        /// <summary>       Returns number of trailing zeros in the binary representation of a <see cref="byte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 8ul)]
         public static byte tzcnt(byte x)
         {
@@ -18,7 +40,7 @@ namespace MaxMath
             return (x == 0) ? (byte)8 : (byte)math.tzcnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tzcnt(byte2 x)
         {
@@ -35,12 +57,11 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte2)(-(sbyte2)x);
 
-                byte2 first  = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
-                byte2 second = Mask.BlendV(default(v128), new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
-                byte2 third  = Mask.BlendV(default(v128), new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
-                byte2 fourth = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
+                byte2 second = Sse2.and_si128(new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
+                byte2 third  = Sse2.and_si128(new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
+                byte2 fourth = Sse2.and_si128(new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
                 
-                return (first + second) + (third + fourth);
+                return ((second + third) + fourth) - Sse2.cmpeq_epi8(compareMask, default(v128));
             }
             else
             {
@@ -48,7 +69,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 tzcnt(byte3 x)
         {
@@ -65,12 +86,11 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte3)(-(sbyte3)x);
 
-                byte3 first  = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
-                byte3 second = Mask.BlendV(default(v128), new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
-                byte3 third  = Mask.BlendV(default(v128), new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
-                byte3 fourth = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
-
-                return (first + second) + (third + fourth);
+                byte3 second = Sse2.and_si128(new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
+                byte3 third  = Sse2.and_si128(new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
+                byte3 fourth = Sse2.and_si128(new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
+                
+                return ((second + third) + fourth) - Sse2.cmpeq_epi8(compareMask, default(v128));
             }
             else
             {
@@ -78,7 +98,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 tzcnt(byte4 x)
         {
@@ -95,12 +115,11 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte4)(-(sbyte4)x);
 
-                byte4 first  = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
-                byte4 second = Mask.BlendV(default(v128), new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
-                byte4 third  = Mask.BlendV(default(v128), new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
-                byte4 fourth = Mask.BlendV(default(v128), new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
+                byte4 second = Sse2.and_si128(new byte4(4), Sse2.cmpeq_epi8(compareMask & (byte4)0x0F, default(v128)));
+                byte4 third  = Sse2.and_si128(new byte4(2), Sse2.cmpeq_epi8(compareMask & (byte4)0x33, default(v128)));
+                byte4 fourth = Sse2.and_si128(new byte4(1), Sse2.cmpeq_epi8(compareMask & (byte4)0x55, default(v128)));
                 
-                return (first + second) + (third + fourth);
+                return ((second + third) + fourth) - Sse2.cmpeq_epi8(compareMask, default(v128));
             }
             else
             {
@@ -108,7 +127,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tzcnt(byte8 x)
         {
@@ -125,12 +144,11 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte8)(-(sbyte8)x);
 
-                byte8 first  = Mask.BlendV(default(v128), new byte8(1), Sse2.cmpeq_epi8(compareMask,               default(v128)));
-                byte8 second = Mask.BlendV(default(v128), new byte8(4), Sse2.cmpeq_epi8(compareMask & (byte8)0x0F, default(v128)));
-                byte8 third  = Mask.BlendV(default(v128), new byte8(2), Sse2.cmpeq_epi8(compareMask & (byte8)0x33, default(v128)));
-                byte8 fourth = Mask.BlendV(default(v128), new byte8(1), Sse2.cmpeq_epi8(compareMask & (byte8)0x55, default(v128)));
+                byte8 second = Sse2.and_si128(new byte8(4), Sse2.cmpeq_epi8(compareMask & (byte8)0x0F, default(v128)));
+                byte8 third  = Sse2.and_si128(new byte8(2), Sse2.cmpeq_epi8(compareMask & (byte8)0x33, default(v128)));
+                byte8 fourth = Sse2.and_si128(new byte8(1), Sse2.cmpeq_epi8(compareMask & (byte8)0x55, default(v128)));
                 
-                return (first + second) + (third + fourth);
+                return ((second + third) + fourth) - Sse2.cmpeq_epi8(compareMask, default(v128));
             }
             else
             {
@@ -138,7 +156,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tzcnt(byte16 x)
         {
@@ -155,12 +173,11 @@ namespace MaxMath
             {
                 v128 compareMask = x & (byte16)(-(sbyte16)x);
             
-                byte16 first  = Mask.BlendV(default(v128), new byte16(1), Sse2.cmpeq_epi8(compareMask,                default(v128)));
-                byte16 second = Mask.BlendV(default(v128), new byte16(4), Sse2.cmpeq_epi8(compareMask & (byte16)0x0F, default(v128)));
-                byte16 third  = Mask.BlendV(default(v128), new byte16(2), Sse2.cmpeq_epi8(compareMask & (byte16)0x33, default(v128)));
-                byte16 fourth = Mask.BlendV(default(v128), new byte16(1), Sse2.cmpeq_epi8(compareMask & (byte16)0x55, default(v128)));
+                byte16 second = Sse2.and_si128(new byte16(4), Sse2.cmpeq_epi8(compareMask & (byte16)0x0F, default(v128)));
+                byte16 third  = Sse2.and_si128(new byte16(2), Sse2.cmpeq_epi8(compareMask & (byte16)0x33, default(v128)));
+                byte16 fourth = Sse2.and_si128(new byte16(1), Sse2.cmpeq_epi8(compareMask & (byte16)0x55, default(v128)));
                 
-                return (first + second) + (third + fourth);
+                return ((second + third) + fourth) - Sse2.cmpeq_epi8(compareMask, default(v128));
             }
             else
             {
@@ -168,7 +185,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a byte32 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 tzcnt(byte32 x)
         {
@@ -190,49 +207,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of trailing zeros in the binary representations of an sbyte value.     </summary>
+        /// <summary>       Returns number of trailing zeros in the binary representation of an <see cref="sbyte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 8)]
         public static sbyte tzcnt(sbyte x)
         {
             return (sbyte)tzcnt((byte)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 tzcnt(sbyte2 x)
         {
             return (sbyte2)tzcnt((byte2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 tzcnt(sbyte3 x)
         {
             return (sbyte3)tzcnt((byte3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 tzcnt(sbyte4 x)
         {
             return (sbyte4)tzcnt((byte4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 tzcnt(sbyte8 x)
         {
             return (sbyte8)tzcnt((byte8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tzcnt(sbyte16 x)
         {
             return (sbyte16)tzcnt((byte16)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an sbyte32 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 tzcnt(sbyte32 x)
         {
@@ -240,7 +257,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of trailing zeros in the binary representations of a ushort value.     </summary>
+        /// <summary>       Returns number of trailing zeros in the binary representation of a <see cref="ushort"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0ul, 16ul)]
         public static ushort tzcnt(ushort x)
         {
@@ -249,7 +266,7 @@ namespace MaxMath
             return (x == 0) ? (ushort)16 : (ushort)math.tzcnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ushort2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 tzcnt(ushort2 x)
         {
@@ -269,13 +286,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (ushort2)(-((short2)x));
 
-                ushort2 first  = Mask.BlendV(default(v128), new ushort2(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
-                ushort2 second = Mask.BlendV(default(v128), new ushort2(8), Sse2.cmpeq_epi16(compareMask & (ushort2)0x00FF, default(v128)));
-                ushort2 third  = Mask.BlendV(default(v128), new ushort2(4), Sse2.cmpeq_epi16(compareMask & (ushort2)0x0F0F, default(v128)));
-                ushort2 fourth = Mask.BlendV(default(v128), new ushort2(2), Sse2.cmpeq_epi16(compareMask & (ushort2)0x3333, default(v128)));
-                ushort2 fifth  = Mask.BlendV(default(v128), new ushort2(1), Sse2.cmpeq_epi16(compareMask & (ushort2)0x5555, default(v128)));
-
-                return (first + second) + ((third + fourth) + fifth);
+                ushort2 second = Sse2.and_si128(new ushort2(8),  Sse2.cmpeq_epi16(compareMask & (ushort2)0x00FF, default(v128)));
+                ushort2 third  = Sse2.and_si128(new ushort2(4),  Sse2.cmpeq_epi16(compareMask & (ushort2)0x0F0F, default(v128)));
+                ushort2 fourth = Sse2.and_si128(new ushort2(2),  Sse2.cmpeq_epi16(compareMask & (ushort2)0x3333, default(v128)));
+                ushort2 fifth  = Sse2.and_si128(new ushort2(1),  Sse2.cmpeq_epi16(compareMask & (ushort2)0x5555, default(v128)));
+                
+                return ((second + third) + (fourth + fifth)) - Sse2.cmpeq_epi16(compareMask, default(v128));
             }
             else
             {
@@ -283,7 +299,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ushort3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 tzcnt(ushort3 x)
         {
@@ -303,13 +319,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (ushort3)(-((short3)x));
 
-                ushort3 first  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
-                ushort3 second = Mask.BlendV(default(v128), new ushort4(8), Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
-                ushort3 third  = Mask.BlendV(default(v128), new ushort4(4), Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
-                ushort3 fourth = Mask.BlendV(default(v128), new ushort4(2), Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
-                ushort3 fifth  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
-
-                return (first + second) + ((third + fourth) + fifth);
+                ushort3 second = Sse2.and_si128(new ushort4(8),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
+                ushort3 third  = Sse2.and_si128(new ushort4(4),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
+                ushort3 fourth = Sse2.and_si128(new ushort4(2),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
+                ushort3 fifth  = Sse2.and_si128(new ushort4(1),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
+                
+                return ((second + third) + (fourth + fifth)) - Sse2.cmpeq_epi16(compareMask, default(v128));
             }
             else
             {
@@ -317,7 +332,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ushort4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 tzcnt(ushort4 x)
         {
@@ -337,13 +352,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (ushort4)(-((short4)x));
 
-                ushort4 first  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
-                ushort4 second = Mask.BlendV(default(v128), new ushort4(8), Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
-                ushort4 third  = Mask.BlendV(default(v128), new ushort4(4), Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
-                ushort4 fourth = Mask.BlendV(default(v128), new ushort4(2), Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
-                ushort4 fifth  = Mask.BlendV(default(v128), new ushort4(1), Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
-
-                return (first + second) + ((third + fourth) + fifth);
+                ushort4 second = Sse2.and_si128(new ushort4(8),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x00FF, default(v128)));
+                ushort4 third  = Sse2.and_si128(new ushort4(4),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x0F0F, default(v128)));
+                ushort4 fourth = Sse2.and_si128(new ushort4(2),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x3333, default(v128)));
+                ushort4 fifth  = Sse2.and_si128(new ushort4(1),  Sse2.cmpeq_epi16(compareMask & (ushort4)0x5555, default(v128)));
+                
+                return ((second + third) + (fourth + fifth)) - Sse2.cmpeq_epi16(compareMask, default(v128));
             }
             else
             {
@@ -351,7 +365,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ushort8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 tzcnt(ushort8 x)
         {
@@ -371,13 +385,12 @@ namespace MaxMath
             {
                 v128 compareMask = x & (ushort8)(-((short8)x));
             
-                ushort8 first  = Mask.BlendV(default(v128), new ushort8(1), Sse2.cmpeq_epi16(compareMask,                   default(v128)));
-                ushort8 second = Mask.BlendV(default(v128), new ushort8(8), Sse2.cmpeq_epi16(compareMask & (ushort8)0x00FF, default(v128)));
-                ushort8 third  = Mask.BlendV(default(v128), new ushort8(4), Sse2.cmpeq_epi16(compareMask & (ushort8)0x0F0F, default(v128)));
-                ushort8 fourth = Mask.BlendV(default(v128), new ushort8(2), Sse2.cmpeq_epi16(compareMask & (ushort8)0x3333, default(v128)));
-                ushort8 fifth  = Mask.BlendV(default(v128), new ushort8(1), Sse2.cmpeq_epi16(compareMask & (ushort8)0x5555, default(v128)));
+                ushort8 second = Sse2.and_si128(new ushort8(8),  Sse2.cmpeq_epi16(compareMask & (ushort8)0x00FF, default(v128)));
+                ushort8 third  = Sse2.and_si128(new ushort8(4),  Sse2.cmpeq_epi16(compareMask & (ushort8)0x0F0F, default(v128)));
+                ushort8 fourth = Sse2.and_si128(new ushort8(2),  Sse2.cmpeq_epi16(compareMask & (ushort8)0x3333, default(v128)));
+                ushort8 fifth  = Sse2.and_si128(new ushort8(1),  Sse2.cmpeq_epi16(compareMask & (ushort8)0x5555, default(v128)));
             
-                return (first + second) + ((third + fourth) + fifth);
+                return ((second + third) + (fourth + fifth)) - Sse2.cmpeq_epi16(compareMask, default(v128));
             }
             else
             {
@@ -385,7 +398,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ushort16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 tzcnt(ushort16 x)
         {
@@ -410,42 +423,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns number of trailing zeros in the binary representations of a short value.     </summary>
+        /// <summary>       Returns number of trailing zeros in the binary representation of a <see cref="short"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, 16)]
         public static short tzcnt(short x)
         {
             return (short)tzcnt((ushort)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a short2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 tzcnt(short2 x)
         {
             return (short2)tzcnt((ushort2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a short3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 tzcnt(short3 x)
         {
             return (short3)tzcnt((ushort3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a short4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 tzcnt(short4 x)
         {
             return (short4)tzcnt((ushort4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a short8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 tzcnt(short8 x)
         {
             return (short8)tzcnt((ushort8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a short16 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 tzcnt(short16 x)
         {
@@ -453,7 +466,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a uint8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 tzcnt(uint8 x)
         {
@@ -489,7 +502,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an int8 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tzcnt(int8 x)
         {
@@ -497,34 +510,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ulong2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 tzcnt(ulong2 x)
         {
             return new ulong2((ulong)math.tzcnt(x.x), (ulong)math.tzcnt(x.y));
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ulong3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 tzcnt(ulong3 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                ulong4 isZero = Avx2.mm256_cmpeq_epi64(x, default(v256));
+                v256 ZERO = Avx.mm256_setzero_si256();
 
-                x &= Avx2.mm256_sub_epi64(default(v256), x);
+                v256 isZero = Avx2.mm256_cmpeq_epi64(x, ZERO);
+                x = Avx2.mm256_and_si256(x, Avx2.mm256_sub_epi64(ZERO, x));
 
-                ulong3 y = x & 0x0000_0000_FFFF_FFFF;
-                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+                v256 y = Avx2.mm256_blend_epi32(ZERO, x, 0b0101_0101);
+                v256 cmp = Avx2.mm256_cmpeq_epi64(y, ZERO);
 
-                ulong4 bits = Avx2.mm256_blendv_epi8(y, x >> 32, cmp);
-                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x03FF, (ulong4)0x03DF, cmp);
+                v256 bits = Avx2.mm256_blendv_epi8(y, Avx2.mm256_srli_epi64(x, 32), cmp);
+                v256 offset = Avx2.mm256_blendv_epi8(new v256(0x03FFul), new v256(0x03DFul), cmp);
 
-                bits += 0x4330_0000_0000_0000ul;
+                bits = Avx2.mm256_add_epi64(bits, new v256(0x4330_0000_0000_0000ul));
                 bits = Avx.mm256_sub_pd(bits, new v256(4_503_599_627_370_496d));
-                bits = (bits >> 52) - offset;
+                bits = Avx2.mm256_sub_epi64(Avx2.mm256_srli_epi64(bits, 52), offset);
 
-                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), isZero);
+                return Avx2.mm256_blendv_epi8(bits, new v256(64ul), isZero);
             }
             else
             {
@@ -532,27 +546,28 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a ulong4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 tzcnt(ulong4 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                ulong4 isZero = Avx2.mm256_cmpeq_epi64(x, default(v256));
+                v256 ZERO = Avx.mm256_setzero_si256();
 
-                x &= Avx2.mm256_sub_epi64(default(v256), x);
+                v256 isZero = Avx2.mm256_cmpeq_epi64(x, ZERO);
+                x = Avx2.mm256_and_si256(x, Avx2.mm256_sub_epi64(ZERO, x));
 
-                ulong4 y = x & 0x0000_0000_FFFF_FFFF;
-                ulong4 cmp = Avx2.mm256_cmpeq_epi64(y, default(v256));
+                v256 y = Avx2.mm256_blend_epi32(ZERO, x, 0b0101_0101);
+                v256 cmp = Avx2.mm256_cmpeq_epi64(y, ZERO);
 
-                ulong4 bits = Avx2.mm256_blendv_epi8(y, x >> 32, cmp);
-                ulong4 offset = Avx2.mm256_blendv_epi8((ulong4)0x03FF, (ulong4)0x03DF, cmp);
+                v256 bits = Avx2.mm256_blendv_epi8(y, Avx2.mm256_srli_epi64(x, 32), cmp);
+                v256 offset = Avx2.mm256_blendv_epi8(new v256(0x03FFul), new v256(0x03DFul), cmp);
 
-                bits += 0x4330_0000_0000_0000ul;
+                bits = Avx2.mm256_add_epi64(bits, new v256(0x4330_0000_0000_0000ul));
                 bits = Avx.mm256_sub_pd(bits, new v256(4_503_599_627_370_496d));
-                bits = (bits >> 52) - offset;
+                bits = Avx2.mm256_sub_epi64(Avx2.mm256_srli_epi64(bits, 52), offset);
 
-                return Avx2.mm256_blendv_epi8(bits, new ulong4(64), isZero);
+                return bits;
             }
             else
             {
@@ -561,21 +576,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a long2 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tzcnt(long2 x)
         {
             return (long2)tzcnt((ulong2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a long3 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 tzcnt(long3 x)
         {
             return (long3)tzcnt((ulong3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a long4 vector.     </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 tzcnt(long4 x)
         {

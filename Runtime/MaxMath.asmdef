@@ -1,13 +1,18 @@
 {
     "name": "MaxMath",
-    "references": 
-    [
-        "GUID:d8b63aba1907145bea998dd612889d6b",
-        "GUID:2665a8d13d1b3f18800f46e256720795",
-        "GUID:5f0d5301796ca554f8a61b8e3dcaacd2"
+    "rootNamespace": "",
+    "references": [
+        "Unity.Mathematics",
+        "Unity.Burst",
+        "CSharpDevTools"
     ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
     "allowUnsafeCode": true,
     "overrideReferences": false,
+    "precompiledReferences": [],
     "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
     "noEngineReferences": false
 }

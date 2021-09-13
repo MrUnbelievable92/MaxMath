@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Byte3
+    unsafe public static class __byte3
     {
         internal const int NUM_TESTS = 4;
 
@@ -47,7 +47,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_Byte_Byte_Byte()
+        public static void Constructor___byte___byte_Byte()
         {
             byte3 x = new byte3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z);
 
@@ -67,7 +67,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte()
+        public static void Constructor___byte2_Byte()
         {
             byte3 x = new byte3(new byte2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z);
 
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte_Byte2()
+        public static void Constructor___byte_Byte2()
         {
             byte3 x = new byte3(TestData_LHS[0].x, new byte2(TestData_LHS[0].y, TestData_LHS[0].z));
 
@@ -127,6 +127,39 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = 0; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] * (byte)i, new byte3((byte)(TestData_LHS[0].x * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z * (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] / (byte)i, new byte3((byte)(TestData_LHS[0].x / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z / (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] % (byte)i, new byte3((byte)(TestData_LHS[0].x % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z % (byte)i)));
+            }
         }
 
         [Test]

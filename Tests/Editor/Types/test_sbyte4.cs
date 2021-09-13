@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class SByte4
+    unsafe public static class __sbyte4
     {
         internal const int NUM_TESTS = 4;
 
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_SByte_SByte_SByte_SByte()
+        public static void Constructor___sbyte___sbyte___sbyte_SByte()
         {
             sbyte4 x = new sbyte4(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte2_SByte_SByte()
+        public static void Constructor___sbyte2___sbyte_SByte()
         {
             sbyte4 x = new sbyte4(new sbyte2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte_SByte2_SByte()
+        public static void Constructor___sbyte___sbyte2_SByte()
         {
             sbyte4 x = new sbyte4(TestData_LHS[0].x, new sbyte2(TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte_SByte_SByte2()
+        public static void Constructor___sbyte___sbyte_SByte2()
         {
             sbyte4 x = new sbyte4(TestData_LHS[0].x, TestData_LHS[0].y, new sbyte2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte2_SByte2()
+        public static void Constructor___sbyte2_SByte2()
         {
             sbyte4 x = new sbyte4(new sbyte2(TestData_LHS[0].x, TestData_LHS[0].y), new sbyte2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte3_SByte()
+        public static void Constructor___sbyte3_SByte()
         {
             sbyte4 x = new sbyte4(new sbyte3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_SByte_SByte3()
+        public static void Constructor___sbyte_SByte3()
         {
             sbyte4 x = new sbyte4(TestData_LHS[0].x, new sbyte3(TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -186,6 +186,57 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] * (sbyte)i, new sbyte4((sbyte)(TestData_LHS[0].x * (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].y * (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].z * (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].w * (sbyte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] / (sbyte)i, new sbyte4((sbyte)(TestData_LHS[0].x / (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].y / (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].z / (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].w / (sbyte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Assert.AreEqual(TestData_LHS[0] % (sbyte)i, new sbyte4((sbyte)(TestData_LHS[0].x % (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].y % (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].z % (sbyte)i), 
+                                                                     (sbyte)(TestData_LHS[0].w % (sbyte)i)));
+            }
         }
 
         [Test]

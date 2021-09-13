@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Long4
+    unsafe public static class __long4
     {
         internal const int NUM_TESTS = 4;
 
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_Long_Long_Long_Long()
+        public static void Constructor___long___long___long_Long()
         {
             long4 x = new long4(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long2_Long_Long()
+        public static void Constructor___long2___long_Long()
         {
             long4 x = new long4(new long2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long_Long2_Long()
+        public static void Constructor___long___long2_Long()
         {
             long4 x = new long4(TestData_LHS[0].x, new long2(TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long_Long_Long2()
+        public static void Constructor___long___long_Long2()
         {
             long4 x = new long4(TestData_LHS[0].x, TestData_LHS[0].y, new long2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long2_Long2()
+        public static void Constructor___long2_Long2()
         {
             long4 x = new long4(new long2(TestData_LHS[0].x, TestData_LHS[0].y), new long2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long3_Long()
+        public static void Constructor___long3_Long()
         {
             long4 x = new long4(new long3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Long_Long3()
+        public static void Constructor___long_Long3()
         {
             long4 x = new long4(TestData_LHS[0].x, new long3(TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w));
 

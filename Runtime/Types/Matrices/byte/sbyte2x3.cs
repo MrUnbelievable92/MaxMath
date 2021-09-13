@@ -202,7 +202,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
 #if DEBUG
                     sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
@@ -230,7 +230,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
 #if DEBUG
                     sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),

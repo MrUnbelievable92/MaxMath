@@ -480,22 +480,8 @@ namespace MaxMath
         #endregion
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-        public static implicit operator v128(short2 input)
-        {
-            if (Sse4_1.IsSse41Supported)
-            {
-                return Sse4_1.insert_epi32(default(v128), *(int*)&input, 0);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Sse2.set_epi32(0, 0, 0, *(int*)&input);
-            }
-            else
-            {
-                return new v128(*(int*)&input, 0, 0, 0);
-            }
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator v128(short2 input) => new v128(*(int*)&input, 0, 0, 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short2(v128 input) { int x = input.SInt0; return *(short2*)&x; }
@@ -522,7 +508,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Cast.Int2ToShort2(*(v128*)&input);
+                return Cast.Int2ToShort2(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -535,7 +521,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Cast.Int2ToShort2(*(v128*)&input);
+                return Cast.Int2ToShort2(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -910,7 +896,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi16(left, right));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -923,7 +911,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpgt_epi16(right, left));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpgt_epi16(right, left));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -936,7 +926,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpgt_epi16(left, right));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpgt_epi16(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -950,7 +942,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpeq_epi16(left, right));
+                v128 cvt = ConvertToBool.IsFalse16(Sse2.cmpeq_epi16(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -963,7 +957,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpgt_epi16(left, right));
+                v128 cvt = ConvertToBool.IsFalse16(Sse2.cmpgt_epi16(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -976,33 +972,14 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpgt_epi16(right, left));
+                v128 cvt = ConvertToBool.IsFalse16(Sse2.cmpgt_epi16(right, left));
+
+                return *(bool2*)&cvt;
             }
             else
             {
                 return new bool2(left.x >= right.x, left.y >= right.y);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool2 TestIsTrue(v128 input)
-        {
-            input = (v128)((byte8)(-(short8)input));
-
-            return *(bool2*)&input;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool2 TestIsFalse(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                input = Sse2.andnot_si128((byte2)(ushort2)input, new ushort2(0x0101));
-
-                return *(bool2*)&input;
-            }
-            else throw new CPUFeatureCheckException();
         }
     
     
@@ -1025,9 +1002,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Sse4_1.extract_epi32(this, 0);
+                return Sse2.cvtsi128_si32(this);
             }
             else
             {

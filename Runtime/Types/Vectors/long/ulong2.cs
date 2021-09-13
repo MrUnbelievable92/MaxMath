@@ -610,7 +610,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Cast.UIntToLong(*(v128*)&input);
+                return Cast.UIntToLong(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -623,7 +623,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Cast.IntToLong(*(v128*)&input);
+                return Cast.IntToLong(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -882,7 +882,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.equals_mask_long(left, right));
+                int cvt = ConvertToBool.IsTrue64(Operator.equals_mask_long(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -895,7 +897,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ulong(right, left));
+                int cvt = ConvertToBool.IsTrue64(Operator.greater_mask_ulong(right, left));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -908,7 +912,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ulong(left, right));
+                int cvt = ConvertToBool.IsTrue64(Operator.greater_mask_ulong(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -922,7 +928,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Operator.equals_mask_long(left, right));
+                int cvt = ConvertToBool.IsFalse64(Operator.equals_mask_long(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -935,7 +943,9 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ulong(left, right));
+                int cvt = ConvertToBool.IsFalse64(Operator.greater_mask_ulong(left, right));
+
+                return *(bool2*)&cvt;
             }
             else
             {
@@ -948,37 +958,14 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ulong(right, left));
+                int cvt = ConvertToBool.IsFalse64(Operator.greater_mask_ulong(right, left));
+
+                return *(bool2*)&cvt;
             }
             else
             {
                 return new bool2(left.x >= right.x, left.y >= right.y);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool2 TestIsTrue(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                int cast = 0x0101 & Sse2.movemask_epi8(input);
-
-                return *(bool2*)&cast;
-            }
-            else throw new CPUFeatureCheckException();
-        }
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool2 TestIsFalse(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                int result = maxmath.andnot(0x0101, Sse2.movemask_epi8(input));
-
-                return *(bool2*)&result;
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

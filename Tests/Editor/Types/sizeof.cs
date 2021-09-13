@@ -3,11 +3,14 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class types
+    unsafe public static class SizeOf
     {
         [Test]
-        public static void SizeOf()
+        public static void Size()
         {
+            Assert.AreEqual(128 / 8, sizeof(UInt128));
+            Assert.AreEqual(128 / 8, sizeof(Int128));
+
             Assert.AreEqual(2  * sizeof(byte), sizeof(byte2));
             Assert.AreEqual(3  * sizeof(byte), sizeof(byte3));
             Assert.AreEqual(4  * sizeof(byte), sizeof(byte4));
@@ -128,7 +131,8 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 4 * sizeof(long), sizeof(long4x4));
 
 
-
+            
+            Assert.AreEqual(sizeof(quarter), sizeof(byte));
             Assert.AreEqual(2  * sizeof(quarter), sizeof(quarter2));
             Assert.AreEqual(3  * sizeof(quarter), sizeof(quarter3));
             Assert.AreEqual(4  * sizeof(quarter), sizeof(quarter4));

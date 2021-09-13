@@ -208,7 +208,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
 #if DEBUG
                     short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
@@ -229,7 +229,7 @@ Assert.IsWithinArrayBounds(index, 3);
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     v128 divisor = (short4)right;
                     short4 lo = new short4(left.c0, left.c1) / divisor;
@@ -246,28 +246,19 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
-#if DEBUG
                     short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                        Sse2.unpacklo_epi32(left.c2, new short2(1)));
+                                                        Sse2.unpacklo_epi32(left.c2, Sse2.cmpeq_epi32(default(v128), default(v128))));
 
                     short8 div = packed % right;
 
                     return new short2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                    short8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                        left.c2);
-
-                    short8 div = packed % right;
-
-                    return new short2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
                 }
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     v128 divisor = (short4)right;
                     short4 lo = new short4(left.c0, left.c1) % divisor;

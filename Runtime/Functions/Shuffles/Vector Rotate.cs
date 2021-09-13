@@ -8,14 +8,14 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the result of rotating the components within a byte2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vror(byte2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vror(byte3 x, int n)
         {
@@ -28,7 +28,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 vror(byte4 x, int n)
         {
@@ -42,7 +42,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte8"/> right by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vror(byte8 x, int n)
         {
@@ -60,7 +60,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte16 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte16"/> right by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vror(byte16 x, int n)
         {
@@ -86,7 +86,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte32 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 vror(byte32 x, int n)
         {
@@ -129,42 +129,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an sbyte2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vror(sbyte2 x, int n)
         {
             return (sbyte2)vror((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vror(sbyte3 x, int n)
         {
             return (sbyte3)vror((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vror(sbyte4 x, int n)
         {
             return (sbyte4)vror((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vror(sbyte8 x, int n)
         {
             return (sbyte8)vror((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte16 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vror(sbyte16 x, int n)
         {
             return (sbyte16)vror((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte32 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vror(sbyte32 x, int n)
         {
@@ -172,14 +172,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a short2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vror(short2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a short3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vror(short3 x, int n)
         {
@@ -192,7 +192,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 vror(short4 x, int n)
         {
@@ -206,7 +206,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short8"/> right by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vror(short8 x, int n)
         {
@@ -224,7 +224,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short16 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 vror(short16 x, int n)
         {
@@ -250,35 +250,35 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vror(ushort2 x, int n)
         {
             return (ushort2)vror((short2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vror(ushort3 x, int n)
         {
             return (ushort3)vror((short3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vror(ushort4 x, int n)
         {
             return (ushort4)vror((short4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vror(ushort8 x, int n)
         {
             return (ushort8)vror((short8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort16 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vror(ushort16 x, int n)
         {
@@ -286,14 +286,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an int2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vror(int2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within an int3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vror(int3 x, int n)
         {
@@ -306,7 +306,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an int4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 vror(int4 x, int n)
         {
@@ -320,7 +320,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an int8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int8"/> right by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vror(int8 x, int n)
         {
@@ -339,14 +339,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a uint2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vror(uint2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vror(uint3 x, int n)
         {
@@ -359,7 +359,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vror(uint4 x, int n)
         {
@@ -373,7 +373,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vror(uint8 x, int n)
         {
@@ -381,14 +381,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a long2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vror(long2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a long3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vror(long3 x, int n)
         {
@@ -401,7 +401,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a long4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 vror(long4 x, int n)
         {
@@ -416,21 +416,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a ulong2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vror(ulong2 x, int n)
         {
             return (ulong2)vror((long2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ulong3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vror(ulong3 x, int n)
         {
             return (ulong3)vror((long3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ulong4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vror(ulong4 x, int n)
         {
@@ -438,21 +438,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a quarter2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vror(quarter2 x, int n)
         {
-            if (n % 2 != 0)
-            {
-                return x.yx;
-            }
-            else
-            {
-                return x;
-            }
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vror(quarter3 x, int n)
         {
@@ -465,7 +458,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 vror(quarter4 x, int n)
         {
@@ -479,7 +472,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vror(quarter8 x, int n)
         {
@@ -487,21 +480,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a half2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vror(half2 x, int n)
         {
-            if (n % 2 != 0)
-            {
-                return x.yx;
-            }
-            else
-            {
-                return x;
-            }
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a half3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vror(half3 x, int n)
         {
@@ -514,7 +500,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a half4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vror(half4 x, int n)
         {
@@ -528,7 +514,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a half8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vror(half8 x, int n)
         {
@@ -536,14 +522,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a float2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vror(float2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a float3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vror(float3 x, int n)
         {
@@ -556,7 +542,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a float4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vror(float4 x, int n)
         {
@@ -570,7 +556,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a float8 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float8"/> right by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vror(float8 x, int n)
         {
@@ -589,14 +575,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a double2 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vror(double2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a double3 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vror(double3 x, int n)
         {
@@ -609,7 +595,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a double4 vector right by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vror(double4 x, int n)
         {
@@ -624,14 +610,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a byte2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vrol(byte2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vrol(byte3 x, int n)
         {
@@ -644,7 +630,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 vrol(byte4 x, int n)
         {
@@ -658,7 +644,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte8"/> left by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vrol(byte8 x, int n)
         {
@@ -682,11 +668,11 @@ namespace MaxMath
                 switch (n % 8)
                 {
                     case 1: return Mask.BlendV(Sse2.bsrli_si128(x, 7 * sizeof(byte)), Sse2.bslli_si128(x, 1 * sizeof(byte)), new byte8(0, 255, 255, 255, 255, 255, 255, 255));
-                    case 2: return Mask.BlendV(Sse2.bsrli_si128(x, 6 * sizeof(byte)), Sse2.bslli_si128(x, 2 * sizeof(byte)), new byte8(0,   0, 255, 255, 255, 255, 255, 255));
+                    case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
                     case 3: return Mask.BlendV(Sse2.bsrli_si128(x, 5 * sizeof(byte)), Sse2.bslli_si128(x, 3 * sizeof(byte)), new byte8(0,   0,   0, 255, 255, 255, 255, 255));
-                    case 4: return Mask.BlendV(Sse2.bsrli_si128(x, 4 * sizeof(byte)), Sse2.bslli_si128(x, 4 * sizeof(byte)), new byte8(0,   0,   0,   0, 255, 255, 255, 255));
+                    case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
                     case 5: return Mask.BlendV(Sse2.bsrli_si128(x, 3 * sizeof(byte)), Sse2.bslli_si128(x, 5 * sizeof(byte)), new byte8(0,   0,   0,   0,   0, 255, 255, 255));
-                    case 6: return Mask.BlendV(Sse2.bsrli_si128(x, 2 * sizeof(byte)), Sse2.bslli_si128(x, 6 * sizeof(byte)), new byte8(0,   0,   0,   0,   0,   0, 255, 255));
+                    case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
                     case 7: return Mask.BlendV(Sse2.bsrli_si128(x, 1 * sizeof(byte)), Sse2.bslli_si128(x, 7 * sizeof(byte)), new byte8(0,   0,   0,   0,   0,   0,   0, 255));
 
                     default: return x;
@@ -709,7 +695,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte16 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte16"/> left by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 vrol(byte16 x, int n)
         {
@@ -743,15 +729,15 @@ namespace MaxMath
                     case 1:  return Mask.BlendV(Sse2.bsrli_si128(x, 15 * sizeof(byte)), Sse2.bslli_si128(x,  1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     case 2:  return Mask.BlendV(Sse2.bsrli_si128(x, 14 * sizeof(byte)), Sse2.bslli_si128(x,  2 * sizeof(byte)), new v128(0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     case 3:  return Mask.BlendV(Sse2.bsrli_si128(x, 13 * sizeof(byte)), Sse2.bslli_si128(x,  3 * sizeof(byte)), new v128(0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
-                    case 4:  return Mask.BlendV(Sse2.bsrli_si128(x, 12 * sizeof(byte)), Sse2.bslli_si128(x,  4 * sizeof(byte)), new v128(0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
+                    case 4:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
                     case 5:  return Mask.BlendV(Sse2.bsrli_si128(x, 11 * sizeof(byte)), Sse2.bslli_si128(x,  5 * sizeof(byte)), new v128(0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     case 6:  return Mask.BlendV(Sse2.bsrli_si128(x, 10 * sizeof(byte)), Sse2.bslli_si128(x,  6 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     case 7:  return Mask.BlendV(Sse2.bsrli_si128(x,  9 * sizeof(byte)), Sse2.bslli_si128(x,  7 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255, 255));
-                    case 8:  return Mask.BlendV(Sse2.bsrli_si128(x,  8 * sizeof(byte)), Sse2.bslli_si128(x,  8 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255, 255));
+                    case 8:  return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
                     case 9:  return Mask.BlendV(Sse2.bsrli_si128(x,  7 * sizeof(byte)), Sse2.bslli_si128(x,  9 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255, 255));
                     case 10: return Mask.BlendV(Sse2.bsrli_si128(x,  6 * sizeof(byte)), Sse2.bslli_si128(x, 10 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255, 255));
                     case 11: return Mask.BlendV(Sse2.bsrli_si128(x,  5 * sizeof(byte)), Sse2.bslli_si128(x, 11 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255, 255));
-                    case 12: return Mask.BlendV(Sse2.bsrli_si128(x,  4 * sizeof(byte)), Sse2.bslli_si128(x, 12 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255, 255));
+                    case 12: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
                     case 13: return Mask.BlendV(Sse2.bsrli_si128(x,  3 * sizeof(byte)), Sse2.bslli_si128(x, 13 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255, 255));
                     case 14: return Mask.BlendV(Sse2.bsrli_si128(x,  2 * sizeof(byte)), Sse2.bslli_si128(x, 14 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255, 255));
                     case 15: return Mask.BlendV(Sse2.bsrli_si128(x,  1 * sizeof(byte)), Sse2.bslli_si128(x, 15 * sizeof(byte)), new v128(0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 255));
@@ -784,7 +770,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a byte32 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 vrol(byte32 x, int n)
         {
@@ -977,42 +963,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a sbyte2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vrol(sbyte2 x, int n)
         {
             return (sbyte2)vrol((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vrol(sbyte3 x, int n)
         {
             return (sbyte3)vrol((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vrol(sbyte4 x, int n)
         {
             return (sbyte4)vrol((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vrol(sbyte8 x, int n)
         {
             return (sbyte8)vrol((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte16 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vrol(sbyte16 x, int n)
         {
             return (sbyte16)vrol((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an sbyte32 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vrol(sbyte32 x, int n)
         {
@@ -1020,14 +1006,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a short2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vrol(short2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a short3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vrol(short3 x, int n)
         {
@@ -1040,7 +1026,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 vrol(short4 x, int n)
         {
@@ -1054,7 +1040,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short8"/> left by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 vrol(short8 x, int n)
         {
@@ -1078,11 +1064,11 @@ namespace MaxMath
                 switch (n % 8)
                 {
                     case 1: return Mask.BlendV(Sse2.bsrli_si128(x, 7 * sizeof(short)), Sse2.bslli_si128(x, 1 * sizeof(short)), new short8(0, -1, -1, -1, -1, -1, -1, -1));
-                    case 2: return Mask.BlendV(Sse2.bsrli_si128(x, 6 * sizeof(short)), Sse2.bslli_si128(x, 2 * sizeof(short)), new short8(0,  0, -1, -1, -1, -1, -1, -1));
+                    case 2: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(2, 1, 0, 3));
                     case 3: return Mask.BlendV(Sse2.bsrli_si128(x, 5 * sizeof(short)), Sse2.bslli_si128(x, 3 * sizeof(short)), new short8(0,  0,  0, -1, -1, -1, -1, -1));
-                    case 4: return Mask.BlendV(Sse2.bsrli_si128(x, 4 * sizeof(short)), Sse2.bslli_si128(x, 4 * sizeof(short)), new short8(0,  0,  0,  0, -1, -1, -1, -1));
+                    case 4: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(1, 0, 3, 2));
                     case 5: return Mask.BlendV(Sse2.bsrli_si128(x, 3 * sizeof(short)), Sse2.bslli_si128(x, 5 * sizeof(short)), new short8(0,  0,  0,  0,  0, -1, -1, -1));
-                    case 6: return Mask.BlendV(Sse2.bsrli_si128(x, 2 * sizeof(short)), Sse2.bslli_si128(x, 6 * sizeof(short)), new short8(0,  0,  0,  0,  0,  0, -1, -1));
+                    case 6: return Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 3, 2, 1));
                     case 7: return Mask.BlendV(Sse2.bsrli_si128(x, 1 * sizeof(short)), Sse2.bslli_si128(x, 7 * sizeof(short)), new short8(0,  0,  0,  0,  0,  0,  0, -1));
 
                     default: return x;
@@ -1105,13 +1091,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a short16 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 vrol(short16 x, int n)
         {
             if (Avx2.IsAvx2Supported)
             {
-
                 switch (n % 16)
                 {
                     case 1:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(1, 0, 3, 2)), x, 7 * sizeof(short));
@@ -1135,7 +1120,6 @@ namespace MaxMath
             }
             else if (Ssse3.IsSsse3Supported)
             {
-                
                 switch (n % 16)
                 {
                     case 1:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
@@ -1159,7 +1143,6 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-
                 switch (n % 16)
                 {
                     case 1:  return new short16(Mask.BlendV(Sse2.bsrli_si128(x._v8_8, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 1 * sizeof(short)), new v128(0, -1, -1, -1, -1, -1, -1, -1)),
@@ -1197,7 +1180,6 @@ namespace MaxMath
             }
             else
             {
-
                 switch (n % 16)
                 {
                     case 1:  return new short16(x.x15, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14);
@@ -1222,35 +1204,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a ushort2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vrol(ushort2 x, int n)
         {
             return (ushort2)vrol((short2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vrol(ushort3 x, int n)
         {
             return (ushort3)vrol((short3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vrol(ushort4 x, int n)
         {
             return (ushort4)vrol((short4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vrol(ushort8 x, int n)
         {
             return (ushort8)vrol((short8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ushort16 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vrol(ushort16 x, int n)
         {
@@ -1258,14 +1240,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an int2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vrol(int2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within an int3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vrol(int3 x, int n)
         {
@@ -1278,7 +1260,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an int4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 vrol(int4 x, int n)
         {
@@ -1292,7 +1274,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an int8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int8"/> left by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 vrol(int8 x, int n)
         {
@@ -1335,14 +1317,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a uint2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vrol(uint2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vrol(uint3 x, int n)
         {
@@ -1355,7 +1337,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vrol(uint4 x, int n)
         {
@@ -1369,7 +1351,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a uint8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vrol(uint8 x, int n)
         {
@@ -1377,14 +1359,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a long2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vrol(long2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a long3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vrol(long3 x, int n)
         {
@@ -1397,7 +1379,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a long4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 vrol(long4 x, int n)
         {
@@ -1412,42 +1394,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a ulong2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vrol(ulong2 x, int n)
         {
             return (ulong2)vrol((long2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ulong3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vrol(ulong3 x, int n)
         {
             return (ulong3)vrol((long3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a ulong4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vrol(ulong4 x, int n)
         {
             return (ulong4)vrol((long4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vrol(quarter2 x, int n)
         {
-            if (n % 2 != 0)
-            {
-                return x.yx;
-            }
-            else
-            {
-                return x;
-            }
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vrol(quarter3 x, int n)
         {
@@ -1460,7 +1435,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 vrol(quarter4 x, int n)
         {
@@ -1474,7 +1449,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a quarter8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vrol(quarter8 x, int n)
         {
@@ -1482,21 +1457,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a half2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vrol(half2 x, int n)
         {
-            if (n % 2 != 0)
-            {
-                return x.yx;
-            }
-            else
-            {
-                return x;
-            }
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a half3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vrol(half3 x, int n)
         {
@@ -1509,7 +1477,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a half4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vrol(half4 x, int n)
         {
@@ -1523,7 +1491,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a half8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vrol(half8 x, int n)
         {
@@ -1531,14 +1499,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a float2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vrol(float2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a float3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vrol(float3 x, int n)
         {
@@ -1551,7 +1519,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a float4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vrol(float4 x, int n)
         {
@@ -1565,7 +1533,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a float8 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float8"/> left by <paramref name="n"/>.     </summary>
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vrol(float8 x, int n)
         {
@@ -1608,14 +1576,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a double2 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vrol(double2 x, int n)
         {
-            return (n % 2 != 0) ? x.yx : x;
+            return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a double3 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vrol(double3 x, int n)
         {
@@ -1628,7 +1596,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a double4 vector left by n.      </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vrol(double4 x, int n)
         {

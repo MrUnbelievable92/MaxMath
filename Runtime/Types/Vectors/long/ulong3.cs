@@ -2457,7 +2457,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_cvtepu32_epi64(*(v128*)&input);
+                return Avx2.mm256_cvtepu32_epi64(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -2478,7 +2478,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_cvtepi32_epi64(*(v128*)&input);
+                return Avx2.mm256_cvtepi32_epi64(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -2521,6 +2521,14 @@ namespace MaxMath
 
                 return *(uint3*)&temp;
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 temp = Cast.Long2ToInt2(input._xy);
+
+                temp = Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z));
+
+                return *(uint3*)&temp;
+            }
             else
             {
                 return new uint3((uint2)input.xy, (uint)input.z);
@@ -2541,6 +2549,14 @@ namespace MaxMath
                 v128 temp = Cast.Long2ToInt2(input._xy);
 
                 temp = Sse4_1.insert_epi32(temp, (int)input.z, 2);
+
+                return *(int3*)&temp;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 temp = Cast.Long2ToInt2(input._xy);
+
+                temp = Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z));
 
                 return *(int3*)&temp;
             }
@@ -2826,7 +2842,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
+                int cvt = ConvertToBool.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2839,7 +2857,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ulong(right, left));
+                int cvt = ConvertToBool.IsTrue64(Operator.greater_mask_ulong(right, left));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2852,7 +2872,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ulong(left, right));
+                int cvt = ConvertToBool.IsTrue64(Operator.greater_mask_ulong(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2866,7 +2888,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
+                int cvt = ConvertToBool.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2879,7 +2903,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ulong(left, right));
+                int cvt = ConvertToBool.IsFalse64(Operator.greater_mask_ulong(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2892,37 +2918,14 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ulong(right, left));
+                int cvt = ConvertToBool.IsFalse64(Operator.greater_mask_ulong(right, left));
+
+                return *(bool3*)&cvt;
             }
             else
             {
                 return new bool3(left._xy >= right._xy, left.z >= right.z);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsTrue(v256 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int cast = 0x0001_0101 & Avx2.mm256_movemask_epi8(input);
-
-                return *(bool3*)&cast;
-            }
-            else throw new CPUFeatureCheckException();
-        }
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsFalse(v256 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int cast = maxmath.andnot(0x0001_0101, Avx2.mm256_movemask_epi8(input));
-
-                return *(bool3*)&cast;
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

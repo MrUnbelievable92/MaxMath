@@ -1,7 +1,6 @@
 ﻿
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -9,7 +8,29 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise minimum of two byte2 vectors.     </summary>
+        /// <summary>       Returns the minimum of two <see cref="UInt128"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 min(UInt128 a, UInt128 b)
+        {
+            return select(b, a, a < b);
+        }
+
+        /// <summary>       Returns the minimum of two <see cref="Int128"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 min(Int128 a, Int128 b)
+        {
+            return select(b, a, a < b);
+        }
+
+
+        /// <summary>       Returns the minimum of two <see cref="byte"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte min(byte a, byte b)
+        {
+            return a < b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 min(byte2 a, byte2 b)
         {
@@ -23,7 +44,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two byte3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 min(byte3 a, byte3 b)
         {
@@ -37,7 +58,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two byte4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 min(byte4 a, byte4 b)
         {
@@ -51,7 +72,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two byte8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 min(byte8 a, byte8 b)
         {
@@ -65,7 +86,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two byte16 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 min(byte16 a, byte16 b)
         {
@@ -79,7 +100,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two byte32 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 min(byte32 a, byte32 b)
         {
@@ -94,7 +115,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two sbyte2 vectors.     </summary>
+        /// <summary>       Returns the minimum of two <see cref="sbyte"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte min(sbyte a, sbyte b)
+        {
+            return a < b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 min(sbyte2 a, sbyte2 b)
         {
@@ -112,7 +140,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two sbyte3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 min(sbyte3 a, sbyte3 b)
         {
@@ -130,7 +158,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two sbyte4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 min(sbyte4 a, sbyte4 b)
         {
@@ -148,7 +176,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two sbyte8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 min(sbyte8 a, sbyte8 b)
         {
@@ -166,7 +194,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two sbyte16 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 min(sbyte16 a, sbyte16 b)
         {
@@ -184,7 +212,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two sbyte32 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 min(sbyte32 a, sbyte32 b)
         {
@@ -199,7 +227,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two ushort2 vectors.     </summary>
+        /// <summary>       Returns the minimum of two <see cref="ushort"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort min(ushort a, ushort b)
+        {
+            return a < b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 min(ushort2 a, ushort2 b)
         {
@@ -209,7 +244,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(a, b));
+                ushort2 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.min_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -217,7 +256,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ushort3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 min(ushort3 a, ushort3 b)
         {
@@ -227,7 +266,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(a, b));
+                ushort3 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.min_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -235,7 +278,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ushort4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 min(ushort4 a, ushort4 b)
         {
@@ -245,7 +288,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(a, b));
+                ushort4 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.min_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -253,7 +300,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ushort8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 min(ushort8 a, ushort8 b)
         {
@@ -263,7 +310,11 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Mask.BlendV(a, b, Operator.greater_mask_ushort(a, b));
+                ushort8 mask = 1 << 15;
+
+                return Sse2.xor_si128(mask,
+                                      Sse2.min_epi16(Sse2.xor_si128(a, mask),
+                                                     Sse2.xor_si128(b, mask)));
             }
             else
             {
@@ -271,13 +322,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ushort16 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 min(ushort16 a, ushort16 b)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_min_epu16(a, b);
+                return Avx2.mm256_min_epu16(a, b);  
             }
             else
             {
@@ -286,7 +337,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two short2 vectors.     </summary>
+        /// <summary>       Returns the minimum of two <see cref="short"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short min(short a, short b)
+        {
+            return a < b ? a : b;
+        }
+
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 min(short2 a, short2 b)
         {
@@ -300,7 +358,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two short3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 min(short3 a, short3 b)
         {
@@ -314,7 +372,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two short4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 min(short4 a, short4 b)
         {
@@ -328,7 +386,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two short8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 min(short8 a, short8 b)
         {
@@ -342,7 +400,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two short16 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 min(short16 a, short16 b)
         {
@@ -357,7 +415,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two int8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 min(int8 a, int8 b)
         {
@@ -372,7 +430,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two uint8 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 min(uint8 a, uint8 b)
         {
@@ -387,7 +445,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two ulong2 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 min(ulong2 a, ulong2 b)
         {
@@ -401,7 +459,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ulong3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 min(ulong3 a, ulong3 b)
         {
@@ -415,7 +473,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two ulong4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 min(ulong4 a, ulong4 b)
         {
@@ -430,7 +488,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum of two long2 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 min(long2 a, long2 b)
         {
@@ -444,7 +502,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two long3 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 min(long3 a, long3 b)
         {
@@ -458,7 +516,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two long4 vectors.     </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 min(long4 a, long4 b)
         {
@@ -472,8 +530,8 @@ namespace MaxMath
             }
         }
 
-
-        /// <summary>       Returns the componentwise minimum of two float8 vectors.     </summary>
+        
+        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 min(float8 a, float8 b)
         {

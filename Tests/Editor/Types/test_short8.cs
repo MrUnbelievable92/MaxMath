@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Short8
+    unsafe public static class __short8
     {
         internal const int NUM_TESTS = 4;
 
@@ -82,7 +82,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_Short_Short_Short_Short_Short_Short_Short_Short()
+        public static void Constructor___short___short___short___short___short___short___short_Short()
         {
             short8 x = new short8(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7);
 
@@ -112,7 +112,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short2_Short2_Short2_Short2()
+        public static void Constructor___short2___short2___short2_Short2()
         {
             short8 x = new short8(new short2(TestData_LHS[0].x0, TestData_LHS[0].x1), new short2(TestData_LHS[0].x2, TestData_LHS[0].x3), new short2(TestData_LHS[0].x4, TestData_LHS[0].x5), new short2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short2_Short3_Short3()
+        public static void Constructor___short2___short3_Short3()
         {
             short8 x = new short8(new short2(TestData_LHS[0].x0, TestData_LHS[0].x1), new short3(TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4), new short3(TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -142,7 +142,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short3_Short2_Short3()
+        public static void Constructor___short3___short2_Short3()
         {
             short8 x = new short8(new short3(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2), new short2(TestData_LHS[0].x3, TestData_LHS[0].x4), new short3(TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short3_Short3_Short2()
+        public static void Constructor___short3___short3_Short2()
         {
             short8 x = new short8(new short3(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2), new short3(TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5), new short2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short4_Short2_Short2()
+        public static void Constructor___short4___short2_Short2()
         {
             short8 x = new short8(new short4(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3), new short2(TestData_LHS[0].x4, TestData_LHS[0].x5), new short2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -187,7 +187,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short2_Short4_Short2()
+        public static void Constructor___short2___short4_Short2()
         {
             short8 x = new short8(new short2(TestData_LHS[0].x0, TestData_LHS[0].x1), new short4(TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5), new short2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -202,7 +202,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short2_Short2_Short4()
+        public static void Constructor___short2___short2_Short4()
         {
             short8 x = new short8(new short2(TestData_LHS[0].x0, TestData_LHS[0].x1), new short2(TestData_LHS[0].x2, TestData_LHS[0].x3), new short4(TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Short4_Short4()
+        public static void Constructor___short4_Short4()
         {
             short8 x = new short8(new short4(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3), new short4(TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -784,66 +784,66 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 short8 v4_0 = TestData_LHS[i];
-                v4_0.v4_0 = Short4.TestData_LHS[i];
-                result &= v4_0.x0 == Short4.TestData_LHS[i].x;
-                result &= v4_0.x1 == Short4.TestData_LHS[i].y;
-                result &= v4_0.x2 == Short4.TestData_LHS[i].z;
-                result &= v4_0.x3 == Short4.TestData_LHS[i].w;
+                v4_0.v4_0 = __short4.TestData_LHS[i];
+                result &= v4_0.x0 == __short4.TestData_LHS[i].x;
+                result &= v4_0.x1 == __short4.TestData_LHS[i].y;
+                result &= v4_0.x2 == __short4.TestData_LHS[i].z;
+                result &= v4_0.x3 == __short4.TestData_LHS[i].w;
                 result &= v4_0.x4 == TestData_LHS[i].x4;
                 result &= v4_0.x5 == TestData_LHS[i].x5;
                 result &= v4_0.x6 == TestData_LHS[i].x6;
                 result &= v4_0.x7 == TestData_LHS[i].x7;
 
                 short8 v4_1 = TestData_LHS[i];
-                v4_1.v4_1 = Short4.TestData_LHS[i];
+                v4_1.v4_1 = __short4.TestData_LHS[i];
                 result &= v4_1.x0 == TestData_LHS[i].x0;
-                result &= v4_1.x1 == Short4.TestData_LHS[i].x;
-                result &= v4_1.x2 == Short4.TestData_LHS[i].y;
-                result &= v4_1.x3 == Short4.TestData_LHS[i].z;
-                result &= v4_1.x4 == Short4.TestData_LHS[i].w;
+                result &= v4_1.x1 == __short4.TestData_LHS[i].x;
+                result &= v4_1.x2 == __short4.TestData_LHS[i].y;
+                result &= v4_1.x3 == __short4.TestData_LHS[i].z;
+                result &= v4_1.x4 == __short4.TestData_LHS[i].w;
                 result &= v4_1.x5 == TestData_LHS[i].x5;
                 result &= v4_1.x6 == TestData_LHS[i].x6;
                 result &= v4_1.x7 == TestData_LHS[i].x7;
 
                 short8 v4_2 = TestData_LHS[i];
-                v4_2.v4_2 = Short4.TestData_LHS[i];
+                v4_2.v4_2 = __short4.TestData_LHS[i];
                 result &= v4_2.x0 == TestData_LHS[i].x0;
                 result &= v4_2.x1 == TestData_LHS[i].x1;
-                result &= v4_2.x2 == Short4.TestData_LHS[i].x;
-                result &= v4_2.x3 == Short4.TestData_LHS[i].y;
-                result &= v4_2.x4 == Short4.TestData_LHS[i].z;
-                result &= v4_2.x5 == Short4.TestData_LHS[i].w;
+                result &= v4_2.x2 == __short4.TestData_LHS[i].x;
+                result &= v4_2.x3 == __short4.TestData_LHS[i].y;
+                result &= v4_2.x4 == __short4.TestData_LHS[i].z;
+                result &= v4_2.x5 == __short4.TestData_LHS[i].w;
                 result &= v4_2.x6 == TestData_LHS[i].x6;
                 result &= v4_2.x7 == TestData_LHS[i].x7;
                 
                 short8 v4_3 = TestData_LHS[i];
-                v4_3.v4_3 = Short4.TestData_LHS[i];
+                v4_3.v4_3 = __short4.TestData_LHS[i];
                 result &= v4_3.x0 == TestData_LHS[i].x0;
                 result &= v4_3.x1 == TestData_LHS[i].x1;
                 result &= v4_3.x2 == TestData_LHS[i].x2;
-                result &= v4_3.x3 == Short4.TestData_LHS[i].x;
-                result &= v4_3.x4 == Short4.TestData_LHS[i].y;
-                result &= v4_3.x5 == Short4.TestData_LHS[i].z;
-                result &= v4_3.x6 == Short4.TestData_LHS[i].w;
+                result &= v4_3.x3 == __short4.TestData_LHS[i].x;
+                result &= v4_3.x4 == __short4.TestData_LHS[i].y;
+                result &= v4_3.x5 == __short4.TestData_LHS[i].z;
+                result &= v4_3.x6 == __short4.TestData_LHS[i].w;
                 result &= v4_3.x7 == TestData_LHS[i].x7;
                 
                 short8 v4_4 = TestData_LHS[i];
-                v4_4.v4_4 = Short4.TestData_LHS[i];
+                v4_4.v4_4 = __short4.TestData_LHS[i];
                 result &= v4_4.x0 == TestData_LHS[i].x0;
                 result &= v4_4.x1 == TestData_LHS[i].x1;
                 result &= v4_4.x2 == TestData_LHS[i].x2;
                 result &= v4_4.x3 == TestData_LHS[i].x3;
-                result &= v4_4.x4 == Short4.TestData_LHS[i].x;
-                result &= v4_4.x5 == Short4.TestData_LHS[i].y;
-                result &= v4_4.x6 == Short4.TestData_LHS[i].z;
-                result &= v4_4.x7 == Short4.TestData_LHS[i].w;
+                result &= v4_4.x4 == __short4.TestData_LHS[i].x;
+                result &= v4_4.x5 == __short4.TestData_LHS[i].y;
+                result &= v4_4.x6 == __short4.TestData_LHS[i].z;
+                result &= v4_4.x7 == __short4.TestData_LHS[i].w;
 
 
                 short8 v3_0 = TestData_LHS[i];
-                v3_0.v3_0 = Short3.TestData_LHS[i];
-                result &= v3_0.x0 == Short3.TestData_LHS[i].x;
-                result &= v3_0.x1 == Short3.TestData_LHS[i].y;
-                result &= v3_0.x2 == Short3.TestData_LHS[i].z;
+                v3_0.v3_0 = __short3.TestData_LHS[i];
+                result &= v3_0.x0 == __short3.TestData_LHS[i].x;
+                result &= v3_0.x1 == __short3.TestData_LHS[i].y;
+                result &= v3_0.x2 == __short3.TestData_LHS[i].z;
                 result &= v3_0.x3 == TestData_LHS[i].x3;
                 result &= v3_0.x4 == TestData_LHS[i].x4;
                 result &= v3_0.x5 == TestData_LHS[i].x5;
@@ -851,65 +851,65 @@ namespace MaxMath.Tests
                 result &= v3_0.x7 == TestData_LHS[i].x7;
 
                 short8 v3_1 = TestData_LHS[i];
-                v3_1.v3_1 = Short3.TestData_LHS[i];
+                v3_1.v3_1 = __short3.TestData_LHS[i];
                 result &= v3_1.x0 == TestData_LHS[i].x0;
-                result &= v3_1.x1 == Short3.TestData_LHS[i].x;
-                result &= v3_1.x2 == Short3.TestData_LHS[i].y;
-                result &= v3_1.x3 == Short3.TestData_LHS[i].z;
+                result &= v3_1.x1 == __short3.TestData_LHS[i].x;
+                result &= v3_1.x2 == __short3.TestData_LHS[i].y;
+                result &= v3_1.x3 == __short3.TestData_LHS[i].z;
                 result &= v3_1.x4 == TestData_LHS[i].x4;
                 result &= v3_1.x5 == TestData_LHS[i].x5;
                 result &= v3_1.x6 == TestData_LHS[i].x6;
                 result &= v3_1.x7 == TestData_LHS[i].x7;
 
                 short8 v3_2 = TestData_LHS[i];
-                v3_2.v3_2 = Short3.TestData_LHS[i];
+                v3_2.v3_2 = __short3.TestData_LHS[i];
                 result &= v3_2.x0 == TestData_LHS[i].x0;
                 result &= v3_2.x1 == TestData_LHS[i].x1;
-                result &= v3_2.x2 == Short3.TestData_LHS[i].x;
-                result &= v3_2.x3 == Short3.TestData_LHS[i].y;
-                result &= v3_2.x4 == Short3.TestData_LHS[i].z;
+                result &= v3_2.x2 == __short3.TestData_LHS[i].x;
+                result &= v3_2.x3 == __short3.TestData_LHS[i].y;
+                result &= v3_2.x4 == __short3.TestData_LHS[i].z;
                 result &= v3_2.x5 == TestData_LHS[i].x5;
                 result &= v3_2.x6 == TestData_LHS[i].x6;
                 result &= v3_2.x7 == TestData_LHS[i].x7;
 
                 short8 v3_3 = TestData_LHS[i];
-                v3_3.v3_3 = Short3.TestData_LHS[i];
+                v3_3.v3_3 = __short3.TestData_LHS[i];
                 result &= v3_3.x0 == TestData_LHS[i].x0;
                 result &= v3_3.x1 == TestData_LHS[i].x1;
                 result &= v3_3.x2 == TestData_LHS[i].x2;
-                result &= v3_3.x3 == Short3.TestData_LHS[i].x;
-                result &= v3_3.x4 == Short3.TestData_LHS[i].y;
-                result &= v3_3.x5 == Short3.TestData_LHS[i].z;
+                result &= v3_3.x3 == __short3.TestData_LHS[i].x;
+                result &= v3_3.x4 == __short3.TestData_LHS[i].y;
+                result &= v3_3.x5 == __short3.TestData_LHS[i].z;
                 result &= v3_3.x6 == TestData_LHS[i].x6;
                 result &= v3_3.x7 == TestData_LHS[i].x7;
 
                 short8 v3_4 = TestData_LHS[i];
-                v3_4.v3_4 = Short3.TestData_LHS[i];
+                v3_4.v3_4 = __short3.TestData_LHS[i];
                 result &= v3_4.x0 == TestData_LHS[i].x0;
                 result &= v3_4.x1 == TestData_LHS[i].x1;
                 result &= v3_4.x2 == TestData_LHS[i].x2;
                 result &= v3_4.x3 == TestData_LHS[i].x3;
-                result &= v3_4.x4 == Short3.TestData_LHS[i].x;
-                result &= v3_4.x5 == Short3.TestData_LHS[i].y;
-                result &= v3_4.x6 == Short3.TestData_LHS[i].z;
+                result &= v3_4.x4 == __short3.TestData_LHS[i].x;
+                result &= v3_4.x5 == __short3.TestData_LHS[i].y;
+                result &= v3_4.x6 == __short3.TestData_LHS[i].z;
                 result &= v3_4.x7 == TestData_LHS[i].x7;
 
                 short8 v3_5 = TestData_LHS[i];
-                v3_5.v3_5 = Short3.TestData_LHS[i];
+                v3_5.v3_5 = __short3.TestData_LHS[i];
                 result &= v3_5.x0 == TestData_LHS[i].x0;
                 result &= v3_5.x1 == TestData_LHS[i].x1;
                 result &= v3_5.x2 == TestData_LHS[i].x2;
                 result &= v3_5.x3 == TestData_LHS[i].x3;
                 result &= v3_5.x4 == TestData_LHS[i].x4;
-                result &= v3_5.x5 == Short3.TestData_LHS[i].x;
-                result &= v3_5.x6 == Short3.TestData_LHS[i].y;
-                result &= v3_5.x7 == Short3.TestData_LHS[i].z;
+                result &= v3_5.x5 == __short3.TestData_LHS[i].x;
+                result &= v3_5.x6 == __short3.TestData_LHS[i].y;
+                result &= v3_5.x7 == __short3.TestData_LHS[i].z;
 
 
                 short8 v2_0 = TestData_LHS[i];
-                v2_0.v2_0 = Short2.TestData_LHS[i];
-                result &= v2_0.x0 == Short2.TestData_LHS[i].x;
-                result &= v2_0.x1 == Short2.TestData_LHS[i].y;
+                v2_0.v2_0 = __short2.TestData_LHS[i];
+                result &= v2_0.x0 == __short2.TestData_LHS[i].x;
+                result &= v2_0.x1 == __short2.TestData_LHS[i].y;
                 result &= v2_0.x2 == TestData_LHS[i].x2;
                 result &= v2_0.x3 == TestData_LHS[i].x3;
                 result &= v2_0.x4 == TestData_LHS[i].x4;
@@ -918,10 +918,10 @@ namespace MaxMath.Tests
                 result &= v2_0.x7 == TestData_LHS[i].x7;
 
                 short8 v2_1 = TestData_LHS[i];
-                v2_1.v2_1 = Short2.TestData_LHS[i];
+                v2_1.v2_1 = __short2.TestData_LHS[i];
                 result &= v2_1.x0 == TestData_LHS[i].x0;
-                result &= v2_1.x1 == Short2.TestData_LHS[i].x;
-                result &= v2_1.x2 == Short2.TestData_LHS[i].y;
+                result &= v2_1.x1 == __short2.TestData_LHS[i].x;
+                result &= v2_1.x2 == __short2.TestData_LHS[i].y;
                 result &= v2_1.x3 == TestData_LHS[i].x3;
                 result &= v2_1.x4 == TestData_LHS[i].x4;
                 result &= v2_1.x5 == TestData_LHS[i].x5;
@@ -929,59 +929,59 @@ namespace MaxMath.Tests
                 result &= v2_1.x7 == TestData_LHS[i].x7;
 
                 short8 v2_2 = TestData_LHS[i];
-                v2_2.v2_2 = Short2.TestData_LHS[i];
+                v2_2.v2_2 = __short2.TestData_LHS[i];
                 result &= v2_2.x0 == TestData_LHS[i].x0;
                 result &= v2_2.x1 == TestData_LHS[i].x1;
-                result &= v2_2.x2 == Short2.TestData_LHS[i].x;
-                result &= v2_2.x3 == Short2.TestData_LHS[i].y;
+                result &= v2_2.x2 == __short2.TestData_LHS[i].x;
+                result &= v2_2.x3 == __short2.TestData_LHS[i].y;
                 result &= v2_2.x4 == TestData_LHS[i].x4;
                 result &= v2_2.x5 == TestData_LHS[i].x5;
                 result &= v2_2.x6 == TestData_LHS[i].x6;
                 result &= v2_2.x7 == TestData_LHS[i].x7;
 
                 short8 v2_3 = TestData_LHS[i];
-                v2_3.v2_3 = Short2.TestData_LHS[i];
+                v2_3.v2_3 = __short2.TestData_LHS[i];
                 result &= v2_3.x0 == TestData_LHS[i].x0;
                 result &= v2_3.x1 == TestData_LHS[i].x1;
                 result &= v2_3.x2 == TestData_LHS[i].x2;
-                result &= v2_3.x3 == Short2.TestData_LHS[i].x;
-                result &= v2_3.x4 == Short2.TestData_LHS[i].y;
+                result &= v2_3.x3 == __short2.TestData_LHS[i].x;
+                result &= v2_3.x4 == __short2.TestData_LHS[i].y;
                 result &= v2_3.x5 == TestData_LHS[i].x5;
                 result &= v2_3.x6 == TestData_LHS[i].x6;
                 result &= v2_3.x7 == TestData_LHS[i].x7;
 
                 short8 v2_4 = TestData_LHS[i];
-                v2_4.v2_4 = Short2.TestData_LHS[i];
+                v2_4.v2_4 = __short2.TestData_LHS[i];
                 result &= v2_4.x0 == TestData_LHS[i].x0;
                 result &= v2_4.x1 == TestData_LHS[i].x1;
                 result &= v2_4.x2 == TestData_LHS[i].x2;
                 result &= v2_4.x3 == TestData_LHS[i].x3;
-                result &= v2_4.x4 == Short2.TestData_LHS[i].x;
-                result &= v2_4.x5 == Short2.TestData_LHS[i].y;
+                result &= v2_4.x4 == __short2.TestData_LHS[i].x;
+                result &= v2_4.x5 == __short2.TestData_LHS[i].y;
                 result &= v2_4.x6 == TestData_LHS[i].x6;
                 result &= v2_4.x7 == TestData_LHS[i].x7;
 
                 short8 v2_5 = TestData_LHS[i];
-                v2_5.v2_5 = Short2.TestData_LHS[i];
+                v2_5.v2_5 = __short2.TestData_LHS[i];
                 result &= v2_5.x0 == TestData_LHS[i].x0;
                 result &= v2_5.x1 == TestData_LHS[i].x1;
                 result &= v2_5.x2 == TestData_LHS[i].x2;
                 result &= v2_5.x3 == TestData_LHS[i].x3;
                 result &= v2_5.x4 == TestData_LHS[i].x4;
-                result &= v2_5.x5 == Short2.TestData_LHS[i].x;
-                result &= v2_5.x6 == Short2.TestData_LHS[i].y;
+                result &= v2_5.x5 == __short2.TestData_LHS[i].x;
+                result &= v2_5.x6 == __short2.TestData_LHS[i].y;
                 result &= v2_5.x7 == TestData_LHS[i].x7;
 
                 short8 v2_6 = TestData_LHS[i];
-                v2_6.v2_6 = Short2.TestData_LHS[i];
+                v2_6.v2_6 = __short2.TestData_LHS[i];
                 result &= v2_6.x0 == TestData_LHS[i].x0;
                 result &= v2_6.x1 == TestData_LHS[i].x1;
                 result &= v2_6.x2 == TestData_LHS[i].x2;
                 result &= v2_6.x3 == TestData_LHS[i].x3;
                 result &= v2_6.x4 == TestData_LHS[i].x4;
                 result &= v2_6.x5 == TestData_LHS[i].x5;
-                result &= v2_6.x6 == Short2.TestData_LHS[i].x;
-                result &= v2_6.x7 == Short2.TestData_LHS[i].y;
+                result &= v2_6.x6 == __short2.TestData_LHS[i].x;
+                result &= v2_6.x7 == __short2.TestData_LHS[i].y;
             }
 
             Assert.AreEqual(true, result);

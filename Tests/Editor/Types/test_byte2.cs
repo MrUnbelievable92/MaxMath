@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Byte2
+    unsafe public static class __byte2
     {
         internal const int NUM_TESTS = 4;
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void  Constructor_Byte_Byte()
+        public static void  Constructor___byte_Byte()
         {
             byte2 x = new byte2(TestData_LHS[0].x, TestData_LHS[0].y);
 
@@ -95,6 +95,36 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = 0; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] * (byte)i, new byte2((byte)(TestData_LHS[0].x * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y * (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] / (byte)i, new byte2((byte)(TestData_LHS[0].x / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y / (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] % (byte)i, new byte2((byte)(TestData_LHS[0].x % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y % (byte)i)));
+            }
         }
 
         [Test]

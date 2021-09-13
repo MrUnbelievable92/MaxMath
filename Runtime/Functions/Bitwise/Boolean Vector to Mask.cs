@@ -8,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        ///<summary>        Returns a bitmask representation of a bool8. Storing one 1 bit per component in LSB order, from lower to higher bits.       </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, byte.MaxValue)]
         public static int bitmask(bool8 x)
         {
@@ -23,15 +23,15 @@ Assert.IsSafeBoolean(x.x5);
 Assert.IsSafeBoolean(x.x6);
 Assert.IsSafeBoolean(x.x7);
 
-                return byte.MaxValue & Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
+                return 0b1111_1111 & Sse2.movemask_epi8(Sse2.slli_epi16(x, 7));
             }
             else
             {
-                return ((toint32(x.x0) | (toint8(x.x1) << 1)) + ((toint8(x.x2) << 2) | (toint8(x.x3) << 3))) + (((toint8(x.x4) << 4) | (toint8(x.x5) << 5)) + ((toint8(x.x6) << 6) | (toint8(x.x7) << 7)));
+                return ((toint(x.x0) | (tosbyte(x.x1) << 1)) + ((tosbyte(x.x2) << 2) | (tosbyte(x.x3) << 3))) + (((tosbyte(x.x4) << 4) | (tosbyte(x.x5) << 5)) + ((tosbyte(x.x6) << 6) | (tosbyte(x.x7) << 7)));
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a bool16. Storing one 1 bit per component in LSB order, from lower to higher bits.       </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(0, ushort.MaxValue)]
         public static int bitmask(bool16 x)
         {
@@ -58,11 +58,11 @@ Assert.IsSafeBoolean(x.x15);
             }
             else
             {
-                return (((toint32(x.x0) | (toint8(x.x1) << 1)) + ((toint8(x.x2) << 2) | (toint8(x.x3) << 3))) + (((toint8(x.x4) << 4) | (toint8(x.x5) << 5)) + ((toint8(x.x6) << 6) | (toint8(x.x7) << 7)))) + ((((toint8(x.x8) << 8) | (toint8(x.x9) << 9)) + ((toint8(x.x10) << 10) | (toint8(x.x11) << 11))) + (((toint8(x.x12) << 12) | (toint8(x.x13) << 13)) + ((toint8(x.x14) << 14) | (toint8(x.x15) << 15))));
+                return (((toint(x.x0) | (tosbyte(x.x1) << 1)) + ((tosbyte(x.x2) << 2) | (tosbyte(x.x3) << 3))) + (((tosbyte(x.x4) << 4) | (tosbyte(x.x5) << 5)) + ((tosbyte(x.x6) << 6) | (tosbyte(x.x7) << 7)))) + ((((tosbyte(x.x8) << 8) | (tosbyte(x.x9) << 9)) + ((tosbyte(x.x10) << 10) | (tosbyte(x.x11) << 11))) + (((tosbyte(x.x12) << 12) | (tosbyte(x.x13) << 13)) + ((tosbyte(x.x14) << 14) | (tosbyte(x.x15) << 15))));
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a bool32. Storing one 1 bit per component in LSB order, from lower to higher bits.       </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool32"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool32 x)
         {

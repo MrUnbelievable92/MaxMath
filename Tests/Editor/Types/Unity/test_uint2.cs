@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class UInt2
+    unsafe public static class __uint2
     {
         internal const int NUM_TESTS = 4;
 

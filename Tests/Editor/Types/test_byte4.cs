@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Byte4
+    unsafe public static class __byte4
     {
         internal const int NUM_TESTS = 4;
 
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_Byte_Byte_Byte_Byte()
+        public static void Constructor___byte___byte___byte_Byte()
         {
             byte4 x = new byte4(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte_Byte()
+        public static void Constructor___byte2___byte_Byte()
         {
             byte4 x = new byte4(new byte2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte_Byte2_Byte()
+        public static void Constructor___byte___byte2_Byte()
         {
             byte4 x = new byte4(TestData_LHS[0].x, new byte2(TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte_Byte_Byte2()
+        public static void Constructor___byte___byte_Byte2()
         {
             byte4 x = new byte4(TestData_LHS[0].x, TestData_LHS[0].y, new byte2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte2()
+        public static void Constructor___byte2_Byte2()
         {
             byte4 x = new byte4(new byte2(TestData_LHS[0].x, TestData_LHS[0].y), new byte2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte3_Byte()
+        public static void Constructor___byte3_Byte()
         {
             byte4 x = new byte4(new byte3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte_Byte3()
+        public static void Constructor___byte_Byte3()
         {
             byte4 x = new byte4(TestData_LHS[0].x, new byte3(TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -186,6 +186,42 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = 0; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] * (byte)i, new byte4((byte)(TestData_LHS[0].x * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].w * (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] / (byte)i, new byte4((byte)(TestData_LHS[0].x / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].w / (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] % (byte)i, new byte4((byte)(TestData_LHS[0].x % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].y % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].z % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].w % (byte)i)));
+            }
         }
 
         [Test]

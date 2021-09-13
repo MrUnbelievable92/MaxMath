@@ -2457,7 +2457,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_cvtepu32_epi64(*(v128*)&input);
+                return Avx2.mm256_cvtepu32_epi64(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -2478,7 +2478,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_cvtepi32_epi64(*(v128*)&input);
+                return Avx2.mm256_cvtepi32_epi64(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -2509,15 +2509,23 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v128 temp = Cast.Long4ToInt4(input); 
-                
+                v128 temp = Cast.Long4ToInt4(input);
+
                 return *(uint3*)&temp;
             }
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 temp = Cast.Long2ToInt2(input._xy);
 
-                temp = Sse4_1.insert_epi32(temp, (int)(uint)input.z, 2);
+                temp = Sse4_1.insert_epi32(temp, (int)input.z, 2);
+
+                return *(uint3*)&temp;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 temp = Cast.Long2ToInt2(input._xy);
+
+                temp = Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z));
 
                 return *(uint3*)&temp;
             }
@@ -2541,6 +2549,14 @@ namespace MaxMath
                 v128 temp = Cast.Long2ToInt2(input._xy);
 
                 temp = Sse4_1.insert_epi32(temp, (int)input.z, 2);
+
+                return *(int3*)&temp;
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                v128 temp = Cast.Long2ToInt2(input._xy);
+
+                temp = Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z));
 
                 return *(int3*)&temp;
             }
@@ -2839,7 +2855,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi64(left, right));
+                int cvt = ConvertToBool.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2852,7 +2870,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi64(right, left));
+                int cvt = ConvertToBool.IsTrue64(Avx2.mm256_cmpgt_epi64(right, left));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2865,7 +2885,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpgt_epi64(left, right));
+                int cvt = ConvertToBool.IsTrue64(Avx2.mm256_cmpgt_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2879,7 +2901,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpeq_epi64(left, right));
+                int cvt = ConvertToBool.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2892,7 +2916,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi64(left, right));
+                int cvt = ConvertToBool.IsFalse64(Avx2.mm256_cmpgt_epi64(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2905,7 +2931,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpgt_epi64(right, left));
+                int cvt = ConvertToBool.IsFalse64(Avx2.mm256_cmpgt_epi64(right, left));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2913,32 +2941,7 @@ Assert.IsWithinArrayBounds(index, 3);
             }
         }
     
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsTrue(v256 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int cast = 0x0001_0101 & Avx2.mm256_movemask_epi8(input);
 
-                return *(bool3*)&cast;
-            }
-            else throw new CPUFeatureCheckException();
-        }
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsFalse(v256 input) 
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int cast = maxmath.andnot(0x0001_0101, Avx2.mm256_movemask_epi8(input));
-
-                return *(bool3*)&cast;
-            }
-            else throw new CPUFeatureCheckException();
-        }
-    
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(long3 other)
         {

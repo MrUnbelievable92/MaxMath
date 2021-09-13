@@ -75,9 +75,9 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.unpacklo_pd(*(v128*)&x01, *(v128*)&x234);
-                v128 mid = Sse2.bsrli_si128(*(v128*)&x234, 2 * sizeof(float));
-                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(float));
+                v128 lo = Sse2.unpacklo_pd(UnityMathematicsLink.Tov128(x01), UnityMathematicsLink.Tov128(x234));
+                v128 mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x234), 2 * sizeof(float));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x567), sizeof(float));
 
                 if (Sse4_1.IsSse41Supported)
                 {
@@ -106,12 +106,12 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(float));
-                v128 lo = Sse4_1.blend_ps(*(v128*)&x012, mid, 0b1000);
+                v128 mid = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x34), 3 * sizeof(float));
+                v128 lo = Sse4_1.blend_ps(UnityMathematicsLink.Tov128(x012), mid, 0b1000);
 
-                mid = Sse2.bsrli_si128(*(v128*)&x34, sizeof(float));
+                mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x34), sizeof(float));
 
-                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(float));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x567), sizeof(float));
                 hi = Sse4_1.blend_ps(mid, hi, 0b1110);
 
 
@@ -119,12 +119,12 @@ namespace MaxMath
             }
             else if (Sse2.IsSse2Supported)
             {
-                v128 mid = Sse2.bslli_si128(*(v128*)&x34, 3 * sizeof(float));
-                v128 lo = Mask.BlendV(*(v128*)&x012, mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
+                v128 mid = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x34), 3 * sizeof(float));
+                v128 lo = Mask.BlendV(UnityMathematicsLink.Tov128(x012), mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
 
-                mid = Sse2.bsrli_si128(*(v128*)&x34, sizeof(float));
+                mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x34), sizeof(float));
 
-                v128 hi = Sse2.bslli_si128(*(v128*)&x567, sizeof(float));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x567), sizeof(float));
                 hi = Mask.BlendV(mid, hi, new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255), false);
 
 
@@ -145,19 +145,19 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 mid = Sse2.bsrli_si128(*(v128*)&x345, sizeof(float));
-                v128 hi = Sse2.unpacklo_pd(mid, *(v128*)&x67);
+                v128 mid = Sse2.bsrli_si128(UnityMathematicsLink.Tov128(x345), sizeof(float));
+                v128 hi = Sse2.unpacklo_pd(mid, UnityMathematicsLink.Tov128(x67));
 
-                mid = Sse2.bslli_si128(*(v128*)&x345, 3 * sizeof(float));
+                mid = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x345), 3 * sizeof(float));
                 v128 lo;
 
                 if (Sse4_1.IsSse41Supported)
                 {
-                    lo = Sse4_1.blend_ps(*(v128*)&x012, mid, 0b1000);
+                    lo = Sse4_1.blend_ps(UnityMathematicsLink.Tov128(x012), mid, 0b1000);
                 }
                 else
                 {
-                    lo = Mask.BlendV(*(v128*)&x012, mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
+                    lo = Mask.BlendV(UnityMathematicsLink.Tov128(x012), mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255), false);
                 }
 
 
@@ -184,9 +184,9 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 lo = Sse2.unpacklo_pd(*(v128*)&x01, *(v128*)&x2345);
-                v128 hi = Sse2.bslli_si128(*(v128*)&x67, 2 * sizeof(float));
-                hi = Sse2.unpackhi_pd(*(v128*)&x2345, hi);
+                v128 lo = Sse2.unpacklo_pd(UnityMathematicsLink.Tov128(x01), UnityMathematicsLink.Tov128(x2345));
+                v128 hi = Sse2.bslli_si128(UnityMathematicsLink.Tov128(x67), 2 * sizeof(float));
+                hi = Sse2.unpackhi_pd(UnityMathematicsLink.Tov128(x2345), hi);
 
                 this = new float8(*(float4*)&lo, *(float4*)&hi);
             }
@@ -211,7 +211,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                this = Avx.mm256_set_m128(*(v128*)&x4567, *(v128*)&x0123);
+                this = Avx.mm256_set_m128(UnityMathematicsLink.Tov128(x4567), UnityMathematicsLink.Tov128(x0123));
             }
             else
             {
@@ -247,7 +247,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_1111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 0b0000_1111);
                 }
                 else
                 {
@@ -280,7 +280,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 1), 0b0001_1110);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 1), 0b0001_1110);
                 }
                 else
                 {
@@ -321,7 +321,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
                 }
                 else
                 {
@@ -362,7 +362,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0111_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 3), 0b0111_1000);
                 }
                 else
                 {
@@ -400,7 +400,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insertf128_ps(this, *(v128*)&value, 1);
+                    this = Avx.mm256_insertf128_ps(this, UnityMathematicsLink.Tov128(value), 1);
                 }
                 else
                 {
@@ -431,7 +431,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(*(v128*)&value), 0b0000_0111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 0b0000_0111);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(UnityMathematicsLink.Tov128(value), Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
                 }
                 else
                 {
@@ -491,7 +491,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
                 }
                 else
                 {
@@ -522,7 +522,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0011_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 3), 0b0011_1000);
                 }
                 else
                 {
@@ -553,7 +553,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(*(v128*)&value), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
                 }
                 else
                 {
@@ -583,7 +583,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 5), 0b1110_0000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 5), 0b1110_0000);
                 }
                 else
                 {
@@ -644,7 +644,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(*(v128*)&value, Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Sse2.shuffle_epi32(UnityMathematicsLink.Tov128(value), Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
                 }
                 else
                 {
@@ -704,7 +704,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 3), 0b0001_1000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 3), 0b0001_1000);
                 }
                 else
                 {
@@ -765,7 +765,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(*(v128*)&value), 5), 0b0110_0000);
+                    this = Avx.mm256_blend_ps(this, maxmath.vrol((float8)Avx.mm256_castps128_ps256(UnityMathematicsLink.Tov128(value)), 5), 0b0110_0000);
                 }
                 else
                 {
@@ -811,6 +811,12 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v256 x)
         public static implicit operator float8(v256 input) => new float8 { x0 = input.Float0, x1 = input.Float1, x2 = input.Float2, x3 = input.Float3, x4 = input.Float4, x5 = input.Float5, x6 = input.Float6, x7 = input.Float7 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(quarter input) => new float8((float)input);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(half input) => new float8((float)input);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(float input) => new float8(input);
@@ -891,116 +897,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 operator % (float8 left, float8 right)
         {
-        //    v256 ymm0, ymm1, ymm2, ymm3, ymm4, ymm5, ymm6, ymm7, ymm8, ymm9, ymm10, ymm11, ymm12, ymm13, ymm14, ymm15 = default;
-        //
-        //    ymm9 = left;
-        //    ymm12 = default;
-        //
-        //    ymm2 = (float8)math.asfloat(0x7FFF_FFFF);
-        //
-        //    ymm1 = Avx.mm256_and_ps(ymm9, ymm2);
-        //    ymm0 = Avx.mm256_and_ps(right, ymm2);
-        //
-        //    ymm2 = (float8)math.asfloat(0x0080_0000);
-        //
-        //    ymm10 = Avx.mm256_cmp_ps(ymm0, ymm2, (int)Avx.CMP.LT_OQ);
-        //
-        //    ymm2 = (float8)math.asfloat(0x4C00_0000);
-        //
-        //    ymm3 = Avx.mm256_mul_ps(ymm1, ymm2);
-        //    ymm8 = Avx.mm256_blendv_ps(ymm1, ymm3, ymm10);
-        //    ymm1 = Avx.mm256_mul_ps(ymm0, ymm2);
-        //    ymm2 = Avx.mm256_blendv_ps(ymm0, ymm1, ymm10);
-        //
-        //    ymm0 = Avx.mm256_rcp_ps(ymm2);
-        //
-        //    ymm13 = (float8)math.asfloat(0x3F80_0000);
-        //    ymm1 = ymm0;
-        //
-        //    ymm1 = Fma.mm256_fnmadd_ps(ymm1, ymm2, ymm13);
-        //    ymm1 = Fma.mm256_fmadd_ps(ymm1, ymm0, ymm0);
-        //
-        //    ymm11 = new int8(-1);
-        //
-        //    ymm0 = Avx2.mm256_add_epi32(ymm11, ymm1);
-        //
-        //    ymm1 = Avx.mm256_cmp_ps(ymm12, ymm1, (int)Avx.CMP.NEQ_UQ);
-        //    ymm14 = Avx.mm256_and_ps(ymm1, ymm0);
-        //
-        //    ymm0 = (float8)math.asfloat(0x4040_0000);
-        //
-        //    ymm15 = Avx.mm256_mul_ps(ymm2, ymm0);
-        //    ymm0 = Avx.mm256_add_ps(ymm2, ymm2);
-        //    ymm3 = Avx.mm256_xor_ps(ymm2, (float8)math.asfloat(0x8000_0000));
-        //
-        //    ymm6 = (float8)math.asfloat(0x4000_0000);
-        //
-        //    ymm5 = ymm8;
-        //
-        //    byte cmp = 0;
-        //
-        //LBB0_1:
-        //
-        //    ymm4 = Avx2.mm256_add_epi32(ymm11, ymm5);
-        //    ymm7 = Avx.mm256_cmp_ps(ymm12, ymm5, (int)Avx.CMP.NEQ_UQ);
-        //    ymm4 = Avx.mm256_and_ps(ymm7, ymm4);
-        //    ymm4 = Avx.mm256_mul_ps(ymm14, ymm4);
-        //    ymm4 = Avx.mm256_round_ps(ymm4, (int)X86.RoundingMode.FROUND_TRUNC_NOEXC);
-        //
-        //    ymm7 = Avx.mm256_cmp_ps(ymm15, ymm5, (int)Avx.CMP.GT_OQ);
-        //    ymm1 = Avx.mm256_cmp_ps(ymm5, ymm2, (int)Avx.CMP.GE_OQ);
-        //
-        //    ymm7 = Avx.mm256_and_ps(ymm1, ymm7);
-        //    ymm4 = Avx.mm256_blendv_ps(ymm4, ymm6, ymm7);
-        //
-        //    ymm7 = Avx.mm256_cmp_ps(ymm0, ymm5, (int)Avx.CMP.GT_OQ);
-        //    ymm1 = Avx.mm256_and_ps(ymm7, ymm1);
-        //    ymm1 = Avx.mm256_blendv_ps(ymm4, ymm13, ymm1);
-        //
-        //    ymm1 = Avx.mm256_round_ps(ymm1, (int)X86.RoundingMode.FROUND_TRUNC_NOEXC);
-        //
-        //    ymm4 = Avx.mm256_mul_ps(ymm1, ymm3);
-        //
-        //    ymm1 = Fma.mm256_fmsub_ps(ymm1, ymm3, ymm4);
-        //
-        //    ymm1 = Avx.mm256_add_ps(ymm5, ymm1);
-        //    ymm5 = Avx.mm256_add_ps(ymm4, ymm1);
-        //
-        //
-        //    if (cmp > 6) goto LBB0_2;
-        //
-        //    ymm1 = Avx.mm256_cmp_ps(ymm5, ymm2, (int)Avx.CMP.LT_OQ);
-        //    short test = (short)Avx2.mm256_movemask_epi8(ymm1);
-        //    cmp++;
-        //
-        //    if (test != -1) goto LBB0_1;
-        //
-        //LBB0_2: 
-        //
-        //    ymm0 = (float8)math.asfloat(0x3300_0000);
-        //    ymm0 = Avx.mm256_blendv_ps(ymm13, ymm0, ymm10);
-        //
-        //    ymm0 = Avx.mm256_mul_ps(ymm0, ymm5);
-        //
-        //    ymm1 = Avx.mm256_cmp_ps(ymm5, ymm2, (int)Avx.CMP.NEQ_UQ);
-        //
-        //    ymm0 = Avx.mm256_and_ps(ymm1, ymm0);
-        //
-        //    ymm1 = default;
-        //
-        //    ymm3 = Avx.mm256_and_ps(ymm9, (float8)math.asfloat(0x8000_0000));
-        //    ymm0 = Avx.mm256_xor_ps(ymm3, ymm0);
-        //    ymm3 = Avx.mm256_cmp_ps(ymm8, ymm2, (int)Avx.CMP.LT_OQ);
-        //
-        //    ymm0 = Avx.mm256_blendv_ps(ymm0, ymm9, ymm3);
-        //    ymm1 = Avx.mm256_cmp_ps(ymm2, ymm1, (int)Avx.CMP.EQ_OQ);
-        //    ymm2 = (float8)math.asfloat(0x7FC0_0000);
-        //
-        //    return Avx.mm256_blendv_ps(ymm0, ymm2, ymm1);
-
-
-
-            return new float8(left.v4_0 % right.v4_0, left.v4_4 % right.v4_4);
+            return maxmath.fmod(left, right);
         }
 
 
@@ -1049,7 +946,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.EQ_OQ));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.EQ_OQ));
             }
             else
             {
@@ -1062,7 +959,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LT_OS));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LT_OS));
             }
             else
             {
@@ -1075,7 +972,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GT_OS));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GT_OS));
             }
             else
             {
@@ -1089,7 +986,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.NEQ_UQ));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.NEQ_UQ));
             }
             else
             {
@@ -1102,7 +999,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LE_OS));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.LE_OS));
             }
             else
             {
@@ -1115,19 +1012,12 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Avx.IsAvxSupported)
             {
-                return TestIsTrue(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GE_OS));
+                return ConvertToBool.IsTrue32(Avx.mm256_cmp_ps(left, right, (int)Avx.CMP.GE_OS));
             }
             else
             {
                 return new bool8(left._v4_0 >= right._v4_0, left._v4_4 >= right._v4_4);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsTrue(v256 input)
-        {
-            return (v128)((byte8)(-(int8)input));
         }
 
 

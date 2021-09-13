@@ -7,7 +7,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the minimum component of a ushort2 vector with the minimum component as an out parameter.       </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort2"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort2 x, out ushort min)
         {
@@ -33,7 +33,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a ushort3 vector with the minimum component as an out parameter.       </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort3"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort3 x, out ushort min)
         {
@@ -63,7 +63,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a ushort4 vector with the minimum component as an out parameter.       </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort4"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort4 x, out ushort min)
         {
@@ -97,7 +97,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a ushort8 vector with the minimum component as an out parameter.       </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort8"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort8 x, out ushort min)
         {

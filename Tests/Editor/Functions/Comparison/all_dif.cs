@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    /// Float/Double implicitly tested by testing Int/Long
+    /// __float/__double implicitly tested by testing Int/__long
     unsafe public static class all_dif
     {
         [Test]

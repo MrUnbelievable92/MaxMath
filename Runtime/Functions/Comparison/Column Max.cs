@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,13 +8,15 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the maximum component of a byte2 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte2 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return max(x, x.yy).x;
+                v128 _x = x;
+
+                return Sse2.max_epu8(_x, Sse2.bsrli_si128(_x, 1 * sizeof(byte))).Byte0;
             }
             else
             {
@@ -21,15 +24,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a byte3 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte3 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                x = max(x, x.zyz);
+                v128 _x = x;
 
-                return max(x, x.yyy).x;
+                return Sse2.max_epu8(Sse2.max_epu8(_x, Sse2.bsrli_si128(_x, 1 * sizeof(byte))), Sse2.bsrli_si128(_x, 2 * sizeof(byte))).Byte0;
             }
             else
             {
@@ -37,15 +40,17 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a byte4 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte4 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                x = max(x, x.zwzw);
+                v128 _x = x;
 
-                return max(x, x.yyyy).x;
+                v128 cmax0 = Sse2.max_epu8(_x, Sse2.bsrli_si128(_x, 2 * sizeof(byte)));
+
+                return Sse2.max_epu8(cmax0, Sse2.bsrli_si128(cmax0, 1 * sizeof(byte))).Byte0; 
             }
             else
             {
@@ -53,21 +58,21 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a byte8 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte8 x)
         {
             return cmax(max(x.v4_0, x.v4_4));
         }
 
-        /// <summary>       Returns the maximum component of a byte16 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte16 x)
         {
             return cmax(max(x.v8_0, x.v8_8));
         }
 
-        /// <summary>       Returns the maximum component of a byte32 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte32"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte32 x)
         {
@@ -75,13 +80,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of an sbyte2 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte2 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return max(x, x.yy).x;
+                return max(x, vshr(x, 1)).x;
             }
             else
             {
@@ -89,15 +94,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of an sbyte3 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte3 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                x = max(x, x.zyz);
-
-                return max(x, x.yyy).x;
+                return max(x, max(vshr(x, 1), vshr(x, 2))).x;
             }
             else
             {
@@ -105,15 +108,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of an sbyte4 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte4 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
-                x = max(x, x.zwzw);
+                x = max(x, vshr(x, 2));
 
-                return max(x, x.yyyy).x;
+                return max(x, vshr(x, 1)).x;
             }
             else
             {
@@ -121,21 +124,21 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of an sbyte8 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte8 x)
         {
             return cmax(max(x.v4_0, x.v4_4));
         }
 
-        /// <summary>       Returns the maximum component of an sbyte16 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte16 x)
         {
             return cmax(max(x.v8_0, x.v8_8));
         }
 
-        /// <summary>       Returns the maximum component of an sbyte32 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.sbyte32"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte32 x)
         {
@@ -143,7 +146,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a short2 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.short2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short2 x)
         {
@@ -157,7 +160,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a short3 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.short3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short3 x)
         {
@@ -173,7 +176,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a short4 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.short4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short4 x)
         {
@@ -189,14 +192,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a short8 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.short8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short8 x)
         {
             return cmax(max(x.v4_0, x.v4_4));
         }
 
-        /// <summary>       Returns the maximum component of a short16 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.short16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short16 x)
         {
@@ -204,7 +207,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a ushort2 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ushort2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort2 x)
         {
@@ -218,7 +221,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a ushort3 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ushort3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort3 x)
         {
@@ -234,7 +237,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a ushort4 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ushort4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort4 x)
         {
@@ -250,14 +253,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a ushort8 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ushort8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort8 x)
         {
             return cmax(max(x.v4_0, x.v4_4));
         }
 
-        /// <summary>       Returns the maximum component of a ushort16 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ushort16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort16 x)
         {
@@ -265,7 +268,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of an int8 vector.       </summary>
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmax(int8 x)
         {
@@ -273,7 +276,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a uint8 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmax(uint8 x)
         {
@@ -281,7 +284,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a long2 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.long2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmax(long2 x)
         {
@@ -295,7 +298,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a long3 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.long3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmax(long3 x)
         {
@@ -311,7 +314,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a long4 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.long4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmax(long4 x)
         {
@@ -328,7 +331,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a ulong2 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ulong2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmax(ulong2 x)
         {
@@ -342,7 +345,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a ulong3 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ulong3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmax(ulong3 x)
         {
@@ -358,7 +361,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the maximum component of a ulong4 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.ulong4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmax(ulong4 x)
         {
@@ -375,7 +378,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum component of a float8 vector.       </summary>
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmax(float8 x)
         {

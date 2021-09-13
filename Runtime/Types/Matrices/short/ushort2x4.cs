@@ -175,7 +175,7 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) / right;
 
@@ -184,7 +184,7 @@ Assert.IsWithinArrayBounds(index, 4);
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort4 divisor = right;
                     ushort4 lo = new ushort4(left.c0, left.c1) / divisor;
@@ -202,7 +202,7 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 rem = new ushort8(left.c0, left.c1, left.c2, left.c3) % right;
 
@@ -211,7 +211,7 @@ Assert.IsWithinArrayBounds(index, 4);
             }
             else if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort4 divisor = right;
                     ushort4 lo = new ushort4(left.c0, left.c1) % divisor;

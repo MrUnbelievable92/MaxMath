@@ -27,84 +27,84 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x0), maxmath.touint8(x1), maxmath.touint8(x2), maxmath.touint8(x3), maxmath.touint8(x4), maxmath.touint8(x5), maxmath.touint8(x6), maxmath.touint8(x7)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x0), maxmath.tobyte(x1), maxmath.tobyte(x2), maxmath.tobyte(x3), maxmath.tobyte(x4), maxmath.tobyte(x5), maxmath.tobyte(x6), maxmath.tobyte(x7)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool x0x8)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x0x8)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x0x8)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool2 x23, bool2 x45, bool2 x67)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x01), maxmath.touint8(x23), maxmath.touint8(x45), maxmath.touint8(x67)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x01), maxmath.tobyte(x23), maxmath.tobyte(x45), maxmath.tobyte(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool3 x234, bool3 x567)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x01), maxmath.touint8(x234), maxmath.touint8(x567)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x01), maxmath.tobyte(x234), maxmath.tobyte(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool3 x012, bool2 x34, bool3 x567)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x012), maxmath.touint8(x34), maxmath.touint8(x567)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x012), maxmath.tobyte(x34), maxmath.tobyte(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool3 x012, bool3 x345, bool2 x67)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x012), maxmath.touint8(x345), maxmath.touint8(x67)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x012), maxmath.tobyte(x345), maxmath.tobyte(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool4 x0123, bool2 x45, bool2 x67)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x0123), maxmath.touint8(x45), maxmath.touint8(x67)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x0123), maxmath.tobyte(x45), maxmath.tobyte(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool4 x2345, bool2 x67)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x01), maxmath.touint8(x2345), maxmath.touint8(x67)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x01), maxmath.tobyte(x2345), maxmath.tobyte(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool2 x01, bool2 x23, bool4 x4567)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x01), maxmath.touint8(x23), maxmath.touint8(x4567)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x01), maxmath.tobyte(x23), maxmath.tobyte(x4567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8(bool4 x0123, bool4 x4567)
         {
-            this = maxmath.tobool(new byte8(maxmath.touint8(x0123), maxmath.touint8(x4567)));
+            this = maxmath.tobool(new byte8(maxmath.tobyte(x0123), maxmath.tobyte(x4567)));
         }
 
 
-        public bool4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v4_0 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v4_1 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v4_2 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v4_3 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v4_4 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v4_0 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v4_1 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v4_2 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v4_3 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v4_4 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-        public bool3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_0 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_1 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_2 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_3 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_4 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v3_5 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_0 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_1 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_2 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_3 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_4 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v3_5 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-        public bool2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_0 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_1 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_2 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_3 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_4 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_5 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
-        public bool2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.touint8(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.touint8(this); temp.v2_6 = maxmath.touint8(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_0 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_1 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_2 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_3 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_4 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_5 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = maxmath.tobyte(this); temp.v2_6 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -134,20 +134,20 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (bool8 left, bool8 right) => maxmath.touint8(left) == maxmath.touint8(right);
+        public static bool8 operator == (bool8 left, bool8 right) => maxmath.tobyte(left) == maxmath.tobyte(right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (bool8 left, bool8 right) => maxmath.touint8(left) != maxmath.touint8(right);
+        public static bool8 operator != (bool8 left, bool8 right) => maxmath.tobyte(left) != maxmath.tobyte(right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator & (bool8 left, bool8 right) => maxmath.tobool(maxmath.touint8(left) & maxmath.touint8(right));
+        public static bool8 operator & (bool8 left, bool8 right) => maxmath.tobool(maxmath.tobyte(left) & maxmath.tobyte(right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator | (bool8 left, bool8 right) => maxmath.tobool(maxmath.touint8(left) | maxmath.touint8(right));
+        public static bool8 operator | (bool8 left, bool8 right) => maxmath.tobool(maxmath.tobyte(left) | maxmath.tobyte(right));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator ^ (bool8 left, bool8 right) => maxmath.tobool(maxmath.touint8(left) ^ maxmath.touint8(right));
+        public static bool8 operator ^ (bool8 left, bool8 right) => maxmath.tobool(maxmath.tobyte(left) ^ maxmath.tobyte(right));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -185,12 +185,12 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(bool8 other) => maxmath.touint8(this).Equals(maxmath.touint8(other));
+        public bool Equals(bool8 other) => maxmath.tobyte(this).Equals(maxmath.tobyte(other));
 
         public override bool Equals(object obj) => Equals((bool8)obj);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode() => maxmath.touint8(this).GetHashCode();
+        public override int GetHashCode() => maxmath.tobyte(this).GetHashCode();
 
         public override string ToString() => $"bool8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
     }

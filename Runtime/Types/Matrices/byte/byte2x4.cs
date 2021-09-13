@@ -173,7 +173,7 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     byte8 div = new byte8(left.c0, left.c1, left.c2, left.c3) / right;
 
@@ -189,7 +189,7 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     byte8 rem = new byte8(left.c0, left.c1, left.c2, left.c3) % right;
 

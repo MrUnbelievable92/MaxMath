@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class Byte8
+    unsafe public static class __byte8
     {
         internal const int NUM_TESTS = 4;
 
@@ -82,7 +82,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_Byte_Byte_Byte_Byte_Byte_Byte_Byte_Byte()
+        public static void Constructor___byte___byte___byte___byte___byte___byte___byte_Byte()
         {
             byte8 x = new byte8(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7);
 
@@ -112,7 +112,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte2_Byte2_Byte2()
+        public static void Constructor___byte2___byte2___byte2_Byte2()
         {
             byte8 x = new byte8(new byte2(TestData_LHS[0].x0, TestData_LHS[0].x1), new byte2(TestData_LHS[0].x2, TestData_LHS[0].x3), new byte2(TestData_LHS[0].x4, TestData_LHS[0].x5), new byte2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte3_Byte3()
+        public static void Constructor___byte2___byte3_Byte3()
         {
             byte8 x = new byte8(new byte2(TestData_LHS[0].x0, TestData_LHS[0].x1), new byte3(TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4), new byte3(TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -142,7 +142,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte3_Byte2_Byte3()
+        public static void Constructor___byte3___byte2_Byte3()
         {
             byte8 x = new byte8(new byte3(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2), new byte2(TestData_LHS[0].x3, TestData_LHS[0].x4), new byte3(TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte3_Byte3_Byte2()
+        public static void Constructor___byte3___byte3_Byte2()
         {
             byte8 x = new byte8(new byte3(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2), new byte3(TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5), new byte2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte4_Byte2_Byte2()
+        public static void Constructor___byte4___byte2_Byte2()
         {
             byte8 x = new byte8(new byte4(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3), new byte2(TestData_LHS[0].x4, TestData_LHS[0].x5), new byte2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -187,7 +187,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte4_Byte2()
+        public static void Constructor___byte2___byte4_Byte2()
         {
             byte8 x = new byte8(new byte2(TestData_LHS[0].x0, TestData_LHS[0].x1), new byte4(TestData_LHS[0].x2, TestData_LHS[0].x3, TestData_LHS[0].x4, TestData_LHS[0].x5), new byte2(TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -202,7 +202,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte2_Byte2_Byte4()
+        public static void Constructor___byte2___byte2_Byte4()
         {
             byte8 x = new byte8(new byte2(TestData_LHS[0].x0, TestData_LHS[0].x1), new byte2(TestData_LHS[0].x2, TestData_LHS[0].x3), new byte4(TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_Byte4_Byte4()
+        public static void Constructor___byte4_Byte4()
         {
             byte8 x = new byte8(new byte4(TestData_LHS[0].x0, TestData_LHS[0].x1, TestData_LHS[0].x2, TestData_LHS[0].x3), new byte4(TestData_LHS[0].x4, TestData_LHS[0].x5, TestData_LHS[0].x6, TestData_LHS[0].x7));
 
@@ -288,6 +288,54 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual(true, result);
+        }
+        
+        [Test]
+        public static void CONSTMultiply()
+        {
+            for (int i = 0; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] * (byte)i, new byte8((byte)(TestData_LHS[0].x0  * (byte)i), 
+                                                                     (byte)(TestData_LHS[0].x1  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x2  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x3  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x4  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x5  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x6  * (byte)i),
+                                                                     (byte)(TestData_LHS[0].x7  * (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTDivide()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] / (byte)i, new byte8((byte)(TestData_LHS[0].x0  / (byte)i), 
+                                                                     (byte)(TestData_LHS[0].x1  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x2  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x3  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x4  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x5  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x6  / (byte)i),
+                                                                     (byte)(TestData_LHS[0].x7  / (byte)i)));
+            }
+        }
+
+        [Test]
+        public static void CONSTRem()
+        {
+            for (int i = 1; i <= byte.MaxValue; i++)
+            {
+                Assert.AreEqual(TestData_LHS[0] % (byte)i, new byte8((byte)(TestData_LHS[0].x0  % (byte)i), 
+                                                                     (byte)(TestData_LHS[0].x1  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x2  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x3  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x4  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x5  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x6  % (byte)i),
+                                                                     (byte)(TestData_LHS[0].x7  % (byte)i)));
+            }
         }
 
         [Test]
@@ -761,66 +809,66 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 byte8 v4_0 = TestData_LHS[i];
-                v4_0.v4_0 = Byte4.TestData_LHS[i];
-                result &= v4_0.x0 == Byte4.TestData_LHS[i].x;
-                result &= v4_0.x1 == Byte4.TestData_LHS[i].y;
-                result &= v4_0.x2 == Byte4.TestData_LHS[i].z;
-                result &= v4_0.x3 == Byte4.TestData_LHS[i].w;
+                v4_0.v4_0 = __byte4.TestData_LHS[i];
+                result &= v4_0.x0 == __byte4.TestData_LHS[i].x;
+                result &= v4_0.x1 == __byte4.TestData_LHS[i].y;
+                result &= v4_0.x2 == __byte4.TestData_LHS[i].z;
+                result &= v4_0.x3 == __byte4.TestData_LHS[i].w;
                 result &= v4_0.x4 == TestData_LHS[i].x4;
                 result &= v4_0.x5 == TestData_LHS[i].x5;
                 result &= v4_0.x6 == TestData_LHS[i].x6;
                 result &= v4_0.x7 == TestData_LHS[i].x7;
 
                 byte8 v4_1 = TestData_LHS[i];
-                v4_1.v4_1 = Byte4.TestData_LHS[i];
+                v4_1.v4_1 = __byte4.TestData_LHS[i];
                 result &= v4_1.x0 == TestData_LHS[i].x0;
-                result &= v4_1.x1 == Byte4.TestData_LHS[i].x;
-                result &= v4_1.x2 == Byte4.TestData_LHS[i].y;
-                result &= v4_1.x3 == Byte4.TestData_LHS[i].z;
-                result &= v4_1.x4 == Byte4.TestData_LHS[i].w;
+                result &= v4_1.x1 == __byte4.TestData_LHS[i].x;
+                result &= v4_1.x2 == __byte4.TestData_LHS[i].y;
+                result &= v4_1.x3 == __byte4.TestData_LHS[i].z;
+                result &= v4_1.x4 == __byte4.TestData_LHS[i].w;
                 result &= v4_1.x5 == TestData_LHS[i].x5;
                 result &= v4_1.x6 == TestData_LHS[i].x6;
                 result &= v4_1.x7 == TestData_LHS[i].x7;
 
                 byte8 v4_2 = TestData_LHS[i];
-                v4_2.v4_2 = Byte4.TestData_LHS[i];
+                v4_2.v4_2 = __byte4.TestData_LHS[i];
                 result &= v4_2.x0 == TestData_LHS[i].x0;
                 result &= v4_2.x1 == TestData_LHS[i].x1;
-                result &= v4_2.x2 == Byte4.TestData_LHS[i].x;
-                result &= v4_2.x3 == Byte4.TestData_LHS[i].y;
-                result &= v4_2.x4 == Byte4.TestData_LHS[i].z;
-                result &= v4_2.x5 == Byte4.TestData_LHS[i].w;
+                result &= v4_2.x2 == __byte4.TestData_LHS[i].x;
+                result &= v4_2.x3 == __byte4.TestData_LHS[i].y;
+                result &= v4_2.x4 == __byte4.TestData_LHS[i].z;
+                result &= v4_2.x5 == __byte4.TestData_LHS[i].w;
                 result &= v4_2.x6 == TestData_LHS[i].x6;
                 result &= v4_2.x7 == TestData_LHS[i].x7;
                 
                 byte8 v4_3 = TestData_LHS[i];
-                v4_3.v4_3 = Byte4.TestData_LHS[i];
+                v4_3.v4_3 = __byte4.TestData_LHS[i];
                 result &= v4_3.x0 == TestData_LHS[i].x0;
                 result &= v4_3.x1 == TestData_LHS[i].x1;
                 result &= v4_3.x2 == TestData_LHS[i].x2;
-                result &= v4_3.x3 == Byte4.TestData_LHS[i].x;
-                result &= v4_3.x4 == Byte4.TestData_LHS[i].y;
-                result &= v4_3.x5 == Byte4.TestData_LHS[i].z;
-                result &= v4_3.x6 == Byte4.TestData_LHS[i].w;
+                result &= v4_3.x3 == __byte4.TestData_LHS[i].x;
+                result &= v4_3.x4 == __byte4.TestData_LHS[i].y;
+                result &= v4_3.x5 == __byte4.TestData_LHS[i].z;
+                result &= v4_3.x6 == __byte4.TestData_LHS[i].w;
                 result &= v4_3.x7 == TestData_LHS[i].x7;
                 
                 byte8 v4_4 = TestData_LHS[i];
-                v4_4.v4_4 = Byte4.TestData_LHS[i];
+                v4_4.v4_4 = __byte4.TestData_LHS[i];
                 result &= v4_4.x0 == TestData_LHS[i].x0;
                 result &= v4_4.x1 == TestData_LHS[i].x1;
                 result &= v4_4.x2 == TestData_LHS[i].x2;
                 result &= v4_4.x3 == TestData_LHS[i].x3;
-                result &= v4_4.x4 == Byte4.TestData_LHS[i].x;
-                result &= v4_4.x5 == Byte4.TestData_LHS[i].y;
-                result &= v4_4.x6 == Byte4.TestData_LHS[i].z;
-                result &= v4_4.x7 == Byte4.TestData_LHS[i].w;
+                result &= v4_4.x4 == __byte4.TestData_LHS[i].x;
+                result &= v4_4.x5 == __byte4.TestData_LHS[i].y;
+                result &= v4_4.x6 == __byte4.TestData_LHS[i].z;
+                result &= v4_4.x7 == __byte4.TestData_LHS[i].w;
 
 
                 byte8 v3_0 = TestData_LHS[i];
-                v3_0.v3_0 = Byte3.TestData_LHS[i];
-                result &= v3_0.x0 == Byte3.TestData_LHS[i].x;
-                result &= v3_0.x1 == Byte3.TestData_LHS[i].y;
-                result &= v3_0.x2 == Byte3.TestData_LHS[i].z;
+                v3_0.v3_0 = __byte3.TestData_LHS[i];
+                result &= v3_0.x0 == __byte3.TestData_LHS[i].x;
+                result &= v3_0.x1 == __byte3.TestData_LHS[i].y;
+                result &= v3_0.x2 == __byte3.TestData_LHS[i].z;
                 result &= v3_0.x3 == TestData_LHS[i].x3;
                 result &= v3_0.x4 == TestData_LHS[i].x4;
                 result &= v3_0.x5 == TestData_LHS[i].x5;
@@ -828,65 +876,65 @@ namespace MaxMath.Tests
                 result &= v3_0.x7 == TestData_LHS[i].x7;
 
                 byte8 v3_1 = TestData_LHS[i];
-                v3_1.v3_1 = Byte3.TestData_LHS[i];
+                v3_1.v3_1 = __byte3.TestData_LHS[i];
                 result &= v3_1.x0 == TestData_LHS[i].x0;
-                result &= v3_1.x1 == Byte3.TestData_LHS[i].x;
-                result &= v3_1.x2 == Byte3.TestData_LHS[i].y;
-                result &= v3_1.x3 == Byte3.TestData_LHS[i].z;
+                result &= v3_1.x1 == __byte3.TestData_LHS[i].x;
+                result &= v3_1.x2 == __byte3.TestData_LHS[i].y;
+                result &= v3_1.x3 == __byte3.TestData_LHS[i].z;
                 result &= v3_1.x4 == TestData_LHS[i].x4;
                 result &= v3_1.x5 == TestData_LHS[i].x5;
                 result &= v3_1.x6 == TestData_LHS[i].x6;
                 result &= v3_1.x7 == TestData_LHS[i].x7;
 
                 byte8 v3_2 = TestData_LHS[i];
-                v3_2.v3_2 = Byte3.TestData_LHS[i];
+                v3_2.v3_2 = __byte3.TestData_LHS[i];
                 result &= v3_2.x0 == TestData_LHS[i].x0;
                 result &= v3_2.x1 == TestData_LHS[i].x1;
-                result &= v3_2.x2 == Byte3.TestData_LHS[i].x;
-                result &= v3_2.x3 == Byte3.TestData_LHS[i].y;
-                result &= v3_2.x4 == Byte3.TestData_LHS[i].z;
+                result &= v3_2.x2 == __byte3.TestData_LHS[i].x;
+                result &= v3_2.x3 == __byte3.TestData_LHS[i].y;
+                result &= v3_2.x4 == __byte3.TestData_LHS[i].z;
                 result &= v3_2.x5 == TestData_LHS[i].x5;
                 result &= v3_2.x6 == TestData_LHS[i].x6;
                 result &= v3_2.x7 == TestData_LHS[i].x7;
 
                 byte8 v3_3 = TestData_LHS[i];
-                v3_3.v3_3 = Byte3.TestData_LHS[i];
+                v3_3.v3_3 = __byte3.TestData_LHS[i];
                 result &= v3_3.x0 == TestData_LHS[i].x0;
                 result &= v3_3.x1 == TestData_LHS[i].x1;
                 result &= v3_3.x2 == TestData_LHS[i].x2;
-                result &= v3_3.x3 == Byte3.TestData_LHS[i].x;
-                result &= v3_3.x4 == Byte3.TestData_LHS[i].y;
-                result &= v3_3.x5 == Byte3.TestData_LHS[i].z;
+                result &= v3_3.x3 == __byte3.TestData_LHS[i].x;
+                result &= v3_3.x4 == __byte3.TestData_LHS[i].y;
+                result &= v3_3.x5 == __byte3.TestData_LHS[i].z;
                 result &= v3_3.x6 == TestData_LHS[i].x6;
                 result &= v3_3.x7 == TestData_LHS[i].x7;
 
                 byte8 v3_4 = TestData_LHS[i];
-                v3_4.v3_4 = Byte3.TestData_LHS[i];
+                v3_4.v3_4 = __byte3.TestData_LHS[i];
                 result &= v3_4.x0 == TestData_LHS[i].x0;
                 result &= v3_4.x1 == TestData_LHS[i].x1;
                 result &= v3_4.x2 == TestData_LHS[i].x2;
                 result &= v3_4.x3 == TestData_LHS[i].x3;
-                result &= v3_4.x4 == Byte3.TestData_LHS[i].x;
-                result &= v3_4.x5 == Byte3.TestData_LHS[i].y;
-                result &= v3_4.x6 == Byte3.TestData_LHS[i].z;
+                result &= v3_4.x4 == __byte3.TestData_LHS[i].x;
+                result &= v3_4.x5 == __byte3.TestData_LHS[i].y;
+                result &= v3_4.x6 == __byte3.TestData_LHS[i].z;
                 result &= v3_4.x7 == TestData_LHS[i].x7;
 
                 byte8 v3_5 = TestData_LHS[i];
-                v3_5.v3_5 = Byte3.TestData_LHS[i];
+                v3_5.v3_5 = __byte3.TestData_LHS[i];
                 result &= v3_5.x0 == TestData_LHS[i].x0;
                 result &= v3_5.x1 == TestData_LHS[i].x1;
                 result &= v3_5.x2 == TestData_LHS[i].x2;
                 result &= v3_5.x3 == TestData_LHS[i].x3;
                 result &= v3_5.x4 == TestData_LHS[i].x4;
-                result &= v3_5.x5 == Byte3.TestData_LHS[i].x;
-                result &= v3_5.x6 == Byte3.TestData_LHS[i].y;
-                result &= v3_5.x7 == Byte3.TestData_LHS[i].z;
+                result &= v3_5.x5 == __byte3.TestData_LHS[i].x;
+                result &= v3_5.x6 == __byte3.TestData_LHS[i].y;
+                result &= v3_5.x7 == __byte3.TestData_LHS[i].z;
 
 
                 byte8 v2_0 = TestData_LHS[i];
-                v2_0.v2_0 = Byte2.TestData_LHS[i];
-                result &= v2_0.x0 == Byte2.TestData_LHS[i].x;
-                result &= v2_0.x1 == Byte2.TestData_LHS[i].y;
+                v2_0.v2_0 = __byte2.TestData_LHS[i];
+                result &= v2_0.x0 == __byte2.TestData_LHS[i].x;
+                result &= v2_0.x1 == __byte2.TestData_LHS[i].y;
                 result &= v2_0.x2 == TestData_LHS[i].x2;
                 result &= v2_0.x3 == TestData_LHS[i].x3;
                 result &= v2_0.x4 == TestData_LHS[i].x4;
@@ -895,10 +943,10 @@ namespace MaxMath.Tests
                 result &= v2_0.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_1 = TestData_LHS[i];
-                v2_1.v2_1 = Byte2.TestData_LHS[i];
+                v2_1.v2_1 = __byte2.TestData_LHS[i];
                 result &= v2_1.x0 == TestData_LHS[i].x0;
-                result &= v2_1.x1 == Byte2.TestData_LHS[i].x;
-                result &= v2_1.x2 == Byte2.TestData_LHS[i].y;
+                result &= v2_1.x1 == __byte2.TestData_LHS[i].x;
+                result &= v2_1.x2 == __byte2.TestData_LHS[i].y;
                 result &= v2_1.x3 == TestData_LHS[i].x3;
                 result &= v2_1.x4 == TestData_LHS[i].x4;
                 result &= v2_1.x5 == TestData_LHS[i].x5;
@@ -906,59 +954,59 @@ namespace MaxMath.Tests
                 result &= v2_1.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_2 = TestData_LHS[i];
-                v2_2.v2_2 = Byte2.TestData_LHS[i];
+                v2_2.v2_2 = __byte2.TestData_LHS[i];
                 result &= v2_2.x0 == TestData_LHS[i].x0;
                 result &= v2_2.x1 == TestData_LHS[i].x1;
-                result &= v2_2.x2 == Byte2.TestData_LHS[i].x;
-                result &= v2_2.x3 == Byte2.TestData_LHS[i].y;
+                result &= v2_2.x2 == __byte2.TestData_LHS[i].x;
+                result &= v2_2.x3 == __byte2.TestData_LHS[i].y;
                 result &= v2_2.x4 == TestData_LHS[i].x4;
                 result &= v2_2.x5 == TestData_LHS[i].x5;
                 result &= v2_2.x6 == TestData_LHS[i].x6;
                 result &= v2_2.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_3 = TestData_LHS[i];
-                v2_3.v2_3 = Byte2.TestData_LHS[i];
+                v2_3.v2_3 = __byte2.TestData_LHS[i];
                 result &= v2_3.x0 == TestData_LHS[i].x0;
                 result &= v2_3.x1 == TestData_LHS[i].x1;
                 result &= v2_3.x2 == TestData_LHS[i].x2;
-                result &= v2_3.x3 == Byte2.TestData_LHS[i].x;
-                result &= v2_3.x4 == Byte2.TestData_LHS[i].y;
+                result &= v2_3.x3 == __byte2.TestData_LHS[i].x;
+                result &= v2_3.x4 == __byte2.TestData_LHS[i].y;
                 result &= v2_3.x5 == TestData_LHS[i].x5;
                 result &= v2_3.x6 == TestData_LHS[i].x6;
                 result &= v2_3.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_4 = TestData_LHS[i];
-                v2_4.v2_4 = Byte2.TestData_LHS[i];
+                v2_4.v2_4 = __byte2.TestData_LHS[i];
                 result &= v2_4.x0 == TestData_LHS[i].x0;
                 result &= v2_4.x1 == TestData_LHS[i].x1;
                 result &= v2_4.x2 == TestData_LHS[i].x2;
                 result &= v2_4.x3 == TestData_LHS[i].x3;
-                result &= v2_4.x4 == Byte2.TestData_LHS[i].x;
-                result &= v2_4.x5 == Byte2.TestData_LHS[i].y;
+                result &= v2_4.x4 == __byte2.TestData_LHS[i].x;
+                result &= v2_4.x5 == __byte2.TestData_LHS[i].y;
                 result &= v2_4.x6 == TestData_LHS[i].x6;
                 result &= v2_4.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_5 = TestData_LHS[i];
-                v2_5.v2_5 = Byte2.TestData_LHS[i];
+                v2_5.v2_5 = __byte2.TestData_LHS[i];
                 result &= v2_5.x0 == TestData_LHS[i].x0;
                 result &= v2_5.x1 == TestData_LHS[i].x1;
                 result &= v2_5.x2 == TestData_LHS[i].x2;
                 result &= v2_5.x3 == TestData_LHS[i].x3;
                 result &= v2_5.x4 == TestData_LHS[i].x4;
-                result &= v2_5.x5 == Byte2.TestData_LHS[i].x;
-                result &= v2_5.x6 == Byte2.TestData_LHS[i].y;
+                result &= v2_5.x5 == __byte2.TestData_LHS[i].x;
+                result &= v2_5.x6 == __byte2.TestData_LHS[i].y;
                 result &= v2_5.x7 == TestData_LHS[i].x7;
 
                 byte8 v2_6 = TestData_LHS[i];
-                v2_6.v2_6 = Byte2.TestData_LHS[i];
+                v2_6.v2_6 = __byte2.TestData_LHS[i];
                 result &= v2_6.x0 == TestData_LHS[i].x0;
                 result &= v2_6.x1 == TestData_LHS[i].x1;
                 result &= v2_6.x2 == TestData_LHS[i].x2;
                 result &= v2_6.x3 == TestData_LHS[i].x3;
                 result &= v2_6.x4 == TestData_LHS[i].x4;
                 result &= v2_6.x5 == TestData_LHS[i].x5;
-                result &= v2_6.x6 == Byte2.TestData_LHS[i].x;
-                result &= v2_6.x7 == Byte2.TestData_LHS[i].y;
+                result &= v2_6.x6 == __byte2.TestData_LHS[i].x;
+                result &= v2_6.x7 == __byte2.TestData_LHS[i].y;
             }
 
             Assert.AreEqual(true, result);

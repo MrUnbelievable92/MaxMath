@@ -4,7 +4,7 @@ using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class ULong4
+    unsafe public static class __ulong4
     {
         internal const int NUM_TESTS = 4;
 
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Constructor_ULong_ULong_ULong_ULong()
+        public static void Constructor___ulong___ulong___ulong_ULong()
         {
             ulong4 x = new ulong4(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -76,7 +76,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong2_ULong_ULong()
+        public static void Constructor___ulong2___ulong_ULong()
         {
             ulong4 x = new ulong4(new ulong2(TestData_LHS[0].x, TestData_LHS[0].y), TestData_LHS[0].z, TestData_LHS[0].w);
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong_ULong2_ULong()
+        public static void Constructor___ulong___ulong2_ULong()
         {
             ulong4 x = new ulong4(TestData_LHS[0].x, new ulong2(TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong_ULong_ULong2()
+        public static void Constructor___ulong___ulong_ULong2()
         {
             ulong4 x = new ulong4(TestData_LHS[0].x, TestData_LHS[0].y, new ulong2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong2_ULong2()
+        public static void Constructor___ulong2_ULong2()
         {
             ulong4 x = new ulong4(new ulong2(TestData_LHS[0].x, TestData_LHS[0].y), new ulong2(TestData_LHS[0].z, TestData_LHS[0].w));
 
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong3_ULong()
+        public static void Constructor___ulong3_ULong()
         {
             ulong4 x = new ulong4(new ulong3(TestData_LHS[0].x, TestData_LHS[0].y, TestData_LHS[0].z), TestData_LHS[0].w);
 
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Constructor_ULong_ULong3()
+        public static void Constructor___ulong_ULong3()
         {
             ulong4 x = new ulong4(TestData_LHS[0].x, new ulong3(TestData_LHS[0].y, TestData_LHS[0].z, TestData_LHS[0].w));
 

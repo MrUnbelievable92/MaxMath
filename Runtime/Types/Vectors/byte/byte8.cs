@@ -886,13 +886,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte8(ushort8 input)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Cast.ShortToByte(input);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Cast.Short8To_S_Byte8_SSE2(input);
             }
             else
             {
@@ -903,13 +899,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte8(short8 input)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Cast.ShortToByte(input);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Cast.Short8To_S_Byte8_SSE2(input);
             }
             else
             {
@@ -924,6 +916,10 @@ namespace MaxMath
             {
                 return Cast.Int8ToByte8(input);
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Int8To_S_Byte8_SSE2(UnityMathematicsLink.Tov128(input._v4_0), UnityMathematicsLink.Tov128(input._v4_4));
+            }
             else
             {
                 return new byte8((byte4)input._v4_0, (byte4)input._v4_4);
@@ -936,6 +932,10 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Cast.Int8ToByte8(input);
+            }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Cast.Int8To_S_Byte8_SSE2(UnityMathematicsLink.Tov128(input._v4_0), UnityMathematicsLink.Tov128(input._v4_4));
             }
             else
             {
@@ -1060,6 +1060,18 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
+                if (Avx2.IsAvx2Supported)
+                {
+                    if (Constant.IsConstantExpression(right) && !maxmath.all_eq(right) && maxmath.all(maxmath.ispow2(right)))
+                    {
+                        return maxmath.shl(left, maxmath.tzcnt(right));
+                    }
+                    if (Constant.IsConstantExpression(left) && !maxmath.all_eq(left) && maxmath.all(maxmath.ispow2(left)))
+                    {
+                        return maxmath.shl(right, maxmath.tzcnt(left));
+                    }
+                }
+                
                 return (byte8)((ushort8)left * (ushort8)right);
             }
             else
@@ -1071,7 +1083,23 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator / (byte8 left, byte8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Constant.IsConstantExpression(right))
+            {
+Assert.IsTrue(maxmath.all(right != 0));
+
+                bool sameValue = maxmath.all_eq(right);
+
+                if (!sameValue && maxmath.all(maxmath.ispow2(right)))
+                {
+                    return maxmath.shrl(left, maxmath.tzcnt(right));    
+                } 
+                else if (sameValue)
+                {
+                    return Operator.Constant.vdiv_byte(left, right.x0);
+                }
+            }
+
+            if (Avx.IsAvxSupported)
             {
                 return Operator.vdiv_byte(left, right);
             }
@@ -1088,7 +1116,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator % (byte8 left, byte8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Operator.vrem_byte(left, right);
             }
@@ -1123,12 +1151,9 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 operator / (byte8 left, byte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Constant.IsConstantExpression(right))
             {
-                if (Constant.IsConstantExpression(right))
-                {
-                    return (v128)((byte16)((v128)left) / right);
-                }
+                return Operator.Constant.vdiv_byte(left, right);
             }
 
             return left / (byte8)right;
@@ -1261,7 +1286,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi8(left, right));
+                return ConvertToBool.IsTrue8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -1274,7 +1299,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_byte(right, left));
+                return ConvertToBool.IsTrue8(Operator.greater_mask_byte(right, left));
             }
             else
             {
@@ -1287,7 +1312,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_byte(left, right));
+                return ConvertToBool.IsTrue8(Operator.greater_mask_byte(left, right));
             }
             else
             {
@@ -1301,7 +1326,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpeq_epi8(left, right));
+                return ConvertToBool.IsFalse8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -1314,7 +1339,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi8(Sse2.min_epu8(left, right), left));
+                return ConvertToBool.IsTrue8(Sse2.cmpeq_epi8(Sse2.min_epu8(left, right), left));
             }
             else
             {
@@ -1327,29 +1352,12 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi8(Sse2.max_epu8(left, right), left));
+                return ConvertToBool.IsTrue8(Sse2.cmpeq_epi8(Sse2.max_epu8(left, right), left));
             }
             else
             {
                 return new bool8(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsTrue(v128 input) 
-        {
-            return (v128)(-((sbyte16)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool8 TestIsFalse(v128 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.andnot_si128(input, new byte8(1));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

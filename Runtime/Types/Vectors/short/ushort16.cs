@@ -2407,7 +2407,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi16(left, right));
+                return ConvertToBool.IsTrue16(Avx2.mm256_cmpeq_epi16(left, right));
             }
             else
             {
@@ -2420,7 +2420,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ushort(right, left));
+                return ConvertToBool.IsTrue16(Operator.greater_mask_ushort(right, left));
             }
             else
             {
@@ -2433,7 +2433,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ushort(left, right));
+                return ConvertToBool.IsTrue16(Operator.greater_mask_ushort(left, right));
             }
             else
             {
@@ -2447,7 +2447,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsFalse(Avx2.mm256_cmpeq_epi16(left, right));
+                return ConvertToBool.IsFalse16(Avx2.mm256_cmpeq_epi16(left, right));
             }
             else
             {
@@ -2460,7 +2460,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(left, right), left));
+                return ConvertToBool.IsTrue16(Avx2.mm256_cmpeq_epi16(Avx2.mm256_min_epu16(left, right), left));
             }
             else
             {
@@ -2473,29 +2473,12 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return TestIsTrue(Avx2.mm256_cmpeq_epi16(Avx2.mm256_max_epu16(left, right), left));
+                return ConvertToBool.IsTrue16(Avx2.mm256_cmpeq_epi16(Avx2.mm256_max_epu16(left, right), left));
             }
             else
             {
                 return new bool16(left._v8_0 >= right._v8_0, left._v8_8 >= right._v8_8);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool16 TestIsTrue(v256 input)
-        {
-            return (v128)((byte16)(-(short16)input));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool16 TestIsFalse(v256 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.andnot_si128((byte16)(ushort16)input, new v128(0x0101_0101));
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

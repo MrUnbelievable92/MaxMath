@@ -5,12 +5,29 @@ namespace MaxMath.Tests
 {
     unsafe public static class gcd
     {
-        private static long _gcd(long x, long y)
+        private static byte _gcd(sbyte x, sbyte y) => (byte)_gcd((long)x, (long)y);
+        private static byte _gcd(byte x, byte y) => (byte)_gcd((ulong)x, (ulong)y);
+
+        private static ushort _gcd(short x, short y) => (ushort)_gcd((long)x, (long)y);
+        private static ushort _gcd(ushort x, ushort y) => (ushort)_gcd((ulong)x, (ulong)y);
+
+        private static uint _gcd(int x, int y) => (uint)_gcd((long)x, (long)y);
+        private static uint _gcd(uint x, uint y) => (uint)_gcd((ulong)x, (ulong)y);
+
+        private static ulong _gcd(long x, long y)
         {
-            return (long)_gcd((ulong)math.abs(x), (ulong)math.abs(y));
+            return _gcd((ulong)math.abs(x), (ulong)math.abs(y));
+        }
+        private static ulong _gcd(ulong x, ulong y)
+        {
+            return (y == 0) ? x : _gcd(y, x % y);
         }
 
-        private static ulong _gcd(ulong x, ulong y)
+        private static UInt128 _gcd(Int128 x, Int128 y)
+        {
+            return _gcd((UInt128)maxmath.abs(x), (UInt128)maxmath.abs(y));
+        }
+        private static UInt128 _gcd(UInt128 x, UInt128 y)
         {
             return (y == 0) ? x : _gcd(y, x % y);
         }
@@ -28,8 +45,8 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
 
-                Assert.AreEqual(0, x % _gcd(x, y));
-                Assert.AreEqual(0, y % _gcd(x, y));
+                Assert.AreEqual(0, x % (long)_gcd(x, y));
+                Assert.AreEqual(0, y % (long)_gcd(x, y));
             }
         }
 
@@ -50,6 +67,40 @@ namespace MaxMath.Tests
             }
         }
 
+
+        [Test]
+        public static void int128()
+        {
+            Random128 rng = new Random128(13255);
+
+            for (int i = 0; i < 64; i++)
+            {
+                Int128 x = rng.NextInt128();
+                Int128 y = rng.NextInt128();
+
+                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+
+                Assert.AreEqual((Int128)0, x % (Int128)_gcd(x, y));
+                Assert.AreEqual((Int128)0, y % (Int128)_gcd(x, y));
+            }
+        }
+
+        [Test]
+        public static void uint128()
+        {
+            Random128 rng = new Random128(13255);
+
+            for (int i = 0; i < 64; i++)
+            {
+                UInt128 x = rng.NextUInt128();
+                UInt128 y = rng.NextUInt128();
+
+                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+
+                Assert.AreEqual((UInt128)0, x % _gcd(x, y));
+                Assert.AreEqual((UInt128)0, y % _gcd(x, y));
+            }
+        }
 
 
         [Test]

@@ -7,7 +7,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 ror(sbyte2 x, sbyte2 n)
         {
@@ -23,7 +23,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 ror(sbyte3 x, sbyte3 n)
         {
@@ -39,7 +39,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 ror(sbyte4 x, sbyte4 n)
         {
@@ -55,7 +55,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 ror(sbyte8 x, sbyte8 n)
         {
@@ -71,57 +71,75 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte16"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 ror(sbyte16 x, sbyte16 n)
         {
-            return new sbyte16(ror(x.v8_0, n.v8_0), ror(x.v8_8, n.v8_8));
+            if (Sse2.IsSse2Supported)
+            {
+                n &= 7;
+
+                return (sbyte16)(shrl((byte16)x, (byte16)n) | shl((byte16)x, (byte16)(-n & 7)));
+            }
+            else
+            {
+                return new sbyte16(ror(x.v8_0, n.v8_0), ror(x.v8_8, n.v8_8));
+            }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte32"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 ror(sbyte32 x, sbyte32 n)
         {
-            return new sbyte32(ror(x.v8_0, n.v8_0), ror(x.v8_8, n.v8_8), ror(x.v8_16, n.v8_16), ror(x.v8_24, n.v8_24));
+            if (Avx2.IsAvx2Supported)
+            {
+                n &= 7;
+
+                return (sbyte32)(shrl((byte32)x, (byte32)n) | shl((byte32)x, (byte32)(-n & 7)));
+            }
+            else
+            {
+                return new sbyte32(ror(x.v16_0, n.v16_0), ror(x.v16_16, n.v16_16));
+            }
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 ror(byte2 x, byte2 n)
         {
             return (byte2)ror((sbyte2)x, (sbyte2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 ror(byte3 x, byte3 n)
         {
             return (byte3)ror((sbyte3)x, (sbyte3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 ror(byte4 x, byte4 n)
         {
             return (byte4)ror((sbyte4)x, (sbyte4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 ror(byte8 x, byte8 n)
         {
             return (byte8)ror((sbyte8)x, (sbyte8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte16"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 ror(byte16 x, byte16 n)
         {
             return (byte16)ror((sbyte16)x, (sbyte16)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte32"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 ror(byte32 x, byte32 n)
         {
@@ -129,7 +147,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 ror(short2 x, short2 n)
         {
@@ -145,7 +163,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 ror(short3 x, short3 n)
         {
@@ -161,7 +179,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 ror(short4 x, short4 n)
         {
@@ -177,7 +195,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 ror(short8 x, short8 n)
         {
@@ -193,7 +211,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short16"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 ror(short16 x, short16 n)
         {
@@ -201,35 +219,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 ror(ushort2 x, ushort2 n)
         {
             return (ushort2)ror((short2)x, (short2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 ror(ushort3 x, ushort3 n)
         {
             return (ushort3)ror((short3)x, (short3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 ror(ushort4 x, ushort4 n)
         {
             return (ushort4)ror((short4)x, (short4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 ror(ushort8 x, ushort8 n)
         {
             return (ushort8)ror((short8)x, (short8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort16"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 ror(ushort16 x, ushort16 n)
         {
@@ -237,7 +255,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 ror(int2 x, int2 n)
         {
@@ -253,7 +271,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 ror(int3 x, int3 n)
         {
@@ -269,7 +287,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 ror(int4 x, int4 n)
         {
@@ -285,7 +303,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 ror(int8 x, int8 n)
         {
@@ -302,56 +320,56 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 ror(uint2 x, uint2 n)
         {
             return (uint2)ror((int2)x, (int2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 ror(uint3 x, uint3 n)
         {
             return (uint3)ror((int3)x, (int3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 ror(uint4 x, uint4 n)
         {
             return (uint4)ror((int4)x, (int4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 ror(uint8 x, uint8 n)
         {
             return (uint8)ror((int8)x, (int8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 ror(uint2 x, int2 n)
         {
             return ror(x, (uint2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 ror(uint3 x, int3 n)
         {
             return ror(x, (uint3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 ror(uint4 x, int4 n)
         {
             return ror(x, (uint4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint8"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 ror(uint8 x, int8 n)
         {
@@ -359,7 +377,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 ror(long2 x, long2 n)
         {
@@ -375,7 +393,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 ror(long3 x, long3 n)
         {
@@ -391,7 +409,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 ror(long4 x, long4 n)
         {
@@ -408,21 +426,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ror(ulong2 x, ulong2 n)
         {
             return (ulong2)ror((long2)x, (long2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 ror(ulong3 x, ulong3 n)
         {
             return (ulong3)ror((long3)x, (long3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 ror(ulong4 x, ulong4 n)
         {
@@ -430,21 +448,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ror(ulong2 x, long2 n)
         {
             return ror(x, (ulong2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 ror(ulong3 x, long3 n)
         {
             return ror(x, (ulong3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 ror(ulong4 x, long4 n)
         {
@@ -452,7 +470,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 rol(sbyte2 x, sbyte2 n)
         {
@@ -468,7 +486,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 rol(sbyte3 x, sbyte3 n)
         {
@@ -484,7 +502,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 rol(sbyte4 x, sbyte4 n)
         {
@@ -500,7 +518,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 rol(sbyte8 x, sbyte8 n)
         {
@@ -516,14 +534,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte16"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 rol(sbyte16 x, sbyte16 n)
         {
             return new sbyte16(rol(x.v8_0, n.v8_0), rol(x.v8_8, n.v8_8));
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an sbyte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte32"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 rol(sbyte32 x, sbyte32 n)
         {
@@ -531,42 +549,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 rol(byte2 x, byte2 n)
         {
             return (byte2)rol((sbyte2)x, (sbyte2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 rol(byte3 x, byte3 n)
         {
             return (byte3)rol((sbyte3)x, (sbyte3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 rol(byte4 x, byte4 n)
         {
             return (byte4)rol((sbyte4)x, (sbyte4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 rol(byte8 x, byte8 n)
         {
             return (byte8)rol((sbyte8)x, (sbyte8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte16"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 rol(byte16 x, byte16 n)
         {
             return (byte16)rol((sbyte16)x, (sbyte16)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a byte8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.byte32"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 rol(byte32 x, byte32 n)
         {
@@ -574,7 +592,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 rol(short2 x, short2 n)
         {
@@ -590,7 +608,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 rol(short3 x, short3 n)
         {
@@ -606,7 +624,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 rol(short4 x, short4 n)
         {
@@ -622,7 +640,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 rol(short8 x, short8 n)
         {
@@ -638,7 +656,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a short8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.short16"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 rol(short16 x, short16 n)
         {
@@ -646,35 +664,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort2 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 rol(ushort2 x, ushort2 n)
         {
             return (ushort2)rol((short2)x, (short2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort3 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 rol(ushort3 x, ushort3 n)
         {
             return (ushort3)rol((short3)x, (short3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort4 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 rol(ushort4 x, ushort4 n)
         {
             return (ushort4)rol((short4)x, (short4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 rol(ushort8 x, ushort8 n)
         {
             return (ushort8)rol((short8)x, (short8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ushort8 right by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ushort16"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 rol(ushort16 x, ushort16 n)
         {
@@ -682,7 +700,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 rol(int2 x, int2 n)
         {
@@ -698,7 +716,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 rol(int3 x, int3 n)
         {
@@ -714,7 +732,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 rol(int4 x, int4 n)
         {
@@ -730,7 +748,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of an int8 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 rol(int8 x, int8 n)
         {
@@ -747,56 +765,56 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 rol(uint2 x, uint2 n)
         {
             return (uint2)rol((int2)x, (int2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 rol(uint3 x, uint3 n)
         {
             return (uint3)rol((int3)x, (int3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 rol(uint4 x, uint4 n)
         {
             return (uint4)rol((int4)x, (int4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint8 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 rol(uint8 x, uint8 n)
         {
             return (uint8)rol((int8)x, (int8)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 rol(uint2 x, int2 n)
         {
             return rol(x, (uint2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 rol(uint3 x, int3 n)
         {
             return rol(x, (uint3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 rol(uint4 x, int4 n)
         {
             return rol(x, (uint4)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a uint8 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint8"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 rol(uint8 x, int8 n)
         {
@@ -804,7 +822,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 rol(long2 x, long2 n)
         {
@@ -820,7 +838,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 rol(long3 x, long3 n)
         {
@@ -836,7 +854,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a long4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.long4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 rol(long4 x, long4 n)
         {
@@ -853,21 +871,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 rol(ulong2 x, ulong2 n)
         {
             return (ulong2)rol((long2)x, (long2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 rol(ulong3 x, ulong3 n)
         {
             return (ulong3)rol((long3)x, (long3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 rol(ulong4 x, ulong4 n)
         {
@@ -875,21 +893,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong2 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 rol(ulong2 x, long2 n)
         {
             return rol(x, (ulong2)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong3 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 rol(ulong3 x, long3 n)
         {
             return rol(x, (ulong3)n);
         }
 
-        /// <summary>       Returns the componentwise result of rotating the bits of a ulong4 left by a number of bits specified in the corresponing component in n.       </summary>
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.ulong4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 rol(ulong4 x, long4 n)
         {

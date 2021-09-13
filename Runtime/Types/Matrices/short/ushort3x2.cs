@@ -168,7 +168,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
 
@@ -186,7 +186,7 @@ Assert.IsWithinArrayBounds(index, 2);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
 

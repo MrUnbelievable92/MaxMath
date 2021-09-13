@@ -184,7 +184,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
 
@@ -202,7 +202,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!Constant.IsConstantExpression(right))
+                if (Constant.IsConstantExpression(right))
                 {
                     byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
 

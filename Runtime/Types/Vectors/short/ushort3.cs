@@ -2003,18 +2003,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(ushort3 input)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
-                return Sse2.insert_epi16(Sse4_1.insert_epi32(default(v128), *(int*)&input, 0), input.z, 2);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Sse2.set_epi64x(0, *(long*)&input);
-            }
-            else
-            {
-                return new v128(*(long*)&input, 0);
-            }
+            ulong hi = (ulong)input.z << 32;
+            *(int*)&hi = *(int*)&input;
+
+            return new v128(hi, 0ul);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] 
@@ -2042,11 +2034,11 @@ namespace MaxMath
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return Cast.Int4ToShort4(*(v128*)&input);
+                return Cast.Int4ToShort4(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Cast.Int3To_U_Short3_SSE2(*(v128*)&input);
+                return Cast.Int3To_U_Short3_SSE2(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -2059,11 +2051,11 @@ namespace MaxMath
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return Cast.Int4ToShort4(*(v128*)&input);
+                return Cast.Int4ToShort4(UnityMathematicsLink.Tov128(input));
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Cast.Int3To_U_Short3_SSE2(*(v128*)&input);
+                return Cast.Int3To_U_Short3_SSE2(UnityMathematicsLink.Tov128(input));
             }
             else
             {
@@ -2436,7 +2428,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi16(left, right));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2449,7 +2443,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ushort(right, left));
+                v128 cvt = ConvertToBool.IsTrue16(Operator.greater_mask_ushort(right, left));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2462,7 +2458,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsTrue(Operator.greater_mask_ushort(left, right));
+                v128 cvt = ConvertToBool.IsTrue16(Operator.greater_mask_ushort(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2476,7 +2474,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Sse2.cmpeq_epi16(left, right));
+                v128 cvt = ConvertToBool.IsFalse16(Sse2.cmpeq_epi16(left, right));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2489,11 +2489,15 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi16(Sse4_1.min_epu16(left, right), left));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(Sse4_1.min_epu16(left, right), left));
+
+                return *(bool3*)&cvt;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ushort(left, right));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.subs_epu16(left, right)));
+
+                return *(bool3*)&cvt;
             }
             else
             {
@@ -2506,37 +2510,20 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return TestIsTrue(Sse2.cmpeq_epi16(Sse4_1.max_epu16(left, right), left));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(Sse4_1.max_epu16(left, right), left));
+
+                return *(bool3*)&cvt;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return TestIsFalse(Operator.greater_mask_ushort(right, left));
+                v128 cvt = ConvertToBool.IsTrue16(Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.subs_epu16(right, left)));
+
+                return *(bool3*)&cvt;
             }
             else
             {
                 return new bool3(left.x >= right.x, left.y >= right.y, left.z >= right.z);
             }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsTrue(v128 input)
-        {
-            input = (v128)((byte8)(-(short8)input));
-
-            return *(bool3*)&input;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool3 TestIsFalse(v128 input) 
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                input = Sse2.andnot_si128((byte3)(ushort3)input, new ushort4(0x0101));
-
-                return *(bool3*)&input;
-            }
-            else throw new CPUFeatureCheckException();
         }
 
 

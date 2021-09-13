@@ -10,7 +10,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the last true bool value of a bool2 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool2"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)] 
         public static int last(bool2 x)
         {
@@ -20,7 +20,7 @@ Assert.IsSafeBoolean(x.y);
             return 3 - (int)((uint)math.lzcnt((uint)*(ushort*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the last true bool value of a bool3 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool3"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 2)] 
         public static int last(bool3 x)
         {
@@ -28,10 +28,13 @@ Assert.IsSafeBoolean(x.x);
 Assert.IsSafeBoolean(x.y);
 Assert.IsSafeBoolean(x.z);
 
-            return 3 - (int)((uint)math.lzcnt(*(int*)&x & 0x00FF_FFFF) / 8);
+            int toInt = *(byte*)&x.z << 16;
+            *(ushort*)&toInt = *(ushort*)&x;
+
+            return 3 - (int)((uint)math.lzcnt(toInt) / 8);
         }
 
-        /// <summary>       Returns the index of the last true bool value of a bool4 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool4"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 3)] 
         public static int last(bool4 x)
         {
@@ -43,7 +46,7 @@ Assert.IsSafeBoolean(x.w);
             return 3 - (int)((uint)math.lzcnt(*(int*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the last true bool value of a bool8 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool8"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 7)] 
         public static int last(bool8 x)
         {
@@ -66,7 +69,7 @@ Assert.IsSafeBoolean(x.x7);
             }
         }
 
-        /// <summary>       Returns the index of the last true bool value of a bool16 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool16"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 15)]
         public static int last(bool16 x)
         {
@@ -106,7 +109,7 @@ Assert.IsSafeBoolean(x.x15);
             }
         }
 
-        /// <summary>       Returns the index of the last true bool value of a bool32 vector or -1 if none are true.       </summary>
+        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool32"/> or -1 if none are <see langword="true" />.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 31)]
         public static int last(bool32 x)
         {

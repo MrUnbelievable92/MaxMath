@@ -9,7 +9,15 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the componentwise sign of a float8 value. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components.     </summary>
+        /// <summary>       Returns the sign of an <see cref="Int128"/>. 1 for a positive <see cref="Int128"/>, 0 for zero and -1 for a negative <see cref="Int128"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)]
+        public static long sign(Int128 x)
+        {
+            return sign((long)x.intern.hi);
+        }
+
+
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 sign(float8 x)
         {
@@ -34,7 +42,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise sign of an sbyte2. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the sign of an <see cref="sbyte"/>. 1 for a positive <see cref="sbyte"/>, 0 for zero and -1 for a negative <see cref="sbyte"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)]
+        public static int sign(sbyte x)
+        {
+            return sign((int)x);
+        }
+
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte2"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 sign(sbyte2 x)
         {
@@ -52,7 +67,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an sbyte3. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte3"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 sign(sbyte3 x)
         {
@@ -70,7 +85,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an sbyte4. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte4"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 sign(sbyte4 x)
         {
@@ -88,7 +103,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an sbyte8. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte8"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 sign(sbyte8 x)
         {
@@ -106,7 +121,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an sbyte16. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte16"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 sign(sbyte16 x)
         {
@@ -124,7 +139,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an sbyte32. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte32"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 sign(sbyte32 x)
         {
@@ -139,7 +154,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise sign of a short2. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the sign of a <see cref="short"/>. 1 for a positive <see cref="short"/>, 0 for zero and -1 for a negative <see cref="short"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)]
+        public static int sign(short x)
+        {
+            return sign((int)x);
+        }
+
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short2"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 sign(short2 x)
         {
@@ -153,7 +175,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a short3. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short3"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 sign(short3 x)
         {
@@ -167,7 +189,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a short4. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short4"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 sign(short4 x)
         {
@@ -181,7 +203,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a short8. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short8"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 sign(short8 x)
         {
@@ -195,7 +217,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a short16. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short16"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 sign(short16 x)
         {
@@ -210,20 +232,20 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sign of an int value. 1 for a positive int, 0 for zero and -1 for a negative int.     </summary>
+        /// <summary>       Returns the sign of an <see cref="int"/>. 1 for a positive <see cref="int"/>, 0 for zero and -1 for a negative <see cref="int"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1, 1)]
         public static int sign(int x)
         {
             return (x >> 31) | (int)((uint)(-x) >> 31);
         }
 
-        /// <summary>       Returns the componentwise sign of an int2. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="int2"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 sign(int2 x)
         {
             if (Ssse3.IsSsse3Supported)
             {
-                v128 temp = Ssse3.sign_epi32(new v128(1, 1, 0, 0), *(v128*)&x);
+                v128 temp = Ssse3.sign_epi32(new v128(1, 1, 0, 0), UnityMathematicsLink.Tov128(x));
 
                 return *(int2*)&temp;
             }
@@ -233,13 +255,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an int3. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="int3"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 sign(int3 x)
         {
             if (Ssse3.IsSsse3Supported)
             {
-                v128 temp = Ssse3.sign_epi32(new v128(1, 1, 1, 0), *(v128*)&x);
+                v128 temp = Ssse3.sign_epi32(new v128(1, 1, 1, 0), UnityMathematicsLink.Tov128(x));
 
                 return *(int3*)&temp;
             }
@@ -249,13 +271,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an int4. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="int4"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 sign(int4 x)
         {
             if (Ssse3.IsSsse3Supported)
             {
-                v128 temp = Ssse3.sign_epi32(new v128(1), *(v128*)&x);
+                v128 temp = Ssse3.sign_epi32(new v128(1), UnityMathematicsLink.Tov128(x));
 
                 return *(int4*)&temp;
             }
@@ -265,7 +287,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an int8. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int8"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 sign(int8 x)
         {
@@ -280,28 +302,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sign of a long value. 1 for a positive long, 0 for zero and -1 for a negative long.     </summary>
+        /// <summary>       Returns the sign of a <see cref="long"/>. 1 for a positive <see cref="long"/>, 0 for zero and -1 for a negative <see cref="long"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  [return: AssumeRange(-1L, 1L)]
         public static long sign(long x)
         {
             return (x >> 63) | (long)((ulong)(-x) >> 63);
         }
 
-        /// <summary>       Returns the componentwise sign of a long2. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long2"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 sign(long2 x)
         {
             return (x >> 63) | (long2)((ulong2)(-x) >> 63);
         }
 
-        /// <summary>       Returns the componentwise sign of a long3. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long3"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 sign(long3 x)
         {
             return (x >> 63) | (long3)((ulong3)(-x) >> 63);
         }
 
-        /// <summary>       Returns the componentwise sign of a long4. 1 for positive components, 0 for zero components and -1 for a negative components.     </summary>
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long4"/>. 1 for positive components, 0 for zero components and -1 for a negative components.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 sign(long4 x)
         {
