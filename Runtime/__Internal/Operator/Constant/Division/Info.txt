@@ -1,3 +1,0 @@
-﻿Normally, Burst/LLVM optimized division of any vector type by constants.
-
-IF THERE IS A BRANCH (even a simple one that choses between 2 possible constants), it usually does not. 

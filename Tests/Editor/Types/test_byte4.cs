@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
@@ -249,12 +249,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte4 x = TestData_LHS[i] / TestData_RHS[i];
+                byte4 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x == (byte)(TestData_LHS[i].x / TestData_RHS[i].x) &
-                          x.y == (byte)(TestData_LHS[i].y / TestData_RHS[i].y) &
-                          x.z == (byte)(TestData_LHS[i].z / TestData_RHS[i].z) &
-                          x.w == (byte)(TestData_LHS[i].w / TestData_RHS[i].w);
+                byte4 x = TestData_LHS[i] / divisor;
+
+                result &= x.x == (byte)(TestData_LHS[i].x / divisor.x) &
+                          x.y == (byte)(TestData_LHS[i].y / divisor.y) &
+                          x.z == (byte)(TestData_LHS[i].z / divisor.z) &
+                          x.w == (byte)(TestData_LHS[i].w / divisor.w);
             }
 
             Assert.AreEqual(true, result);
@@ -267,12 +269,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte4 x = TestData_LHS[i] % TestData_RHS[i];
+                byte4 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x == (byte)(TestData_LHS[i].x % TestData_RHS[i].x) & 
-                          x.y == (byte)(TestData_LHS[i].y % TestData_RHS[i].y) &
-                          x.z == (byte)(TestData_LHS[i].z % TestData_RHS[i].z) &
-                          x.w == (byte)(TestData_LHS[i].w % TestData_RHS[i].w);
+                byte4 x = TestData_LHS[i] % divisor;
+
+                result &= x.x == (byte)(TestData_LHS[i].x % divisor.x) & 
+                          x.y == (byte)(TestData_LHS[i].y % divisor.y) &
+                          x.z == (byte)(TestData_LHS[i].z % divisor.z) &
+                          x.w == (byte)(TestData_LHS[i].w % divisor.w);
             }
 
             Assert.AreEqual(true, result);

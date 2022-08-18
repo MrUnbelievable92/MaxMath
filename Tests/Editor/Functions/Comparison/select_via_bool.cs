@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 
 namespace MaxMath.Tests
@@ -1592,5 +1592,3 @@ namespace MaxMath.Tests
         }
     }
 }
-
-

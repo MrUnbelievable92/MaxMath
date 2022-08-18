@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 
 namespace MaxMath.Tests
@@ -9,267 +9,312 @@ namespace MaxMath.Tests
         [Test]
         public static void Byte3()
         {
-            bool result = true;
-
-            for (int i = 0; i < 3; i++)
+            for (int K = 0; K < 3; K++)
             {
-                byte3 a = 0;
-
-                for (int j = 0; j < 3; j++)
+                for (int i = 0; i < 3; i++)
                 {
-                    a[j] = (byte)j;
+                    byte3 a = 0;
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        a[j] = (byte)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Byte4()
         {
-            bool result = true;
-
-            for (int i = 0; i < 4; i++)
+            for (int K = 0; K < 4; K++)
             {
-                byte4 a = 0;
-
-                for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 4; i++)
                 {
-                    a[j] = (byte)j;
+                    byte4 a = 0;
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        a[j] = (byte)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Byte8()
         {
-            bool result = true;
-
-            for (int i = 0; i < 8; i++)
+            for (int K = 0; K < 8; K++)
             {
-                byte8 a = 0;
-
-                for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
                 {
-                    a[j] = (byte)j;
+                    byte8 a = 0;
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        a[j] = (byte)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Byte16()
         {
-            bool result = true;
-
-            for (int i = 0; i < 16; i++)
+            for (int K = 0; K < 16; K++)
             {
-                byte16 a = 0;
-
-                for (int j = 0; j < 16; j++)
+                for (int i = 0; i < 16; i++)
                 {
-                    a[j] = (byte)j;
+                    byte16 a = 0;
+
+                    for (int j = 0; j < 16; j++)
+                    {
+                        a[j] = (byte)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Byte32()
         {
-            bool result = true;
-
-            for (int i = 0; i < 32; i++)
+            for (int K = 0; K < 32; K++)
             {
-                byte32 a = 0;
-
-                for (int j = 0; j < 32; j++)
+                for (int i = 0; i < 32; i++)
                 {
-                    a[j] = (byte)j;
-                }
+                    byte32 a = 0;
 
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
+                    for (int j = 0; j < 32; j++)
+                    {
+                        a[j] = (byte)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
+                }
             }
 
-            Assert.AreEqual(true, result);
+            byte32 xxx = new byte32(new byte16(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), new byte16(16));
+            Assert.IsFalse(maxmath.all_dif(xxx));
         }
 
 
         [Test]
         public static void Short3()
         {
-            bool result = true;
-
-            for (int i = 0; i < 3; i++)
+            for (int K = 0; K < 3; K++)
             {
-                short3 a = 0;
-
-                for (int j = 0; j < 3; j++)
+                for (int i = 0; i < 3; i++)
                 {
-                    a[j] = (short)j;
+                    short3 a = 0;
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        a[j] = (short)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Short4()
         {
-            bool result = true;
-
-            for (int i = 0; i < 4; i++)
+            for (int K = 0; K < 4; K++)
             {
-                short4 a = 0;
-
-                for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 4; i++)
                 {
-                    a[j] = (short)j;
+                    short4 a = 0;
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        a[j] = (short)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Short8()
         {
-            bool result = true;
-
-            for (int i = 0; i < 8; i++)
+            for (int K = 0; K < 8; K++)
             {
-                short8 a = 0;
-
-                for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
                 {
-                    a[j] = (short)j;
+                    short8 a = 0;
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        a[j] = (short)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Short16()
         {
-            bool result = true;
-
-            for (int i = 0; i < 16; i++)
+            for (int K = 0; K < 16; K++)
             {
-                short16 a = 0;
-
-                for (int j = 0; j < 16; j++)
+                for (int i = 0; i < 16; i++)
                 {
-                    a[j] = (short)j;
-                }
+                    short16 a = 0;
 
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (byte)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
+                    for (int j = 0; j < 16; j++)
+                    {
+                        a[j] = (short)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
+                }
             }
 
-            Assert.AreEqual(true, result);
+            short16 xxx = new short16(new short8(0, 1, 2, 3, 4, 5, 6, 7), new short8(8));
+            Assert.IsFalse(maxmath.all_dif(xxx));
         }
 
 
         [Test]
         public static void Int3()
         {
-            bool result = true;
-
-            for (int i = 0; i < 3; i++)
+            for (int K = 0; K < 3; K++)
             {
-                int3 a = 0;
-
-                for (int j = 0; j < 3; j++)
+                for (int i = 0; i < 3; i++)
                 {
-                    a[j] = (int)j;
+                    int3 a = 0;
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        a[j] = (int)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (int)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Int4()
         {
-            bool result = true;
-
-            for (int i = 0; i < 4; i++)
+            for (int K = 0; K < 4; K++)
             {
-                int4 a = 0;
-
-                for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 4; i++)
                 {
-                    a[j] = (int)j;
+                    int4 a = 0;
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        a[j] = (int)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
                 }
-
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (int)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Int8()
         {
-            bool result = true;
-
-            for (int i = 0; i < 8; i++)
+            for (int K = 0; K < 8; K++)
             {
-                int8 a = 0;
-
-                for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
                 {
-                    a[j] = (int)j;
-                }
+                    int8 a = 0;
 
-                result &= (maxmath.all_dif(a) == true);
-                a[i] = (int)((i == 1) ? 2 : 1);
-                result &= (maxmath.all_dif(a) == false);
+                    for (int j = 0; j < 8; j++)
+                    {
+                        a[j] = (int)j;
+                    }
+
+                    Assert.IsTrue(maxmath.all_dif(a));
+
+                    if (a[i] != a[K])
+                    {
+                        a[i] = a[K];
+                        Assert.IsFalse(maxmath.all_dif(a));
+                    }
+                }
             }
 
-            Assert.AreEqual(true, result);
+            int8 xxx = new int8(new int4(0, 1, 2, 3), new int4(4));
+            Assert.IsFalse(maxmath.all_dif(xxx));
         }
     }
 }

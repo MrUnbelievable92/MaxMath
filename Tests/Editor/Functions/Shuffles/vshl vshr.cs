@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 
 namespace MaxMath.Tests
@@ -313,6 +313,127 @@ namespace MaxMath.Tests
                 }
             }
         }
+
+
+        [Test]
+        public static void float2()
+        {
+            for (int i = 0; i < __float2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    float2 shr = maxmath.vshr(__float2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 2) ? 0 : __float2.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float3()
+        {
+            for (int i = 0; i < __float3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    float3 shr = maxmath.vshr(__float3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 3) ? 0 : __float3.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float4()
+        {
+            for (int i = 0; i < __float4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    float4 shr = maxmath.vshr(__float4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 4) ? 0 : __float4.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float8()
+        {
+            for (int i = 0; i < __float8.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    float8 shr = maxmath.vshr(__float8.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 8; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 8) ? 0 : __float8.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void double2()
+        {
+            for (int i = 0; i < __double2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    double2 shr = maxmath.vshr(__double2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 2) ? 0 : __double2.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double3()
+        {
+            for (int i = 0; i < __double3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    double3 shr = maxmath.vshr(__double3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 3) ? 0 : __double3.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double4()
+        {
+            for (int i = 0; i < __double4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    double4 shr = maxmath.vshr(__double4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.IsTrue(shr[k] == ((j + k >= 4) ? 0 : __double4.TestData_LHS[i][j + k]));
+                    }
+                }
+            }
+        }
     }
 
 
@@ -622,6 +743,127 @@ namespace MaxMath.Tests
                     for (int k = 0; k < 4; k++)
                     {
                         Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __ulong4.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void float2()
+        {
+            for (int i = 0; i < __float2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    float2 shl = maxmath.vshl(__float2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __float2.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float3()
+        {
+            for (int i = 0; i < __float3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    float3 shl = maxmath.vshl(__float3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __float3.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float4()
+        {
+            for (int i = 0; i < __float4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    float4 shl = maxmath.vshl(__float4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __float4.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float8()
+        {
+            for (int i = 0; i < __float8.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    float8 shl = maxmath.vshl(__float8.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 8; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __float8.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void double2()
+        {
+            for (int i = 0; i < __double2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    double2 shl = maxmath.vshl(__double2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __double2.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double3()
+        {
+            for (int i = 0; i < __double3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    double3 shl = maxmath.vshl(__double3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __double3.TestData_LHS[i][k - j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double4()
+        {
+            for (int i = 0; i < __double4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    double4 shl = maxmath.vshl(__double4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.IsTrue(shl[k] == ((k - j < 0) ? 0 : __double4.TestData_LHS[i][k - j]));
                     }
                 }
             }

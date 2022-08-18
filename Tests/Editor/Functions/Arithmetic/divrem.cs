@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using NUnit.Framework;
 using Unity.Mathematics;
 
@@ -11,7 +11,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte left  = rng.NextByte();
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte2 left  = rng.NextByte2();
 
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte3 left  = rng.NextByte3();
 
@@ -65,7 +65,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte4 left  = rng.NextByte4();
 
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte8 left  = rng.NextByte8();
 
@@ -117,7 +117,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = 1;i <= byte.MaxValue;i++)
+            for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte16 left  = rng.NextByte16();
 
@@ -248,7 +248,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte2 left  = rng.NextByte2();
                 byte2 right = rng.NextByte2();
@@ -267,7 +267,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte3 left  = rng.NextByte3();
                 byte3 right = rng.NextByte3();
@@ -286,7 +286,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte4 left  = rng.NextByte4();
                 byte4 right = rng.NextByte4();
@@ -305,7 +305,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte8 left  = rng.NextByte8();
                 byte8 right = rng.NextByte8();
@@ -324,7 +324,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte16 left  = rng.NextByte16();
                 byte16 right = rng.NextByte16();
@@ -343,7 +343,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 byte32 left  = rng.NextByte32();
                 byte32 right = rng.NextByte32();
@@ -363,7 +363,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 ushort2 left  = rng.NextUShort2();
                 ushort2 right = rng.NextUShort2();
@@ -382,7 +382,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 ushort3 left  = rng.NextUShort3();
                 ushort3 right = rng.NextUShort3();
@@ -401,7 +401,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 ushort4 left  = rng.NextUShort4();
                 ushort4 right = rng.NextUShort4();
@@ -420,7 +420,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 ushort8 left  = rng.NextUShort8();
                 ushort8 right = rng.NextUShort8();
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 ushort16 left  = rng.NextUShort16();
                 ushort16 right = rng.NextUShort16();
@@ -459,7 +459,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 uint2 left  = rng.NextUInt2();
                 uint2 right = rng.NextUInt2();
@@ -478,7 +478,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 uint3 left  = rng.NextUInt3();
                 uint3 right = rng.NextUInt3();
@@ -497,7 +497,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 uint4 left  = rng.NextUInt4();
                 uint4 right = rng.NextUInt4();
@@ -516,7 +516,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 uint8 left  = rng.NextUInt8();
                 uint8 right = rng.NextUInt8();
@@ -537,7 +537,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -558,7 +558,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -581,7 +581,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -605,7 +605,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -631,7 +631,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -665,7 +665,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
             
-            for (int i = sbyte.MinValue;i <= sbyte.MaxValue;i++)
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
                 {
@@ -797,7 +797,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte2 left  = rng.NextSByte2();
                 sbyte2 right = rng.NextSByte2();
@@ -816,7 +816,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte3 left  = rng.NextSByte3();
                 sbyte3 right = rng.NextSByte3();
@@ -835,7 +835,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte4 left  = rng.NextSByte4();
                 sbyte4 right = rng.NextSByte4();
@@ -854,7 +854,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte8 left  = rng.NextSByte8();
                 sbyte8 right = rng.NextSByte8();
@@ -873,7 +873,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte16 left  = rng.NextSByte16();
                 sbyte16 right = rng.NextSByte16();
@@ -892,7 +892,7 @@ namespace MaxMath.Tests
         {
             Random8 rng = Random8.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 sbyte32 left  = rng.NextSByte32();
                 sbyte32 right = rng.NextSByte32();
@@ -912,7 +912,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 short2 left  = rng.NextShort2();
                 short2 right = rng.NextShort2();
@@ -931,7 +931,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 short3 left  = rng.NextShort3();
                 short3 right = rng.NextShort3();
@@ -950,7 +950,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 short4 left  = rng.NextShort4();
                 short4 right = rng.NextShort4();
@@ -969,7 +969,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 short8 left  = rng.NextShort8();
                 short8 right = rng.NextShort8();
@@ -988,7 +988,7 @@ namespace MaxMath.Tests
         {
             Random16 rng = Random16.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 short16 left  = rng.NextShort16();
                 short16 right = rng.NextShort16();
@@ -1008,7 +1008,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 int2 left  = rng.NextInt2();
                 int2 right = rng.NextInt2();
@@ -1027,7 +1027,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 int3 left  = rng.NextInt3();
                 int3 right = rng.NextInt3();
@@ -1046,7 +1046,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 int4 left  = rng.NextInt4();
                 int4 right = rng.NextInt4();
@@ -1065,7 +1065,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 int8 left  = rng.NextInt8();
                 int8 right = rng.NextInt8();
@@ -1085,7 +1085,7 @@ namespace MaxMath.Tests
         {
             Random128 rng = Random128.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
@@ -1105,7 +1105,7 @@ namespace MaxMath.Tests
         {
             Random128 rng = Random128.New;
 
-            for (int i = 0;i < 15;i++)
+            for (int i = 0; i < 15; i++)
             {
                 Int128 left  = rng.NextInt128();
                 Int128 right = rng.NextInt128();

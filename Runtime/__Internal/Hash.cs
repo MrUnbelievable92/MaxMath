@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -21,7 +21,7 @@ namespace MaxMath
             {
                 return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 2, 2))).SInt0;
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -31,7 +31,7 @@ namespace MaxMath
             {
                 return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,11 +39,9 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                x = Sse2.xor_si128(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2)));
-
-                return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+                return v64(Sse2.xor_si128(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2))));
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -51,11 +49,11 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v128 hi = ((long2)Avx2.mm256_extracti128_si256(x, 1)).xx;
+                v128 hi = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 2, 2, 2)));
 
-                return v64(Sse2.xor_si128(Avx.mm256_castsi256_si128(x), hi));
+                return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x), hi));
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
 
 
@@ -67,7 +65,7 @@ namespace MaxMath
                 return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x),
                                            Avx2.mm256_extracti128_si256(x, 1)));
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -78,7 +76,7 @@ namespace MaxMath
                 return v128(Sse2.xor_si128(Avx.mm256_castps256_ps128(x),
                                            Avx.mm256_extractf128_ps(x, 1)));
             }
-            else throw new CPUFeatureCheckException();
+            else throw new IllegalInstructionException();
         }
     }
 }

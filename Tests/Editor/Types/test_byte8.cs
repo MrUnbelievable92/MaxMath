@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
@@ -367,16 +367,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte8 x = TestData_LHS[i] / TestData_RHS[i];
+                byte8 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x0 == (byte)(TestData_LHS[i].x0 / TestData_RHS[i].x0) &
-                          x.x1 == (byte)(TestData_LHS[i].x1 / TestData_RHS[i].x1) &
-                          x.x2 == (byte)(TestData_LHS[i].x2 / TestData_RHS[i].x2) &
-                          x.x3 == (byte)(TestData_LHS[i].x3 / TestData_RHS[i].x3) &
-                          x.x4 == (byte)(TestData_LHS[i].x4 / TestData_RHS[i].x4) &
-                          x.x5 == (byte)(TestData_LHS[i].x5 / TestData_RHS[i].x5) &
-                          x.x6 == (byte)(TestData_LHS[i].x6 / TestData_RHS[i].x6) &
-                          x.x7 == (byte)(TestData_LHS[i].x7 / TestData_RHS[i].x7);
+                byte8 x = TestData_LHS[i] / divisor;
+
+                result &= x.x0 == (byte)(TestData_LHS[i].x0 / divisor.x0) &
+                          x.x1 == (byte)(TestData_LHS[i].x1 / divisor.x1) &
+                          x.x2 == (byte)(TestData_LHS[i].x2 / divisor.x2) &
+                          x.x3 == (byte)(TestData_LHS[i].x3 / divisor.x3) &
+                          x.x4 == (byte)(TestData_LHS[i].x4 / divisor.x4) &
+                          x.x5 == (byte)(TestData_LHS[i].x5 / divisor.x5) &
+                          x.x6 == (byte)(TestData_LHS[i].x6 / divisor.x6) &
+                          x.x7 == (byte)(TestData_LHS[i].x7 / divisor.x7);
             }
 
             Assert.AreEqual(true, result);
@@ -389,16 +391,18 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte8 x = TestData_LHS[i] % TestData_RHS[i];
+                byte8 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x0 == (byte)(TestData_LHS[i].x0 % TestData_RHS[i].x0) &
-                          x.x1 == (byte)(TestData_LHS[i].x1 % TestData_RHS[i].x1) &
-                          x.x2 == (byte)(TestData_LHS[i].x2 % TestData_RHS[i].x2) &
-                          x.x3 == (byte)(TestData_LHS[i].x3 % TestData_RHS[i].x3) &
-                          x.x4 == (byte)(TestData_LHS[i].x4 % TestData_RHS[i].x4) &
-                          x.x5 == (byte)(TestData_LHS[i].x5 % TestData_RHS[i].x5) &
-                          x.x6 == (byte)(TestData_LHS[i].x6 % TestData_RHS[i].x6) &
-                          x.x7 == (byte)(TestData_LHS[i].x7 % TestData_RHS[i].x7);
+                byte8 x = TestData_LHS[i] % divisor;
+
+                result &= x.x0 == (byte)(TestData_LHS[i].x0 % divisor.x0) &
+                          x.x1 == (byte)(TestData_LHS[i].x1 % divisor.x1) &
+                          x.x2 == (byte)(TestData_LHS[i].x2 % divisor.x2) &
+                          x.x3 == (byte)(TestData_LHS[i].x3 % divisor.x3) &
+                          x.x4 == (byte)(TestData_LHS[i].x4 % divisor.x4) &
+                          x.x5 == (byte)(TestData_LHS[i].x5 % divisor.x5) &
+                          x.x6 == (byte)(TestData_LHS[i].x6 % divisor.x6) &
+                          x.x7 == (byte)(TestData_LHS[i].x7 % divisor.x7);
             }
 
             Assert.AreEqual(true, result);

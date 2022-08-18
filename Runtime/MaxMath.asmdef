@@ -1,6 +1,6 @@
 {
     "name": "MaxMath",
-    "rootNamespace": "",
+    "rootNamespace": "MaxMath",
     "references": [
         "Unity.Mathematics",
         "Unity.Burst",

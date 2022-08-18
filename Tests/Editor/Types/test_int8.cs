@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
@@ -315,45 +315,37 @@ namespace MaxMath.Tests
         [Test]
         public static void Divide()
         {
-            bool result = true;
-
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int8 x = TestData_LHS[i] / TestData_RHS[i];
 
-                result &= x.x0 == (int)(TestData_LHS[i].x0 / TestData_RHS[i].x0) &
-                          x.x1 == (int)(TestData_LHS[i].x1 / TestData_RHS[i].x1) &
-                          x.x2 == (int)(TestData_LHS[i].x2 / TestData_RHS[i].x2) &
-                          x.x3 == (int)(TestData_LHS[i].x3 / TestData_RHS[i].x3) &
-                          x.x4 == (int)(TestData_LHS[i].x4 / TestData_RHS[i].x4) &
-                          x.x5 == (int)(TestData_LHS[i].x5 / TestData_RHS[i].x5) &
-                          x.x6 == (int)(TestData_LHS[i].x6 / TestData_RHS[i].x6) &
-                          x.x7 == (int)(TestData_LHS[i].x7 / TestData_RHS[i].x7);
+                Assert.AreEqual(x, new int8((int)(TestData_LHS[i].x0 / TestData_RHS[i].x0),
+                                            (int)(TestData_LHS[i].x1 / TestData_RHS[i].x1),
+                                            (int)(TestData_LHS[i].x2 / TestData_RHS[i].x2),
+                                            (int)(TestData_LHS[i].x3 / TestData_RHS[i].x3),
+                                            (int)(TestData_LHS[i].x4 / TestData_RHS[i].x4),
+                                            (int)(TestData_LHS[i].x5 / TestData_RHS[i].x5),
+                                            (int)(TestData_LHS[i].x6 / TestData_RHS[i].x6),
+                                            (int)(TestData_LHS[i].x7 / TestData_RHS[i].x7)));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Remainder()
         {
-            bool result = true;
-
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 int8 x = TestData_LHS[i] % TestData_RHS[i];
 
-                result &= x.x0 == (int)(TestData_LHS[i].x0 % TestData_RHS[i].x0) &
-                          x.x1 == (int)(TestData_LHS[i].x1 % TestData_RHS[i].x1) &
-                          x.x2 == (int)(TestData_LHS[i].x2 % TestData_RHS[i].x2) &
-                          x.x3 == (int)(TestData_LHS[i].x3 % TestData_RHS[i].x3) &
-                          x.x4 == (int)(TestData_LHS[i].x4 % TestData_RHS[i].x4) &
-                          x.x5 == (int)(TestData_LHS[i].x5 % TestData_RHS[i].x5) &
-                          x.x6 == (int)(TestData_LHS[i].x6 % TestData_RHS[i].x6) &
-                          x.x7 == (int)(TestData_LHS[i].x7 % TestData_RHS[i].x7);
+                Assert.AreEqual(x, new int8((int)(TestData_LHS[i].x0 % TestData_RHS[i].x0),
+                                            (int)(TestData_LHS[i].x1 % TestData_RHS[i].x1),
+                                            (int)(TestData_LHS[i].x2 % TestData_RHS[i].x2),
+                                            (int)(TestData_LHS[i].x3 % TestData_RHS[i].x3),
+                                            (int)(TestData_LHS[i].x4 % TestData_RHS[i].x4),
+                                            (int)(TestData_LHS[i].x5 % TestData_RHS[i].x5),
+                                            (int)(TestData_LHS[i].x6 % TestData_RHS[i].x6),
+                                            (int)(TestData_LHS[i].x7 % TestData_RHS[i].x7)));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]

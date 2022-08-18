@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 
 namespace MaxMath.Tests
@@ -313,6 +313,127 @@ namespace MaxMath.Tests
                 }
             }
         }
+
+
+        [Test]
+        public static void float2()
+        {
+            for (int i = 0; i < __float2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    float2 ror = maxmath.vror(__float2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.AreEqual(ror[k], __float2.TestData_LHS[i][(j + k) % 2]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float3()
+        {
+            for (int i = 0; i < __float3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    float3 ror = maxmath.vror(__float3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.AreEqual(ror[k], __float3.TestData_LHS[i][(j + k) % 3]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float4()
+        {
+            for (int i = 0; i < __float4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    float4 ror = maxmath.vror(__float4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.AreEqual(ror[k], __float4.TestData_LHS[i][(j + k) % 4]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float8()
+        {
+            for (int i = 0; i < __float8.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    float8 ror = maxmath.vror(__float8.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 8; k++)
+                    {
+                        Assert.AreEqual(ror[k], __float8.TestData_LHS[i][(j + k) % 8]);
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void double2()
+        {
+            for (int i = 0; i < __double2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    double2 ror = maxmath.vror(__double2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.AreEqual(ror[k], __double2.TestData_LHS[i][(j + k) % 2]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double3()
+        {
+            for (int i = 0; i < __double3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    double3 ror = maxmath.vror(__double3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.AreEqual(ror[k], __double3.TestData_LHS[i][(j + k) % 3]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double4()
+        {
+            for (int i = 0; i < __double4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    double4 ror = maxmath.vror(__double4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.AreEqual(ror[k], __double4.TestData_LHS[i][(j + k) % 4]);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -622,6 +743,127 @@ namespace MaxMath.Tests
                     for (int k = 0; k < 4; k++)
                     {
                         Assert.AreEqual(rol[k], __ulong4.TestData_LHS[i][((4 - j) + k) % 4]);
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void float2()
+        {
+            for (int i = 0; i < __float2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    float2 rol = maxmath.vrol(__float2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.AreEqual(rol[k], __float2.TestData_LHS[i][((2 - j) + k) % 2]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float3()
+        {
+            for (int i = 0; i < __float3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    float3 rol = maxmath.vrol(__float3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.AreEqual(rol[k], __float3.TestData_LHS[i][((3 - j) + k) % 3]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float4()
+        {
+            for (int i = 0; i < __float4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    float4 rol = maxmath.vrol(__float4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.AreEqual(rol[k], __float4.TestData_LHS[i][((4 - j) + k) % 4]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void float8()
+        {
+            for (int i = 0; i < __float8.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 8; j++)
+                {
+                    float8 rol = maxmath.vrol(__float8.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 8; k++)
+                    {
+                        Assert.AreEqual(rol[k], __float8.TestData_LHS[i][((8 - j) + k) % 8]);
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void double2()
+        {
+            for (int i = 0; i < __double2.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 2; j++)
+                {
+                    double2 rol = maxmath.vrol(__double2.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Assert.AreEqual(rol[k], __double2.TestData_LHS[i][((2 - j) + k) % 2]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double3()
+        {
+            for (int i = 0; i < __double3.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 3; j++)
+                {
+                    double3 rol = maxmath.vrol(__double3.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Assert.AreEqual(rol[k], __double3.TestData_LHS[i][((3 - j) + k) % 3]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void double4()
+        {
+            for (int i = 0; i < __double4.TestData_LHS.Length; i++)
+            {
+                for (int j = 1; j < 4; j++)
+                {
+                    double4 rol = maxmath.vrol(__double4.TestData_LHS[i], j);
+
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Assert.AreEqual(rol[k], __double4.TestData_LHS[i][((4 - j) + k) % 4]);
                     }
                 }
             }

@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using NUnit.Framework;
 using Unity.Mathematics;
 
@@ -521,18 +521,30 @@ namespace MaxMath.Tests
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
             Random16 rng = new Random16(seed);
+            short2 product;
+            short2 left;
+            short2 right;
 
             for (int i = 0; i < 100; i++)
             {
-                short2 left = rng.NextShort2();
-                short2 right = rng.NextShort2();
-                short2 product = maxmath.mulsaturated(left, right);
+                left = rng.NextShort2();
+                right = rng.NextShort2();
+                product = maxmath.mulsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
                     int productNormal = (int)left[j] * (int)right[j];
                     Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
                 }
+            }
+            
+            left = rng.NextShort2();
+            product = maxmath.mulsaturated(left, 2);
+
+            for (int j = 0; j < 2; j++)
+            {
+                int productNormal = (int)left[j] * 2;
+                Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
             }
         }
 
@@ -542,18 +554,30 @@ namespace MaxMath.Tests
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
             Random16 rng = new Random16(seed);
+            short3 product;
+            short3 left;
+            short3 right;
 
             for (int i = 0; i < 100; i++)
             {
-                short3 left = rng.NextShort3();
-                short3 right = rng.NextShort3();
-                short3 product = maxmath.mulsaturated(left, right);
+                left = rng.NextShort3();
+                right = rng.NextShort3();
+                product = maxmath.mulsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
                     int productNormal = (int)left[j] * (int)right[j];
                     Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
                 }
+            }
+            
+            left = rng.NextShort3();
+            product = maxmath.mulsaturated(left, 2);
+
+            for (int j = 0; j < 3; j++)
+            {
+                int productNormal = (int)left[j] * 2;
+                Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
             }
         }
 
@@ -563,18 +587,30 @@ namespace MaxMath.Tests
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
             Random16 rng = new Random16(seed);
+            short4 product;
+            short4 left;
+            short4 right;
 
             for (int i = 0; i < 100; i++)
             {
-                short4 left = rng.NextShort4();
-                short4 right = rng.NextShort4();
-                short4 product = maxmath.mulsaturated(left, right);
+                left = rng.NextShort4();
+                right = rng.NextShort4();
+                product = maxmath.mulsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
                     int productNormal = (int)left[j] * (int)right[j];
                     Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
                 }
+            }
+            
+            left = rng.NextShort4();
+            product = maxmath.mulsaturated(left, 2);
+
+            for (int j = 0; j < 4; j++)
+            {
+                int productNormal = (int)left[j] * 2;
+                Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
             }
         }
 
@@ -584,18 +620,30 @@ namespace MaxMath.Tests
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
             Random16 rng = new Random16(seed);
+            short8 product;
+            short8 left;
+            short8 right;
 
             for (int i = 0; i < 100; i++)
             {
-                short8 left = rng.NextShort8();
-                short8 right = rng.NextShort8();
-                short8 product = maxmath.mulsaturated(left, right);
+                left = rng.NextShort8();
+                right = rng.NextShort8();
+                product = maxmath.mulsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
                     int productNormal = (int)left[j] * (int)right[j];
                     Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
                 }
+            }
+            
+            left = rng.NextShort8();
+            product = maxmath.mulsaturated(left, 2);
+
+            for (int j = 0; j < 8; j++)
+            {
+                int productNormal = (int)left[j] * 2;
+                Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
             }
         }
 
@@ -605,18 +653,30 @@ namespace MaxMath.Tests
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
             Random16 rng = new Random16(seed);
+            short16 product;
+            short16 left;
+            short16 right;
 
             for (int i = 0; i < 100; i++)
             {
-                short16 left = rng.NextShort16();
-                short16 right = rng.NextShort16();
-                short16 product = maxmath.mulsaturated(left, right);
+                left = rng.NextShort16();
+                right = rng.NextShort16();
+                product = maxmath.mulsaturated(left, right);
 
                 for (int j = 0; j < 16; j++)
                 {
                     int productNormal = (int)left[j] * (int)right[j];
                     Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
                 }
+            }
+            
+            left = rng.NextShort16();
+            product = maxmath.mulsaturated(left, 2);
+
+            for (int j = 0; j < 16; j++)
+            {
+                int productNormal = (int)left[j] * 2;
+                Assert.AreEqual(productNormal > short.MaxValue ? short.MaxValue : productNormal < short.MinValue ? short.MinValue : productNormal, (int)product[j]);
             }
         }
 
