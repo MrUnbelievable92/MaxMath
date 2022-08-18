@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using System.Numerics;
 
@@ -6,11 +6,11 @@ namespace MaxMath.Tests
 {
     unsafe public static class __int128
     {
-        private static Random8 RNG8 => new Random8(233); 
-        private static Random16 RNG16 => new Random16(16347); 
-        private static Random32 RNG32 => new Random32(468634842); 
-        private static Random64 RNG64 => new Random64(4264524138550143697); 
-        private static Random128 RNG128 => new Random128("19447778766103741871339139486"); 
+        private static Random8 RNG8 => Random8.New; 
+        private static Random16 RNG16 => Random16.New; 
+        private static Random32 RNG32 => Random32.New; 
+        private static Random64 RNG64 => Random64.New; 
+        private static Random128 RNG128 => Random128.New; 
 
         private const int NUM_TESTS = 200;
 
@@ -38,7 +38,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                float t = rng.NextFloat(Int128.MinValue, Int128.MaxValue + 1f);
+                float t = rng.NextFloat(Int128.MinValue / 2, Int128.MaxValue / 2);
 
                 Assert.AreEqual((BigInteger)t, (BigInteger)(Int128)t);
             }
@@ -106,8 +106,8 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                float t = rng.NextFloat(Int128.MinValue, Int128.MaxValue);
-                
+                float t = rng.NextFloat(Int128.MinValue / 2, Int128.MaxValue / 2);
+
                 Assert.AreEqual(t >= 0f ? math.floor(t) : math.ceil(t), (float)(Int128)t);
             }
         }
@@ -1113,7 +1113,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(left << 0, left);
                 Assert.AreEqual(left << 128, left);
 
-                for (int j = 1;j < 128;j++)
+                for (int j = 1; j < 128; j++)
                 {
                     Assert.AreEqual((Int128)((BigInteger)UInt128.MaxValue & ((BigInteger)left << j)), 
                                     (Int128)(BigInteger)(left << j));
@@ -1133,7 +1133,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(left >> 0, left);
                 Assert.AreEqual(left >> 128, left);
 
-                for (int j = 1;j < 128;j++)
+                for (int j = 1; j < 128; j++)
                 {
                     Assert.AreEqual((BigInteger)left >> j, 
                                     (BigInteger)(left >> j));

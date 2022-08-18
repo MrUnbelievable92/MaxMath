@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using System.Numerics;
 
@@ -6,11 +6,11 @@ namespace MaxMath.Tests
 {
     unsafe public static class __uint128
     {
-        private static Random8 RNG8 => new Random8(233); 
-        private static Random16 RNG16 => new Random16(16347); 
-        private static Random32 RNG32 => new Random32(468634842); 
-        private static Random64 RNG64 => new Random64(4264524138550143697); 
-        private static Random128 RNG128 => new Random128("19447778766103741871339139486"); 
+        private static Random8 RNG8 => Random8.New; 
+        private static Random16 RNG16 => Random16.New; 
+        private static Random32 RNG32 => Random32.New; 
+        private static Random64 RNG64 => Random64.New; 
+        private static Random128 RNG128 => Random128.New; 
 
         private const int NUM_TESTS = 200;
 
@@ -78,7 +78,7 @@ namespace MaxMath.Tests
             {
                 UInt128 t = rng.NextUInt128();
                 
-                Assert.AreEqual((BigInteger)t, (BigInteger)t.lo | (BigInteger)t.hi << 64);
+                Assert.AreEqual((BigInteger)t, (BigInteger)t.lo64 | (BigInteger)t.hi64 << 64);
             }
         }
 
@@ -104,7 +104,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                float t = rng.NextFloat(0, UInt128.MaxValue + 1f);
+                float t = rng.NextFloat(0, float.MaxValue);
                 
                 Assert.AreEqual(math.floor(t), (float)(UInt128)t);
             }
@@ -531,6 +531,127 @@ namespace MaxMath.Tests
         }
 
         [Test]
+        public static void EqualLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left == right, ((BigInteger)left == (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left == right, ((BigInteger)left == (BigInteger)right));
+
+                Assert.AreEqual((long)0 == left, ((BigInteger)0 == (BigInteger)left));
+                Assert.AreEqual(left == (long)0, ((BigInteger)left == (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void NotEqualLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left != right, ((BigInteger)left != (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left != right, ((BigInteger)left != (BigInteger)right));
+
+                Assert.AreEqual((long)0 != left, ((BigInteger)0 != (BigInteger)left));
+                Assert.AreEqual(left != (long)0, ((BigInteger)left != (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void LessLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left < right, ((BigInteger)left < (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left < right, ((BigInteger)left < (BigInteger)right));
+
+                Assert.AreEqual((long)0 < left, ((BigInteger)0 < (BigInteger)left));
+                Assert.AreEqual(left < (long)0, ((BigInteger)left < (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void GreaterLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left > right, ((BigInteger)left > (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left > right, ((BigInteger)left > (BigInteger)right));
+
+                Assert.AreEqual((long)0 > left, ((BigInteger)0 > (BigInteger)left));
+                Assert.AreEqual(left > (long)0, ((BigInteger)left > (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void LessEqualLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left <= right, ((BigInteger)left <= (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left <= right, ((BigInteger)left <= (BigInteger)right));
+
+                Assert.AreEqual((long)0 <= left, ((BigInteger)0 <= (BigInteger)left));
+                Assert.AreEqual(left <= (long)0, ((BigInteger)left <= (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void GreaterEqualLong()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                long right = (long)rng.NextUInt128();
+
+                Assert.AreEqual(left >= right, ((BigInteger)left >= (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left >= right, ((BigInteger)left >= (BigInteger)right));
+                
+                Assert.AreEqual((long)0 >= left, ((BigInteger)0 >= (BigInteger)left));
+                Assert.AreEqual(left >= (long)0, ((BigInteger)left >= (BigInteger)0));
+            }
+        }
+
+
+        [Test]
         public static void AddUInt()
         {
             Random128 rng = RNG128;
@@ -727,6 +848,126 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void EqualInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left == right, ((BigInteger)left == (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left == right, ((BigInteger)left == (BigInteger)right));
+
+                Assert.AreEqual((int)0 == left, ((BigInteger)0 == (BigInteger)left));
+                Assert.AreEqual(left == (int)0, ((BigInteger)left == (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void NotEqualInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left != right, ((BigInteger)left != (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left != right, ((BigInteger)left != (BigInteger)right));
+
+                Assert.AreEqual((int)0 != left, ((BigInteger)0 != (BigInteger)left));
+                Assert.AreEqual(left != (int)0, ((BigInteger)left != (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void LessInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left < right, ((BigInteger)left < (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left < right, ((BigInteger)left < (BigInteger)right));
+
+                Assert.AreEqual((int)0 < left, ((BigInteger)0 < (BigInteger)left));
+                Assert.AreEqual(left < (int)0, ((BigInteger)left < (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void GreaterInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left > right, ((BigInteger)left > (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left > right, ((BigInteger)left > (BigInteger)right));
+
+                Assert.AreEqual((int)0 > left, ((BigInteger)0 > (BigInteger)left));
+                Assert.AreEqual(left > (int)0, ((BigInteger)left > (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void LessEqualInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left <= right, ((BigInteger)left <= (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left <= right, ((BigInteger)left <= (BigInteger)right));
+
+                Assert.AreEqual((int)0 <= left, ((BigInteger)0 <= (BigInteger)left));
+                Assert.AreEqual(left <= (int)0, ((BigInteger)left <= (BigInteger)0));
+            }
+        }
+
+        [Test]
+        public static void GreaterEqualInt()
+        {
+            Random128 rng = RNG128;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                UInt128 left  = rng.NextUInt128();
+                int right = (int)rng.NextUInt128();
+
+                Assert.AreEqual(left >= right, ((BigInteger)left >= (BigInteger)right));
+
+                left = (UInt128)right;
+                Assert.AreEqual(left >= right, ((BigInteger)left >= (BigInteger)right));
+                
+                Assert.AreEqual((int)0 >= left, ((BigInteger)0 >= (BigInteger)left));
+                Assert.AreEqual(left >= (int)0, ((BigInteger)left >= (BigInteger)0));
+            }
+        }
+
 
         [Test]
         public static void ShiftLeft()
@@ -740,7 +981,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(left << 0, left);
                 Assert.AreEqual(left << 128, left);
 
-                for (int j = 1;j < 128;j++)
+                for (int j = 1; j < 128; j++)
                 {
                     Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left << j), 
                                     (BigInteger)(left << j));
@@ -760,7 +1001,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(left >> 0, left);
                 Assert.AreEqual(left >> 128, left);
 
-                for (int j = 1;j < 128;j++)
+                for (int j = 1; j < 128; j++)
                 {
                     Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left >> j), 
                                     (BigInteger)(left >> j));
@@ -779,7 +1020,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
 
-                UInt128 lo = Operator.umul256(left, right, out UInt128 hi);
+                UInt128 lo = UInt128.Common.umul256(left, right, out UInt128 hi);
 
                 Assert.AreEqual((BigInteger)left * (BigInteger)right, 
                                 (BigInteger)lo | ((BigInteger)hi << 128));
@@ -797,7 +1038,7 @@ namespace MaxMath.Tests
                 ulong left  = (ulong)rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                right = new UInt128(right.lo, 0);
+                right = new UInt128(right.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -808,7 +1049,7 @@ namespace MaxMath.Tests
                 ulong left  = (ulong)rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                right = new UInt128(right.lo, ulong.MaxValue);
+                right = new UInt128(right.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -825,7 +1066,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, 0);
+                left = new UInt128(left.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -836,7 +1077,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, ulong.MaxValue);
+                left = new UInt128(left.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -853,7 +1094,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, 0);
+                left = new UInt128(left.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -864,7 +1105,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, ulong.MaxValue);
+                left = new UInt128(left.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -875,8 +1116,8 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, 0);
-                right = new UInt128(right.lo, 0);
+                left = new UInt128(left.lo64, 0);
+                right = new UInt128(right.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -887,8 +1128,8 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, 0);
-                right = new UInt128(right.lo, ulong.MaxValue);
+                left = new UInt128(left.lo64, 0);
+                right = new UInt128(right.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -899,8 +1140,8 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, ulong.MaxValue);
-                right = new UInt128(right.lo, 0);
+                left = new UInt128(left.lo64, ulong.MaxValue);
+                right = new UInt128(right.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -911,8 +1152,8 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                left = new UInt128(left.lo, ulong.MaxValue);
-                right = new UInt128(right.lo, ulong.MaxValue);
+                left = new UInt128(left.lo64, ulong.MaxValue);
+                right = new UInt128(right.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -923,7 +1164,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                right = new UInt128(right.lo, 0);
+                right = new UInt128(right.lo64, 0);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));
@@ -934,7 +1175,7 @@ namespace MaxMath.Tests
                 UInt128 left  = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
                 
-                right = new UInt128(right.lo, ulong.MaxValue);
+                right = new UInt128(right.lo64, ulong.MaxValue);
 
                 Assert.AreEqual((BigInteger)UInt128.MaxValue & ((BigInteger)left * (BigInteger)right), 
                                 (BigInteger)(left * right));

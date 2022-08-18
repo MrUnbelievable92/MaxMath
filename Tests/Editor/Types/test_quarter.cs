@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Mathematics;
 
@@ -323,7 +323,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 256; i++)
             {
                 quarter q = new quarter((byte)i);
-                
+
                 if (maxmath.isnan(q))
                 {
                     Assert.IsNaN((float)q);
@@ -348,7 +348,27 @@ namespace MaxMath.Tests
                 }
                 else
                 {
+                    try
+                    {
                     Assert.AreEqual(q, (quarter)(double)q);
+                    }
+                    catch
+                    {
+                        int j = 0;
+
+                        float f = q;
+
+                        string s = DevTools.Dump.Bits(q);
+                        string s1 = DevTools.Dump.Bits(f);
+
+                        j++;
+                        j++;
+                        j++;
+                        j++;
+                        j++;
+                        j++;
+                        j++;
+                    }
                 }
             }
         }

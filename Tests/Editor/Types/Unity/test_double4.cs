@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 namespace MaxMath.Tests
 {
@@ -99,37 +99,29 @@ namespace MaxMath.Tests
         [Test]
         public static void Cast_ToLong()
         {
-            bool result = true;
-
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 long4 x = (long4)TestData_LHS[i];
 
-                result &= x.x == (long)TestData_LHS[i].x &
-                          x.y == (long)TestData_LHS[i].y &
-                          x.z == (long)TestData_LHS[i].z &
-                          x.w == (long)TestData_LHS[i].w;
+                Assert.AreEqual(x.x, (long)TestData_LHS[i].x);
+                Assert.AreEqual(x.y, (long)TestData_LHS[i].y);
+                Assert.AreEqual(x.z, (long)TestData_LHS[i].z);
+                Assert.AreEqual(x.w, (long)TestData_LHS[i].w);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
         public static void Cast_ToULong()
         {
-            bool result = true;
-
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 ulong4 x = (ulong4)TestData_LHS[i];
 
-                result &= x.x == (ulong)TestData_LHS[i].x &
-                          x.y == (ulong)TestData_LHS[i].y &
-                          x.z == (ulong)TestData_LHS[i].z &
-                          x.w == (ulong)TestData_LHS[i].w;
+                Assert.AreEqual(x.x, (ulong)TestData_LHS[i].x);
+                Assert.AreEqual(x.y, (ulong)TestData_LHS[i].y);
+                Assert.AreEqual(x.z, (ulong)TestData_LHS[i].z);
+                Assert.AreEqual(x.w, (ulong)TestData_LHS[i].w);
             }
-
-            Assert.AreEqual(true, result);
         }
     }
 }

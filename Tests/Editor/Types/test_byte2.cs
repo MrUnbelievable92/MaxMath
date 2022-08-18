@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
@@ -150,10 +150,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte2 x = TestData_LHS[i] / TestData_RHS[i];
+                byte2 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x == (byte)(TestData_LHS[i].x / TestData_RHS[i].x) &
-                          x.y == (byte)(TestData_LHS[i].y / TestData_RHS[i].y);
+                byte2 x = TestData_LHS[i] / divisor;
+
+                result &= x.x == (byte)(TestData_LHS[i].x / divisor.x) &
+                          x.y == (byte)(TestData_LHS[i].y / divisor.y);
             }
 
             Assert.AreEqual(true, result);
@@ -166,10 +168,12 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte2 x = TestData_LHS[i] % TestData_RHS[i];
+                byte2 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
-                result &= x.x == (byte)(TestData_LHS[i].x % TestData_RHS[i].x) & 
-                          x.y == (byte)(TestData_LHS[i].y % TestData_RHS[i].y);
+                byte2 x = TestData_LHS[i] % divisor;
+
+                result &= x.x == (byte)(TestData_LHS[i].x % divisor.x) & 
+                          x.y == (byte)(TestData_LHS[i].y % divisor.y);
             }
 
             Assert.AreEqual(true, result);
