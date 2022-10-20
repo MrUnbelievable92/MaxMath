@@ -33,8 +33,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed long asArray[3];
-
         [FieldOffset(0)]  internal long2 _xy;
 
         [FieldOffset(0)]  public long x;
@@ -2430,10 +2428,27 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(long3 input) => RegisterConversion.ToV256(input);
+        public static implicit operator v256(long3 input)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                v256 result = Avx.mm256_undefined_si256();
+
+                result.SLong0 = input.x;
+                result.SLong1 = input.y;
+                result.SLong2 = input.z;
+
+                return result;
+            }
+            else
+            {
+                return new v256(input.x, input.y, input.z, 0);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long3(v256 input) => RegisterConversion.ToType<long3>(input);
+        public static implicit operator long3(v256 input) => new long3 { x = input.SLong0, y = input.SLong1, z = input.SLong2 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator long3(long input) => new long3(input);
@@ -2523,19 +2538,19 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.mm256_cvtepi64_epi32(input));
+                return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(input));
             }
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToType<uint3>(Sse4_1.insert_epi32(temp, (int)input.z, 2));
+                return RegisterConversion.ToUInt3(Sse4_1.insert_epi32(temp, (int)input.z, 2));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToType<uint3>(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
+                return RegisterConversion.ToUInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
             }
             else
             {
@@ -2548,19 +2563,19 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.mm256_cvtepi64_epi32(input));
+                return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(input));
             }
             else if (Sse4_1.IsSse41Supported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToType<int3>(Sse4_1.insert_epi32(temp, (int)input.z, 2));
+                return RegisterConversion.ToInt3(Sse4_1.insert_epi32(temp, (int)input.z, 2));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToType<int3>(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
+                return RegisterConversion.ToInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
             }
             else
             {
@@ -2579,7 +2594,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_cvtepi64_pd(input, 3));
+                return RegisterConversion.ToDouble3(Xse.mm256_cvtepi64_pd(input, 3));
             }
             else
             {
@@ -2595,7 +2610,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return (long)Xse.mm256_extract_epi64(this, (byte)index);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 2)
+                        {
+                            return (long)Xse.extract_epi64(_xy, (byte)index);
+                        }
+                        else
+                        {
+                            return z;
+                        }
+                    }
+                }
+
+                long3 onStack = this;
+
+                return *((long*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2603,7 +2639,32 @@ Assert.IsWithinArrayBounds(index, 3);
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                asArray[index] = value;
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi64(this, (ulong)value, (byte)index);
+
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 2)
+                        {
+                            _xy = Xse.insert_epi64(_xy, (ulong)value, (byte)index);
+                        }
+                        else
+                        {
+                            z = value;
+                        }
+
+                        return;
+                    }
+                }
+
+                long3 onStack = this;
+                *((long*)&onStack + index) = value;
+                this = onStack;
             }
         }
     
@@ -2836,7 +2897,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_srai_epi64(x, n, 3);
+                return Xse.mm256_srai_epi64(x, n);
             }
             else
             {
@@ -2850,7 +2911,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue64<bool3>(Avx2.mm256_cmpeq_epi64(left, right));
+                int results = RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -2863,7 +2926,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue64<bool3>(Xse.mm256_cmplt_epi64(left, right, 3));
+                int results = RegisterConversion.IsTrue64(Xse.mm256_cmplt_epi64(left, right, 3));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -2876,7 +2941,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue64<bool3>(Xse.mm256_cmpgt_epi64(left, right, 3));
+                int results = RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epi64(left, right, 3));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -2890,7 +2957,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse64<bool3>(Avx2.mm256_cmpeq_epi64(left, right));
+                int results = RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -2903,7 +2972,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse64<bool3>(Xse.mm256_cmpgt_epi64(left, right, 3));
+                int results = RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epi64(left, right, 3));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -2916,7 +2987,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse64<bool3>(Xse.mm256_cmplt_epi64(left, right, 3));
+                int results = RegisterConversion.IsFalse64(Xse.mm256_cmplt_epi64(left, right, 3));
+
+                return *(bool3*)&results;
             }
             else
             {

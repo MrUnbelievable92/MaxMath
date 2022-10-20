@@ -1,9 +1,13 @@
+//#define TESTING
+
+
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -40,8 +44,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed ushort asArray[8];
- 
         [FieldOffset(0)]  public half x0;
         [FieldOffset(2)]  public half x1;
         [FieldOffset(4)]  public half x2;
@@ -139,13 +141,20 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(half8 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(half8 input) => new v128 { UShort0 = input.x0.value, UShort1 = input.x1.value, UShort2 = input.x2.value, UShort3 = input.x3.value, UShort4 = input.x4.value, UShort5 = input.x5.value, UShort6 = input.x6.value, UShort7 = input.x7.value };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(v128 input) => RegisterConversion.ToType<half8>(input);
+        public static implicit operator half8(v128 input) => new half8 { x0 = maxmath.ashalf(input.UShort0), x1 = maxmath.ashalf(input.UShort1), x2 = maxmath.ashalf(input.UShort2), x3 = maxmath.ashalf(input.UShort3), x4 = maxmath.ashalf(input.UShort4), x5 = maxmath.ashalf(input.UShort5), x6 = maxmath.ashalf(input.UShort6), x7 = maxmath.ashalf(input.UShort7) };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half8(half input) => new half8(input);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator half8(float input) => (half)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator half8(double input) => (half)input;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -164,14 +173,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(half8 input)
         {
-            //if (F16C.IsF16CSupported)
-            //{
-            //    return F16C.mm256_cvtph_ps(input);
-            //}
-            //else
-            //{
+#if !TESTING
+            if (F16C.IsF16CSupported)
+            {
+                return F16C.mm256_cvtph_ps(input);
+            }
+            else
+#endif
+            {
                 return new float8((float4)input.v4_0, (float4)input.v4_4);
-            //}
+            }
         }
 
 
@@ -182,15 +193,32 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                return maxmath.ashalf(asArray[index]);
+                if (Sse2.IsSse2Supported)
+                {
+                    return maxmath.ashalf(Xse.extract_epi16(this, (byte)index));
+                }
+                else
+                {
+                    half8 onStack = this;
+                    return *((half*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 8);
-
-                asArray[index] = maxmath.asushort(value);
+                
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi16(this, maxmath.asushort(value), (byte)index);
+                }
+                else
+                {
+                    half8 onStack = this;
+                    *((half*)&onStack + index) = value;
+                    this = onStack;
+                }
             }
         }
     
@@ -200,7 +228,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue16<bool8>(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsTrue16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {
@@ -213,7 +241,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse16<bool8>(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsFalse16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {

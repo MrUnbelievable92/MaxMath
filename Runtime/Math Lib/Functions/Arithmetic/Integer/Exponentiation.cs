@@ -1281,7 +1281,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2));
+                return RegisterConversion.ToInt2(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2));
             }
             else
             {
@@ -1295,7 +1295,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3));
+                return RegisterConversion.ToInt3(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3));
             }
             else
             {
@@ -1310,7 +1310,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 
-                return RegisterConversion.ToType<int4>(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4));
+                return RegisterConversion.ToInt4(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4));
             }
             else
             {

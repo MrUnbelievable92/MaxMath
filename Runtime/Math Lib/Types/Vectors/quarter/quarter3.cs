@@ -32,8 +32,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)] private fixed byte asArray[3];
-
         [FieldOffset(0)] public quarter x;
         [FieldOffset(1)] public quarter y;
         [FieldOffset(2)] public quarter z;
@@ -190,13 +188,41 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(quarter3 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(quarter3 input)
+        {
+            v128 result;
+
+            if (Avx.IsAvxSupported)
+            {
+                result = Avx.undefined_si128();
+            }
+            else
+            {
+                v128* dummyPtr = &result;
+            }
+
+            result.Byte0 = input.x.value;
+            result.Byte1 = input.y.value;
+            result.Byte2 = input.z.value;
+            
+            return result;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator quarter3(v128 input) => RegisterConversion.ToType<quarter3>(input);
+        public static implicit operator quarter3(v128 input) => new quarter3 { x = maxmath.asquarter(input.Byte0), y = maxmath.asquarter(input.Byte1), z = maxmath.asquarter(input.Byte2) };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator quarter3(quarter input) => new quarter3(input);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter3(half input) => (quarter)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter3(float input) => (quarter)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter3(double input) => (quarter)input;
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -499,7 +525,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(quarter.Vectorized.cvtpq_ps(input, elements: 3));
+                return RegisterConversion.ToFloat3(quarter.Vectorized.cvtpq_ps(input, elements: 3));
             }
             else
             {
@@ -512,7 +538,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(quarter.Vectorized.cvtpq_ps(q, promiseInRange: true, elements: 3));
+                return RegisterConversion.ToFloat3(quarter.Vectorized.cvtpq_ps(q, promiseInRange: true, elements: 3));
             }
             else
             {
@@ -525,7 +551,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(quarter.Vectorized.cvtpq_ps(q, promiseAbsoluteAndInRange: true, elements: 3));
+                return RegisterConversion.ToFloat3(quarter.Vectorized.cvtpq_ps(q, promiseAbsoluteAndInRange: true, elements: 3));
             }
             else
             {
@@ -539,7 +565,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(quarter.Vectorized.mm256_cvtpq_pd(input, elements: 3));
+                return RegisterConversion.ToDouble3(quarter.Vectorized.mm256_cvtpq_pd(input, elements: 3));
             }
             else
             {
@@ -552,7 +578,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(quarter.Vectorized.mm256_cvtpq_pd(q, promiseInRange: true, elements: 3));
+                return RegisterConversion.ToDouble3(quarter.Vectorized.mm256_cvtpq_pd(q, promiseInRange: true, elements: 3));
             }
             else
             {
@@ -565,7 +591,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(quarter.Vectorized.mm256_cvtpq_pd(q, promiseAbsoluteAndInRange: true, elements: 3));
+                return RegisterConversion.ToDouble3(quarter.Vectorized.mm256_cvtpq_pd(q, promiseAbsoluteAndInRange: true, elements: 3));
             }
             else
             {
@@ -581,7 +607,16 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                return asquarter(asArray[index]);
+                if (Sse2.IsSse2Supported)
+                {
+                    return asquarter(Xse.extract_epi8(this, (byte)index));
+                }
+                else
+                {
+                    quarter3 onStack = this;
+
+                    return *((quarter*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -589,7 +624,16 @@ Assert.IsWithinArrayBounds(index, 3);
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                asArray[index] = asbyte(value);
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi8(this, asbyte(value), (byte)index);
+                }
+                else
+                {
+                    quarter3 onStack = this;
+                    *((quarter*)&onStack + index) = value;
+                    this = onStack;
+                }
             }
         }
 
@@ -606,7 +650,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool3>(quarter.Vectorized.cmpeq_pq(left, right, 3));
+                v128 results = RegisterConversion.IsTrue8(quarter.Vectorized.cmpeq_pq(left, right, elements: 3));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -784,18 +830,9 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Xse.constexpr.IS_TRUE(left.x == 0f && left.y == 0f && left.z == 0f))
-                {
-                    return RegisterConversion.IsFalse8<bool3>(Sse2.cmpeq_epi8(Sse2.and_si128(right, new byte3(0b0111_1111)), Sse2.setzero_si128()));
-                }
-                else if (Xse.constexpr.IS_TRUE(right.x == 0f && right.y == 0f && right.z == 0f))
-                {
-                    return RegisterConversion.IsFalse8<bool3>(Sse2.cmpeq_epi8(Sse2.and_si128(left, new byte3(0b0111_1111)), Sse2.setzero_si128()));
-                } 
-                else
-                {
-                    return RegisterConversion.IsTrue8<bool3>(quarter.Vectorized.cmpneq_pq(left, right, 2));
-                }
+                v128 results = RegisterConversion.IsTrue8(quarter.Vectorized.cmpneq_pq(left, right, elements: 2));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -967,13 +1004,458 @@ Assert.IsWithinArrayBounds(index, 3);
                 return (double3)left != (double3)right;
             } 
         }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, quarter3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(quarter.Vectorized.cmplt_pq(left, right, elements: 3)));
+            }
+            else
+            {
+                return new bool3(left.x < right.x, left.y < right.y, left.z < right.z);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, quarter right)
+        {
+            return left < (quarter3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter left, quarter3 right)
+        {
+            return (quarter3)left < right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, half right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        public static bool3 operator < (half left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, half3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all((float3)right == 0f)))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (half3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all((float3)left == 0f)))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, float right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        public static bool3 operator < (float left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, float3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(right == 0f)))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (float3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(left == 0f)))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (float3)left < (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, double right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (double3)left < (double3)right;
+            } 
+        }
+
+        public static bool3 operator < (double left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (double3)left < (double3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter3 left, double3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(right == 0f)))
+            {
+                return left < default(quarter3);
+            }
+            else
+            {
+                return (double3)left < (double3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (double3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(left == 0f)))
+            {
+                return right > default(quarter3);
+            }
+            else
+            {
+                return (double3)left < (double3)right;
+            } 
+        }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, quarter3 right) => right < left;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, quarter right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, half right) => right < left;
+
+        public static bool3 operator > (half left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, half3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (half3 left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, float right) => right < left;
+
+        public static bool3 operator > (float left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, float3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (float3 left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, double right) => right < left;
+
+        public static bool3 operator > (double left, quarter3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter3 left, double3 right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (double3 left, quarter3 right) => right < left;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, quarter3 right)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(quarter.Vectorized.cmple_pq(left, right, elements: 3)));
+            }
+            else
+            {
+                return new bool3(left.x <= right.x, left.y <= right.y, left.z <= right.z);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, quarter right)
+        {
+            return left <= (quarter3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter left, quarter3 right)
+        {
+            return (quarter3)left <= right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, half right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        public static bool3 operator <= (half left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, half3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all((float3)right == 0f)))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (half3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all((float3)left == 0f)))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, float right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        public static bool3 operator <= (float left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, float3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(right == 0f)))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (float3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(left == 0f)))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (float3)left <= (float3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, double right)
+        {
+            if (Xse.constexpr.IS_TRUE(right == 0f))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (double3)left <= (double3)right;
+            } 
+        }
+
+        public static bool3 operator <= (double left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(left == 0f))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (double3)left <= (double3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter3 left, double3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(right == 0f)))
+            {
+                return left <= default(quarter3);
+            }
+            else
+            {
+                return (double3)left <= (double3)right;
+            } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (double3 left, quarter3 right)
+        {
+            if (Xse.constexpr.IS_TRUE(math.all(left == 0f)))
+            {
+                return right >= default(quarter3);
+            }
+            else
+            {
+                return (double3)left <= (double3)right;
+            } 
+        }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, quarter3 right) => right <= left;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, quarter right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, half right) => right <= left;
+
+        public static bool3 operator >= (half left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, half3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (half3 left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, float right) => right <= left;
+
+        public static bool3 operator >= (float left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, float3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (float3 left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, double right) => right <= left;
+
+        public static bool3 operator >= (double left, quarter3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter3 left, double3 right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (double3 left, quarter3 right) => right <= left;
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(quarter3 other)
         {
             if (Sse2.IsSse2Supported)
             {
-                return quarter.Vectorized.vcmpeq_pq(this, other, 3);
+                return quarter.Vectorized.vcmpeq_pq(this, other, elements: 3);
             }
             else
             {
@@ -993,7 +1475,7 @@ Assert.IsWithinArrayBounds(index, 3);
             }
             else
             {
-                return asArray[0] | (asArray[1] << 8) | (asArray[2] << 16);
+                return asbyte(x) | (asbyte(y) << 8) | (asbyte(z) << 16);
             }
         }
 

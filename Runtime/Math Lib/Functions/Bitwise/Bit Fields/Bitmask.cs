@@ -614,7 +614,7 @@ Assert.IsBetween(numBits.y, 0u, 32u - index.y);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 2));
+                return RegisterConversion.ToUInt2(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 2));
             }
             else
             {
@@ -636,7 +636,7 @@ Assert.IsBetween(numBits.z, 0u, 32u - index.z);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 3));
+                return RegisterConversion.ToUInt3(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 3));
             }
             else
             {
@@ -661,7 +661,7 @@ Assert.IsBetween(numBits.w, 0u, 32u - index.w);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 4));
+                return RegisterConversion.ToUInt4(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 4));
             }
             else
             {

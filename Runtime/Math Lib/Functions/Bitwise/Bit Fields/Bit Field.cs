@@ -212,7 +212,7 @@ namespace MaxMath
                 v128 lo0 = Sse2.unpacklo_epi8(x0, x1);
                 v128 lo1 = Sse2.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToType<uint2>(Sse2.unpacklo_epi16(lo0, lo1));
+                return RegisterConversion.ToUInt2(Sse2.unpacklo_epi16(lo0, lo1));
             }
             else
             {
@@ -229,7 +229,7 @@ namespace MaxMath
                 v128 lo0 = Sse2.unpacklo_epi8(x0, x1);
                 v128 lo1 = Sse2.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToType<uint3>(Sse2.unpacklo_epi16(lo0, lo1));
+                return RegisterConversion.ToUInt3(Sse2.unpacklo_epi16(lo0, lo1));
             }
             else
             {
@@ -246,7 +246,7 @@ namespace MaxMath
                 v128 lo0 = Sse2.unpacklo_epi8(x0, x1);
                 v128 lo1 = Sse2.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToType<uint4>(Sse2.unpacklo_epi16(lo0, lo1));
+                return RegisterConversion.ToUInt4(Sse2.unpacklo_epi16(lo0, lo1));
             }
             else
             {
@@ -271,7 +271,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    return new uint8(RegisterConversion.ToType<uint4>(resultlo), RegisterConversion.ToType<uint4>(resulthi));
+                    return new uint8(RegisterConversion.ToUInt4(resultlo), RegisterConversion.ToUInt4(resulthi));
                 }
             }
             else
@@ -337,7 +337,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Sse2.unpacklo_epi16(x0, x1));
+                return RegisterConversion.ToUInt2(Sse2.unpacklo_epi16(x0, x1));
             }
             else
             {
@@ -351,7 +351,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Sse2.unpacklo_epi16(x0, x1));
+                return RegisterConversion.ToUInt3(Sse2.unpacklo_epi16(x0, x1));
             }
             else
             {
@@ -365,7 +365,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Sse2.unpacklo_epi16(x0, x1));
+                return RegisterConversion.ToUInt4(Sse2.unpacklo_epi16(x0, x1));
             }
             else
             {
@@ -388,7 +388,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    return new uint8(RegisterConversion.ToType<uint4>(resultlo), RegisterConversion.ToType<uint4>(resulthi));
+                    return new uint8(RegisterConversion.ToUInt4(resultlo), RegisterConversion.ToUInt4(resulthi));
                 }
             }
             else

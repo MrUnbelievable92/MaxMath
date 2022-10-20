@@ -559,14 +559,14 @@ namespace MaxMath
             return math.abs(a) > math.abs(b) ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 minmag(int2 a, int2 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToInt2(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -578,14 +578,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 minmag(int3 a, int3 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToInt3(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 3));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -597,14 +597,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 minmag(int4 a, int4 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 4));
+                return RegisterConversion.ToInt4(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 4));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -699,13 +699,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 minmag(float2 a, float2 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float2>(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 2));
+                return RegisterConversion.ToFloat2(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 2));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -717,13 +717,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 minmag(float3 a, float3 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 3));
+                return RegisterConversion.ToFloat3(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 3));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -735,13 +735,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 minmag(float4 a, float4 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 4));
+                return RegisterConversion.ToFloat4(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 4));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -782,13 +782,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 minmag(double2 a, double2 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.minmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToDouble2(Xse.minmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -800,13 +800,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 minmag(double3 a, double3 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_minmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 3));
+                return RegisterConversion.ToDouble3(Xse.mm256_minmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 3));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -818,13 +818,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 minmag(double4 a, double4 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_minmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 4));
+                return RegisterConversion.ToDouble4(Xse.mm256_minmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 4));
             }
             else if (Arm.Neon.IsNeonSupported)
             {

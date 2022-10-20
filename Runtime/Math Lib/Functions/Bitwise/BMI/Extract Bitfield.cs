@@ -135,7 +135,7 @@ namespace MaxMath
             return (byte)bits_extract((uint)x, index, length);
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 bits_extract(byte2 x, byte2 index, byte2 length)
         {
@@ -149,7 +149,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 bits_extract(byte3 x, byte3 index, byte3 length)
         {
@@ -163,7 +163,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 bits_extract(byte4 x, byte4 index, byte4 length)
         {
@@ -177,7 +177,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 bits_extract(byte8 x, byte8 index, byte8 length)
         {
@@ -191,7 +191,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 bits_extract(byte16 x, byte16 index, byte16 length)
         {
@@ -205,7 +205,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="byte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 bits_extract(byte32 x, byte32 index, byte32 length)
         {
@@ -227,42 +227,42 @@ namespace MaxMath
             return (sbyte)bits_extract((byte)x, index, length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 bits_extract(sbyte2 x, sbyte2 index, sbyte2 length)
         {
             return (sbyte2)bits_extract((byte2)x, (byte2)index, (byte2)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 bits_extract(sbyte3 x, sbyte3 index, sbyte3 length)
         {
             return (sbyte3)bits_extract((byte3)x, (byte3)index, (byte3)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 bits_extract(sbyte4 x, sbyte4 index, sbyte4 length)
         {
             return (sbyte4)bits_extract((byte4)x, (byte4)index, (byte4)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 bits_extract(sbyte8 x, sbyte8 index, sbyte8 length)
         {
             return (sbyte8)bits_extract((byte8)x, (byte8)index, (byte8)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 bits_extract(sbyte16 x, sbyte16 index, sbyte16 length)
         {
             return (sbyte16)bits_extract((byte16)x, (byte16)index, (byte16)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="sbyte"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 bits_extract(sbyte32 x, sbyte32 index, sbyte32 length)
         {
@@ -277,7 +277,7 @@ namespace MaxMath
             return (ushort)bits_extract((uint)x, index, length);
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 bits_extract(ushort2 x, ushort2 index, ushort2 length)
         {
@@ -291,7 +291,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 bits_extract(ushort3 x, ushort3 index, ushort3 length)
         {
@@ -305,7 +305,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 bits_extract(ushort4 x, ushort4 index, ushort4 length)
         {
@@ -319,7 +319,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 bits_extract(ushort8 x, ushort8 index, ushort8 length)
         {
@@ -333,7 +333,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ushort"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 bits_extract(ushort16 x, ushort16 index, ushort16 length)
         {
@@ -355,35 +355,35 @@ namespace MaxMath
             return (short)bits_extract((ushort)x, index, length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 bits_extract(short2 x, short2 index, short2 length)
         {
             return (short2)bits_extract((ushort2)x, (ushort2)index, (ushort2)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 bits_extract(short3 x, short3 index, short3 length)
         {
             return (short3)bits_extract((ushort3)x, (ushort3)index, (ushort3)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 bits_extract(short4 x, short4 index, short4 length)
         {
             return (short4)bits_extract((ushort4)x, (ushort4)index, (ushort4)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 bits_extract(short8 x, short8 index, short8 length)
         {
             return (short8)bits_extract((ushort8)x, (ushort8)index, (ushort8)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="short"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 bits_extract(short16 x, short16 index, short16 length)
         {
@@ -405,13 +405,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bits_extract(uint2 x, uint2 index, uint2 length)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 2));
+                return RegisterConversion.ToUInt2(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 2));
             }
             else
             {
@@ -419,13 +419,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bits_extract(uint3 x, uint3 index, uint3 length)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 3));
+                return RegisterConversion.ToUInt3(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 3));
             }
             else
             {
@@ -433,13 +433,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bits_extract(uint4 x, uint4 index, uint4 length)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 4));
+                return RegisterConversion.ToUInt4(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 4));
             }
             else
             {
@@ -447,7 +447,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="uint"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 bits_extract(uint8 x, uint8 index, uint8 length)
         {
@@ -469,28 +469,28 @@ namespace MaxMath
             return (int)bits_extract((uint)x, index, length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 bits_extract(int2 x, int2 index, int2 length)
         {
             return (int2)bits_extract((uint2)x, (uint2)index, (uint2)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 bits_extract(int3 x, int3 index, int3 length)
         {
             return (int3)bits_extract((uint3)x, (uint3)index, (uint3)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 bits_extract(int4 x, int4 index, int4 length)
         {
             return (int4)bits_extract((uint4)x, (uint4)index, (uint4)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of an <see cref="int"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 bits_extract(int8 x, int8 index, int8 length)
         {
@@ -512,7 +512,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bits_extract(ulong2 x, ulong2 index, ulong2 length)
         {
@@ -526,7 +526,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bits_extract(ulong3 x, ulong3 index, ulong3 length)
         {
@@ -540,7 +540,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="ulong"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bits_extract(ulong4 x, ulong4 index, ulong4 length)
         {
@@ -562,21 +562,21 @@ namespace MaxMath
             return (long)bits_extract((ulong)x, index, length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 bits_extract(long2 x, long2 index, long2 length)
         {
             return (long2)bits_extract((ulong2)x, (ulong2)index, (ulong2)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 bits_extract(long3 x, long3 index, long3 length)
         {
             return (long3)bits_extract((ulong3)x, (ulong3)index, (ulong3)length);
         }
         
-        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit int that component to 0.     </summary>
+        /// <summary>       Shifts a bitfield in each <paramref name="x"/> component of the corresponding length <paramref name="length"/> and starting at the corresponding bit <paramref name="index"/> to the least significant bit of a <see cref="long"/> and sets each remaining bit in that component to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 bits_extract(long4 x, long4 index, long4 length)
         {

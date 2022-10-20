@@ -1,10 +1,11 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
 		public static partial class constexpr
 		{
@@ -1829,6 +1830,83 @@ namespace MaxMath.Intrinsics
 				Hint.Assume(v.Double1 <= cmpVal);
 				Hint.Assume(v.Double2 <= cmpVal);
 				Hint.Assume(v.Double3 <= cmpVal);
+			}
+
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NAN_PS(v128 v)
+			{
+				Hint.Assume(math.isnan(v.Float0)); 
+				Hint.Assume(math.isnan(v.Float1));
+				Hint.Assume(math.isnan(v.Float2));
+				Hint.Assume(math.isnan(v.Float3));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NAN_PD(v128 v)
+			{
+				Hint.Assume(math.isnan(v.Double0)); 
+				Hint.Assume(math.isnan(v.Double1));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NAN_PS(v256 v)
+			{
+				Hint.Assume(math.isnan(v.Float0)); 
+				Hint.Assume(math.isnan(v.Float1));
+				Hint.Assume(math.isnan(v.Float2));
+				Hint.Assume(math.isnan(v.Float3));
+				Hint.Assume(math.isnan(v.Float4));
+				Hint.Assume(math.isnan(v.Float5));
+				Hint.Assume(math.isnan(v.Float6));
+				Hint.Assume(math.isnan(v.Float7));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NAN_PD(v256 v)
+			{
+				Hint.Assume(math.isnan(v.Double0)); 
+				Hint.Assume(math.isnan(v.Double1));
+				Hint.Assume(math.isnan(v.Double2));
+				Hint.Assume(math.isnan(v.Double3));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NOTNAN_PS(v128 v)
+			{
+				Hint.Assume(!math.isnan(v.Float0)); 
+				Hint.Assume(!math.isnan(v.Float1));
+				Hint.Assume(!math.isnan(v.Float2));
+				Hint.Assume(!math.isnan(v.Float3));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NOTNAN_PD(v128 v)
+			{
+				Hint.Assume(!math.isnan(v.Double0)); 
+				Hint.Assume(!math.isnan(v.Double1));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NOTNAN_PS(v256 v)
+			{
+				Hint.Assume(!math.isnan(v.Float0)); 
+				Hint.Assume(!math.isnan(v.Float1));
+				Hint.Assume(!math.isnan(v.Float2));
+				Hint.Assume(!math.isnan(v.Float3));
+				Hint.Assume(!math.isnan(v.Float4));
+				Hint.Assume(!math.isnan(v.Float5));
+				Hint.Assume(!math.isnan(v.Float6));
+				Hint.Assume(!math.isnan(v.Float7));
+			}
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static void ASSUME_NOTNAN_PD(v256 v)
+			{
+				Hint.Assume(!math.isnan(v.Double0)); 
+				Hint.Assume(!math.isnan(v.Double1));
+				Hint.Assume(!math.isnan(v.Double2));
+				Hint.Assume(!math.isnan(v.Double3));
 			}
 		}
     }

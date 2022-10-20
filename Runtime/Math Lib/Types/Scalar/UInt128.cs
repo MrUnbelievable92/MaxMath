@@ -15,7 +15,8 @@ using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable]  [DebuggerTypeProxy(typeof(UInt128.DebuggerProxy))]
+    [Serializable]  
+    [DebuggerTypeProxy(typeof(UInt128.DebuggerProxy))]
     unsafe public partial struct UInt128 : IComparable, IComparable<UInt128>, IConvertible, IEquatable<UInt128>, IEquatable<ulong>, IEquatable<long>, IFormattable
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool operator == (UInt128 left, sbyte right)
@@ -1767,13 +1768,46 @@ Assert.AreNotEqual(0u, right);
 
 
         #region string
+        internal const byte MAX_DECIMAL_DIGITS = 39;
+
         public override string ToString()
         {
-            return ((BigInteger)this).ToString();
+            if (IsZero)
+            {
+                return "0";
+            }
+
+            char* DECIMAL_DIGITS = stackalloc char[10] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+            char* result = stackalloc char[MAX_DECIMAL_DIGITS];
+            char* currentDigit = result + (MAX_DECIMAL_DIGITS - 1);
+            UInt128 cpy = this;
+
+            while (cpy >= 10u)
+            {
+                cpy = __const.divrem10(cpy, out ulong rem);
+
+                *currentDigit-- = DECIMAL_DIGITS[rem];
+            }
+            if (cpy.IsNotZero)
+            {
+                *currentDigit-- = DECIMAL_DIGITS[cpy.lo64];
+            }
+
+            int length = MAX_DECIMAL_DIGITS - (int)(((ulong)++currentDigit - (ulong)result) / sizeof(char));
+
+            return new string(currentDigit, 0, length);
         }
 
         public string ToString(string format)
         {
+            if (format == "X" || format == "x")
+            {
+                string hex = DevTools.Dump.Hex(this, false);
+
+                return (format == "x") ? hex.ToLower() : hex;
+            }
+
             return ((BigInteger)this).ToString(format);
         }
 

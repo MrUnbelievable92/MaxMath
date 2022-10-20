@@ -43,8 +43,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed short asArray[8];
-
         [FieldOffset(0)]  public short x0;
         [FieldOffset(2)]  public short x1;
         [FieldOffset(4)]  public short x2;
@@ -820,10 +818,11 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(short8 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(short8 input) => new v128 { SShort0 = input.x0, SShort1 = input.x1, SShort2 = input.x2, SShort3 = input.x3, SShort4 = input.x4, SShort5 = input.x5, SShort6 = input.x6, SShort7 = input.x7 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short8(v128 input) => RegisterConversion.ToType<short8>(input);
+        public static implicit operator short8(v128 input) => new short8 { x0 = input.SShort0, x1 = input.SShort1, x2 = input.SShort2, x3 = input.SShort3, x4 = input.SShort4, x5 = input.SShort5, x6 = input.SShort6, x7 = input.SShort7 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short8(short input) => new short8(input);
@@ -923,7 +922,16 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                return asArray[index];
+                if (Sse2.IsSse2Supported)
+                {
+                    return (short)Xse.extract_epi16(this, (byte)index);
+                }
+                else
+                {
+                    short8 onStack = this;
+
+                    return *((short*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -931,7 +939,16 @@ Assert.IsWithinArrayBounds(index, 8);
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                asArray[index] = value;
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi16(this, (ushort)value, (byte)index);
+                }
+                else
+                {
+                    short8 onStack = this;
+                    *((short*)&onStack + index) = value;
+                    this = onStack;
+                }
             }
         }
     
@@ -978,26 +995,26 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 operator / (short8 left, short8 right)
         {
-            if (Avx.IsAvxSupported)
+            if (Sse2.IsSse2Supported)
             {
                 return Xse.div_epi16(left, right, false, 8);
             }
             else
             {
-                return new short8(left.v4_0 / right.v4_0, left.v4_4 / right.v4_4);
+                return new short8((short)(left.x0 / right.x0), (short)(left.x1 / right.x1), (short)(left.x2 / right.x2), (short)(left.x3 / right.x3), (short)(left.x4 / right.x4), (short)(left.x5 / right.x5), (short)(left.x6 / right.x6), (short)(left.x7 / right.x7));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 operator % (short8 left, short8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Sse2.IsSse2Supported)
             {
                 return Xse.rem_epi16(left, right, 8);
             }
             else
             {
-                return new short8(left.v4_0 % right.v4_0, left.v4_4 % right.v4_4);
+                return new short8((short)(left.x0 % right.x0), (short)(left.x1 % right.x1), (short)(left.x2 % right.x2), (short)(left.x3 % right.x3), (short)(left.x4 % right.x4), (short)(left.x5 % right.x5), (short)(left.x6 % right.x6), (short)(left.x7 % right.x7));
             }
         }
 
@@ -1173,7 +1190,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue16<bool8>(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsTrue16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {
@@ -1186,7 +1203,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue16<bool8>(Xse.cmplt_epi16(left, right));
+                return RegisterConversion.IsTrue16(Xse.cmplt_epi16(left, right));
             }
             else
             {
@@ -1199,7 +1216,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue16<bool8>(Sse2.cmpgt_epi16(left, right));
+                return RegisterConversion.IsTrue16(Sse2.cmpgt_epi16(left, right));
             }
             else
             {
@@ -1213,7 +1230,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse16<bool8>(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsFalse16(Sse2.cmpeq_epi16(left, right));
             }
             else
             {
@@ -1226,7 +1243,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse16<bool8>(Sse2.cmpgt_epi16(left, right));
+                return RegisterConversion.IsFalse16(Sse2.cmpgt_epi16(left, right));
             }
             else
             {
@@ -1239,7 +1256,7 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse16<bool8>(Xse.cmplt_epi16(left, right));
+                return RegisterConversion.IsFalse16(Xse.cmplt_epi16(left, right));
             }
             else
             {

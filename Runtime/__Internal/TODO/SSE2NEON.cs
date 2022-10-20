@@ -1,4 +1,4 @@
-﻿//using System.Runtime.CompilerServices;
+//using System.Runtime.CompilerServices;
 //using Unity.Burst.Intrinsics;
 //
 //using static Unity.Burst.Intrinsics.X86;

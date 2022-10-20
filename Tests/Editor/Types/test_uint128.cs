@@ -1181,5 +1181,29 @@ namespace MaxMath.Tests
                                 (BigInteger)(left * right));
             }
         }
+
+
+        [Test]
+        new public static void ToString()
+        {
+            Random128 rng = Random128.New;
+            UInt128 x = 0;
+
+            Assert.AreEqual(UInt128.MAX_DECIMAL_DIGITS, ((BigInteger)UInt128.MaxValue).ToString().Length);
+            Assert.AreEqual(x.ToString(), "0");
+            Assert.AreEqual(UInt128.MaxValue.ToString(), ((BigInteger)UInt128.MaxValue).ToString());
+
+            for (int i = 0; i < 25; i++)
+            {
+                x = rng.NextUInt128();
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+
+                x = rng.NextUInt128(0, uint.MaxValue);
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+
+                x = rng.NextUInt128(0, 10);
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+            }
+        }
     }
 }

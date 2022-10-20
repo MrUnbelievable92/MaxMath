@@ -334,7 +334,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -350,7 +351,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -366,7 +368,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -398,7 +401,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -414,7 +418,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -430,7 +435,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -514,7 +520,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -530,7 +537,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -546,7 +554,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -579,7 +588,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -595,7 +605,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -611,7 +622,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -643,7 +655,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -659,7 +672,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -675,7 +689,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1048,7 +1063,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1081,7 +1097,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1114,7 +1131,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1130,7 +1148,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1146,7 +1165,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1179,7 +1199,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1195,7 +1216,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1210,7 +1232,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1311,7 +1334,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1326,7 +1350,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1342,7 +1367,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1375,7 +1401,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1391,7 +1418,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1406,7 +1434,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1439,7 +1468,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1455,7 +1485,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1471,7 +1502,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1570,7 +1602,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1586,7 +1619,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1601,7 +1635,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1634,7 +1669,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1650,7 +1686,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1666,7 +1703,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1698,7 +1736,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1714,7 +1753,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    { 
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -1730,7 +1770,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2102,7 +2143,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2118,7 +2160,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2134,7 +2177,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2167,7 +2211,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2183,7 +2228,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2199,7 +2245,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2232,7 +2279,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2248,7 +2296,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2264,7 +2313,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2365,7 +2415,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2381,7 +2432,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2397,7 +2449,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2430,7 +2483,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2446,7 +2500,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2462,7 +2517,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2495,7 +2551,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2511,7 +2568,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2527,7 +2585,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2628,7 +2687,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2643,7 +2703,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2659,7 +2720,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 0, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2692,7 +2754,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 1, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2708,7 +2771,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2723,7 +2787,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 1, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2756,7 +2821,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 2, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2772,7 +2838,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 2, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -2788,7 +2855,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 2, 2,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4240,7 +4308,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, Sse2.setzero_si128());
 				    }
@@ -4255,7 +4324,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xxy(v128 x)
-				{				    if (Sse2.IsSse2Supported)
+				{
+				    if (Sse2.IsSse2Supported)
 				    {
 				        return Sse2.unpacklo_epi8(x, x);
 				    }
@@ -4264,7 +4334,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 0, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4295,7 +4366,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyx(v128 x)
-				{				    if (Sse2.IsSse2Supported)
+				{
+				    if (Sse2.IsSse2Supported)
 				    {
 				        return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 0, 0));
 				    }
@@ -4304,7 +4376,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 1, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4345,7 +4418,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4361,7 +4435,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4377,7 +4452,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4477,7 +4553,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4493,7 +4570,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4508,7 +4586,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4541,7 +4620,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4556,7 +4636,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4571,7 +4652,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4602,7 +4684,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4617,7 +4700,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4632,7 +4716,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 2, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4725,7 +4810,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4741,7 +4827,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4757,7 +4844,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zxz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4789,7 +4877,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4805,7 +4894,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4821,7 +4911,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zyz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4854,7 +4945,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 0, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4869,7 +4961,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 1, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -4884,7 +4977,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zzz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 2, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5249,7 +5343,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xx(v128 x)
-				{				    if (Sse2.IsSse2Supported)
+				{
+				    if (Sse2.IsSse2Supported)
 				    {
 				        return Sse2.unpacklo_epi8(x, x);
 				    }
@@ -5258,7 +5353,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xy(v128 x)
-				{				    if (Sse2.IsSse2Supported)
+				{
+				    if (Sse2.IsSse2Supported)
 				    {
 				        return (v128)x;
 				    }
@@ -5267,7 +5363,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 xz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(0, 2, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5298,7 +5395,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 0, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5313,7 +5411,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yy(v128 x)
-				{ 				    if (Ssse3.IsSsse3Supported)
+				{ 
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(1, 1, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5328,7 +5427,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 yz(v128 x)
-				{				    if (Sse2.IsSse2Supported)
+				{
+				    if (Sse2.IsSse2Supported)
 				    {
 				        return Sse2.bsrli_si128(x, sizeof(byte));
 				    }
@@ -5354,7 +5454,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zx(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 0, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5369,7 +5470,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zy(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 1, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }
@@ -5385,7 +5487,8 @@ namespace MaxMath
 
 				[MethodImpl(MethodImplOptions.AggressiveInlining)] 
 				internal static v128 zz(v128 x)
-				{				    if (Ssse3.IsSsse3Supported)
+				{
+				    if (Ssse3.IsSsse3Supported)
 				    {
 				        return Ssse3.shuffle_epi8(x, new v128(2, 2, 3, 3,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 				    }

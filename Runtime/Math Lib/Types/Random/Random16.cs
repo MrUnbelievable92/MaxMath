@@ -69,9 +69,9 @@ Assert.AreNotEqual(State, 0);
 
             ushort temp = State;
 
-            State = (ushort)(State ^ State << 7);
-            State = (ushort)(State ^ State >> 9);
-            State = (ushort)(State ^ State << 13);
+            State = (ushort)(State ^ (ushort)(State << 7));
+            State = (ushort)(State ^ (ushort)(State >> 9));
+            State = (ushort)(State ^ (ushort)(State << 13));
 
             return temp;
         }

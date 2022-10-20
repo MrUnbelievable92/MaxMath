@@ -8,6 +8,248 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+    namespace Intrinsics
+    {
+        unsafe public static partial class Xse
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epu8(v128 a, v128 b, byte elements = 16)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi8(cmpge_epu8(b, a, elements), cmpge_epu8(a, b, elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epu8(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi8(mm256_cmpge_epu8(b, a), mm256_cmpge_epu8(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epi8(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi8(Sse2.cmpgt_epi8(b, a), Sse2.cmpgt_epi8(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epi8(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi8(Avx2.mm256_cmpgt_epi8(b, a), Avx2.mm256_cmpgt_epi8(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epu16(v128 a, v128 b, byte elements = 8)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi16(cmpge_epu16(b, a, elements), cmpge_epu16(a, b, elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epu16(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi16(mm256_cmpge_epu16(b, a), mm256_cmpge_epu16(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epi16(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi16(Sse2.cmpgt_epi16(b, a), Sse2.cmpgt_epi16(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epi16(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi16(Avx2.mm256_cmpgt_epi16(b, a), Avx2.mm256_cmpgt_epi16(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epu32(v128 a, v128 b, byte elements = 4)
+            {
+                if (Sse4_1.IsSse41Supported)
+                {
+                    return Sse2.sub_epi32(cmpge_epu32(b, a, elements), cmpge_epu32(a, b, elements));
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi32(cmpgt_epu32(b, a, elements), cmpgt_epu32(a, b, elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epu32(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi32(mm256_cmpge_epu32(b, a), mm256_cmpge_epu32(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epi32(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi32(Sse2.cmpgt_epi32(b, a), Sse2.cmpgt_epi32(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epi32(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi32(Avx2.mm256_cmpgt_epi32(b, a), Avx2.mm256_cmpgt_epi32(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epu64(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi64(cmpgt_epu64(b, a), cmpgt_epu64(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epu64(v256 a, v256 b, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi64(mm256_cmpgt_epu64(b, a, elements), mm256_cmpgt_epu64(a, b, elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_epi64(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi64(cmpgt_epi64(b, a), cmpgt_epi64(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_epi64(v256 a, v256 b, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi64(mm256_cmpgt_epi64(b, a, elements), mm256_cmpgt_epi64(a, b, elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_pq(v128 a, v128 b, byte elements = 16)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi8(quarter.Vectorized.cmpgt_pq(b, a, elements: elements), quarter.Vectorized.cmpgt_pq(a, b, elements: elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_ph(v128 a, v128 b, byte elements = 8)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi16(cmpgt_ph(b, a, elements: elements), cmpgt_ph(a, b, elements: elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_ps(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi32(Sse.cmpgt_ps(b, a), Sse.cmpgt_ps(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_ps(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi32(Avx.mm256_cmp_ps(b, a, (int)Avx.CMP.GT_OQ), Avx.mm256_cmp_ps(a, b, (int)Avx.CMP.GT_OQ));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cmp_pd(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.sub_epi64(Sse2.cmpgt_pd(b, a), Sse2.cmpgt_pd(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_pd(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_sub_epi64(Avx.mm256_cmp_pd(b, a, (int)Avx.CMP.GT_OQ), Avx.mm256_cmp_pd(a, b, (int)Avx.CMP.GT_OQ));
+                }
+                else throw new IllegalInstructionException();
+            }
+        }
+    }
+
+
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
@@ -120,6 +362,22 @@ namespace MaxMath
         /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
         [return: AssumeRange(-1, 1)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        public static int compareto(quarter x, quarter y)
+        {
+            return tobyte(x > y) - tobyte(x < y);
+        }
+
+        /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
+        [return: AssumeRange(-1, 1)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        public static int compareto(half x, half y)
+        {
+            return tobyte(x.IsGreaterThan(y)) - tobyte(x.IsLessThan(y));
+        }
+
+        /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
+        [return: AssumeRange(-1, 1)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int compareto(float x, float y)
         {
             return tobyte(x > y) - tobyte(x < y);
@@ -140,7 +398,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Sse2.cmpgt_epi8(y, x), Sse2.cmpgt_epi8(x, y));
+                return Xse.cmp_epi8(x, y);
             }
             else
             {
@@ -155,7 +413,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Sse2.cmpgt_epi8(y, x), Sse2.cmpgt_epi8(x, y));
+                return Xse.cmp_epi8(x, y);
             }
             else
             {
@@ -171,7 +429,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Sse2.cmpgt_epi8(y, x), Sse2.cmpgt_epi8(x, y));
+                return Xse.cmp_epi8(x, y);
             }
             else
             {
@@ -188,7 +446,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Sse2.cmpgt_epi8(y, x), Sse2.cmpgt_epi8(x, y));
+                return Xse.cmp_epi8(x, y);
             }
             else
             {
@@ -209,7 +467,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Sse2.cmpgt_epi8(y, x), Sse2.cmpgt_epi8(x, y));
+                return Xse.cmp_epi8(x, y);
             }
             else
             {
@@ -238,7 +496,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi8(Avx2.mm256_cmpgt_epi8(y, x), Avx2.mm256_cmpgt_epi8(x, y));
+                return Xse.mm256_cmp_epi8(x, y);
             }
             else
             {
@@ -254,7 +512,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Xse.cmpge_epu8(y, x, 2), Xse.cmpge_epu8(x, y, 2));
+                return Xse.cmp_epu8(x, y, 2);
             }
             else
             {
@@ -269,7 +527,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Xse.cmpge_epu8(y, x, 3), Xse.cmpge_epu8(x, y, 3));
+                return Xse.cmp_epu8(x, y, 3);
             }
             else
             {
@@ -285,7 +543,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Xse.cmpge_epu8(y, x, 4), Xse.cmpge_epu8(x, y, 4));
+                return Xse.cmp_epu8(x, y, 4);
             }
             else
             {
@@ -302,7 +560,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Xse.cmpge_epu8(y, x, 8), Xse.cmpge_epu8(x, y, 8));
+                return Xse.cmp_epu8(x, y, 8);
             }
             else
             {
@@ -323,7 +581,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi8(Xse.cmpge_epu8(y, x, 16), Xse.cmpge_epu8(x, y, 16));
+                return Xse.cmp_epu8(x, y, 16);
             }
             else
             {
@@ -352,7 +610,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi8(Xse.mm256_cmpge_epu8(y, x), Xse.mm256_cmpge_epu8(x, y));
+                return Xse.mm256_cmp_epu8(x, y);
             }
             else
             {
@@ -368,7 +626,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi16(Sse2.cmpgt_epi16(y, x), Sse2.cmpgt_epi16(x, y));
+                return Xse.cmp_epi16(x, y);
             }
             else
             {
@@ -383,7 +641,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi16(Sse2.cmpgt_epi16(y, x), Sse2.cmpgt_epi16(x, y));
+                return Xse.cmp_epi16(x, y);
             }
             else
             {
@@ -399,7 +657,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi16(Sse2.cmpgt_epi16(y, x), Sse2.cmpgt_epi16(x, y));
+                return Xse.cmp_epi16(x, y);
             }
             else
             {
@@ -416,7 +674,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi16(Sse2.cmpgt_epi16(y, x), Sse2.cmpgt_epi16(x, y));
+                return Xse.cmp_epi16(x, y);
             }
             else
             {
@@ -437,7 +695,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi16(Avx2.mm256_cmpgt_epi16(y, x), Avx2.mm256_cmpgt_epi16(x, y));
+                return Xse.mm256_cmp_epi16(x, y);
             }
             else
             {
@@ -453,13 +711,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Sse4_1.IsSse41Supported && !(Xse.constexpr.ALL_LE_EPU16(x, (ushort)short.MaxValue, 2) && Xse.constexpr.ALL_LE_EPU16(y, (ushort)short.MaxValue, 2)))
-                {
-                    return Sse2.sub_epi16(Xse.cmpge_epu16(y, x, 2), Xse.cmpge_epu16(x, y, 2));
-                }
-                 
-
-                return Sse2.sub_epi16(Xse.cmpgt_epu16(y, x, 2), Xse.cmpgt_epu16(x, y, 2));
+                return Xse.cmp_epu16(x, y, 2);
             }
             else
             {
@@ -474,12 +726,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Sse4_1.IsSse41Supported && !(Xse.constexpr.ALL_LE_EPU16(x, (ushort)short.MaxValue, 3) && Xse.constexpr.ALL_LE_EPU16(y, (ushort)short.MaxValue, 3)))
-                {
-                    return Sse2.sub_epi16(Xse.cmpge_epu16(y, x, 3), Xse.cmpge_epu16(x, y, 3));
-                }
-
-                return Sse2.sub_epi16(Xse.cmpgt_epu16(y, x, 3), Xse.cmpgt_epu16(x, y, 3));
+                return Xse.cmp_epu16(x, y, 3);
             }
             else
             {
@@ -495,12 +742,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Sse4_1.IsSse41Supported && !(Xse.constexpr.ALL_LE_EPU16(x, (ushort)short.MaxValue, 4) && Xse.constexpr.ALL_LE_EPU16(y, (ushort)short.MaxValue, 4)))
-                {
-                    return Sse2.sub_epi16(Xse.cmpge_epu16(y, x, 4), Xse.cmpge_epu16(x, y, 4));
-                }
-
-                return Sse2.sub_epi16(Xse.cmpgt_epu16(y, x, 4), Xse.cmpgt_epu16(x, y, 4));
+                return Xse.cmp_epu16(x, y, 4);
             }
             else
             {
@@ -517,12 +759,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Sse4_1.IsSse41Supported && !(Xse.constexpr.ALL_LE_EPU16(x, (ushort)short.MaxValue, 8) && Xse.constexpr.ALL_LE_EPU16(y, (ushort)short.MaxValue, 8)))
-                {
-                    return Sse2.sub_epi16(Xse.cmpge_epu16(y, x, 8), Xse.cmpge_epu16(x, y, 8));
-                }
-
-                return Sse2.sub_epi16(Xse.cmpgt_epu16(y, x, 8), Xse.cmpgt_epu16(x, y, 8));
+                return Xse.cmp_epu16(x, y, 8);
             }
             else
             {
@@ -543,7 +780,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi16(Xse.mm256_cmpge_epu16(y, x), Xse.mm256_cmpge_epu16(x, y));
+                return Xse.mm256_cmp_epu16(x, y);
             }
             else
             {
@@ -559,10 +796,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int2>(Sse2.sub_epi32(Sse2.cmpgt_epi32(_y, _x), Sse2.cmpgt_epi32(_x, _y)));
+                return RegisterConversion.ToInt2(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -577,10 +811,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int3>(Sse2.sub_epi32(Sse2.cmpgt_epi32(_y, _x), Sse2.cmpgt_epi32(_x, _y)));
+                return RegisterConversion.ToInt3(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -596,10 +827,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int4>(Sse2.sub_epi32(Sse2.cmpgt_epi32(_y, _x), Sse2.cmpgt_epi32(_x, _y)));
+                return RegisterConversion.ToInt4(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -616,7 +844,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi32(Avx2.mm256_cmpgt_epi32(y, x), Avx2.mm256_cmpgt_epi32(x, y));
+                return Xse.mm256_cmp_epi32(x, y);
             }
             else
             {
@@ -630,19 +858,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(uint2 x, uint2 y)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int2>(Sse2.sub_epi32(Sse2.cmpeq_epi32(Sse4_1.max_epu32(_y, _x), _y), Sse2.cmpeq_epi32(Sse4_1.max_epu32(_x, _y), _x)));;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int2>(Sse2.sub_epi32(Xse.cmpgt_epu32(_y, _x, 2), Xse.cmpgt_epu32(_x, _y, 2)));
+                return RegisterConversion.ToInt2(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
             else
             {
@@ -655,19 +873,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(uint3 x, uint3 y)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int3>(Sse2.sub_epi32(Sse2.cmpeq_epi32(Sse4_1.max_epu32(_y, _x), _y), Sse2.cmpeq_epi32(Sse4_1.max_epu32(_x, _y), _x)));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int3>(Sse2.sub_epi32(Xse.cmpgt_epu32(_y, _x, 3), Xse.cmpgt_epu32(_x, _y, 3)));
+                return RegisterConversion.ToInt3(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
             else
             {
@@ -681,19 +889,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(uint4 x, uint4 y)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int4>(Sse2.sub_epi32(Sse2.cmpeq_epi32(Sse4_1.max_epu32(_y, _x), _y), Sse2.cmpeq_epi32(Sse4_1.max_epu32(_x, _y), _x)));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-                
-                return RegisterConversion.ToType<int4>(Sse2.sub_epi32(Xse.cmpgt_epu32(_y, _x, 4), Xse.cmpgt_epu32(_x, _y, 4)));
+                return RegisterConversion.ToInt4(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
             else
             {
@@ -710,7 +908,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi32(Xse.mm256_cmpge_epu32(y, x), Xse.mm256_cmpge_epu32(x, y));
+                return Xse.mm256_cmp_epu32(x, y);
             }
             else
             {
@@ -724,9 +922,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(long2 x, long2 y)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi64(Xse.cmpgt_epi64(y, x), Xse.cmpgt_epi64(x, y));
+                return Xse.cmp_epi64(x, y);
             }
             else
             {
@@ -741,7 +939,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(Xse.mm256_cmpgt_epi64(y, x, 3), Xse.mm256_cmpgt_epi64(x, y, 3));
+                return Xse.mm256_cmp_epi64(x, y, 3);
             }
             else
             {
@@ -756,7 +954,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(Xse.mm256_cmpgt_epi64(y, x, 4), Xse.mm256_cmpgt_epi64(x, y, 4));
+                return Xse.mm256_cmp_epi64(x, y, 4);
             }
             else
             {
@@ -772,7 +970,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_epi64(Xse.cmpgt_epu64(y, x), Xse.cmpgt_epu64(x, y));
+                return Xse.cmp_epu64(x, y);
             }
             else
             {
@@ -787,7 +985,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(Xse.mm256_cmpgt_epu64(y, x), Xse.mm256_cmpgt_epu64(x, y));
+                return Xse.mm256_cmp_epu64(x, y, 3);
             }
             else
             {
@@ -802,12 +1000,152 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(Xse.mm256_cmpgt_epu64(y, x), Xse.mm256_cmpgt_epu64(x, y));
+                return Xse.mm256_cmp_epu64(x, y, 4);
             }
             else
             {
                 return new long4(compareto(x.xy, y.xy),
                                  compareto(x.zw, y.zw));
+            }
+        }
+
+
+        /// <summary>       Returns an <see cref="MaxMath.sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 compareto(quarter2 x, quarter2 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_pq(x, y, 2);
+            }
+            else
+            {
+                return new sbyte2((sbyte)compareto(x.x, y.x),
+                                  (sbyte)compareto(x.y, y.y));
+            }
+        }
+
+        /// <summary>       Returns an <see cref="MaxMath.sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte3 compareto(quarter3 x, quarter3 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_pq(x, y, 3);
+            }
+            else
+            {
+                return new sbyte3((sbyte)compareto(x.x, y.x),
+                                  (sbyte)compareto(x.y, y.y),
+                                  (sbyte)compareto(x.z, y.z));
+            }
+        }
+
+        /// <summary>       Returns an <see cref="MaxMath.sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte4 compareto(quarter4 x, quarter4 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_pq(x, y, 4);
+            }
+            else
+            {
+                return new sbyte4((sbyte)compareto(x.x, y.x),
+                                  (sbyte)compareto(x.y, y.y),
+                                  (sbyte)compareto(x.z, y.z),
+                                  (sbyte)compareto(x.w, y.w));
+            }
+        }
+
+        /// <summary>       Returns an <see cref="MaxMath.sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte8 compareto(quarter8 x, quarter8 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_pq(x, y, 8);
+            }
+            else
+            {
+                return new sbyte8((sbyte)compareto(x.x0, y.x0),
+                                  (sbyte)compareto(x.x1, y.x1),
+                                  (sbyte)compareto(x.x2, y.x2),
+                                  (sbyte)compareto(x.x3, y.x3),
+                                  (sbyte)compareto(x.x4, y.x4),
+                                  (sbyte)compareto(x.x5, y.x5),
+                                  (sbyte)compareto(x.x6, y.x6),
+                                  (sbyte)compareto(x.x7, y.x7));
+            }
+        }
+
+
+        /// <summary>       Returns a <see cref="MaxMath.short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2 compareto(half2 x, half2 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2);
+            }
+            else
+            {
+                return new short2((short)compareto(x.x, y.x),
+                                  (short)compareto(x.y, y.y));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 compareto(half3 x, half3 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3);
+            }
+            else
+            {
+                return new short3((short)compareto(x.x, y.x),
+                                  (short)compareto(x.y, y.y),
+                                  (short)compareto(x.z, y.z));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 compareto(half4 x, half4 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4);
+            }
+            else
+            {
+                return new short4((short)compareto(x.x, y.x),
+                                  (short)compareto(x.y, y.y),
+                                  (short)compareto(x.z, y.z),
+                                  (short)compareto(x.w, y.w));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 compareto(half8 x, half8 y)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return Xse.cmp_ph(x, y, 8);
+            }
+            else
+            {
+                return new short8((short)compareto(x.x0, y.x0),
+                                  (short)compareto(x.x1, y.x1),
+                                  (short)compareto(x.x2, y.x2),
+                                  (short)compareto(x.x3, y.x3),
+                                  (short)compareto(x.x4, y.x4),
+                                  (short)compareto(x.x5, y.x5),
+                                  (short)compareto(x.x6, y.x6),
+                                  (short)compareto(x.x7, y.x7));
             }
         }
 
@@ -818,10 +1156,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-
-                return RegisterConversion.ToType<int2>(Sse2.sub_epi32(Sse.cmpgt_ps(_y, _x), Sse.cmpgt_ps(_x, _y)));
+                return RegisterConversion.ToInt2(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -836,10 +1171,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-
-                return RegisterConversion.ToType<int3>(Sse2.sub_epi32(Sse.cmpgt_ps(_y, _x), Sse.cmpgt_ps(_x, _y)));
+                return RegisterConversion.ToInt3(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -855,10 +1187,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-
-                return RegisterConversion.ToType<int4>(Sse2.sub_epi32(Sse.cmpgt_ps(_y, _x), Sse.cmpgt_ps(_x, _y)));
+                return RegisterConversion.ToInt4(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -875,7 +1204,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi32(Avx.mm256_cmp_ps(y, x, (int)Avx.CMP.GT_OS), Avx.mm256_cmp_ps(x, y, (int)Avx.CMP.GT_OS));
+                return Xse.mm256_cmp_ps(x, y);
             }
             else
             {
@@ -891,10 +1220,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 _x = RegisterConversion.ToV128(x);
-                v128 _y = RegisterConversion.ToV128(y);
-
-                return Sse2.sub_epi64(Sse2.cmpgt_pd(_y, _x), Sse2.cmpgt_pd(_x, _y));
+                return Xse.cmp_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y));
             }
             else
             {
@@ -909,10 +1235,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 _x = RegisterConversion.ToV256(x);
-                v256 _y = RegisterConversion.ToV256(y);
-
-                return Avx2.mm256_sub_epi64(Avx.mm256_cmp_pd(_y, _x, (int)Avx.CMP.GT_OS), Avx.mm256_cmp_pd(_x, _y, (int)Avx.CMP.GT_OS));
+                return Xse.mm256_cmp_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y));
             }
             else
             {
@@ -927,10 +1250,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 _x = RegisterConversion.ToV256(x);
-                v256 _y = RegisterConversion.ToV256(y);
-
-                return Avx2.mm256_sub_epi64(Avx.mm256_cmp_pd(_y, _x, (int)Avx.CMP.GT_OS), Avx.mm256_cmp_pd(_x, _y, (int)Avx.CMP.GT_OS));
+                return Xse.mm256_cmp_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y));
             }
             else
             {

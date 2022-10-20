@@ -229,7 +229,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.int2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="int2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int2 c, Promise noOverflow = Promise.Nothing)
@@ -248,7 +248,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.int3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="int3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int3 c, Promise noOverflow = Promise.Nothing)
@@ -267,7 +267,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.int4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="int4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int4 c, Promise noOverflow = Promise.Nothing)
@@ -344,7 +344,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.float2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="float2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cminmag(float2 c)
         {
@@ -353,7 +353,7 @@ namespace MaxMath
             return minmag(min, max);
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.float3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="float3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cminmag(float3 c)
         {
@@ -362,7 +362,7 @@ namespace MaxMath
             return minmag(min, max);
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.float4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="float4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cminmag(float4 c)
         {
@@ -381,7 +381,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.double2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="double2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cminmag(double2 c)
         {
@@ -390,7 +390,7 @@ namespace MaxMath
             return minmag(min, max);
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.double3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="double3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cminmag(double3 c)
         {
@@ -399,7 +399,7 @@ namespace MaxMath
             return minmag(min, max);
         }
 
-        /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.double4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum of a <see cref="double4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cminmag(double4 c)
         {

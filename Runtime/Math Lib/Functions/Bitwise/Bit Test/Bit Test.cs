@@ -242,7 +242,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Xse.bt_epi8(x, i, MaskType.One, 2));
+                return RegisterConversion.ToBool2(Xse.bt_epi8(x, i, MaskType.One, 2));
             }
             else
             {
@@ -256,7 +256,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Xse.bt_epi8(x, i, MaskType.One, 3));
+                return RegisterConversion.ToBool3(Xse.bt_epi8(x, i, MaskType.One, 3));
             }
             else
             {
@@ -270,7 +270,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Xse.bt_epi8(x, i, MaskType.One, 4));
+                return RegisterConversion.ToBool4(Xse.bt_epi8(x, i, MaskType.One, 4));
             }
             else
             {
@@ -356,7 +356,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 2), 2));
+                return RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 2), 2));
             }
             else
             {
@@ -370,7 +370,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 3), 3));
+                return RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 3), 3));
             }
             else
             {
@@ -384,7 +384,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 4), 4));
+                return RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 4), 4));
             }
             else
             {
@@ -441,7 +441,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 2), 2));
+                return RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 2), 2));
             }
             else
             {
@@ -455,7 +455,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 3), 3));
+                return RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 3), 3));
             }
             else
             {
@@ -469,7 +469,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 4), 4));
+                return RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 4), 4));
             }
             else
             {
@@ -505,7 +505,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Xse.cvtepi64_epi8(Xse.bt_epi64(x, i, MaskType.One)));
+                return RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.bt_epi64(x, i, MaskType.One)));
             }
             else
             {
@@ -519,7 +519,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 3)));
+                return RegisterConversion.ToBool3(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 3)));
             }
             else
             {
@@ -533,7 +533,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 4)));
+                return RegisterConversion.ToBool4(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 4)));
             }
             else
             {

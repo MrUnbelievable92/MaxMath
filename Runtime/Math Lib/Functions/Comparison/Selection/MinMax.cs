@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst;
-using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -682,8 +681,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<int2>(_min);
-                max = RegisterConversion.ToType<int2>(_max);
+                min = RegisterConversion.ToInt2(_min);
+                max = RegisterConversion.ToInt2(_max);
             }
             else
             {
@@ -699,8 +698,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<int3>(_min);
-                max = RegisterConversion.ToType<int3>(_max);
+                min = RegisterConversion.ToInt3(_min);
+                max = RegisterConversion.ToInt3(_max);
             }
             else
             {
@@ -716,8 +715,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<int4>(_min);
-                max = RegisterConversion.ToType<int4>(_max);
+                min = RegisterConversion.ToInt4(_min);
+                max = RegisterConversion.ToInt4(_max);
             }
             else
             {
@@ -754,8 +753,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<uint2>(_min);
-                max = RegisterConversion.ToType<uint2>(_max);
+                min = RegisterConversion.ToUInt2(_min);
+                max = RegisterConversion.ToUInt2(_max);
             }
             else
             {
@@ -771,8 +770,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<uint3>(_min);
-                max = RegisterConversion.ToType<uint3>(_max);
+                min = RegisterConversion.ToUInt3(_min);
+                max = RegisterConversion.ToUInt3(_max);
             }
             else
             {
@@ -788,8 +787,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<uint4>(_min);
-                max = RegisterConversion.ToType<uint4>(_max);
+                min = RegisterConversion.ToUInt4(_min);
+                max = RegisterConversion.ToUInt4(_max);
             }
             else
             {
@@ -936,8 +935,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<float2>(_min);
-                max = RegisterConversion.ToType<float2>(_max);
+                min = RegisterConversion.ToFloat2(_min);
+                max = RegisterConversion.ToFloat2(_max);
             }
             else
             {
@@ -953,8 +952,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<float3>(_min);
-                max = RegisterConversion.ToType<float3>(_max);
+                min = RegisterConversion.ToFloat3(_min);
+                max = RegisterConversion.ToFloat3(_max);
             }
             else
             {
@@ -970,8 +969,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<float4>(_min);
-                max = RegisterConversion.ToType<float4>(_max);
+                min = RegisterConversion.ToFloat4(_min);
+                max = RegisterConversion.ToFloat4(_max);
             }
             else
             {
@@ -1001,15 +1000,15 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(double2 a, double2 b, [NoAlias] out double2 min, [NoAlias] out double2 max)
         {
             if (Sse2.IsSse2Supported)
             {
                 Xse.minmax_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToType<double2>(_min);
-                max = RegisterConversion.ToType<double2>(_max);
+                min = RegisterConversion.ToDouble2(_min);
+                max = RegisterConversion.ToDouble2(_max);
             }
             else
             {
@@ -1018,15 +1017,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(double3 a, double3 b, [NoAlias] out double3 min, [NoAlias] out double3 max)
         {
             if (Avx2.IsAvx2Supported)
             {
                 Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
-                min = RegisterConversion.ToType<double3>(_min);
-                max = RegisterConversion.ToType<double3>(_max);
+                min = RegisterConversion.ToDouble3(_min);
+                max = RegisterConversion.ToDouble3(_max);
             }
             else
             {
@@ -1036,15 +1035,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(double4 a, double4 b, [NoAlias] out double4 min, [NoAlias] out double4 max)
         {
             if (Avx2.IsAvx2Supported)
             {
                 Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
-                min = RegisterConversion.ToType<double4>(_min);
-                max = RegisterConversion.ToType<double4>(_max);
+                min = RegisterConversion.ToDouble4(_min);
+                max = RegisterConversion.ToDouble4(_max);
             }
             else
             {

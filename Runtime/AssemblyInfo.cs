@@ -32,9 +32,9 @@ using System.Diagnostics.CodeAnalysis;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.3.0")]
-[assembly: AssemblyFileVersion("2.3.0")]
-[assembly: AssemblyInformationalVersion("2.3 Release")]
+[assembly: AssemblyVersion("2.3.5")]
+[assembly: AssemblyFileVersion("2.3.5")]
+[assembly: AssemblyInformationalVersion("2.3.5 Release")]
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity.Mathematics API consistency")]
 [assembly: CompilationRelaxationsAttribute(CompilationRelaxations.NoStringInterning)]

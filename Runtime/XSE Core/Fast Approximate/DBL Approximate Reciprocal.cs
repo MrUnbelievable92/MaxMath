@@ -5,7 +5,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
         internal const long MAGIC_RCP_PD = 0x7FDE_6238_22FC_16E6;
 

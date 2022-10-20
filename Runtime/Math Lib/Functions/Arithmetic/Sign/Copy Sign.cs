@@ -20,11 +20,20 @@ namespace MaxMath
                     {
                         s = Sse2.sub_epi8(s, Sse2.cmpeq_epi8(s, Sse2.setzero_si128()));
                     }
+                    else if (constexpr.ALL_EQ_EPI8(a, 1, elements) || constexpr.ALL_EQ_EPI8(a, -1, elements))
+                    {
+                        return Sse2.or_si128(srai_epi8(s, 7), Sse2.set1_epi8(1));
+                    }
 
                     return Ssse3.sign_epi8(abs_epi8(a, elements), s);
                 }
                 else if (Sse2.IsSse2Supported)
                 {
+                    if (constexpr.ALL_EQ_EPI8(a, 1, elements) || constexpr.ALL_EQ_EPI8(a, -1, elements))
+                    {
+                        return Sse2.or_si128(srai_epi8(s, 7), Sse2.set1_epi8(1));
+                    }
+
                     v128 res = Sse2.xor_si128(a, s);
                     res = srai_epi8(res, 7);
 
@@ -42,6 +51,10 @@ namespace MaxMath
                     {
                         s = Avx2.mm256_sub_epi8(s, Avx2.mm256_cmpeq_epi8(s, Avx.mm256_setzero_si256()));
                     }
+                    else if (constexpr.ALL_EQ_EPI8(a, 1) || constexpr.ALL_EQ_EPI8(a, -1))
+                    {
+                        return Avx2.mm256_or_si256(mm256_srai_epi8(s, 7), Avx.mm256_set1_epi8(1));
+                    }
 
                     return Avx2.mm256_sign_epi8(mm256_abs_epi8(a), s);
                 }
@@ -52,28 +65,30 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_epi16(v128 a, v128 s, bool promise = false, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Ssse3.IsSsse3Supported)
+                {
+                    if (!(promise || constexpr.ALL_NEQ_EPI16(s, 0, elements)))
+                    {
+                        s = Sse2.sub_epi16(s, Sse2.cmpeq_epi16(s, Sse2.setzero_si128()));
+                    }
+                    else if (constexpr.ALL_EQ_EPI16(a, 1, elements) || constexpr.ALL_EQ_EPI16(a, -1, elements))
+                    {
+                        return Sse2.or_si128(srai_epi16(s, 15), Sse2.set1_epi16(1));
+                    }
+
+                    return Ssse3.sign_epi16(abs_epi16(a, elements), s);
+                }
+                else if (Sse2.IsSse2Supported)
                 {
                     if (constexpr.ALL_EQ_EPI16(a, 1, elements) || constexpr.ALL_EQ_EPI16(a, -1, elements))
                     {
-                        return Sse2.or_si128(Sse2.set1_epi16(1), Sse2.srai_epi16(s, 15));
+                        return Sse2.or_si128(srai_epi16(s, 15), Sse2.set1_epi16(1));
                     }
-                    else if (Ssse3.IsSsse3Supported)
-                    {
-                        if (!(promise || constexpr.ALL_NEQ_EPI16(s, 0, elements)))
-                        {
-                            s = Sse2.sub_epi16(s, Sse2.cmpeq_epi16(s, Sse2.setzero_si128()));
-                        }
 
-                        return Ssse3.sign_epi16(abs_epi16(a, elements), s);
-                    }
-                    else
-                    {
-                        v128 res = Sse2.xor_si128(a, s);
-                        res = Sse2.srai_epi16(res, 15);
+                    v128 res = Sse2.xor_si128(a, s);
+                    res = Sse2.srai_epi16(res, 15);
 
-                        return Sse2.sub_epi16(Sse2.xor_si128(a, res), res);
-                    }
+                    return Sse2.sub_epi16(Sse2.xor_si128(a, res), res);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -83,19 +98,16 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_EQ_EPI16(a, 1) || constexpr.ALL_EQ_EPI16(a, -1))
+                    if (!(promise || constexpr.ALL_NEQ_EPI16(s, 0)))
                     {
-                        return Avx2.mm256_or_si256(Avx.mm256_set1_epi16(1), Avx2.mm256_srai_epi16(s, 15));
+                        s = Avx2.mm256_sub_epi16(s, Avx2.mm256_cmpeq_epi16(s, Avx.mm256_setzero_si256()));
                     }
-                    else
+                    else if (constexpr.ALL_EQ_EPI16(a, 1) || constexpr.ALL_EQ_EPI16(a, -1))
                     {
-                        if (!(promise || constexpr.ALL_NEQ_EPI16(s, 0)))
-                        {
-                            s = Avx2.mm256_sub_epi16(s, Avx2.mm256_cmpeq_epi16(s, Avx.mm256_setzero_si256()));
-                        }
+                        return Avx2.mm256_or_si256(mm256_srai_epi16(s, 15), Avx.mm256_set1_epi16(1));
+                    }
 
-                        return Avx2.mm256_sign_epi16(mm256_abs_epi16(a), s);
-                    }
+                    return Avx2.mm256_sign_epi16(mm256_abs_epi16(a), s);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -104,28 +116,30 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_epi32(v128 a, v128 s, bool promise = false, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Ssse3.IsSsse3Supported)
+                {
+                    if (!(promise || constexpr.ALL_NEQ_EPI32(s, 0, elements)))
+                    {
+                        s = Sse2.sub_epi32(s, Sse2.cmpeq_epi32(s, Sse2.setzero_si128()));
+                    }
+                    else if (constexpr.ALL_EQ_EPI32(a, 1, elements) || constexpr.ALL_EQ_EPI32(a, -1, elements))
+                    {
+                        return Sse2.or_si128(srai_epi32(s, 31), Sse2.set1_epi32(1));
+                    }
+
+                    return Ssse3.sign_epi32(abs_epi32(a, elements), s);
+                }
+                else if (Sse2.IsSse2Supported)
                 {
                     if (constexpr.ALL_EQ_EPI32(a, 1, elements) || constexpr.ALL_EQ_EPI32(a, -1, elements))
                     {
-                        return Sse2.or_si128(Sse2.set1_epi32(1), Sse2.srai_epi32(s, 31));
+                        return Sse2.or_si128(srai_epi32(s, 31), Sse2.set1_epi32(1));
                     }
-                    else if (Ssse3.IsSsse3Supported)
-                    {
-                        if (!(promise || constexpr.ALL_NEQ_EPI32(s, 0, elements)))
-                        {
-                            s = Sse2.sub_epi32(s, Sse2.cmpeq_epi32(s, Sse2.setzero_si128()));
-                        }
 
-                        return Ssse3.sign_epi32(abs_epi32(a, elements), s);
-                    }
-                    else
-                    {
-                        v128 res = Sse2.xor_si128(a, s);
-                        res = Sse2.srai_epi32(res, 31);
+                    v128 res = Sse2.xor_si128(a, s);
+                    res = Sse2.srai_epi32(res, 31);
 
-                        return Sse2.sub_epi32(Sse2.xor_si128(a, res), res);
-                    }
+                    return Sse2.sub_epi32(Sse2.xor_si128(a, res), res);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -135,19 +149,16 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_EQ_EPI32(a, 1) || constexpr.ALL_EQ_EPI32(a, -1))
+                    if (!(promise || constexpr.ALL_NEQ_EPI32(s, 0)))
                     {
-                        return Avx2.mm256_or_si256(Avx.mm256_set1_epi32(1), Avx2.mm256_srai_epi32(s, 31));
+                        s = Avx2.mm256_sub_epi32(s, Avx2.mm256_cmpeq_epi32(s, Avx.mm256_setzero_si256()));
                     }
-                    else
+                    else if (constexpr.ALL_EQ_EPI32(a, 1) || constexpr.ALL_EQ_EPI32(a, -1))
                     {
-                        if (!(promise || constexpr.ALL_NEQ_EPI32(s, 0)))
-                        {
-                            s = Avx2.mm256_sub_epi32(s, Avx2.mm256_cmpeq_epi32(s, Avx.mm256_setzero_si256()));
-                        }
-                        
-                        return Avx2.mm256_sign_epi32(mm256_abs_epi32(a), s);
+                        return Avx2.mm256_or_si256(mm256_srai_epi32(s, 31), Avx.mm256_set1_epi32(1));
                     }
+                    
+                    return Avx2.mm256_sign_epi32(mm256_abs_epi32(a), s);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -542,7 +553,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
+                return RegisterConversion.ToInt2(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
             }
             else
             {
@@ -559,7 +570,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
+                return RegisterConversion.ToInt3(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
             }
             else
             {
@@ -576,7 +587,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
+                return RegisterConversion.ToInt4(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
             }
             else
             {
@@ -668,7 +679,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return new quarter(Xse.movsign_pq(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)).Byte0);
+                return new quarter(Xse.movsign_pq(RegisterConversion.ToV128(x.value), RegisterConversion.ToV128(y.value), nonZero.Promises(Promise.NonZero)).Byte0);
             }
             else
             {
@@ -702,7 +713,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<quarter2>(Xse.movsign_pq(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -717,7 +728,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<quarter3>(Xse.movsign_pq(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -732,7 +743,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<quarter4>(Xse.movsign_pq(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -747,7 +758,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<quarter8>(Xse.movsign_pq(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -797,7 +808,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<half2>(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToHalf2(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -812,7 +823,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<half3>(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToHalf3(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -827,7 +838,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<half4>(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToHalf4(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -842,7 +853,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<half8>(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -892,7 +903,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float2>(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToFloat2(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -925,7 +936,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToFloat3(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -958,7 +969,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToFloat4(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -1041,7 +1052,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToDouble2(Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -1074,7 +1085,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToDouble3(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {
@@ -1090,7 +1101,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
+                return RegisterConversion.ToDouble4(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
             }
             else
             {

@@ -526,7 +526,7 @@ Assert.IsSafeBoolean(p.y);
             {
                 if (Ssse3.IsSsse3Supported)
                 {
-                    return RegisterConversion.ToType<int2>(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1),    0, 0)));
+                    return RegisterConversion.ToInt2(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1),    0, 0)));
                 }
             }
 
@@ -547,7 +547,7 @@ Assert.IsSafeBoolean(p.z);
             {
                 if (Ssse3.IsSsse3Supported)
                 {
-                    return RegisterConversion.ToType<int3>(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1), (int)(p.z ? -1 : 1),   0)));
+                    return RegisterConversion.ToInt3(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1), (int)(p.z ? -1 : 1),   0)));
                 }
             }
 
@@ -569,7 +569,7 @@ Assert.IsSafeBoolean(p.w);
             {
                 if (Ssse3.IsSsse3Supported)
                 {
-                    return RegisterConversion.ToType<int4>(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1), (int)(p.z ? -1 : 1), (int)(p.w ? -1 : 1))));
+                    return RegisterConversion.ToInt4(Ssse3.sign_epi32(RegisterConversion.ToV128(x), new v128((int)(p.x ? -1 : 1), (int)(p.y ? -1 : 1), (int)(p.z ? -1 : 1), (int)(p.w ? -1 : 1))));
                 }
             }
 

@@ -9,7 +9,6 @@ using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
@@ -35,8 +34,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed ulong asArray[4];
-        
         [FieldOffset(0)]  internal ulong2 _xy;
         [FieldOffset(16)] internal ulong2 _zw;
 
@@ -6098,10 +6095,11 @@ namespace MaxMath
 
 		
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(ulong4 input) => RegisterConversion.ToV256(input);
+        public static implicit operator v256(ulong4 input) => new v256 { ULong0 = input.x, ULong1 = input.y, ULong2 = input.z, ULong3 = input.w };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong4(v256 input) => RegisterConversion.ToType<ulong4>(input);
+        public static implicit operator ulong4(v256 input) => new ulong4 { x = input.ULong0, y = input.ULong1, z = input.ULong2, w = input.ULong3 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong4(ulong input) => new ulong4(input);
@@ -6127,7 +6125,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong4(uint4 input)
         {
-            if (Sse2.IsSse2Supported)
+			if (Avx2.IsAvx2Supported)
+            {
+				return Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(input));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 return (ulong4)Cast.UInt4ToLong4(RegisterConversion.ToV128(input));
             }
@@ -6140,7 +6142,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong4(int4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Avx2.IsAvx2Supported)
+            {
+				return Avx2.mm256_cvtepi32_epi64(RegisterConversion.ToV128(input));
+            }
+            else if (Sse2.IsSse2Supported)
             {
                 return (ulong4)Cast.Int4ToLong4(RegisterConversion.ToV128(input));
             }
@@ -6175,7 +6181,7 @@ namespace MaxMath
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToType<uint4>(Xse.mm256_cvtepi64_epi32(input));
+				return RegisterConversion.ToUInt4(Xse.mm256_cvtepi64_epi32(input));
 			}
 			else
 			{
@@ -6188,7 +6194,7 @@ namespace MaxMath
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToType<int4>(Xse.mm256_cvtepi64_epi32(input));
+				return RegisterConversion.ToInt4(Xse.mm256_cvtepi64_epi32(input));
 			}
 			else
 			{
@@ -6207,7 +6213,7 @@ namespace MaxMath
 		{
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_cvtepu64_pd(input, 4));
+                return RegisterConversion.ToDouble4(Xse.mm256_cvtepu64_pd(input, 4));
             }
 			else
 			{
@@ -6223,7 +6229,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Xse.mm256_extract_epi64(this, (byte)index);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 2)
+                        {
+                            return Xse.extract_epi64(_xy, (byte)index);
+                        }
+                        else
+                        {
+                            return Xse.extract_epi64(_zw, (byte)(index - 2));
+                        }
+                    }
+                }
+
+                ulong4 onStack = this;
+
+                return *((ulong*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6231,7 +6258,32 @@ Assert.IsWithinArrayBounds(index, 4);
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                asArray[index] = value;
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi64(this, value, (byte)index);
+
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 2)
+                        {
+                            _xy = Xse.insert_epi64(_xy, value, (byte)index);
+                        }
+                        else
+                        {
+                            _zw = Xse.insert_epi64(_zw, value, (byte)(index - 2));
+                        }
+
+                        return;
+                    }
+                }
+
+                ulong4 onStack = this;
+                *((ulong*)&onStack + index) = value;
+                this = onStack;
             }
         }
     
@@ -6466,7 +6518,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsTrue64<bool4>(Avx2.mm256_cmpeq_epi64(left, right));
+				int results = RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{
@@ -6479,7 +6533,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsTrue64<bool4>(Xse.mm256_cmplt_epu64(left, right));
+				int results = RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{
@@ -6492,7 +6548,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsTrue64<bool4>(Xse.mm256_cmpgt_epu64(left, right));
+				int results = RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{
@@ -6506,7 +6564,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsFalse64<bool4>(Avx2.mm256_cmpeq_epi64(left, right));
+				int results = RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{
@@ -6519,7 +6579,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsFalse64<bool4>(Xse.mm256_cmpgt_epu64(left, right));
+				int results = RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{
@@ -6532,7 +6594,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.IsFalse64<bool4>(Xse.mm256_cmplt_epu64(left, right));
+				int results = RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right));
+
+				return *(bool4*)&results;
 			}
 			else
 			{

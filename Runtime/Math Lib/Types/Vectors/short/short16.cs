@@ -57,8 +57,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)] private fixed short asArray[16];
-
         [FieldOffset(0)]  internal short8 _v8_0;
         [FieldOffset(16)] internal short8 _v8_8;
 
@@ -136,7 +134,7 @@ namespace MaxMath
 
             if (Sse2.IsSse2Supported)
             {
-                lo = Sse2.insert_epi16(Sse2.unpacklo_epi64(x0123, x456), x789.x, 7);
+                lo = Xse.insert_epi16(Sse2.unpacklo_epi64(x0123, x456), (ushort)x789.x, 7);
             }
             else
             {
@@ -2017,10 +2015,11 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(short16 input) => RegisterConversion.ToV256(input);
+        public static implicit operator v256(short16 input) => new v256{ SShort0 = input.x0, SShort1 = input.x1, SShort2 = input.x2, SShort3 = input.x3, SShort4 = input.x4, SShort5 = input.x5, SShort6 = input.x6, SShort7 = input.x7, SShort8 = input.x8, SShort9 = input.x9, SShort10 = input.x10, SShort11 = input.x11, SShort12 = input.x12, SShort13 = input.x13, SShort14 = input.x14, SShort15 = input.x15 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short16(v256 input) => RegisterConversion.ToType<short16>(input);
+        public static implicit operator short16(v256 input) => new short16{ x0 = input.SShort0, x1 = input.SShort1, x2 = input.SShort2, x3 = input.SShort3, x4 = input.SShort4, x5 = input.SShort5, x6 = input.SShort6, x7 = input.SShort7, x8 = input.SShort8, x9 = input.SShort9, x10 = input.SShort10, x11 = input.SShort11, x12 = input.SShort12, x13 = input.SShort13, x14 = input.SShort14, x15 = input.SShort15 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short16(short input) => new short16(input);
@@ -2051,15 +2050,61 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 16);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return (short)Xse.mm256_extract_epi16(this, (byte)index);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 8)
+                        {
+                            return (short)Xse.extract_epi16(_v8_0, (byte)index);
+                        }
+                        else
+                        {
+                            return (short)Xse.extract_epi16(_v8_8, (byte)(index - 8));
+                        }
+                    }
+                }
+
+                short16 onStack = this;
+
+                return *((short*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 16);
+                
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi16(this, (ushort)value, (byte)index);
 
-                asArray[index] = value;
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 8)
+                        {
+                            _v8_0 = Xse.insert_epi16(_v8_0, (ushort)value, (byte)index);
+                        }
+                        else
+                        {
+                            _v8_8 = Xse.insert_epi16(_v8_8, (ushort)value, (byte)(index - 8));
+                        }
+
+                        return;
+                    }
+                }
+
+                short16 onStack = this;
+                *((short*)&onStack + index) = value;
+                this = onStack;
             }
         }
 

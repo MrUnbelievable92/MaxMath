@@ -9,23 +9,21 @@ namespace MaxMath
     unsafe internal static partial class RegisterConversion
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsTrue8<T>(v128 input)
-            where T : unmanaged
+        internal static v128 IsTrue8(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                return ToType<T>(Xse.negmask_epi8(input));  
+                return Xse.neg_epi8(input);  
             }
             else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsFalse8<T>(v128 input)
-            where T : unmanaged
+        internal static v128 IsFalse8(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                return ToType<T>(Xse.inc_epi8(input));
+                return Xse.inc_epi8(input);  
             }
             else throw new IllegalInstructionException();
         }
@@ -35,7 +33,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_abs_epi8(input);  
+                return Xse.mm256_neg_epi8(input);  
             }
             else throw new IllegalInstructionException();
         }
@@ -52,23 +50,21 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsTrue16<T>(v128 input)
-            where T : unmanaged
+        internal static v128 IsTrue16(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                return ToType<T>(IsTrue8<v128>(Sse2.packs_epi16(input, input)));
+                return IsTrue8(Sse2.packs_epi16(input, input));
             }
             else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsFalse16<T>(v128 input)
-            where T : unmanaged
+        internal static v128 IsFalse16(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                return ToType<T>(IsFalse8<v128>(Sse2.packs_epi16(input, input)));
+                return IsFalse8(Sse2.packs_epi16(input, input));
             }
             else throw new IllegalInstructionException();
         }
@@ -81,7 +77,7 @@ namespace MaxMath
                 v128 lo = Avx.mm256_castsi256_si128(input);
                 v128 hi = Avx2.mm256_extracti128_si256(input, 1);
                 
-                return IsTrue8<v128>(Sse2.packs_epi16(lo, hi));
+                return IsTrue8(Sse2.packs_epi16(lo, hi));
             }
             else throw new IllegalInstructionException();
         }
@@ -94,19 +90,28 @@ namespace MaxMath
                 v128 lo = Avx.mm256_castsi256_si128(input);
                 v128 hi = Avx2.mm256_extracti128_si256(input, 1);
                 
-                return IsFalse8<v128>(Sse2.packs_epi16(lo, hi));
+                return IsFalse8(Sse2.packs_epi16(lo, hi));
             }
             else throw new IllegalInstructionException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsTrue32<T>(v128 input)
-            where T : unmanaged
+        internal static v128 IsTrue32(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                return ToType<T>(IsTrue16<v128>(Sse2.packs_epi32(input, input)));
+                return IsTrue16(Sse2.packs_epi32(input, input));
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static v128 IsFalse32(v128 input)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return IsFalse16(Sse2.packs_epi32(input, input));
             }
             else throw new IllegalInstructionException();
         }
@@ -121,7 +126,7 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsTrue8<v128>(Sse2.packs_epi16(_16, _16));
+                return IsTrue8(Sse2.packs_epi16(_16, _16));
             }
             else if (Avx.IsAvxSupported)
             {
@@ -130,7 +135,7 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsTrue8<v128>(Sse2.packs_epi16(_16, _16));
+                return IsTrue8(Sse2.packs_epi16(_16, _16));
             }
             else throw new IllegalInstructionException();
         }
@@ -145,7 +150,7 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsFalse8<v128>(Sse2.packs_epi16(_16, _16));
+                return IsFalse8(Sse2.packs_epi16(_16, _16));
             }
             else if (Avx.IsAvxSupported)
             {
@@ -154,60 +159,48 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsTrue8<v128>(Sse2.packs_epi16(_16, _16));
+                return IsTrue8(Sse2.packs_epi16(_16, _16));
             }
             else throw new IllegalInstructionException();
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsTrue64<T>(v128 input)
-            where T : unmanaged
+        internal static int IsTrue64(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                int r = 0x0101 & Sse2.movemask_epi8(input);
-
-                return *(T*)&r;
+                return 0x0101 & Sse2.movemask_epi8(input);
             }
             else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsFalse64<T>(v128 input)
-            where T : unmanaged
+        internal static int IsFalse64(v128 input)
         {
             if (Sse2.IsSse2Supported)
             {
-                int r = maxmath.andnot(0x0101, Sse2.movemask_epi8(input));
-
-                return *(T*)&r;
+                return maxmath.andnot(0x0101, Sse2.movemask_epi8(input));
             }
             else throw new IllegalInstructionException();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsTrue64<T>(v256 input)
-            where T : unmanaged
+        internal static int IsTrue64(v256 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int r = 0x0101_0101 & Avx2.mm256_movemask_epi8(input);
-
-                return *(T*)&r;
+                return 0x0101_0101 & Avx2.mm256_movemask_epi8(input);
             }
             else throw new IllegalInstructionException();
         }
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T IsFalse64<T>(v256 input) 
-            where T : unmanaged
+        internal static int IsFalse64(v256 input) 
         {
             if (Avx2.IsAvx2Supported)
             {
-                int r = maxmath.andnot(0x0101_0101, Avx2.mm256_movemask_epi8(input));
-
-                return *(T*)&r;
+                return maxmath.andnot(0x0101_0101, Avx2.mm256_movemask_epi8(input));
             }
             else throw new IllegalInstructionException();
         }

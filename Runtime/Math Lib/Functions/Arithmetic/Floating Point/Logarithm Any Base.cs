@@ -74,7 +74,7 @@ namespace MaxMath
                 v128 _x = Avx.mm256_castps256_ps128(ln);
                 v128 _b = Avx.mm256_extractf128_ps(ln, 1);
             
-                return RegisterConversion.ToType<float3>(Sse.div_ps(_x, _b)); 
+                return RegisterConversion.ToFloat3(Sse.div_ps(_x, _b)); 
             }
             else
             {

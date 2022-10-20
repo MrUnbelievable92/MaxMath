@@ -28,7 +28,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-                return RegisterConversion.ToType<float4>(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat4(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -42,7 +42,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-                return RegisterConversion.ToType<float3>(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat3(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -56,7 +56,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-                return RegisterConversion.ToType<float2>(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat2(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -85,7 +85,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble4(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {
@@ -99,7 +99,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble3(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {
@@ -113,7 +113,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.rsqrt_pd(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToDouble2(Xse.rsqrt_pd(RegisterConversion.ToV128(x)));
             }
             else
             {

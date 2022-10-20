@@ -5,7 +5,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
         internal const ulong  MAGIC_RSQRT_PD_GUESS = 0x5FE6_EB50_C7B5_37A9ul;
         internal const double MAGIC_RSQRT_PD_MUL = 0.7039522544782403d;

@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -9,9 +8,9 @@ using static MaxMath.LUT.GAMMA;
 
 namespace MaxMath
 {
-	namespace Intrinsics
-	{
-		unsafe public static partial class Xse
+    namespace Intrinsics
+    {
+        unsafe public static partial class Xse
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 gamma_ps(v128 a, byte elements = 4)
@@ -57,7 +56,7 @@ namespace MaxMath
 
 					v128 y = Sse.add_ps(absX, Sse.set1_ps((float)GM_HALF));
 					v128 z = Sse.sub_ps(absX, HALF);
-					v128 r = Sse.mul_ps(Sse.div_ps(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToType<float4>(y))));
+					v128 r = Sse.mul_ps(Sse.div_ps(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToFloat4(y))));
 					
 					bool reflect;
                     if		(elements == 2) reflect = (Sse.movemask_ps(a) & 0b0011) != 0;
@@ -74,7 +73,7 @@ namespace MaxMath
 						}
 						else
 						{
-							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<float4>(sinpi)));
+							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(sinpi)));
 						}
 					    sinpi = Sse.sub_ps(sinpi, floorsinpi);
 					    sinpi = Sse.add_ps(sinpi, sinpi);
@@ -88,14 +87,14 @@ namespace MaxMath
 						sinpi = fnmadd_ps(Sse2.cvtepi32_ps(n), HALF, sinpi);
 						sinpi = fmadd_ps(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
 						sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToType<float4>(sinpi)));
+						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToFloat4(sinpi)));
 						sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 						r = Sse.div_ps(Sse.set1_ps(-math.PI), Sse.mul_ps(sinpi, Sse.mul_ps(absX, r)));
 						z = ternarylogic_si128(ABS_MASK, a, z, TernaryOperation.OxA6);
 					}
 
-					v128 result = Sse.mul_ps(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToType<float4>(y), RegisterConversion.ToType<float4>(z))));
+					v128 result = Sse.mul_ps(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToFloat4(y), RegisterConversion.ToFloat4(z))));
 					
 					// the following is 100% free, ILP
 					v128 negative;
@@ -109,8 +108,8 @@ namespace MaxMath
                     }
 					else
 					{
-						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<float4>(a)));
-						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<float4>(HALF) * RegisterConversion.ToType<float4>(a)));
+						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(a)));
+						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(HALF) * RegisterConversion.ToFloat4(a)));
 						negative = Sse2.srai_epi32(a, 31);
 					}
 					
@@ -284,7 +283,7 @@ namespace MaxMath
 
 					v128 y = Sse2.add_pd(absX, Sse2.set1_pd(GM_HALF));
 					v128 z = Sse2.sub_pd(absX, HALF);
-					v128 r = Sse2.mul_pd(Sse2.div_pd(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToType<double2>(y))));
+					v128 r = Sse2.mul_pd(Sse2.div_pd(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToDouble2(y))));
 					
 					if (Sse2.movemask_pd(a) != 0) 
 					{
@@ -296,7 +295,7 @@ namespace MaxMath
 						}
 						else
 						{
-							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<double2>(sinpi)));
+							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(sinpi)));
 						}
 					    sinpi = Sse2.sub_pd(sinpi, floorsinpi);
 					    sinpi = Sse2.add_pd(sinpi, sinpi);
@@ -320,14 +319,14 @@ namespace MaxMath
 						sinpi = fnmadd_pd(usfcvtepu64_pd(n), HALF, sinpi);
 						sinpi = fmadd_pd(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
 						sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToType<double2>(sinpi)));
+						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToDouble2(sinpi)));
 						sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 						r = Sse2.div_pd(Sse2.set1_pd(-math.PI_DBL), Sse2.mul_pd(sinpi, Sse2.mul_pd(absX, r)));
 						z = ternarylogic_si128(ABS_MASK, a, z, TernaryOperation.OxA6);
 					}
 
-					v128 result = Sse2.mul_pd(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToType<double2>(y), RegisterConversion.ToType<double2>(z))));
+					v128 result = Sse2.mul_pd(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToDouble2(y), RegisterConversion.ToDouble2(z))));
 					
 					v128 negative = Sse2.andnot_pd(ABS_MASK, a);
 					v128 floorX;
@@ -339,8 +338,8 @@ namespace MaxMath
                     }
 					else
 					{
-						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<double2>(a)));
-						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToType<double2>(HALF) * RegisterConversion.ToType<double2>(a)));
+						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(a)));
+						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(HALF) * RegisterConversion.ToDouble2(a)));
 						negative = srai_epi64(negative, 63);
 					}
 					
@@ -425,7 +424,7 @@ namespace MaxMath
 
 					v256 y = Avx.mm256_add_pd(absX, Avx.mm256_set1_pd(GM_HALF));
 					v256 z = Avx.mm256_sub_pd(absX, HALF);
-					v256 r = Avx.mm256_mul_pd(Avx.mm256_div_pd(num, den), RegisterConversion.ToV256(math.exp(-RegisterConversion.ToType<double4>(y))));
+					v256 r = Avx.mm256_mul_pd(Avx.mm256_div_pd(num, den), RegisterConversion.ToV256(math.exp(-RegisterConversion.ToDouble4(y))));
 					
 					bool reflect;
                     if (elements == 3) reflect = (Avx.mm256_movemask_pd(a) & 0b0111) != 0;
@@ -447,14 +446,14 @@ namespace MaxMath
 						sinpi = mm256_fnmadd_pd(mm256_usfcvtepu64_pd(n), HALF, sinpi);
 						sinpi = mm256_fmadd_pd(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
 						sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV256(math.sin(RegisterConversion.ToType<double4>(sinpi)));
+						sinpi = RegisterConversion.ToV256(math.sin(RegisterConversion.ToDouble4(sinpi)));
 						sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 						r = Avx.mm256_div_pd(Avx.mm256_set1_pd(-math.PI_DBL), Avx.mm256_mul_pd(sinpi, Avx.mm256_mul_pd(absX, r)));
 						z = mm256_ternarylogic_si256(ABS_MASK, a, z, TernaryOperation.OxA6);
 					}
 
-					v256 result = Avx.mm256_mul_pd(r, RegisterConversion.ToV256(math.pow(RegisterConversion.ToType<double4>(y), RegisterConversion.ToType<double4>(z))));
+					v256 result = Avx.mm256_mul_pd(r, RegisterConversion.ToV256(math.pow(RegisterConversion.ToDouble4(y), RegisterConversion.ToDouble4(z))));
 					
 					v256 negative = Avx.mm256_andnot_pd(ABS_MASK, a);
 					v256 floorX = Avx.mm256_floor_pd(a);
@@ -499,7 +498,7 @@ namespace MaxMath
 			
 			float absX = math.abs(x);
 			float rcp = math.rcp(absX);
-			math.isnan(double.PositiveInfinity);
+
 			if (ix >= 0x7F80_0000)
 			{
 			    return x + float.PositiveInfinity;
@@ -610,7 +609,7 @@ namespace MaxMath
 		{
             if (Sse2.IsSse2Supported)
             {
-				return RegisterConversion.ToType<float2>(Xse.gamma_ps(RegisterConversion.ToV128(x), 2));
+				return RegisterConversion.ToFloat2(Xse.gamma_ps(RegisterConversion.ToV128(x), 2));
             }
 			else
 			{
@@ -624,7 +623,7 @@ namespace MaxMath
 		{
             if (Sse2.IsSse2Supported)
             {
-				return RegisterConversion.ToType<float3>(Xse.gamma_ps(RegisterConversion.ToV128(x), 3));
+				return RegisterConversion.ToFloat3(Xse.gamma_ps(RegisterConversion.ToV128(x), 3));
             }
 			else
 			{
@@ -638,7 +637,7 @@ namespace MaxMath
 		{
             if (Sse2.IsSse2Supported)
             {
-				return RegisterConversion.ToType<float4>(Xse.gamma_ps(RegisterConversion.ToV128(x), 4));
+				return RegisterConversion.ToFloat4(Xse.gamma_ps(RegisterConversion.ToV128(x), 4));
             }
 			else
 			{
@@ -782,7 +781,7 @@ namespace MaxMath
 		{
             if (Sse2.IsSse2Supported)
             {
-				return RegisterConversion.ToType<double2>(Xse.gamma_pd(RegisterConversion.ToV128(x)));
+				return RegisterConversion.ToDouble2(Xse.gamma_pd(RegisterConversion.ToV128(x)));
             }
 			else
 			{
@@ -796,7 +795,7 @@ namespace MaxMath
 		{
             if (Avx2.IsAvx2Supported)
             {
-				return RegisterConversion.ToType<double3>(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 3));
+				return RegisterConversion.ToDouble3(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 3));
             }
 			else
 			{
@@ -810,7 +809,7 @@ namespace MaxMath
 		{
             if (Avx2.IsAvx2Supported)
             {
-				return RegisterConversion.ToType<double4>(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 4));
+				return RegisterConversion.ToDouble4(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 4));
             }
 			else
 			{

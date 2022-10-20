@@ -453,6 +453,24 @@ namespace MaxMath.Tests
                    TestData_LHS[0][13] == TestData_LHS[0].x13 &
                    TestData_LHS[0][14] == TestData_LHS[0].x14 &
                    TestData_LHS[0][15] == TestData_LHS[0].x15, true);
+
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte16 x = TestData_LHS[0];
+
+                x[i] = 0;
+                Assert.AreEqual(x[i], 0);
+
+                for (int j = 0; j < i; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+
+                for (int j = i + 1; j < 16; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+            }
         }
 
 

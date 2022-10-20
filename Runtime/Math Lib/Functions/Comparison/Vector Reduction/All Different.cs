@@ -925,7 +925,7 @@ namespace MaxMath
                 {
                     finalCmp = Sse2.bsrli_si128(c, 4 * sizeof(short));
                     finalCmp = Sse2.or_si128(finalCmp, Sse2.bslli_si128(c, 5 * sizeof(short)));
-                    finalCmp = Sse2.insert_epi16(finalCmp, Sse2.extract_epi16(c, 7), 5);
+                    finalCmp = Xse.insert_epi16(finalCmp, Xse.extract_epi16(c, 7), 5);
                 }
 
                 v128 or = Sse2.or_si128(Sse2.or_si128(Sse2.cmpeq_epi16(c, Xse.bror_si128(c, 1 * sizeof(short))),
@@ -1443,7 +1443,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="MaxMath.double2"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="double2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(double2 c)
         {
@@ -1459,14 +1459,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="MaxMath.double3"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="double3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(double3 c)
         {
             return all_dif(c.xxzx, c.yzyy);
         }
 
-        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="MaxMath.double4"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true" /> if all of the components of a <see cref="double4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(double4 c)
         {

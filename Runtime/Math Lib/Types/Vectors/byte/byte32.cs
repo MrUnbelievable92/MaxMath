@@ -90,8 +90,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed byte asArray[32];
-
         [FieldOffset(0)]  internal byte16 _v16_0;
         [FieldOffset(16)] internal byte16 _v16_16;
 
@@ -3629,7 +3627,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 0);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 0);
                 }
                 else
                 {
@@ -3674,7 +3672,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 1);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 1);
                 }
                 else
                 {
@@ -3719,7 +3717,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 2);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 2);
                 }
                 else
                 {
@@ -3764,7 +3762,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 3);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 3);
                 }
                 else
                 {
@@ -3809,7 +3807,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 4);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 4);
                 }
                 else
                 {
@@ -3854,7 +3852,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 5);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 5);
                 }
                 else
                 {
@@ -3899,7 +3897,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 6);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 6);
                 }
                 else
                 {
@@ -3944,7 +3942,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 7);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 7);
                 }
                 else
                 {
@@ -4017,7 +4015,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 8);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 8);
                 }
                 else
                 {
@@ -4071,7 +4069,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 9);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 9);
                 }
                 else
                 {
@@ -4125,11 +4123,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 10);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 10);
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 2);
+                    this._v16_16 = Xse.insert_epi16(this._v16_16, *(ushort*)&value, 2);
                 }
                 else
                 {
@@ -4184,11 +4182,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 11);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 11);
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    this._v16_16 = Sse2.insert_epi16(this._v16_16, *(short*)&value, 3);
+                    this._v16_16 = Xse.insert_epi16(this._v16_16, *(ushort*)&value, 3);
                 }
                 else
                 {
@@ -4241,7 +4239,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 12);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 12);
                 }
                 else
                 {
@@ -4295,7 +4293,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 13);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 13);
                 }
                 else
                 {
@@ -4349,7 +4347,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 14);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 14);
                 }
                 else
                 {
@@ -4403,7 +4401,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_insert_epi16(this, *(short*)&value, 15);
+                    this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 15);
                 }
                 else
                 {
@@ -4415,10 +4413,11 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(byte32 input) => RegisterConversion.ToV256(input);
+        public static implicit operator v256(byte32 input) => new v256 { Byte0 = input.x0, Byte1 = input.x1, Byte2 = input.x2, Byte3 = input.x3, Byte4 = input.x4, Byte5 = input.x5, Byte6 = input.x6, Byte7 = input.x7, Byte8 = input.x8, Byte9 = input.x9, Byte10 = input.x10, Byte11 = input.x11, Byte12 = input.x12, Byte13 = input.x13, Byte14 = input.x14, Byte15 = input.x15, Byte16 = input.x16, Byte17 = input.x17, Byte18 = input.x18, Byte19 = input.x19, Byte20 = input.x20, Byte21 = input.x21, Byte22 = input.x22, Byte23 = input.x23, Byte24 = input.x24, Byte25 = input.x25, Byte26 = input.x26, Byte27 = input.x27, Byte28 = input.x28, Byte29 = input.x29, Byte30 = input.x30, Byte31 = input.x31 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte32(v256 input) => RegisterConversion.ToType<byte32>(input);
+        public static implicit operator byte32(v256 input) => new byte32 { x0 = input.Byte0, x1 = input.Byte1, x2 = input.Byte2, x3 = input.Byte3, x4 = input.Byte4, x5 = input.Byte5, x6 = input.Byte6, x7 = input.Byte7, x8 = input.Byte8, x9 = input.Byte9, x10 = input.Byte10, x11 = input.Byte11, x12 = input.Byte12, x13 = input.Byte13, x14 = input.Byte14, x15 = input.Byte15, x16 = input.Byte16, x17 = input.Byte17, x18 = input.Byte18, x19 = input.Byte19, x20 = input.Byte20, x21 = input.Byte21, x22 = input.Byte22, x23 = input.Byte23, x24 = input.Byte24, x25 = input.Byte25, x26 = input.Byte26, x27 = input.Byte27, x28 = input.Byte28, x29 = input.Byte29, x30 = input.Byte30, x31 = input.Byte31 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator byte32(byte input) => new byte32(input);
@@ -4449,7 +4448,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Xse.mm256_extract_epi8(this, (byte)index);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 16)
+                        {
+                            return Xse.extract_epi8(_v16_0, (byte)index);
+                        }
+                        else
+                        {
+                            return Xse.extract_epi8(_v16_16, (byte)(index - 16));
+                        }
+                    }
+                }
+
+                byte32 onStack = this;
+
+                return *((byte*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4457,7 +4477,32 @@ Assert.IsWithinArrayBounds(index, 32);
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                asArray[index] = value;
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi8(this, value, (byte)index);
+
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 16)
+                        {
+                            _v16_0 = Xse.insert_epi8(_v16_0, value, (byte)index);
+                        }
+                        else
+                        {
+                            _v16_16 = Xse.insert_epi8(_v16_16, value, (byte)(index - 16));
+                        }
+
+                        return;
+                    }
+                }
+
+                byte32 onStack = this;
+                *((byte*)&onStack + index) = value;
+                this = onStack;
             }
         }
 

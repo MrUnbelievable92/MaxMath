@@ -21,7 +21,10 @@ namespace MaxMath
                 {
                     /*const*/ bool NEED_TO_SAVE_SIGN = !(promise || constexpr.ALL_LT_EPU32(a, 1u << 31, elements));
 
+                    v128 ONE = Sse.set1_ps(1f);
+                    v128 ONE_THIRD = Sse.set1_ps(1f / 3f);
                     v128 TWO_THIRDS = Sse.set1_ps(2f / 3f);
+
                     v128 absX = a;
                     
                     if (NEED_TO_SAVE_SIGN)
@@ -35,11 +38,11 @@ namespace MaxMath
                     v128 c = Sse.mul_ps(Sse.mul_ps(absX, y), Sse.mul_ps(y, y));
                     y = Sse.mul_ps(y, fnmadd_ps(fnmadd_ps(Sse.set1_ps(F32_C2), c, Sse.set1_ps(F32_C1)), c, Sse.set1_ps(F32_C0)));
                     v128 d = Sse.mul_ps(absX, y);
-                    c = fnmadd_ps(d, Sse.mul_ps(y, y), Sse.set1_ps(1f));
+                    c = fnmadd_ps(d, Sse.mul_ps(y, y), ONE);
                     
-                    y = Sse.mul_ps(Sse.mul_ps(d, y), fmadd_ps(c, Sse.set1_ps(1f / 3f), Sse.set1_ps(1f)));
+                    y = Sse.mul_ps(Sse.mul_ps(d, y), fmadd_ps(c, ONE_THIRD, ONE));
                     // additional NR
-                    y = fdadd_ps(Sse.mul_ps(Sse.set1_ps(1f / 3f), a), Sse.mul_ps(y, y), Sse.mul_ps(TWO_THIRDS, y));
+                    y = fdadd_ps(Sse.mul_ps(ONE_THIRD, a), Sse.mul_ps(y, y), Sse.mul_ps(TWO_THIRDS, y));
                     
                     // FloatPrecision.Low 2nd to last y (!!!save sign somehow!!!)
                     // FloatPrecision.Medium+ last y
@@ -56,7 +59,10 @@ namespace MaxMath
                 {
                     /*const*/ bool NEED_TO_SAVE_SIGN = !(promise || constexpr.ALL_LT_EPU32(a, 1u << 31));
 
+                    v256 ONE = Avx.mm256_set1_ps(1f);
+                    v256 ONE_THIRD = Avx.mm256_set1_ps(1f / 3f);
                     v256 TWO_THIRDS = Avx.mm256_set1_ps(2f / 3f);
+
                     v256 absX = a;
                     
                     if (NEED_TO_SAVE_SIGN)
@@ -82,11 +88,11 @@ namespace MaxMath
                     v256 c = Avx.mm256_mul_ps(Avx.mm256_mul_ps(absX, y), Avx.mm256_mul_ps(y, y));
                     y = Avx.mm256_mul_ps(y, mm256_fnmadd_ps(mm256_fnmadd_ps(Avx.mm256_set1_ps(F32_C2), c, Avx.mm256_set1_ps(F32_C1)), c, Avx.mm256_set1_ps(F32_C0)));
                     v256 d = Avx.mm256_mul_ps(absX, y);
-                    c = mm256_fnmadd_ps(d, Avx.mm256_mul_ps(y, y), Avx.mm256_set1_ps(1f));
+                    c = mm256_fnmadd_ps(d, Avx.mm256_mul_ps(y, y), ONE);
                    
-                    y = Avx.mm256_mul_ps(Avx.mm256_mul_ps(d, y), mm256_fmadd_ps(c, Avx.mm256_set1_ps(1f / 3f), Avx.mm256_set1_ps(1f)));
+                    y = Avx.mm256_mul_ps(Avx.mm256_mul_ps(d, y), mm256_fmadd_ps(c, ONE_THIRD, ONE));
                     // additional NR
-                    y = mm256_fdadd_ps(Avx.mm256_mul_ps(Avx.mm256_set1_ps(1f / 3f), a), Avx.mm256_mul_ps(y, y), Avx.mm256_mul_ps(TWO_THIRDS, y));
+                    y = mm256_fdadd_ps(Avx.mm256_mul_ps(ONE_THIRD, a), Avx.mm256_mul_ps(y, y), Avx.mm256_mul_ps(TWO_THIRDS, y));
 
                     // FloatPrecision.Low 2nd to last y (!!!save sign somehow!!!)
                     // FloatPrecision.Medium+ last y
@@ -130,7 +136,7 @@ namespace MaxMath
                     v128 t = Sse2.and_si128(a, Sse2.set1_epi64x(1L << 63));
                     t = Sse2.or_si128(t, Sse2.slli_epi64(absHi, 32));
 
-                    r = Sse2.mul_pd(Sse2.mul_pd(t, t), Sse2.mul_pd(t, Sse2.div_pd(Sse2.set1_pd(1d), a)));
+                    r = Sse2.mul_pd(Sse2.mul_pd(t, Sse2.mul_pd(t, t)), Sse2.div_pd(Sse2.set1_pd(1d), a));
                     t = Sse2.mul_pd(t, fmadd_pd(Sse2.mul_pd(Sse2.mul_pd(r, r), r), fmadd_pd(Sse2.set1_pd(F64_C4), r, Sse2.set1_pd(F64_C3)), fmadd_pd(fmadd_pd(Sse2.set1_pd(F64_C2), r, Sse2.set1_pd(F64_C1)), r, Sse2.set1_pd(F64_C0))));
                     t = Sse2.and_si128(Sse2.add_epi64(t, Sse2.set1_epi64x(0x8000_0000)), Sse2.set1_epi64x(unchecked((long)0xFFFF_FFFF_C000_0000ul)));
                         
@@ -166,7 +172,7 @@ namespace MaxMath
                     v256 t = Avx2.mm256_and_si256(a, Avx.mm256_set1_epi64x(1L << 63));
                     t = Avx2.mm256_or_si256(t, Avx2.mm256_slli_epi64(absHi, 32));
 
-                    r = Avx.mm256_mul_pd(Avx.mm256_mul_pd(t, t), Avx.mm256_mul_pd(t, Avx.mm256_div_pd(Avx.mm256_set1_pd(1d), a)));
+                    r = Avx.mm256_mul_pd(Avx.mm256_mul_pd(t, Avx.mm256_mul_pd(t, t)), Avx.mm256_div_pd(Avx.mm256_set1_pd(1d), a));
                     t = Avx.mm256_mul_pd(t, mm256_fmadd_pd(Avx.mm256_mul_pd(Avx.mm256_mul_pd(r, r), r), mm256_fmadd_pd(Avx.mm256_set1_pd(F64_C4), r, Avx.mm256_set1_pd(F64_C3)), mm256_fmadd_pd(mm256_fmadd_pd(Avx.mm256_set1_pd(F64_C2), r, Avx.mm256_set1_pd(F64_C1)), r, Avx.mm256_set1_pd(F64_C0))));
                     t = Avx2.mm256_and_si256(Avx2.mm256_add_epi64(t, Avx.mm256_set1_epi64x(0x8000_0000)), Avx.mm256_set1_epi64x(unchecked((long)0xFFFF_FFFF_C000_0000ul)));
                         
@@ -292,7 +298,7 @@ namespace MaxMath
                     v128 t = Sse2.and_si128(a, Sse2.set1_epi64x(1L << 63));
                     t = Sse2.or_si128(t, Sse2.slli_epi64(absHi, 32));
 
-                    r = Sse2.mul_pd(Sse2.mul_pd(t, t), Sse2.mul_pd(t, Sse2.div_pd(Sse2.set1_pd(1d), a)));
+                    r = Sse2.mul_pd(Sse2.mul_pd(t, Sse2.mul_pd(t, t)), Sse2.div_pd(Sse2.set1_pd(1d), a));
                     t = Sse2.mul_pd(t, fmadd_pd(Sse2.mul_pd(Sse2.mul_pd(r, r), r), fmadd_pd(Sse2.set1_pd(F64_C4), r, Sse2.set1_pd(F64_C3)), fmadd_pd(fmadd_pd(Sse2.set1_pd(F64_C2), r, Sse2.set1_pd(F64_C1)), r, Sse2.set1_pd(F64_C0))));
                     t = Sse2.and_si128(Sse2.add_epi64(t, Sse2.set1_epi64x(0x8000_0000)), Sse2.set1_epi64x(unchecked((long)0xFFFF_FFFF_C000_0000ul)));
                         
@@ -330,7 +336,7 @@ namespace MaxMath
                     v256 t = Avx2.mm256_and_si256(a, Avx.mm256_set1_epi64x(1L << 63));
                     t = Avx2.mm256_or_si256(t, Avx2.mm256_slli_epi64(absHi, 32));
 
-                    r = Avx.mm256_mul_pd(Avx.mm256_mul_pd(t, t), Avx.mm256_mul_pd(t, Avx.mm256_div_pd(Avx.mm256_set1_pd(1d), a)));
+                    r = Avx.mm256_mul_pd(Avx.mm256_mul_pd(t, Avx.mm256_mul_pd(t, t)), Avx.mm256_div_pd(Avx.mm256_set1_pd(1d), a));
                     t = Avx.mm256_mul_pd(t, mm256_fmadd_pd(Avx.mm256_mul_pd(Avx.mm256_mul_pd(r, r), r), mm256_fmadd_pd(Avx.mm256_set1_pd(F64_C4), r, Avx.mm256_set1_pd(F64_C3)), mm256_fmadd_pd(mm256_fmadd_pd(Avx.mm256_set1_pd(F64_C2), r, Avx.mm256_set1_pd(F64_C1)), r, Avx.mm256_set1_pd(F64_C0))));
                     t = Avx2.mm256_and_si256(Avx2.mm256_add_epi64(t, Avx.mm256_set1_epi64x(0x8000_0000)), Avx.mm256_set1_epi64x(unchecked((long)0xFFFF_FFFF_C000_0000ul)));
                         
@@ -397,7 +403,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float2>(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 2));
+                return RegisterConversion.ToFloat2(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 2));
             }
             else
             {
@@ -412,7 +418,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 3));
+                return RegisterConversion.ToFloat3(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 3));
             }
             else
             {
@@ -427,7 +433,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 4));
+                return RegisterConversion.ToFloat4(Xse.cbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 4));
             }
             else
             {
@@ -479,7 +485,7 @@ namespace MaxMath
                 u |= (ulong)hi << 32;
                 double t = *(double*)&u;
                 
-                r = (t * t) * (t * (1d / x));
+                r = (t * t * t) * (1d / x);
                 t *= math.mad(r * r * r, math.mad(F64_C4, r, F64_C3), math.mad(math.mad(F64_C2, r, F64_C1), r, F64_C0));
                 u = (*(ulong*)&t + 0x8000_0000) & 0xFFFF_FFFF_C000_0000ul;
                 t = *(double*)&u;
@@ -497,7 +503,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.cbrt_pd(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToDouble2(Xse.cbrt_pd(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -511,7 +517,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble3(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {
@@ -525,7 +531,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble4(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {
@@ -581,7 +587,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float2>(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 2));
+                return RegisterConversion.ToFloat2(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 2));
             }
             else
             {
@@ -596,7 +602,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 3));
+                return RegisterConversion.ToFloat3(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 3));
             }
             else
             {
@@ -611,7 +617,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 4));
+                return RegisterConversion.ToFloat4(Xse.rcbrt_ps(RegisterConversion.ToV128(x), positive.Promises(Promise.Positive), 4));
             }
             else
             {
@@ -663,7 +669,7 @@ namespace MaxMath
                 u |= (ulong)hi << 32;
                 double t = *(double*)&u;
                 
-                r = (t * t) * (t * (1d / x));
+                r = (t * t * t) * (1d / x);
                 t *= math.mad(r * r * r, math.mad(F64_C4, r, F64_C3), math.mad(math.mad(F64_C2, r, F64_C1), r, F64_C0));
                 u = (*(ulong*)&t + 0x8000_0000) & 0xFFFF_FFFF_C000_0000ul;
                 t = *(double*)&u;
@@ -682,7 +688,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.rcbrt_pd(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToDouble2(Xse.rcbrt_pd(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -696,7 +702,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble3(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {
@@ -710,7 +716,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x)));
+                return RegisterConversion.ToDouble4(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x)));
             }
             else
             {

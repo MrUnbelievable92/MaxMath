@@ -186,7 +186,7 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1: return RegisterConversion.ToType<int2>(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
+                    case 1: return RegisterConversion.ToInt2(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
 
                     default: return x;
                 }
@@ -210,8 +210,8 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1: return RegisterConversion.ToType<int3>(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                    case 2: return RegisterConversion.ToType<int3>(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
+                    case 1: return RegisterConversion.ToInt3(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
+                    case 2: return RegisterConversion.ToInt3(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
 
                     default: return x;
                 }
@@ -239,9 +239,9 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1: return RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                        case 2: return RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
-                        case 3: return RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
+                        case 1: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
+                        case 2: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
+                        case 3: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
 
                         default: return x;
                     }
@@ -253,7 +253,7 @@ namespace MaxMath
                     stack[0] = Sse2.setzero_si128();
                     stack[1] = RegisterConversion.ToV128(x);
 
-                    return RegisterConversion.ToType<int4>(Sse2.loadu_si128((byte*)stack + (sizeof(v128) - (((uint)n % 4) * sizeof(int)))));
+                    return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (sizeof(v128) - (((uint)n % 4) * sizeof(int)))));
                 }
             }
             else
@@ -288,34 +288,34 @@ namespace MaxMath
                         {
                             v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToType<int4>(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ));
+                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ));
                         }
                         case 2: 
                         {
                             v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToType<int4>(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY));
+                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY));
                         }
                         case 3: 
                         {
                             v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToType<int4>(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX));
+                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX));
                         }
 
                         case 4: return new int8(int4.zero, x._v4_0);
 
                         case 5: 
                         {
-                            return new int8(int4.zero, RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int)))); 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int)))); 
                         }
                         case 6:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int)))); 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int)))); 
                         } 
                         case 7: 
                         {
-                            return new int8(int4.zero, RegisterConversion.ToType<int4>(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int)))); 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int)))); 
                         }
 
                         default: return x;
@@ -337,7 +337,7 @@ namespace MaxMath
                     v128 lo = Sse2.loadu_si128(address);
                     v128 hi = Sse2.loadu_si128(address + 1);
 
-                    return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                    return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
             }
             else
@@ -1441,7 +1441,7 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1: return RegisterConversion.ToType<int2>(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), 3 * sizeof(int)));
+                    case 1: return RegisterConversion.ToInt2(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), 3 * sizeof(int)));
 
                     default: return x;
                 }
@@ -1465,8 +1465,8 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1: return RegisterConversion.ToType<int3>(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 2 * sizeof(int)));
-                    case 2: return RegisterConversion.ToType<int3>(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 3 * sizeof(int)));
+                    case 1: return RegisterConversion.ToInt3(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 2 * sizeof(int)));
+                    case 2: return RegisterConversion.ToInt3(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 3 * sizeof(int)));
 
                     default: return x;
                 }
@@ -1494,9 +1494,9 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1: return RegisterConversion.ToType<int4>(Sse2.bsrli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                        case 2: return RegisterConversion.ToType<int4>(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
-                        case 3: return RegisterConversion.ToType<int4>(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
+                        case 1: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), sizeof(int)));
+                        case 2: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
+                        case 3: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
 
                         default: return x;
                     }
@@ -1508,7 +1508,7 @@ namespace MaxMath
                     stack[0] = RegisterConversion.ToV128(x);
                     stack[1] = Sse2.setzero_si128();
 
-                    return RegisterConversion.ToType<int4>(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
+                    return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
                 }
             }
             else
@@ -1543,19 +1543,19 @@ namespace MaxMath
                         {
                             v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX), RegisterConversion.ToType<int4>(hi));
+                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX), RegisterConversion.ToInt4(hi));
                         }
                         case 2: 
                         {
                             v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY), RegisterConversion.ToType<int4>(hi));
+                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY), RegisterConversion.ToInt4(hi));
                         }
                         case 3: 
                         {
                             v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ), RegisterConversion.ToType<int4>(hi));
+                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ), RegisterConversion.ToInt4(hi));
                         }
 
                         case 4: return new int8(x._v4_4, int4.zero);
@@ -1564,22 +1564,22 @@ namespace MaxMath
                         {
                             v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
                             
-                            return new int8(RegisterConversion.ToType<int4>(lo), int4.zero); 
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
                         }
                         case 6:
                         {
                             v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
                             
-                            return new int8(RegisterConversion.ToType<int4>(lo), int4.zero); 
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
                         } 
                         case 7: 
                         {
                             v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
                             
-                            return new int8(RegisterConversion.ToType<int4>(lo), int4.zero); 
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
                         }
                         
-                        default: { v128 zero = Sse2.setzero_si128(); return new int8(RegisterConversion.ToType<int4>(zero), RegisterConversion.ToType<int4>(zero)); }
+                        default: { v128 zero = Sse2.setzero_si128(); return new int8(RegisterConversion.ToInt4(zero), RegisterConversion.ToInt4(zero)); }
                     }
                 }
                 else
@@ -1598,7 +1598,7 @@ namespace MaxMath
                     v128 lo = Sse2.loadu_si128(address);
                     v128 hi = Sse2.loadu_si128(address + 1);
 
-                    return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                    return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
             }
             else

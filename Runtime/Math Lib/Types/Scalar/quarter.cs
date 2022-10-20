@@ -837,11 +837,11 @@ namespace MaxMath
                 return IsNotZero(left);
             }
 
-            bool nan   = isnan(left) | isnan(right);
-            bool zero  = !IsZero(left) | !IsZero(right);
-            bool value = left.value != right.value;
+            bool bothZero = IsZero(new quarter((byte)(left.value | right.value)));
+            bool value    = left.value != right.value;
+            bool nan      = isnan(left) | isnan(right);
 
-            return nan | (zero & value);
+            return nan | !bothZero | value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -938,7 +938,34 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (quarter left, quarter right)
         {
-            return (float)left < (float)right;
+            if (Xse.constexpr.IS_TRUE(right.value == 0) || Xse.constexpr.IS_TRUE(right.value == 0b1000_0000))
+            {
+                bool negative = left.value > 0b0111_1111;
+                bool notZero = (left.value & 0b0111_1111) != 0;
+            
+                return !isnan(left) & (notZero & negative);
+            }
+            if (Xse.constexpr.IS_TRUE(left.value == 0) || Xse.constexpr.IS_TRUE(left.value == 0b1000_0000))
+            {
+                bool positive = right.value < 0b1000_0000;
+                bool notZero = (right.value & 0b0111_1111) != 0;
+
+                return !isnan(right) & (positive & notZero);
+            }
+
+
+            int signA = left.value >> 7;
+            int signB = right.value >> 7;
+
+            bool notNaN = !isnan(left) & !isnan(right);
+            bool equalSigns = signA == signB;
+            bool differentValues = left.value != right.value;
+            bool notBothZero = (byte)((left.value | right.value) << 1) != 0;
+
+            bool ifEqualSigns = differentValues & (tobool(signA) ^ (right.value > left.value));
+            bool ifOppositeSigns = notBothZero & tobool(signA);
+
+            return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -979,52 +1006,57 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, quarter right)
-        {
-            return (float)left > (float)right;
-        }
+        public static bool operator > (quarter left, quarter right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (half left, quarter right)
-        {
-            return (float)left > (float)right;
-        }
+        public static bool operator > (half left, quarter right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, half right)
-        {
-            return (float)left > (float)right;
-        }
+        public static bool operator > (quarter left, half right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (float left, quarter right)
-        {
-            return left > (float)right;
-        }
+        public static bool operator > (float left, quarter right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, float right)
-        {
-            return (float)left > right;
-        }
+        public static bool operator > (quarter left, float right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (double left, quarter right)
-        {
-            return left > (double)right;
-        }
+        public static bool operator > (double left, quarter right) => right < left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, double right)
-        {
-            return (double)left > right;
-        }
+        public static bool operator > (quarter left, double right) => right < left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <= (quarter left, quarter right)
         {
-            return (float)left <= (float)right;
+            if (Xse.constexpr.IS_TRUE(right.value == 0) || Xse.constexpr.IS_TRUE(right.value == 0b1000_0000))
+            {
+                bool intLEzero = 1 > (sbyte)left.value;
+            
+                return !isnan(left) & intLEzero;
+            }
+            if (Xse.constexpr.IS_TRUE(left.value == 0) || Xse.constexpr.IS_TRUE(left.value == 0b1000_0000))
+            {
+                bool uintGEzero = (sbyte)right.value > 0;
+                bool negativeZero = right.value == 0b1000_0000;
+            
+                return !isnan(right) & (uintGEzero | negativeZero);
+            }
+
+
+            int signA = left.value >> 7;
+            int signB = right.value >> 7;
+
+            bool notNaN = !isnan(left) & !isnan(right);
+            bool equalSigns = signA == signB;
+            bool equalValues = left.value == right.value;
+            bool bothZero = (byte)((left.value | right.value) << 1) == 0;
+
+            bool ifEqualSigns = equalValues | (tobool(signA) ^ (right.value > left.value));
+            bool ifOppositeSigns = bothZero | tobool(signA);
+
+            return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1065,46 +1097,25 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, quarter right)
-        {
-            return (float)left >= (float)right;
-        }
+        public static bool operator >= (quarter left, quarter right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (half left, quarter right)
-        {
-            return (float)left >= (float)right;
-        }
+        public static bool operator >= (half left, quarter right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, half right)
-        {
-            return (float)left >= (float)right;
-        }
+        public static bool operator >= (quarter left, half right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (float left, quarter right)
-        {
-            return left >= (float)right;
-        }
+        public static bool operator >= (float left, quarter right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, float right)
-        {
-            return (float)left >= right;
-        }
+        public static bool operator >= (quarter left, float right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (double left, quarter right)
-        {
-            return left >= (double)right;
-        }
+        public static bool operator >= (double left, quarter right) => right <= left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, double right)
-        {
-            return (double)left >= right;
-        }
+        public static bool operator >= (quarter left, double right) => right <= left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -11,6 +11,9 @@ namespace MaxMath
         /// <summary>       The square root 3. Approximately 1.73. This is a f64/double precision constant.    </summary>
         public const double SQRT3_DBL = 1.73205080756887729352d;
 
+        /// <summary>       The square root 5. Approximately 2.23. This is a f64/double precision constant.    </summary>
+        public const double SQRT5_DBL = 2.23606797749978969640d;
+
         /// <summary>       The cube root of 2. Approximately 1.26. This is a f64/double precision constant.      </summary>
         public const double CBRT2_DBL = 1.25992104989487316476d;
 
@@ -26,6 +29,9 @@ namespace MaxMath
 
         /// <summary>       The square root of 3. Approximately 1.73.      </summary>
         public const float SQRT3 = 1.73205080f;
+
+        /// <summary>       The square root of 5. Approximately 2.23.      </summary>
+        public const float SQRT5 = 2.23606797f;
 
         /// <summary>       The cube root of 2. Approximately 1.26.      </summary>
         public const float CBRT2 = 1.25992104f;

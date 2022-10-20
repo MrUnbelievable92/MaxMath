@@ -11,7 +11,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool2"/> or 4 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="bool2"/> or 4 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 4)] 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool2 x)
@@ -22,7 +22,7 @@ Assert.IsSafeBoolean(x.y);
             return (int)((uint)math.tzcnt((uint)*(ushort*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool3"/> or 4 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="bool3"/> or 4 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 4)] 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool3 x)
@@ -37,7 +37,7 @@ Assert.IsSafeBoolean(x.z);
             return (int)((uint)math.tzcnt(toInt) / 8);
         }
 
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="bool4"/> or 4 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="bool4"/> or 4 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 4)] 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool4 x)
@@ -50,7 +50,7 @@ Assert.IsSafeBoolean(x.w);
             return (int)((uint)math.tzcnt(*(int*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool8"/> or 8 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="MaxMath.bool8"/> or 8 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 8)] 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool8 x)
@@ -74,7 +74,7 @@ Assert.IsSafeBoolean(x.x7);
             }
         }
 
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool16"/> or 32 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="MaxMath.bool16"/> or 32 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 32)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool16 x)
@@ -117,7 +117,7 @@ Assert.IsSafeBoolean(x.x15);
             }
         }
 
-        /// <summary>       Returns the index of the first <see langword="true" /> of a <see cref="MaxMath.bool32"/> or 32 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the first <see langword="true" /> value of a <see cref="MaxMath.bool32"/> or 32 if none are <see langword="true" />.      </summary>
         [return: AssumeRange(0, 32)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]  
         public static int first(bool32 x)

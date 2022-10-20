@@ -139,7 +139,7 @@ namespace MaxMath.Intrinsics
             if (Sse2.IsSse2Supported)
             {
                 v128 EXP_MASK = Sse2.set1_epi16(0x4B00);
-                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_I16_F32);
+                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_U32_F32);
 
                 hi   = Sse.sub_ps(Sse2.unpackhi_epi16(a, EXP_MASK), MAGIC);
                 return Sse.sub_ps(Sse2.unpacklo_epi16(a, EXP_MASK), MAGIC);
@@ -176,7 +176,7 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 EXP_MASK = Sse2.set1_epi32(0x4330_0000);
-                    v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_I32_F64);
+                    v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_U64_F64);
 
                     hi   = Sse2.sub_pd(Sse2.unpackhi_epi32(a, EXP_MASK), MAGIC);
                     return Sse2.sub_pd(Sse2.unpacklo_epi32(a, EXP_MASK), MAGIC);
@@ -203,6 +203,12 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
+                if (constexpr.ALL_LE_EPU16(lo, byte.MaxValue) && constexpr.ALL_LE_EPU16(hi, byte.MaxValue))
+                {
+                    return Sse2.packus_epi16(lo, hi);
+                }
+
+
                 v128 MASK = Sse2.set1_epi16(0x00FF);
 
                 lo = Sse2.and_si128(lo, MASK);
@@ -216,18 +222,33 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi32_epi16(v128 lo, v128 hi)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Sse2.IsSse2Supported)
             {
-                v128 MASK = Sse2.set1_epi32(0x0000_FFFF);
+                if (constexpr.ALL_LE_EPU32(lo, (uint)short.MaxValue) && constexpr.ALL_LE_EPU32(hi, (uint)short.MaxValue))
+                {
+                    return Sse2.packs_epi32(lo, hi);
+                }
 
-                lo = Sse2.and_si128(lo, MASK);
-                hi = Sse2.and_si128(hi, MASK);
 
-                return Sse4_1.packus_epi32(lo, hi);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Sse2.unpacklo_epi64(cvtepi32_epi16(lo), cvtepi32_epi16(hi)); 
+                if (Sse4_1.IsSse41Supported)
+                {
+                    if (constexpr.ALL_LE_EPU32(lo, ushort.MaxValue) && constexpr.ALL_LE_EPU32(hi, ushort.MaxValue))
+                    {
+                        return Sse4_1.packus_epi32(lo, hi);
+                    }
+
+
+                    v128 MASK = Sse2.set1_epi32(0x0000_FFFF);
+
+                    lo = Sse2.and_si128(lo, MASK);
+                    hi = Sse2.and_si128(hi, MASK);
+
+                    return Sse4_1.packus_epi32(lo, hi);
+                }
+                else
+                {
+                    return Sse2.unpacklo_epi64(cvtepi32_epi16(lo), cvtepi32_epi16(hi)); 
+                }
             }
             else throw new IllegalInstructionException();
         }
@@ -238,7 +259,7 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_I16_F32);
+                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_U32_F32);
 
                 return cvt2x2epi32_epi16(Sse.add_ps(lo, MAGIC), Sse.add_ps(hi, MAGIC));
             }
@@ -270,7 +291,7 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_I32_F64);
+                v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_U64_F64);
 
                 return cvt2x2epi64_epi32(Sse2.add_pd(lo, MAGIC), Sse2.add_pd(hi, MAGIC));
             }
@@ -282,8 +303,8 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                lo = RegisterConversion.ToV128(Unity.Mathematics.math.trunc(RegisterConversion.ToType<Unity.Mathematics.double2>(lo)));
-                hi = RegisterConversion.ToV128(Unity.Mathematics.math.trunc(RegisterConversion.ToType<Unity.Mathematics.double2>(hi)));
+                lo = RegisterConversion.ToV128(Unity.Mathematics.math.trunc(RegisterConversion.ToDouble2(lo)));
+                hi = RegisterConversion.ToV128(Unity.Mathematics.math.trunc(RegisterConversion.ToDouble2(hi)));
 
                 return usfcvt2x2pd_epu32(lo, hi);
             }
@@ -379,7 +400,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 EXP_MASK = Avx.mm256_set1_epi16(0x4B00);
-                v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_I16_F32);
+                v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_U32_F32);
 
                 hi   = Avx.mm256_sub_ps(Avx2.mm256_unpackhi_epi16(a, EXP_MASK), MAGIC);
                 return Avx.mm256_sub_ps(Avx2.mm256_unpacklo_epi16(a, EXP_MASK), MAGIC);
@@ -409,7 +430,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 EXP_MASK = Avx.mm256_set1_epi32(0x4330_0000);
-                v256 MAGIC = Avx.mm256_set1_pd(LIMIT_PRECISE_I32_F64);
+                v256 MAGIC = Avx.mm256_set1_pd(LIMIT_PRECISE_U64_F64);
 
                 hi   = Avx.mm256_sub_pd(Avx2.mm256_unpackhi_epi32(a, EXP_MASK), MAGIC);
                 return Avx.mm256_sub_pd(Avx2.mm256_unpacklo_epi32(a, EXP_MASK), MAGIC);
@@ -436,6 +457,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
+                if (constexpr.ALL_LE_EPU16(lo, byte.MaxValue) && constexpr.ALL_LE_EPU16(hi, byte.MaxValue))
+                {
+                    return Avx2.mm256_packus_epi16(lo, hi); 
+                }
+
+
                 v256 MASK = Avx.mm256_set1_epi16(0x00FF);
 
                 lo = Avx2.mm256_and_si256(lo, MASK);
@@ -451,6 +478,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
+                if (constexpr.ALL_LE_EPU32(lo, ushort.MaxValue) && constexpr.ALL_LE_EPU32(hi, ushort.MaxValue))
+                {
+                    return Avx2.mm256_packus_epi32(lo, hi);  
+                }
+
+
                 v256 MASK = Avx.mm256_set1_epi32(0x0000_FFFF);
 
                 lo = Avx2.mm256_and_si256(lo, MASK);
@@ -477,7 +510,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_I16_F32);
+                v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_U32_F32);
 
                 return mm256_cvt2x2epi32_epi16(Avx.mm256_add_ps(lo, MAGIC), Avx.mm256_add_ps(hi, MAGIC));
             }
@@ -489,7 +522,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 MAGIC = Avx.mm256_set1_pd(LIMIT_PRECISE_I32_F64);
+                v256 MAGIC = Avx.mm256_set1_pd(LIMIT_PRECISE_U64_F64);
 
                 return mm256_cvt2x2epi64_epi32(Avx.mm256_add_pd(lo, MAGIC), Avx.mm256_add_pd(hi, MAGIC));
             }

@@ -115,15 +115,15 @@ namespace MaxMath
                         v128 loA = cvt2x2epu32_epi64(blsi_epi32(a), out v128 hiA);
                         loA = Sse2.add_epi64(loA, Sse2.set1_epi64x(4_841_369_599_423_283_200L));
                         hiA = Sse2.add_epi64(hiA, Sse2.set1_epi64x(4_841_369_599_423_283_200L));
-                        loA = Sse2.sub_pd(loA, Sse2.set1_pd(LIMIT_PRECISE_I32_F64));
-                        hiA = Sse2.sub_pd(hiA, Sse2.set1_pd(LIMIT_PRECISE_I32_F64));
+                        loA = Sse2.sub_pd(loA, Sse2.set1_pd(LIMIT_PRECISE_U64_F64));
+                        hiA = Sse2.sub_pd(hiA, Sse2.set1_pd(LIMIT_PRECISE_U64_F64));
                         result = Sse.shuffle_ps(loA, hiA, Sse.SHUFFLE(3, 1, 3, 1)); 
                     }
                     else
                     {
                         result = cvtepu32_epi64(blsi_epi32(a));
                         result = Sse2.add_epi64(result, Sse2.set1_epi64x(4_841_369_599_423_283_200L));
-                        result = Sse2.sub_pd(result, Sse2.set1_pd(LIMIT_PRECISE_I32_F64));
+                        result = Sse2.sub_pd(result, Sse2.set1_pd(LIMIT_PRECISE_U64_F64));
                         result = Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 0, 3, 1)); 
                     }
 
@@ -145,8 +145,8 @@ namespace MaxMath
                     v256 loA = mm256_cvt2x2epu32_epi64(mm256_blsi_epi32(a), out v256 hiA);
                     loA = Avx2.mm256_add_epi64(loA, Avx.mm256_set1_epi64x(4_841_369_599_423_283_200L));
                     hiA = Avx2.mm256_add_epi64(hiA, Avx.mm256_set1_epi64x(4_841_369_599_423_283_200L));
-                    loA = Avx.mm256_sub_pd(loA, Avx.mm256_set1_pd(LIMIT_PRECISE_I32_F64));
-                    hiA = Avx.mm256_sub_pd(hiA, Avx.mm256_set1_pd(LIMIT_PRECISE_I32_F64));
+                    loA = Avx.mm256_sub_pd(loA, Avx.mm256_set1_pd(LIMIT_PRECISE_U64_F64));
+                    hiA = Avx.mm256_sub_pd(hiA, Avx.mm256_set1_pd(LIMIT_PRECISE_U64_F64));
                     v256 result = Avx.mm256_shuffle_ps(loA, hiA, Sse.SHUFFLE(3, 1, 3, 1)); 
 
                     result = Avx2.mm256_srai_epi32(result, 52 - 32);
@@ -188,8 +188,8 @@ namespace MaxMath
                     v256 bits = mm256_blendv_si256(y, Avx2.mm256_srli_epi64(blsi, 32), cmp);
                     v256 offset = mm256_blendv_si256(new v256(0x03FFul), new v256(0x03DFul), cmp);
     
-                    bits = Avx2.mm256_add_epi64(bits, new v256(LIMIT_PRECISE_I32_F64));
-                    bits = Avx.mm256_sub_pd(bits, new v256(LIMIT_PRECISE_I32_F64));
+                    bits = Avx2.mm256_add_epi64(bits, new v256(LIMIT_PRECISE_U64_F64));
+                    bits = Avx.mm256_sub_pd(bits, new v256(LIMIT_PRECISE_U64_F64));
                     bits = Avx2.mm256_sub_epi64(Avx2.mm256_srli_epi64(bits, 52), offset);
     
                     v256 aZero = Avx2.mm256_cmpeq_epi64(a, ZERO);

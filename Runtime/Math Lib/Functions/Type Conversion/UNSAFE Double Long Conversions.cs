@@ -5,7 +5,7 @@ using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
-  
+
 namespace MaxMath
 {
     namespace Intrinsics
@@ -17,7 +17,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    v128 MASK = new v128(LIMIT_PRECISE_I32_F64);
+                    v128 MASK = new v128(LIMIT_PRECISE_U64_F64);
 
                     return Sse2.xor_pd(Sse2.add_pd(a, MASK), MASK);
                 }
@@ -29,7 +29,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    return usfcvtpd_epu64(RegisterConversion.ToV128(math.trunc(RegisterConversion.ToType<double2>(a))));
+                    return usfcvtpd_epu64(RegisterConversion.ToV128(math.trunc(RegisterConversion.ToDouble2(a))));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -39,7 +39,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v256 MASK = new v256(LIMIT_PRECISE_I32_F64);
+                    v256 MASK = new v256(LIMIT_PRECISE_U64_F64);
 
                     return Avx.mm256_xor_pd(Avx.mm256_add_pd(a, MASK), MASK);
                 }
@@ -74,7 +74,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    return usfcvtpd_epi64(RegisterConversion.ToV128(math.trunc(RegisterConversion.ToType<double2>(a))));
+                    return usfcvtpd_epi64(RegisterConversion.ToV128(math.trunc(RegisterConversion.ToDouble2(a))));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -107,7 +107,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    v128 MASK = new v128(LIMIT_PRECISE_I32_F64);
+                    v128 MASK = new v128(LIMIT_PRECISE_U64_F64);
     
                     return Sse2.sub_pd(Sse2.or_si128(a, MASK), MASK);
                 }
@@ -119,7 +119,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    v256 MASK = new v256(LIMIT_PRECISE_I32_F64);
+                    v256 MASK = new v256(LIMIT_PRECISE_U64_F64);
     
                     return Avx.mm256_sub_pd(Avx.mm256_or_pd(a, MASK), MASK);
                 }
@@ -315,7 +315,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double2>(Xse.usfcvtepu64_pd(x));
+                    return RegisterConversion.ToDouble2(Xse.usfcvtepu64_pd(x));
                 }
                 else
                 {
@@ -337,7 +337,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double3>(Xse.mm256_usfcvtepu64_pd(x));
+                    return RegisterConversion.ToDouble3(Xse.mm256_usfcvtepu64_pd(x));
                 }
                 else
                 {
@@ -359,7 +359,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double4>(Xse.mm256_usfcvtepu64_pd(x));
+                    return RegisterConversion.ToDouble4(Xse.mm256_usfcvtepu64_pd(x));
                 }
                 else
                 {
@@ -382,7 +382,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double2>(Xse.usfcvtepi64_pd(x));
+                    return RegisterConversion.ToDouble2(Xse.usfcvtepi64_pd(x));
                 }
                 else
                 {
@@ -404,7 +404,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double3>(Xse.mm256_usfcvtepi64_pd(x));
+                    return RegisterConversion.ToDouble3(Xse.mm256_usfcvtepi64_pd(x));
                 }
                 else
                 {
@@ -426,7 +426,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToType<double4>(Xse.mm256_usfcvtepi64_pd(x));
+                    return RegisterConversion.ToDouble4(Xse.mm256_usfcvtepi64_pd(x));
                 }
                 else
                 {

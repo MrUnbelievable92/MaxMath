@@ -51,8 +51,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
 
-                return RegisterConversion.IsTrue8<bool2>(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
-                                                                           Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
+                                                                            Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -69,8 +71,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool3>(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
-                                                                           Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
+                                                                            Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -87,8 +91,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool4>(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
-                                                                           Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
+                                                                            Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -105,8 +111,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool8>(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
-                                                                           Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue8(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
+                                                                    Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -123,8 +129,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool16>(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
-                                                                            Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue8(Sse2.andnot_si128(Sse2.cmpeq_epi8(x, ZERO),
+                                                                    Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -167,8 +173,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
 
-                return RegisterConversion.IsTrue8<bool2>(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
-                                                                        Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
+                                                                         Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -185,8 +193,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool3>(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
-                                                                        Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
+                                                                         Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -203,8 +213,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool4>(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
-                                                                        Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue8(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
+                                                                         Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -221,8 +233,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool8>(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
-                                                                        Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue8(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
+                                                                 Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -239,8 +251,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue8<bool16>(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
-                                                                         Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue8(Sse2.and_si128(Sse2.cmpgt_epi8(x, ZERO),
+                                                                 Sse2.cmpeq_epi8(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -283,8 +295,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool2>(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
-                                                                            Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
+                                                                             Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -301,8 +315,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool3>(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
-                                                                            Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
+                                                                             Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -319,8 +335,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool4>(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
-                                                                            Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
+                                                                             Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -337,8 +355,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool8>(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
-                                                                            Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue16(Sse2.andnot_si128(Sse2.cmpeq_epi16(x, ZERO),
+                                                                     Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -381,8 +399,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool2>(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
-                                                                        Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
+                                                                          Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -399,8 +419,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool3>(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
-                                                                         Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
+                                                                          Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -417,8 +439,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool4>(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
-                                                                         Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                v128 results = RegisterConversion.IsTrue16(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
+                                                                          Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -435,8 +459,8 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue16<bool8>(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
-                                                                         Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
+                return RegisterConversion.IsTrue16(Sse2.and_si128(Sse2.cmpgt_epi16(x, ZERO),
+                                                                  Sse2.cmpeq_epi16(ZERO, x & (x + ALL_ONES))));
             }
             else
             {
@@ -517,8 +541,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue64<bool2>(Sse2.andnot_si128(Xse.cmpeq_epi64(x, ZERO),
+                int results = RegisterConversion.IsTrue64(Sse2.andnot_si128(Xse.cmpeq_epi64(x, ZERO),
                                                                             Xse.cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -535,8 +561,10 @@ namespace MaxMath
                 v256 ZERO = Avx.mm256_setzero_si256();
                 v256 ALL_ONES = Xse.mm256_setall_si256();
 
-                return RegisterConversion.IsTrue64<bool3>(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(x, ZERO),
+                int results = RegisterConversion.IsTrue64(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(x, ZERO),
                                                                                   Avx2.mm256_cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -553,8 +581,10 @@ namespace MaxMath
                 v256 ZERO = Avx.mm256_setzero_si256();
                 v256 ALL_ONES = Xse.mm256_setall_si256();
                 
-                return RegisterConversion.IsTrue64<bool4>(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(x, ZERO),
+                int results = RegisterConversion.IsTrue64(Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(x, ZERO),
                                                                                   Avx2.mm256_cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -579,8 +609,10 @@ namespace MaxMath
                 v128 ZERO = Sse2.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
                 
-                return RegisterConversion.IsTrue64<bool2>(Sse2.and_si128(Xse.cmpgt_epi64(x, ZERO),
+                int results = RegisterConversion.IsTrue64(Sse2.and_si128(Xse.cmpgt_epi64(x, ZERO),
                                                                          Xse.cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -597,8 +629,10 @@ namespace MaxMath
                 v256 ZERO = Avx.mm256_setzero_si256();
                 v256 ALL_ONES = Xse.mm256_setall_si256();
                 
-                return RegisterConversion.IsTrue64<bool3>(Avx2.mm256_and_si256(Xse.mm256_cmpgt_epi64(x, ZERO, 3),
+                int results = RegisterConversion.IsTrue64(Avx2.mm256_and_si256(Xse.mm256_cmpgt_epi64(x, ZERO, 3),
                                                                                Avx2.mm256_cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -615,8 +649,10 @@ namespace MaxMath
                 v256 ZERO = Avx.mm256_setzero_si256();
                 v256 ALL_ONES = Xse.mm256_setall_si256();
                 
-                return RegisterConversion.IsTrue64<bool4>(Avx2.mm256_and_si256(Xse.mm256_cmpgt_epi64(x, ZERO, 4),
+                int results = RegisterConversion.IsTrue64(Avx2.mm256_and_si256(Xse.mm256_cmpgt_epi64(x, ZERO, 4),
                                                                                Avx2.mm256_cmpeq_epi64(ZERO, x & (x + ALL_ONES))));
+
+                return *(bool4*)&results;
             }
             else
             {

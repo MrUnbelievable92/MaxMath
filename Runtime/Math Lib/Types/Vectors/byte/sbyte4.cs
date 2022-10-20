@@ -35,8 +35,6 @@ namespace MaxMath
 		}
 
 
-		[FieldOffset(0)] private fixed sbyte asArray[4];
-
         [FieldOffset(0)] public sbyte x;
         [FieldOffset(1)] public sbyte y;
         [FieldOffset(2)] public sbyte z;
@@ -5897,10 +5895,30 @@ namespace MaxMath
 
 		
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte4 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(sbyte4 input)
+        {
+			v128 result;
+
+            if (Avx.IsAvxSupported)
+            {
+				result = Avx.undefined_si128();
+            }
+			else
+            {
+				v128* dummyPtr = &result;
+            }
+
+			result.SByte0 = input.x;
+			result.SByte1 = input.y;
+			result.SByte2 = input.z;
+			result.SByte3 = input.w;
+
+			return result;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte4(v128 input) => RegisterConversion.ToType<sbyte4>(input);
+        public static implicit operator sbyte4(v128 input) => new sbyte4 { x = input.SByte0, y = input.SByte1, z = input.SByte2, w = input.SByte3 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte4(sbyte input) => new sbyte4(input);
@@ -6046,7 +6064,7 @@ namespace MaxMath
         {
 			if (Sse2.IsSse2Supported)
 			{
-				return RegisterConversion.ToType<int4>(Xse.cvtepi8_epi32(input));
+				return RegisterConversion.ToInt4(Xse.cvtepi8_epi32(input));
             }
             else
             {
@@ -6059,7 +6077,7 @@ namespace MaxMath
         {
 			if (Sse2.IsSse2Supported)
 			{
-				return RegisterConversion.ToType<uint4>(Xse.cvtepi8_epi32(input));
+				return RegisterConversion.ToUInt4(Xse.cvtepi8_epi32(input));
             }
             else
             {
@@ -6109,7 +6127,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.cvtepi8_ps(input));
+                return RegisterConversion.ToFloat4(Xse.cvtepi8_ps(input));
             }
             else
             {
@@ -6128,7 +6146,16 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                return asArray[index];
+                if (Sse2.IsSse2Supported)
+                {
+                    return (sbyte)Xse.extract_epi8(this, (byte)index);
+                }
+                else
+                {
+                    sbyte4 onStack = this;
+
+                    return *((sbyte*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6136,7 +6163,17 @@ Assert.IsWithinArrayBounds(index, 4);
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                asArray[index] = value;
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi8(this, (byte)value, (byte)index);
+                }
+                else
+                {
+                    sbyte4 onStack = this;
+                    *((sbyte*)&onStack + index) = value;
+
+                    this = onStack;
+                }
             }
         }
     
@@ -6364,21 +6401,7 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                if (Constant.IsConstantExpression(n) && n == 7)
-                {
-                    return Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
-                }
-                else
-                {
-                    if (Sse4_1.IsSse41Supported)
-                    {
-                        return (sbyte4)((short4)x >> n);
-                    }
-                    else
-                    {
-                        return Xse.srai_epi8(x, n);
-                    }
-                }
+                return Xse.srai_epi8(x, n, 4);
             }
 			else
             {
@@ -6392,7 +6415,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool4>(Sse2.cmpeq_epi8(left, right));
+                v128 results = RegisterConversion.IsTrue8(Sse2.cmpeq_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -6405,7 +6430,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool4>(Xse.cmplt_epi8(left, right));
+                v128 results = RegisterConversion.IsTrue8(Xse.cmplt_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -6418,7 +6445,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool4>(Sse2.cmpgt_epi8(left, right));
+                v128 results = RegisterConversion.IsTrue8(Sse2.cmpgt_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -6432,7 +6461,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool4>(Sse2.cmpeq_epi8(left, right));
+                v128 results = RegisterConversion.IsFalse8(Sse2.cmpeq_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -6445,7 +6476,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool4>(Sse2.cmpgt_epi8(left, right));
+                v128 results = RegisterConversion.IsFalse8(Sse2.cmpgt_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -6458,7 +6491,9 @@ Assert.IsWithinArrayBounds(index, 4);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool4>(Xse.cmplt_epi8(left, right));
+                v128 results = RegisterConversion.IsFalse8(Xse.cmplt_epi8(left, right));
+
+                return *(bool4*)&results;
             }
             else
             {

@@ -15,7 +15,8 @@ using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable]  [DebuggerTypeProxy(typeof(Int128.DebuggerProxy))]
+    [Serializable]  
+    [DebuggerTypeProxy(typeof(Int128.DebuggerProxy))]
     unsafe public struct Int128 : IComparable, IComparable<Int128>, IConvertible, IEquatable<Int128>, IEquatable<ulong>, IEquatable<long>, IFormattable
     {
         internal sealed class DebuggerProxy
@@ -1611,13 +1612,50 @@ Assert.AreNotEqual(right, 0u);
 
         
         #region string
-		public override string ToString()
+        internal const byte MAX_DECIMAL_DIGITS = 39;
+
+        public override string ToString()
         {
-            return ((BigInteger)this).ToString();
+            if (IsZero)
+            {
+                return "0";
+            }
+
+            char* DECIMAL_DIGITS = stackalloc char[10] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+            char* result = stackalloc char[MAX_DECIMAL_DIGITS + 1];
+            char* currentDigit = result + (MAX_DECIMAL_DIGITS + 1 - 1);
+            UInt128 cpy = (UInt128)abs(this);
+
+            while (cpy >= 10u)
+            {
+                cpy = UInt128.__const.divrem10(cpy, out ulong rem);
+
+                *currentDigit-- = DECIMAL_DIGITS[rem];
+            }
+            if (cpy.IsNotZero)
+            {
+                *currentDigit-- = DECIMAL_DIGITS[cpy.lo64];
+            }
+            if ((long)hi64 < 0)
+            {
+                *currentDigit-- = '-';
+            }
+
+            int length = (MAX_DECIMAL_DIGITS + 1) - (int)(((ulong)++currentDigit - (ulong)result) / sizeof(char));
+
+            return new string(currentDigit, 0, length);
         }
-        
-		public string ToString(string format)
+
+        public string ToString(string format)
         {
+            if (format == "X" || format == "x")
+            {
+                string hex = DevTools.Dump.Hex(this, false);
+
+                return (format == "x") ? hex.ToLower() : hex;
+            }
+
             return ((BigInteger)this).ToString(format);
         }
 
