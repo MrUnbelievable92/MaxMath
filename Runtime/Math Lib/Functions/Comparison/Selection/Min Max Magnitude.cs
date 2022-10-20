@@ -498,7 +498,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(int2 a, int2 b, [NoAlias] out int2 minmag, [NoAlias] out int2 maxmag, Promise noOverFlow = Promise.Nothing)
@@ -507,8 +507,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 2);
 
-                minmag = RegisterConversion.ToType<int2>(min);
-                maxmag = RegisterConversion.ToType<int2>(max);
+                minmag = RegisterConversion.ToInt2(min);
+                maxmag = RegisterConversion.ToInt2(max);
             }
             else
             {
@@ -517,7 +517,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(int3 a, int3 b, [NoAlias] out int3 minmag, [NoAlias] out int3 maxmag, Promise noOverFlow = Promise.Nothing)
@@ -526,8 +526,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 3);
 
-                minmag = RegisterConversion.ToType<int3>(min);
-                maxmag = RegisterConversion.ToType<int3>(max);
+                minmag = RegisterConversion.ToInt3(min);
+                maxmag = RegisterConversion.ToInt3(max);
             }
             else
             {
@@ -536,7 +536,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(int4 a, int4 b, [NoAlias] out int4 minmag, [NoAlias] out int4 maxmag, Promise noOverFlow = Promise.Nothing)
@@ -545,8 +545,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 4);
 
-                minmag = RegisterConversion.ToType<int4>(min);
-                maxmag = RegisterConversion.ToType<int4>(max);
+                minmag = RegisterConversion.ToInt4(min);
+                maxmag = RegisterConversion.ToInt4(max);
             }
             else
             {
@@ -641,7 +641,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float2 a, float2 b, [NoAlias] out float2 minmag, [NoAlias] out float2 maxmag)
         {
@@ -649,8 +649,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToType<float2>(min);
-                maxmag = RegisterConversion.ToType<float2>(max);
+                minmag = RegisterConversion.ToFloat2(min);
+                maxmag = RegisterConversion.ToFloat2(max);
             }
             else
             {
@@ -659,7 +659,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float3 a, float3 b, [NoAlias] out float3 minmag, [NoAlias] out float3 maxmag)
         {
@@ -667,8 +667,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToType<float3>(min);
-                maxmag = RegisterConversion.ToType<float3>(max);
+                minmag = RegisterConversion.ToFloat3(min);
+                maxmag = RegisterConversion.ToFloat3(max);
             }
             else
             {
@@ -677,7 +677,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float4 a, float4 b, [NoAlias] out float4 minmag, [NoAlias] out float4 maxmag)
         {
@@ -685,8 +685,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToType<float4>(min);
-                maxmag = RegisterConversion.ToType<float4>(max);
+                minmag = RegisterConversion.ToFloat4(min);
+                maxmag = RegisterConversion.ToFloat4(max);
             }
             else
             {
@@ -717,7 +717,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double2 a, double2 b, [NoAlias] out double2 minmag, [NoAlias] out double2 maxmag)
         {
@@ -725,8 +725,8 @@ namespace MaxMath
             {
                 Xse.minmaxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToType<double2>(min);
-                maxmag = RegisterConversion.ToType<double2>(max);
+                minmag = RegisterConversion.ToDouble2(min);
+                maxmag = RegisterConversion.ToDouble2(max);
             }
             else
             {
@@ -735,7 +735,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double3 a, double3 b, [NoAlias] out double3 minmag, [NoAlias] out double3 maxmag)
         {
@@ -743,8 +743,8 @@ namespace MaxMath
             {
                 Xse.mm256_minmaxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 min, out v256 max);
 
-                minmag = RegisterConversion.ToType<double3>(min);
-                maxmag = RegisterConversion.ToType<double3>(max);
+                minmag = RegisterConversion.ToDouble3(min);
+                maxmag = RegisterConversion.ToDouble3(max);
             }
             else
             {
@@ -755,7 +755,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double4 a, double4 b, [NoAlias] out double4 minmag, [NoAlias] out double4 maxmag)
         {
@@ -763,8 +763,8 @@ namespace MaxMath
             {
                 Xse.mm256_minmaxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 min, out v256 max);
 
-                minmag = RegisterConversion.ToType<double4>(min);
-                maxmag = RegisterConversion.ToType<double4>(max);
+                minmag = RegisterConversion.ToDouble4(min);
+                maxmag = RegisterConversion.ToDouble4(max);
             }
             else
             {

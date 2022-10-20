@@ -5,7 +5,7 @@ using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
-    
+
 namespace MaxMath
 {
     namespace Intrinsics
@@ -684,7 +684,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToInt2(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
             }
             else
             {
@@ -699,7 +699,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToInt3(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
             }
             else
             {
@@ -714,7 +714,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
+                return RegisterConversion.ToInt4(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
             }
             else
             {
@@ -1163,7 +1163,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToInt2(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
             }
             else
             {
@@ -1178,7 +1178,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToInt3(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
             }
             else
             {
@@ -1193,7 +1193,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
+                return RegisterConversion.ToInt4(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
             }
             else
             {

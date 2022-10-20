@@ -425,13 +425,13 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epu32(v128 a, byte rangeLevelPromise = 0, byte elements = 4)
+            public static v128 cbrt_epu32(v128 a, byte rangePromiseLevel = 0, byte elements = 4)
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    if (rangeLevelPromise > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
+                    if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
                     {
-                        if (rangeLevelPromise > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue, elements))
+                        if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue, elements))
                         {
                             v128 ONE = Sse2.set1_epi32(1);
                             
@@ -619,13 +619,13 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epu32(v256 a, byte rangeLevelPromise = 0)
+            public static v256 mm256_cbrt_epu32(v256 a, byte rangePromiseLevel = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (rangeLevelPromise > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue))
+                    if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue))
                     {
-                        if (rangeLevelPromise > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue))
+                        if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue))
                         {
                             v256 ONE = Avx.mm256_set1_epi32(1);
                             
@@ -814,24 +814,24 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epi32(v128 a, bool promiseAbsolute = false, byte rangeLevelPromise = 0, byte elements = 4)
+            public static v128 cbrt_epi32(v128 a, bool promiseAbsolute = false, byte rangePromiseLevel = 0, byte elements = 4)
             {
                 if (Sse2.IsSse2Supported)
                 {
                     if (promiseAbsolute || constexpr.ALL_GE_EPI32(a, 0, elements))
                     {
-                        return cbrt_epu32(a, rangeLevelPromise, elements);
+                        return cbrt_epu32(a, rangePromiseLevel, elements);
                     }
                     else
                     {
                         if (Ssse3.IsSsse3Supported)
                         {
-                            return Ssse3.sign_epi32(cbrt_epu32(Ssse3.abs_epi32(a), rangeLevelPromise, elements), a);
+                            return Ssse3.sign_epi32(cbrt_epu32(Ssse3.abs_epi32(a), rangePromiseLevel, elements), a);
                         }
                         else
                         {
                             v128 negative = Sse2.srai_epi32(a, 31);
-                            v128 cbrtAbs = cbrt_epu32(Sse2.xor_si128(Sse2.add_epi32(a, negative), negative), rangeLevelPromise, elements);
+                            v128 cbrtAbs = cbrt_epu32(Sse2.xor_si128(Sse2.add_epi32(a, negative), negative), rangePromiseLevel, elements);
                             
                             return Sse2.xor_si128(Sse2.add_epi32(cbrtAbs, negative), negative);
                         }
@@ -841,7 +841,7 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epi32(v256 a, bool promiseAbsolute = false, byte rangeLevelPromise = 0)
+            public static v256 mm256_cbrt_epi32(v256 a, bool promiseAbsolute = false, byte rangePromiseLevel = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -851,7 +851,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        return Avx2.mm256_sign_epi32(mm256_cbrt_epu32(Avx2.mm256_abs_epi32(a), rangeLevelPromise), a);
+                        return Avx2.mm256_sign_epi32(mm256_cbrt_epu32(Avx2.mm256_abs_epi32(a), rangePromiseLevel), a);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -859,17 +859,17 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epu64(v128 a, byte rangeLevelPromise = 0)
+            public static v128 cbrt_epu64(v128 a, byte rangePromiseLevel = 0)
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    if (rangeLevelPromise > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 40))
+                    if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 46))
                     {
-                        if (rangeLevelPromise > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue))
+                        if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue))
                         {
-                            if (rangeLevelPromise > 2 || constexpr.ALL_LE_EPU64(a, ushort.MaxValue))
+                            if (rangePromiseLevel > 2 || constexpr.ALL_LE_EPU64(a, ushort.MaxValue))
                             {
-                                if (rangeLevelPromise > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue))
+                                if (rangePromiseLevel > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue))
                                 {
                                     return cbrt_epu8_takingAndReturning_epu16(a, 8);
                                 }
@@ -885,7 +885,7 @@ namespace MaxMath
                         }
                         else
                         {
-                            // results within [0, 1ul << 40] have been proven to be correct empirically both with and without FMA instructions
+                            // results within [0, 1ul << 46] have been proven to be correct empirically both with and without FMA instructions
                             return usfcvttpd_epu64(cbrt_pd(usfcvtepu64_pd(a)));
                         }
                     }
@@ -1092,17 +1092,17 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epu64(v256 a, byte rangeLevelPromise = 0, byte elements = 4)
+            public static v256 mm256_cbrt_epu64(v256 a, byte rangePromiseLevel = 0, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (rangeLevelPromise > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 40, elements))
+                    if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 46, elements))
                     {
-                        if (rangeLevelPromise > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
+                        if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
                         {
-                            if (rangeLevelPromise > 2 || constexpr.ALL_LE_EPU64(a, ushort.MaxValue, elements))
+                            if (rangePromiseLevel > 2 || constexpr.ALL_LE_EPU64(a, ushort.MaxValue, elements))
                             {
-                                if (rangeLevelPromise > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue, elements))
+                                if (rangePromiseLevel > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue, elements))
                                 {
                                     return cbrt_epu8_takingAndReturning_epu16(a);
                                 }
@@ -1118,7 +1118,7 @@ namespace MaxMath
                         }
                         else
                         {
-                            // results within [0, 1ul << 40] have been proven to be correct empirically both with and without FMA instructions
+                            // results within [0, 1ul << 46] have been proven to be correct empirically both with and without FMA instructions
                             return mm256_usfcvttpd_epu64(mm256_cbrt_pd(mm256_usfcvtepu64_pd(a)));
                         }
                     }
@@ -1325,18 +1325,18 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epi64(v128 a, bool promiseAbs = false, byte rangeLevelPromise = 0)
+            public static v128 cbrt_epi64(v128 a, bool promiseAbs = false, byte rangePromiseLevel = 0)
             {
                 if (Sse2.IsSse2Supported)
                 {
                     if (promiseAbs || constexpr.ALL_GE_EPI64(a, 0))
                     {
-                        return cbrt_epu64(a, rangeLevelPromise);
+                        return cbrt_epu64(a, rangePromiseLevel);
                     }
                     else
                     {
                         v128 negative = srai_epi64(a, 63);
-                        v128 cbrtAbs = cbrt_epu64(Sse2.xor_si128(Sse2.add_epi64(a, negative), negative), rangeLevelPromise);
+                        v128 cbrtAbs = cbrt_epu64(Sse2.xor_si128(Sse2.add_epi64(a, negative), negative), rangePromiseLevel);
                         
                         return Sse2.xor_si128(Sse2.add_epi64(cbrtAbs, negative), negative);
                     }
@@ -1345,18 +1345,18 @@ namespace MaxMath
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epi64(v256 a, bool promiseAbs = false, byte rangeLevelPromise = 0, byte elements = 4)
+            public static v256 mm256_cbrt_epi64(v256 a, bool promiseAbs = false, byte rangePromiseLevel = 0, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     if (promiseAbs || constexpr.ALL_GE_EPI64(a, 0, elements))
                     {
-                        return mm256_cbrt_epu64(a, rangeLevelPromise, elements);
+                        return mm256_cbrt_epu64(a, rangePromiseLevel, elements);
                     }
                     else
                     {
                         v256 negative = mm256_srai_epi64(a, 63);
-                        v256 cbrtAbs = mm256_cbrt_epu64(Avx2.mm256_xor_si256(Avx2.mm256_add_epi64(a, negative), negative), rangeLevelPromise, elements);
+                        v256 cbrtAbs = mm256_cbrt_epu64(Avx2.mm256_xor_si256(Avx2.mm256_add_epi64(a, negative), negative), rangePromiseLevel, elements);
                         
                         return Avx2.mm256_xor_si256(Avx2.mm256_add_epi64(cbrtAbs, negative), negative);
                     }
@@ -2475,7 +2475,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 2));
+                return RegisterConversion.ToUInt2(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 2));
             }
             else
             {
@@ -2493,7 +2493,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 3));
+                return RegisterConversion.ToUInt3(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 3));
             }
             else
             {
@@ -2511,7 +2511,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 4));
+                return RegisterConversion.ToUInt4(Xse.cbrt_epu32(RegisterConversion.ToV128(x), optimizations.CountUnsafeLevels(), 4));
             }
             else
             {
@@ -2572,7 +2572,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 2));
+                return RegisterConversion.ToInt2(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 2));
             }
             else
             {
@@ -2591,7 +2591,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 3));
+                return RegisterConversion.ToInt3(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 3));
             }
             else
             {
@@ -2610,7 +2610,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 4));
+                return RegisterConversion.ToInt4(Xse.cbrt_epi32(RegisterConversion.ToV128(x), optimizations.Promises(Promise.ZeroOrGreater), optimizations.CountUnsafeLevels(), 4));
             }
             else
             {
@@ -2847,7 +2847,7 @@ namespace MaxMath
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong2"/>.   </summary>
         /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40].        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2869,7 +2869,7 @@ namespace MaxMath
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong3"/>.   </summary>
         /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40].        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2895,7 +2895,7 @@ namespace MaxMath
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong4"/>.   </summary>
         /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40].        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2941,7 +2941,7 @@ namespace MaxMath
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long2"/>.   </summary>
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 40), 1ul &lt;&lt; 40] otherwise.        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 46), 1ul &lt;&lt; 46] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="uint.MaxValue"/>, <see cref="uint.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2964,7 +2964,7 @@ namespace MaxMath
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long3"/>.   </summary>
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 40), 1ul &lt;&lt; 40] otherwise.        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 46), 1ul &lt;&lt; 46] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="uint.MaxValue"/>, <see cref="uint.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2991,7 +2991,7 @@ namespace MaxMath
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long4"/>.   </summary>
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 40] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 40), 1ul &lt;&lt; 40] otherwise.        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 46] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 46), 1ul &lt;&lt; 46] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="uint.MaxValue"/>, <see cref="uint.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe2"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="optimizations"/>' with its <see cref="Promise.Unsafe3"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>

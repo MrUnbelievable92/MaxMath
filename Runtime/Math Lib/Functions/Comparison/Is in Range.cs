@@ -298,7 +298,9 @@ namespace MaxMath
                 v128 cmpMin = Xse.cmpgt_epi64(min, x);
                 v128 cmpMax = Xse.cmpgt_epi64(x, max);
                     
-                return RegisterConversion.IsFalse64<bool2>(Sse2.or_si128(cmpMin, cmpMax));
+                int results = RegisterConversion.IsFalse64(Sse2.or_si128(cmpMin, cmpMax));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -316,7 +318,9 @@ namespace MaxMath
                 v256 cmpMin = Xse.mm256_cmpgt_epi64(min, x, 3);
                 v256 cmpMax = Xse.mm256_cmpgt_epi64(x, max, 3);
                     
-                return RegisterConversion.IsFalse64<bool3>(Avx2.mm256_or_si256(cmpMax, cmpMin));
+                int results = RegisterConversion.IsFalse64(Avx2.mm256_or_si256(cmpMax, cmpMin));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -334,7 +338,9 @@ namespace MaxMath
                 v256 cmpMin = Xse.mm256_cmpgt_epi64(min, x, 4);
                 v256 cmpMax = Xse.mm256_cmpgt_epi64(x, max, 4);
                     
-                return RegisterConversion.IsFalse64<bool4>(Avx2.mm256_or_si256(cmpMax, cmpMin));
+                int results = RegisterConversion.IsFalse64(Avx2.mm256_or_si256(cmpMax, cmpMin));
+
+                return *(bool4*)&results;
             }
             else
             {
@@ -360,7 +366,9 @@ namespace MaxMath
                 v128 cmpMin = Xse.cmpgt_epu64(min, x);
                 v128 cmpMax = Xse.cmpgt_epu64(x, max);
                     
-                return RegisterConversion.IsFalse64<bool2>(Sse2.or_si128(cmpMax, cmpMin));
+                int results = RegisterConversion.IsFalse64(Sse2.or_si128(cmpMax, cmpMin));
+
+                return *(bool2*)&results;
             }
             else
             {
@@ -378,7 +386,9 @@ namespace MaxMath
                 v256 cmpMin = Xse.mm256_cmpgt_epu64(min, x, 3);
                 v256 cmpMax = Xse.mm256_cmpgt_epu64(x, max, 3);
                     
-                return RegisterConversion.IsFalse64<bool3>(Avx2.mm256_or_si256(cmpMax, cmpMin));
+                int results = RegisterConversion.IsFalse64(Avx2.mm256_or_si256(cmpMax, cmpMin));
+
+                return *(bool3*)&results;
             }
             else
             {
@@ -396,7 +406,9 @@ namespace MaxMath
                 v256 cmpMin = Xse.mm256_cmpgt_epu64(min, x, 4);
                 v256 cmpMax = Xse.mm256_cmpgt_epu64(x, max, 4);
                     
-                return RegisterConversion.IsFalse64<bool4>(Avx2.mm256_or_si256(cmpMax, cmpMin));
+                int results = RegisterConversion.IsFalse64(Avx2.mm256_or_si256(cmpMax, cmpMin));
+
+                return *(bool4*)&results;
             }
             else
             {

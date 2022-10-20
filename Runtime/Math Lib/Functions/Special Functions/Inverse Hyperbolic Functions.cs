@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -88,7 +87,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported || Arm.Neon.IsNeonSupported)
             {
                 float2 xx = x;
-                xx = addsub(xx, 1f);
+                xx = addsub(1f, xx);
                 xx = 0.5f * math.log(xx);
 
                 return (xx - xx.yy).x;
@@ -106,7 +105,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported || Arm.Neon.IsNeonSupported)
             {
                 float4 xxyy = x.xxyy;
-                xxyy = addsub(xxyy, 1f);
+                xxyy = addsub(1f, xxyy);
                 xxyy = 0.5f * math.log(xxyy);
 
                 return (xxyy - xxyy.yyww).xz;
@@ -204,7 +203,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported || Arm.Neon.IsNeonSupported)
             {
                 double2 xx = x;
-                xx = addsub(xx, 1d);
+                xx = addsub(1d, xx);
                 xx = 0.5d * math.log(xx);
 
                 return (xx - xx.yy).x;

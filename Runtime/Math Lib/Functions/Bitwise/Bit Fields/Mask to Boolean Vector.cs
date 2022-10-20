@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
@@ -15,7 +14,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Xse.broadcastmask_epi8(mask, MaskType.One, 2));
+                return RegisterConversion.ToBool2(Xse.broadcastmask_epi8(mask, MaskType.One, 2));
             }
             else
             {
@@ -33,7 +32,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Xse.broadcastmask_epi8(mask, MaskType.One, 3));
+                return RegisterConversion.ToBool3(Xse.broadcastmask_epi8(mask, MaskType.One, 3));
             }
             else
             {
@@ -47,7 +46,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Xse.broadcastmask_epi8(mask, MaskType.One, 4));
+                return RegisterConversion.ToBool4(Xse.broadcastmask_epi8(mask, MaskType.One, 4));
             }
             else
             {

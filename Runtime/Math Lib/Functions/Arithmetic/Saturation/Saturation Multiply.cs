@@ -1476,7 +1476,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToUInt2(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -1491,7 +1491,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToUInt3(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -1507,7 +1507,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToUInt4(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
             else
             {
@@ -1850,7 +1850,7 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return RegisterConversion.ToInt2(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
             else
             {
@@ -1865,7 +1865,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return RegisterConversion.ToInt3(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
             else
             {
@@ -1880,7 +1880,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return RegisterConversion.ToInt4(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
             else
             {

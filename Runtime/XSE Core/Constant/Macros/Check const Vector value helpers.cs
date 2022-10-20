@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
 		public static partial class constexpr
 		{
@@ -5607,6 +5608,236 @@ namespace MaxMath.Intrinsics
 			{
 				return ALL_EQ_EPI64(v, v.SLong0);
 			}
+
+			
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NAN_PS(v128 v, byte elements = 4)
+            {
+				switch (elements)
+				{
+					case  2: return IS_TRUE(math.isnan(v.Float0))
+								 && IS_TRUE(math.isnan(v.Float1));
+
+					case  3: return IS_TRUE(math.isnan(v.Float0))
+								 && IS_TRUE(math.isnan(v.Float1))
+								 && IS_TRUE(math.isnan(v.Float2));
+
+					default: return IS_TRUE(math.isnan(v.Float0))
+								 && IS_TRUE(math.isnan(v.Float1))
+								 && IS_TRUE(math.isnan(v.Float2))
+								 && IS_TRUE(math.isnan(v.Float3));
+				}
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NAN_PS(v128 v, byte elements = 4)
+            {
+				switch (elements)
+				{
+					case  2: return IS_TRUE(math.isnan(v.Float0))
+								 || IS_TRUE(math.isnan(v.Float1));
+
+					case  3: return IS_TRUE(math.isnan(v.Float0))
+								 || IS_TRUE(math.isnan(v.Float1))
+								 || IS_TRUE(math.isnan(v.Float2));
+
+					default: return IS_TRUE(math.isnan(v.Float0))
+								 || IS_TRUE(math.isnan(v.Float1))
+								 || IS_TRUE(math.isnan(v.Float2))
+								 || IS_TRUE(math.isnan(v.Float3));
+				}
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NOTNAN_PS(v128 v, byte elements = 4)
+            {
+				switch (elements)
+				{
+					case  2: return IS_TRUE(!math.isnan(v.Float0))
+								 && IS_TRUE(!math.isnan(v.Float1));
+
+					case  3: return IS_TRUE(!math.isnan(v.Float0))
+								 && IS_TRUE(!math.isnan(v.Float1))
+								 && IS_TRUE(!math.isnan(v.Float2));
+
+					default: return IS_TRUE(!math.isnan(v.Float0))
+								 && IS_TRUE(!math.isnan(v.Float1))
+								 && IS_TRUE(!math.isnan(v.Float2))
+								 && IS_TRUE(!math.isnan(v.Float3));
+				}
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NOTNAN_PS(v128 v, byte elements = 4)
+            {
+				switch (elements)
+				{
+					case  2: return IS_TRUE(!math.isnan(v.Float0))
+								 || IS_TRUE(!math.isnan(v.Float1));
+
+					case  3: return IS_TRUE(!math.isnan(v.Float0))
+								 || IS_TRUE(!math.isnan(v.Float1))
+								 || IS_TRUE(!math.isnan(v.Float2));
+
+					default: return IS_TRUE(!math.isnan(v.Float0))
+								 || IS_TRUE(!math.isnan(v.Float1))
+								 || IS_TRUE(!math.isnan(v.Float2))
+								 || IS_TRUE(!math.isnan(v.Float3));
+				}
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NAN_PS(v256 v)
+            {
+				return IS_TRUE(math.isnan(v.Float0))
+					&& IS_TRUE(math.isnan(v.Float1))
+					&& IS_TRUE(math.isnan(v.Float2))
+					&& IS_TRUE(math.isnan(v.Float3))
+					&& IS_TRUE(math.isnan(v.Float4))
+					&& IS_TRUE(math.isnan(v.Float5))
+					&& IS_TRUE(math.isnan(v.Float6))
+					&& IS_TRUE(math.isnan(v.Float7));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NAN_PS(v256 v)
+            {
+				return IS_TRUE(math.isnan(v.Float0))
+					|| IS_TRUE(math.isnan(v.Float1))
+					|| IS_TRUE(math.isnan(v.Float2))
+					|| IS_TRUE(math.isnan(v.Float3))
+					|| IS_TRUE(math.isnan(v.Float4))
+					|| IS_TRUE(math.isnan(v.Float5))
+					|| IS_TRUE(math.isnan(v.Float6))
+					|| IS_TRUE(math.isnan(v.Float7));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NOTNAN_PS(v256 v)
+            {
+				return IS_TRUE(!math.isnan(v.Float0))
+					&& IS_TRUE(!math.isnan(v.Float1))
+					&& IS_TRUE(!math.isnan(v.Float2))
+					&& IS_TRUE(!math.isnan(v.Float3))
+					&& IS_TRUE(!math.isnan(v.Float4))
+					&& IS_TRUE(!math.isnan(v.Float5))
+					&& IS_TRUE(!math.isnan(v.Float6))
+					&& IS_TRUE(!math.isnan(v.Float7));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NOTNAN_PS(v256 v)
+            {
+				return IS_TRUE(!math.isnan(v.Float0))
+					|| IS_TRUE(!math.isnan(v.Float1))
+					|| IS_TRUE(!math.isnan(v.Float2))
+					|| IS_TRUE(!math.isnan(v.Float3))
+					|| IS_TRUE(!math.isnan(v.Float4))
+					|| IS_TRUE(!math.isnan(v.Float5))
+					|| IS_TRUE(!math.isnan(v.Float6))
+					|| IS_TRUE(!math.isnan(v.Float7));
+            }
+
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NAN_PD(v128 v)
+            {
+				return IS_TRUE(math.isnan(v.Double0))
+					&& IS_TRUE(math.isnan(v.Double1));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NAN_PD(v128 v)
+            {
+				return IS_TRUE(math.isnan(v.Double0))
+					|| IS_TRUE(math.isnan(v.Double1));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NOTNAN_PD(v128 v)
+            {
+				return IS_TRUE(!math.isnan(v.Double0))
+				    && IS_TRUE(!math.isnan(v.Double1));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NOTNAN_PD(v128 v)
+            {
+				return IS_TRUE(!math.isnan(v.Double0))
+					|| IS_TRUE(!math.isnan(v.Double1));
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NAN_PD(v256 v, byte elements = 4)
+            {
+                if (elements == 3)
+                {
+					return IS_TRUE(math.isnan(v.Double0))
+						&& IS_TRUE(math.isnan(v.Double1))
+						&& IS_TRUE(math.isnan(v.Double2));
+                }
+				else
+                {
+					return IS_TRUE(math.isnan(v.Double0))
+						&& IS_TRUE(math.isnan(v.Double1))
+						&& IS_TRUE(math.isnan(v.Double2))
+						&& IS_TRUE(math.isnan(v.Double3));
+                }
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NAN_PD(v256 v, byte elements = 4)
+            {
+                if (elements == 3)
+                {
+					return IS_TRUE(math.isnan(v.Double0))
+						|| IS_TRUE(math.isnan(v.Double1))
+						|| IS_TRUE(math.isnan(v.Double2));
+                }
+				else
+                {
+					return IS_TRUE(math.isnan(v.Double0))
+						|| IS_TRUE(math.isnan(v.Double1))
+						|| IS_TRUE(math.isnan(v.Double2))
+						|| IS_TRUE(math.isnan(v.Double3));
+                }
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ALL_NOTNAN_PD(v256 v, byte elements = 4)
+            {
+                if (elements == 3)
+                {
+					return IS_TRUE(!math.isnan(v.Double0))
+						&& IS_TRUE(!math.isnan(v.Double1))
+						&& IS_TRUE(!math.isnan(v.Double2));
+                }
+				else
+                {
+					return IS_TRUE(!math.isnan(v.Double0))
+						&& IS_TRUE(!math.isnan(v.Double1))
+						&& IS_TRUE(!math.isnan(v.Double2))
+						&& IS_TRUE(!math.isnan(v.Double3));
+                }
+            }
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			public static bool ANY_NOTNAN_PD(v256 v, byte elements = 4)
+            {
+                if (elements == 3)
+                {
+					return IS_TRUE(!math.isnan(v.Double0))
+						|| IS_TRUE(!math.isnan(v.Double1))
+						|| IS_TRUE(!math.isnan(v.Double2));
+                }
+				else
+                {
+					return IS_TRUE(!math.isnan(v.Double0))
+						|| IS_TRUE(!math.isnan(v.Double1))
+						|| IS_TRUE(!math.isnan(v.Double2))
+						|| IS_TRUE(!math.isnan(v.Double3));
+                }
+            }
 		}
     }
 }

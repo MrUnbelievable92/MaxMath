@@ -3059,7 +3059,7 @@ namespace MaxMath
             {
                 v128 clamped = clamp(x, uint.MinValue, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint2>(Xse.cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt2(Xse.cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3075,7 +3075,7 @@ namespace MaxMath
             {
                 v256 clamped = clamp(x, uint.MinValue, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint3>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3091,7 +3091,7 @@ namespace MaxMath
             {
                 v256 clamped = clamp(x, uint.MinValue, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint4>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt4(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3127,7 +3127,7 @@ namespace MaxMath
             {
                 v128 clamped = min(x, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint2>(Xse.cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt2(Xse.cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3143,7 +3143,7 @@ namespace MaxMath
             {
                 v256 clamped = min(x, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint3>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3159,7 +3159,7 @@ namespace MaxMath
             {
                 v256 clamped = min(x, uint.MaxValue);
 
-                return RegisterConversion.ToType<uint4>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToUInt4(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3319,7 +3319,7 @@ namespace MaxMath
                 v128 lo = Avx.mm256_castps256_ps128(result);
                 v128 hi = Avx.mm256_extractf128_ps(result, 1);
 
-                return new uint8(RegisterConversion.ToType<uint4>(lo), RegisterConversion.ToType<uint4>(hi)); 
+                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi)); 
             }
             else
             {
@@ -3458,7 +3458,7 @@ namespace MaxMath
             {
                 v128 clamped = clamp(x, int.MinValue, int.MaxValue);
 
-                return RegisterConversion.ToType<int2>(Xse.cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt2(Xse.cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3474,7 +3474,7 @@ namespace MaxMath
             {
                 v256 clamped = clamp(x, int.MinValue, int.MaxValue);
 
-                return RegisterConversion.ToType<int3>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3490,7 +3490,7 @@ namespace MaxMath
             {
                 v256 clamped = clamp(x, int.MinValue, int.MaxValue);
 
-                return RegisterConversion.ToType<int4>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt4(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3526,7 +3526,7 @@ namespace MaxMath
             {
                 v128 clamped = min(x, int.MaxValue);
 
-                return RegisterConversion.ToType<int2>(Xse.cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt2(Xse.cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3542,7 +3542,7 @@ namespace MaxMath
             {
                 v256 clamped = min(x, int.MaxValue);
 
-                return RegisterConversion.ToType<int3>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3558,7 +3558,7 @@ namespace MaxMath
             {
                 v256 clamped = min(x, int.MaxValue);
 
-                return RegisterConversion.ToType<int4>(Xse.mm256_cvtepi64_epi32(clamped));
+                return RegisterConversion.ToInt4(Xse.mm256_cvtepi64_epi32(clamped));
             }
             else
             {
@@ -3718,7 +3718,7 @@ namespace MaxMath
                 v128 lo = Avx.mm256_castps256_ps128(result);
                 v128 hi = Avx.mm256_extractf128_ps(result, 1);
 
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi)); 
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi)); 
             }
             else
             {

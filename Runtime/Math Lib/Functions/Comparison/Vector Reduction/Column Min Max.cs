@@ -1148,7 +1148,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double2"/>s.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double2 a, [NoAlias] out double min, [NoAlias] out double max)
         {
@@ -1165,7 +1165,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double3"/>s.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double3 a, [NoAlias] out double min, [NoAlias] out double max)
         {
@@ -1175,7 +1175,7 @@ namespace MaxMath
             max = math.max(maxLo, a.z);
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double4"/>s.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double4 a, [NoAlias] out double min, [NoAlias] out double max)
         {

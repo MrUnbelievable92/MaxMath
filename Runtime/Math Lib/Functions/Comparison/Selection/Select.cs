@@ -586,7 +586,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
+                return RegisterConversion.ToInt2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -600,7 +600,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
+                return RegisterConversion.ToInt3(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -614,7 +614,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
+                return RegisterConversion.ToInt4(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
             }
             else
             {
@@ -795,11 +795,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToType<double2>(Sse4_1.blendv_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.SignBit)));
+                return RegisterConversion.ToDouble2(Sse4_1.blendv_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.SignBit)));
             }
             else if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c)));
+                return RegisterConversion.ToDouble2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c)));
             }
             else
             {
@@ -813,7 +813,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double3>(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));;
+                return RegisterConversion.ToDouble3(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));;
             }
             else
             {
@@ -827,7 +827,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToType<double4>(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));
+                return RegisterConversion.ToDouble4(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));
             }
             else
             {
@@ -842,11 +842,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToType<float2>(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat2(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
             else if (Sse2.IsSse2Supported)
             { 
-                return RegisterConversion.ToType<float2>(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
+                return RegisterConversion.ToFloat2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -860,11 +860,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToType<float3>(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat3(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
             else if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
+                return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
             }
             else
             {
@@ -878,11 +878,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToType<float4>(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat4(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
             else if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
+                return RegisterConversion.ToFloat4(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
             }
             else
             {

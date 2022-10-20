@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
@@ -39,7 +38,7 @@ namespace MaxMath.Tests
 					    x25 = 3,
 					    x26 = 32,
 					    x27 = 21,
-					    x28 = 0,
+					    x28 = 13,
 					    x29 = 47,
 					    x30 = 32,
 					    x31 = 64},
@@ -558,6 +557,24 @@ namespace MaxMath.Tests
                    TestData_LHS[0][29] == TestData_LHS[0].x29 &
                    TestData_LHS[0][30] == TestData_LHS[0].x30 &
                    TestData_LHS[0][31] == TestData_LHS[0].x31, true);
+
+            for (int i = 0; i < 32; i++)
+            {
+                sbyte32 x = TestData_LHS[0];
+
+                x[i] = 0;
+                Assert.AreEqual(x[i], 0);
+
+                for (int j = 0; j < i; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+
+                for (int j = i + 1; j < 32; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+            }
         }
 
 

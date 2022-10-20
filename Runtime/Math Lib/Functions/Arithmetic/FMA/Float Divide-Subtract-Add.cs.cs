@@ -15,7 +15,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-               return RegisterConversion.ToType<float2>(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
+               return RegisterConversion.ToFloat2(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
                                                     RegisterConversion.ToV128(c)));
             }
@@ -31,7 +31,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-               return RegisterConversion.ToType<float3>(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
+               return RegisterConversion.ToFloat3(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
                                                     RegisterConversion.ToV128(c)));
             }
@@ -47,7 +47,7 @@ namespace MaxMath
         {
             if (Sse.IsSseSupported)
             {
-               return RegisterConversion.ToType<float4>(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
+               return RegisterConversion.ToFloat4(Xse.fmaddsub_ps(RegisterConversion.ToV128(a), 
                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
                                                     RegisterConversion.ToV128(c)));
             }
@@ -78,7 +78,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.fmaddsub_pd(RegisterConversion.ToV128(a), 
+                return RegisterConversion.ToDouble2(Xse.fmaddsub_pd(RegisterConversion.ToV128(a), 
                                                       fast ? Xse.rcp_pd(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
                                                       RegisterConversion.ToV128(c)));
             }
@@ -105,7 +105,7 @@ namespace MaxMath
                     divisor = RegisterConversion.ToV256(math.rcp(b));
                 }
 
-                return RegisterConversion.ToType<double3>(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
+                return RegisterConversion.ToDouble3(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
             }
             else
             {
@@ -130,7 +130,7 @@ namespace MaxMath
                     divisor = RegisterConversion.ToV256(math.rcp(b));
                 }
 
-                return RegisterConversion.ToType<double4>(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
+                return RegisterConversion.ToDouble4(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
             }
             else
             {

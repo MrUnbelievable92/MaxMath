@@ -226,7 +226,7 @@ namespace MaxMath
                 {
                     if (elements == 8)
                     {
-                        float8 f = RegisterConversion.ToType<half8>(h);
+                        float8 f = (half8)h;
 
                         if (Avx2.IsAvx2Supported)
                         {
@@ -239,19 +239,19 @@ namespace MaxMath
                     }
                     else if (elements == 4)
                     {
-                        float4 f = RegisterConversion.ToType<half4>(h);
+                        float4 f = RegisterConversion.ToHalf4(h);
 
                         return cvtps_pq(RegisterConversion.ToV128(f), promiseInRange: promiseInRange, promiseAbsoluteAndInRange: promiseAbsolute & promiseInRange, elements: 4);
                     }
                     else if (elements == 3)
                     {
-                        float3 f = RegisterConversion.ToType<half3>(h);
+                        float3 f = RegisterConversion.ToHalf3(h);
 
                         return cvtps_pq(RegisterConversion.ToV128(f), promiseInRange: promiseInRange, promiseAbsoluteAndInRange: promiseAbsolute & promiseInRange, elements: 3);
                     }
                     else
                     {
-                        float2 f = RegisterConversion.ToType<half2>(h);
+                        float2 f = RegisterConversion.ToHalf2(h);
 
                         return cvtps_pq(RegisterConversion.ToV128(f), promiseInRange: promiseInRange, promiseAbsoluteAndInRange: promiseAbsolute & promiseInRange, elements: 2);
                     }

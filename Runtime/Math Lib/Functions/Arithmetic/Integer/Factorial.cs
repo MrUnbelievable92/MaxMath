@@ -5,6 +5,7 @@ using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
+using static MaxMath.LUT.FACTORIAL;
 
 namespace MaxMath
 {
@@ -14,6 +15,7 @@ namespace MaxMath
         {
             private static v128 FACTORIALS_EPU8
             {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
                     if (Sse2.IsSse2Supported)
@@ -24,16 +26,43 @@ namespace MaxMath
                 }
             }
 
-            
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 gamma_epu16_epu8range(v128 a)
+            {
+                if (Ssse3.IsSsse3Supported)
+                {
+                    a = Sse2.or_si128(a, Sse2.set1_epi16(unchecked((short)0xFF00)));
+                    
+                    return Ssse3.shuffle_epi8(FACTORIALS_EPU8, a);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v256 mm256_gamma_epu16_epu8range(v256 a)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi16(unchecked((short)0xFF00)));
+                    
+                    return Avx2.mm256_shuffle_epi8(new v256(FACTORIALS_EPU8, FACTORIALS_EPU8), a);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
             [SkipLocalsInit]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gamma_epu8(v128 a, bool promiseNoOverflow = false, byte elements = 16)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU8(a, MAX_INVERSE_FACTORIAL_U8, elements);
+
                 if (Ssse3.IsSsse3Supported)
                 {
                     if (!promiseNoOverflow)
                     {
-                        a = Sse2.min_epu8(a, Sse2.set1_epi8(7));
+                        a = Sse2.min_epu8(a, Sse2.set1_epi8(MAX_INVERSE_FACTORIAL_U8 + 1));
                     }
 
                     return Ssse3.shuffle_epi8(FACTORIALS_EPU8, a);
@@ -82,9 +111,11 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    promiseNoOverflow |= constexpr.ALL_LE_EPU8(a, MAX_INVERSE_FACTORIAL_U8);
+
                     if (!promiseNoOverflow)
                     {
-                        a = Avx2.mm256_min_epu8(a, Avx.mm256_set1_epi8(7));
+                        a = Avx2.mm256_min_epu8(a, Avx.mm256_set1_epi8(MAX_INVERSE_FACTORIAL_U8 + 1));
                     }
 
                     return Avx2.mm256_shuffle_epi8(new v256(FACTORIALS_EPU8, FACTORIALS_EPU8), a);
@@ -97,13 +128,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gamma_epu16(v128 a, bool promiseNoOverflow = false, byte elements = 8)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U16, elements);
+
                 if (Ssse3.IsSsse3Supported)
                 {
-                    if (constexpr.ALL_LE_EPU16(a, 5))
+                    if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
-                        a = Sse2.or_si128(a, Sse2.set1_epi16(unchecked((short)0xFF00)));
-
-                        return Ssse3.shuffle_epi8(FACTORIALS_EPU8, a);
+                        return gamma_epu16_epu8range(a);
                     }
                 }
                     
@@ -111,7 +142,7 @@ namespace MaxMath
                 {
                     if (!promiseNoOverflow)
                     {
-                        a = min_epu16(a, Sse2.set1_epi16(9));
+                        a = min_epu16(a, Sse2.set1_epi16(MAX_INVERSE_FACTORIAL_U16 + 1));
                     }
 
                     if (Avx2.IsAvx2Supported)
@@ -159,18 +190,18 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_gamma_epu16(v256 a, bool promiseNoOverflow = false)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U16);
+
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU16(a, 5))
+                    if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8))
                     {
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi16(unchecked((short)0xFF00)));
-
-                        return Avx2.mm256_shuffle_epi8(new v256(FACTORIALS_EPU8, FACTORIALS_EPU8), a);
+                        return mm256_gamma_epu16_epu8range(a);
                     }
                     
                     if (!promiseNoOverflow)
                     {
-                        a = Avx2.mm256_min_epu16(a, Avx.mm256_set1_epi16(9));
+                        a = Avx2.mm256_min_epu16(a, Avx.mm256_set1_epi16(MAX_INVERSE_FACTORIAL_U16 + 1));
                     }
                     
                     uint* TABLE = stackalloc uint[10] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, ushort.MaxValue };
@@ -190,9 +221,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gamma_epi16(v128 a, bool promiseNoOverflow = false, byte elements = 8)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPI16(a, MAX_INVERSE_FACTORIAL_S16);
+
                 if (Ssse3.IsSsse3Supported)
                 {
-                    if (constexpr.ALL_LE_EPU16(a, 5))
+                    if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
                         a = Sse2.or_si128(a, Sse2.set1_epi16(unchecked((short)0xFF00)));
 
@@ -204,7 +237,7 @@ namespace MaxMath
                 {
                     if (!promiseNoOverflow)
                     {
-                        a = min_epu16(a, Sse2.set1_epi16(8));
+                        a = min_epu16(a, Sse2.set1_epi16(MAX_INVERSE_FACTORIAL_S16 + 1));
                     }
 
                     if (Avx2.IsAvx2Supported)
@@ -252,9 +285,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_gamma_epi16(v256 a, bool promiseNoOverflow = false)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPI16(a, MAX_INVERSE_FACTORIAL_S16);
+
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU16(a, 5))
+                    if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8))
                     {
                         a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi16(unchecked((short)0xFF00)));
 
@@ -263,7 +298,7 @@ namespace MaxMath
                     
                     if (!promiseNoOverflow)
                     {
-                        a = Avx2.mm256_min_epu16(a, Avx.mm256_set1_epi16(9));
+                        a = Avx2.mm256_min_epu16(a, Avx.mm256_set1_epi16(MAX_INVERSE_FACTORIAL_S16 + 1));
                     }
                     
                     uint* TABLE = stackalloc uint[9] { 1, 1, 2, 6, 24, 120, 720, 5_040, (uint)short.MaxValue };
@@ -283,9 +318,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gamma_epu32(v128 a, bool promiseNoOverflow = false, byte elements = 4)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U32, elements);
+
                 if (Ssse3.IsSsse3Supported)
                 {
-                    if (constexpr.ALL_LE_EPU32(a, 5))
+                    if (constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U8))
                     {
                         a = Sse2.or_si128(a, Sse2.set1_epi32(unchecked((int)0xFFFF_FF00u)));
 
@@ -297,7 +334,7 @@ namespace MaxMath
                 {
                     if (!promiseNoOverflow)
                     {
-                        a = min_epu32(a, Sse2.set1_epi32(13));
+                        a = min_epu32(a, Sse2.set1_epi32(MAX_INVERSE_FACTORIAL_U32 + 1));
                     }
                     
                     uint* TABLE = stackalloc uint[14] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, uint.MaxValue };
@@ -325,9 +362,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_gamma_epu32(v256 a, bool promiseNoOverflow = false)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U32);
+
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU32(a, 5))
+                    if (constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U8))
                     {
                         a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi32(unchecked((int)0xFFFF_FF00u)));
 
@@ -336,7 +375,7 @@ namespace MaxMath
                     
                     if (!promiseNoOverflow)
                     {
-                        a = Avx2.mm256_min_epu32(a, Avx.mm256_set1_epi32(13));
+                        a = Avx2.mm256_min_epu32(a, Avx.mm256_set1_epi32(MAX_INVERSE_FACTORIAL_U32 + 1));
                     }
                     
                     uint* TABLE = stackalloc uint[14] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, uint.MaxValue };
@@ -351,9 +390,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gamma_epu64(v128 a, bool promiseNoOverflow = false)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U64);
+
                 if (Ssse3.IsSsse3Supported)
                 {
-                    if (constexpr.ALL_LE_EPU64(a, 5))
+                    if (constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U8))
                     {
                         a = Sse2.or_si128(a, Sse2.set1_epi64x(unchecked((long)0xFFFF_FFFF_FFFF_FF00ul)));
 
@@ -365,7 +406,7 @@ namespace MaxMath
                 {
                     if (!promiseNoOverflow)
                     {
-                        a = min_epu64(a, Sse2.set1_epi64x(21));
+                        a = min_epu64(a, Sse2.set1_epi64x(MAX_INVERSE_FACTORIAL_U64 + 1));
                     }
                     
                     ulong* TABLE = stackalloc ulong[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800ul, 87_178_291_200ul, 1_307_674_368_000ul, 20_922_789_888_000ul, 355_687_428_096_000ul, 6_402_373_705_728_000ul, 121_645_100_408_832_000ul, 2_432_902_008_176_640_000ul, ulong.MaxValue };
@@ -388,9 +429,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_gamma_epu64(v256 a, bool promiseNoOverflow = false, byte elements = 4)
             {
+                promiseNoOverflow |= constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U64, elements);
+
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU32(a, 5))
+                    if (constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
                         a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi64x(unchecked((long)0xFFFF_FFFF_FFFF_FF00ul)));
 
@@ -399,7 +442,7 @@ namespace MaxMath
 
                     if (!promiseNoOverflow)
                     {
-                        a = mm256_min_epu64(a, Avx.mm256_set1_epi64x(21));
+                        a = mm256_min_epu64(a, Avx.mm256_set1_epi64x(MAX_INVERSE_FACTORIAL_U64 + 1), elements);
                     }
                     else if (elements == 3)
                     {
@@ -407,72 +450,6 @@ namespace MaxMath
                     }
                     
                     ulong* TABLE = stackalloc ulong[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800ul, 87_178_291_200ul, 1_307_674_368_000ul, 20_922_789_888_000ul, 355_687_428_096_000ul, 6_402_373_705_728_000ul, 121_645_100_408_832_000ul, 2_432_902_008_176_640_000ul, ulong.MaxValue };
-                    
-                    return Avx2.mm256_i64gather_epi64(TABLE, a, sizeof(ulong));
-                }
-                else throw new IllegalInstructionException();
-            }
-            
-            [SkipLocalsInit]
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 gamma_epi64(v128 a, bool promiseNoOverflow = false)
-            {
-                if (Ssse3.IsSsse3Supported)
-                {
-                    if (constexpr.ALL_LE_EPU64(a, 5))
-                    {
-                        a = Sse2.or_si128(a, Sse2.set1_epi64x(unchecked((long)0xFFFF_FFFF_FFFF_FF00ul)));
-
-                        return Ssse3.shuffle_epi8(FACTORIALS_EPU8, a);
-                    }
-                }
-                
-                if (Sse2.IsSse2Supported)
-                {
-                    if (!promiseNoOverflow)
-                    {
-                        a = min_epu64(a, Sse2.set1_epi64x(21));
-                    }
-                    
-                    long* TABLE = stackalloc long[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800L, 87_178_291_200L, 1_307_674_368_000L, 20_922_789_888_000L, 355_687_428_096_000L, 6_402_373_705_728_000L, 121_645_100_408_832_000L, 2_432_902_008_176_640_000L, long.MaxValue };
-                    
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return Avx2.i64gather_epi64(TABLE, a, sizeof(ulong));
-                    }
-                    else
-                    {
-                        a = Sse2.slli_epi64(a, 3);
-
-                        return new v128(*(ulong*)((byte*)TABLE + a.ULong0), *(ulong*)((byte*)TABLE + a.ULong1));
-                    }
-                }
-                else throw new IllegalInstructionException();
-            }
-            
-            [SkipLocalsInit]
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_gamma_epi64(v256 a, bool promiseNoOverflow = false, byte elements = 4)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    if (constexpr.ALL_LE_EPU32(a, 5))
-                    {
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi64x(unchecked((long)0xFFFF_FFFF_FFFF_FF00ul)));
-
-                        return Avx2.mm256_shuffle_epi8(new v256(FACTORIALS_EPU8, FACTORIALS_EPU8), a);
-                    }
-
-                    if (!promiseNoOverflow)
-                    {
-                        a = mm256_min_epu64(a, Avx.mm256_set1_epi64x(21));
-                    }
-                    else if (elements == 3)
-                    {
-                        a.SLong3 = 0;
-                    }
-                    
-                    long* TABLE = stackalloc long[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800L, 87_178_291_200L, 1_307_674_368_000L, 20_922_789_888_000L, 355_687_428_096_000L, 6_402_373_705_728_000L, 121_645_100_408_832_000L, 2_432_902_008_176_640_000L, long.MaxValue };
                     
                     return Avx2.mm256_i64gather_epi64(TABLE, a, sizeof(ulong));
                 }
@@ -490,12 +467,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 factorial(UInt128 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x <= 20))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U64))
             {
                 return factorial(x.lo64, Promise.NoOverflow);
             }
 
-            if (Xse.constexpr.IS_TRUE(x < 35))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U128))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -553,12 +530,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 factorial(Int128 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= 33))
+            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= MAX_INVERSE_FACTORIAL_S128))
             {
                 noOverflow |= Promise.NoOverflow;
             }
 
-            if (Xse.constexpr.IS_TRUE(x <= 20))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U64))
             {
                 if (Xse.constexpr.IS_TRUE(x >= 0))
                 {
@@ -593,19 +570,19 @@ namespace MaxMath
                 6_402_373_705_728_000ul, 
                 121_645_100_408_832_000ul,
                 2_432_902_008_176_640_000ul,
-                /*51090942171709440000*/new Int128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002),
-                /*1124000727777607680000*/new Int128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C),
-                /*25852016738884976640000*/new Int128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579),
-                /*620448401733239439360000*/new Int128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362),
-                /*15511210043330985984000000*/new Int128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0),
-                /*403291461126605635584000000*/new Int128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849),
-                /*10888869450418352160768000000*/new Int128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB),
-                /*304888344611713860501504000000*/new Int128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47),
-                /*8841761993739701954543616000000*/new Int128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E),
-                /*265252859812191058636308480000000*/new Int128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96),
-                /*8222838654177922817725562880000000*/new Int128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A),
-                /*263130836933693530167218012160000000*/new Int128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
-                /*8683317618811886495518194401280000000*/new Int128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
+                /*51_090_942_171_709_440_000*/new Int128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002),
+                /*1_124_000_727_777_607_680_000*/new Int128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C),
+                /*25_852_016_738_884_976_640_000*/new Int128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579),
+                /*620_448_401_733_239_439_360_000*/new Int128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362),
+                /*15_511_210_043_330_985_984_000_000*/new Int128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0),
+                /*403_291_461_126_605_635_584_000_000*/new Int128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849),
+                /*10_888_869_450_418_352_160_768_000_000*/new Int128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB),
+                /*304_888_344_611_713_860_501_504_000_000*/new Int128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47),
+                /*8_841_761_993_739_701_954_543_616_000_000*/new Int128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E),
+                /*265_252_859_812_191_058_636_308_480_000_000*/new Int128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96),
+                /*8_222_838_654_177_922_817_725_562_880_000_000*/new Int128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A),
+                /*263_130_836_933_693_530_167_218_012_160_000_000*/new Int128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
+                /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new Int128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
                 Int128.MaxValue
             };
             
@@ -622,7 +599,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte factorial(byte x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x < 6))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U8))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -732,7 +709,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte factorial(sbyte x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= 5))
+            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= MAX_INVERSE_FACTORIAL_S8))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -844,12 +821,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort factorial(ushort x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x <= 5))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U8))
             {
                 return factorial((byte)x, Promise.NoOverflow);
             }
 
-            if (Xse.constexpr.IS_TRUE(x < 9))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U16))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -945,12 +922,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short factorial(short x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= 7))
+            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= MAX_INVERSE_FACTORIAL_S16))
             {
                 noOverflow |= Promise.NoOverflow;
             }
 
-            if (Xse.constexpr.IS_TRUE(x <= 5))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U8))
             {
                 return factorial((byte)x, noOverflow);
             }
@@ -1046,12 +1023,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint factorial(uint x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x <= 7))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U16))
             {
                 return factorial((ushort)x, Promise.NoOverflow);
             }
 
-            if (Xse.constexpr.IS_TRUE(x < 13))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U32))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -1072,7 +1049,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToUInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
             }
             else
             {
@@ -1087,7 +1064,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToUInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
             }
             else
             {
@@ -1102,7 +1079,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
+                return RegisterConversion.ToUInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
             }
             else
             {
@@ -1132,18 +1109,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int factorial(int x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= 12))
+            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= MAX_INVERSE_FACTORIAL_S32))
             {
                 noOverflow |= Promise.NoOverflow;
             }
 
-            if (Xse.constexpr.IS_TRUE(x <= 8))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U16))
             {
                 if (Xse.constexpr.IS_TRUE(x >= 0))
                 {
                     return factorial((ushort)x, Promise.NoOverflow);
                 }
-                if (Xse.constexpr.IS_TRUE(x <= 7))
+                if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_S16))
                 {
                     return factorial((short)x, noOverflow);
                 }
@@ -1165,7 +1142,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
             }
             else
             {
@@ -1180,7 +1157,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
             }
             else
             {
@@ -1195,7 +1172,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
+                return RegisterConversion.ToInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
             }
             else
             {
@@ -1225,12 +1202,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong factorial(ulong x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x <= 12))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U32))
             {
                 return factorial((uint)x, Promise.NoOverflow);
             }
 
-            if (Xse.constexpr.IS_TRUE(x < 21))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U64))
             {
                 noOverflow |= Promise.NoOverflow;
             }
@@ -1296,12 +1273,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long factorial(long x, Promise noOverflow = Promise.Nothing)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= 20))
+            if (Xse.constexpr.IS_TRUE(x >= 0 & x <= MAX_INVERSE_FACTORIAL_U64))
             {
                 noOverflow |= Promise.NoOverflow;
             }
 
-            if (Xse.constexpr.IS_TRUE(x <= 12))
+            if (Xse.constexpr.IS_TRUE(x <= MAX_INVERSE_FACTORIAL_U32))
             {
                 if (Xse.constexpr.IS_TRUE(x >= 0))
                 {
@@ -1329,7 +1306,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Xse.gamma_epi64(x, noOverflow.Promises(Promise.NoOverflow));
+                return Xse.gamma_epu64(x, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -1344,7 +1321,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_gamma_epi64(x, noOverflow.Promises(Promise.NoOverflow), 3);
+                return Xse.mm256_gamma_epu64(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -1359,7 +1336,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_gamma_epi64(x, noOverflow.Promises(Promise.NoOverflow), 4);
+                return Xse.mm256_gamma_epu64(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
             else
             {

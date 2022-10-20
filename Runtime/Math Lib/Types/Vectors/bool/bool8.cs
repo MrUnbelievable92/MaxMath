@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -13,9 +14,6 @@ namespace MaxMath
     [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(bool))]
     unsafe public struct bool8 : IEquatable<bool8>
     {
-        [FieldOffset(0)] private fixed bool asArray[8];
-        [FieldOffset(0)] private fixed ulong alias_long[1]; // somehow this unused line of code DE-confuses the compiler when writing back to memory
-
         [FieldOffset(0)] [MarshalAs(UnmanagedType.U1)] public bool x0;
         [FieldOffset(1)] [MarshalAs(UnmanagedType.U1)] public bool x1;
         [FieldOffset(2)] [MarshalAs(UnmanagedType.U1)] public bool x2;
@@ -110,25 +108,46 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(bool8 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(bool8 input)
+        {
+            v128 result;
+
+            if (Avx.IsAvxSupported)
+            {
+                result = Avx.undefined_si128();
+            }
+            else
+            {
+                v128* dummyPtr = &result;
+            }
+
+            result.Byte0 = *(byte*)&input.x0;
+            result.Byte1 = *(byte*)&input.x1;
+            result.Byte2 = *(byte*)&input.x2;
+            result.Byte3 = *(byte*)&input.x3;
+            result.Byte4 = *(byte*)&input.x4;
+            result.Byte5 = *(byte*)&input.x5;
+            result.Byte6 = *(byte*)&input.x6;
+            result.Byte7 = *(byte*)&input.x7;
+
+            return result;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool8(v128 input)
         {
-#if DEBUG
-            return new bool8 { x0 = maxmath.tobool(input.Byte0),
-                               x1 = maxmath.tobool(input.Byte1),
-                               x2 = maxmath.tobool(input.Byte2),
-                               x3 = maxmath.tobool(input.Byte3),
-                               x4 = maxmath.tobool(input.Byte4),
-                               x5 = maxmath.tobool(input.Byte5),
-                               x6 = maxmath.tobool(input.Byte6),
-                               x7 = maxmath.tobool(input.Byte7) };
-#else
-            long x = input.SLong0;
-
-            return *(bool8*)&x;
-#endif
+            bool8 result;
+            
+            result.x0 = maxmath.tobool(input.Byte0);
+            result.x1 = maxmath.tobool(input.Byte1);
+            result.x2 = maxmath.tobool(input.Byte2);
+            result.x3 = maxmath.tobool(input.Byte3);
+            result.x4 = maxmath.tobool(input.Byte4);
+            result.x5 = maxmath.tobool(input.Byte5);
+            result.x6 = maxmath.tobool(input.Byte6);
+            result.x7 = maxmath.tobool(input.Byte7);
+            
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -173,7 +192,16 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                return asArray[index];
+                if (Sse2.IsSse2Supported)
+                {
+                    return maxmath.tobool(Xse.extract_epi8(this, (byte)index));
+                }
+                else
+                {
+                    bool8 onStack = this;
+
+                    return *((bool*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -181,7 +209,17 @@ Assert.IsWithinArrayBounds(index, 8);
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                asArray[index] = value;
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi8(this, *(byte*)&value, (byte)index);
+                }
+                else
+                {
+                    bool8 onStack = this;
+                    *((bool*)&onStack + index) = value;
+
+                    this = onStack;
+                }
             }
         }
 

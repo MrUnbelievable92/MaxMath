@@ -9,7 +9,7 @@ using static Unity.Burst.Intrinsics.X86;
 namespace MaxMath
 {
     namespace Intrinsics
-    { 
+    {
         unsafe public static partial class Xse
         {
             // maddubs(byte16 a, sbyte16 b) is almost useless.
@@ -324,11 +324,11 @@ namespace MaxMath
                     {
                         if (Constant.IsConstantExpression(a))
                         {
-                            a = Sse2.insert_epi16(a, 0, 3);
+                            a = Xse.insert_epi16(a, 0, 3);
                         }
                         else
                         {
-                            b = Sse2.insert_epi16(b, 0, 3);
+                            b = Xse.insert_epi16(b, 0, 3);
                         }
                     }
                     

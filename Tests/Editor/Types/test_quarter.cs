@@ -2,32 +2,10 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.Mathematics;
 
+#pragma warning disable CS1718 // comparison to same variable is a test case
+
 namespace MaxMath.Tests
 {
-
-
-    // test from float: closest value
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     unsafe public static class __quarter
     {
         private static bool IsZero(quarter value)
@@ -91,6 +69,58 @@ namespace MaxMath.Tests
 
             Assert.IsTrue((quarter)1f != (quarter)(-1f));
         }
+        
+        
+        [Test]
+        public static void LessThan()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse((quarter)quarter.NaN < (quarter)0f);
+            Assert.IsFalse((quarter)0f < (quarter)quarter.NaN);
+            Assert.IsFalse((quarter)quarter.PositiveInfinity < (quarter)quarter.NaN);
+            Assert.IsFalse((quarter)quarter.NegativeInfinity < (quarter)quarter.NaN);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter lhs = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+                quarter rhs = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs < rhs, (float)lhs < (float)rhs);
+                Assert.AreEqual(lhs < lhs, (float)lhs < (float)lhs);
+                
+                lhs = (quarter)0f;
+
+                Assert.AreEqual(lhs < rhs, (float)lhs < (float)rhs);
+                Assert.AreEqual(lhs < lhs, (float)lhs < (float)lhs);
+            }
+        }
+        
+        [Test]
+        public static void LessEqual()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse((quarter)quarter.NaN <= (quarter)0f);
+            Assert.IsFalse((quarter)0f <= (quarter)quarter.NaN);
+            Assert.IsFalse((quarter)quarter.PositiveInfinity <= (quarter)quarter.NaN);
+            Assert.IsFalse((quarter)quarter.NegativeInfinity <= (quarter)quarter.NaN);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter lhs = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+                quarter rhs = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs <= rhs, (float)lhs <= (float)rhs);
+                Assert.AreEqual(lhs <= lhs, (float)lhs <= (float)lhs);
+                
+                lhs = (quarter)0f;
+
+                Assert.AreEqual(lhs < rhs, (float)lhs < (float)rhs);
+                Assert.AreEqual(lhs < lhs, (float)lhs < (float)lhs);
+            }
+        }
+
 
         [Test]
         public static void ToHalf()
@@ -512,6 +542,56 @@ namespace MaxMath.Tests
 
             Assert.IsTrue(math.all((quarter2)(quarter)1f != (quarter)(-1f)));
         }
+        
+        [Test]
+        public static void LessThan2()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter2)quarter.NaN < (quarter2)0f).x);
+            Assert.IsFalse(((quarter2)0f < (quarter2)quarter.NaN).x);
+            Assert.IsFalse(((quarter2)quarter.PositiveInfinity < (quarter2)quarter.NaN).x);
+            Assert.IsFalse(((quarter2)quarter.NegativeInfinity < (quarter2)quarter.NaN).x);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter2 lhs = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+                quarter2 rhs = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs < rhs, (float2)lhs < (float2)rhs);
+                Assert.AreEqual(lhs < lhs, (float2)lhs < (float2)lhs);
+                
+                lhs = (quarter2)0f;
+
+                Assert.AreEqual(lhs < rhs, (float2)lhs < (float2)rhs);
+                Assert.AreEqual(lhs < lhs, (float2)lhs < (float2)lhs);
+            }
+        }
+        
+        [Test]
+        public static void LessEqual2()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter2)quarter.NaN <= (quarter2)0f).x);
+            Assert.IsFalse(((quarter2)0f <= (quarter2)quarter.NaN).x);
+            Assert.IsFalse(((quarter2)quarter.PositiveInfinity <= (quarter2)quarter.NaN).x);
+            Assert.IsFalse(((quarter2)quarter.NegativeInfinity <= (quarter2)quarter.NaN).x);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter2 lhs = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+                quarter2 rhs = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs <= rhs, (float2)lhs <= (float2)rhs);
+                Assert.AreEqual(lhs <= lhs, (float2)lhs <= (float2)lhs);
+                
+                lhs = (quarter2)0f;
+
+                Assert.AreEqual(lhs < rhs, (float2)lhs < (float2)rhs);
+                Assert.AreEqual(lhs < lhs, (float2)lhs < (float2)lhs);
+            }
+        }
 
         [Test]
         public static void ToHalf2()
@@ -871,6 +951,56 @@ namespace MaxMath.Tests
             Assert.IsTrue(math.all((quarter3)(quarter)1f != (quarter)0f));
 
             Assert.IsTrue(math.all((quarter3)(quarter)1f != (quarter)(-1f)));
+        }
+        
+        [Test]
+        public static void LessThan3()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter3)quarter.NaN < (quarter3)0f).x);
+            Assert.IsFalse(((quarter3)0f < (quarter3)quarter.NaN).x);
+            Assert.IsFalse(((quarter3)quarter.PositiveInfinity < (quarter3)quarter.NaN).x);
+            Assert.IsFalse(((quarter3)quarter.NegativeInfinity < (quarter3)quarter.NaN).x);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter3 lhs = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+                quarter3 rhs = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs < rhs, (float3)lhs < (float3)rhs);
+                Assert.AreEqual(lhs < lhs, (float3)lhs < (float3)lhs);
+                
+                lhs = (quarter3)0f;
+
+                Assert.AreEqual(lhs < rhs, (float3)lhs < (float3)rhs);
+                Assert.AreEqual(lhs < lhs, (float3)lhs < (float3)lhs);
+            }
+        }
+        
+        [Test]
+        public static void LessEqual3()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter3)quarter.NaN <= (quarter3)0f).x);
+            Assert.IsFalse(((quarter3)0f <= (quarter3)quarter.NaN).x);
+            Assert.IsFalse(((quarter3)quarter.PositiveInfinity <= (quarter3)quarter.NaN).x);
+            Assert.IsFalse(((quarter3)quarter.NegativeInfinity <= (quarter3)quarter.NaN).x);
+
+            for (int i = 0; i < 35; i++)
+            {
+                quarter3 lhs = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+                quarter3 rhs = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs <= rhs, (float3)lhs <= (float3)rhs);
+                Assert.AreEqual(lhs <= lhs, (float3)lhs <= (float3)lhs);
+                
+                lhs = (quarter3)0f;
+
+                Assert.AreEqual(lhs < rhs, (float3)lhs < (float3)rhs);
+                Assert.AreEqual(lhs < lhs, (float3)lhs < (float3)lhs);
+            }
         }
 
 
@@ -1233,6 +1363,56 @@ namespace MaxMath.Tests
 
             Assert.IsTrue(math.all((quarter4)(quarter)1f != (quarter)(-1f)));
         }
+        
+        [Test]
+        public static void LessThan4()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter4)quarter.NaN < (quarter4)0f).x);
+            Assert.IsFalse(((quarter4)0f < (quarter4)quarter.NaN).x);
+            Assert.IsFalse(((quarter4)quarter.PositiveInfinity < (quarter4)quarter.NaN).x);
+            Assert.IsFalse(((quarter4)quarter.NegativeInfinity < (quarter4)quarter.NaN).x);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter4 lhs = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+                quarter4 rhs = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs < rhs, (float4)lhs < (float4)rhs);
+                Assert.AreEqual(lhs < lhs, (float4)lhs < (float4)lhs);
+                
+                lhs = (quarter4)0f;
+
+                Assert.AreEqual(lhs < rhs, (float4)lhs < (float4)rhs);
+                Assert.AreEqual(lhs < lhs, (float4)lhs < (float4)lhs);
+            }
+        }
+        
+        [Test]
+        public static void LessEqual4()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter4)quarter.NaN <= (quarter4)0f).x);
+            Assert.IsFalse(((quarter4)0f <= (quarter4)quarter.NaN).x);
+            Assert.IsFalse(((quarter4)quarter.PositiveInfinity <= (quarter4)quarter.NaN).x);
+            Assert.IsFalse(((quarter4)quarter.NegativeInfinity <= (quarter4)quarter.NaN).x);
+
+            for (int i = 0; i < 45; i++)
+            {
+                quarter4 lhs = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+                quarter4 rhs = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs <= rhs, (float4)lhs <= (float4)rhs);
+                Assert.AreEqual(lhs <= lhs, (float4)lhs <= (float4)lhs);
+                
+                lhs = (quarter4)0f;
+
+                Assert.AreEqual(lhs < rhs, (float4)lhs < (float4)rhs);
+                Assert.AreEqual(lhs < lhs, (float4)lhs < (float4)lhs);
+            }
+        }
 
 
         [Test]
@@ -1594,6 +1774,56 @@ namespace MaxMath.Tests
 
             Assert.IsTrue(maxmath.all((quarter8)(quarter)1f != (quarter)(-1f)));
         }
+        [Test]
+        public static void LessThan8()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter8)quarter.NaN < (quarter8)0f).x0);
+            Assert.IsFalse(((quarter8)0f < (quarter8)quarter.NaN).x0);
+            Assert.IsFalse(((quarter8)quarter.PositiveInfinity < (quarter8)quarter.NaN).x0);
+            Assert.IsFalse(((quarter8)quarter.NegativeInfinity < (quarter8)quarter.NaN).x0);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter8 lhs = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+                quarter8 rhs = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs < rhs, (float8)lhs < (float8)rhs);
+                Assert.AreEqual(lhs < lhs, (float8)lhs < (float8)lhs);
+                
+                lhs = (quarter8)0f;
+
+                Assert.AreEqual(lhs < rhs, (float8)lhs < (float8)rhs);
+                Assert.AreEqual(lhs < lhs, (float8)lhs < (float8)lhs);
+            }
+        }
+        
+        [Test]
+        public static void LessEqual8()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter8)quarter.NaN <= (quarter8)0f).x0);
+            Assert.IsFalse(((quarter8)0f <= (quarter8)quarter.NaN).x0);
+            Assert.IsFalse(((quarter8)quarter.PositiveInfinity <= (quarter8)quarter.NaN).x0);
+            Assert.IsFalse(((quarter8)quarter.NegativeInfinity <= (quarter8)quarter.NaN).x0);
+
+            for (int i = 0; i < 85; i++)
+            {
+                quarter8 lhs = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+                quarter8 rhs = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(lhs <= rhs, (float8)lhs <= (float8)rhs);
+                Assert.AreEqual(lhs <= lhs, (float8)lhs <= (float8)lhs);
+                
+                lhs = (quarter8)0f;
+
+                Assert.AreEqual(lhs < rhs, (float8)lhs < (float8)rhs);
+                Assert.AreEqual(lhs < lhs, (float8)lhs < (float8)lhs);
+            }
+        }
+
 
 
         [Test]

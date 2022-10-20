@@ -259,7 +259,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToType<bool2>(Xse.bts_epi8(ref __ref, i, MaskType.One, 2));
+                bool2 result = RegisterConversion.ToBool2(Xse.bts_epi8(ref __ref, i, MaskType.One, 2));
                 x = __ref;
 
                 return result;
@@ -277,7 +277,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool3 result = RegisterConversion.ToType<bool3>(Xse.bts_epi8(ref __ref, i, MaskType.One, 3));
+                bool3 result = RegisterConversion.ToBool3(Xse.bts_epi8(ref __ref, i, MaskType.One, 3));
                 x = __ref;
 
                 return result;
@@ -295,7 +295,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool4 result = RegisterConversion.ToType<bool4>(Xse.bts_epi8(ref __ref, i, MaskType.One, 4));
+                bool4 result = RegisterConversion.ToBool4(Xse.bts_epi8(ref __ref, i, MaskType.One, 4));
                 x = __ref;
 
                 return result;
@@ -406,7 +406,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToType<bool2>(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 2), 2));
+                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 2), 2));
                 x = __ref;
 
                 return result;
@@ -424,7 +424,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool3 result = RegisterConversion.ToType<bool3>(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 3), 3));
+                bool3 result = RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 3), 3));
                 x = __ref;
 
                 return result;
@@ -442,7 +442,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool4 result = RegisterConversion.ToType<bool4>(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 4), 4));
+                bool4 result = RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 4), 4));
                 x = __ref;
 
                 return result;
@@ -520,8 +520,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
-                bool2 result = RegisterConversion.ToType<bool2>(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 2), 2));
-                x = RegisterConversion.ToType<uint2>(__ref);
+                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 2), 2));
+                x = RegisterConversion.ToUInt2(__ref);
 
                 return result;
             }
@@ -538,8 +538,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
-                bool3 result = RegisterConversion.ToType<bool3>(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 3), 3));
-                x = RegisterConversion.ToType<uint3>(__ref);
+                bool3 result = RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 3), 3));
+                x = RegisterConversion.ToUInt3(__ref);
 
                 return result;
             }
@@ -556,8 +556,8 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
-                bool4 result = RegisterConversion.ToType<bool4>(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 4), 4));
-                x = RegisterConversion.ToType<uint4>(__ref);
+                bool4 result = RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 4), 4));
+                x = RegisterConversion.ToUInt4(__ref);
 
                 return result;
             }
@@ -609,7 +609,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToType<bool2>(Xse.cvtepi64_epi8(Xse.bts_epi64(ref __ref, i, MaskType.One)));
+                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.bts_epi64(ref __ref, i, MaskType.One)));
                 x = __ref;
 
                 return result;
@@ -627,7 +627,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool3 result = RegisterConversion.ToType<bool3>(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
+                bool3 result = RegisterConversion.ToBool3(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
                 x = __ref;
 
                 return result;
@@ -649,7 +649,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool4 result = RegisterConversion.ToType<bool4>(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
+                bool4 result = RegisterConversion.ToBool4(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
                 x = __ref;
 
                 return result;

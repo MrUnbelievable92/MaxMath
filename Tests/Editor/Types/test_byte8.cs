@@ -243,6 +243,24 @@ namespace MaxMath.Tests
                    TestData_LHS[0][5] == TestData_LHS[0].x5 &
                    TestData_LHS[0][6] == TestData_LHS[0].x6 &
                    TestData_LHS[0][7] == TestData_LHS[0].x7, true);
+
+            for (int i = 0; i < 8; i++)
+            {
+                byte8 x = TestData_LHS[0];
+
+                x[i] = 0;
+                Assert.AreEqual(x[i], 0);
+
+                for (int j = 0; j < i; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+
+                for (int j = i + 1; j < 8; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+            }
         }
 
 

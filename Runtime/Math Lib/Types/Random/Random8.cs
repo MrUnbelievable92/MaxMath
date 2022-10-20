@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using DevTools;
 using MaxMath.Intrinsics;
@@ -70,9 +69,9 @@ Assert.AreNotEqual(State, 0);
 
             byte temp = State;
 
-            State = (byte)(State ^ (State << 7));
-            State = (byte)(State ^ (State >> 5));
-            State = (byte)(State ^ (State << 3));
+            State = (byte)(State ^ (byte)(State << 7));
+            State = (byte)(State ^ (byte)(State >> 5));
+            State = (byte)(State ^ (byte)(State << 3));
 
             return temp;
         }

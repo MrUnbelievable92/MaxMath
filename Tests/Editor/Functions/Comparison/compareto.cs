@@ -128,6 +128,169 @@ namespace MaxMath.Tests
         }
 
         [Test]
+        public static void Quarter()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                quarter l = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+                quarter r = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual(((float)l).CompareTo(r), maxmath.compareto(l, r));
+            }
+        }
+
+        [Test]
+        public static void Quarter2()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                quarter2 l = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+                quarter2 r = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Quarter3()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                quarter3 l = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+                quarter3 r = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Quarter4()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                quarter4 l = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+                quarter4 r = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Quarter8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                quarter8 l = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+                quarter8 r = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+        [Test]
+        public static void Half()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                half l = (half)rng.NextFloat(half.MinValue, half.MaxValue);
+                half r = (half)rng.NextFloat(half.MinValue, half.MaxValue);
+
+                Assert.AreEqual(((float)l).CompareTo(r), maxmath.compareto(l, r));
+            }
+        }
+
+        [Test]
+        public static void Half2()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                half2 l = (half2)rng.NextFloat2(half.MinValue, half.MaxValue);
+                half2 r = (half2)rng.NextFloat2(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Half3()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                half3 l = (half3)rng.NextFloat3(half.MinValue, half.MaxValue);
+                half3 r = (half3)rng.NextFloat3(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Half4()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                half4 l = (half4)rng.NextFloat4(half.MinValue, half.MaxValue);
+                half4 r = (half4)rng.NextFloat4(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void Half8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 20; i++)
+            {
+                half8 l = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
+                half8 r = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                }
+            }
+        }
+
+        [Test]
         public static void Float()
         {
             bool result = true;

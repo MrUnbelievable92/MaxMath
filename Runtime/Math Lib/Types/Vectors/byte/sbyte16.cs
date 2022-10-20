@@ -57,8 +57,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed sbyte asArray[16];
-
         [FieldOffset(0)]  public sbyte x0;
         [FieldOffset(1)]  public sbyte x1;
         [FieldOffset(2)]  public sbyte x2;
@@ -1561,7 +1559,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 0);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 0);
                 }
                 else
                 {
@@ -1619,7 +1617,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 1);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 1);
                 }
                 else
                 {
@@ -1677,7 +1675,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 2);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 2);
                 }
                 else
                 {
@@ -1735,7 +1733,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 3);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 3);
                 }
                 else
                 {
@@ -1793,7 +1791,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 4);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 4);
                 }
                 else
                 {
@@ -1851,7 +1849,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 5);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 5);
                 }
                 else
                 {
@@ -1909,7 +1907,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 6);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 6);
                 }
                 else
                 {
@@ -1967,7 +1965,7 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    this = Sse2.insert_epi16(this, *(short*)&value, 7);
+                    this = Xse.insert_epi16(this, *(ushort*)&value, 7);
                 }
                 else
                 {
@@ -1980,10 +1978,11 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte16 input) => RegisterConversion.ToV128(input);
+        public static implicit operator v128(sbyte16 input) => new v128{ SByte0 = input.x0, SByte1 = input.x1, SByte2 = input.x2, SByte3 = input.x3, SByte4 = input.x4, SByte5 = input.x5, SByte6 = input.x6, SByte7 = input.x7, SByte8 = input.x8, SByte9 = input.x9, SByte10 = input.x10, SByte11 = input.x11, SByte12 = input.x12, SByte13 = input.x13, SByte14 = input.x14, SByte15 = input.x15 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte16(v128 input) => RegisterConversion.ToType<sbyte16>(input);
+        public static implicit operator sbyte16(v128 input) => new sbyte16{ x0 = input.SByte0, x1 = input.SByte1, x2 = input.SByte2, x3 = input.SByte3, x4 = input.SByte4, x5 = input.SByte5, x6 = input.SByte6, x7 = input.SByte7, x8 = input.SByte8, x9 = input.SByte9, x10 = input.SByte10, x11 = input.SByte11, x12 = input.SByte12, x13 = input.SByte13, x14 = input.SByte14, x15 = input.SByte15 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator sbyte16(sbyte input) => new sbyte16(input);
@@ -2071,7 +2070,16 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 16);
 
-                return asArray[index];
+                if (Sse2.IsSse2Supported)
+                {
+                    return (sbyte)Xse.extract_epi8(this, (byte)index);
+                }
+                else
+                {
+                    sbyte16 onStack = this;
+
+                    return *((sbyte*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2079,7 +2087,17 @@ Assert.IsWithinArrayBounds(index, 16);
             {
 Assert.IsWithinArrayBounds(index, 16);
 
-                asArray[index] = value;
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi8(this, (byte)value, (byte)index);
+                }
+                else
+                {
+                    sbyte16 onStack = this;
+                    *((sbyte*)&onStack + index) = value;
+
+                    this = onStack;
+                }
             }
         }
 
@@ -2353,7 +2371,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool16>(Sse2.cmpeq_epi8(left, right));
+                return RegisterConversion.IsTrue8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -2366,7 +2384,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool16>(Xse.cmplt_epi8(left, right));
+                return RegisterConversion.IsTrue8(Xse.cmplt_epi8(left, right));
             }
             else
             {
@@ -2379,7 +2397,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsTrue8<bool16>(Sse2.cmpgt_epi8(left, right));
+                return RegisterConversion.IsTrue8(Sse2.cmpgt_epi8(left, right));
             }
             else
             {
@@ -2393,7 +2411,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool16>(Sse2.cmpeq_epi8(left, right));
+                return RegisterConversion.IsFalse8(Sse2.cmpeq_epi8(left, right));
             }
             else
             {
@@ -2406,7 +2424,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool16>(Sse2.cmpgt_epi8(left, right));
+                return RegisterConversion.IsFalse8(Sse2.cmpgt_epi8(left, right));
             }
             else
             {
@@ -2419,7 +2437,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.IsFalse8<bool16>(Xse.cmplt_epi8(left, right));
+                return RegisterConversion.IsFalse8(Xse.cmplt_epi8(left, right));
             }
             else
             {

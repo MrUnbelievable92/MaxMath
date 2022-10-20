@@ -1204,7 +1204,7 @@ Assert.IsBetween(x.z, 0, 1);
 
             if (Sse2.IsSse2Supported)
             {
-                RegisterConversion.ToType<bool3>(Sse2.packs_epi16(x, x));
+                RegisterConversion.ToBool3(Sse2.packs_epi16(x, x));
             }
 
             return tobool((byte3)x);
@@ -1221,7 +1221,7 @@ Assert.IsBetween(x.w, 0, 1);
 
             if (Sse2.IsSse2Supported)
             {
-                RegisterConversion.ToType<bool4>(Sse2.packs_epi16(x, x));
+                RegisterConversion.ToBool4(Sse2.packs_epi16(x, x));
             }
 
             return tobool((byte4)x);
@@ -1309,7 +1309,7 @@ Assert.IsBetween(x.y, 0, 1);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Sse2.packs_epi16(x, x));
+                return RegisterConversion.ToBool3(Sse2.packs_epi16(x, x));
             }
 
             return tobool((byte3)x);
@@ -1326,7 +1326,7 @@ Assert.IsBetween(x.w, 0, 1);
 
             if (Sse2.IsSse2Supported)
             {
-                RegisterConversion.ToType<bool4>(Sse2.packs_epi16(x, x));
+                RegisterConversion.ToBool4(Sse2.packs_epi16(x, x));
             }
 
             return tobool((byte4)x);
@@ -1398,13 +1398,13 @@ Assert.IsBetween((sbyte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool2>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool2(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool2>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool2(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {
@@ -1418,13 +1418,13 @@ Assert.IsBetween((sbyte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool3>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool3(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool3>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool3(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {
@@ -1438,13 +1438,13 @@ Assert.IsBetween((sbyte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool4>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool4(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool4>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool4(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {
@@ -1475,13 +1475,13 @@ Assert.IsBetween((byte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool2>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool2(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool2>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool2(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {
@@ -1495,13 +1495,13 @@ Assert.IsBetween((byte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool3>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool3(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool3>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool3(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {
@@ -1516,13 +1516,13 @@ Assert.IsBetween((byte)a, 0, 1);
         {
             if (Ssse3.IsSsse3Supported)
             {
-                return RegisterConversion.ToType<bool4>(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                return RegisterConversion.ToBool4(Ssse3.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128 epi16 = Sse2.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
-                return RegisterConversion.ToType<bool4>(Sse2.packus_epi16(epi16, epi16));
+                return RegisterConversion.ToBool4(Sse2.packus_epi16(epi16, epi16));
             }
             else
             {

@@ -16,6 +16,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
+                    if (constexpr.ALL_EQ_EPU32(b, 1, elements))
+                    {
+                        v128 ALL_ONES = setall_si128();
+                        v128 isMaxValue = Sse2.cmpeq_epi32(a, ALL_ONES);
+
+                        return Sse2.sub_epi32(a, Sse2.andnot_si128(isMaxValue, ALL_ONES));
+                    }
+
                     v128 sum = Sse2.add_epi32(a, b);
                     v128 overflowMask = cmpgt_epu32(b, sum, elements);
     
@@ -29,6 +37,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    if (constexpr.ALL_EQ_EPU32(b, 1))
+                    {
+                        v256 ALL_ONES = mm256_setall_si256();
+                        v256 isMaxValue = Avx2.mm256_cmpeq_epi32(a, ALL_ONES);
+
+                        return Avx2.mm256_sub_epi32(a, Avx2.mm256_andnot_si256(isMaxValue, ALL_ONES));
+                    }
+
                     v256 sum = Avx2.mm256_add_epi32(a, b);
                     v256 overflowMask = mm256_cmpgt_epu32(b, sum);
     
@@ -42,6 +58,14 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
+                    if (constexpr.ALL_EQ_EPU64(b, 1))
+                    {
+                        v128 ALL_ONES = setall_si128();
+                        v128 isMaxValue = cmpeq_epi64(a, ALL_ONES);
+
+                        return Sse2.sub_epi64(a, Sse2.andnot_si128(isMaxValue, ALL_ONES));
+                    }
+
                     v128 sum = Sse2.add_epi64(a, b);
                     v128 overflowMask = cmpgt_epu64(b, sum);
                     
@@ -51,10 +75,18 @@ namespace MaxMath
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_adds_epu64(v256 a, v256 b)
+            public static v256 mm256_adds_epu64(v256 a, v256 b, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    if (constexpr.ALL_EQ_EPU64(b, 1, elements))
+                    {
+                        v256 ALL_ONES = mm256_setall_si256();
+                        v256 isMaxValue = Avx2.mm256_cmpeq_epi64(a, ALL_ONES);
+
+                        return Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(isMaxValue, ALL_ONES));
+                    }
+
                     v256 sum = Avx2.mm256_add_epi64(a, b);
                     v256 overflowMask = mm256_cmpgt_epu64(a, sum);
     
@@ -64,19 +96,35 @@ namespace MaxMath
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 adds_epi32(v128 a, v128 b)
+            public static v128 adds_epi32(v128 a, v128 b, byte elements = 4)
             {
                 if (Sse2.IsSse2Supported)
                 {
                     v128 MAX_VALUE = new v128(int.MaxValue);
+
+
+                    if (constexpr.ALL_EQ_EPI32(b, -1, elements))
+                    {
+                        return Sse2.add_epi32(a, Sse2.cmpgt_epi32(a, Sse2.set1_epi32(int.MinValue)));
+                    }
+                    if (constexpr.ALL_EQ_EPI32(b, 1, elements))
+                    {
+                        return Sse2.sub_epi32(a, Sse2.cmpgt_epi32(MAX_VALUE, a));
+                    }
+
     
-                    v128 x_negative_mask = Sse2.srai_epi32(a, 31);
-                    v128 ret = Sse2.sub_epi32(MAX_VALUE, x_negative_mask);
-                    v128 cmp = Sse2.sub_epi32(ret, a);
-    
-                    x_negative_mask = Sse2.cmpeq_epi32(x_negative_mask, Sse2.cmpgt_epi32(b, cmp));
-    
-                    return blendv_si128(ret, Sse2.add_epi32(a, b), x_negative_mask);
+                    v128 result = Sse2.add_epi32(a, b);
+                    v128 overflow = Sse2.add_epi32(MAX_VALUE, Sse2.srli_epi32(a, 31));
+                    v128 selectResult = ternarylogic_si128(overflow, b, result, TernaryOperation.OxBD);
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blendv_ps(overflow, result, selectResult);
+                    }
+                    else
+                    {
+                        return blendv_si128(overflow, result, Sse2.srai_epi32(selectResult, 31));
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -87,14 +135,23 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 MAX_VALUE = new v256(int.MaxValue);
+
+
+                    if (constexpr.ALL_EQ_EPI32(b, -1))
+                    {
+                        return Avx2.mm256_add_epi32(a, Avx2.mm256_cmpgt_epi32(a, Avx.mm256_set1_epi32(int.MinValue)));
+                    }
+                    if (constexpr.ALL_EQ_EPI32(b, 1))
+                    {
+                        return Avx2.mm256_sub_epi32(a, Avx2.mm256_cmpgt_epi32(MAX_VALUE, a));
+                    }
+
     
-                    v256 x_negative_mask = Avx2.mm256_srai_epi32(a, 31);
-                    v256 ret = Avx2.mm256_sub_epi32(MAX_VALUE, x_negative_mask);
-                    v256 cmp = Avx2.mm256_sub_epi32(ret, a);
-    
-                    x_negative_mask = Avx2.mm256_cmpeq_epi32(x_negative_mask, Avx2.mm256_cmpgt_epi32(b, cmp));
-                    
-                    return mm256_blendv_si256(ret, Avx2.mm256_add_epi32(a, b), x_negative_mask);
+                    v256 result = Avx2.mm256_add_epi32(a, b);
+                    v256 overflow = Avx2.mm256_add_epi32(MAX_VALUE, Avx2.mm256_srli_epi32(a, 31));
+                    v256 selectResult = mm256_ternarylogic_si256(overflow, b, result, TernaryOperation.OxBD);
+
+                    return Avx.mm256_blendv_ps(overflow, result, selectResult);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -105,14 +162,30 @@ namespace MaxMath
                 if (Sse2.IsSse2Supported)
                 {
                     v128 MAX_VALUE = new v128(long.MaxValue);
+
+
+                    if (constexpr.ALL_EQ_EPI64(b, -1))
+                    {
+                        return Sse2.add_epi64(a, cmpgt_epi64(a, Sse2.set1_epi64x(long.MinValue)));
+                    }
+                    if (constexpr.ALL_EQ_EPI64(b, 1))
+                    {
+                        return Sse2.sub_epi64(a, cmpgt_epi64(MAX_VALUE, a));
+                    }
+
     
-                    v128 x_negative_mask = srai_epi64(a, 63);
-                    v128 ret = Sse2.sub_epi64(MAX_VALUE, x_negative_mask);
-                    v128 cmp = Sse2.sub_epi64(ret, a);
-    
-                    x_negative_mask = Sse2.cmpeq_epi32(x_negative_mask, cmpgt_epi64(b, cmp));
-                    
-                    return blendv_si128(ret, Sse2.add_epi64(a, b), x_negative_mask);
+                    v128 result = Sse2.add_epi64(a, b);
+                    v128 overflow = Sse2.add_epi64(MAX_VALUE, Sse2.srli_epi64(a, 63));
+                    v128 selectResult = ternarylogic_si128(overflow, b, result, TernaryOperation.OxBD);
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        return Sse4_1.blendv_pd(overflow, result, selectResult);
+                    }
+                    else
+                    {
+                        return blendv_si128(overflow, result, srai_epi64(selectResult, 63));
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -124,13 +197,22 @@ namespace MaxMath
                 {
                     v256 MAX_VALUE = new v256(long.MaxValue);
     
-                    v256 x_negative_mask = mm256_srai_epi64(a, 63);
-                    v256 ret = Avx2.mm256_sub_epi64(MAX_VALUE, x_negative_mask);
-                    v256 cmp = Avx2.mm256_sub_epi64(ret, a);
+
+                    if (constexpr.ALL_EQ_EPI64(b, -1, elements))
+                    {
+                        return Avx2.mm256_add_epi64(a, Avx2.mm256_cmpgt_epi64(a, Avx.mm256_set1_epi64x(long.MinValue)));
+                    }
+                    if (constexpr.ALL_EQ_EPI64(b, 1, elements))
+                    {
+                        return Avx2.mm256_sub_epi64(a, Avx2.mm256_cmpgt_epi64(MAX_VALUE, a));
+                    }
     
-                    x_negative_mask = Avx2.mm256_cmpeq_epi64(x_negative_mask, Xse.mm256_cmpgt_epi64(b, cmp, elements));
-                    
-                    return mm256_blendv_si256(ret, Avx2.mm256_add_epi64(a, b), x_negative_mask);
+
+                    v256 result = Avx2.mm256_add_epi64(a, b);
+                    v256 overflow = Avx2.mm256_add_epi64(MAX_VALUE, Avx2.mm256_srli_epi64(a, 63));
+                    v256 selectResult = mm256_ternarylogic_si256(overflow, b, result, TernaryOperation.OxBD);
+
+                    return Avx.mm256_blendv_pd(overflow, result, selectResult);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -148,6 +230,14 @@ namespace MaxMath
             {
                 return x + y;
             }
+            if (Xse.constexpr.IS_TRUE(x == 1))
+            {
+                return nextgreater(y);
+            }
+            if (Xse.constexpr.IS_TRUE(y == 1))
+            {
+                return nextgreater(x);
+            }
 
             UInt128 res = x + y;
             bool overflow = res < x;
@@ -159,15 +249,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 addsaturated(Int128 x, Int128 y)
         {
-            Int128 ret = Int128.MaxValue + (x.hi64 >> 63);
-            Int128 cmp = ret - x;
-
-            if ((x < 0) == (y > cmp))
-            {
-                ret = x + y;
-            }
-
-            return ret;
+	        Int128 result = x + y;
+	        Int128 overflow = (x.hi64 >> 63) + Int128.MaxValue;
+	        
+	        if ((long)((overflow ^ y) | ~(y ^ result)).hi64 >= 0)
+	        {
+	        	result = overflow;
+	        }
+            
+            return result;
         }
 
 
@@ -178,6 +268,14 @@ namespace MaxMath
             if (Xse.constexpr.IS_TRUE(x <= byte.MaxValue / 2 && y <= byte.MaxValue / 2))
             {
                 return (byte)(x + y);
+            }
+            if (Xse.constexpr.IS_TRUE(x == 1))
+            {
+                return nextgreater(y);
+            }
+            if (Xse.constexpr.IS_TRUE(y == 1))
+            {
+                return nextgreater(x);
             }
 
             byte temp = (byte)(x + y);
@@ -307,6 +405,14 @@ namespace MaxMath
             {
                 return (ushort)(x + y);
             }
+            if (Xse.constexpr.IS_TRUE(x == 1))
+            {
+                return nextgreater(y);
+            }
+            if (Xse.constexpr.IS_TRUE(y == 1))
+            {
+                return nextgreater(x);
+            }
             
             ushort temp = (ushort)(x + y);
 
@@ -406,6 +512,14 @@ namespace MaxMath
             {
                 return x + y;
             }
+            if (Xse.constexpr.IS_TRUE(x == 1))
+            {
+                return nextgreater(y);
+            }
+            if (Xse.constexpr.IS_TRUE(y == 1))
+            {
+                return nextgreater(x);
+            }
             
             uint temp = x + y;
 
@@ -418,7 +532,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return RegisterConversion.ToUInt2(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
             else
             {
@@ -433,7 +547,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return RegisterConversion.ToUInt3(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
             else
             {
@@ -449,7 +563,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return RegisterConversion.ToUInt4(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
             else
             {
@@ -484,6 +598,14 @@ namespace MaxMath
             {
                 return x + y;
             }
+            if (Xse.constexpr.IS_TRUE(x == 1))
+            {
+                return nextgreater(y);
+            }
+            if (Xse.constexpr.IS_TRUE(y == 1))
+            {
+                return nextgreater(x);
+            }
             
             ulong temp = x + y;
 
@@ -511,7 +633,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_adds_epu64(x, y);
+                return Xse.mm256_adds_epu64(x, y, 3);
             }
             else
             {
@@ -526,7 +648,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_adds_epu64(x, y);
+                return Xse.mm256_adds_epu64(x, y, 4);
             }
             else
             {
@@ -786,7 +908,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToInt2(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
             else
             {
@@ -801,7 +923,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToInt3(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
             else
             {
@@ -817,7 +939,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return RegisterConversion.ToInt4(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
             else
             {
@@ -848,15 +970,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long addsaturated(long x, long y)
         {
-            long ret = long.MaxValue - (x >> 63);
-            long cmp = ret - x;
-
-            if ((x < 0) == (y > cmp))
-            {
-                ret = x + y;
-            }
-
-            return ret;
+	        long result = x + y;
+	        long overflow = (long)((ulong)x >> 63) + long.MaxValue;
+	        
+	        if ((long)((overflow ^ y) | ~(y ^ result)) >= 0)
+	        {
+	        	result = overflow;
+	        }
+            
+            return result;
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.    </summary>

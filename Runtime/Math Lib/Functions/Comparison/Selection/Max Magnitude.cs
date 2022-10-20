@@ -560,14 +560,14 @@ namespace MaxMath
             return math.abs(a) > math.abs(b) ? a : b;
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 maxmag(int2 a, int2 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
+                return RegisterConversion.ToInt2(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -579,14 +579,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 maxmag(int3 a, int3 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToInt3(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -598,14 +598,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 maxmag(int4 a, int4 b, Promise noOverFlow = Promise.Nothing)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 3));
+                return RegisterConversion.ToInt4(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 3));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -700,13 +700,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 maxmag(float2 a, float2 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float2>(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToFloat2(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -718,13 +718,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 maxmag(float3 a, float3 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float3>(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToFloat3(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -736,13 +736,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 maxmag(float4 a, float4 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<float4>(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToFloat4(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -783,13 +783,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 maxmag(double2 a, double2 b)
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<double2>(Xse.maxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return RegisterConversion.ToDouble2(Xse.maxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -801,13 +801,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 maxmag(double3 a, double3 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double3>(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 3));
+                return RegisterConversion.ToDouble3(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 3));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -819,13 +819,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 maxmag(double4 a, double4 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToType<double4>(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 4));
+                return RegisterConversion.ToDouble4(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 4));
             }
             else if (Arm.Neon.IsNeonSupported)
             {

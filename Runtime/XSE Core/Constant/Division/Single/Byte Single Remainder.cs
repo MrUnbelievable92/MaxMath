@@ -5,7 +5,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
 		public static partial class constexpr
 		{

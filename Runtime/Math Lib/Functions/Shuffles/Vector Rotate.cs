@@ -5,7 +5,7 @@ using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-    
+
 namespace MaxMath
 {
     namespace Intrinsics
@@ -660,7 +660,7 @@ namespace MaxMath
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                return RegisterConversion.ToType<int4>(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
+                return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
             }
 
             switch ((uint)n % 4)
@@ -703,7 +703,7 @@ namespace MaxMath
                 v128 lo = Sse2.loadu_si128(address);
                 v128 hi = Sse2.loadu_si128(address + sizeof(v128));
                
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
 
             switch ((uint)n % 8)
@@ -1027,7 +1027,7 @@ namespace MaxMath
                 stack[0] = RegisterConversion.ToV256(x);
                 stack[1] = RegisterConversion.ToV256(x);
 
-                return RegisterConversion.ToType<double4>(Avx.mm256_loadu_pd((byte*)stack + (((uint)n % 4) * sizeof(double))));
+                return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + (((uint)n % 4) * sizeof(double))));
             }
             else if (Sse.IsSseSupported)
             {
@@ -1042,7 +1042,7 @@ namespace MaxMath
                 v128 lo = Sse.loadu_ps(address);
                 v128 hi = Sse.loadu_ps(address + sizeof(v128));
 
-                return new double4(RegisterConversion.ToType<double2>(lo), RegisterConversion.ToType<double2>(hi));
+                return new double4(RegisterConversion.ToDouble2(lo), RegisterConversion.ToDouble2(hi));
             }
 
             switch ((uint)n % 4)
@@ -1753,7 +1753,7 @@ namespace MaxMath
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                return RegisterConversion.ToType<int4>(Sse2.loadu_si128((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(int))));
+                return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(int))));
             }
 
             switch ((uint)n % 4)
@@ -1794,7 +1794,7 @@ namespace MaxMath
                     v128 lo = Sse2.loadu_si128(address);
                     v128 hi = Sse2.loadu_si128(address + sizeof(v128));
 
-                    return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                    return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
             }
                     
@@ -2153,7 +2153,7 @@ namespace MaxMath
                 stack[0] = RegisterConversion.ToV256(x);
                 stack[1] = RegisterConversion.ToV256(x);
 
-                return RegisterConversion.ToType<double4>(Avx.mm256_loadu_pd((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(double))));
+                return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(double))));
             }
             else if (Sse.IsSseSupported)
             {
@@ -2168,7 +2168,7 @@ namespace MaxMath
                 v128 lo = Sse.loadu_ps(address);
                 v128 hi = Sse.loadu_ps(address + sizeof(v128));
 
-                return new double4(RegisterConversion.ToType<double2>(lo), RegisterConversion.ToType<double2>(hi));
+                return new double4(RegisterConversion.ToDouble2(lo), RegisterConversion.ToDouble2(hi));
             }
 
             switch ((uint)n % 4)

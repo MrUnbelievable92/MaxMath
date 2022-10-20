@@ -6,7 +6,6 @@ using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
@@ -217,7 +216,7 @@ Assert.IsNotSmaller(max.y, min.y);
                 v128 hiProd = Sse2.mul_epu32(Sse2.unpacklo_epi64(Sse2.cvtsi32_si128((int)NextState()), Sse2.cvtsi32_si128((int)NextState())), (ulong2)(max - min));
                 hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-                return min + RegisterConversion.ToType<int2>(hiProd);
+                return min + RegisterConversion.ToInt2(hiProd);
             }
             else
             {
@@ -243,7 +242,7 @@ Assert.IsNotSmaller(max.z, min.z);
                 hi = Sse2.mul_epu32(hi, Sse2.bsrli_si128(RegisterConversion.ToV128(dif), 2 * sizeof(int)));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return min + RegisterConversion.ToType<int3>(result);
+                return min + RegisterConversion.ToInt3(result);
             }
             else
             {
@@ -270,7 +269,7 @@ Assert.IsNotSmaller(max.w, min.w);
                 hi = Sse2.mul_epu32(hi, (ulong2)(uint2)(dif.zw));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return min + RegisterConversion.ToType<int4>(result);
+                return min + RegisterConversion.ToInt4(result);
             }
             else
             {
@@ -365,7 +364,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 v128 hiProd = Sse2.mul_epu32(Sse2.unpacklo_epi64(Sse2.cvtsi32_si128((int)NextState()), Sse2.cvtsi32_si128((int)NextState())), (ulong2)max);
                 hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-                return RegisterConversion.ToType<uint2>(hiProd);
+                return RegisterConversion.ToUInt2(hiProd);
             }
             else
             {
@@ -385,7 +384,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 hi = Sse2.mul_epu32(hi, Sse2.bsrli_si128(RegisterConversion.ToV128(max), 2 * sizeof(int)));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return RegisterConversion.ToType<uint3>(result);
+                return RegisterConversion.ToUInt3(result);
             }
             else
             {
@@ -405,7 +404,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 hi = Sse2.mul_epu32(hi, (ulong2)(max.zw));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return RegisterConversion.ToType<uint4>(result);
+                return RegisterConversion.ToUInt4(result);
             }
             else
             {
@@ -453,7 +452,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 v128 hiProd = Sse2.mul_epu32(Sse2.unpacklo_epi64(Sse2.cvtsi32_si128((int)NextState()), Sse2.cvtsi32_si128((int)NextState())), (ulong2)(max - min));
                 hiProd = Sse2.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
 
-                return min + RegisterConversion.ToType<uint2>(hiProd);
+                return min + RegisterConversion.ToUInt2(hiProd);
             }
             else
             {
@@ -475,7 +474,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 hi = Sse2.mul_epu32(hi, Sse2.bsrli_si128(RegisterConversion.ToV128(dif), 2 * sizeof(int)));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return min + RegisterConversion.ToType<uint3>(result);
+                return min + RegisterConversion.ToUInt3(result);
             }
             else
             {
@@ -497,7 +496,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
                 hi = Sse2.mul_epu32(hi, (ulong2)(dif.zw));
                 v128 result = Sse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 
-                return min + RegisterConversion.ToType<uint4>(result);
+                return min + RegisterConversion.ToUInt4(result);
             }
             else
             {

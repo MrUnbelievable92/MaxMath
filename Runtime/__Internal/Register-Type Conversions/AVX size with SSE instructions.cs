@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
@@ -72,7 +71,7 @@ namespace MaxMath
                 v128 lo = Sse4_1.cvtepi16_epi32(x);
                 v128 hi = Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(x, 4 * sizeof(short)));
 
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -80,7 +79,7 @@ namespace MaxMath
                 v128 lo = Sse2.unpacklo_epi16(x, negativeMask);
                 v128 hi = Sse2.unpackhi_epi16(x, negativeMask);
 
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
             else throw new IllegalInstructionException();
         }
@@ -97,7 +96,7 @@ namespace MaxMath
                 v128 lo = Sse4_1.cvtepu16_epi32(x);
                 v128 hi = Sse4_1.cvtepu16_epi32(Sse2.bsrli_si128(x, 4 * sizeof(ushort)));
 
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
             else if (Sse2.IsSse2Supported)
             {
@@ -105,7 +104,7 @@ namespace MaxMath
                 v128 lo = Sse2.unpacklo_epi16(x, ZERO);
                 v128 hi = Sse2.unpackhi_epi16(x, ZERO);
 
-                return new int8(RegisterConversion.ToType<int4>(lo), RegisterConversion.ToType<int4>(hi));
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
             else throw new IllegalInstructionException();
         }
@@ -220,7 +219,7 @@ namespace MaxMath
             if (Sse2.IsSse2Supported)
             {
                 v128 EXP_MASK = Sse2.set1_epi16(0x4B00);
-                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_I16_F32);
+                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_U32_F32);
 
                 hi = Sse.sub_ps(Sse2.unpackhi_epi16(a, EXP_MASK), MAGIC);
                 return Sse.sub_ps(Sse2.unpacklo_epi16(a, EXP_MASK), MAGIC);

@@ -5,7 +5,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rsqrt23_ps(v128 a)

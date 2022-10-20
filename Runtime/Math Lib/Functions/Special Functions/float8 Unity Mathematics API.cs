@@ -28,7 +28,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_round_ps(x, (int)RoundingMode.FROUND_NINT_NOEXC);
+                return Avx.mm256_round_ps(x, (int)RoundingMode.FROUND_CUR_DIRECTION);
             }
             else
             {

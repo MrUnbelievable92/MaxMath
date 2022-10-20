@@ -51,6 +51,11 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
+                    if (constexpr.ALL_GE_EPI64(a, int.MinValue) && constexpr.ALL_GE_EPI64(b, int.MinValue) && constexpr.ALL_LE_EPI64(a, int.MaxValue) && constexpr.ALL_LE_EPI64(b, int.MaxValue))
+                    {
+                        return min_epi32(a, b);
+                    }
+
                     return blendv_si128(a, b, cmpgt_epi64(a, b));
                 }
                 else throw new IllegalInstructionException();
@@ -61,6 +66,11 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    if (constexpr.ALL_GE_EPI64(a, int.MinValue, elements) && constexpr.ALL_GE_EPI64(b, int.MinValue, elements) && constexpr.ALL_LE_EPI64(a, int.MaxValue, elements) && constexpr.ALL_LE_EPI64(b, int.MaxValue, elements))
+                    {
+                        return Avx2.mm256_min_epi32(a, b);
+                    }
+
                     return mm256_blendv_si256(a, b, mm256_cmpgt_epi64(a, b, elements));
                 }
                 else throw new IllegalInstructionException();
@@ -110,16 +120,26 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
+                    if (constexpr.ALL_LE_EPU64(a, uint.MaxValue) && constexpr.ALL_LE_EPU64(b, uint.MaxValue))
+                    {
+                        return min_epu32(a, b);
+                    }
+
                     return blendv_si128(a, b, cmpgt_epu64(a, b));
                 }
                 else throw new IllegalInstructionException();
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_min_epu64(v256 a, v256 b)
+            public static v256 mm256_min_epu64(v256 a, v256 b, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    if (constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements) && constexpr.ALL_LE_EPU64(b, uint.MaxValue, elements))
+                    {
+                        return Avx2.mm256_min_epu32(a, b);
+                    }
+
                     return mm256_blendv_si256(a, b, mm256_cmpgt_epu64(a, b));
                 }
                 else throw new IllegalInstructionException();
@@ -535,7 +555,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_min_epu64(a, b);
+                return Xse.mm256_min_epu64(a, b, 3);
             }
             else
             {
@@ -549,7 +569,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_min_epu64(a, b);
+                return Xse.mm256_min_epu64(a, b, 4);
             }
             else
             {

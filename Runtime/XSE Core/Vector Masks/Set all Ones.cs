@@ -1,8 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
-using static Unity.Burst.Intrinsics.X86;
-
 namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse

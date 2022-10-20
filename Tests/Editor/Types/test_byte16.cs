@@ -438,21 +438,39 @@ namespace MaxMath.Tests
         public static void Indexer()
         {
             Assert.AreEqual(TestData_LHS[0][0] == TestData_LHS[0].x0 &
-                   TestData_LHS[0][1] == TestData_LHS[0].x1 &
-                   TestData_LHS[0][2] == TestData_LHS[0].x2 &
-                   TestData_LHS[0][3] == TestData_LHS[0].x3 &
-                   TestData_LHS[0][4] == TestData_LHS[0].x4 &
-                   TestData_LHS[0][5] == TestData_LHS[0].x5 &
-                   TestData_LHS[0][6] == TestData_LHS[0].x6 &
-                   TestData_LHS[0][7] == TestData_LHS[0].x7 &
-                   TestData_LHS[0][8] == TestData_LHS[0].x8 &
-                   TestData_LHS[0][9] == TestData_LHS[0].x9 &
-                   TestData_LHS[0][10] == TestData_LHS[0].x10 &
-                   TestData_LHS[0][11] == TestData_LHS[0].x11 &
-                   TestData_LHS[0][12] == TestData_LHS[0].x12 &
-                   TestData_LHS[0][13] == TestData_LHS[0].x13 &
-                   TestData_LHS[0][14] == TestData_LHS[0].x14 &
-                   TestData_LHS[0][15] == TestData_LHS[0].x15, true);
+                            TestData_LHS[0][1] == TestData_LHS[0].x1 &
+                            TestData_LHS[0][2] == TestData_LHS[0].x2 &
+                            TestData_LHS[0][3] == TestData_LHS[0].x3 &
+                            TestData_LHS[0][4] == TestData_LHS[0].x4 &
+                            TestData_LHS[0][5] == TestData_LHS[0].x5 &
+                            TestData_LHS[0][6] == TestData_LHS[0].x6 &
+                            TestData_LHS[0][7] == TestData_LHS[0].x7 &
+                            TestData_LHS[0][8] == TestData_LHS[0].x8 &
+                            TestData_LHS[0][9] == TestData_LHS[0].x9 &
+                            TestData_LHS[0][10] == TestData_LHS[0].x10 &
+                            TestData_LHS[0][11] == TestData_LHS[0].x11 &
+                            TestData_LHS[0][12] == TestData_LHS[0].x12 &
+                            TestData_LHS[0][13] == TestData_LHS[0].x13 &
+                            TestData_LHS[0][14] == TestData_LHS[0].x14 &
+                            TestData_LHS[0][15] == TestData_LHS[0].x15, true);
+
+            for (int i = 0; i < 16; i++)
+            {
+                byte16 x = TestData_LHS[0];
+
+                x[i] = 0;
+                Assert.AreEqual(x[i], 0);
+
+                for (int j = 0; j < i; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+
+                for (int j = i + 1; j < 16; j++)
+                {
+                    Assert.AreEqual(x[j], TestData_LHS[0][j]);
+                }
+            }
         }
 
 

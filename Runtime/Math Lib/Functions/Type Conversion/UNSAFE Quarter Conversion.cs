@@ -1,10 +1,8 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-  
+
 namespace MaxMath
 {
     unsafe public static partial class maxmath
@@ -691,7 +689,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return quarter.Vectorized.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8); 
+                return quarter.Vectorized.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8); 
             }
             else
             {

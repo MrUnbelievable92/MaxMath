@@ -124,6 +124,8 @@ namespace MaxMath
                             cmp = negmask_epi16(cmp_negated); 
                             cmp = Sse2.sub_epi16(cmp, Sse2.bsrli_si128(cmp_negated, 4 * sizeof(short)));
                             cmp = Sse2.add_epi16(cmp, Sse2.bsrli_si128(cmp, 2 * sizeof(short)));
+                            
+                            constexpr.ASSUME_LE_EPU16(cmp, 4);
 
                             return cmp;
                         }
@@ -150,7 +152,7 @@ namespace MaxMath
                                 v128 _2 = Sse2.set1_epi16(999);
                                 v128 _3 = Sse2.set1_epi16(9_999);
 
-                                result = neg_epi16(cmpgt_epu16(a, _0, elements));
+                                result = negmask_epi16(cmpgt_epu16(a, _0, elements));
                                 result = Sse2.sub_epi16(result, cmpgt_epu16(a, _1, elements));
                                 result = Sse2.sub_epi16(result, cmpgt_epu16(a, _2, elements));
                                 result = Sse2.sub_epi16(result, cmpgt_epu16(a, _3, elements));
@@ -231,8 +233,6 @@ namespace MaxMath
                             result = Sse2.sub_epi16(result, Sse2.cmpgt_epi16(a, NINETY_NINE));
                             result = Sse2.sub_epi16(result, Sse2.cmpgt_epi16(a, _999));
                             result = Sse2.sub_epi16(result, Sse2.cmpgt_epi16(a, _9_999));
-
-                            return result;
                         }
 
                         constexpr.ASSUME_LE_EPU16(result, 4);
@@ -303,15 +303,15 @@ namespace MaxMath
                                     v128 MASK_100000000 = Sse2.set1_epi32(100_000_000);
                                     v128 MASK_1000000000 = Sse2.set1_epi32(1_000_000_000);
 
-                                    v128 result_10 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_10));
-                                    v128 result_100 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_100));
-                                    v128 result_1000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_1000));
-                                    v128 result_10000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_10000));
-                                    v128 result_100000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_100000));
-                                    v128 result_1000000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_1000000));
-                                    v128 result_10000000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_10000000));
-                                    v128 result_100000000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_100000000));
-                                    v128 result_1000000000 = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_1000000000));
+                                    v128 result_10 = cmpge_epu32(a, MASK_10);
+                                    v128 result_100 = cmpge_epu32(a, MASK_100);
+                                    v128 result_1000 = cmpge_epu32(a, MASK_1000);
+                                    v128 result_10000 = cmpge_epu32(a, MASK_10000);
+                                    v128 result_100000 = cmpge_epu32(a, MASK_100000);
+                                    v128 result_1000000 = cmpge_epu32(a, MASK_1000000);
+                                    v128 result_10000000 = cmpge_epu32(a, MASK_10000000);
+                                    v128 result_100000000 = cmpge_epu32(a, MASK_100000000);
+                                    v128 result_1000000000 = cmpge_epu32(a, MASK_1000000000);
                                     
                                     result_10 = Ssse3.abs_epi32(result_10);
                                     result_100 = Ssse3.abs_epi32(result_100);
@@ -341,18 +341,18 @@ namespace MaxMath
                                     v128 zzzz = Sse2.shuffle_epi32(a, Sse.SHUFFLE(2, 2, 2, 2));
                                     v128 wwww = Sse2.shuffle_epi32(a, Sse.SHUFFLE(3, 3, 3, 3));
                                          
-                                    v128 xResult = Xse.cmpgt_epu32(xxxx, MASK_SMALL);
-                                    v128 yResult = Xse.cmpgt_epu32(yyyy, MASK_SMALL);
-                                    v128 zResult = Xse.cmpgt_epu32(zzzz, MASK_SMALL);
-                                    v128 wResult = Xse.cmpgt_epu32(wwww, MASK_SMALL);
-                                    xResult = Xse.neg_epi32(xResult);
-                                    yResult = Xse.neg_epi32(yResult);
-                                    zResult = Xse.neg_epi32(zResult);
-                                    wResult = Xse.neg_epi32(wResult);
-                                    xResult = Sse2.sub_epi32(xResult, Xse.cmpgt_epu32(xxxx, MASK_LARGE));
-                                    yResult = Sse2.sub_epi32(yResult, Xse.cmpgt_epu32(yyyy, MASK_LARGE));
-                                    zResult = Sse2.sub_epi32(zResult, Xse.cmpgt_epu32(zzzz, MASK_LARGE));
-                                    wResult = Sse2.sub_epi32(wResult, Xse.cmpgt_epu32(wwww, MASK_LARGE));
+                                    v128 xResult = cmpgt_epu32(xxxx, MASK_SMALL);
+                                    v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
+                                    v128 zResult = cmpgt_epu32(zzzz, MASK_SMALL);
+                                    v128 wResult = cmpgt_epu32(wwww, MASK_SMALL);
+                                    xResult = negmask_epi32(xResult);
+                                    yResult = negmask_epi32(yResult);
+                                    zResult = negmask_epi32(zResult);
+                                    wResult = negmask_epi32(wResult);
+                                    xResult = Sse2.sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
+                                    yResult = Sse2.sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
+                                    zResult = Sse2.sub_epi32(zResult, cmpgt_epu32(zzzz, MASK_LARGE));
+                                    wResult = Sse2.sub_epi32(wResult, cmpgt_epu32(wwww, MASK_LARGE));
                                     xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 2 * sizeof(uint)));
                                     yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 2 * sizeof(uint)));
                                     zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 2 * sizeof(uint)));
@@ -362,7 +362,7 @@ namespace MaxMath
                                     zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 1 * sizeof(uint)));
                                     wResult = Sse2.add_epi32(wResult, Sse2.bsrli_si128(wResult, 1 * sizeof(uint)));
                                     
-                                    v128 lastCMP = Sse2.cmpeq_epi32(Xse.max_epu32(a, LAST), a);
+                                    v128 lastCMP = cmpgt_epu32(a, LAST);
                                     
                                     v128 xy = Sse2.unpacklo_epi32(xResult, yResult);
                                     v128 zw = Sse2.unpacklo_epi32(zResult, wResult);
@@ -383,18 +383,18 @@ namespace MaxMath
                                     v256 _y = Avx2.mm256_broadcastd_epi32(Sse2.bsrli_si128(a, 1 * sizeof(uint)));
                                     v256 _z = Avx2.mm256_broadcastd_epi32(Sse2.bsrli_si128(a, 2 * sizeof(uint)));
 
-                                    v256 resultX = Xse.mm256_cmpge_epu32(_x, MASK); 
+                                    v256 resultX = mm256_cmpge_epu32(_x, MASK); 
                                     v128 hiX = Avx2.mm256_extracti128_si256(resultX, 1);
-                                    v256 resultY = Xse.mm256_cmpge_epu32(_y, MASK);
+                                    v256 resultY = mm256_cmpge_epu32(_y, MASK);
                                     v128 hiY = Avx2.mm256_extracti128_si256(resultY, 1);
-                                    v256 resultZ = Xse.mm256_cmpge_epu32(_z, MASK);
+                                    v256 resultZ = mm256_cmpge_epu32(_z, MASK);
                                     v128 hiZ = Avx2.mm256_extracti128_si256(resultZ, 1);
 
                                     v128 resultX128 = Ssse3.abs_epi32(Avx.mm256_castsi256_si128(resultX));
                                     v128 resultY128 = Ssse3.abs_epi32(Avx.mm256_castsi256_si128(resultY));
                                     v128 resultZ128 = Ssse3.abs_epi32(Avx.mm256_castsi256_si128(resultZ));
 
-                                    v128 lastCMP = Sse2.cmpeq_epi32(Sse4_1.max_epu32(a, LAST), a);
+                                    v128 lastCMP = cmpge_epu32(a, LAST);
 
                                     resultX128 = Sse2.sub_epi32(resultX128, hiX);
                                     resultY128 = Sse2.sub_epi32(resultY128, hiY);
@@ -423,15 +423,15 @@ namespace MaxMath
                                         v128 MASK_LARGE = new v128(100_000, 1_000_000, 10_000_000, 100_000_000);
                                         v128 MASK_LAST  = new v128(1_000_000_000);
 
-                                        v128 xResult = Sse2.cmpeq_epi32(xxxx, Sse4_1.max_epu32(xxxx, MASK_SMALL));
-                                        v128 yResult = Sse2.cmpeq_epi32(yyyy, Sse4_1.max_epu32(yyyy, MASK_SMALL));
-                                        v128 zResult = Sse2.cmpeq_epi32(zzzz, Sse4_1.max_epu32(zzzz, MASK_SMALL));
+                                        v128 xResult = cmpge_epu32(xxxx, MASK_SMALL);
+                                        v128 yResult = cmpge_epu32(yyyy, MASK_SMALL);
+                                        v128 zResult = cmpge_epu32(zzzz, MASK_SMALL);
                                         xResult = Ssse3.abs_epi32(xResult);
                                         yResult = Ssse3.abs_epi32(yResult);
                                         zResult = Ssse3.abs_epi32(zResult);
-                                        xResult = Sse2.sub_epi32(xResult, Sse2.cmpeq_epi32(xxxx, Sse4_1.max_epu32(xxxx, MASK_LARGE)));
-                                        yResult = Sse2.sub_epi32(yResult, Sse2.cmpeq_epi32(yyyy, Sse4_1.max_epu32(yyyy, MASK_LARGE)));
-                                        zResult = Sse2.sub_epi32(zResult, Sse2.cmpeq_epi32(zzzz, Sse4_1.max_epu32(zzzz, MASK_LARGE)));
+                                        xResult = Sse2.sub_epi32(xResult, cmpge_epu32(xxxx, MASK_LARGE));
+                                        yResult = Sse2.sub_epi32(yResult, cmpge_epu32(yyyy, MASK_LARGE));
+                                        zResult = Sse2.sub_epi32(zResult, cmpge_epu32(zzzz, MASK_LARGE));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 2 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 2 * sizeof(uint)));
                                         zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 2 * sizeof(uint)));
@@ -439,7 +439,7 @@ namespace MaxMath
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 1 * sizeof(uint)));
                                         zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 1 * sizeof(uint)));
                                         
-                                        v128 lastCMP = Xse.cmpgt_epu32(a, MASK_LAST);
+                                        v128 lastCMP = cmpgt_epu32(a, MASK_LAST);
 
                                         v128 xy = Sse2.unpacklo_epi32(xResult, yResult);
                                         result = Sse2.unpacklo_epi64(xy, zResult);
@@ -451,16 +451,16 @@ namespace MaxMath
                                         v128 MASK_LARGE = new v128(99_999, 999_999, 9_999_999, 99_999_999);
                                         v128 MASK_LAST  = new v128(999_999_999);
 
-                                        v128 xResult = Xse.cmpgt_epu32(xxxx, MASK_SMALL);
-                                        v128 yResult = Xse.cmpgt_epu32(yyyy, MASK_SMALL);
-                                        v128 zResult = Xse.cmpgt_epu32(zzzz, MASK_SMALL);
+                                        v128 xResult = cmpgt_epu32(xxxx, MASK_SMALL);
+                                        v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
+                                        v128 zResult = cmpgt_epu32(zzzz, MASK_SMALL);
 
-                                        xResult = Xse.neg_epi32(xResult);
-                                        yResult = Xse.neg_epi32(yResult);
-                                        zResult = Xse.neg_epi32(zResult);
-                                        xResult = Sse2.sub_epi32(xResult, Xse.cmpgt_epu32(xxxx, MASK_LARGE));
-                                        yResult = Sse2.sub_epi32(yResult, Xse.cmpgt_epu32(yyyy, MASK_LARGE));
-                                        zResult = Sse2.sub_epi32(zResult, Xse.cmpgt_epu32(zzzz, MASK_LARGE));
+                                        xResult = negmask_epi32(xResult);
+                                        yResult = negmask_epi32(yResult);
+                                        zResult = negmask_epi32(zResult);
+                                        xResult = Sse2.sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
+                                        yResult = Sse2.sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
+                                        zResult = Sse2.sub_epi32(zResult, cmpgt_epu32(zzzz, MASK_LARGE));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 2 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 2 * sizeof(uint)));
                                         zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 2 * sizeof(uint)));
@@ -468,7 +468,7 @@ namespace MaxMath
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 1 * sizeof(uint)));
                                         zResult = Sse2.add_epi32(zResult, Sse2.bsrli_si128(zResult, 1 * sizeof(uint)));
                                         
-                                        v128 lastCMP = Xse.cmpgt_epu32(a, MASK_LAST);
+                                        v128 lastCMP = cmpgt_epu32(a, MASK_LAST);
 
                                         v128 xy = Sse2.unpacklo_epi32(xResult, yResult);
                                         result = Sse2.unpacklo_epi64(xy, zResult);
@@ -488,15 +488,15 @@ namespace MaxMath
                                     v256 _x = Avx2.mm256_broadcastd_epi32(a);
                                     v256 _y = Avx2.mm256_broadcastd_epi32(Sse2.bsrli_si128(a, 1 * sizeof(uint)));
 
-                                    v256 resultX = Xse.mm256_cmpge_epu32(_x, MASK); 
+                                    v256 resultX = mm256_cmpge_epu32(_x, MASK); 
                                     v128 hiX = Avx2.mm256_extracti128_si256(resultX, 1);
-                                    v256 resultY = Xse.mm256_cmpge_epu32(_y, MASK);
+                                    v256 resultY = mm256_cmpge_epu32(_y, MASK);
                                     v128 hiY = Avx2.mm256_extracti128_si256(resultY, 1);
 
                                     v128 resultX128 = Ssse3.abs_epi32(Avx.mm256_castsi256_si128(resultX));
                                     v128 resultY128 = Ssse3.abs_epi32(Avx.mm256_castsi256_si128(resultY));
 
-                                    v128 lastCMP = Sse2.cmpeq_epi32(Sse4_1.max_epu32(a, LAST), a);
+                                    v128 lastCMP = cmpge_epu32(a, LAST);
 
                                     resultX128 = Sse2.sub_epi32(resultX128, hiX);
                                     resultY128 = Sse2.sub_epi32(resultY128, hiY);
@@ -520,18 +520,18 @@ namespace MaxMath
                                         v128 MASK_LARGE = new v128(100_000, 1_000_000, 10_000_000, 100_000_000);
                                         v128 MASK_LAST  = Sse2.cvtsi64x_si128((1_000_000_000L << 32) | 1_000_000_000L);
 
-                                        v128 xResult = Sse2.cmpeq_epi32(xxxx, Sse4_1.max_epu32(xxxx, MASK_SMALL));
-                                        v128 yResult = Sse2.cmpeq_epi32(yyyy, Sse4_1.max_epu32(yyyy, MASK_SMALL));
+                                        v128 xResult = cmpge_epu32(xxxx, MASK_SMALL);
+                                        v128 yResult = cmpge_epu32(yyyy, MASK_SMALL);
                                         xResult = Ssse3.abs_epi32(xResult);
                                         yResult = Ssse3.abs_epi32(yResult);
-                                        xResult = Sse2.sub_epi32(xResult, Sse2.cmpeq_epi32(xxxx, Sse4_1.max_epu32(xxxx, MASK_LARGE)));
-                                        yResult = Sse2.sub_epi32(yResult, Sse2.cmpeq_epi32(yyyy, Sse4_1.max_epu32(yyyy, MASK_LARGE)));
+                                        xResult = Sse2.sub_epi32(xResult, cmpge_epu32(xxxx, MASK_LARGE));
+                                        yResult = Sse2.sub_epi32(yResult, cmpge_epu32(yyyy, MASK_LARGE));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 2 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 2 * sizeof(uint)));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 1 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 1 * sizeof(uint)));
                                         
-                                        v128 lastCMP = Sse2.cmpeq_epi32(a, Sse4_1.max_epu32(a, MASK_LAST));
+                                        v128 lastCMP = cmpge_epu32(a, MASK_LAST);
 
                                         v128 xy = Sse2.unpacklo_epi32(xResult, yResult);
                                         result = Sse2.sub_epi32(xy, lastCMP);
@@ -542,18 +542,18 @@ namespace MaxMath
                                         v128 MASK_LARGE = new v128(99_999, 999_999, 9_999_999, 99_999_999);
                                         v128 MASK_LAST  = Sse2.cvtsi64x_si128((999_999_999L << 32) | 999_999_999L);
 
-                                        v128 xResult = Xse.cmpgt_epu32(xxxx, MASK_SMALL);
-                                        v128 yResult = Xse.cmpgt_epu32(yyyy, MASK_SMALL);
-                                        xResult = Xse.neg_epi32(xResult);
-                                        yResult = Xse.neg_epi32(yResult);
-                                        xResult = Sse2.sub_epi32(xResult, Xse.cmpgt_epu32(xxxx, MASK_LARGE));
-                                        yResult = Sse2.sub_epi32(yResult, Xse.cmpgt_epu32(yyyy, MASK_LARGE));
+                                        v128 xResult = cmpgt_epu32(xxxx, MASK_SMALL);
+                                        v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
+                                        xResult = negmask_epi32(xResult);
+                                        yResult = negmask_epi32(yResult);
+                                        xResult = Sse2.sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
+                                        yResult = Sse2.sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 2 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 2 * sizeof(uint)));
                                         xResult = Sse2.add_epi32(xResult, Sse2.bsrli_si128(xResult, 1 * sizeof(uint)));
                                         yResult = Sse2.add_epi32(yResult, Sse2.bsrli_si128(yResult, 1 * sizeof(uint)));
                                         
-                                        v128 lastCMP = Xse.cmpgt_epu32(a, MASK_LAST);
+                                        v128 lastCMP = cmpgt_epu32(a, MASK_LAST);
 
                                         v128 xy = Sse2.unpacklo_epi32(xResult, yResult);
                                         result = Sse2.sub_epi32(xy, lastCMP);
@@ -594,15 +594,15 @@ namespace MaxMath
                         v256 MASK_100000000 = Avx.mm256_set1_epi32(100_000_000);
                         v256 MASK_1000000000 = Avx.mm256_set1_epi32(1_000_000_000);
 
-                        v256 result_10 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_10));
-                        v256 result_100 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_100));
-                        v256 result_1000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_1000));
-                        v256 result_10000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_10000));
-                        v256 result_100000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_100000));
-                        v256 result_1000000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_1000000));
-                        v256 result_10000000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_10000000));
-                        v256 result_100000000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_100000000));
-                        v256 result_1000000000 = Avx2.mm256_cmpeq_epi32(a, Avx2.mm256_max_epu32(a, MASK_1000000000));
+                        v256 result_10 = mm256_cmpge_epu32(a, MASK_10);
+                        v256 result_100 = mm256_cmpge_epu32(a, MASK_100);
+                        v256 result_1000 = mm256_cmpge_epu32(a, MASK_1000);
+                        v256 result_10000 = mm256_cmpge_epu32(a, MASK_10000);
+                        v256 result_100000 = mm256_cmpge_epu32(a, MASK_100000);
+                        v256 result_1000000 = mm256_cmpge_epu32(a, MASK_1000000);
+                        v256 result_10000000 = mm256_cmpge_epu32(a, MASK_10000000);
+                        v256 result_100000000 = mm256_cmpge_epu32(a, MASK_100000000);
+                        v256 result_1000000000 = mm256_cmpge_epu32(a, MASK_1000000000);
                         
                         result_10 = Avx2.mm256_abs_epi32(result_10);
                         result_100 = Avx2.mm256_abs_epi32(result_100);
@@ -619,7 +619,11 @@ namespace MaxMath
                         result_100 = Avx2.mm256_add_epi32(result_100, result_1000);
                         result_1000 = Avx2.mm256_add_epi32(result_10000, result_10);
 
-                        return Avx2.mm256_add_epi32(result_100, result_1000);
+                        v256 result = Avx2.mm256_add_epi32(result_100, result_1000);
+
+                        constexpr.ASSUME_LE_EPU32(result, 9);
+
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -873,7 +877,11 @@ namespace MaxMath
                         result_99 = Avx2.mm256_add_epi32(result_99, result_999);
                         result_999 = Avx2.mm256_add_epi32(result_9999, result_9);
 
-                        return Avx2.mm256_add_epi32(result_99, result_999);
+                        v256 result = Avx2.mm256_add_epi32(result_99, result_999);
+
+                        constexpr.ASSUME_LE_EPU32(result, 9);
+
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -965,7 +973,11 @@ namespace MaxMath
                 UInt128 adjust0 = guess[math.lzcnt(a.ULong0)];
                 UInt128 adjust1 = guess[math.lzcnt(a.ULong1)];
                 
-                return new v128((adjust0 + a.ULong0).hi64, (adjust1 + a.ULong1).hi64);
+                v128 result = new v128((adjust0 + a.ULong0).hi64, (adjust1 + a.ULong1).hi64);
+
+                constexpr.ASSUME_LE_EPU64(result, 19);
+
+                return result;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)] 
@@ -1062,7 +1074,11 @@ namespace MaxMath
                             hi = Sse2.unpacklo_epi64(hi, Sse2.cvtsi64x_si128((long)((adjust3 + a.ULong3).hi64)));
                         }
                         
-                        return new v256(lo, hi);
+                        v256 result = new v256(lo, hi);
+
+                        constexpr.ASSUME_LE_EPU64(result, 19);
+
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -1638,7 +1654,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.log10_epu32(RegisterConversion.ToV128(x), 2));
+                return RegisterConversion.ToUInt2(Xse.log10_epu32(RegisterConversion.ToV128(x), 2));
             }
             else
             {
@@ -1671,7 +1687,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.log10_epu32(RegisterConversion.ToV128(x), 3));
+                return RegisterConversion.ToUInt3(Xse.log10_epu32(RegisterConversion.ToV128(x), 3));
             }
             else
             {
@@ -1706,7 +1722,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.log10_epu32(RegisterConversion.ToV128(x), 4));
+                return RegisterConversion.ToUInt4(Xse.log10_epu32(RegisterConversion.ToV128(x), 4));
             }
             else
             {
@@ -1824,7 +1840,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.log10_epi32(RegisterConversion.ToV128(x), 2));
+                return RegisterConversion.ToInt2(Xse.log10_epi32(RegisterConversion.ToV128(x), 2));
             }
             else
             {
@@ -1839,7 +1855,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.log10_epi32(RegisterConversion.ToV128(x), 3));
+                return RegisterConversion.ToInt3(Xse.log10_epi32(RegisterConversion.ToV128(x), 3));
             }
             else
             {
@@ -1854,7 +1870,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.log10_epi32(RegisterConversion.ToV128(x), 4));
+                return RegisterConversion.ToInt4(Xse.log10_epi32(RegisterConversion.ToV128(x), 4));
             }
             else
             {

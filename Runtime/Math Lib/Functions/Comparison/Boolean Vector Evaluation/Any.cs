@@ -131,7 +131,7 @@ Assert.IsSafeBoolean(x.x7);
         {
             if (Sse2.IsSse2Supported)
             {
-                return 0 != Sse2.extract_epi16(x, 0);
+                return 0 != Xse.extract_epi16(x, 0);
             }
             else
             {

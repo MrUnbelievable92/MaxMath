@@ -1140,5 +1140,37 @@ namespace MaxMath.Tests
                 }
             }
         }
+
+
+        [Test]
+        new public static void ToString()
+        {
+            Random128 rng = Random128.New;
+            Int128 x = 0;
+
+            Assert.AreEqual(Int128.MAX_DECIMAL_DIGITS, ((BigInteger)Int128.MaxValue).ToString().Length);
+            Assert.AreEqual(Int128.MAX_DECIMAL_DIGITS + 1, ((BigInteger)Int128.MinValue).ToString().Length);
+            Assert.AreEqual(x.ToString(), "0");
+            Assert.AreEqual(Int128.MinValue.ToString(), ((BigInteger)Int128.MinValue).ToString());
+            Assert.AreEqual(Int128.MaxValue.ToString(), ((BigInteger)Int128.MaxValue).ToString());
+
+            for (int i = 0; i < 25; i++)
+            {
+                x = rng.NextInt128();
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+                x = -x;
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+
+                x = rng.NextInt128(0, uint.MaxValue);
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+                x = -x;
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+
+                x = rng.NextInt128(0, 10);
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+                x = -x;
+                Assert.AreEqual(x.ToString(), ((BigInteger)x).ToString());
+            }
+        }
     }
 }

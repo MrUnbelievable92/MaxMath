@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using Unity.Mathematics;
-using MaxMath;
 
 namespace MaxMath.Tests
 {

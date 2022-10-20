@@ -20,11 +20,11 @@ namespace MaxMath
                 {
                     if (elements <= 4)
                     {
-                        v128 toFloat = Xse.cvtepu8_ps(a);
+                        v128 toFloat = cvtepu8_ps(a);
                         v128 sqrt = Sse.rcp_ps(Sse.rsqrt_ps(toFloat));
                         v128 toInt = Sse2.cvttps_epi32(sqrt);
 
-                        a = Xse.cvtepi32_epi8(toInt, elements);
+                        a = cvtepi32_epi8(toInt, elements);
                     }
                     else if (elements <= 8)
                     {
@@ -1341,7 +1341,7 @@ Assert.IsNonNegative(x.x15);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint2>(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 2));
+                return RegisterConversion.ToUInt2(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 2));
             }
             else
             {
@@ -1355,7 +1355,7 @@ Assert.IsNonNegative(x.x15);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint3>(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 3));
+                return RegisterConversion.ToUInt3(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 3));
             }
             else
             {
@@ -1369,7 +1369,7 @@ Assert.IsNonNegative(x.x15);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<uint4>(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 4));
+                return RegisterConversion.ToUInt4(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 4));
             }
             else
             {
@@ -1418,7 +1418,7 @@ Assert.IsNonNegative(x.y);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 2));
+                return RegisterConversion.ToInt2(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 2));
             }
             else
             {
@@ -1436,7 +1436,7 @@ Assert.IsNonNegative(x.z);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 3));
+                return RegisterConversion.ToInt3(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 3));
             }
             else
             {
@@ -1455,7 +1455,7 @@ Assert.IsNonNegative(x.w);
             
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 4));
+                return RegisterConversion.ToInt4(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 4));
             }
             else
             {

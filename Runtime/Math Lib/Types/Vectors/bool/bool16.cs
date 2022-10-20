@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -13,8 +14,6 @@ namespace MaxMath
     [StructLayout(LayoutKind.Explicit, Size = 16 * sizeof(bool))]
     unsafe public struct bool16 : IEquatable<bool16>
     {
-        [FieldOffset(0)]  private fixed bool asArray[16];
-
         [FieldOffset(0)]  [MarshalAs(UnmanagedType.U1)] public bool x0;
         [FieldOffset(1)]  [MarshalAs(UnmanagedType.U1)] public bool x1;
         [FieldOffset(2)]  [MarshalAs(UnmanagedType.U1)] public bool x2;
@@ -168,11 +167,11 @@ namespace MaxMath
         public bool2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_14); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_14 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
-        public static implicit operator v128(bool16 input) => new v128(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator v128(bool16 input) => new v128 { Byte0 = *(byte*)&input.x0, Byte1 = *(byte*)&input.x1, Byte2 = *(byte*)&input.x2, Byte3 = *(byte*)&input.x3, Byte4 = *(byte*)&input.x4, Byte5 = *(byte*)&input.x5, Byte6 = *(byte*)&input.x6, Byte7 = *(byte*)&input.x7, Byte8 = *(byte*)&input.x8, Byte9 = *(byte*)&input.x9, Byte10 = *(byte*)&input.x10, Byte11 = *(byte*)&input.x11, Byte12 = *(byte*)&input.x12, Byte13 = *(byte*)&input.x13, Byte14 = *(byte*)&input.x14, Byte15 = *(byte*)&input.x15 };
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v128 x)
-        public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15)};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15) };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool16(bool x) => new bool16(x);
@@ -216,15 +215,34 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 16);
 
-                return asArray[index];
+                if (Sse2.IsSse2Supported)
+                {
+                    return maxmath.tobool(Xse.extract_epi8(this, (byte)index));
+                }
+                else
+                {
+                    bool16 onStack = this;
+
+                    return *((bool*)&onStack + index);
+                }
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 16);
+    
+                if (Sse2.IsSse2Supported)
+                {
+                    this = Xse.insert_epi8(this, *(byte*)&value, (byte)index);
+                }
+                else
+                {
+                    bool16 onStack = this;
+                    *((bool*)&onStack + index) = value;
 
-                asArray[index] = value;
+                    this = onStack;
+                }
             }
         }
 

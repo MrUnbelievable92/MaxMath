@@ -1,9 +1,10 @@
+using System;
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
-using UnityEngine;
 
 namespace MaxMath.Intrinsics
 {
@@ -35,7 +36,7 @@ namespace MaxMath.Intrinsics
                 }
 
 
-                v256 magic_lo  = new v256(LIMIT_PRECISE_I32_F64);
+                v256 magic_lo  = new v256(LIMIT_PRECISE_U64_F64);
                 v256 magic_hi  = new v256(0x4530_0000_8000_0000);
                 v256 magic_dbl = new v256(0x4530_0000_8010_0000);
                 
@@ -77,7 +78,7 @@ namespace MaxMath.Intrinsics
                 }
 
 
-                v256 magic_lo  = new v256(LIMIT_PRECISE_I32_F64);
+                v256 magic_lo  = new v256(LIMIT_PRECISE_U64_F64);
                 v256 magic_hi  = new v256(0x4530_0000_0000_0000);
                 v256 magic_dbl = new v256(0x4530_0000_0010_0000);
 
@@ -93,6 +94,201 @@ namespace MaxMath.Intrinsics
         }
 
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvtpd_epu64(v128 a, bool promise = false, bool evenOnTie = true)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (constexpr.ALL_GE_PD(a, 0d) && constexpr.ALL_LE_PD(a, USF_CVT_EPU64_PD_LIMIT - 1d))
+                {
+                    return usfcvtpd_epu64(a);
+                }
+                else
+                {
+                    v128 HALF = Sse2.set1_pd(0.5d);
+
+                    promise |= constexpr.ALL_GE_PD(a, 0d) && constexpr.ALL_LE_PD(a, long.MaxValue);
+                    v128 truncatedResult = cvttpd_epi64(a);
+                
+                    v128 fraction;
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        fraction = Sse2.sub_pd(a, Sse4_1.round_pd(a, (int)RoundingMode.FROUND_TRUNC_NOEXC)); 
+                    }
+                    else
+                    {
+                        fraction = Sse2.sub_pd(a, RegisterConversion.ToV128(math.trunc(RegisterConversion.ToDouble2(a)))); 
+                    }
+
+                    if (evenOnTie)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        // wrong on overflow?
+                        if (promise)
+                        {
+                            v128 round = Sse2.cmpge_pd(fraction, HALF);
+
+                            return Sse2.sub_epi64(truncatedResult, round);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvtpd_epi64(v128 x, bool promise = false, bool evenOnTie = true)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                if (constexpr.ALL_GE_PD(x, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT + 1d) && constexpr.ALL_LE_PD(x, ABS_MASK_USF_CVT_EPI64_PD_LIMIT - 1d))
+                {
+                    return usfcvtpd_epi64(x);
+                }
+                else
+                {
+                    v128 HALF = Sse2.set1_pd(0.5d);
+                    v128 SIGN = Sse2.set1_epi64x(unchecked((long)(1ul << 63)));
+
+                    promise |= constexpr.ALL_GE_PD(x, long.MinValue) && constexpr.ALL_LE_PD(x, long.MaxValue);
+                    v128 truncatedResult = cvttpd_epi64(x);
+
+                    v128 fraction;
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        fraction = Sse2.sub_pd(x, Sse4_1.round_pd(x, (int)RoundingMode.FROUND_TRUNC_NOEXC)); 
+                    }
+                    else
+                    {
+                        fraction = Sse2.sub_pd(x, RegisterConversion.ToV128(math.trunc(RegisterConversion.ToDouble2(x)))); 
+                    }
+                    
+
+                    if (evenOnTie)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        if (promise)
+                        {
+                            v128 negativeMask = Sse2.cmpgt_pd(Sse.setzero_ps(), x);
+
+                            v128 cmp = ternarylogic_si128(HALF, negativeMask, SIGN, TernaryOperation.Ox78);
+                            v128 cmpIfNegative = Sse2.cmple_pd(fraction, cmp);
+                            v128 cmpIfPositive = Sse2.cmpge_pd(fraction, cmp);
+
+                            v128 round = blendv_si128(cmpIfPositive, cmpIfNegative, negativeMask);
+                            round = Sse2.sub_epi64(Sse2.xor_si128(round, negativeMask), negativeMask);
+
+                            return Sse2.sub_epi64(truncatedResult, round);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cvtpd_epi64(v256 a, byte elements = 4, bool promise = false, bool evenOnTie = true)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (constexpr.ALL_GE_PD(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT + 1d, elements) && constexpr.ALL_LE_PD(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT - 1d, elements))
+                {
+                    return mm256_usfcvtpd_epi64(a);
+                }
+                else
+                {
+                    v256 HALF = Avx.mm256_set1_pd(0.5d);
+                    v256 SIGN = Avx.mm256_set1_epi64x(unchecked((long)(1ul << 63)));
+
+                    promise |= constexpr.ALL_GE_PD(a, long.MinValue, elements) && constexpr.ALL_LE_PD(a, long.MaxValue, elements);
+                    v256 truncatedResult =  mm256_cvttpd_epi64_BASE(a, signed: true, elements, promise);
+                
+                    v256 fraction = Avx.mm256_sub_pd(a, Avx.mm256_round_pd(a, (int)RoundingMode.FROUND_TRUNC));
+
+                    if (evenOnTie)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        if (promise)
+                        {
+                            v256 negativeMask = Avx.mm256_cmp_pd(Avx.mm256_setzero_pd(), a, (int)Avx.CMP.GT_OQ);
+
+                            v256 cmp = mm256_ternarylogic_si256(HALF, negativeMask, SIGN, TernaryOperation.Ox78);
+                            v256 cmpIfNegative = Avx.mm256_cmp_pd(fraction, cmp, (int)Avx.CMP.LE_OQ);
+                            v256 cmpIfPositive = Avx.mm256_cmp_pd(fraction, cmp, (int)Avx.CMP.GE_OQ);
+
+                            v256 round = mm256_blendv_si256(cmpIfPositive, cmpIfNegative, negativeMask);
+                            round = Avx2.mm256_sub_epi64(Avx2.mm256_xor_si256(round, negativeMask), negativeMask);
+
+                            return Avx2.mm256_sub_epi64(truncatedResult, round);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cvtpd_epu64(v256 a, byte elements = 4, bool promise = false, bool evenOnTie = true)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (constexpr.ALL_GE_PD(a, 0d, elements) && constexpr.ALL_LE_PD(a, USF_CVT_EPU64_PD_LIMIT - 1d, elements))
+                {
+                    return mm256_usfcvtpd_epu64(a);
+                }
+                else
+                {
+                    v256 HALF = Avx.mm256_set1_pd(0.5d);
+
+                    promise |= constexpr.ALL_GE_PD(a, 0d, elements) && constexpr.ALL_LE_PD(a, long.MaxValue, elements);
+                    v256 truncatedResult = mm256_cvttpd_epi64_BASE(a, signed: false, elements, promise);
+                
+                    v256 fraction = Avx.mm256_sub_pd(a, Avx.mm256_round_pd(a, (int)RoundingMode.FROUND_TRUNC));
+
+                    if (evenOnTie)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        // wrong on overflow?
+                        if (promise)
+                        {
+                            v256 round = Avx.mm256_cmp_pd(fraction, HALF, (int)Avx.CMP.GE_OQ);
+
+                            return Avx2.mm256_sub_epi64(truncatedResult, round);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
+            else throw new IllegalInstructionException();
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvttpd_epi64(v128 x)
         {
@@ -179,14 +375,14 @@ namespace MaxMath.Intrinsics
                     const ulong BIAS = 0x03FFul;
                     v256 ZERO = Avx.mm256_setzero_si256();
                     v256 ONE = Avx.mm256_set1_epi64x(1L);
-                    v256 IMPL_ONE = Avx.mm256_set1_epi64x(1L << 52);
+                    v256 IMPLICIT_ONE = Avx.mm256_set1_epi64x(1L << 52);
                     v256 MANTISSA_MASK = Avx.mm256_set1_epi64x((1L << 52) - 1);
 
                     v256 biased_exp = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a, 1), 53);
                     v256 shift_mnt = Avx2.mm256_subs_epu16(new v256(BIAS + 51), biased_exp);
                     v256 shift_int = Avx2.mm256_subs_epu16(biased_exp, new v256(BIAS + 51));
                          
-                    v256 mantissa = mm256_ternarylogic_si256(IMPL_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
+                    v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
                     v256 int52 = Avx2.mm256_srlv_epi64(Avx2.mm256_srli_epi64(mantissa, 1), shift_mnt);
                     v256 shifted = Avx2.mm256_sllv_epi64(int52, shift_int);
                     v256 restored = Avx2.mm256_sllv_epi64(Avx2.mm256_and_si256(mantissa, ONE), Avx2.mm256_sub_epi64(shift_int, ONE));
@@ -219,7 +415,7 @@ namespace MaxMath.Intrinsics
                     {
                         v256 OVERFLOW = signed ? new v256(1L << 63) : Avx2.mm256_and_si256(sign_mask, new v256(1L << 63));
 
-                        v256 inRange = Avx2.mm256_cmpgt_epi64(new v256(BIAS + 63ul), biased_exp); // yes, this excludes many unsigned values but it is following the C(#) standard
+                        v256 inRange = Avx2.mm256_cmpgt_epi64(new v256(BIAS + 63ul), biased_exp);
                         restored = mm256_blendv_si256(OVERFLOW, restored, inRange);
                     }
                     
@@ -279,7 +475,7 @@ namespace MaxMath.Intrinsics
             if (Sse2.IsSse2Supported)
             {
                 v128 EXP_MASK = Sse2.cvtsi64x_si128(0x4B00_4B00_4B00_4B00);
-                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_I16_F32);
+                v128 MAGIC = Sse.set1_ps(LIMIT_PRECISE_U32_F32);
 
                 return Sse.sub_ps(Sse2.unpacklo_epi16(a, EXP_MASK), MAGIC);
             }
@@ -336,7 +532,7 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 EXP_MASK = Sse2.set1_epi32(0x4330_0000);
-                    v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_I32_F64);
+                    v128 MAGIC = Sse2.set1_pd(LIMIT_PRECISE_U64_F64);
 
                     return Sse2.sub_pd(Sse2.unpacklo_epi32(a, EXP_MASK), MAGIC);
                 }

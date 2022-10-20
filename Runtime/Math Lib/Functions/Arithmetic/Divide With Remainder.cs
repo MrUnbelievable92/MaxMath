@@ -1192,8 +1192,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                int2 ret = RegisterConversion.ToType<int2>(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
-                remainder = RegisterConversion.ToType<int2>(rem);
+                int2 ret = RegisterConversion.ToInt2(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
+                remainder = RegisterConversion.ToInt2(rem);
 
                 return ret;
             }
@@ -1211,8 +1211,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                int3 ret = RegisterConversion.ToType<int3>(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
-                remainder = RegisterConversion.ToType<int3>(rem);
+                int3 ret = RegisterConversion.ToInt3(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
+                remainder = RegisterConversion.ToInt3(rem);
 
                 return ret;
             }
@@ -1230,8 +1230,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                int4 ret = RegisterConversion.ToType<int4>(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
-                remainder = RegisterConversion.ToType<int4>(rem);
+                int4 ret = RegisterConversion.ToInt4(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
+                remainder = RegisterConversion.ToInt4(rem);
 
                 return ret;
             }
@@ -1280,8 +1280,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                uint2 ret = RegisterConversion.ToType<uint2>(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
-                remainder = RegisterConversion.ToType<uint2>(rem);
+                uint2 ret = RegisterConversion.ToUInt2(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
+                remainder = RegisterConversion.ToUInt2(rem);
 
                 return ret;
             }
@@ -1299,8 +1299,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                uint3 ret = RegisterConversion.ToType<uint3>(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
-                remainder = RegisterConversion.ToType<uint3>(rem);
+                uint3 ret = RegisterConversion.ToUInt3(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
+                remainder = RegisterConversion.ToUInt3(rem);
 
                 return ret;
             }
@@ -1318,8 +1318,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Sse2.IsSse2Supported)
             {
-                uint4 ret = RegisterConversion.ToType<uint4>(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
-                remainder = RegisterConversion.ToType<uint4>(rem);
+                uint4 ret = RegisterConversion.ToUInt4(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
+                remainder = RegisterConversion.ToUInt4(rem);
 
                 return ret;
             }

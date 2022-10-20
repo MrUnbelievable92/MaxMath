@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -42,7 +41,7 @@ Assert.IsSafeBoolean(right.y);
 
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool2>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToBool2(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {
@@ -63,7 +62,7 @@ Assert.IsSafeBoolean(right.z);
 
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool3>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToBool3(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {
@@ -86,7 +85,7 @@ Assert.IsSafeBoolean(right.w);
 
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<bool4>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToBool4(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {
@@ -528,7 +527,7 @@ Assert.IsSafeBoolean(right.x31);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int2>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToInt2(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {
@@ -542,7 +541,7 @@ Assert.IsSafeBoolean(right.x31);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int3>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToInt3(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {
@@ -556,7 +555,7 @@ Assert.IsSafeBoolean(right.x31);
         {
             if (Sse2.IsSse2Supported)
             {
-                return RegisterConversion.ToType<int4>(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return RegisterConversion.ToInt4(Sse2.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
             else
             {

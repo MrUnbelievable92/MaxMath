@@ -5,10 +5,10 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
 {
-	unsafe public static partial class Xse
+    unsafe public static partial class Xse
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int truemsk<T>(int elements)
+		internal static int truemsk<T>(int elements)
 			where T : unmanaged 
 		{
 			return (int)((1L << (sizeof(T) * elements)) - 1);
@@ -345,7 +345,7 @@ namespace MaxMath.Intrinsics
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_notallfalse_epi128<T>(v256 a, int elements)
+		public static bool mm256_notallfalse_epi256<T>(v256 a, int elements)
 			where T : unmanaged 
 		{
             if (Avx2.IsAvx2Supported)

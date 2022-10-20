@@ -43,8 +43,6 @@ namespace MaxMath
         }
 
 
-        [FieldOffset(0)]  private fixed uint asArray[8];
-                          
         [FieldOffset(0)]  internal uint4 _v4_0;
         [FieldOffset(16)] internal uint4 _v4_4;
 
@@ -112,7 +110,7 @@ namespace MaxMath
 
                 hi = Xse.blend_epi16(mid, hi, 0b1111_1100);
 
-                this = new uint8(RegisterConversion.ToType<uint4>(lo), RegisterConversion.ToType<uint4>(hi));
+                this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
             else
             {
@@ -137,7 +135,7 @@ namespace MaxMath
                 v128 hi = Sse2.bslli_si128(RegisterConversion.ToV128(x567), sizeof(uint));
                 hi = Xse.blend_epi16(mid, hi, 0b1111_1100);
 
-                this = new uint8(RegisterConversion.ToType<uint4>(lo), RegisterConversion.ToType<uint4>(hi));
+                this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
             else
             {
@@ -161,7 +159,7 @@ namespace MaxMath
                 mid = Sse2.bslli_si128(RegisterConversion.ToV128(x345), 3 * sizeof(uint));
                 v128 lo = Xse.blend_epi16(RegisterConversion.ToV128(x012), mid, 0b1100_0000);
 
-                this = new uint8(RegisterConversion.ToType<uint4>(lo), RegisterConversion.ToType<uint4>(hi));
+                this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
             else
             {
@@ -188,7 +186,7 @@ namespace MaxMath
                 v128 hi = Sse2.bslli_si128(RegisterConversion.ToV128(x67), 2 * sizeof(uint));
                 hi = Sse2.unpackhi_epi64(RegisterConversion.ToV128(x2345), hi);
 
-                this = new uint8(RegisterConversion.ToType<uint4>(lo), RegisterConversion.ToType<uint4>(hi));
+                this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
             else
             {
@@ -232,7 +230,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint4>(Avx.mm256_castsi256_si128(this));
+                    return RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(this));
                 }
                 else
                 {
@@ -260,14 +258,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint4>(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
+                    return RegisterConversion.ToUInt4(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint4>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 1 * sizeof(uint)));
+                    return RegisterConversion.ToUInt4(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 1 * sizeof(uint)));
                 }
                 else
                 {
@@ -306,14 +304,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint4>(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
+                    return RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint4>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 2 * sizeof(uint)));
+                    return RegisterConversion.ToUInt4(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 2 * sizeof(uint)));
                 }
                 else
                 {
@@ -352,14 +350,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint4>(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt4(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint4>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt4(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
                 }
                 else
                 {
@@ -398,7 +396,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint4>(Avx2.mm256_extracti128_si256(this, 1));
+                    return RegisterConversion.ToUInt4(Avx2.mm256_extracti128_si256(this, 1));
                 }
                 else
                 {
@@ -427,7 +425,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint3>(Avx.mm256_castsi256_si128(this));
+                    return RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(this));
                 }
                 else
                 {
@@ -455,7 +453,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint3>(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(uint)));
+                    return RegisterConversion.ToUInt3(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(uint)));
                 }
                 else
                 {
@@ -483,14 +481,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint3>(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
+                    return RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint3>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 2 * sizeof(uint)));
+                    return RegisterConversion.ToUInt3(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 2 * sizeof(uint)));
                 }
                 else
                 {
@@ -519,14 +517,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint3>(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt3(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint3>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt3(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
                 }
                 else
                 {
@@ -555,7 +553,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint3>(Avx2.mm256_extracti128_si256(this, 1));
+                    return RegisterConversion.ToUInt3(Avx2.mm256_extracti128_si256(this, 1));
                 }
                 else
                 {
@@ -583,7 +581,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint3>(Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
+                    return RegisterConversion.ToUInt3(Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
                 }
                 else
                 {
@@ -612,7 +610,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint2>(Avx.mm256_castsi256_si128(this));
+                    return RegisterConversion.ToUInt2(Avx.mm256_castsi256_si128(this));
                 }
                 else
                 {
@@ -640,7 +638,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint2>(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(uint)));
+                    return RegisterConversion.ToUInt2(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), sizeof(uint)));
                 }
                 else
                 {
@@ -668,7 +666,7 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToType<uint2>(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(uint)));
+                    return RegisterConversion.ToUInt2(Sse2.bsrli_si128(Avx.mm256_castsi256_si128(this), 2 * sizeof(uint)));
                 }
                 else
                 {
@@ -696,14 +694,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint2>(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt2(Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
                 else if (Ssse3.IsSsse3Supported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
 
-                    return RegisterConversion.ToType<uint2>(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
+                    return RegisterConversion.ToUInt2(Ssse3.alignr_epi8(RegisterConversion.ToV128(lo), RegisterConversion.ToV128(hi), 3 * sizeof(uint)));
                 }
                 else
                 {
@@ -732,7 +730,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint2>(Avx2.mm256_extracti128_si256(this, 1));
+                    return RegisterConversion.ToUInt2(Avx2.mm256_extracti128_si256(this, 1));
                 }
                 else
                 {
@@ -760,7 +758,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint2>(Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
+                    return RegisterConversion.ToUInt2(Sse2.bsrli_si128(Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
                 }
                 else
                 {
@@ -788,7 +786,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToType<uint2>(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3))));
+                    return RegisterConversion.ToUInt2(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3))));
                 }
                 else
                 {
@@ -813,10 +811,11 @@ namespace MaxMath
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(uint8 input) => RegisterConversion.ToV256(input);
+        public static implicit operator v256(uint8 input) => new v256(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator uint8(v256 input) => RegisterConversion.ToType<uint8>(input);
+        public static implicit operator uint8(v256 input) => new uint8{ x0 = input.UInt0, x1 = input.UInt1, x2 = input.UInt2, x3 = input.UInt3, x4 = input.UInt4, x5 = input.UInt5, x6 = input.UInt6, x7 = input.UInt7 };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator uint8(uint input) => new uint8(input);
@@ -869,15 +868,61 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Xse.mm256_extract_epi32(this, (byte)index);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 4)
+                        {
+                            return Xse.extract_epi32(RegisterConversion.ToV128(_v4_0), (byte)index);
+                        }
+                        else
+                        {
+                            return Xse.extract_epi32(RegisterConversion.ToV128(_v4_4), (byte)(index - 4));
+                        }
+                    }
+                }
+
+                uint8 onStack = this;
+                
+                return *((uint*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 8);
+                
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi32(this, value, (byte)index);
 
-                asArray[index] = value;
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 4)
+                        {
+                            _v4_0 = RegisterConversion.ToUInt4(Xse.insert_epi32(RegisterConversion.ToV128(_v4_0), value, (byte)index));
+                        }
+                        else
+                        {
+                            _v4_4 = RegisterConversion.ToUInt4(Xse.insert_epi32(RegisterConversion.ToV128(_v4_4), value, (byte)(index - 4)));
+                        }
+
+                        return;
+                    }
+                }
+
+                uint8 onStack = this;
+                *((uint*)&onStack + index) = value;
+                this = onStack;
             }
         }
     
@@ -939,8 +984,8 @@ Assert.AreNotEqual(right.x7, 0u);
             }
             else if (Sse2.IsSse2Supported)
             {
-                return new uint8(RegisterConversion.ToType<uint4>(Xse.div_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))), 
-                                 RegisterConversion.ToType<uint4>(Xse.div_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
+                return new uint8(RegisterConversion.ToUInt4(Xse.div_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))), 
+                                 RegisterConversion.ToUInt4(Xse.div_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
             }
             else
             {
@@ -966,8 +1011,8 @@ Assert.AreNotEqual(right.x7, 0u);
             }
             else if (Sse2.IsSse2Supported)
             {
-                return new uint8(RegisterConversion.ToType<uint4>(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))), 
-                                 RegisterConversion.ToType<uint4>(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
+                return new uint8(RegisterConversion.ToUInt4(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))), 
+                                 RegisterConversion.ToUInt4(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
             }
             else
             {

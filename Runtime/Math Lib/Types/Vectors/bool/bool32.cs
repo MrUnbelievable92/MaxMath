@@ -3,9 +3,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
+using Unity.Burst.CompilerServices;
 
 namespace MaxMath
 {
@@ -13,8 +15,6 @@ namespace MaxMath
     [StructLayout(LayoutKind.Explicit, Size = 32 * sizeof(bool))]
     unsafe public struct bool32 : IEquatable<bool32>
     {
-        [FieldOffset(0)]  private fixed bool asArray[32];
-
         [FieldOffset(0)]  internal bool16 _v16_0;
         [FieldOffset(16)] internal bool16 _v16_16;
 
@@ -240,12 +240,13 @@ namespace MaxMath
         public bool2 v2_30 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_30); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte32 temp = maxmath.tobyte(this); temp.v2_30 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         #endregion
 
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator v256(bool32 input) => new v256 { Byte0 = maxmath.tobyte(input.x0), Byte1 = maxmath.tobyte(input.x1), Byte2 = maxmath.tobyte(input.x2), Byte3 = maxmath.tobyte(input.x3), Byte4 = maxmath.tobyte(input.x4), Byte5 = maxmath.tobyte(input.x5), Byte6 = maxmath.tobyte(input.x6), Byte7 = maxmath.tobyte(input.x7), Byte8 = maxmath.tobyte(input.x8), Byte9 = maxmath.tobyte(input.x9), Byte10 = maxmath.tobyte(input.x10), Byte11 = maxmath.tobyte(input.x11), Byte12 = maxmath.tobyte(input.x12), Byte13 = maxmath.tobyte(input.x13), Byte14 = maxmath.tobyte(input.x14), Byte15 = maxmath.tobyte(input.x15), Byte16 = maxmath.tobyte(input.x16), Byte17 = maxmath.tobyte(input.x17), Byte18 = maxmath.tobyte(input.x18), Byte19 = maxmath.tobyte(input.x19), Byte20 = maxmath.tobyte(input.x20), Byte21 = maxmath.tobyte(input.x21), Byte22 = maxmath.tobyte(input.x22), Byte23 = maxmath.tobyte(input.x23), Byte24 = maxmath.tobyte(input.x24), Byte25 = maxmath.tobyte(input.x25), Byte26 = maxmath.tobyte(input.x26), Byte27 = maxmath.tobyte(input.x27), Byte28 = maxmath.tobyte(input.x28), Byte29 = maxmath.tobyte(input.x29), Byte30 = maxmath.tobyte(input.x30), Byte31 = maxmath.tobyte(input.x31) };
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse4_1.stream_load_si128(void* ptr)   Sse.load_ps(void* ptr)
-        public static implicit operator v256(bool32 input) => new v256(*(byte*)&input.x0, *(byte*)&input.x1, *(byte*)&input.x2, *(byte*)&input.x3, *(byte*)&input.x4, *(byte*)&input.x5, *(byte*)&input.x6, *(byte*)&input.x7, *(byte*)&input.x8, *(byte*)&input.x9, *(byte*)&input.x10, *(byte*)&input.x11, *(byte*)&input.x12, *(byte*)&input.x13, *(byte*)&input.x14, *(byte*)&input.x15, *(byte*)&input.x16, *(byte*)&input.x17, *(byte*)&input.x18, *(byte*)&input.x19, *(byte*)&input.x20, *(byte*)&input.x21, *(byte*)&input.x22, *(byte*)&input.x23, *(byte*)&input.x24, *(byte*)&input.x25, *(byte*)&input.x26, *(byte*)&input.x27, *(byte*)&input.x28, *(byte*)&input.x29, *(byte*)&input.x30, *(byte*)&input.x31);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  // Burst optimizes this;    (worse) alternatives:   Sse.store_ps(void* ptr, v256 x)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool32(v256 input) => new bool32 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15), x16 = maxmath.tobool(input.Byte16), x17 = maxmath.tobool(input.Byte17), x18 = maxmath.tobool(input.Byte18), x19 = maxmath.tobool(input.Byte19), x20 = maxmath.tobool(input.Byte20), x21 = maxmath.tobool(input.Byte21), x22 = maxmath.tobool(input.Byte22), x23 = maxmath.tobool(input.Byte23), x24 = maxmath.tobool(input.Byte24), x25 = maxmath.tobool(input.Byte25), x26 = maxmath.tobool(input.Byte26), x27 = maxmath.tobool(input.Byte27), x28 = maxmath.tobool(input.Byte28), x29 = maxmath.tobool(input.Byte29), x30 = maxmath.tobool(input.Byte30), x31 = maxmath.tobool(input.Byte31) };
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool32(bool x) => new bool32(x);
@@ -273,7 +274,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_andnot_si256(val, new byte32(1));
+                return Avx2.mm256_andnot_si256(val, Avx.mm256_set1_epi8(1));
             }
             else
             {
@@ -289,7 +290,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                return asArray[index];
+                if (Avx2.IsAvx2Supported)
+                {
+                    return maxmath.tobool(Xse.mm256_extract_epi8(this, (byte)index));
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 16)
+                        {
+                            return maxmath.tobool(Xse.extract_epi8(_v16_0, (byte)index));
+                        }
+                        else
+                        {
+                            return maxmath.tobool(Xse.extract_epi8(_v16_16, (byte)(index - 16)));
+                        }
+                    }
+                }
+
+                bool32 onStack = this;
+
+                return *((bool*)&onStack + index);
             }
     
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -297,7 +319,33 @@ Assert.IsWithinArrayBounds(index, 32);
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                asArray[index] = value;
+                if (Avx2.IsAvx2Supported)
+                {
+                    this = Xse.mm256_insert_epi8(this, *(byte*)&value, (byte)index);
+
+                    return;
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (Constant.IsConstantExpression(index))
+                    {
+                        if (index < 16)
+                        {
+                            _v16_0 = Xse.insert_epi8(_v16_0, *(byte*)&value, (byte)index);
+                        }
+                        else
+                        {
+                            _v16_16 = Xse.insert_epi8(_v16_16, *(byte*)&value, (byte)(index - 16));
+                        }
+                        
+                        return;
+                    }
+                }
+                
+                bool32 onStack = this;
+                *((bool*)&onStack + index) = value;
+
+                this = onStack;
             }
         }
 
