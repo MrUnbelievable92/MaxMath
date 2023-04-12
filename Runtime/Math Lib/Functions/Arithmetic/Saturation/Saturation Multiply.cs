@@ -1893,7 +1893,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 mulsaturated(int8 x, int8 y)
         {
-            return new int8(mulsaturated(x.v4_0, y.v4_0), mulsaturated(x.v4_4, y.v4_4));
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_muls_epi32(x, y);
+            }
+            else
+            {
+                return new int8(mulsaturated(x.v4_0, y.v4_0), mulsaturated(x.v4_4, y.v4_4));
+            }
         }
 
 
