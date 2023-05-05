@@ -105,7 +105,7 @@ namespace MaxMath
                 this.x14 = x14;
                 this.x15 = x15;
             }
-            }
+        }
     
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16(byte x0x16)
