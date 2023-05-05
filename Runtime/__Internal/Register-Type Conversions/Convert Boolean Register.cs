@@ -159,7 +159,7 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsTrue8(Sse2.packs_epi16(_16, _16));
+                return IsFalse8(Sse2.packs_epi16(_16, _16));
             }
             else throw new IllegalInstructionException();
         }
