@@ -260,7 +260,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void mm256_minmax_ps(v256 a, v256 b, [NoAlias] out v256 min, [NoAlias] out v256 max)
             {
-                if (Sse.IsSseSupported)
+                if (Avx.IsAvxSupported)
                 {
                     min = Avx.mm256_min_ps(b, a);
                     max = Avx.mm256_max_ps(a, b);
@@ -271,7 +271,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void mm256_minmax_pd(v256 a, v256 b, [NoAlias] out v256 min, [NoAlias] out v256 max)
             {
-                if (Sse2.IsSse2Supported)
+                if (Avx.IsAvxSupported)
                 {
                     min = Avx.mm256_min_pd(b, a);
                     max = Avx.mm256_max_pd(a, b);
@@ -932,7 +932,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(float2 a, float2 b, [NoAlias] out float2 min, [NoAlias] out float2 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Sse.IsSseSupported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
                 min = RegisterConversion.ToFloat2(_min);
@@ -949,7 +949,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(float3 a, float3 b, [NoAlias] out float3 min, [NoAlias] out float3 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Sse.IsSseSupported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
                 min = RegisterConversion.ToFloat3(_min);
@@ -966,7 +966,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(float4 a, float4 b, [NoAlias] out float4 min, [NoAlias] out float4 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Sse.IsSseSupported)
             {
                 Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
                 min = RegisterConversion.ToFloat4(_min);
@@ -983,7 +983,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(float8 a, float8 b, [NoAlias] out float8 min, [NoAlias] out float8 max)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 Xse.mm256_minmax_ps(a, b, out v256 _min, out v256 _max);
                 min = _min;
@@ -1021,7 +1021,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(double3 a, double3 b, [NoAlias] out double3 min, [NoAlias] out double3 max)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
                 min = RegisterConversion.ToDouble3(_min);
@@ -1039,7 +1039,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(double4 a, double4 b, [NoAlias] out double4 min, [NoAlias] out double4 max)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
                 min = RegisterConversion.ToDouble4(_min);
