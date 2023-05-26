@@ -562,7 +562,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                Xse.mm256_minmaxmag_epi32(a, b, out v256 min, out v256 max);
+                Xse.mm256_minmaxmag_epi32(a, b, out v256 min, out v256 max, noOverFlow.Promises(Promise.NoOverflow));
 
                 minmag = min;
                 maxmag = max;
