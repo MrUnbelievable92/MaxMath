@@ -666,7 +666,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int indexof(float8 v, float x)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return math.tzcnt(Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(v, new float8(x), (int)Avx.CMP.EQ_OQ)));
             }
