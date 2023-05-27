@@ -426,7 +426,7 @@ Assert.AreNotEqual(0, divisor.x31);
                     ushort16 compile_hi = (new ushort16(ushort.MaxValue) / divisor.v16_16) + 1;
 
                     return new bool32(dividend.v16_0  * compile_lo <= compile_lo - 1,
-                                      dividend.v16_16 * compile_lo <= compile_lo - 1);
+                                      dividend.v16_16 * compile_hi <= compile_hi - 1);
                 }
             }
             else
@@ -763,7 +763,7 @@ Assert.AreNotEqual(0, divisor.x15);
                     uint8 compile_hi = (new uint8(uint.MaxValue) / divisor.v8_8) + 1;
 
                     return new bool16(dividend.v8_0 * compile_lo <= compile_lo - 1,
-                                      dividend.v8_8 * compile_lo <= compile_lo - 1);
+                                      dividend.v8_8 * compile_hi <= compile_hi - 1);
                 }
             }
             else
@@ -1031,7 +1031,7 @@ Assert.AreNotEqual(0u, divisor.x7);
                     ulong4 compile_hi = (new ulong4(ulong.MaxValue) / divisor.v4_4) + 1;
 
                     return new bool8(dividend.v4_0 * compile_lo <= compile_lo - 1,
-                                     dividend.v4_4 * compile_lo <= compile_lo - 1);
+                                     dividend.v4_4 * compile_hi <= compile_hi - 1);
                 }
             }
             else
@@ -1864,8 +1864,8 @@ Assert.AreNotEqual(0, divisor);
                     return (dividend & 1) == 0;
                 }
             }
-
-           return mod(dividend, divisor) == 0;
+            
+            return mod(dividend, divisor) == 0;
         }
 
         /// <summary>       Returns <see langword="true" /> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
