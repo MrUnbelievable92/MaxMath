@@ -902,8 +902,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        csum = Sse2.add_epi32(Xse.vsum_epi32(RegisterConversion.ToV128(c.v4_0), true, 4), 
-                                              Xse.vsum_epi32(RegisterConversion.ToV128(c.v4_4), true, 4));
+                        csum = Xse.vsum_epi32(Sse2.add_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), true, 4);
                     }
                 
                 v128 signedOffset;
@@ -943,8 +942,13 @@ namespace MaxMath
                     }
                     else
                     {
-                        csum = Sse2.add_epi64(Xse.vsum_epi32(RegisterConversion.ToV128(c.v4_0), false, 4), 
-                                              Xse.vsum_epi32(RegisterConversion.ToV128(c.v4_4), false, 4));
+                        v128 c64LoLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(c.v4_0), out v128 c64LoHi);
+                        v128 c64HiLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(c.v4_4), out v128 c64HiHi);
+                        c64LoLo = Sse2.add_epi64(c64LoLo, c64LoHi);
+                        c64HiLo = Sse2.add_epi64(c64HiLo, c64HiHi);
+                        v128 sum = Sse2.add_epi64(c64LoLo, c64HiLo);
+
+                        csum = Sse2.add_epi64(sum, Sse2.bsrli_si128(sum, sizeof(long)));
                     }
                 
                     intermediate = Sse2.cvtsi128_si64x(csum);
