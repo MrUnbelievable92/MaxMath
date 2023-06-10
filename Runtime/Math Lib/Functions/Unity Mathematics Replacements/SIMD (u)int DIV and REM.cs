@@ -316,7 +316,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
 
@@ -330,7 +330,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
 
@@ -344,7 +344,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
         
@@ -434,7 +434,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
 
@@ -448,7 +448,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
 
@@ -462,7 +462,7 @@ namespace MaxMath
             }
             else
             {
-                return dividend / divisor;
+                return dividend % divisor;
             }
         }
         
