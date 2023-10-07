@@ -55,7 +55,7 @@ namespace MaxMath.Intrinsics
             {
                 return Sse4_1.blendv_ps(a, b, mask);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Sse.IsSseSupported)
             {
                 // UNSAFE - performs bit-by-bit blend and not byte-by-byte
                 return Sse.or_ps(Sse.and_ps(mask, b),

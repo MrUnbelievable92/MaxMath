@@ -201,7 +201,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int NextInt(int min, int max)
         {
-          return min + (int)((NextState() * (ulong)(max - min)) >> 32);
+            return min + (int)((NextState() * (ulong)(max - min)) >> 32);
         }
 
         /// <summary>       Returns a uniformly random <see cref="int2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>

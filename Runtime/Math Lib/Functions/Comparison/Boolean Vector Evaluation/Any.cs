@@ -205,7 +205,7 @@ Assert.IsSafeBoolean(x.x7);
             }
             else
             {
-                return any(x.v16_0) & any(x.v16_16);
+                return any(x.v16_0) | any(x.v16_16);
             }
         }
 
@@ -319,7 +319,7 @@ Assert.IsSafeBoolean(x.x7);
             }
             else
             {
-                return any(x.v8_0) & any(x.v8_8);
+                return any(x.v8_0) | any(x.v8_8);
             }
         }
 
@@ -370,7 +370,7 @@ Assert.IsSafeBoolean(x.x7);
             }
             else
             {
-                return math.any(x.v4_0) & math.any(x.v4_4);
+                return math.any(x.v4_0) | math.any(x.v4_4);
             }
         }
 

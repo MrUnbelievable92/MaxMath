@@ -412,11 +412,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(float8 a, float8 b)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return 0 == Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi32(a, b));
+                return 0 == Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(a, b, (int)Avx.CMP.EQ_OQ));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Sse.IsSseSupported)
             {
                 return math.all(a.v4_0 != b.v4_0) & math.all(a.v4_4 != b.v4_4);
             }

@@ -268,7 +268,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int indexof(ushort8 v, ushort x)
         {
@@ -291,7 +291,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int indexof(ushort16 v, ushort x)
         {
@@ -427,7 +427,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int indexof(uint8 v, uint x)
         {
@@ -662,11 +662,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int indexof(float8 v, float x)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return math.tzcnt(Avx.mm256_movemask_ps(Avx.mm256_cmp_ps(v, new float8(x), (int)Avx.CMP.EQ_OQ)));
             }

@@ -13,7 +13,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Xse.neg_epi8(input);  
+                return Sse2.and_si128(input, new v128(0x0101_0101));
             }
             else throw new IllegalInstructionException();
         }
@@ -23,7 +23,7 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return Xse.inc_epi8(input);  
+                return Xse.inc_epi8(input);
             }
             else throw new IllegalInstructionException();
         }
@@ -33,7 +33,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_neg_epi8(input);  
+                return Avx2.mm256_and_si256(input, new v256(0x0101_0101));
             }
             else throw new IllegalInstructionException();
         }
@@ -159,7 +159,7 @@ namespace MaxMath
 
                 v128 _16 = Sse2.packs_epi32(lo, hi);
                 
-                return IsTrue8(Sse2.packs_epi16(_16, _16));
+                return IsFalse8(Sse2.packs_epi16(_16, _16));
             }
             else throw new IllegalInstructionException();
         }

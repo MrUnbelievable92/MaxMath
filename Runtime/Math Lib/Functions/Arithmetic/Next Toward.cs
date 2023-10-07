@@ -885,8 +885,8 @@ namespace MaxMath
         {
             return (byte)(from - compareto(from, to));
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.byte2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.byte2"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 nexttoward(byte2 from, byte2 to)
         {
@@ -900,8 +900,8 @@ namespace MaxMath
                                  nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.byte3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.byte3"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 nexttoward(byte3 from, byte3 to)
         {
@@ -916,8 +916,8 @@ namespace MaxMath
                                  nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.byte4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.byte4"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 nexttoward(byte4 from, byte4 to)
         {
@@ -933,8 +933,8 @@ namespace MaxMath
                                  nexttoward(from.w, to.w));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.byte8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.byte8"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 nexttoward(byte8 from, byte8 to)
         {
@@ -954,8 +954,8 @@ namespace MaxMath
                                  nexttoward(from.x7, to.x7));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.byte16"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.byte16"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 nexttoward(byte16 from, byte16 to)
         {
@@ -984,7 +984,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.byte32"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.byte32"/>, where each component is the next closest <see cref="byte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 nexttoward(byte32 from, byte32 to)
         {
@@ -1006,8 +1006,8 @@ namespace MaxMath
         {
             return (sbyte)(from - compareto(from, to));
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.sbyte2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.sbyte2"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 nexttoward(sbyte2 from, sbyte2 to)
         {
@@ -1021,8 +1021,8 @@ namespace MaxMath
                                   nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.sbyte3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.sbyte3"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 nexttoward(sbyte3 from, sbyte3 to)
         {
@@ -1037,8 +1037,8 @@ namespace MaxMath
                                   nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.sbyte4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.sbyte4"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 nexttoward(sbyte4 from, sbyte4 to)
         {
@@ -1054,8 +1054,8 @@ namespace MaxMath
                                   nexttoward(from.w, to.w));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.sbyte8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.sbyte8"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 nexttoward(sbyte8 from, sbyte8 to)
         {
@@ -1075,8 +1075,8 @@ namespace MaxMath
                                   nexttoward(from.x7, to.x7));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.sbyte16"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.sbyte16"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 nexttoward(sbyte16 from, sbyte16 to)
         {
@@ -1105,7 +1105,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.sbyte32"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.sbyte32"/>, where each component is the next closest <see cref="sbyte"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 nexttoward(sbyte32 from, sbyte32 to)
         {
@@ -1127,8 +1127,8 @@ namespace MaxMath
         {
             return (ushort)(from - compareto(from, to));
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ushort2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ushort2"/>, where each component is the next closest <see cref="ushort"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 nexttoward(ushort2 from, ushort2 to)
         {
@@ -1142,8 +1142,8 @@ namespace MaxMath
                                    nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ushort3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ushort3"/>, where each component is the next closest <see cref="ushort"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 nexttoward(ushort3 from, ushort3 to)
         {
@@ -1158,8 +1158,8 @@ namespace MaxMath
                                    nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ushort4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ushort4"/>, where each component is the next closest <see cref="ushort"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 nexttoward(ushort4 from, ushort4 to)
         {
@@ -1175,8 +1175,8 @@ namespace MaxMath
                                    nexttoward(from.w, to.w));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ushort8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ushort8"/>, where each component is the next closest <see cref="ushort"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 nexttoward(ushort8 from, ushort8 to)
         {
@@ -1196,8 +1196,8 @@ namespace MaxMath
                                    nexttoward(from.x7, to.x7));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ushort16"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ushort16"/>, where each component is the next closest <see cref="ushort"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 nexttoward(ushort16 from, ushort16 to)
         {
@@ -1219,8 +1219,8 @@ namespace MaxMath
         {
             return (short)(from - compareto(from, to));
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.short2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.short2"/>, where each component is the next closest <see cref="short"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 nexttoward(short2 from, short2 to)
         {
@@ -1250,8 +1250,8 @@ namespace MaxMath
                                   nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.short4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.short4"/>, where each component is the next closest <see cref="short"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 nexttoward(short4 from, short4 to)
         {
@@ -1267,8 +1267,8 @@ namespace MaxMath
                                   nexttoward(from.w, to.w));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.short8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.short8"/>, where each component is the next closest <see cref="short"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 nexttoward(short8 from, short8 to)
         {
@@ -1289,7 +1289,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.short16"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.short16"/>, where each component is the next closest <see cref="short"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 nexttoward(short16 from, short16 to)
         {
@@ -1311,8 +1311,8 @@ namespace MaxMath
         {
             return from - (uint)compareto(from, to);
         }
-        
-        /// <summary>       Returns a <see cref="uint2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="uint2"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 nexttoward(uint2 from, uint2 to)
         {
@@ -1342,8 +1342,8 @@ namespace MaxMath
                                  nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="uint4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="uint4"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 nexttoward(uint4 from, uint4 to)
         {
@@ -1360,7 +1360,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.uint8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.uint8"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 nexttoward(uint8 from, uint8 to)
         {
@@ -1382,8 +1382,8 @@ namespace MaxMath
         {
             return from - compareto(from, to);
         }
-        
-        /// <summary>       Returns a <see cref="int2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="int2"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nexttoward(int2 from, int2 to)
         {
@@ -1397,8 +1397,8 @@ namespace MaxMath
                                 nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="int3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="int3"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nexttoward(int3 from, int3 to)
         {
@@ -1413,8 +1413,8 @@ namespace MaxMath
                                 nexttoward(from.z, to.z));
             }
         }
-        
-        /// <summary>       Returns a <see cref="int4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="int4"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nexttoward(int4 from, int4 to)
         {
@@ -1431,7 +1431,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.int8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.int8"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 nexttoward(int8 from, int8 to)
         {
@@ -1453,8 +1453,8 @@ namespace MaxMath
         {
             return from - (ulong)compareto(from, to);
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ulong2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ulong2"/>, where each component is the next closest <see cref="ulong"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 nexttoward(ulong2 from, ulong2 to)
         {
@@ -1468,8 +1468,8 @@ namespace MaxMath
                                   nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.ulong3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.ulong3"/>, where each component is the next closest <see cref="ulong"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 nexttoward(ulong3 from, ulong3 to)
         {
@@ -1484,7 +1484,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.ulong4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.ulong4"/>, where each component is the next closest <see cref="ulong"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 nexttoward(ulong4 from, ulong4 to)
         {
@@ -1506,8 +1506,8 @@ namespace MaxMath
         {
             return from - compareto(from, to);
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.long2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.long2"/>, where each component is the next closest <see cref="long"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 nexttoward(long2 from, long2 to)
         {
@@ -1521,8 +1521,8 @@ namespace MaxMath
                                  nexttoward(from.y, to.y));
             }
         }
-        
-        /// <summary>       Returns a <see cref="MaxMath.long3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+
+        /// <summary>       Returns a <see cref="MaxMath.long3"/>, where each component is the next closest <see cref="long"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 nexttoward(long3 from, long3 to)
         {
@@ -1537,7 +1537,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns a <see cref="MaxMath.long4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.long4"/>, where each component is the next closest <see cref="long"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 nexttoward(long4 from, long4 to)
         {
