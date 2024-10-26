@@ -1,4 +1,4 @@
-#MaxMath
+# MaxMath
 MaxMath is the most powerful and extensive SIMD math library available to Unity developers. Built on top of Unity.Mathematics and utilizing Unity.Burst, it introduces the following key features:
 
 - **Support For All Primitive Data Types:** MaxMath adds support for `(s)byte`, `(u)short`, and `(u)long` vectors and matrices. These data types come with specialized overloads for all functions in Unity.Mathematics. Additionally, specialized `Random8/16/32/64/128` types are available for efficient pseudo-random number generation.
