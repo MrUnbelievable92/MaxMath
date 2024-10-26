@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,14 +8,13 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        
         /// <summary>       Returns the result of a componentwise truncation of a <see cref="MaxMath.float8"/> to an integral <see cref="MaxMath.float8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 trunc(float8 x)
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_round_ps(x, (int)RoundingMode.FROUND_TRUNC_NOEXC);
+                return Xse.mm256_trunc_ps(x);
             }
             else
             {
@@ -28,7 +28,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_round_ps(x, (int)RoundingMode.FROUND_CUR_DIRECTION);
+                return Xse.mm256_round_ps(x);
             }
             else
             {
@@ -66,23 +66,23 @@ namespace MaxMath
 
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> whether it is a finite floating point value.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isfinite(float8 x) 
-        { 
-            return abs(x) < float.PositiveInfinity; 
+        public static bool8 isfinite(float8 x)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? true : abs(x) < float.PositiveInfinity;
         }
-        
+
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> whether it is an infinite floating point value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isinf(float8 x) 
-        { 
-            return (asint(x) << 1) == (asint(float.PositiveInfinity) << 1); 
+        public static bool8 isinf(float8 x)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asint(x) << 1) == (asint(float.PositiveInfinity) << 1);
         }
-        
+
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> whether it is a NaN (not a number) floating point value.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isnan(float8 x) 
+        public static bool8 isnan(float8 x)
         {
-            return (asint(x) & bitmask32(31)) > 0x7F80_0000; 
+            return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asint(x) & bitmask32(31)) > 0x7F80_0000;
         }
 
         /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.float8"/>.      </summary>
@@ -110,16 +110,16 @@ namespace MaxMath
 
         /// <summary>       Returns the result of a componentwise conversion of a <see cref="MaxMath.float8"/> from degrees to radians.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 radians(float8 x) 
-        { 
-            return x * 0.0174532925f; 
+        public static float8 radians(float8 x)
+        {
+            return x * 0.0174532925f;
         }
-        
+
         /// <summary>       Returns the result of a componentwise conversion of a <see cref="MaxMath.float8"/> from radians to degrees.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 degrees(float8 x) 
-        { 
-            return x * 57.295779513f; 
+        public static float8 degrees(float8 x)
+        {
+            return x * 57.295779513f;
         }
 
 
@@ -147,23 +147,23 @@ namespace MaxMath
 
         /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 lerp(float8 x, float8 y, float8 s) 
-        { 
+        public static float8 lerp(float8 x, float8 y, float8 s)
+        {
             return mad(s, y - x, x);
         }
 
         /// <summary>       Returns the componentwise result of normalizing a floating point value <paramref name="x"/> to a range [<paramref name="a"/>, <paramref name="b"/>]. The opposite of <see cref="lerp"/>. Equivalent to (<paramref name="x"/> - <paramref name="a"/>) / (<paramref name="b"/> - <paramref name="a"/>).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 unlerp(float8 a, float8 b, float8 x) 
+        public static float8 unlerp(float8 a, float8 b, float8 x)
         {
-            return (x - a) / (b - a); 
+            return (x - a) / (b - a);
         }
 
         ///<summary>        Returns the componentwise result of a non-clamping linear remapping of a value <paramref name="x"/> from [<paramref name="a"/>, <paramref name="b"/>] to [<paramref name="c"/>, <paramref name="d"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 remap(float8 a, float8 b, float8 c, float8 d, float8 x) 
+        public static float8 remap(float8 a, float8 b, float8 c, float8 d, float8 x)
         {
-            return lerp(c, d, unlerp(a, b, x)); 
+            return lerp(c, d, unlerp(a, b, x));
         }
 
         /// <summary>       Returns a componentwise smooth Hermite interpolation between 0.0f and 1.0f when <paramref name="x"/> is in [<paramref name="a"/>, <paramref name="b"/>].    </summary>
@@ -181,7 +181,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_and_ps(new float8(1f), Avx.mm256_cmp_ps(x, y, (int)Avx.CMP.GE_OS));
+                return Avx.mm256_and_ps(new float8(1f), Intrinsics.Xse.mm256_cmpge_ps(x, y));
             }
             else
             {
@@ -192,9 +192,9 @@ namespace MaxMath
 
         /// <summary>       Returns the squared length of a <see cref="MaxMath.float8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float lengthsq(float8 x) 
-        { 
-            return dot(x, x); 
+        public static float lengthsq(float8 x)
+        {
+            return dot(x, x);
         }
 
         /// <summary>       Returns the squared length of a <see cref="MaxMath.float8"/>.     </summary>
@@ -206,9 +206,9 @@ namespace MaxMath
 
         /// <summary>       Returns a normalized version of the <see cref="MaxMath.float8"/> <paramref name="x"/> by scaling it by 1 <see langword="/"/> length(<paramref name="x"/>).    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 normalize(float8 x) 
+        public static float8 normalize(float8 x)
         {
-            return x / sqrt(dot(x, x)); 
+            return x / math.sqrt(dot(x, x));
         }
 
         /// <summary>       Returns a safe normalized version of the <see cref="MaxMath.float8"/> <paramref name="x"/> by scaling it by 1 <see langword="/"/> length(<paramref name="x"/>). Returns the given default value when 1 <see langword="/"/> length(<paramref name="x"/>) does not produce a finite number.      </summary>
@@ -222,16 +222,16 @@ namespace MaxMath
 
         /// <summary>       Returns the distance between two <see cref="MaxMath.float8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float distance(float8 x, float8 y) 
-        { 
+        public static float distance(float8 x, float8 y)
+        {
             return length(y - x);
         }
 
         /// <summary        Returns the distance between two <see cref="MaxMath.float8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float distancesq(float8 x, float8 y) 
-        { 
-            return lengthsq(y - x); 
+        public static float distancesq(float8 x, float8 y)
+        {
+            return lengthsq(y - x);
         }
     }
 }

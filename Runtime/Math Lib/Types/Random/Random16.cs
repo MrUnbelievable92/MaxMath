@@ -2,8 +2,11 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
+using static MaxMath.maxmath;
+using static Unity.Mathematics.math;
 
 namespace MaxMath
 {
@@ -21,15 +24,15 @@ namespace MaxMath
             NextState();
         }
 
-        
+
         /// <summary>       Returns a randomly seeded <see cref="Random16"/>.     </summary>
         public static Random16 New
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get 
+            get
             {
                 ushort seed = (ushort)Environment.TickCount;
-                seed += maxmath.tobyte(seed == 0);
+                seed += tobyte(seed == 0);
 
                 return new Random16(seed);
             }
@@ -207,12 +210,11 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short2 NextShort2(short2 min, short2 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
+VectorAssert.IsNotSmaller<short2, short>(max, min, 2);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new short2((short)NextState(), (short)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new short2((short)NextState(), (short)NextState()));
             }
             else
             {
@@ -224,13 +226,11 @@ Assert.IsNotSmaller(max.y, min.y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short3 NextShort3(short3 min, short3 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
+VectorAssert.IsNotSmaller<short3, short>(max, min, 3);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new short3((short)NextState(), (short)NextState(), (short)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new short3((short)NextState(), (short)NextState(), (short)NextState()));
             }
             else
             {
@@ -242,14 +242,11 @@ Assert.IsNotSmaller(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4 NextShort4(short4 min, short4 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-Assert.IsNotSmaller(max.w, min.w);
+VectorAssert.IsNotSmaller<short4, short>(max, min, 4);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new short4((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new short4((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
             }
             else
             {
@@ -261,18 +258,11 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short8 NextShort8(short8 min, short8 max)
         {
-Assert.IsNotSmaller(max.x0, min.x0);
-Assert.IsNotSmaller(max.x1, min.x1);
-Assert.IsNotSmaller(max.x2, min.x2);
-Assert.IsNotSmaller(max.x3, min.x3);
-Assert.IsNotSmaller(max.x4, min.x4);
-Assert.IsNotSmaller(max.x5, min.x5);
-Assert.IsNotSmaller(max.x6, min.x6);
-Assert.IsNotSmaller(max.x7, min.x7);
+VectorAssert.IsNotSmaller<short8, short>(max, min, 8);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new short8((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new short8((short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState(), (short)NextState()));
             }
             else
             {
@@ -284,22 +274,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16 NextShort16(short16 min, short16 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
+VectorAssert.IsNotSmaller<short16, short>(max, min, 16);
 
             if (Avx2.IsAvx2Supported)
             {
@@ -359,8 +334,6 @@ Assert.IsNotSmaller(max.x15, min.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort NextUShort(ushort max)
         {
-Assert.IsPositive(max);
-
             return (ushort)(((uint)NextState() * max) >> 16);
         }
 
@@ -368,12 +341,11 @@ Assert.IsPositive(max);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2 NextUShort2(ushort2 max)
         {
-Assert.IsPositive(max.x);
-Assert.IsPositive(max.y);
+VectorAssert.IsGreater<ushort2, ushort>(max, 0, 2);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.mulhi_epu16(max, new ushort2((ushort)NextState(), (ushort)NextState()));
+                return Xse.mulhi_epu16(max, new ushort2((ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -385,13 +357,11 @@ Assert.IsPositive(max.y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort3 NextUShort3(ushort3 max)
         {
-Assert.IsPositive(max.x);
-Assert.IsPositive(max.y);
-Assert.IsPositive(max.z);
+VectorAssert.IsGreater<ushort3, ushort>(max, 0, 3);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.mulhi_epu16(max, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return Xse.mulhi_epu16(max, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -403,14 +373,11 @@ Assert.IsPositive(max.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4 NextUShort4(ushort4 max)
         {
-Assert.IsPositive(max.x);
-Assert.IsPositive(max.y);
-Assert.IsPositive(max.z);
-Assert.IsPositive(max.w);
+VectorAssert.IsGreater<ushort4, ushort>(max, 0, 4);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.mulhi_epu16(max, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return Xse.mulhi_epu16(max, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -422,18 +389,11 @@ Assert.IsPositive(max.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8 NextUShort8(ushort8 max)
         {
-Assert.IsPositive(max.x0);
-Assert.IsPositive(max.x1);
-Assert.IsPositive(max.x2);
-Assert.IsPositive(max.x3);
-Assert.IsPositive(max.x4);
-Assert.IsPositive(max.x5);
-Assert.IsPositive(max.x6);
-Assert.IsPositive(max.x7);
+VectorAssert.IsGreater<ushort8, ushort>(max, 0, 8);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.mulhi_epu16(max, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return Xse.mulhi_epu16(max, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -445,22 +405,7 @@ Assert.IsPositive(max.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 max)
         {
-Assert.IsPositive(max.x0);
-Assert.IsPositive(max.x1);
-Assert.IsPositive(max.x2);
-Assert.IsPositive(max.x3);
-Assert.IsPositive(max.x4);
-Assert.IsPositive(max.x5);
-Assert.IsPositive(max.x6);
-Assert.IsPositive(max.x7);
-Assert.IsPositive(max.x8);
-Assert.IsPositive(max.x9);
-Assert.IsPositive(max.x10);
-Assert.IsPositive(max.x11);
-Assert.IsPositive(max.x12);
-Assert.IsPositive(max.x13);
-Assert.IsPositive(max.x14);
-Assert.IsPositive(max.x15);
+VectorAssert.IsGreater<ushort16, ushort>(max, 0, 16);
 
             if (Avx2.IsAvx2Supported)
             {
@@ -486,12 +431,11 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2 NextUShort2(ushort2 min, ushort2 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
+VectorAssert.IsNotSmaller<ushort2, ushort>(max, min, 2);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new ushort2((ushort)NextState(), (ushort)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new ushort2((ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -503,13 +447,11 @@ Assert.IsNotSmaller(max.y, min.y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort3 NextUShort3(ushort3 min, ushort3 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
+VectorAssert.IsNotSmaller<ushort3, ushort>(max, min, 3);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new ushort3((ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -521,14 +463,11 @@ Assert.IsNotSmaller(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4 NextUShort4(ushort4 min, ushort4 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-Assert.IsNotSmaller(max.w, min.w);
+VectorAssert.IsNotSmaller<ushort4, ushort>(max, min, 4);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new ushort4((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -540,18 +479,11 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8 NextUShort8(ushort8 min, ushort8 max)
         {
-Assert.IsNotSmaller(max.x0, min.x0);
-Assert.IsNotSmaller(max.x1, min.x1);
-Assert.IsNotSmaller(max.x2, min.x2);
-Assert.IsNotSmaller(max.x3, min.x3);
-Assert.IsNotSmaller(max.x4, min.x4);
-Assert.IsNotSmaller(max.x5, min.x5);
-Assert.IsNotSmaller(max.x6, min.x6);
-Assert.IsNotSmaller(max.x7, min.x7);
+VectorAssert.IsNotSmaller<ushort8, ushort>(max, min, 8);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return min + Sse2.mulhi_epu16(max - min, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
+                return min + Xse.mulhi_epu16(max - min, new ushort8((ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState(), (ushort)NextState()));
             }
             else
             {
@@ -563,22 +495,7 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 min, ushort16 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
+VectorAssert.IsNotSmaller<ushort16, ushort>(max, min, 16);
 
             if (Avx2.IsAvx2Supported)
             {

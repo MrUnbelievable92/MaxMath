@@ -13,16 +13,18 @@ namespace MaxMath
         unsafe public static partial class Xse
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sad_epi8(v128 a, v128 b)
+            public static v128 sad_epi8(v128 a, v128 b, byte elements = 16)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    v128 NORMALIZE = Sse2.set1_epi8(sbyte.MinValue);
+                    v128 NORMALIZE = set1_epi8(sbyte.MinValue);
 
-                    a = Sse2.add_epi8(a, NORMALIZE);
-                    b = Sse2.add_epi8(b, NORMALIZE);
+                    a = add_epi8(a, NORMALIZE);
+                    b = add_epi8(b, NORMALIZE);
 
-                    return Sse2.sad_epu8(a, b);
+                    v128 result = sad_epu8(a, b);
+                    constexpr.ASSUME_LE_EPU64(result, elements * (uint)byte.MaxValue);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -32,12 +34,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 NORMALIZE = Avx.mm256_set1_epi8(unchecked((byte)sbyte.MinValue));
+                    v256 NORMALIZE = mm256_set1_epi8(sbyte.MinValue);
 
                     a = Avx2.mm256_add_epi8(a, NORMALIZE);
                     b = Avx2.mm256_add_epi8(b, NORMALIZE);
 
-                    return Avx2.mm256_sad_epu8(a, b);
+                    v256 result = Avx2.mm256_sad_epu8(a, b);
+                    constexpr.ASSUME_LE_EPU64(result, 32 * (uint)byte.MaxValue);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -48,28 +52,28 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 SadHelper(v128 a, v128 b, int elements, bool signed)
+        internal static v128 SadHelper(v128 a, v128 b, byte elements, bool signed)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (elements < 8)
                 {
-                    v128 mask = Sse2.cvtsi32_si128(maxmath.bitmask32(8 * elements));
+                    v128 mask = Xse.cvtsi32_si128(maxmath.bitmask32(8 * elements));
 
-                    a = Sse2.and_si128(a, mask);
-                    b = Sse2.and_si128(b, mask);
+                    a = Xse.and_si128(a, mask);
+                    b = Xse.and_si128(b, mask);
 
-                    return (signed ? Xse.sad_epi8(a, b) : Sse2.sad_epu8(a, b));
+                    return (signed ? Xse.sad_epi8(a, b, elements) : Xse.sad_epu8(a, b));
                 }
                 else if (elements == 8)
                 {
-                    return Sse2.sad_epu8(a, b);
+                    return Xse.sad_epu8(a, b);
                 }
                 else
                 {
-                    a = signed ? Xse.sad_epi8(a, b) : Sse2.sad_epu8(a, b);
+                    a = signed ? Xse.sad_epi8(a, b, elements) : Xse.sad_epu8(a, b);
 
-                    return Sse2.add_epi16(a, Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 2)));
+                    return Xse.add_epi16(a, Xse.shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 2)));
                 }
             }
             else throw new IllegalInstructionException();
@@ -78,10 +82,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte2 a, byte2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 2, false).UShort0;
             }
@@ -93,10 +97,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte3 a, byte3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 3, false).UShort0;
             }
@@ -108,10 +112,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte4 a, byte4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 4, false).UShort0;
             }
@@ -123,10 +127,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte8 a, byte8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 8, false).UShort0;
             }
@@ -138,10 +142,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte16 a, byte16 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 16, false).UShort0;
             }
@@ -153,7 +157,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte32"/>s.     </summary>
         [return: AssumeRange(0ul, 32ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte32 a, byte32 b)
         {
             if (Avx2.IsAvx2Supported)
@@ -169,10 +173,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte2 a, sbyte2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 2, true).UShort0;
             }
@@ -184,10 +188,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte3 a, sbyte3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 3, true).UShort0;
             }
@@ -199,10 +203,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte4 a, sbyte4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 4, true).UShort0;
             }
@@ -214,10 +218,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte8 a, sbyte8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 8, true).UShort0;
             }
@@ -229,10 +233,10 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte16 a, sbyte16 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 16, true).UShort0;
             }
@@ -244,7 +248,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte32"/>s.     </summary>
         [return: AssumeRange(0ul, 32ul * 255ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte32 a, sbyte32 b)
         {
             if (Avx2.IsAvx2Supported)
@@ -260,7 +264,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort2 a, ushort2 b)
         {
             return math.csum((uint2)math.abs((int2)a - (int2)b));
@@ -284,20 +288,20 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort8 a, ushort8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu16_epi32(a, out v128 aHi);
                 v128 bLo = Xse.cvt2x2epu16_epi32(b, out v128 bHi);
 
-                v128 absDifLo = Xse.abs_epi32(Sse2.sub_epi32(aLo, bLo));
-                v128 absDifHi = Xse.abs_epi32(Sse2.sub_epi32(aHi, bHi));
+                v128 absDifLo = Xse.abs_epi32(Xse.sub_epi32(aLo, bLo));
+                v128 absDifHi = Xse.abs_epi32(Xse.sub_epi32(aHi, bHi));
 
-                v128 sum = Sse2.add_epi32(absDifLo, absDifHi);
-                sum = Sse2.add_epi32(sum, Sse2.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 3, 2)));
-                sum = Sse2.add_epi32(sum, Sse2.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 0, 1)));
+                v128 sum = Xse.add_epi32(absDifLo, absDifHi);
+                sum = Xse.add_epi32(sum, Xse.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 3, 2)));
+                sum = Xse.add_epi32(sum, Xse.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 0, 1)));
 
                 return sum.UInt0;
             }
@@ -309,7 +313,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort16 a, ushort16 b)
         {
             if (Avx2.IsAvx2Supported)
@@ -317,8 +321,8 @@ namespace MaxMath
                 v256 aLo = Xse.mm256_cvt2x2epu16_epi32(a, out v256 aHi);
                 v256 bLo = Xse.mm256_cvt2x2epu16_epi32(b, out v256 bHi);
 
-                v256 absDifLo = Avx2.mm256_abs_epi32(Avx2.mm256_sub_epi32(aLo, bLo));
-                v256 absDifHi = Avx2.mm256_abs_epi32(Avx2.mm256_sub_epi32(aHi, bHi));
+                v256 absDifLo = Xse.mm256_abs_epi32(Avx2.mm256_sub_epi32(aLo, bLo));
+                v256 absDifHi = Xse.mm256_abs_epi32(Avx2.mm256_sub_epi32(aHi, bHi));
 
                 return csum((uint8)Avx2.mm256_add_epi32(absDifLo, absDifHi));
             }
@@ -331,7 +335,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short2 a, short2 b)
         {
             return math.csum((uint2)math.abs((int2)a - (int2)b));
@@ -339,7 +343,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short3 a, short3 b)
         {
             return math.csum((uint3)math.abs((int3)a - (int3)b));
@@ -347,7 +351,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short4 a, short4 b)
         {
             return math.csum((uint4)math.abs((int4)a - (int4)b));
@@ -355,20 +359,20 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short8 a, short8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi16_epi32(a, out v128 aHi);
                 v128 bLo = Xse.cvt2x2epi16_epi32(b, out v128 bHi);
 
-                v128 absDifLo = Xse.abs_epi32(Sse2.sub_epi32(aLo, bLo));
-                v128 absDifHi = Xse.abs_epi32(Sse2.sub_epi32(aHi, bHi));
+                v128 absDifLo = Xse.abs_epi32(Xse.sub_epi32(aLo, bLo));
+                v128 absDifHi = Xse.abs_epi32(Xse.sub_epi32(aHi, bHi));
 
-                v128 sum = Sse2.add_epi32(absDifLo, absDifHi);
-                sum = Sse2.add_epi32(sum, Sse2.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 3, 2)));
-                sum = Sse2.add_epi32(sum, Sse2.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 0, 1)));
+                v128 sum = Xse.add_epi32(absDifLo, absDifHi);
+                sum = Xse.add_epi32(sum, Xse.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 3, 2)));
+                sum = Xse.add_epi32(sum, Xse.shuffle_epi32(sum, Sse.SHUFFLE(0, 0, 0, 1)));
 
                 return sum.UInt0;
             }
@@ -380,7 +384,7 @@ namespace MaxMath
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 65535ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short16 a, short16 b)
         {
             if (Avx2.IsAvx2Supported)
@@ -388,8 +392,8 @@ namespace MaxMath
                 v256 aLo = Xse.mm256_cvt2x2epi16_epi32(a, out v256 aHi);
                 v256 bLo = Xse.mm256_cvt2x2epi16_epi32(b, out v256 bHi);
 
-                v256 absDifLo = Avx2.mm256_abs_epi32(Avx2.mm256_sub_epi32(aLo, bLo));
-                v256 absDifHi = Avx2.mm256_abs_epi32(Avx2.mm256_sub_epi32(aHi, bHi));
+                v256 absDifLo = Xse.mm256_abs_epi32(Avx2.mm256_sub_epi32(aLo, bLo));
+                v256 absDifHi = Xse.mm256_abs_epi32(Avx2.mm256_sub_epi32(aHi, bHi));
 
                 return csum((uint8)Avx2.mm256_add_epi32(absDifLo, absDifHi));
             }
@@ -411,16 +415,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint3 a, uint3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
                 v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
 
-                v128 absDifLo = Xse.abs_epi64(Sse2.sub_epi64(aLo, bLo));
-                v128 absDifZ  = Xse.abs_epi64(Sse2.sub_epi64(aZ,  bZ));
+                v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
+                v128 absDifZ  = Xse.abs_epi64(Xse.sub_epi64(aZ,  bZ));
 
-                v128 sum = Sse2.add_epi64(absDifLo, Sse2.shuffle_epi32(absDifLo, Sse.SHUFFLE(0, 0, 3, 2)));
-                sum = Sse2.add_epi64(sum, absDifZ);
+                v128 sum = Xse.add_epi64(absDifLo, Xse.shuffle_epi32(absDifLo, Sse.SHUFFLE(0, 0, 3, 2)));
+                sum = Xse.add_epi64(sum, absDifZ);
 
                 return sum.ULong0;
             }
@@ -434,15 +438,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint4 a, uint4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
                 v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bHi);
 
-                v128 absDifLo = Xse.abs_epi64(Sse2.sub_epi64(aLo, bLo));
-                v128 absDifHi = Xse.abs_epi64(Sse2.sub_epi64(aHi, bHi));
+                v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
+                v128 absDifHi = Xse.abs_epi64(Xse.sub_epi64(aHi, bHi));
 
-                return csum((ulong2)Sse2.add_epi64(absDifLo, absDifHi));
+                return csum((ulong2)Xse.add_epi64(absDifLo, absDifHi));
             }
             else
             {
@@ -482,16 +486,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int3 a, int3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
                 v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
 
-                v128 absDifLo = Xse.abs_epi64(Sse2.sub_epi64(aLo, bLo));
-                v128 absDifZ  = Xse.abs_epi64(Sse2.sub_epi64(aZ,  bZ));
+                v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
+                v128 absDifZ  = Xse.abs_epi64(Xse.sub_epi64(aZ,  bZ));
 
-                v128 sum = Sse2.add_epi64(absDifLo, Sse2.shuffle_epi32(absDifLo, Sse.SHUFFLE(0, 0, 3, 2)));
-                sum = Sse2.add_epi64(sum, absDifZ);
+                v128 sum = Xse.add_epi64(absDifLo, Xse.shuffle_epi32(absDifLo, Sse.SHUFFLE(0, 0, 3, 2)));
+                sum = Xse.add_epi64(sum, absDifZ);
 
                 return sum.ULong0;
             }
@@ -505,15 +509,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int4 a, int4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
                 v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bHi);
 
-                v128 absDifLo = Xse.abs_epi64(Sse2.sub_epi64(aLo, bLo));
-                v128 absDifHi = Xse.abs_epi64(Sse2.sub_epi64(aHi, bHi));
+                v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
+                v128 absDifHi = Xse.abs_epi64(Xse.sub_epi64(aHi, bHi));
 
-                return csum((ulong2)Sse2.add_epi64(absDifLo, absDifHi));
+                return csum((ulong2)Xse.add_epi64(absDifLo, absDifHi));
             }
             else
             {

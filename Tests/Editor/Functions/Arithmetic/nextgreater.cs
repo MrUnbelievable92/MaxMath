@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class nextgreater
+    public static class f_nextgreater
     {
         [Test]
-        public static void _uint128()
+        public static void _UInt128()
         {
             Random128 rng = Random128.New;
 
@@ -19,10 +19,10 @@ namespace MaxMath.Tests
                 Assert.AreEqual(t == UInt128.MaxValue ? UInt128.MaxValue : t + 1, maxmath.nextgreater(t));
             }
         }
-        
+
 
         [Test]
-        public static void _int128()
+        public static void _Int128()
         {
             Random128 rng = Random128.New;
 
@@ -248,7 +248,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _ushort()
         {
@@ -339,7 +339,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _short()
         {
@@ -430,7 +430,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _uint()
         {
@@ -582,7 +582,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _ulong()
         {
@@ -642,7 +642,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(maxmath.select(t + 1, t, t == ulong.MaxValue), maxmath.nextgreater(t));
             }
         }
-        
+
 
         [Test]
         public static void _long()
@@ -709,7 +709,7 @@ namespace MaxMath.Tests
         public static void _quarter()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater(maxmath.asquarter((byte)0b0111_1111)));
             Assert.AreEqual(maxmath.nextgreater((quarter)float.PositiveInfinity), (quarter)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextgreater((quarter)float.NegativeInfinity), (quarter)float.NegativeInfinity);
@@ -729,7 +729,7 @@ namespace MaxMath.Tests
         public static void _quarter2()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((quarter2)maxmath.asquarter((byte)0b0111_1111)).x);
             Assert.IsNaN(maxmath.nextgreater((quarter2)maxmath.asquarter((byte)0b0111_1111)).y);
             Assert.AreEqual(maxmath.nextgreater((quarter2)(quarter)float.PositiveInfinity), (quarter2)(quarter)float.PositiveInfinity);
@@ -751,7 +751,7 @@ namespace MaxMath.Tests
         public static void _quarter3()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((quarter3)maxmath.asquarter((byte)0b0111_1111)).x);
             Assert.IsNaN(maxmath.nextgreater((quarter3)maxmath.asquarter((byte)0b0111_1111)).y);
             Assert.IsNaN(maxmath.nextgreater((quarter3)maxmath.asquarter((byte)0b0111_1111)).z);
@@ -775,7 +775,7 @@ namespace MaxMath.Tests
         public static void _quarter4()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((quarter4)maxmath.asquarter((byte)0b0111_1111)).x);
             Assert.IsNaN(maxmath.nextgreater((quarter4)maxmath.asquarter((byte)0b0111_1111)).y);
             Assert.IsNaN(maxmath.nextgreater((quarter4)maxmath.asquarter((byte)0b0111_1111)).z);
@@ -801,7 +801,7 @@ namespace MaxMath.Tests
         public static void _quarter8()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((quarter8)maxmath.asquarter((byte)0b0111_1111)).x0);
             Assert.IsNaN(maxmath.nextgreater((quarter8)maxmath.asquarter((byte)0b0111_1111)).x1);
             Assert.IsNaN(maxmath.nextgreater((quarter8)maxmath.asquarter((byte)0b0111_1111)).x2);
@@ -836,7 +836,7 @@ namespace MaxMath.Tests
         public static void _half()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater(maxmath.ashalf((ushort)0x7FFF)));
             Assert.AreEqual(maxmath.nextgreater((half)float.PositiveInfinity), (half)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextgreater((half)float.NegativeInfinity), (half)float.NegativeInfinity);
@@ -856,7 +856,7 @@ namespace MaxMath.Tests
         public static void _half2()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((half2)maxmath.ashalf((ushort)0x7FFF)).x);
             Assert.IsNaN(maxmath.nextgreater((half2)maxmath.ashalf((ushort)0x7FFF)).y);
             Assert.AreEqual(maxmath.nextgreater((half2)(half)float.PositiveInfinity), (half2)(half)float.PositiveInfinity);
@@ -878,7 +878,7 @@ namespace MaxMath.Tests
         public static void _half3()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((half3)maxmath.ashalf((ushort)0x7FFF)).x);
             Assert.IsNaN(maxmath.nextgreater((half3)maxmath.ashalf((ushort)0x7FFF)).y);
             Assert.IsNaN(maxmath.nextgreater((half3)maxmath.ashalf((ushort)0x7FFF)).z);
@@ -902,7 +902,7 @@ namespace MaxMath.Tests
         public static void _half4()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((half4)maxmath.ashalf((ushort)0x7FFF)).x);
             Assert.IsNaN(maxmath.nextgreater((half4)maxmath.ashalf((ushort)0x7FFF)).y);
             Assert.IsNaN(maxmath.nextgreater((half4)maxmath.ashalf((ushort)0x7FFF)).z);
@@ -928,7 +928,7 @@ namespace MaxMath.Tests
         public static void _half8()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((half8)maxmath.ashalf((ushort)0x7FFF)).x0);
             Assert.IsNaN(maxmath.nextgreater((half8)maxmath.ashalf((ushort)0x7FFF)).x1);
             Assert.IsNaN(maxmath.nextgreater((half8)maxmath.ashalf((ushort)0x7FFF)).x2);
@@ -963,7 +963,7 @@ namespace MaxMath.Tests
         public static void _float()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater(math.asfloat(0x7FFF_FFFF)));
             Assert.AreEqual(maxmath.nextgreater(float.PositiveInfinity), float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextgreater(float.NegativeInfinity), float.NegativeInfinity);
@@ -983,7 +983,7 @@ namespace MaxMath.Tests
         public static void _float2()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((float2)math.asfloat(0x7FFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((float2)math.asfloat(0x7FFF_FFFF)).y);
             Assert.AreEqual(maxmath.nextgreater((float2)float.PositiveInfinity), (float2)float.PositiveInfinity);
@@ -1005,7 +1005,7 @@ namespace MaxMath.Tests
         public static void _float3()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((float3)math.asfloat(0x7FFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((float3)math.asfloat(0x7FFF_FFFF)).y);
             Assert.IsNaN(maxmath.nextgreater((float3)math.asfloat(0x7FFF_FFFF)).z);
@@ -1029,7 +1029,7 @@ namespace MaxMath.Tests
         public static void _float4()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((float4)math.asfloat(0x7FFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((float4)math.asfloat(0x7FFF_FFFF)).y);
             Assert.IsNaN(maxmath.nextgreater((float4)math.asfloat(0x7FFF_FFFF)).z);
@@ -1055,7 +1055,7 @@ namespace MaxMath.Tests
         public static void _float8()
         {
             Random32 rng = Random32.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((float8)math.asfloat(0x7FFF_FFFF)).x0);
             Assert.IsNaN(maxmath.nextgreater((float8)math.asfloat(0x7FFF_FFFF)).x1);
             Assert.IsNaN(maxmath.nextgreater((float8)math.asfloat(0x7FFF_FFFF)).x2);
@@ -1085,12 +1085,12 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _double()
         {
             Random64 rng = Random64.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater(math.asdouble(0x7FFF_FFFF_FFFF_FFFF)));
             Assert.AreEqual(maxmath.nextgreater(double.PositiveInfinity), double.PositiveInfinity);
             Assert.AreEqual(maxmath.nextgreater(double.NegativeInfinity), double.NegativeInfinity);
@@ -1110,7 +1110,7 @@ namespace MaxMath.Tests
         public static void _double2()
         {
             Random64 rng = Random64.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((double2)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((double2)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).y);
             Assert.AreEqual(maxmath.nextgreater((double2)double.PositiveInfinity), (double2)double.PositiveInfinity);
@@ -1132,7 +1132,7 @@ namespace MaxMath.Tests
         public static void _double3()
         {
             Random64 rng = Random64.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((double3)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((double3)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).y);
             Assert.IsNaN(maxmath.nextgreater((double3)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).z);
@@ -1156,7 +1156,7 @@ namespace MaxMath.Tests
         public static void _double4()
         {
             Random64 rng = Random64.New;
-            
+
             Assert.IsNaN(maxmath.nextgreater((double4)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).x);
             Assert.IsNaN(maxmath.nextgreater((double4)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).y);
             Assert.IsNaN(maxmath.nextgreater((double4)math.asdouble(0x7FFF_FFFF_FFFF_FFFF)).z);

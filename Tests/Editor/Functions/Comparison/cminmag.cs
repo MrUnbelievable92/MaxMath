@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class cminmag
+    unsafe public static class f_cminmag
     {
         [Test]
-        public static void SByte2()
+        public static void _sbyte2()
         {
             Random8 rng = Random8.New;
 
@@ -19,7 +19,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte3()
+        public static void _sbyte3()
         {
             Random8 rng = Random8.New;
 
@@ -32,7 +32,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte4()
+        public static void _sbyte4()
         {
             Random8 rng = Random8.New;
 
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte8()
+        public static void _sbyte8()
         {
             Random8 rng = Random8.New;
 
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte16()
+        public static void _sbyte16()
         {
             Random8 rng = Random8.New;
 
@@ -71,7 +71,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void SByte32()
+        public static void _sbyte32()
         {
             Random8 rng = Random8.New;
 
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Short2()
+        public static void _short2()
         {
             Random16 rng = Random16.New;
 
@@ -98,7 +98,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short3()
+        public static void _short3()
         {
             Random16 rng = Random16.New;
 
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short4()
+        public static void _short4()
         {
             Random16 rng = Random16.New;
 
@@ -124,7 +124,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short8()
+        public static void _short8()
         {
             Random16 rng = Random16.New;
 
@@ -137,7 +137,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Short16()
+        public static void _short16()
         {
             Random16 rng = Random16.New;
 
@@ -149,9 +149,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void Int2()
+        public static void _int2()
         {
             Random32 rng = Random32.New;
 
@@ -164,7 +164,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Int3()
+        public static void _int3()
         {
             Random32 rng = Random32.New;
 
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Int4()
+        public static void _int4()
         {
             Random32 rng = Random32.New;
 
@@ -190,7 +190,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Int8()
+        public static void _int8()
         {
             Random32 rng = Random32.New;
 
@@ -204,7 +204,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Long2()
+        public static void _long2()
         {
             Random64 rng = Random64.New;
 
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Long3()
+        public static void _long3()
         {
             Random64 rng = Random64.New;
 
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Long4()
+        public static void _long4()
         {
             Random64 rng = Random64.New;
 
@@ -242,9 +242,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void Float2()
+        public static void _float2()
         {
             Random32 rng = Random32.New;
 
@@ -257,7 +257,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Float3()
+        public static void _float3()
         {
             Random32 rng = Random32.New;
 
@@ -270,7 +270,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Float4()
+        public static void _float4()
         {
             Random32 rng = Random32.New;
 
@@ -283,7 +283,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Float8()
+        public static void _float8()
         {
             Random32 rng = Random32.New;
 
@@ -297,7 +297,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void Double2()
+        public static void _double2()
         {
             Random64 rng = Random64.New;
 
@@ -310,7 +310,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Double3()
+        public static void _double3()
         {
             Random64 rng = Random64.New;
 
@@ -323,7 +323,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void Double4()
+        public static void _double4()
         {
             Random64 rng = Random64.New;
 

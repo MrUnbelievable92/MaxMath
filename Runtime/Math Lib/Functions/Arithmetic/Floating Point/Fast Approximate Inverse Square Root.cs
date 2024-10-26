@@ -26,9 +26,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 fastrsqrt(float4 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat4(Xse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -40,9 +40,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 fastrsqrt(float3 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat3(Xse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -54,9 +54,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 fastrsqrt(float2 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Sse.rsqrt_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat2(Xse.rsqrt_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -64,13 +64,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="float"/>.      </summary>
+        /// <summary>       Returns the fast approximate inverse square root a <see cref="float"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float fastrsqrt(float x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse.rsqrt_ss(RegisterConversion.ToV128(x)).Float0;
+                return Xse.rsqrt_ss(RegisterConversion.ToV128(x)).Float0;
             }
             else
             {
@@ -79,11 +79,11 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="MaxMath.double8"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="double4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 fastrsqrt(double4 x)
         {
-            if (Avx.IsAvxSupported)
+            if (Avx2.IsAvx2Supported)
             {
                 return RegisterConversion.ToDouble4(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
             }
@@ -93,11 +93,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="MaxMath.double8"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="double3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 fastrsqrt(double3 x)
         {
-            if (Avx.IsAvxSupported)
+            if (Avx2.IsAvx2Supported)
             {
                 return RegisterConversion.ToDouble3(Xse.mm256_rsqrt_pd(RegisterConversion.ToV256(x)));
             }
@@ -107,11 +107,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="MaxMath.double8"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="double2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 fastrsqrt(double2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.rsqrt_pd(RegisterConversion.ToV128(x)));
             }
@@ -121,20 +121,25 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate inverse square root a <see cref="MaxMath.double8"/>.      </summary>
+        /// <summary>       Returns the fast approximate inverse square root a <see cref="double"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double fastrsqrt(double x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rsqrt_sd(RegisterConversion.ToV128(x)).Double0;
             }
             else
             {
-                ulong guess = Xse.MAGIC_RSQRT_PD_GUESS - (math.asulong(x) >> 1);
-	            x = math.asdouble(guess) * Xse.MAGIC_RSQRT_PD_MUL * (Xse.MAGIC_RSQRT_PD_SUB - x * math.asdouble(guess) * math.asdouble(guess));
-	            
-                return x;
+                ulong y = Xse.MAGIC_RSQRT_PD - (math.asulong(x) >> 1);
+
+                double g = *(double*)&y;
+
+                double mHalfA = -0.5d * x;
+                double gSq = g * g;
+                double threeHalfsG = (3d / 2d) * g;
+
+                return math.mad(g * mHalfA, gSq, threeHalfsG);
             }
         }
     }

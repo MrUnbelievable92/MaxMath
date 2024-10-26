@@ -10,7 +10,7 @@ namespace MaxMath
         public static float angle(float2 a, float2 b)
         {
             // acos vs atan2: acos wins when it comes to code size (~25% less), branches (75% less) and execution speed (?% less)
-            //if (Constant.IsConstantExpression(a))
+            //if (constexpr.IS_CONST(a))
             //{
             //    if (a.x == 0f && a.y >= 0f)
             //    {
@@ -22,7 +22,7 @@ namespace MaxMath
             //    }
             //
             //}
-            //else if (Constant.IsConstantExpression(b))
+            //else if (constexpr.IS_CONST(b))
             //{
             //    if (b.x == 0f && b.y >= 0f)
             //    {
@@ -67,7 +67,7 @@ namespace MaxMath
         public static double angle(double3 a, double3 b)
         {
             // acos vs atan2: acos wins when it comes to code size (~25% less), branches (75% less) and execution speed (?% less)
-            //if (Constant.IsConstantExpression(a))
+            //if (constexpr.IS_CONST(a))
             //{
             //    if (a.x == 0d && a.y >= 0d)
             //    {
@@ -79,7 +79,7 @@ namespace MaxMath
             //    }
             //
             //}
-            //else if (Constant.IsConstantExpression(b))
+            //else if (constexpr.IS_CONST(b))
             //{
             //    if (b.x == 0d && b.y >= 0d)
             //    {

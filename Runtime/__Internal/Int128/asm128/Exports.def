@@ -1,0 +1,38 @@
+LIBRARY asm128
+
+EXPORTS
+	a
+	b
+	c
+	d
+	e
+	f
+	g
+	h
+	i
+	j
+	k
+	l
+	m
+	n
+
+	p
+	q
+
+	s
+	t
+
+	v
+	w
+	x
+	y
+	z
+	A
+	B
+
+	D
+	E
+	F
+	G
+	H
+	I

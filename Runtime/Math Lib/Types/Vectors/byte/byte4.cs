@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -12,8 +11,8 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]  
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(byte))]  
+    [Serializable]
+	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(byte))]
 	[DebuggerTypeProxy(typeof(byte4.DebuggerProxy))]
     unsafe public struct byte4 : IEquatable<byte4>, IFormattable
 	{
@@ -46,15 +45,15 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte x, byte y, byte z, byte w)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
 			{
-                if (Constant.IsConstantExpression(x) && Constant.IsConstantExpression(y) && Constant.IsConstantExpression(z) && Constant.IsConstantExpression(w))
+                if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y) && constexpr.IS_CONST(z) && constexpr.IS_CONST(w))
                 {
-                    this = Sse2.cvtsi32_si128((int)maxmath.bitfield(x, y, z, w));
+                    this = Xse.cvtsi32_si128(maxmath.bitfield(x, y, z, w));
                 }
                 else
                 {
-					this = Sse2.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (sbyte)w, (sbyte)z, (sbyte)y, (sbyte)x);
+					this = Xse.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (sbyte)w, (sbyte)z, (sbyte)y, (sbyte)x);
                 }
 			}
 			else
@@ -65,19 +64,19 @@ namespace MaxMath
 				this.w = w;
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte xyzw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-                if (Constant.IsConstantExpression(xyzw))
+                if (constexpr.IS_CONST(xyzw))
                 {
-					this = Sse2.cvtsi32_si128((int)maxmath.bitfield(xyzw, xyzw, xyzw, xyzw));
+					this = Xse.cvtsi32_si128(maxmath.bitfield(xyzw, xyzw, xyzw, xyzw));
                 }
 				else
 				{
-					this = Sse2.set1_epi8((sbyte)xyzw);
+					this = Xse.set1_epi8(xyzw, 4);
 				}
 			}
 			else
@@ -89,9 +88,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte2 xy, byte z, byte w)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-				this = Sse2.unpacklo_epi16(xy, new byte2(z, w));
+				this = Xse.unpacklo_epi16(xy, new byte2(z, w));
 			}
 			else
             {
@@ -105,9 +104,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte x, byte2 yz, byte w)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (sbyte)w, (sbyte)yz.y, (sbyte)yz.x, (sbyte)x);
+				this = Xse.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (sbyte)w, (sbyte)yz.y, (sbyte)yz.x, (sbyte)x);
 			}
 			else
 			{
@@ -121,9 +120,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte x, byte y, byte2 zw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.unpacklo_epi16(new byte2(x, y), zw);
+				this = Xse.unpacklo_epi16(new byte2(x, y), zw);
 			}
 			else
 			{
@@ -137,9 +136,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte2 xy, byte2 zw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.unpacklo_epi16(xy, zw);
+				this = Xse.unpacklo_epi16(xy, zw);
 			}
 			else
 			{
@@ -153,13 +152,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte3 xyz, byte w)
         {
-			if (Sse4_1.IsSse41Supported)
+			if (Architecture.IsInsertExtractSupported)
 			{
-				this = Sse4_1.insert_epi8(xyz, w, 3);
+				this = Xse.insert_epi8(xyz, w, 3);
 			}
-			else if (Sse2.IsSse2Supported)
+			else if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.or_si128(xyz, Sse2.bslli_si128(Sse2.cvtsi32_si128(w), 3 * sizeof(byte)));
+				this = Xse.or_si128(xyz, Xse.bslli_si128(Xse.cvtsi32_si128(w), 3 * sizeof(byte)));
 			}
 			else
 			{
@@ -173,13 +172,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4(byte x, byte3 yzw)
         {
-			if (Sse4_1.IsSse41Supported)
+			if (Architecture.IsInsertExtractSupported)
 			{
-				this = Sse4_1.insert_epi8(Sse2.bslli_si128(yzw, sizeof(byte)), x, 0);
+				this = Xse.insert_epi8(Xse.bslli_si128(yzw, sizeof(byte)), x, 0);
 			}
-			else if (Sse2.IsSse2Supported)
+			else if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.or_si128(Sse2.bslli_si128(yzw, sizeof(byte)), Sse2.cvtsi32_si128(x));
+				this = Xse.or_si128(Xse.bslli_si128(yzw, sizeof(byte)), Xse.cvtsi32_si128(x));
 			}
 			else
 			{
@@ -190,14 +189,14 @@ namespace MaxMath
 			}
         }
 
-		
+
         #region Shuffle
 		public readonly byte4 xxxx
-        { 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxxx(this);
                 }
@@ -212,7 +211,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxxy(this);
                 }
@@ -227,7 +226,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxxz(this);
                 }
@@ -242,7 +241,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxxw(this);
                 }
@@ -257,7 +256,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxyx(this);
                 }
@@ -272,7 +271,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxyy(this);
                 }
@@ -287,7 +286,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxyz(this);
                 }
@@ -302,7 +301,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxyw(this);
                 }
@@ -317,7 +316,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxzx(this);
                 }
@@ -332,7 +331,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxzy(this);
                 }
@@ -347,7 +346,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxzz(this);
                 }
@@ -362,7 +361,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxzw(this);
                 }
@@ -377,7 +376,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxwx(this);
                 }
@@ -392,7 +391,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxwy(this);
                 }
@@ -407,7 +406,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxwz(this);
                 }
@@ -422,7 +421,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxww(this);
                 }
@@ -437,7 +436,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyxx(this);
                 }
@@ -452,7 +451,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyxy(this);
                 }
@@ -467,7 +466,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyxz(this);
                 }
@@ -482,7 +481,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyxw(this);
                 }
@@ -497,7 +496,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyyx(this);
                 }
@@ -512,7 +511,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyyy(this);
                 }
@@ -527,7 +526,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyyz(this);
                 }
@@ -542,7 +541,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyyw(this);
                 }
@@ -557,7 +556,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyzx(this);
                 }
@@ -572,7 +571,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyzy(this);
                 }
@@ -587,7 +586,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyzz(this);
                 }
@@ -602,7 +601,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xywx(this);
                 }
@@ -617,7 +616,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xywy(this);
                 }
@@ -632,7 +631,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xywz(this);
                 }
@@ -653,7 +652,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyww(this);
                 }
@@ -668,7 +667,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzxx(this);
                 }
@@ -683,7 +682,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzxy(this);
                 }
@@ -698,7 +697,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzxz(this);
                 }
@@ -713,7 +712,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzxw(this);
                 }
@@ -728,7 +727,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzyx(this);
                 }
@@ -743,7 +742,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzyy(this);
                 }
@@ -758,7 +757,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzyz(this);
                 }
@@ -773,7 +772,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzyw(this);
                 }
@@ -794,7 +793,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzzx(this);
                 }
@@ -809,7 +808,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzzy(this);
                 }
@@ -824,7 +823,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzzz(this);
                 }
@@ -839,7 +838,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzzw(this);
                 }
@@ -854,7 +853,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzwx(this);
                 }
@@ -869,7 +868,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzwy(this);
                 }
@@ -890,7 +889,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzwz(this);
                 }
@@ -905,11 +904,11 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzww(this);
                 }
-				else 
+				else
 				{
 					return new byte4(x, z, w, w);
 				}
@@ -920,7 +919,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwxx(this);
                 }
@@ -935,7 +934,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwxy(this);
                 }
@@ -950,7 +949,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwxz(this);
                 }
@@ -965,7 +964,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwxw(this);
                 }
@@ -980,7 +979,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwyx(this);
                 }
@@ -995,7 +994,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwyy(this);
                 }
@@ -1010,7 +1009,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwyz(this);
                 }
@@ -1031,7 +1030,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwyw(this);
                 }
@@ -1046,7 +1045,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwzx(this);
                 }
@@ -1061,7 +1060,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwzy(this);
                 }
@@ -1082,7 +1081,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwzz(this);
                 }
@@ -1097,7 +1096,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwzw(this);
                 }
@@ -1112,7 +1111,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwwx(this);
                 }
@@ -1127,7 +1126,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwwy(this);
                 }
@@ -1142,7 +1141,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwwz(this);
                 }
@@ -1157,7 +1156,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwww(this);
                 }
@@ -1172,7 +1171,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxxx(this);
                 }
@@ -1187,7 +1186,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxxy(this);
                 }
@@ -1202,7 +1201,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxxz(this);
                 }
@@ -1217,7 +1216,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxxw(this);
                 }
@@ -1232,7 +1231,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxyx(this);
                 }
@@ -1247,7 +1246,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxyy(this);
                 }
@@ -1262,7 +1261,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxyz(this);
                 }
@@ -1277,7 +1276,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxyw(this);
                 }
@@ -1292,7 +1291,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxzx(this);
                 }
@@ -1307,7 +1306,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxzy(this);
                 }
@@ -1322,7 +1321,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxzz(this);
                 }
@@ -1337,7 +1336,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxzw(this);
                 }
@@ -1358,7 +1357,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxwx(this);
                 }
@@ -1373,7 +1372,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxwy(this);
                 }
@@ -1388,7 +1387,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxwz(this);
                 }
@@ -1409,7 +1408,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxww(this);
                 }
@@ -1424,7 +1423,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyxx(this);
                 }
@@ -1439,7 +1438,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyxy(this);
                 }
@@ -1454,7 +1453,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyxz(this);
                 }
@@ -1469,7 +1468,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyxw(this);
                 }
@@ -1484,7 +1483,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyyx(this);
                 }
@@ -1499,7 +1498,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyyy(this);
                 }
@@ -1514,7 +1513,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyyz(this);
                 }
@@ -1529,7 +1528,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyyw(this);
                 }
@@ -1544,7 +1543,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyzx(this);
                 }
@@ -1559,7 +1558,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyzy(this);
                 }
@@ -1574,7 +1573,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyzz(this);
                 }
@@ -1589,7 +1588,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyzw(this);
                 }
@@ -1604,7 +1603,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yywx(this);
                 }
@@ -1619,7 +1618,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yywy(this);
                 }
@@ -1634,7 +1633,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yywz(this);
                 }
@@ -1649,7 +1648,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyww(this);
                 }
@@ -1664,7 +1663,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzxx(this);
                 }
@@ -1679,7 +1678,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzxy(this);
                 }
@@ -1694,7 +1693,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzxz(this);
                 }
@@ -1709,7 +1708,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzxw(this);
                 }
@@ -1730,7 +1729,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzyx(this);
                 }
@@ -1745,7 +1744,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzyy(this);
                 }
@@ -1760,7 +1759,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzyz(this);
                 }
@@ -1775,7 +1774,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzyw(this);
                 }
@@ -1790,7 +1789,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzzx(this);
                 }
@@ -1805,7 +1804,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzzy(this);
                 }
@@ -1820,7 +1819,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzzz(this);
                 }
@@ -1835,7 +1834,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzzw(this);
                 }
@@ -1850,7 +1849,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzwx(this);
                 }
@@ -1871,7 +1870,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzwy(this);
                 }
@@ -1886,7 +1885,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzwz(this);
                 }
@@ -1901,7 +1900,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzww(this);
                 }
@@ -1916,7 +1915,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywxx(this);
                 }
@@ -1931,7 +1930,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywxy(this);
                 }
@@ -1946,7 +1945,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywxz(this);
                 }
@@ -1967,7 +1966,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywxw(this);
                 }
@@ -1982,7 +1981,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywyx(this);
                 }
@@ -1997,7 +1996,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywyy(this);
                 }
@@ -2012,7 +2011,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywyz(this);
                 }
@@ -2027,7 +2026,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywyw(this);
                 }
@@ -2042,7 +2041,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywzx(this);
                 }
@@ -2063,7 +2062,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywzy(this);
                 }
@@ -2078,7 +2077,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywzz(this);
                 }
@@ -2093,7 +2092,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywzw(this);
                 }
@@ -2108,7 +2107,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywwx(this);
                 }
@@ -2123,7 +2122,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywwy(this);
                 }
@@ -2138,7 +2137,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywwz(this);
                 }
@@ -2153,7 +2152,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywww(this);
                 }
@@ -2168,7 +2167,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxxx(this);
                 }
@@ -2183,7 +2182,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxxy(this);
                 }
@@ -2198,7 +2197,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxxz(this);
                 }
@@ -2213,7 +2212,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxxw(this);
                 }
@@ -2228,7 +2227,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxyx(this);
                 }
@@ -2243,7 +2242,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxyy(this);
                 }
@@ -2258,7 +2257,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxyz(this);
                 }
@@ -2273,7 +2272,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxyw(this);
                 }
@@ -2294,7 +2293,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxzx(this);
                 }
@@ -2309,7 +2308,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxzy(this);
                 }
@@ -2324,7 +2323,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxzz(this);
                 }
@@ -2339,7 +2338,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxzw(this);
                 }
@@ -2354,7 +2353,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxwx(this);
                 }
@@ -2369,7 +2368,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxwy(this);
                 }
@@ -2390,7 +2389,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxwz(this);
                 }
@@ -2405,7 +2404,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxww(this);
                 }
@@ -2420,7 +2419,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyxx(this);
                 }
@@ -2435,7 +2434,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyxy(this);
                 }
@@ -2450,7 +2449,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyxz(this);
                 }
@@ -2465,7 +2464,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyxw(this);
                 }
@@ -2486,7 +2485,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyyx(this);
                 }
@@ -2501,7 +2500,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyyy(this);
                 }
@@ -2516,7 +2515,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyyz(this);
                 }
@@ -2531,7 +2530,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyyw(this);
                 }
@@ -2546,7 +2545,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyzx(this);
                 }
@@ -2561,7 +2560,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyzy(this);
                 }
@@ -2576,7 +2575,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyzz(this);
                 }
@@ -2591,7 +2590,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyzw(this);
                 }
@@ -2606,7 +2605,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zywx(this);
                 }
@@ -2627,7 +2626,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zywy(this);
                 }
@@ -2642,7 +2641,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zywz(this);
                 }
@@ -2657,7 +2656,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyww(this);
                 }
@@ -2672,7 +2671,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzxx(this);
                 }
@@ -2687,7 +2686,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzxy(this);
                 }
@@ -2702,7 +2701,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzxz(this);
                 }
@@ -2717,7 +2716,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzxw(this);
                 }
@@ -2732,7 +2731,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzyx(this);
                 }
@@ -2747,7 +2746,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzyy(this);
                 }
@@ -2762,7 +2761,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzyz(this);
                 }
@@ -2777,7 +2776,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzyw(this);
                 }
@@ -2792,7 +2791,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzzx(this);
                 }
@@ -2807,7 +2806,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzzy(this);
                 }
@@ -2822,7 +2821,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzzz(this);
                 }
@@ -2837,7 +2836,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzzw(this);
                 }
@@ -2852,7 +2851,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzwx(this);
                 }
@@ -2867,7 +2866,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzwy(this);
                 }
@@ -2882,7 +2881,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzwz(this);
                 }
@@ -2897,7 +2896,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzww(this);
                 }
@@ -2912,7 +2911,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwxx(this);
                 }
@@ -2927,7 +2926,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwxy(this);
                 }
@@ -2948,7 +2947,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwxz(this);
                 }
@@ -2963,7 +2962,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwxw(this);
                 }
@@ -2978,7 +2977,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwyx(this);
                 }
@@ -2999,7 +2998,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwyy(this);
                 }
@@ -3014,7 +3013,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwyz(this);
                 }
@@ -3029,7 +3028,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwyw(this);
                 }
@@ -3044,7 +3043,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwzx(this);
                 }
@@ -3059,7 +3058,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwzy(this);
                 }
@@ -3074,7 +3073,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwzz(this);
                 }
@@ -3089,7 +3088,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwzw(this);
                 }
@@ -3104,7 +3103,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwwx(this);
                 }
@@ -3119,7 +3118,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwwy(this);
                 }
@@ -3134,7 +3133,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwwz(this);
                 }
@@ -3149,7 +3148,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwww(this);
                 }
@@ -3164,7 +3163,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxxx(this);
                 }
@@ -3179,7 +3178,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxxy(this);
                 }
@@ -3194,7 +3193,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxxz(this);
                 }
@@ -3209,7 +3208,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxxw(this);
                 }
@@ -3224,7 +3223,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxyx(this);
                 }
@@ -3239,7 +3238,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxyy(this);
                 }
@@ -3254,7 +3253,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxyz(this);
                 }
@@ -3275,7 +3274,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxyw(this);
                 }
@@ -3290,7 +3289,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxzx(this);
                 }
@@ -3305,7 +3304,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxzy(this);
                 }
@@ -3326,7 +3325,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxzz(this);
                 }
@@ -3341,7 +3340,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxzw(this);
                 }
@@ -3356,7 +3355,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxwx(this);
                 }
@@ -3371,7 +3370,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxwy(this);
                 }
@@ -3386,7 +3385,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxwz(this);
                 }
@@ -3401,7 +3400,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxww(this);
                 }
@@ -3416,7 +3415,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyxx(this);
                 }
@@ -3431,7 +3430,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyxy(this);
                 }
@@ -3446,7 +3445,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyxz(this);
                 }
@@ -3467,7 +3466,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyxw(this);
                 }
@@ -3482,7 +3481,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyyx(this);
                 }
@@ -3497,7 +3496,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyyy(this);
                 }
@@ -3512,7 +3511,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyyz(this);
                 }
@@ -3527,7 +3526,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyyw(this);
                 }
@@ -3542,7 +3541,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyzx(this);
                 }
@@ -3563,7 +3562,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyzy(this);
                 }
@@ -3578,7 +3577,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyzz(this);
                 }
@@ -3593,7 +3592,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyzw(this);
                 }
@@ -3608,7 +3607,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wywx(this);
                 }
@@ -3623,7 +3622,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wywy(this);
                 }
@@ -3638,7 +3637,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wywz(this);
                 }
@@ -3653,7 +3652,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyww(this);
                 }
@@ -3668,7 +3667,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzxx(this);
                 }
@@ -3683,7 +3682,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzxy(this);
                 }
@@ -3704,7 +3703,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzxz(this);
                 }
@@ -3719,7 +3718,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzxw(this);
                 }
@@ -3734,7 +3733,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzyx(this);
                 }
@@ -3755,7 +3754,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzyy(this);
                 }
@@ -3770,7 +3769,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzyz(this);
                 }
@@ -3785,7 +3784,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzyw(this);
                 }
@@ -3800,7 +3799,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzzx(this);
                 }
@@ -3815,7 +3814,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzzy(this);
                 }
@@ -3830,7 +3829,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzzz(this);
                 }
@@ -3845,7 +3844,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzzw(this);
                 }
@@ -3860,7 +3859,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzwx(this);
                 }
@@ -3875,7 +3874,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzwy(this);
                 }
@@ -3890,7 +3889,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzwz(this);
                 }
@@ -3905,7 +3904,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzww(this);
                 }
@@ -3920,7 +3919,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwxx(this);
                 }
@@ -3935,7 +3934,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwxy(this);
                 }
@@ -3950,7 +3949,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwxz(this);
                 }
@@ -3965,7 +3964,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwxw(this);
                 }
@@ -3980,7 +3979,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwyx(this);
                 }
@@ -3995,7 +3994,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwyy(this);
                 }
@@ -4010,7 +4009,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwyz(this);
                 }
@@ -4025,7 +4024,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwyw(this);
                 }
@@ -4040,7 +4039,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwzx(this);
                 }
@@ -4055,7 +4054,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwzy(this);
                 }
@@ -4070,7 +4069,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwzz(this);
                 }
@@ -4085,7 +4084,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwzw(this);
                 }
@@ -4100,7 +4099,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwwx(this);
                 }
@@ -4115,7 +4114,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwwy(this);
                 }
@@ -4130,7 +4129,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwwz(this);
                 }
@@ -4145,7 +4144,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwww(this);
                 }
@@ -4161,7 +4160,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxx(this);
                 }
@@ -4176,7 +4175,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxy(this);
                 }
@@ -4191,7 +4190,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxz(this);
                 }
@@ -4206,7 +4205,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xxw(this);
                 }
@@ -4221,7 +4220,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyx(this);
                 }
@@ -4236,7 +4235,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyy(this);
                 }
@@ -4251,7 +4250,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyz(this);
                 }
@@ -4264,7 +4263,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value, new byte4(255, 255, 255, 0));
 				}
@@ -4281,7 +4280,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xyw(this);
                 }
@@ -4294,7 +4293,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xyzz, new byte4(255, 255, 0, 255));
 				}
@@ -4311,7 +4310,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzx(this);
                 }
@@ -4326,7 +4325,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzy(this);
                 }
@@ -4339,7 +4338,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xzyy, new byte4(255, 255, 255, 0));
 				}
@@ -4356,7 +4355,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzz(this);
                 }
@@ -4371,7 +4370,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xzw(this);
                 }
@@ -4384,7 +4383,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyz, new byte4(255, 0, 255, 255));
 				}
@@ -4401,7 +4400,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwx(this);
                 }
@@ -4416,7 +4415,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwy(this);
                 }
@@ -4429,7 +4428,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xzzy, new byte4(255, 255, 0, 255));
 				}
@@ -4446,7 +4445,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xwz(this);
                 }
@@ -4459,7 +4458,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxzy, new byte4(255, 0, 255, 255));
 				}
@@ -4476,7 +4475,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xww(this);
                 }
@@ -4491,7 +4490,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxx(this);
                 }
@@ -4506,7 +4505,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxy(this);
                 }
@@ -4521,7 +4520,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxz(this);
                 }
@@ -4534,7 +4533,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yxzz, new byte4(255, 255, 255, 0));
 				}
@@ -4551,7 +4550,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yxw(this);
                 }
@@ -4564,7 +4563,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yxzz, new byte4(255, 255, 0, 255));
 				}
@@ -4581,7 +4580,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyx(this);
                 }
@@ -4596,7 +4595,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyy(this);
                 }
@@ -4611,7 +4610,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyz(this);
                 }
@@ -4626,7 +4625,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yyw(this);
                 }
@@ -4641,7 +4640,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzx(this);
                 }
@@ -4654,7 +4653,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zxyy, new byte4(255, 255, 255, 0));
 				}
@@ -4671,7 +4670,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzy(this);
                 }
@@ -4686,7 +4685,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzz(this);
                 }
@@ -4701,7 +4700,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yzw(this);
                 }
@@ -4714,7 +4713,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyz, new byte4(0, 255, 255, 255));
 				}
@@ -4731,7 +4730,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywx(this);
                 }
@@ -4744,7 +4743,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zxxy, new byte4(255, 255, 0, 255));
 				}
@@ -4761,7 +4760,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywy(this);
                 }
@@ -4776,7 +4775,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ywz(this);
                 }
@@ -4789,7 +4788,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxzy, new byte4(0, 255, 255, 255));
 				}
@@ -4806,7 +4805,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yww(this);
                 }
@@ -4821,7 +4820,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxx(this);
                 }
@@ -4836,7 +4835,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxy(this);
                 }
@@ -4849,7 +4848,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yzxx, new byte4(255, 255, 255, 0));
 				}
@@ -4866,7 +4865,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxz(this);
                 }
@@ -4881,7 +4880,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zxw(this);
                 }
@@ -4894,7 +4893,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxz, new byte4(255, 0, 255, 255));
 				}
@@ -4911,7 +4910,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyx(this);
                 }
@@ -4924,7 +4923,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zyxx, new byte4(255, 255, 255, 0));
 				}
@@ -4941,7 +4940,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyy(this);
                 }
@@ -4956,7 +4955,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyz(this);
                 }
@@ -4971,7 +4970,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zyw(this);
                 }
@@ -4984,7 +4983,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxz, new byte4(0, 255, 255, 255));
 				}
@@ -5001,7 +5000,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzx(this);
                 }
@@ -5016,7 +5015,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzy(this);
                 }
@@ -5031,7 +5030,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzz(this);
                 }
@@ -5046,7 +5045,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zzw(this);
                 }
@@ -5061,7 +5060,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwx(this);
                 }
@@ -5074,7 +5073,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zzxy, new byte4(255, 0, 255, 255));
 				}
@@ -5091,7 +5090,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwy(this);
                 }
@@ -5104,7 +5103,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zzxy, new byte4(0, 255, 255, 255));
 				}
@@ -5121,7 +5120,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zwz(this);
                 }
@@ -5136,7 +5135,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zww(this);
                 }
@@ -5151,7 +5150,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxx(this);
                 }
@@ -5166,7 +5165,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxy(this);
                 }
@@ -5179,7 +5178,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yzzx, new byte4(255, 255, 0, 255));
 				}
@@ -5196,7 +5195,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxz(this);
                 }
@@ -5209,7 +5208,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyzx, new byte4(255, 0, 255, 255));
 				}
@@ -5226,7 +5225,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wxw(this);
                 }
@@ -5241,7 +5240,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyx(this);
                 }
@@ -5254,7 +5253,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zyyx, new byte4(255, 255, 0, 255));
 				}
@@ -5271,7 +5270,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyy(this);
                 }
@@ -5286,7 +5285,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyz(this);
                 }
@@ -5299,7 +5298,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyzx, new byte4(0, 255, 255, 255));
 				}
@@ -5316,7 +5315,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wyw(this);
                 }
@@ -5331,7 +5330,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzx(this);
                 }
@@ -5344,7 +5343,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zzyx, new byte4(255, 0, 255, 255));
 				}
@@ -5361,7 +5360,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzy(this);
                 }
@@ -5374,7 +5373,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.zzyx, new byte4(0, 255, 255, 255));
 				}
@@ -5391,7 +5390,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzz(this);
                 }
@@ -5406,7 +5405,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wzw(this);
                 }
@@ -5421,7 +5420,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwx(this);
                 }
@@ -5436,7 +5435,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwy(this);
                 }
@@ -5451,7 +5450,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wwz(this);
                 }
@@ -5466,7 +5465,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.www(this);
                 }
@@ -5482,7 +5481,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xx(this);
                 }
@@ -5497,7 +5496,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xy(this);
                 }
@@ -5510,7 +5509,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value, 0b01);
 				}
@@ -5526,7 +5525,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xz(this);
                 }
@@ -5539,7 +5538,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyy, new byte4(255, 0, 255, 0));
 				}
@@ -5555,7 +5554,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.xw(this);
                 }
@@ -5568,7 +5567,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyy, new byte4(255, 0, 0, 255));
 				}
@@ -5584,7 +5583,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yx(this);
                 }
@@ -5593,11 +5592,11 @@ namespace MaxMath
                     return new byte2(y, x);
                 }
             }
-			
+
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yx, 0b01);
 				}
@@ -5608,13 +5607,13 @@ namespace MaxMath
 				}
 			}
         }
-        
+
         public readonly byte2 yy
-        { 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            get 
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yy(this);
                 }
@@ -5629,7 +5628,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yz(this);
                 }
@@ -5642,7 +5641,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyy, new byte4(0, 255, 255, 0));
 				}
@@ -5658,7 +5657,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.yw(this);
                 }
@@ -5671,7 +5670,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.xxyy, new byte4(0, 255, 0, 255));
 				}
@@ -5687,7 +5686,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zx(this);
                 }
@@ -5700,7 +5699,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxx, new byte4(255, 0, 255, 0));
 				}
@@ -5716,7 +5715,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zy(this);
                 }
@@ -5725,11 +5724,11 @@ namespace MaxMath
                     return new byte2(z, y);
                 }
             }
-			
+
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxx, new byte4(0, 255, 255, 0));
 				}
@@ -5745,7 +5744,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zz(this);
                 }
@@ -5760,7 +5759,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.zw(this);
                 }
@@ -5773,9 +5772,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					this = Sse2.unpacklo_epi16(this, value);
+					this = Xse.unpacklo_epi16(this, value);
 				}
 				else
 				{
@@ -5789,7 +5788,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wx(this);
                 }
@@ -5802,7 +5801,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxx, new byte4(255, 0, 0, 255));
 				}
@@ -5818,7 +5817,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wy(this);
                 }
@@ -5831,7 +5830,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blendv_si128(this, value.yyxx, new byte4(0, 255, 0, 255));
 				}
@@ -5847,7 +5846,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.wz(this);
                 }
@@ -5860,7 +5859,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yxyx, 0b10);
 				}
@@ -5876,7 +5875,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
 					return Shuffle.Bytes.Get.ww(this);
                 }
@@ -5887,7 +5886,7 @@ namespace MaxMath
 			}
 		}
 		#endregion
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(byte4 input)
         {
@@ -5899,7 +5898,7 @@ namespace MaxMath
             }
 			else
             {
-				v128* dummyPtr = &result;
+                result = default(v128);
             }
 
 			result.Byte0 = input.x;
@@ -5919,22 +5918,12 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4(sbyte4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return (v128)input;
-            }
-            else
-            {
-                return *(byte4*)&input;
-            }
-        }
+        public static explicit operator byte4(sbyte4 input) => *(byte4*)&input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(short4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi16_epi8(input, 4);
             }
@@ -5947,7 +5936,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(ushort4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi16_epi8(input, 4);
             }
@@ -5960,7 +5949,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(int4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
             }
@@ -5973,7 +5962,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(uint4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
             }
@@ -5990,7 +5979,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi64_epi8(input);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new byte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
             }
@@ -6007,7 +5996,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi64_epi8(input);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new byte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
             }
@@ -6018,7 +6007,20 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4(half4 input) => (byte4)(float4)input;
+        public static explicit operator byte4(half4 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttph_epu8(RegisterConversion.ToV128(input), 4);
+            }
+            else
+            {
+                return new byte4((byte)maxmath.BASE_cvtf16i32(input.x, signed: false, trunc: true),
+                                 (byte)maxmath.BASE_cvtf16i32(input.y, signed: false, trunc: true),
+                                 (byte)maxmath.BASE_cvtf16i32(input.z, signed: false, trunc: true),
+                                 (byte)maxmath.BASE_cvtf16i32(input.w, signed: false, trunc: true));
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte4(float4 input) => (byte4)(int4)input;
@@ -6030,7 +6032,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short4(byte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return Xse.cvtepu8_epi16(input);
 			}
@@ -6043,7 +6045,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ushort4(byte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return Xse.cvtepu8_epi16(input);
 			}
@@ -6056,7 +6058,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int4(byte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToInt4(Xse.cvtepu8_epi32(input));
             }
@@ -6069,7 +6071,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator uint4(byte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToUInt4(Xse.cvtepu8_epi32(input));
             }
@@ -6086,7 +6088,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepu8_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new long4((long2)input.xy, (long2)input.zw);
             }
@@ -6103,7 +6105,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepu8_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new ulong4((ulong2)input.xy, (ulong2)input.zw);
             }
@@ -6119,7 +6121,7 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static implicit operator float4(byte4 input)
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 result = Xse.cvtepu8_ps(input);
 
@@ -6142,33 +6144,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return Xse.extract_epi8(this, (byte)index);
                 }
                 else
                 {
-                    byte4 onStack = this;
-
-                    return *((byte*)&onStack + index);
+                    return this.GetField<byte4, byte>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi8(this, value, (byte)index);
                 }
                 else
                 {
-                    byte4 onStack = this;
-                    *((byte*)&onStack + index) = value;
-
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }
@@ -6177,9 +6174,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator + (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi8(left, right);
+                return Xse.add_epi8(left, right);
             }
             else
             {
@@ -6190,20 +6187,20 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator - (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi8(left, right);
+                return Xse.sub_epi8(left, right);
             }
             else
             {
                 return new byte4((byte)(left.x - right.x), (byte)(left.y - right.y), (byte)(left.z - right.z), (byte)(left.w - right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator * (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
 			{
                 return Xse.mullo_epi8(left, right, 4);
             }
@@ -6216,7 +6213,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator / (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epu8(left, right, 4);
             }
@@ -6229,7 +6226,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator % (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rem_epu8(left, right, 4);
             }
@@ -6246,25 +6243,25 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator * (byte4 left, byte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mullo_epu8(left, right, 4);
+                    return Xse.constmullo_epu8(left, right, 4);
                 }
             }
-            
+
 			return left * (byte4)right;
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator / (byte4 left, byte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-					return Xse.constexpr.div_epu8(left, right, 4);
+					return Xse.constdiv_epu8(left, right, 4);
                 }
             }
 
@@ -6274,11 +6271,11 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator % (byte4 left, byte right)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				if (Constant.IsConstantExpression(right))
+				if (constexpr.IS_CONST(right))
 				{
-					return Xse.constexpr.rem_epu8(left, right, 4);
+					return Xse.constrem_epu8(left, right, 4);
 				}
 			}
 
@@ -6289,47 +6286,47 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator & (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.and_si128(left, right);
+                return Xse.and_si128(left, right);
             }
             else
             {
                 return new byte4((byte)(left.x & right.x), (byte)(left.y & right.y), (byte)(left.z & right.z), (byte)(left.w & right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator | (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.or_si128(left, right);
+                return Xse.or_si128(left, right);
             }
             else
             {
                 return new byte4((byte)(left.x | right.x), (byte)(left.y | right.y), (byte)(left.z | right.z), (byte)(left.w | right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator ^ (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.xor_si128(left, right);
+                return Xse.xor_si128(left, right);
             }
             else
             {
                 return new byte4((byte)(left.x ^ right.x), (byte)(left.y ^ right.y), (byte)(left.z ^ right.z), (byte)(left.w ^ right.w));
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator ++ (byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.inc_epi8(x);
 			}
@@ -6338,11 +6335,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new byte4((byte)(x.x + 1), (byte)(x.y + 1), (byte)(x.z + 1), (byte)(x.w + 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator -- (byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.dec_epi8(x);
 			}
@@ -6351,11 +6348,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new byte4((byte)(x.x - 1), (byte)(x.y - 1), (byte)(x.z - 1), (byte)(x.w - 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator ~ (byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.not_si128(x);
 			}
@@ -6364,14 +6361,14 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new byte4((byte)(~x.x), (byte)(~x.y), (byte)(~x.z), (byte)(~x.w));
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator << (byte4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.slli_epi8(x, n);
+                return Xse.slli_epi8(x, n, inRange: true);
             }
             else
             {
@@ -6382,9 +6379,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator >> (byte4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.srli_epi8(x, n);
+                return Xse.srli_epi8(x, n, inRange: true);
             }
             else
             {
@@ -6396,9 +6393,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator == (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Sse2.cmpeq_epi8(left, right));
+                v128 results = RegisterConversion.IsTrue8(Xse.cmpeq_epi8(left, right));
 
                 return *(bool4*)&results;
             }
@@ -6407,11 +6404,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new bool4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator < (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue8(Xse.cmplt_epu8(left, right, 4));
 
@@ -6426,7 +6423,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator > (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue8(Xse.cmpgt_epu8(left, right, 4));
 
@@ -6442,9 +6439,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator != (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsFalse8(Sse2.cmpeq_epi8(left, right));
+                v128 results = RegisterConversion.IsFalse8(Xse.cmpeq_epi8(left, right));
 
                 return *(bool4*)&results;
             }
@@ -6453,11 +6450,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new bool4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator <= (byte4 left, byte4 right)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				v128 results = RegisterConversion.IsTrue8(Xse.cmple_epu8(left, right, 4));
 
@@ -6472,7 +6469,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator >= (byte4 left, byte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue8(Xse.cmpge_epu8(left, right, 4));
 
@@ -6488,9 +6485,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly bool Equals(byte4 other)
 		{
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				return uint.MaxValue == Sse2.cmpeq_epi8(this, other).UInt0;
+				return uint.MaxValue == Xse.cmpeq_epi8(this, other).UInt0;
 
 			}
 			else
@@ -6505,7 +6502,7 @@ Assert.IsWithinArrayBounds(index, 4);
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override readonly int GetHashCode()
 		{
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return ((v128)this).SInt0;
 			}

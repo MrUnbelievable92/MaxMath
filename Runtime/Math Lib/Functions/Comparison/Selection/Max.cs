@@ -22,16 +22,34 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_GE_EPI8(a, 0, elements) && constexpr.ALL_GE_EPI8(b, 0, elements))
                     {
-                        return Sse2.max_epu8(a, b);
+                        return max_epu8(a, b);
                     }
                     else
                     {
-                        return blendv_si128(a, b, Sse2.cmpgt_epi8(b, a));
+                        return blendv_si128(a, b, cmpgt_epi8(b, a));
                     }
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_s8(a, b);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
+		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		    public static v128 max_epi16(v128 a, v128 b)
+		    {
+		    	if (Sse2.IsSse2Supported)
+		    	{
+		    		return Sse2.max_epi16(a, b);
+		    	}
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_s16(a, b);
+                }
+		    	else throw new IllegalInstructionException();
+		    }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 max_epi32(v128 a, v128 b)
             {
@@ -41,15 +59,19 @@ namespace MaxMath
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    return blendv_si128(a, b, Sse2.cmpgt_epi32(b, a));
+                    return blendv_si128(a, b, cmpgt_epi32(b, a));
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_s32(a, b);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 max_epi64(v128 a, v128 b)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_GE_EPI64(a, int.MinValue) && constexpr.ALL_GE_EPI64(b, int.MinValue) && constexpr.ALL_LE_EPI64(a, int.MaxValue) && constexpr.ALL_LE_EPI64(b, int.MaxValue))
                     {
@@ -60,8 +82,8 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
-    
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_max_epi64(v256 a, v256 b, byte elements = 4)
             {
@@ -76,7 +98,22 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 max_epu8(v128 a, v128 b)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return Sse2.max_epu8(a, b);
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_u8(a, b);
+                }
+                else throw new IllegalInstructionException();
+            }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 max_epu16(v128 a, v128 b, byte elements = 8)
             {
@@ -88,20 +125,24 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_LE_EPU16(a, (ushort)short.MaxValue, elements) && constexpr.ALL_LE_EPU16(b, (ushort)short.MaxValue, elements))
                     {
-                        return Sse2.max_epi16(a, b);
+                        return max_epi16(a, b);
                     }
                     else
                     {
                         ushort8 mask = 1 << 15;
-    
-                        return Sse2.xor_si128(mask,
-                                              Sse2.max_epi16(Sse2.xor_si128(a, mask),
-                                                             Sse2.xor_si128(b, mask)));
+
+                        return xor_si128(mask,
+                                         max_epi16(xor_si128(a, mask),
+                                                   xor_si128(b, mask)));
                     }
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_u16(a, b);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 max_epu32(v128 a, v128 b, byte elements = 4)
             {
@@ -113,13 +154,17 @@ namespace MaxMath
                 {
                     return blendv_si128(a, b, cmpgt_epu32(b, a, elements));
                 }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vmaxq_u32(a, b);
+                }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 max_epu64(v128 a, v128 b)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a, uint.MaxValue) && constexpr.ALL_LE_EPU64(b, uint.MaxValue))
                     {
@@ -130,7 +175,7 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_max_epu64(v256 a, v256 b, byte elements = 4)
             {
@@ -142,6 +187,51 @@ namespace MaxMath
                     }
 
                     return mm256_blendv_si256(a, b, mm256_cmpgt_epu64(b, a));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 max_pq(v128 a, v128 b, byte elements = 16, bool noNaNs = false, bool noZeros = false)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    if (noNaNs)
+                    {
+                        if (constexpr.ALL_EQ_EPU8(a, 0, elements) || constexpr.ALL_EQ_EPU8(a, 0b1000_0000, elements))
+                        {
+                            return andnot_si128(srai_epi8(b, 7), b);
+                        }
+                        if (constexpr.ALL_EQ_EPU8(b, 0, elements) || constexpr.ALL_EQ_EPU8(b, 0b1000_0000, elements))
+                        {
+                            return andnot_si128(srai_epi8(a, 7), a);
+                        }
+                    }
+
+                    return blendv_si128(a, b, cmplt_pq(a, b, promiseNeitherNaN: noNaNs, promiseNeitherZero: noZeros, elements: elements));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 max_ph(v128 a, v128 b, byte elements = 8, bool noNaNs = false, bool noZeros = false)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    if (noNaNs)
+                    {
+                        if (constexpr.ALL_EQ_EPU16(a, 0, elements) || constexpr.ALL_EQ_EPU16(a, 0x8000, elements))
+                        {
+                            return andnot_si128(srai_epi16(b, 15), b);
+                        }
+                        if (constexpr.ALL_EQ_EPU16(b, 0, elements) || constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
+                        {
+                            return andnot_si128(srai_epi16(a, 15), a);
+                        }
+                    }
+
+                    return blendv_si128(a, b, cmplt_ph(a, b, promiseNeitherNaN: noNaNs, promiseNeitherZero: noZeros, elements: elements));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -177,13 +267,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 max(byte2 a, byte2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epu8(a, b);
+                return Xse.max_epu8(a, b);
             }
             else
             {
-                return new byte2((byte)math.max((uint)a.x, (uint)b.x), (byte)math.max((uint)a.y, (uint)b.y));
+                return new byte2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -191,13 +281,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 max(byte3 a, byte3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epu8(a, b);
+                return Xse.max_epu8(a, b);
             }
             else
             {
-                return new byte3((byte)math.max((uint)a.x, (uint)b.x), (byte)math.max((uint)a.y, (uint)b.y), (byte)math.max((uint)a.z, (uint)b.z));
+                return new byte3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
             }
         }
 
@@ -205,13 +295,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 max(byte4 a, byte4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epu8(a, b);
+                return Xse.max_epu8(a, b);
             }
             else
             {
-                return new byte4((byte)math.max((uint)a.x, (uint)b.x), (byte)math.max((uint)a.y, (uint)b.y), (byte)math.max((uint)a.z, (uint)b.z), (byte)math.max((uint)a.w, (uint)b.w));
+                return new byte4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
             }
         }
 
@@ -219,13 +309,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 max(byte8 a, byte8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epu8(a, b);
+                return Xse.max_epu8(a, b);
             }
             else
             {
-                return new byte8((byte)math.max((uint)a.x0, (uint)b.x0), (byte)math.max((uint)a.x1, (uint)b.x1), (byte)math.max((uint)a.x2, (uint)b.x2), (byte)math.max((uint)a.x3, (uint)b.x3), (byte)math.max((uint)a.x4, (uint)b.x4), (byte)math.max((uint)a.x5, (uint)b.x5), (byte)math.max((uint)a.x6, (uint)b.x6), (byte)math.max((uint)a.x7, (uint)b.x7));
+                return new byte8(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7));
             }
         }
 
@@ -233,13 +323,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 max(byte16 a, byte16 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epu8(a, b);
+                return Xse.max_epu8(a, b);
             }
             else
             {
-                return new byte16((byte)math.max((uint)a.x0, (uint)b.x0), (byte)math.max((uint)a.x1, (uint)b.x1), (byte)math.max((uint)a.x2, (uint)b.x2), (byte)math.max((uint)a.x3, (uint)b.x3), (byte)math.max((uint)a.x4, (uint)b.x4), (byte)math.max((uint)a.x5, (uint)b.x5), (byte)math.max((uint)a.x6, (uint)b.x6), (byte)math.max((uint)a.x7, (uint)b.x7), (byte)math.max((uint)a.x8, (uint)b.x8), (byte)math.max((uint)a.x9, (uint)b.x9), (byte)math.max((uint)a.x10, (uint)b.x10), (byte)math.max((uint)a.x11, (uint)b.x11), (byte)math.max((uint)a.x12, (uint)b.x12), (byte)math.max((uint)a.x13, (uint)b.x13), (byte)math.max((uint)a.x14, (uint)b.x14), (byte)math.max((uint)a.x15, (uint)b.x15));
+                return new byte16(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7), max(a.x8, b.x8), max(a.x9, b.x9), max(a.x10, b.x10), max(a.x11, b.x11), max(a.x12, b.x12), max(a.x13, b.x13), max(a.x14, b.x14), max(a.x15, b.x15));
             }
         }
 
@@ -269,13 +359,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 max(sbyte2 a, sbyte2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi8(a, b, 2);
             }
             else
             {
-                return new sbyte2((sbyte)math.max(a.x, b.x), (sbyte)math.max(a.y, b.y));
+                return new sbyte2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -283,13 +373,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 max(sbyte3 a, sbyte3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi8(a, b, 3);
             }
             else
             {
-                return new sbyte3((sbyte)math.max(a.x, b.x), (sbyte)math.max(a.y, b.y), (sbyte)math.max(a.z, b.z));
+                return new sbyte3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
             }
         }
 
@@ -297,13 +387,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 max(sbyte4 a, sbyte4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi8(a, b, 4);
             }
             else
             {
-                return new sbyte4((sbyte)math.max(a.x, b.x), (sbyte)math.max(a.y, b.y), (sbyte)math.max(a.z, b.z), (sbyte)math.max(a.w, b.w));
+                return new sbyte4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
             }
         }
 
@@ -311,13 +401,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 max(sbyte8 a, sbyte8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi8(a, b, 8);
             }
             else
             {
-                return new sbyte8((sbyte)math.max(a.x0, b.x0), (sbyte)math.max(a.x1, b.x1), (sbyte)math.max(a.x2, b.x2), (sbyte)math.max(a.x3, b.x3), (sbyte)math.max(a.x4, b.x4), (sbyte)math.max(a.x5, b.x5), (sbyte)math.max(a.x6, b.x6), (sbyte)math.max(a.x7, b.x7));
+                return new sbyte8(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7));
             }
         }
 
@@ -325,13 +415,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 max(sbyte16 a, sbyte16 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi8(a, b, 16);
             }
             else
             {
-                return new sbyte16((sbyte)math.max(a.x0, b.x0), (sbyte)math.max(a.x1, b.x1), (sbyte)math.max(a.x2, b.x2), (sbyte)math.max(a.x3, b.x3), (sbyte)math.max(a.x4, b.x4), (sbyte)math.max(a.x5, b.x5), (sbyte)math.max(a.x6, b.x6), (sbyte)math.max(a.x7, b.x7), (sbyte)math.max(a.x8, b.x8), (sbyte)math.max(a.x9, b.x9), (sbyte)math.max(a.x10, b.x10), (sbyte)math.max(a.x11, b.x11), (sbyte)math.max(a.x12, b.x12), (sbyte)math.max(a.x13, b.x13), (sbyte)math.max(a.x14, b.x14), (sbyte)math.max(a.x15, b.x15));
+                return new sbyte16(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7), max(a.x8, b.x8), max(a.x9, b.x9), max(a.x10, b.x10), max(a.x11, b.x11), max(a.x12, b.x12), max(a.x13, b.x13), max(a.x14, b.x14), max(a.x15, b.x15));
             }
         }
 
@@ -361,13 +451,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 max(ushort2 a, ushort2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epu16(a, b, 2);
             }
             else
             {
-                return new ushort2((ushort)math.max((uint)a.x, (uint)b.x), (ushort)math.max((uint)a.y, (uint)b.y));
+                return new ushort2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -375,13 +465,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 max(ushort3 a, ushort3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epu16(a, b, 3);
             }
             else
             {
-                return new ushort3((ushort)math.max((uint)a.x, (uint)b.x), (ushort)math.max((uint)a.y, (uint)b.y), (ushort)math.max((uint)a.z, (uint)b.z));
+                return new ushort3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
             }
         }
 
@@ -389,13 +479,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 max(ushort4 a, ushort4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epu16(a, b, 4);
             }
             else
             {
-                return new ushort4((ushort)math.max((uint)a.x, (uint)b.x), (ushort)math.max((uint)a.y, (uint)b.y), (ushort)math.max((uint)a.z, (uint)b.z), (ushort)math.max((uint)a.w, (uint)b.w));
+                return new ushort4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
             }
         }
 
@@ -403,13 +493,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 max(ushort8 a, ushort8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epu16(a, b, 8);
             }
             else
             {
-                return new ushort8((ushort)math.max((uint)a.x0, (uint)b.x0), (ushort)math.max((uint)a.x1, (uint)b.x1), (ushort)math.max((uint)a.x2, (uint)b.x2), (ushort)math.max((uint)a.x3, (uint)b.x3), (ushort)math.max((uint)a.x4, (uint)b.x4), (ushort)math.max((uint)a.x5, (uint)b.x5), (ushort)math.max((uint)a.x6, (uint)b.x6), (ushort)math.max((uint)a.x7, (uint)b.x7));
+                return new ushort8(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7));
             }
         }
 
@@ -439,13 +529,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 max(short2 a, short2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epi16(a, b);
+                return Xse.max_epi16(a, b);
             }
             else
             {
-                return new short2((short)math.max(a.x, b.x), (short)math.max(a.y, b.y));
+                return new short2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -453,13 +543,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 max(short3 a, short3 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epi16(a, b);
+                return Xse.max_epi16(a, b);
             }
             else
             {
-                return new short3((short)math.max(a.x, b.x), (short)math.max(a.y, b.y), (short)math.max(a.z, b.z));
+                return new short3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
             }
         }
 
@@ -467,13 +557,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 max(short4 a, short4 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epi16(a, b);
+                return Xse.max_epi16(a, b);
             }
             else
             {
-                return new short4((short)math.max(a.x, b.x), (short)math.max(a.y, b.y), (short)math.max(a.z, b.z), (short)math.max(a.w, b.w));
+                return new short4(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w));
             }
         }
 
@@ -481,13 +571,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 max(short8 a, short8 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.max_epi16(a, b);
+                return Xse.max_epi16(a, b);
             }
             else
             {
-                return new short8((short)math.max(a.x0, b.x0), (short)math.max(a.x1, b.x1), (short)math.max(a.x2, b.x2), (short)math.max(a.x3, b.x3), (short)math.max(a.x4, b.x4), (short)math.max(a.x5, b.x5), (short)math.max(a.x6, b.x6), (short)math.max(a.x7, b.x7));
+                return new short8(max(a.x0, b.x0), max(a.x1, b.x1), max(a.x2, b.x2), max(a.x3, b.x3), max(a.x4, b.x4), max(a.x5, b.x5), max(a.x6, b.x6), max(a.x7, b.x7));
             }
         }
 
@@ -540,7 +630,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 max(ulong2 a, ulong2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epu64(a, b);
             }
@@ -583,7 +673,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 max(long2 a, long2 b)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.max_epi64(a, b);
             }
@@ -633,6 +723,222 @@ namespace MaxMath
             else
             {
                 return new float8(math.max(a.v4_0, b.v4_0), math.max(a.v4_4, b.v4_4));
+            }
+        }
+
+
+        /// <summary>       Returns the maximum of two <see cref="quarter"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter max(quarter a, quarter b, Promise promises = Promise.Nothing)
+        {
+            if (promises.Promises(Promise.Unsafe0))
+            {
+                if (constexpr.IS_TRUE(a.IsZero))
+                {
+                    return asquarter(andnot(b.value, (byte)((sbyte)b.value >> 31)));
+                }
+                if (constexpr.IS_TRUE(b.IsZero))
+                {
+                    return asquarter(andnot(a.value, (byte)((sbyte)a.value >> 31)));
+                }
+            }
+
+            return a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? b : a;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter2 max(quarter2 a, quarter2 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
+            }
+            else
+            {
+                return new quarter2(max(a.x, b.x, promises), max(a.y, b.y, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter3 max(quarter3 a, quarter3 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
+            }
+            else
+            {
+                return new quarter3(max(a.x, b.x, promises), max(a.y, b.y, promises), max(a.z, b.z, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter4 max(quarter4 a, quarter4 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
+            }
+            else
+            {
+                return new quarter4(max(a.x, b.x, promises), max(a.y, b.y, promises), max(a.z, b.z, promises), max(a.w, b.w, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter8"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter8 max(quarter8 a, quarter8 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+            }
+            else
+            {
+                return new quarter8(max(a.x0, b.x0, promises),
+                                    max(a.x1, b.x1, promises),
+                                    max(a.x2, b.x2, promises),
+                                    max(a.x3, b.x3, promises),
+                                    max(a.x4, b.x4, promises),
+                                    max(a.x5, b.x5, promises),
+                                    max(a.x6, b.x6, promises),
+                                    max(a.x7, b.x7, promises));
+            }
+        }
+
+
+        /// <summary>       Returns the maximum of two <see cref="half"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half max(half a, half b, Promise promises = Promise.Nothing)
+        {
+            if (promises.Promises(Promise.Unsafe0))
+            {
+                if (constexpr.IS_TRUE(a.IsZero()))
+                {
+                    return ashalf(andnot(b.value, (ushort)((short)b.value >> 31)));
+                }
+                if (constexpr.IS_TRUE(b.IsZero()))
+                {
+                    return ashalf(andnot(a.value, (ushort)((short)a.value >> 31)));
+                }
+            }
+
+            return a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? b : a;
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="half2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half2 max(half2 a, half2 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToHalf2(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2));
+            }
+            else
+            {
+                return new half2(max(a.x, b.x, promises), max(a.y, b.y, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="half3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half3 max(half3 a, half3 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToHalf3(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3));
+            }
+            else
+            {
+                return new half3(max(a.x, b.x, promises), max(a.y, b.y, promises), max(a.z, b.z, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="half4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half4 max(half4 a, half4 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToHalf4(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4));
+            }
+            else
+            {
+                return new half4(max(a.x, b.x, promises), max(a.y, b.y, promises), max(a.z, b.z, promises), max(a.w, b.w, promises));
+            }
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half8"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half8 max(half8 a, half8 b, Promise promises = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+            }
+            else
+            {
+                return new half8(max(a.x0, b.x0, promises),
+                                 max(a.x1, b.x1, promises),
+                                 max(a.x2, b.x2, promises),
+                                 max(a.x3, b.x3, promises),
+                                 max(a.x4, b.x4, promises),
+                                 max(a.x5, b.x5, promises),
+                                 max(a.x6, b.x6, promises),
+                                 max(a.x7, b.x7, promises));
             }
         }
     }

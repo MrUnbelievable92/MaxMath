@@ -14,17 +14,17 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bswap_epi16(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.shuffle_epi8(a, new v128(1, 0,   3, 2,   5, 4,   7, 6,   9, 8,   11, 10,   13, 12,   15, 14));
+                    return shuffle_epi8(a, new v128(1, 0,   3, 2,   5, 4,   7, 6,   9, 8,   11, 10,   13, 12,   15, 14));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return rol_epi16(a, 8);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bswap_epi16(v256 a)
             {
@@ -35,22 +35,22 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-    
-    
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bswap_epi32(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.shuffle_epi8(a, new v128(3, 2, 1, 0,   7, 6, 5, 4,   11, 10, 9, 8,   15, 14, 13, 12));
+                    return shuffle_epi8(a, new v128(3, 2, 1, 0,   7, 6, 5, 4,   11, 10, 9, 8,   15, 14, 13, 12));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return rol_epi32(bswap_epi16(a), 16);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bswap_epi32(v256 a)
             {
@@ -61,22 +61,22 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-    
-    
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bswap_epi64(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.shuffle_epi8(a, new v128(7, 6, 5, 4, 3, 2, 1, 0,   15, 14, 13, 12, 11, 10, 9, 8));
+                    return shuffle_epi8(a, new v128(7, 6, 5, 4, 3, 2, 1, 0,   15, 14, 13, 12, 11, 10, 9, 8));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return rol_epi64(bswap_epi32(a), 32);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bswap_epi64(v256 a)
             {
@@ -97,14 +97,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 reversebytes(UInt128 x)
         {
-            return new UInt128(reversebytes(x.hi64), reversebytes(x.lo64)); 
+            return new UInt128(reversebytes(x.hi64), reversebytes(x.lo64));
         }
 
         ///<summary>        Returns the result of performing a reversal of the byte order of an <see cref="Int128"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 reversebytes(Int128 x)
         {
-            return new Int128(reversebytes(x.hi64), reversebytes(x.lo64)); 
+            return new Int128(reversebytes(x.hi64), reversebytes(x.lo64));
         }
 
 
@@ -119,7 +119,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 reversebytes(ushort2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.bswap_epi16(x);
             }
@@ -133,7 +133,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 reversebytes(ushort3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.bswap_epi16(x);
             }
@@ -147,7 +147,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 reversebytes(ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.bswap_epi16(x);
             }
@@ -161,7 +161,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 reversebytes(ushort8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.bswap_epi16(x);
             }
@@ -175,7 +175,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 reversebytes(ushort16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_bswap_epi16(x);
             }
@@ -203,7 +203,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 reversebytes(uint2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.bswap_epi32(RegisterConversion.ToV128(x)));
             }
@@ -217,7 +217,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 reversebytes(uint3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.bswap_epi32(RegisterConversion.ToV128(x)));
             }
@@ -231,7 +231,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 reversebytes(uint4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.bswap_epi32(RegisterConversion.ToV128(x)));
             }
@@ -241,7 +241,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 reversebytes(uint8 x)
@@ -270,7 +270,7 @@ namespace MaxMath
             ulong byte5 = x & 0x0000_FF00_0000_0000;
             ulong byte6 = x & 0x00FF_0000_0000_0000;
             ulong byte7 = x & 0xFF00_0000_0000_0000;
-            
+
             return (byte0 << 56) | (byte1 << 40) | (byte2 << 24) | (byte3 << 8) | (byte4 >> 8) | (byte5 >> 24) | (byte6 >> 40) | (byte7 >> 56);
         }
 
@@ -278,7 +278,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 reversebytes(ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.bswap_epi64(x);
             }

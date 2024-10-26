@@ -4,17 +4,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable] 
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(sbyte))]  
+    [Serializable]
+	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(sbyte))]
 	[DebuggerTypeProxy(typeof(sbyte4.DebuggerProxy))]
     unsafe public struct sbyte4 : IEquatable<sbyte4>, IFormattable
 	{
@@ -47,5853 +44,393 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte x, sbyte y, sbyte z, sbyte w)
         {
-            if (Sse2.IsSse2Supported)
-			{
-                if (Constant.IsConstantExpression(x) && Constant.IsConstantExpression(y) && Constant.IsConstantExpression(z) && Constant.IsConstantExpression(w))
-                {
-                    this = Sse2.cvtsi32_si128((int)bitfield(x, y, z, w));
-                }
-                else
-                {
-					this = Sse2.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, w, z, y, x);
-                }
-			}
-			else
-            {
-				this.x = x;
-				this.y = y;
-				this.z = z;
-				this.w = w;
-			}
+			this = (sbyte4)new byte4((byte)x, (byte)y, (byte)z, (byte)w);
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte xyzw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-                if (Constant.IsConstantExpression(xyzw))
-                {
-					this = Sse2.cvtsi32_si128((int)bitfield(xyzw, xyzw, xyzw, xyzw));
-                }
-				else
-				{
-					this = Sse2.set1_epi8(xyzw);
-				}
-			}
-			else
-			{
-				this.x = this.y = this.z = this.w = xyzw;
-			}
+			this = (sbyte4)new byte4((byte)xyzw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte2 xy, sbyte z, sbyte w)
         {
-            if (Sse2.IsSse2Supported)
-            {
-				this = Sse2.unpacklo_epi16(xy, new sbyte2(z, w));
-			}
-			else
-            {
-				this.x = xy.x;
-				this.y = xy.y;
-				this.z = z;
-				this.w = w;
-			}
+			this = (sbyte4)new byte4((byte2)xy, (byte)z, (byte)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte x, sbyte2 yz, sbyte w)
         {
-			if (Sse4_1.IsSse41Supported)
-			{
-				this = Sse4_1.insert_epi8(Sse4_1.insert_epi8(Sse2.bslli_si128(yz, sizeof(sbyte)), (byte)x, 0), (byte)w, 3);
-			}
-			else if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.set_epi8(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, w, yz.y, yz.x, x);
-			}
-			else
-			{
-				this.x = x;
-				this.y = yz.x;
-				this.z = yz.y;
-				this.w = w;
-			}
+			this = (sbyte4)new byte4((byte)x, (byte2)yz, (byte)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte x, sbyte y, sbyte2 zw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.unpacklo_epi16(new sbyte2(x, y), zw);
-			}
-			else
-			{
-				this.x = x;
-				this.y = y;
-				this.z = zw.x;
-				this.w = zw.y;
-			}
+			this = (sbyte4)new byte4((byte)x, (byte)y, (byte2)zw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte2 xy, sbyte2 zw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.unpacklo_epi16(xy, zw);
-			}
-			else
-			{
-				this.x = xy.x;
-				this.y = xy.y;
-				this.z = zw.x;
-				this.w = zw.y;
-			}
+			this = (sbyte4)new byte4((byte2)xy, (byte2)zw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte3 xyz, sbyte w)
         {
-			if (Sse4_1.IsSse41Supported)
-			{
-				this = Sse4_1.insert_epi8(xyz, (byte)w, 3);
-			}
-			else if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.or_si128(xyz, Sse2.bslli_si128(Sse2.cvtsi32_si128((byte)w), 3 * sizeof(sbyte)));
-			}
-			else
-			{
-				this.x = xyz.x;
-				this.y = xyz.y;
-				this.z = xyz.z;
-				this.w = w;
-			}
+			this = (sbyte4)new byte4((byte3)xyz, (byte)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4(sbyte x, sbyte3 yzw)
         {
-			if (Sse4_1.IsSse41Supported)
-			{
-				this = Sse4_1.insert_epi8(Sse2.bslli_si128(yzw, sizeof(sbyte)), (byte)x, 0);
-			}
-			else if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.or_si128(Sse2.bslli_si128(yzw, sizeof(sbyte)), Sse2.cvtsi32_si128((byte)x));
-			}
-			else
-			{
-				this.x = x;
-				this.y = yzw.x;
-				this.z = yzw.y;
-				this.w = yzw.z;
-			}
+			this = (sbyte4)new byte4((byte)x, (byte3)yzw);
         }
 
-		
+
         #region Shuffle
-		public readonly sbyte4 xxxx
-        { 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxxx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 xxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxxy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 xxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxxz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, x, z);
-                }
-            }
-        }
-        public readonly sbyte4 xxxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxxw(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, x, w);
-				}
-			}
-		}
-        public readonly sbyte4 xxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxyx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 xxyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxyy(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, y, y);
-				}
-			}
-		}
-        public readonly sbyte4 xxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxyz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, y,z);
-                }
-            }
-        }
-        public readonly sbyte4 xxyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxyw(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, y, w);
-				}
-			}
-		}
-        public readonly sbyte4 xxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxzx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 xxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxzy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 xxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxzz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, x, z, z);
-                }
-            }
-        }
-        public readonly sbyte4 xxzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxzw(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, z, w);
-				}
-			}
-		}
-        public readonly sbyte4 xxwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxwx(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, w, x);
-				}
-			}
-		}
-        public readonly sbyte4 xxwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxwy(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, w, y);
-				}
-			}
-		}
-        public readonly sbyte4 xxwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxwz(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, w, z);
-				}
-			}
-		}
-        public readonly sbyte4 xxww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxww(this);
-                }
-				else
-				{
-					return new sbyte4(x, x, w, w);
-				}
-			}
-		}
-        public readonly sbyte4 xyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyxx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, x, x);
-                }
-            }
-        }
-		public readonly sbyte4 xyxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyxy(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, x, y);
-				}
-			}
-		}
-        public readonly sbyte4 xyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyxz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 xyxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyxw(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 xyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyyx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, y, x);
-                }
-            }
-        }
-		public readonly sbyte4 xyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyyy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, y, y);
-                }
-            }
-        }
-		public readonly sbyte4 xyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyyz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 xyyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyyw(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 xyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyzx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 xyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyzy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 xyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyzz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, y, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 xywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xywx(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 xywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xywy(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, w, y);
-				}
-			}
-		}
-		public sbyte4 xywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xywz(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, w, z);
-				}
-			}
+		public readonly sbyte4 xxxx => (sbyte4)((byte4)this).xxxx;
+        public readonly sbyte4 xxxy => (sbyte4)((byte4)this).xxxy;
+        public readonly sbyte4 xxxz => (sbyte4)((byte4)this).xxxz;
+        public readonly sbyte4 xxxw => (sbyte4)((byte4)this).xxxw;
+        public readonly sbyte4 xxyx => (sbyte4)((byte4)this).xxyx;
+        public readonly sbyte4 xxyy => (sbyte4)((byte4)this).xxyy;
+        public readonly sbyte4 xxyz => (sbyte4)((byte4)this).xxyz;
+        public readonly sbyte4 xxyw => (sbyte4)((byte4)this).xxyw;
+        public readonly sbyte4 xxzx => (sbyte4)((byte4)this).xxzx;
+        public readonly sbyte4 xxzy => (sbyte4)((byte4)this).xxzy;
+        public readonly sbyte4 xxzz => (sbyte4)((byte4)this).xxzz;
+        public readonly sbyte4 xxzw => (sbyte4)((byte4)this).xxzw;
+        public readonly sbyte4 xxwx => (sbyte4)((byte4)this).xxwx;
+        public readonly sbyte4 xxwy => (sbyte4)((byte4)this).xxwy;
+        public readonly sbyte4 xxwz => (sbyte4)((byte4)this).xxwz;
+        public readonly sbyte4 xxww => (sbyte4)((byte4)this).xxww;
+        public readonly sbyte4 xyxx => (sbyte4)((byte4)this).xyxx;
+		public readonly sbyte4 xyxy => (sbyte4)((byte4)this).xyxy;
+        public readonly sbyte4 xyxz => (sbyte4)((byte4)this).xyxz;
+		public readonly sbyte4 xyxw => (sbyte4)((byte4)this).xyxw;
+		public readonly sbyte4 xyyx => (sbyte4)((byte4)this).xyyx;
+		public readonly sbyte4 xyyy => (sbyte4)((byte4)this).xyyy;
+		public readonly sbyte4 xyyz => (sbyte4)((byte4)this).xyyz;
+		public readonly sbyte4 xyyw => (sbyte4)((byte4)this).xyyw;
+		public readonly sbyte4 xyzx => (sbyte4)((byte4)this).xyzx;
+        public readonly sbyte4 xyzy => (sbyte4)((byte4)this).xyzy;
+        public readonly sbyte4 xyzz => (sbyte4)((byte4)this).xyzz;
+		public readonly sbyte4 xywx => (sbyte4)((byte4)this).xywx;
+		public readonly sbyte4 xywy => (sbyte4)((byte4)this).xywy;
+		public		    sbyte4 xywz { readonly get => (sbyte4)((byte4)this).xywz;  set { byte4 _this = (byte4)this; _this.xywz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 xyww => (sbyte4)((byte4)this).xyww;
+		public readonly sbyte4 xzxx => (sbyte4)((byte4)this).xzxx;
+        public readonly sbyte4 xzxy => (sbyte4)((byte4)this).xzxy;
+        public readonly sbyte4 xzxz => (sbyte4)((byte4)this).xzxz;
+		public readonly sbyte4 xzxw => (sbyte4)((byte4)this).xzxw;
+		public readonly sbyte4 xzyx => (sbyte4)((byte4)this).xzyx;
+        public readonly sbyte4 xzyy => (sbyte4)((byte4)this).xzyy;
+        public readonly sbyte4 xzyz => (sbyte4)((byte4)this).xzyz;
+		public			sbyte4 xzyw { readonly get => (sbyte4)((byte4)this).xzyw;  set { byte4 _this = (byte4)this; _this.xzyw = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 xzzx => (sbyte4)((byte4)this).xzzx;
+        public readonly sbyte4 xzzy => (sbyte4)((byte4)this).xzzy;
+        public readonly sbyte4 xzzz => (sbyte4)((byte4)this).xzzz;
+		public readonly sbyte4 xzzw => (sbyte4)((byte4)this).xzzw;
+		public readonly sbyte4 xzwx => (sbyte4)((byte4)this).xzwx;
+		public			sbyte4 xzwy { readonly get => (sbyte4)((byte4)this).xzwy;  set { byte4 _this = (byte4)this; _this.xzwy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 xzwz => (sbyte4)((byte4)this).xzwz;
+		public readonly sbyte4 xzww => (sbyte4)((byte4)this).xzww;
+		public readonly sbyte4 xwxx => (sbyte4)((byte4)this).xwxx;
+		public readonly sbyte4 xwxy => (sbyte4)((byte4)this).xwxy;
+		public readonly sbyte4 xwxz => (sbyte4)((byte4)this).xwxz;
+		public readonly sbyte4 xwxw => (sbyte4)((byte4)this).xwxw;
+		public readonly sbyte4 xwyx => (sbyte4)((byte4)this).xwyx;
+		public readonly sbyte4 xwyy => (sbyte4)((byte4)this).xwyy;
+		public			sbyte4 xwyz { readonly get => (sbyte4)((byte4)this).xwyz;  set { byte4 _this = (byte4)this; _this.xwyz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 xwyw => (sbyte4)((byte4)this).xwyw;
+		public readonly sbyte4 xwzx => (sbyte4)((byte4)this).xwzx;
+		public			sbyte4 xwzy { readonly get => (sbyte4)((byte4)this).xwzy;  set { byte4 _this = (byte4)this; _this.xwzy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 xwzz => (sbyte4)((byte4)this).xwzz;
+		public readonly sbyte4 xwzw => (sbyte4)((byte4)this).xwzw;
+		public readonly sbyte4 xwwx => (sbyte4)((byte4)this).xwwx;
+		public readonly sbyte4 xwwy => (sbyte4)((byte4)this).xwwy;
+		public readonly sbyte4 xwwz => (sbyte4)((byte4)this).xwwz;
+		public readonly sbyte4 xwww => (sbyte4)((byte4)this).xwww;
+		public readonly sbyte4 yxxx => (sbyte4)((byte4)this).yxxx;
+        public readonly sbyte4 yxxy => (sbyte4)((byte4)this).yxxy;
+        public readonly sbyte4 yxxz => (sbyte4)((byte4)this).yxxz;
+		public readonly sbyte4 yxxw => (sbyte4)((byte4)this).yxxw;
+		public readonly sbyte4 yxyx => (sbyte4)((byte4)this).yxyx;
+        public readonly sbyte4 yxyy => (sbyte4)((byte4)this).yxyy;
+        public readonly sbyte4 yxyz => (sbyte4)((byte4)this).yxyz;
+		public readonly sbyte4 yxyw => (sbyte4)((byte4)this).yxyw;
+		public readonly sbyte4 yxzx => (sbyte4)((byte4)this).yxzx;
+        public readonly sbyte4 yxzy => (sbyte4)((byte4)this).yxzy;
+        public readonly sbyte4 yxzz => (sbyte4)((byte4)this).yxzz;
+		public			sbyte4 yxzw { readonly get => (sbyte4)((byte4)this).yxzw;  set { byte4 _this = (byte4)this; _this.yxzw = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 yxwx => (sbyte4)((byte4)this).yxwx;
+		public readonly sbyte4 yxwy => (sbyte4)((byte4)this).yxwy;
+		public			sbyte4 yxwz { readonly get => (sbyte4)((byte4)this).yxwz;  set { byte4 _this = (byte4)this; _this.yxwz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 yxww => (sbyte4)((byte4)this).yxww;
+		public readonly sbyte4 yyxx => (sbyte4)((byte4)this).yyxx;
+        public readonly sbyte4 yyxy => (sbyte4)((byte4)this).yyxy;
+        public readonly sbyte4 yyxz => (sbyte4)((byte4)this).yyxz;
+		public readonly sbyte4 yyxw => (sbyte4)((byte4)this).yyxw;
+		public readonly sbyte4 yyyx => (sbyte4)((byte4)this).yyyx;
+        public readonly sbyte4 yyyy => (sbyte4)((byte4)this).yyyy;
+        public readonly sbyte4 yyyz => (sbyte4)((byte4)this).yyyz;
+		public readonly sbyte4 yyyw => (sbyte4)((byte4)this).yyyw;
+		public readonly sbyte4 yyzx => (sbyte4)((byte4)this).yyzx;
+        public readonly sbyte4 yyzy => (sbyte4)((byte4)this).yyzy;
+        public readonly sbyte4 yyzz => (sbyte4)((byte4)this).yyzz;
+		public readonly sbyte4 yyzw => (sbyte4)((byte4)this).yyzw;
+		public readonly sbyte4 yywx => (sbyte4)((byte4)this).yywx;
+		public readonly sbyte4 yywy => (sbyte4)((byte4)this).yywy;
+		public readonly sbyte4 yywz => (sbyte4)((byte4)this).yywz;
+		public readonly sbyte4 yyww => (sbyte4)((byte4)this).yyww;
+		public readonly sbyte4 yzxx => (sbyte4)((byte4)this).yzxx;
+        public readonly sbyte4 yzxy => (sbyte4)((byte4)this).yzxy;
+        public readonly sbyte4 yzxz => (sbyte4)((byte4)this).yzxz;
+		public			sbyte4 yzxw { readonly get => (sbyte4)((byte4)this).yzxw;  set { byte4 _this = (byte4)this; _this.yzxw = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 yzyx => (sbyte4)((byte4)this).yzyx;
+        public readonly sbyte4 yzyy => (sbyte4)((byte4)this).yzyy;
+        public readonly sbyte4 yzyz => (sbyte4)((byte4)this).yzyz;
+		public readonly sbyte4 yzyw => (sbyte4)((byte4)this).yzyw;
+		public readonly sbyte4 yzzx => (sbyte4)((byte4)this).yzzx;
+        public readonly sbyte4 yzzy => (sbyte4)((byte4)this).yzzy;
+        public readonly sbyte4 yzzz => (sbyte4)((byte4)this).yzzz;
+		public readonly sbyte4 yzzw => (sbyte4)((byte4)this).yzzw;
+		public			sbyte4 yzwx { readonly get => (sbyte4)((byte4)this).yzwx;  set { byte4 _this = (byte4)this; _this.yzwx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 yzwy => (sbyte4)((byte4)this).yzwy;
+		public readonly sbyte4 yzwz => (sbyte4)((byte4)this).yzwz;
+		public readonly sbyte4 yzww => (sbyte4)((byte4)this).yzww;
+		public readonly sbyte4 ywxx => (sbyte4)((byte4)this).ywxx;
+		public readonly sbyte4 ywxy => (sbyte4)((byte4)this).ywxy;
+		public			sbyte4 ywxz { readonly get => (sbyte4)((byte4)this).ywxz;  set { byte4 _this = (byte4)this; _this.ywxz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 ywxw => (sbyte4)((byte4)this).ywxw;
+		public readonly sbyte4 ywyx => (sbyte4)((byte4)this).ywyx;
+		public readonly sbyte4 ywyy => (sbyte4)((byte4)this).ywyy;
+		public readonly sbyte4 ywyz => (sbyte4)((byte4)this).ywyz;
+		public readonly sbyte4 ywyw => (sbyte4)((byte4)this).ywyw;
+		public			sbyte4 ywzx { readonly get => (sbyte4)((byte4)this).ywzx;  set { byte4 _this = (byte4)this; _this.ywzx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 ywzy => (sbyte4)((byte4)this).ywzy;
+		public readonly sbyte4 ywzz => (sbyte4)((byte4)this).ywzz;
+		public readonly sbyte4 ywzw => (sbyte4)((byte4)this).ywzw;
+		public readonly sbyte4 ywwx => (sbyte4)((byte4)this).ywwx;
+		public readonly sbyte4 ywwy => (sbyte4)((byte4)this).ywwy;
+		public readonly sbyte4 ywwz => (sbyte4)((byte4)this).ywwz;
+		public readonly sbyte4 ywww => (sbyte4)((byte4)this).ywww;
+		public readonly sbyte4 zxxx => (sbyte4)((byte4)this).zxxx;
+        public readonly sbyte4 zxxy => (sbyte4)((byte4)this).zxxy;
+        public readonly sbyte4 zxxz => (sbyte4)((byte4)this).zxxz;
+		public readonly sbyte4 zxxw => (sbyte4)((byte4)this).zxxw;
+		public readonly sbyte4 zxyx => (sbyte4)((byte4)this).zxyx;
+        public readonly sbyte4 zxyy => (sbyte4)((byte4)this).zxyy;
+        public readonly sbyte4 zxyz => (sbyte4)((byte4)this).zxyz;
+		public			sbyte4 zxyw { readonly get => (sbyte4)((byte4)this).zxyw;  set { byte4 _this = (byte4)this; _this.zxyw = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zxzx => (sbyte4)((byte4)this).zxzx;
+        public readonly sbyte4 zxzy => (sbyte4)((byte4)this).zxzy;
+        public readonly sbyte4 zxzz => (sbyte4)((byte4)this).zxzz;
+		public readonly sbyte4 zxzw => (sbyte4)((byte4)this).zxzw;
+		public readonly sbyte4 zxwx => (sbyte4)((byte4)this).zxwx;
+		public			sbyte4 zxwy { readonly get => (sbyte4)((byte4)this).zxwy;  set { byte4 _this = (byte4)this; _this.zxwy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zxwz => (sbyte4)((byte4)this).zxwz;
+		public readonly sbyte4 zxww => (sbyte4)((byte4)this).zxww;
+		public readonly sbyte4 zyxx => (sbyte4)((byte4)this).zyxx;
+        public readonly sbyte4 zyxy => (sbyte4)((byte4)this).zyxy;
+        public readonly sbyte4 zyxz => (sbyte4)((byte4)this).zyxz;
+		public			sbyte4 zyxw { readonly get => (sbyte4)((byte4)this).zyxw;  set { byte4 _this = (byte4)this; _this.zyxw = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zyyx => (sbyte4)((byte4)this).zyyx;
+        public readonly sbyte4 zyyy => (sbyte4)((byte4)this).zyyy;
+        public readonly sbyte4 zyyz => (sbyte4)((byte4)this).zyyz;
+		public readonly sbyte4 zyyw => (sbyte4)((byte4)this).zyyw;
+		public readonly sbyte4 zyzx => (sbyte4)((byte4)this).zyzx;
+        public readonly sbyte4 zyzy => (sbyte4)((byte4)this).zyzy;
+        public readonly sbyte4 zyzz => (sbyte4)((byte4)this).zyzz;
+		public readonly sbyte4 zyzw => (sbyte4)((byte4)this).zyzw;
+		public			sbyte4 zywx { readonly get => (sbyte4)((byte4)this).zywx;  set { byte4 _this = (byte4)this; _this.zywx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zywy => (sbyte4)((byte4)this).zywy;
+		public readonly sbyte4 zywz => (sbyte4)((byte4)this).zywz;
+		public readonly sbyte4 zyww => (sbyte4)((byte4)this).zyww;
+		public readonly sbyte4 zzxx => (sbyte4)((byte4)this).zzxx;
+        public readonly sbyte4 zzxy => (sbyte4)((byte4)this).zzxy;
+        public readonly sbyte4 zzxz => (sbyte4)((byte4)this).zzxz;
+		public readonly sbyte4 zzxw => (sbyte4)((byte4)this).zzxw;
+		public readonly sbyte4 zzyx => (sbyte4)((byte4)this).zzyx;
+        public readonly sbyte4 zzyy => (sbyte4)((byte4)this).zzyy;
+        public readonly sbyte4 zzyz => (sbyte4)((byte4)this).zzyz;
+		public readonly sbyte4 zzyw => (sbyte4)((byte4)this).zzyw;
+		public readonly sbyte4 zzzx => (sbyte4)((byte4)this).zzzx;
+        public readonly sbyte4 zzzy => (sbyte4)((byte4)this).zzzy;
+        public readonly sbyte4 zzzz => (sbyte4)((byte4)this).zzzz;
+		public readonly sbyte4 zzzw => (sbyte4)((byte4)this).zzzw;
+		public readonly sbyte4 zzwx => (sbyte4)((byte4)this).zzwx;
+		public readonly sbyte4 zzwy => (sbyte4)((byte4)this).zzwy;
+		public readonly sbyte4 zzwz => (sbyte4)((byte4)this).zzwz;
+		public readonly sbyte4 zzww => (sbyte4)((byte4)this).zzww;
+		public readonly sbyte4 zwxx => (sbyte4)((byte4)this).zwxx;
+		public			sbyte4 zwxy { readonly get => (sbyte4)((byte4)this).zwxy;  set { byte4 _this = (byte4)this; _this.zwxy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zwxz => (sbyte4)((byte4)this).zwxz;
+		public readonly sbyte4 zwxw => (sbyte4)((byte4)this).zwxw;
+		public			sbyte4 zwyx { readonly get => (sbyte4)((byte4)this).zwyx;  set { byte4 _this = (byte4)this; _this.zwyx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 zwyy => (sbyte4)((byte4)this).zwyy;
+		public readonly sbyte4 zwyz => (sbyte4)((byte4)this).zwyz;
+		public readonly sbyte4 zwyw => (sbyte4)((byte4)this).zwyw;
+		public readonly sbyte4 zwzx => (sbyte4)((byte4)this).zwzx;
+		public readonly sbyte4 zwzy => (sbyte4)((byte4)this).zwzy;
+		public readonly sbyte4 zwzz => (sbyte4)((byte4)this).zwzz;
+		public readonly sbyte4 zwzw => (sbyte4)((byte4)this).zwzw;
+		public readonly sbyte4 zwwx => (sbyte4)((byte4)this).zwwx;
+		public readonly sbyte4 zwwy => (sbyte4)((byte4)this).zwwy;
+		public readonly sbyte4 zwwz => (sbyte4)((byte4)this).zwwz;
+		public readonly sbyte4 zwww => (sbyte4)((byte4)this).zwww;
+		public readonly sbyte4 wxxx => (sbyte4)((byte4)this).wxxx;
+		public readonly sbyte4 wxxy => (sbyte4)((byte4)this).wxxy;
+		public readonly sbyte4 wxxz => (sbyte4)((byte4)this).wxxz;
+		public readonly sbyte4 wxxw => (sbyte4)((byte4)this).wxxw;
+		public readonly sbyte4 wxyx => (sbyte4)((byte4)this).wxyx;
+		public readonly sbyte4 wxyy => (sbyte4)((byte4)this).wxyy;
+		public			sbyte4 wxyz { readonly get => (sbyte4)((byte4)this).wxyz;  set { byte4 _this = (byte4)this; _this.wxyz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wxyw => (sbyte4)((byte4)this).wxyw;
+		public readonly sbyte4 wxzx => (sbyte4)((byte4)this).wxzx;
+		public			sbyte4 wxzy { readonly get => (sbyte4)((byte4)this).wxzy;  set { byte4 _this = (byte4)this; _this.wxzy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wxzz => (sbyte4)((byte4)this).wxzz;
+		public readonly sbyte4 wxzw => (sbyte4)((byte4)this).wxzw;
+		public readonly sbyte4 wxwx => (sbyte4)((byte4)this).wxwx;
+		public readonly sbyte4 wxwy => (sbyte4)((byte4)this).wxwy;
+		public readonly sbyte4 wxwz => (sbyte4)((byte4)this).wxwz;
+		public readonly sbyte4 wxww => (sbyte4)((byte4)this).wxww;
+		public readonly sbyte4 wyxx => (sbyte4)((byte4)this).wyxx;
+		public readonly sbyte4 wyxy => (sbyte4)((byte4)this).wyxy;
+		public			sbyte4 wyxz { readonly get => (sbyte4)((byte4)this).wyxz;  set { byte4 _this = (byte4)this; _this.wyxz = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wyxw => (sbyte4)((byte4)this).wyxw;
+		public readonly sbyte4 wyyx => (sbyte4)((byte4)this).wyyx;
+		public readonly sbyte4 wyyy => (sbyte4)((byte4)this).wyyy;
+		public readonly sbyte4 wyyz => (sbyte4)((byte4)this).wyyz;
+		public readonly sbyte4 wyyw => (sbyte4)((byte4)this).wyyw;
+		public			sbyte4 wyzx { readonly get => (sbyte4)((byte4)this).wyzx;  set { byte4 _this = (byte4)this; _this.wyzx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wyzy => (sbyte4)((byte4)this).wyzy;
+		public readonly sbyte4 wyzz => (sbyte4)((byte4)this).wyzz;
+		public readonly sbyte4 wyzw => (sbyte4)((byte4)this).wyzw;
+		public readonly sbyte4 wywx => (sbyte4)((byte4)this).wywx;
+		public readonly sbyte4 wywy => (sbyte4)((byte4)this).wywy;
+		public readonly sbyte4 wywz => (sbyte4)((byte4)this).wywz;
+		public readonly sbyte4 wyww => (sbyte4)((byte4)this).wyww;
+		public readonly sbyte4 wzxx => (sbyte4)((byte4)this).wzxx;
+		public			sbyte4 wzxy { readonly get => (sbyte4)((byte4)this).wzxy;  set { byte4 _this = (byte4)this; _this.wzxy = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wzxz => (sbyte4)((byte4)this).wzxz;
+		public readonly sbyte4 wzxw => (sbyte4)((byte4)this).wzxw;
+		public			sbyte4 wzyx { readonly get => (sbyte4)((byte4)this).wzyx;  set { byte4 _this = (byte4)this; _this.wzyx = (byte4)value; this = (sbyte4)_this; } }
+		public readonly sbyte4 wzyy => (sbyte4)((byte4)this).wzyy;
+		public readonly sbyte4 wzyz => (sbyte4)((byte4)this).wzyz;
+		public readonly sbyte4 wzyw => (sbyte4)((byte4)this).wzyw;
+		public readonly sbyte4 wzzx => (sbyte4)((byte4)this).wzzx;
+		public readonly sbyte4 wzzy => (sbyte4)((byte4)this).wzzy;
+		public readonly sbyte4 wzzz => (sbyte4)((byte4)this).wzzz;
+		public readonly sbyte4 wzzw => (sbyte4)((byte4)this).wzzw;
+		public readonly sbyte4 wzwx => (sbyte4)((byte4)this).wzwx;
+		public readonly sbyte4 wzwy => (sbyte4)((byte4)this).wzwy;
+		public readonly sbyte4 wzwz => (sbyte4)((byte4)this).wzwz;
+		public readonly sbyte4 wzww => (sbyte4)((byte4)this).wzww;
+		public readonly sbyte4 wwxx => (sbyte4)((byte4)this).wwxx;
+		public readonly sbyte4 wwxy => (sbyte4)((byte4)this).wwxy;
+		public readonly sbyte4 wwxz => (sbyte4)((byte4)this).wwxz;
+		public readonly sbyte4 wwxw => (sbyte4)((byte4)this).wwxw;
+		public readonly sbyte4 wwyx => (sbyte4)((byte4)this).wwyx;
+		public readonly sbyte4 wwyy => (sbyte4)((byte4)this).wwyy;
+		public readonly sbyte4 wwyz => (sbyte4)((byte4)this).wwyz;
+		public readonly sbyte4 wwyw => (sbyte4)((byte4)this).wwyw;
+		public readonly sbyte4 wwzx => (sbyte4)((byte4)this).wwzx;
+		public readonly sbyte4 wwzy => (sbyte4)((byte4)this).wwzy;
+		public readonly sbyte4 wwzz => (sbyte4)((byte4)this).wwzz;
+		public readonly sbyte4 wwzw => (sbyte4)((byte4)this).wwzw;
+		public readonly sbyte4 wwwx => (sbyte4)((byte4)this).wwwx;
+		public readonly sbyte4 wwwy => (sbyte4)((byte4)this).wwwy;
+		public readonly sbyte4 wwwz => (sbyte4)((byte4)this).wwwz;
+		public readonly sbyte4 wwww => (sbyte4)((byte4)this).wwww;
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xywz;
-			}
-		}
-		public readonly sbyte4 xyww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyww(this);
-                }
-				else
-				{
-					return new sbyte4(x, y, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 xzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzxx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 xzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzxy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 xzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzxz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 xzxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzxw(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 xzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzyx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 xzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzyy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 xzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzyz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, y, z);
-                }
-            }
-        }
-		public sbyte4 xzyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzyw(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, y, w);
-				}
-			}
+		public readonly sbyte3 xxx => (sbyte3)((byte4)this).xxx;
+        public readonly sbyte3 xxy => (sbyte3)((byte4)this).xxy;
+        public readonly sbyte3 xxz => (sbyte3)((byte4)this).xxz;
+		public readonly sbyte3 xxw => (sbyte3)((byte4)this).xxw;
+		public readonly sbyte3 xyx => (sbyte3)((byte4)this).xyx;
+        public readonly sbyte3 xyy => (sbyte3)((byte4)this).xyy;
+		public			sbyte3 xyz { readonly get => (sbyte3)((byte4)this).xyz;  set { byte4 _this = (byte4)this; _this.xyz = (byte3)value; this = (sbyte4)_this; } }
+		public			sbyte3 xyw { readonly get => (sbyte3)((byte4)this).xyw;  set { byte4 _this = (byte4)this; _this.xyw = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 xzx => (sbyte3)((byte4)this).xzx;
+        public          sbyte3 xzy { readonly get => (sbyte3)((byte4)this).xzy;  set { byte4 _this = (byte4)this; _this.xzy = (byte3)value; this = (sbyte4)_this; } }
+        public readonly sbyte3 xzz => (sbyte3)((byte4)this).xzz;
+		public			sbyte3 xzw { readonly get => (sbyte3)((byte4)this).xzw;  set { byte4 _this = (byte4)this; _this.xzw = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 xwx => (sbyte3)((byte4)this).xwx;
+		public			sbyte3 xwy { readonly get => (sbyte3)((byte4)this).xwy;  set { byte4 _this = (byte4)this; _this.xwy = (byte3)value; this = (sbyte4)_this; } }
+		public			sbyte3 xwz { readonly get => (sbyte3)((byte4)this).xwz;  set { byte4 _this = (byte4)this; _this.xwz = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 xww => (sbyte3)((byte4)this).xww;
+		public readonly sbyte3 yxx => (sbyte3)((byte4)this).yxx;
+        public readonly sbyte3 yxy => (sbyte3)((byte4)this).yxy;
+        public          sbyte3 yxz { readonly get => (sbyte3)((byte4)this).yxz;  set { byte4 _this = (byte4)this; _this.yxz = (byte3)value; this = (sbyte4)_this; } }
+		public			sbyte3 yxw { readonly get => (sbyte3)((byte4)this).yxw;  set { byte4 _this = (byte4)this; _this.yxw = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 yyx => (sbyte3)((byte4)this).yyx;
+        public readonly sbyte3 yyy => (sbyte3)((byte4)this).yyy;
+        public readonly sbyte3 yyz => (sbyte3)((byte4)this).yyz;
+		public readonly sbyte3 yyw => (sbyte3)((byte4)this).yyw;
+		public          sbyte3 yzx { readonly get => (sbyte3)((byte4)this).yzx;  set { byte4 _this = (byte4)this; _this.yzx = (byte3)value; this = (sbyte4)_this; } }
+        public readonly sbyte3 yzy => (sbyte3)((byte4)this).yzy;
+        public readonly sbyte3 yzz => (sbyte3)((byte4)this).yzz;
+		public			sbyte3 yzw { readonly get => (sbyte3)((byte4)this).yzw;  set { byte4 _this = (byte4)this; _this.yzw = (byte3)value; this = (sbyte4)_this; } }
+		public			sbyte3 ywx { readonly get => (sbyte3)((byte4)this).ywx;  set { byte4 _this = (byte4)this; _this.ywx = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 ywy => (sbyte3)((byte4)this).ywy;
+		public			sbyte3 ywz { readonly get => (sbyte3)((byte4)this).ywz;  set { byte4 _this = (byte4)this; _this.ywz = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 yww => (sbyte3)((byte4)this).yww;
+		public readonly sbyte3 zxx => (sbyte3)((byte4)this).zxx;
+        public          sbyte3 zxy { readonly get => (sbyte3)((byte4)this).zxy;  set { byte4 _this = (byte4)this; _this.zxy = (byte3)value; this = (sbyte4)_this; } }
+        public readonly sbyte3 zxz => (sbyte3)((byte4)this).zxz;
+		public          sbyte3 zxw { readonly get => (sbyte3)((byte4)this).zxw;  set { byte4 _this = (byte4)this; _this.zxw = (byte3)value; this = (sbyte4)_this; } }
+		public          sbyte3 zyx { readonly get => (sbyte3)((byte4)this).zyx;  set { byte4 _this = (byte4)this; _this.zyx = (byte3)value; this = (sbyte4)_this; } }
+        public readonly sbyte3 zyy => (sbyte3)((byte4)this).zyy;
+        public readonly sbyte3 zyz => (sbyte3)((byte4)this).zyz;
+		public          sbyte3 zyw { readonly get => (sbyte3)((byte4)this).zyw;  set { byte4 _this = (byte4)this; _this.zyw = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 zzx => (sbyte3)((byte4)this).zzx;
+        public readonly sbyte3 zzy => (sbyte3)((byte4)this).zzy;
+        public readonly sbyte3 zzz => (sbyte3)((byte4)this).zzz;
+		public readonly sbyte3 zzw => (sbyte3)((byte4)this).zzw;
+		public          sbyte3 zwx { readonly get => (sbyte3)((byte4)this).zwx;  set { byte4 _this = (byte4)this; _this.zwx = (byte3)value; this = (sbyte4)_this; } }
+		public          sbyte3 zwy { readonly get => (sbyte3)((byte4)this).zwy;  set { byte4 _this = (byte4)this; _this.zwy = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 zwz => (sbyte3)((byte4)this).zwz;
+		public readonly sbyte3 zww => (sbyte3)((byte4)this).zww;
+		public readonly sbyte3 wxx => (sbyte3)((byte4)this).wxx;
+		public          sbyte3 wxy { readonly get => (sbyte3)((byte4)this).wxy;  set { byte4 _this = (byte4)this; _this.wxy = (byte3)value; this = (sbyte4)_this; } }
+		public          sbyte3 wxz { readonly get => (sbyte3)((byte4)this).wxz;  set { byte4 _this = (byte4)this; _this.wxz = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 wxw => (sbyte3)((byte4)this).wxw;
+		public          sbyte3 wyx { readonly get => (sbyte3)((byte4)this).wyx;  set { byte4 _this = (byte4)this; _this.wyx = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 wyy => (sbyte3)((byte4)this).wyy;
+		public          sbyte3 wyz { readonly get => (sbyte3)((byte4)this).wyz;  set { byte4 _this = (byte4)this; _this.wyz = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 wyw => (sbyte3)((byte4)this).wyw;
+		public          sbyte3 wzx { readonly get => (sbyte3)((byte4)this).wzx;  set { byte4 _this = (byte4)this; _this.wzx = (byte3)value; this = (sbyte4)_this; } }
+		public          sbyte3 wzy { readonly get => (sbyte3)((byte4)this).wzy;  set { byte4 _this = (byte4)this; _this.wzy = (byte3)value; this = (sbyte4)_this; } }
+		public readonly sbyte3 wzz => (sbyte3)((byte4)this).wzz;
+		public readonly sbyte3 wzw => (sbyte3)((byte4)this).wzw;
+		public readonly sbyte3 wwx => (sbyte3)((byte4)this).wwx;
+		public readonly sbyte3 wwy => (sbyte3)((byte4)this).wwy;
+		public readonly sbyte3 wwz => (sbyte3)((byte4)this).wwz;
+		public readonly sbyte3 www => (sbyte3)((byte4)this).www;
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xzyw;
-			}
-		}
-		public readonly sbyte4 xzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzzx(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 xzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzzy(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 xzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzzz(this);
-                }
-                else
-                {
-                    return new sbyte4(x, z, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 xzzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzzw(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 xzwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzwx(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, w, x);
-				}
-			}
-		}
-		public sbyte4 xzwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzwy(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xwyz;
-			}
-		}
-		public readonly sbyte4 xzwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzwz(this);
-                }
-				else
-				{
-					return new sbyte4(x, z, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 xzww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzww(this);
-                }
-				else 
-				{
-					return new sbyte4(x, z, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 xwxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwxx(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, x, x);
-				}
-			}
-		}
-		public readonly sbyte4 xwxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwxy(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, x, y);
-				}
-			}
-		}
-		public readonly sbyte4 xwxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwxz(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, x, z);
-				}
-			}
-		}
-		public readonly sbyte4 xwxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwxw(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 xwyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwyx(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, y, x);
-				}
-			}
-		}
-		public readonly sbyte4 xwyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwyy(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, y, y);
-				}
-			}
-		}
-		public sbyte4 xwyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwyz(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xzwy;
-			}
-		}
-		public readonly sbyte4 xwyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwyw(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 xwzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwzx(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, z, x);
-				}
-			}
-		}
-		public sbyte4 xwzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwzy(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xwzy;
-			}
-		}
-		public readonly sbyte4 xwzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwzz(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 xwzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwzw(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 xwwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwwx(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 xwwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwwy(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 xwwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwwz(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 xwww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwww(this);
-                }
-				else
-				{
-					return new sbyte4(x, w, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 yxxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxxx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 yxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxxy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 yxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxxz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 yxxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxxw(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 yxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxyx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 yxyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxyy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 yxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxyz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 yxyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxyw(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 yxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxzx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 yxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxzy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 yxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxzz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, x, z, z);
-                }
-            }
-        }
-		public sbyte4 yxzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxzw(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yxzw;
-			}
-		}
-		public readonly sbyte4 yxwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxwx(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 yxwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxwy(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, w, y);
-				}
-			}
-		}
-		public sbyte4 yxwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxwz(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yxwz;
-			}
-		}
-		public readonly sbyte4 yxww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxww(this);
-                }
-				else
-				{
-					return new sbyte4(y, x, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 yyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyxx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 yyxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyxy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 yyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyxz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 yyxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyxw(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 yyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyyx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 yyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyyy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 yyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyyz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 yyyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyyw(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 yyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyzx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 yyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyzy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 yyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyzz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, y, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 yyzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyzw(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 yywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yywx(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 yywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yywy(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 yywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yywz(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 yyww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyww(this);
-                }
-				else
-				{
-					return new sbyte4(y, y, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 yzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzxx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 yzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzxy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 yzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzxz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, x, z);
-                }
-            }
-        }
-		public sbyte4 yzxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzxw(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zxyw;
-			}
-		}
-		public readonly sbyte4 yzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzyx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 yzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzyy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 yzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzyz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 yzyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzyw(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 yzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzzx(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 yzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzzy(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 yzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzzz(this);
-                }
-                else
-                {
-                    return new sbyte4(y, z, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 yzzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzzw(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, z, w);
-				}
-			}
-		}
-		public sbyte4 yzwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzwx(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wxyz;
-			}
-		}
-		public readonly sbyte4 yzwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzwy(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 yzwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzwz(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 yzww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzww(this);
-                }
-				else
-				{
-					return new sbyte4(y, z, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 ywxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywxx(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, x, x);
-				}
-			}
-		}
-		public readonly sbyte4 ywxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywxy(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, x, y);
-				}
-			}
-		}
-		public sbyte4 ywxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywxz(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zxwy;
-			}
-		}
-		public readonly sbyte4 ywxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywxw(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 ywyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywyx(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, y, x);
-				}
-			}
-		}
-		public readonly sbyte4 ywyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywyy(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, y, y);
-				}
-			}
-		}
-		public readonly sbyte4 ywyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywyz(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, y, z);
-				}
-			}
-		}
-		public readonly sbyte4 ywyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywyw(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, y, w);
-				}
-			}
-		}
-		public sbyte4 ywzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywzx(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wxzy;
-			}
-		}
-		public readonly sbyte4 ywzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywzy(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, z, y);
-				}
-			}
-		}
-		public readonly sbyte4 ywzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywzz(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 ywzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywzw(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 ywwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywwx(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 ywwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywwy(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 ywwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywwz(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 ywww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywww(this);
-                }
-				else
-				{
-					return new sbyte4(y, w, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 zxxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxxx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 zxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxxy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 zxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxxz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 zxxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxxw(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 zxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxyx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 zxyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxyy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 zxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxyz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, y, z);
-                }
-            }
-        }
-		public sbyte4 zxyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxyw(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yzxw;
-			}
-		}
-		public readonly sbyte4 zxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxzx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 zxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxzy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 zxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxzz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, x, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 zxzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxzw(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 zxwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxwx(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, w, x);
-				}
-			}
-		}
-		public sbyte4 zxwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxwy(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.ywxz;
-			}
-		}
-		public readonly sbyte4 zxwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxwz(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 zxww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxww(this);
-                }
-				else
-				{
-					return new sbyte4(z, x, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 zyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyxx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 zyxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyxy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 zyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyxz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, x, z);
-                }
-            }
-        }
-		public sbyte4 zyxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyxw(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zyxw;
-			}
-		}
-		public readonly sbyte4 zyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyyx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 zyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyyy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 zyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyyz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 zyyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyyw(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 zyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyzx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 zyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyzy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 zyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyzz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, y, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 zyzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyzw(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, z, w);
-				}
-			}
-		}
-		public sbyte4 zywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zywx(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wyxz;
-			}
-		}
-		public readonly sbyte4 zywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zywy(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 zywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zywz(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 zyww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyww(this);
-                }
-				else
-				{
-					return new sbyte4(z, y, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 zzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzxx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, x, x);
-                }
-            }
-        }
-        public readonly sbyte4 zzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzxy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, x, y);
-                }
-            }
-        }
-        public readonly sbyte4 zzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzxz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, x, z);
-                }
-            }
-        }
-		public readonly sbyte4 zzxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzxw(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 zzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzyx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, y, x);
-                }
-            }
-        }
-        public readonly sbyte4 zzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzyy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, y, y);
-                }
-            }
-        }
-        public readonly sbyte4 zzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzyz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, y, z);
-                }
-            }
-        }
-		public readonly sbyte4 zzyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzyw(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 zzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzzx(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, z, x);
-                }
-            }
-        }
-        public readonly sbyte4 zzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzzy(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, z, y);
-                }
-            }
-        }
-        public readonly sbyte4 zzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzzz(this);
-                }
-                else
-                {
-                    return new sbyte4(z, z, z, z);
-                }
-            }
-        }
-		public readonly sbyte4 zzzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzzw(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 zzwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzwx(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 zzwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzwy(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 zzwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzwz(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 zzww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzww(this);
-                }
-				else
-				{
-					return new sbyte4(z, z, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 zwxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwxx(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, x, x);
-				}
-			}
-		}
-		public sbyte4 zwxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwxy(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zwxy;
-			}
-		}
-		public readonly sbyte4 zwxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwxz(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, x, z);
-				}
-			}
-		}
-		public readonly sbyte4 zwxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwxw(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, xw);
-				}
-			}
-		}
-		public sbyte4 zwyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwyx(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wzxy;
-			}
-		}
-		public readonly sbyte4 zwyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwyy(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, y, y);
-				}
-			}
-		}
-		public readonly sbyte4 zwyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwyz(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, y, z);
-				}
-			}
-		}
-		public readonly sbyte4 zwyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwyw(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 zwzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwzx(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, z, x);
-				}
-			}
-		}
-		public readonly sbyte4 zwzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwzy(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, z, y);
-				}
-			}
-		}
-		public readonly sbyte4 zwzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwzz(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 zwzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwzw(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 zwwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwwx(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 zwwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwwy(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 zwwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwwz(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 zwww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwww(this);
-                }
-				else
-				{
-					return new sbyte4(z, w, ww);
-				}
-			}
-		}
-		public readonly sbyte4 wxxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxxx(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, x, x);
-				}
-			}
-		}
-		public readonly sbyte4 wxxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxxy(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, x, y);
-				}
-			}
-		}
-		public readonly sbyte4 wxxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxxz(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, x, z);
-				}
-			}
-		}
-		public readonly sbyte4 wxxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxxw(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 wxyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxyx(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, y, x);
-				}
-			}
-		}
-		public readonly sbyte4 wxyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxyy(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, y, y);
-				}
-			}
-		}
-		public sbyte4 wxyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxyz(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yzwx;
-			}
-		}
-		public readonly sbyte4 wxyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxyw(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 wxzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxzx(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, z, x);
-				}
-			}
-		}
-		public sbyte4 wxzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxzy(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.ywzx;
-			}
-		}
-		public readonly sbyte4 wxzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxzz(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 wxzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxzw(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 wxwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxwx(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 wxwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxwy(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 wxwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxwz(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 wxww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxww(this);
-                }
-				else
-				{
-					return new sbyte4(w, x, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 wyxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyxx(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, x, x);
-				}
-			}
-		}
-		public readonly sbyte4 wyxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyxy(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, x, y);
-				}
-			}
-		}
-		public sbyte4 wyxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyxz(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zywx;
-			}
-		}
-		public readonly sbyte4 wyxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyxw(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 wyyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyyx(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, y, x);
-				}
-			}
-		}
-		public readonly sbyte4 wyyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyyy(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, y, y);
-				}
-			}
-		}
-		public readonly sbyte4 wyyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyyz(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, y, z);
-				}
-			}
-		}
-		public readonly sbyte4 wyyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyyw(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, y, w);
-				}
-			}
-		}
-		public sbyte4 wyzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyzx(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wyzx;
-			}
-		}
-		public readonly sbyte4 wyzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyzy(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, z, y);
-				}
-			}
-		}
-		public readonly sbyte4 wyzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyzz(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 wyzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyzw(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 wywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wywx(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 wywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wywy(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 wywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wywz(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 wyww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyww(this);
-                }
-				else
-				{
-					return new sbyte4(w, y, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 wzxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzxx(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, x, x);
-				}
-			}
-		}
-		public sbyte4 wzxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzxy(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zwyx;
-			}
-		}
-		public readonly sbyte4 wzxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzxz(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, x, z);
-				}
-			}
-		}
-		public readonly sbyte4 wzxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzxw(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, x, w);
-				}
-			}
-		}
-		public sbyte4 wzyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzyx(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wzyx;
-			}
-		}
-		public readonly sbyte4 wzyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzyy(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, y, y);
-				}
-			}
-		}
-		public readonly sbyte4 wzyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzyz(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, y, z);
-				}
-			}
-		}
-		public readonly sbyte4 wzyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzyw(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 wzzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzzx(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, z, x);
-				}
-			}
-		}
-		public readonly sbyte4 wzzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzzy(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, z, y);
-				}
-			}
-		}
-		public readonly sbyte4 wzzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzzz(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 wzzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzzw(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 wzwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzwx(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 wzwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzwy(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 wzwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzwz(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 wzww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzww(this);
-                }
-				else
-				{
-					return new sbyte4(w, z, w, w);
-				}
-			}
-		}
-		public readonly sbyte4 wwxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwxx(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, x, x);
-				}
-			}
-		}
-		public readonly sbyte4 wwxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwxy(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, x, y);
-				}
-			}
-		}
-		public readonly sbyte4 wwxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwxz(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, x, z);
-				}
-			}
-		}
-		public readonly sbyte4 wwxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwxw(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, x, w);
-				}
-			}
-		}
-		public readonly sbyte4 wwyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwyx(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, y, x);
-				}
-			}
-		}
-		public readonly sbyte4 wwyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwyy(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, y, y);
-				}
-			}
-		}
-		public readonly sbyte4 wwyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwyz(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, y, z);
-				}
-			}
-		}
-		public readonly sbyte4 wwyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwyw(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, y, w);
-				}
-			}
-		}
-		public readonly sbyte4 wwzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwzx(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, z, x);
-				}
-			}
-		}
-		public readonly sbyte4 wwzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwzy(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, z, y);
-				}
-			}
-		}
-		public readonly sbyte4 wwzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwzz(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, z, z);
-				}
-			}
-		}
-		public readonly sbyte4 wwzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwzw(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, z, w);
-				}
-			}
-		}
-		public readonly sbyte4 wwwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwwx(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, w, x);
-				}
-			}
-		}
-		public readonly sbyte4 wwwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwwy(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, w, y);
-				}
-			}
-		}
-		public readonly sbyte4 wwwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwwz(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, w, z);
-				}
-			}
-		}
-		public readonly sbyte4 wwww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwww(this);
-                }
-				else
-				{
-					return new sbyte4(w, w, w, w);
-				}
-			}
-		}
-
-		public readonly sbyte3 xxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxx(this);
-                }
-                else
-                {
-                    return new sbyte3(x, x, x);
-                }
-            }
-        }
-        public readonly sbyte3 xxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxy(this);
-                }
-                else
-                {
-                    return new sbyte3(x, x, y);
-                }
-            }
-        }
-        public readonly sbyte3 xxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxz(this);
-                }
-                else
-                {
-                    return new sbyte3(x, x, z);
-                }
-            }
-        }
-		public readonly sbyte3 xxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xxw(this);
-                }
-				else
-				{
-					return new sbyte3(x, x, w);
-				}
-			}
-		}
-		public readonly sbyte3 xyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyx(this);
-                }
-                else
-                {
-                    return new sbyte3(x, y, x);
-                }
-            }
-        }
-        public readonly sbyte3 xyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyy(this);
-                }
-                else
-                {
-                    return new sbyte3(x, y, y);
-                }
-            }
-        }
-		public sbyte3 xyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyz(this);
-                }
-				else
-				{
-					return new sbyte3(x, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-		public sbyte3 xyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xyw(this);
-                }
-				else
-				{
-					return new sbyte3(x, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xyzz, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 xzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzx(this);
-                }
-                else
-                {
-                    return new sbyte3(x, z, x);
-                }
-            }
-        }
-        public          sbyte3 xzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzy(this);
-                }
-                else
-                {
-                    return new sbyte3(x, z, y);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xzyy, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-					this.y = value.z;
-				}
-			}
-        }
-        public readonly sbyte3 xzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzz(this);
-                }
-                else
-                {
-                    return new sbyte3(x, z, z);
-                }
-            }
-        }
-		public sbyte3 xzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xzw(this);
-                }
-				else
-				{
-					return new sbyte3(x, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyz, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 xwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwx(this);
-                }
-				else
-				{
-					return new sbyte3(x, w, x);
-				}
-			}
-		}
-		public sbyte3 xwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwy(this);
-                }
-				else
-				{
-					return new sbyte3(x, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xzzy, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-		public sbyte3 xwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xwz(this);
-                }
-				else
-				{
-					return new sbyte3(x, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxzy, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 xww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xww(this);
-                }
-				else
-				{
-					return new sbyte3(x, w, w);
-				}
-			}
-		}
-		public readonly sbyte3 yxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxx(this);
-                }
-                else
-                {
-                    return new sbyte3(y, x, x);
-                }
-            }
-        }
-        public readonly sbyte3 yxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxy(this);
-                }
-                else
-                {
-                    return new sbyte3(y, x, y);
-                }
-            }
-        }
-        public          sbyte3 yxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxz(this);
-                }
-                else
-                {
-                    return new sbyte3(y, x, z);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yxzz, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-					this.z = value.z;
-				}
-			}
-        }
-		public sbyte3 yxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yxw(this);
-                }
-				else
-				{
-					return new sbyte3(y, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yxzz, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 yyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyx(this);
-                }
-                else
-                {
-                    return new sbyte3(y, y, x);
-                }
-            }
-        }
-        public readonly sbyte3 yyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyy(this);
-                }
-                else
-                {
-                    return new sbyte3(y, y, y);
-                }
-            }
-        }
-        public readonly sbyte3 yyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyz(this);
-                }
-                else
-                {
-                    return new sbyte3(y, y, z);
-                }
-            }
-        }
-		public readonly sbyte3 yyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yyw(this);
-                }
-				else
-				{
-					return new sbyte3(y, y, w);
-				}
-			}
-		}
-		public          sbyte3 yzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzx(this);
-                }
-                else
-                {
-                    return new sbyte3(y, z, x);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zxyy, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-					this.x = value.z;
-				}
-			}
-        }
-        public readonly sbyte3 yzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzy(this);
-                }
-                else
-                {
-                    return new sbyte3(y, z, y);
-                }
-            }
-        }
-        public readonly sbyte3 yzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzz(this);
-                }
-                else
-                {
-                    return new sbyte3(y, z, z);
-                }
-            }
-        }
-		public sbyte3 yzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yzw(this);
-                }
-				else
-				{
-					return new sbyte3(y, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyz, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public sbyte3 ywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywx(this);
-                }
-				else
-				{
-					return new sbyte3(y, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zxxy, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 ywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywy(this);
-                }
-				else
-				{
-					return new sbyte3(y, w, y);
-				}
-			}
-		}
-		public sbyte3 ywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ywz(this);
-                }
-				else
-				{
-					return new sbyte3(y, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxzy, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 yww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yww(this);
-                }
-				else
-				{
-					return new sbyte3(y, w, w);
-				}
-			}
-		}
-		public readonly sbyte3 zxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxx(this);
-                }
-                else
-                {
-                    return new sbyte3(z, x, x);
-                }
-            }
-        }
-        public          sbyte3 zxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxy(this);
-                }
-                else
-                {
-                    return new sbyte3(z, x, y);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yzxx, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-					this.y = value.z;
-				}
-			}
-        }
-        public readonly sbyte3 zxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxz(this);
-                }
-                else
-                {
-                    return new sbyte3(z, x, z);
-                }
-            }
-        }
-		public sbyte3 zxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zxw(this);
-                }
-				else
-				{
-					return new sbyte3(z, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxz, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public          sbyte3 zyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyx(this);
-                }
-                else
-                {
-                    return new sbyte3(z, y, x);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zyxx, new sbyte4(-1, -1, -1, 0));
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-					this.x = value.z;
-				}
-			}
-        }
-        public readonly sbyte3 zyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyy(this);
-                }
-                else
-                {
-                    return new sbyte3(z, y, y);
-                }
-            }
-        }
-        public readonly sbyte3 zyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyz(this);
-                }
-                else
-                {
-                    return new sbyte3(z, y, z);
-                }
-            }
-        }
-		public sbyte3 zyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zyw(this);
-                }
-				else
-				{
-					return new sbyte3(z, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxz, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 zzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzx(this);
-                }
-                else
-                {
-                    return new sbyte3(z, z, x);
-                }
-            }
-        }
-        public readonly sbyte3 zzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzy(this);
-                }
-                else
-                {
-                    return new sbyte3(z, z, y);
-                }
-            }
-        }
-        public readonly sbyte3 zzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzz(this);
-                }
-                else
-                {
-                    return new sbyte3(z, z, z);
-                }
-            }
-        }
-		public readonly sbyte3 zzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zzw(this);
-                }
-				else
-				{
-					return new sbyte3(z, z, w);
-				}
-			}
-		}
-		public sbyte3 zwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwx(this);
-                }
-				else
-				{
-					return new sbyte3(z, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zzxy, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-		public sbyte3 zwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwy(this);
-                }
-				else
-				{
-					return new sbyte3(z, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zzxy, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 zwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zwz(this);
-                }
-				else
-				{
-					return new sbyte3(z, w, z);
-				}
-			}
-		}
-		public readonly sbyte3 zww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zww(this);
-                }
-				else
-				{
-					return new sbyte3(z, w, w);
-				}
-			}
-		}
-		public readonly sbyte3 wxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxx(this);
-                }
-				else
-				{
-					return new sbyte3(w, x, x);
-				}
-			}
-		}
-		public sbyte3 wxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxy(this);
-                }
-				else
-				{
-					return new sbyte3(w, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yzzx, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-		public sbyte3 wxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxz(this);
-                }
-				else
-				{
-					return new sbyte3(w, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyzx, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 wxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wxw(this);
-                }
-				else
-				{
-					return new sbyte3(w, x, w);
-				}
-			}
-		}
-		public sbyte3 wyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyx(this);
-                }
-				else
-				{
-					return new sbyte3(w, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zyyx, new sbyte4(-1, -1, 0, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 wyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyy(this);
-                }
-				else
-				{
-					return new sbyte3(w, y, y);
-				}
-			}
-		}
-		public sbyte3 wyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyz(this);
-                }
-				else
-				{
-					return new sbyte3(w, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyzx, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 wyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wyw(this);
-                }
-				else
-				{
-					return new sbyte3(w, y, w);
-				}
-			}
-		}
-		public sbyte3 wzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzx(this);
-                }
-				else
-				{
-					return new sbyte3(w, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zzyx, new sbyte4(-1, 0, -1, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-		public sbyte3 wzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzy(this);
-                }
-				else
-				{
-					return new sbyte3(w, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.zzyx, new sbyte4(0, -1, -1, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-		public readonly sbyte3 wzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzz(this);
-                }
-				else
-				{
-					return new sbyte3(w, z, z);
-				}
-			}
-		}
-		public readonly sbyte3 wzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wzw(this);
-                }
-				else
-				{
-					return new sbyte3(w, z, w);
-				}
-			}
-		}
-		public readonly sbyte3 wwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwx(this);
-                }
-				else
-				{
-					return new sbyte3(w, w, x);
-				}
-			}
-		}
-		public readonly sbyte3 wwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwy(this);
-                }
-				else
-				{
-					return new sbyte3(w, w, y);
-				}
-			}
-		}
-		public readonly sbyte3 wwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wwz(this);
-                }
-				else
-				{
-					return new sbyte3(w, w, z);
-				}
-			}
-		}
-		public readonly sbyte3 www
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.www(this);
-                }
-				else
-				{
-					return new sbyte3(w, w, w);
-				}
-			}
-		}
-
-		public readonly sbyte2 xx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xx(this);
-                }
-                else
-                {
-                    return new sbyte2(x, x);
-                }
-            }
-        }
-        public          sbyte2 xy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xy(this);
-                }
-                else
-                {
-                    return new sbyte2(x, y);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value, 0b01);
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-				}
-			}
-        }
-        public          sbyte2 xz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xz(this);
-                }
-                else
-                {
-                    return new sbyte2(x, z);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyy, new sbyte4(-1, 0, -1, 0));
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-				}
-			}
-        }
-		public sbyte2 xw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.xw(this);
-                }
-				else
-				{
-					return new sbyte2(x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyy, new sbyte4(-1, 0, 0, -1));
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-				}
-			}
-		}
-		public          sbyte2 yx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yx(this);
-                }
-                else
-                {
-                    return new sbyte2(y, x);
-                }
-            }
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yx, 0b01);
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-				}
-			}
-        }
-        
-        public readonly sbyte2 yy
-        { 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] 
-            get 
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yy(this);
-                }
-                else
-                {
-                    return new sbyte2(y, y);
-                }
-            }
-        }
-        public          sbyte2 yz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yz(this);
-                }
-                else
-                {
-                    return new sbyte2(y, z);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyy, new sbyte4(0, -1, -1, 0));
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-				}
-			}
-        }
-		public sbyte2 yw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.yw(this);
-                }
-				else
-				{
-					return new sbyte2(y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.xxyy, new sbyte4(0, -1, 0, -1));
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-				}
-			}
-		}
-		public          sbyte2 zx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zx(this);
-                }
-                else
-                {
-                    return new sbyte2(z, x);
-                }
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxx, new sbyte4(-1, 0, -1, 0));
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-				}
-			}
-        }
-        public          sbyte2 zy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zy(this);
-                }
-                else
-                {
-                    return new sbyte2(z, y);
-                }
-            }
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxx, new sbyte4(0, -1, -1, 0));
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-				}
-			}
-        }
-        public readonly sbyte2 zz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zz(this);
-                }
-                else
-                {
-                    return new sbyte2(z, z);
-                }
-            }
-        }
-		public sbyte2 zw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.zw(this);
-                }
-				else
-				{
-					return new sbyte2(z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Sse2.unpacklo_epi16(this, value);
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-				}
-			}
-		}
-		public sbyte2 wx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wx(this);
-                }
-				else
-				{
-					return new sbyte2(w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxx, new sbyte4(-1, 0, 0, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-				}
-			}
-		}
-		public sbyte2 wy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wy(this);
-                }
-				else
-				{
-					return new sbyte2(w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blendv_si128(this, value.yyxx, new sbyte4(0, -1, 0, -1));
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-				}
-			}
-		}
-		public sbyte2 wz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.wz(this);
-                }
-				else
-				{
-					return new sbyte2(w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yxyx, 0b10);
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-				}
-			}
-		}
-		public readonly sbyte2 ww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					return Shuffle.Bytes.Get.ww(this);
-                }
-				else
-				{
-					return new sbyte2(w, w);
-				}
-			}
-		}
+		public readonly sbyte2 xx => (sbyte2)((byte4)this).xx;
+        public          sbyte2 xy { readonly get => (sbyte2)((byte4)this).xy;  set { byte4 _this = (byte4)this; _this.xy = (byte2)value; this = (sbyte4)_this; } }
+        public          sbyte2 xz { readonly get => (sbyte2)((byte4)this).xz;  set { byte4 _this = (byte4)this; _this.xz = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 xw { readonly get => (sbyte2)((byte4)this).xw;  set { byte4 _this = (byte4)this; _this.xw = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 yx { readonly get => (sbyte2)((byte4)this).yx;  set { byte4 _this = (byte4)this; _this.yx = (byte2)value; this = (sbyte4)_this; } }
+        public readonly sbyte2 yy => (sbyte2)((byte4)this).yy;
+        public          sbyte2 yz { readonly get => (sbyte2)((byte4)this).yz;  set { byte4 _this = (byte4)this; _this.yz = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 yw { readonly get => (sbyte2)((byte4)this).yw;  set { byte4 _this = (byte4)this; _this.yw = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 zx { readonly get => (sbyte2)((byte4)this).zx;  set { byte4 _this = (byte4)this; _this.zx = (byte2)value; this = (sbyte4)_this; } }
+        public          sbyte2 zy { readonly get => (sbyte2)((byte4)this).zy;  set { byte4 _this = (byte4)this; _this.zy = (byte2)value; this = (sbyte4)_this; } }
+        public readonly sbyte2 zz => (sbyte2)((byte4)this).zz;
+		public          sbyte2 zw { readonly get => (sbyte2)((byte4)this).zw;  set { byte4 _this = (byte4)this; _this.zw = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 wx { readonly get => (sbyte2)((byte4)this).wx;  set { byte4 _this = (byte4)this; _this.wx = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 wy { readonly get => (sbyte2)((byte4)this).wy;  set { byte4 _this = (byte4)this; _this.wy = (byte2)value; this = (sbyte4)_this; } }
+		public          sbyte2 wz { readonly get => (sbyte2)((byte4)this).wz;  set { byte4 _this = (byte4)this; _this.wz = (byte2)value; this = (sbyte4)_this; } }
+		public readonly sbyte2 ww => (sbyte2)((byte4)this).ww;
 		#endregion
 
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(sbyte4 input)
         {
@@ -5905,7 +442,7 @@ namespace MaxMath
             }
 			else
             {
-				v128* dummyPtr = &result;
+                result = default(v128);
             }
 
 			result.SByte0 = input.x;
@@ -5925,106 +462,41 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(byte4 input)
+        public static explicit operator sbyte4(byte4 input) => *(sbyte4*)&input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(short4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(ushort4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(int4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(uint4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(long4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(ulong4 input) => (sbyte4)(byte4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte4(half4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return (v128)input;
+                return Xse.cvttph_epi8(RegisterConversion.ToV128(input), 4);
             }
             else
             {
-                return *(sbyte4*)&input;
+                return new sbyte4((sbyte)maxmath.BASE_cvtf16i32(input.x, signed: true, trunc: true),
+                                  (sbyte)maxmath.BASE_cvtf16i32(input.y, signed: true, trunc: true),
+                                  (sbyte)maxmath.BASE_cvtf16i32(input.z, signed: true, trunc: true),
+                                  (sbyte)maxmath.BASE_cvtf16i32(input.w, signed: true, trunc: true));
             }
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(short4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi16_epi8(input, 4);
-            }
-			else
-            {
-                return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(ushort4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi16_epi8(input, 4);
-            }
-			else
-			{
-				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(int4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
-            }
-			else
-			{
-				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(uint4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
-            }
-			else
-			{
-				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(long4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_cvtepi64_epi8(input);
-            }
-            else if (Ssse3.IsSsse3Supported)
-            {
-                return new sbyte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
-            }
-            else
-			{
-				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(ulong4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_cvtepi64_epi8(input);
-            }
-            else if (Ssse3.IsSsse3Supported)
-            {
-                return new sbyte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
-            }
-            else
-			{
-				return new sbyte4((sbyte)input.x, (sbyte)input.y, (sbyte)input.z, (sbyte)input.w);
-			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte4(half4 input) => (sbyte4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte4(float4 input) => (sbyte4)(int4)input;
@@ -6036,7 +508,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short4(sbyte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return Xse.cvtepi8_epi16(input);
 			}
@@ -6049,7 +521,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort4(sbyte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return Xse.cvtepi8_epi16(input);
 			}
@@ -6062,7 +534,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int4(sbyte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToInt4(Xse.cvtepi8_epi32(input));
             }
@@ -6075,7 +547,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint4(sbyte4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToUInt4(Xse.cvtepi8_epi32(input));
             }
@@ -6092,7 +564,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi8_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new long4((long2)input.xy, (long2)input.zw);
             }
@@ -6109,7 +581,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi8_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new ulong4((ulong2)input.xy, (ulong2)input.zw);
             }
@@ -6125,7 +597,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float4(sbyte4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.cvtepi8_ps(input));
             }
@@ -6144,83 +616,32 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-Assert.IsWithinArrayBounds(index, 4);
-
-                if (Sse2.IsSse2Supported)
-                {
-                    return (sbyte)Xse.extract_epi8(this, (byte)index);
-                }
-                else
-                {
-                    sbyte4 onStack = this;
-
-                    return *((sbyte*)&onStack + index);
-                }
+                return (sbyte)((byte4)this)[index];
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-Assert.IsWithinArrayBounds(index, 4);
-
-                if (Sse2.IsSse2Supported)
-                {
-                    this = Xse.insert_epi8(this, (byte)value, (byte)index);
-                }
-                else
-                {
-                    sbyte4 onStack = this;
-                    *((sbyte*)&onStack + index) = value;
-
-                    this = onStack;
-                }
-            }
-        }
-    
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator + (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.add_epi8(left, right);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x + right.x), (sbyte)(left.y + right.y), (sbyte)(left.z + right.z), (sbyte)(left.w + right.w));
+                byte4 _this = (byte4)this;
+                _this[index] = (byte)value;
+                this = (sbyte4)_this;
             }
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator - (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.sub_epi8(left, right);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x - right.x), (sbyte)(left.y - right.y), (sbyte)(left.z - right.z), (sbyte)(left.w - right.w));
-            }
-        }
-    
+        public static sbyte4 operator + (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left + (byte4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator * (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-			{
-                return Xse.mullo_epi8(left, right, 4);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x * right.x), (sbyte)(left.y * right.y), (sbyte)(left.z * right.z), (sbyte)(left.w * right.w));
-            }
-        }
+        public static sbyte4 operator - (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left - (byte4)right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte4 operator * (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left * (byte4)right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator / (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(left, right, false, 4);
             }
@@ -6233,7 +654,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator % (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rem_epi8(left, right, 4);
             }
@@ -6246,94 +667,64 @@ Assert.IsWithinArrayBounds(index, 4);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator * (sbyte left, sbyte4 right) => right * left;
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator * (sbyte4 left, sbyte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mullo_epi8(left, right, 4);
+                    return Xse.constmullo_epi8(left, right, 4);
                 }
             }
 
             return left * (sbyte4)right;
-        } 
-		
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator / (sbyte4 left, sbyte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.div_epi8(left, right, 4);
+                    return Xse.constdiv_epi8(left, right, 4);
                 }
             }
-                
+
             return left / (sbyte4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator % (sbyte4 left, sbyte right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.rem_epi8(left, right, 4);
+                    return Xse.constrem_epi8(left, right, 4);
                 }
             }
-                
+
             return left % (sbyte4)right;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator & (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.and_si128(left, right);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x & right.x), (sbyte)(left.y & right.y), (sbyte)(left.z & right.z), (sbyte)(left.w & right.w));
-            }
-        }
-    
+        public static sbyte4 operator & (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left & (byte4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator | (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.or_si128(left, right);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x | right.x), (sbyte)(left.y | right.y), (sbyte)(left.z | right.z), (sbyte)(left.w | right.w));
-            }
-        }
-    
+        public static sbyte4 operator | (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left | (byte4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator ^ (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.xor_si128(left, right);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(left.x ^ right.x), (sbyte)(left.y ^ right.y), (sbyte)(left.z ^ right.z), (sbyte)(left.w ^ right.w));
-            }
-        }
+        public static sbyte4 operator ^ (sbyte4 left, sbyte4 right) => (sbyte4)((byte4)left ^ (byte4)right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator - (sbyte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.neg_epi8(x);
 			}
@@ -6346,7 +737,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator ++ (sbyte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.inc_epi8(x);
 			}
@@ -6355,11 +746,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new sbyte4((sbyte)(x.x + 1), (sbyte)(x.y + 1), (sbyte)(x.z + 1), (sbyte)(x.w + 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator -- (sbyte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.dec_epi8(x);
 			}
@@ -6368,40 +759,20 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new sbyte4((sbyte)(x.x - 1), (sbyte)(x.y - 1), (sbyte)(x.z - 1), (sbyte)(x.w - 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator ~ (sbyte4 x)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.not_si128(x);
-			}
-            else
-            {
-                return new sbyte4((sbyte)(~x.x), (sbyte)(~x.y), (sbyte)(~x.z), (sbyte)(~x.w));
-            }
-        }
-    
-    
+        public static sbyte4 operator ~ (sbyte4 x) => (sbyte4)~(byte4)x;
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4 operator << (sbyte4 x, int n)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.slli_epi8(x, n);
-            }
-            else
-            {
-                return new sbyte4((sbyte)(x.x << n), (sbyte)(x.y << n), (sbyte)(x.z << n), (sbyte)(x.w << n));
-            }
-        }
+        public static sbyte4 operator << (sbyte4 x, int n) => (sbyte4)((byte4)x << n);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 operator >> (sbyte4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.srai_epi8(x, n, 4);
+                return Xse.srai_epi8(x, n, inRange: true, elements: 4);
             }
 			else
             {
@@ -6409,26 +780,13 @@ Assert.IsWithinArrayBounds(index, 4);
             }
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 results = RegisterConversion.IsTrue8(Sse2.cmpeq_epi8(left, right));
+        public static bool4 operator == (sbyte4 left, sbyte4 right) => (byte4)left == (byte4)right;
 
-                return *(bool4*)&results;
-            }
-            else
-            {
-                return new bool4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
-            }
-        }
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator < (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue8(Xse.cmplt_epi8(left, right));
 
@@ -6443,9 +801,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator > (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Sse2.cmpgt_epi8(left, right));
+                v128 results = RegisterConversion.IsTrue8(Xse.cmpgt_epi8(left, right));
 
                 return *(bool4*)&results;
             }
@@ -6457,26 +815,14 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (sbyte4 left, sbyte4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 results = RegisterConversion.IsFalse8(Sse2.cmpeq_epi8(left, right));
+        public static bool4 operator != (sbyte4 left, sbyte4 right) => (byte4)left != (byte4)right;
 
-                return *(bool4*)&results;
-            }
-            else
-            {
-                return new bool4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
-            }
-        }
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator <= (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsFalse8(Sse2.cmpgt_epi8(left, right));
+                v128 results = RegisterConversion.IsFalse8(Xse.cmpgt_epi8(left, right));
 
                 return *(bool4*)&results;
             }
@@ -6489,7 +835,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator >= (sbyte4 left, sbyte4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsFalse8(Xse.cmplt_epi8(left, right));
 
@@ -6502,37 +848,14 @@ Assert.IsWithinArrayBounds(index, 4);
         }
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(sbyte4 other)
-		{
-			if (Sse2.IsSse2Supported)
-			{
-				return uint.MaxValue == Sse2.cmpeq_epi8(this, other).UInt0;
-
-			}
-			else
-			{
-				return (this.x == other.x & this.y == other.y) & (this.z == other.z & this.w == other.w);
-			}
-		}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool Equals(sbyte4 other) => ((byte4)this).Equals((byte4)other);
 
         public override readonly bool Equals(object obj) => obj is sbyte4 converted && this.Equals(converted);
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
-		{
-			if (Sse2.IsSse2Supported)
-			{
-				return ((v128)this).SInt0;
-			}
-			else
-			{
-				sbyte4 temp = this;
-
-				return *(int*)&temp;
-			}
-		}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly int GetHashCode() => ((byte4)this).GetHashCode();
 
 
         public override readonly string ToString() => $"sbyte4({x}, {y}, {z}, {w})";

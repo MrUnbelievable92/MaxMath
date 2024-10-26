@@ -11,22 +11,54 @@ namespace MaxMath
     {
         unsafe public static partial class Xse
         {
+		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		    public static v128 subs_epu8(v128 a, v128 b)
+		    {
+		    	if (Sse2.IsSse2Supported)
+		    	{
+		    		return Sse2.subs_epu8(a, b);
+		    	}
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_u8(a, b);
+                }
+		    	else throw new IllegalInstructionException();
+		    }
+		    
+		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		    public static v128 subs_epu16(v128 a, v128 b)
+		    {
+		    	if (Sse2.IsSse2Supported)
+		    	{
+		    		return Sse2.subs_epu16(a, b);
+		    	}
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_u16(a, b);
+                }
+		    	else throw new IllegalInstructionException();
+		    }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 subs_epu32(v128 a, v128 b, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_u32(a, b);
+                }
+                else if (Sse2.IsSse2Supported)
                 {
                     if (constexpr.ALL_EQ_EPU32(b, 1, elements))
                     {
-                        return Sse2.add_epi32(a, not_si128(Sse2.cmpeq_epi32(a, Sse2.setzero_si128())));
+                        return decs_epu32(a);
                     }
 
 
-                    return Sse2.andnot_si128(cmpge_epu32(b, a, elements), Sse2.sub_epi32(a, b));
+                    return andnot_si128(cmpge_epu32(b, a, elements), sub_epi32(a, b));
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_subs_epu32(v256 a, v256 b)
             {
@@ -39,26 +71,30 @@ namespace MaxMath
 
 
                     return Avx2.mm256_andnot_si256(mm256_cmpge_epu32(b, a), Avx2.mm256_sub_epi32(a, b));
-                } 
-                else throw new IllegalInstructionException();
-            }
-    
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 subs_epu64(v128 a, v128 b)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-                    if (constexpr.ALL_EQ_EPU64(b, 1))
-                    {
-                        return Sse2.add_epi64(a, not_si128(cmpeq_epi64(a, Sse2.setzero_si128())));
-                    }
-
-
-                    return Sse2.andnot_si128(cmpgt_epu64(b, a), Sse2.sub_epi64(a, b));
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 subs_epu64(v128 a, v128 b)
+            {
+                if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_u64(a, b);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    if (constexpr.ALL_EQ_EPU64(b, 1))
+                    {
+                        return decs_epu64(a);
+                    }
+
+
+                    return andnot_si128(cmpgt_epu64(b, a), sub_epi64(a, b));
+                }
+                else throw new IllegalInstructionException();
+            }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_subs_epu64(v256 a, v256 b, byte elements = 4)
             {
@@ -71,129 +107,152 @@ namespace MaxMath
 
 
                     return Avx2.mm256_andnot_si256(mm256_cmpgt_epu64(b, a), Avx2.mm256_sub_epi64(a, b));
-                } 
+                }
                 else throw new IllegalInstructionException();
             }
-    
+
+            
+		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		    public static v128 subs_epi8(v128 a, v128 b)
+		    {
+		    	if (Sse2.IsSse2Supported)
+		    	{
+		    		return Sse2.subs_epi8(a, b);
+		    	}
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_s8(a, b);
+                }
+		    	else throw new IllegalInstructionException();
+		    }
+		    
+		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		    public static v128 subs_epi16(v128 a, v128 b)
+		    {
+		    	if (Sse2.IsSse2Supported)
+		    	{
+		    		return Sse2.subs_epi16(a, b);
+		    	}
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vqsubq_s16(a, b);
+                }
+		    	else throw new IllegalInstructionException();
+		    }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 subs_epi32(v128 a, v128 b, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Arm.Neon.IsNeonSupported)
                 {
-                    v128 MAX_VALUE = Sse2.set1_epi32(int.MaxValue);
+                    return Arm.Neon.vqsubq_s32(a, b);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    v128 MAX_VALUE = set1_epi32(int.MaxValue);
 
 
                     if (constexpr.ALL_EQ_EPI32(b, -1, elements))
                     {
-                        return Sse2.sub_epi32(a, Sse2.cmpgt_epi32(MAX_VALUE, a));
+                        return incs_epi32(a);
                     }
                     if (constexpr.ALL_EQ_EPI32(b, 1, elements))
                     {
-                        return Sse2.add_epi32(a, Sse2.cmpgt_epi32(a, Sse2.set1_epi32(int.MinValue)));
+                        return add_epi32(a, cmpgt_epi32(a, set1_epi32(int.MinValue)));
                     }
 
-                    
-                    v128 result = Sse2.sub_epi32(a, b);
-                    v128 overflow = Sse2.add_epi32(MAX_VALUE, Sse2.srli_epi32(a, 31));
+
+                    v128 result = sub_epi32(a, b);
+                    v128 overflow = add_epi32(MAX_VALUE, srli_epi32(a, 31));
                     v128 selectOverflow = ternarylogic_si128(overflow, b, result, TernaryOperation.Ox18);
 
-                    if (Sse4_1.IsSse41Supported)
-                    {
-                        return Sse4_1.blendv_ps(result, overflow, selectOverflow);
-                    }
-                    else
-                    {
-                        return blendv_si128(result, overflow, Sse2.srai_epi32(selectOverflow, 63));
-                    }
+                    return blendv_ps(result, overflow, selectOverflow);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_subs_epi32(v256 a, v256 b)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 MAX_VALUE = Avx.mm256_set1_epi32(int.MaxValue);
+                    v256 MAX_VALUE = mm256_set1_epi32(int.MaxValue);
 
 
                     if (constexpr.ALL_EQ_EPI32(b, -1))
                     {
-                        return Avx2.mm256_sub_epi32(a, Avx2.mm256_cmpgt_epi32(MAX_VALUE, a));
+                        return mm256_incs_epi32(a);
                     }
                     if (constexpr.ALL_EQ_EPI32(b, 1))
                     {
-                        return Avx2.mm256_add_epi32(a, Avx2.mm256_cmpgt_epi32(a, Avx.mm256_set1_epi32(int.MinValue)));
+                        return Avx2.mm256_add_epi32(a, Avx2.mm256_cmpgt_epi32(a, mm256_set1_epi32(int.MinValue)));
                     }
 
-    
+
                     v256 result = Avx2.mm256_sub_epi32(a, b);
                     v256 overflow = Avx2.mm256_add_epi32(MAX_VALUE, Avx2.mm256_srli_epi32(a, 31));
                     v256 selectOverflow = mm256_ternarylogic_si256(overflow, b, result, TernaryOperation.Ox18);
 
                     return Avx.mm256_blendv_ps(result, overflow, selectOverflow);
-                } 
+                }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 subs_epi64(v128 a, v128 b)
             {
-                if (Sse2.IsSse2Supported)
+                if (Arm.Neon.IsNeonSupported)
                 {
-                    v128 MAX_VALUE = Sse2.set1_epi64x(long.MaxValue);
+                    return Arm.Neon.vqsubq_s64(a, b);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    v128 MAX_VALUE = set1_epi64x(long.MaxValue);
 
 
                     if (constexpr.ALL_EQ_EPI64(b, -1))
                     {
-                        return Sse2.sub_epi64(a, cmpgt_epi64(MAX_VALUE, a));
+                        return incs_epi64(a);
                     }
                     if (constexpr.ALL_EQ_EPI64(b, 1))
                     {
-                        return Sse2.add_epi64(a, cmpgt_epi64(a, Sse2.set1_epi64x(long.MinValue)));
+                        return add_epi64(a, cmpgt_epi64(a, set1_epi64x(long.MinValue)));
                     }
 
-                    
-                    v128 result = Sse2.sub_epi64(a, b);
-                    v128 overflow = Sse2.add_epi64(MAX_VALUE, Sse2.srli_epi64(a, 63));
+
+                    v128 result = sub_epi64(a, b);
+                    v128 overflow = add_epi64(MAX_VALUE, srli_epi64(a, 63));
                     v128 selectOverflow = ternarylogic_si128(overflow, b, result, TernaryOperation.Ox18);
 
-                    if (Sse4_1.IsSse41Supported)
-                    {
-                        return Sse4_1.blendv_pd(result, overflow, selectOverflow);
-                    }
-                    else
-                    {
-                        return blendv_si128(result, overflow, srai_epi64(selectOverflow, 63));
-                    }
+                    return blendv_pd(result, overflow, selectOverflow);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_subs_epi64(v256 a, v256 b, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 MAX_VALUE = Avx.mm256_set1_epi64x(long.MaxValue);
+                    v256 MAX_VALUE = mm256_set1_epi64x(long.MaxValue);
 
 
                     if (constexpr.ALL_EQ_EPI64(b, -1, elements))
                     {
-                        return Avx2.mm256_sub_epi64(a, Avx2.mm256_cmpgt_epi64(MAX_VALUE, a));
+                        return mm256_incs_epi64(a);
                     }
                     if (constexpr.ALL_EQ_EPI64(b, 1, elements))
                     {
-                        return Avx2.mm256_add_epi64(a, Avx2.mm256_cmpgt_epi64(a, Avx.mm256_set1_epi64x(long.MinValue)));
+                        return Avx2.mm256_add_epi64(a, Avx2.mm256_cmpgt_epi64(a, mm256_set1_epi64x(long.MinValue)));
                     }
-                    
+
 
                     v256 result = Avx2.mm256_sub_epi64(a, b);
                     v256 overflow = Avx2.mm256_add_epi64(MAX_VALUE, Avx2.mm256_srli_epi64(a, 63));
                     v256 selectOverflow = mm256_ternarylogic_si256(overflow, b, result, TernaryOperation.Ox18);
 
                     return Avx.mm256_blendv_pd(result, overflow, selectOverflow);
-                } 
+                }
                 else throw new IllegalInstructionException();
             }
         }
@@ -206,19 +265,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 subsaturated(Int128 x, Int128 y)
         {
-            if (Xse.constexpr.IS_TRUE(y == 1))
+            if (constexpr.IS_TRUE(y == 1))
             {
                 return nextsmaller(x);
             }
-            
+
 	        Int128 res = x - y;
 	        Int128 overflow = (x.hi64 >> 63) + Int128.MaxValue;
-	        
+
 	        if ((long)((overflow ^ y) & (overflow ^ res)).hi64 < 0)
 	        {
 	        	res = overflow;
 	        }
-	        	
+
 	        return res;
         }
 
@@ -234,7 +293,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte subsaturated(byte x, byte y)
         {
-            if (Xse.constexpr.IS_TRUE(y == 1))
+            if (constexpr.IS_TRUE(y == 1))
             {
                 return nextsmaller(x);
             }
@@ -246,10 +305,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 subsaturated(byte2 x, byte2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(x, y);
-            } 
+                return Xse.subs_epu8(x, y);
+            }
             else
             {
                 return new byte2(subsaturated(x.x, y.x),
@@ -261,10 +320,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 subsaturated(byte3 x, byte3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(x, y);
-            } 
+                return Xse.subs_epu8(x, y);
+            }
             else
             {
                 return new byte3(subsaturated(x.x, y.x),
@@ -277,10 +336,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 subsaturated(byte4 x, byte4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(x, y);
-            } 
+                return Xse.subs_epu8(x, y);
+            }
             else
             {
                 return new byte4(subsaturated(x.x, y.x),
@@ -294,10 +353,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 subsaturated(byte8 x, byte8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(x, y);
-            } 
+                return Xse.subs_epu8(x, y);
+            }
             else
             {
                 return new byte8(subsaturated(x.x0, y.x0),
@@ -315,10 +374,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 subsaturated(byte16 x, byte16 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(x, y);
-            } 
+                return Xse.subs_epu8(x, y);
+            }
             else
             {
                 return new byte16(subsaturated(x.x0, y.x0),
@@ -347,7 +406,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_subs_epu8(x, y);
-            } 
+            }
             else
             {
                 return new byte32(subsaturated(x.v16_0, y.v16_0),
@@ -360,7 +419,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort subsaturated(ushort x, ushort y)
         {
-            if (Xse.constexpr.IS_TRUE(y == 1))
+            if (constexpr.IS_TRUE(y == 1))
             {
                 return nextsmaller(x);
             }
@@ -372,10 +431,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 subsaturated(ushort2 x, ushort2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu16(x, y);
-            } 
+                return Xse.subs_epu16(x, y);
+            }
             else
             {
                 return new ushort2(subsaturated(x.x, y.x),
@@ -387,10 +446,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 subsaturated(ushort3 x, ushort3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu16(x, y);
-            } 
+                return Xse.subs_epu16(x, y);
+            }
             else
             {
                 return new ushort3(subsaturated(x.x, y.x),
@@ -403,9 +462,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 subsaturated(ushort4 x, ushort4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu16(x, y);
+                return Xse.subs_epu16(x, y);
             }
             else
             {
@@ -420,10 +479,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 subsaturated(ushort8 x, ushort8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu16(x, y);
-            } 
+                return Xse.subs_epu16(x, y);
+            }
             else
             {
                 return new ushort8(subsaturated(x.x0, y.x0),
@@ -444,7 +503,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_subs_epu16(x, y);
-            } 
+            }
             else
             {
                 return new ushort16(subsaturated(x.v8_0, y.v8_0),
@@ -457,7 +516,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint subsaturated(uint x, uint y)
         {
-            if (Xse.constexpr.IS_TRUE(y == 1))
+            if (constexpr.IS_TRUE(y == 1))
             {
                 return nextsmaller(x);
             }
@@ -469,10 +528,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 subsaturated(uint2 x, uint2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
-            } 
+            }
             else
             {
                 return new uint2(subsaturated(x.x, y.x),
@@ -484,10 +543,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 subsaturated(uint3 x, uint3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
-            } 
+            }
             else
             {
                 return new uint3(subsaturated(x.x, y.x),
@@ -500,10 +559,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 subsaturated(uint4 x, uint4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
-            } 
+            }
             else
             {
                 return new uint4(subsaturated(x.x, y.x),
@@ -520,7 +579,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_subs_epu32(x, y);
-            } 
+            }
             else
             {
                 return new uint8(subsaturated(x.v4_0, y.v4_0),
@@ -533,7 +592,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong subsaturated(ulong x, ulong y)
         {
-            if (Xse.constexpr.IS_TRUE(y == 1))
+            if (constexpr.IS_TRUE(y == 1))
             {
                 return nextsmaller(x);
             }
@@ -545,10 +604,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 subsaturated(ulong2 x, ulong2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.subs_epu64(x, y);
-            } 
+            }
             else
             {
                 return new ulong2(subsaturated(x.x, y.x),
@@ -563,7 +622,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_subs_epu64(x, y, 3);
-            } 
+            }
             else
             {
                 return new ulong3(subsaturated(x.xy, y.xy),
@@ -578,7 +637,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_subs_epu64(x, y, 4);
-            } 
+            }
             else
             {
                 return new ulong4(subsaturated(x.xy, y.xy),
@@ -591,15 +650,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte subsaturated(sbyte x, sbyte y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 _x = Sse2.cvtsi32_si128((byte)x);
-                v128 _y = Sse2.cvtsi32_si128((byte)y);
+                v128 _x = Xse.cvtsi32_si128((byte)x);
+                v128 _y = Xse.cvtsi32_si128((byte)y);
 
-                v128 difference = Sse2.subs_epi8(_x, _y);
+                v128 difference = Xse.subs_epi8(_x, _y);
 
-                return (sbyte)Sse2.cvtsi128_si32(difference);
-            } 
+                return (sbyte)Xse.cvtsi128_si32(difference);
+            }
             else
             {
                 return (sbyte)math.clamp(x - y, sbyte.MinValue, sbyte.MaxValue);
@@ -610,9 +669,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 subsaturated(sbyte2 x, sbyte2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(x, y);
+                return Xse.subs_epi8(x, y);
             }
             else
             {
@@ -625,9 +684,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 subsaturated(sbyte3 x, sbyte3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(x, y);
+                return Xse.subs_epi8(x, y);
             }
             else
             {
@@ -641,10 +700,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 subsaturated(sbyte4 x, sbyte4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(x, y);
-            } 
+                return Xse.subs_epi8(x, y);
+            }
             else
             {
                 return new sbyte4(subsaturated(x.x, y.x),
@@ -658,10 +717,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 subsaturated(sbyte8 x, sbyte8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(x, y);
-            } 
+                return Xse.subs_epi8(x, y);
+            }
             else
             {
                 return new sbyte8(subsaturated(x.x0, y.x0),
@@ -679,10 +738,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 subsaturated(sbyte16 x, sbyte16 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(x, y);
-            } 
+                return Xse.subs_epi8(x, y);
+            }
             else
             {
                 return new sbyte16(subsaturated(x.x0, y.x0),
@@ -711,7 +770,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_subs_epi8(x, y);
-            } 
+            }
             else
             {
                 return new sbyte32(subsaturated(x.v16_0, y.v16_0),
@@ -724,15 +783,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short subsaturated(short x, short y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 _x = Sse2.cvtsi32_si128((ushort)x);
-                v128 _y = Sse2.cvtsi32_si128((ushort)y);
+                v128 _x = Xse.cvtsi32_si128((ushort)x);
+                v128 _y = Xse.cvtsi32_si128((ushort)y);
 
-                v128 difference = Sse2.subs_epi16(_x, _y);
+                v128 difference = Xse.subs_epi16(_x, _y);
 
-                return (short)Sse2.cvtsi128_si32(difference);
-            } 
+                return (short)Xse.cvtsi128_si32(difference);
+            }
             else
             {
                 return (short)math.clamp(x - y, short.MinValue, short.MaxValue);
@@ -743,9 +802,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 subsaturated(short2 x, short2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi16(x, y);
+                return Xse.subs_epi16(x, y);
             }
             else
             {
@@ -758,10 +817,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 subsaturated(short3 x, short3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi16(x, y);
-            } 
+                return Xse.subs_epi16(x, y);
+            }
             else
             {
                 return new short3(subsaturated(x.x, y.x),
@@ -774,10 +833,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 subsaturated(short4 x, short4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi16(x, y);
-            } 
+                return Xse.subs_epi16(x, y);
+            }
             else
             {
                 return new short4(subsaturated(x.x, y.x),
@@ -791,10 +850,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 subsaturated(short8 x, short8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi16(x, y);
-            } 
+                return Xse.subs_epi16(x, y);
+            }
             else
             {
                 return new short8(subsaturated(x.x0, y.x0),
@@ -815,7 +874,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Avx2.mm256_subs_epi16(x, y);
-            } 
+            }
             else
             {
                 return new short16(subsaturated(x.v8_0, y.v8_0),
@@ -828,17 +887,29 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int subsaturated(int x, int y)
         {
-            return (int)math.clamp((long)x - (long)y, int.MinValue, int.MaxValue);
+            if (Arm.Neon.IsNeonSupported)
+            {
+                v128 _x = Xse.cvtsi32_si128(x);
+                v128 _y = Xse.cvtsi32_si128(y);
+
+                v128 difference = Xse.subs_epi32(_x, _y);
+
+                return Xse.cvtsi128_si32(difference);
+            }
+            else
+            {
+                return (int)math.clamp((long)x - (long)y, int.MinValue, int.MaxValue);
+            }
         }
 
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 subsaturated(int2 x, int2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
-            } 
+            }
             else
             {
                 return new int2(subsaturated(x.x, y.x),
@@ -850,10 +921,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 subsaturated(int3 x, int3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
-            } 
+            }
             else
             {
                 return new int3(subsaturated(x.x, y.x),
@@ -861,15 +932,15 @@ namespace MaxMath
                                 subsaturated(x.z, y.z));
             }
         }
-        
+
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 subsaturated(int4 x, int4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
-            } 
+            }
             else
             {
                 return new int4(subsaturated(x.x, y.x),
@@ -878,7 +949,7 @@ namespace MaxMath
                                 subsaturated(x.w, y.w));
             }
         }
-        
+
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 subsaturated(int8 x, int8 y)
@@ -886,45 +957,45 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_subs_epi32(x, y);
-            } 
+            }
             else
             {
                 return new int8(subsaturated(x.v4_0, y.v4_0),
                                 subsaturated(x.v4_4, y.v4_4));
             }
         }
-        
-        
+
+
         /// <summary>       Subtracts <paramref name="y"/> from <paramref name="x"/> and returns the result, which is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long subsaturated(long x, long y)
         {
 	        long result = x - y;
 	        long overflow = (long)((ulong)x >> 63) + long.MaxValue;
-	        
+
 	        if (((overflow ^ y) & (overflow ^ result)) < 0)
 	        {
 	        	result = overflow;
 	        }
-	        	
+
 	        return result;
         }
-        
+
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 subsaturated(long2 x, long2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.subs_epi64(x, y);
-            } 
+            }
             else
             {
                 return new long2(subsaturated(x.x, y.x),
                                  subsaturated(x.y, y.y));
             }
         }
-        
+
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 subsaturated(long3 x, long3 y)
@@ -939,7 +1010,7 @@ namespace MaxMath
                                  subsaturated(x.z, y.z));
             }
         }
-        
+
         /// <summary>       Subtracts each component of <paramref name="y"/> from each component of <paramref name="x"/> and returns the results, which are clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 subsaturated(long4 x, long4 y)
@@ -947,7 +1018,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_subs_epi64(x, y, 4);
-            } 
+            }
             else
             {
                 return new long4(subsaturated(x.xy, y.xy),

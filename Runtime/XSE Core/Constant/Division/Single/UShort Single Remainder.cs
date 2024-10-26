@@ -1,23 +1,36 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v128 constrem_epu16(v128 vector, ushort divisor, byte elements = 8)
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v128 rem_epu16(v128 vector, ushort divisor, byte elements = 8)
+            if (Architecture.IsSIMDSupported)
 			{
-				return new v128((ushort)(vector.UShort0 % divisor), (ushort)(vector.UShort1 % divisor), (ushort)(vector.UShort2 % divisor), (ushort)(vector.UShort3 % divisor), (ushort)(vector.UShort4 % divisor), (ushort)(vector.UShort5 % divisor), (ushort)(vector.UShort6 % divisor), (ushort)(vector.UShort7 % divisor));
+				switch (elements)
+				{
+					case  2: return (ushort2)vector % new Divider<ushort>(divisor);
+					case  3: return (ushort3)vector % new Divider<ushort>(divisor);
+					case  4: return (ushort4)vector % new Divider<ushort>(divisor);
+					default: return (ushort8)vector % new Divider<ushort>(divisor);
+				}
 			}
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v256 mm256_rem_epu16(v256 vector, ushort divisor)
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v256 mm256_constrem_epu16(v256 vector, ushort divisor)
+		{
+			if (Avx2.IsAvx2Supported)
 			{
-				return new v256((ushort)(vector.UShort0 % divisor), (ushort)(vector.UShort1 % divisor), (ushort)(vector.UShort2 % divisor), (ushort)(vector.UShort3 % divisor), (ushort)(vector.UShort4 % divisor), (ushort)(vector.UShort5 % divisor), (ushort)(vector.UShort6 % divisor), (ushort)(vector.UShort7 % divisor), (ushort)(vector.UShort8 % divisor), (ushort)(vector.UShort9 % divisor), (ushort)(vector.UShort10 % divisor), (ushort)(vector.UShort11 % divisor), (ushort)(vector.UShort12 % divisor), (ushort)(vector.UShort13 % divisor), (ushort)(vector.UShort14 % divisor), (ushort)(vector.UShort15 % divisor));
+				return (ushort16)vector % new Divider<ushort>(divisor);
 			}
+			else throw new IllegalInstructionException();
 		}
 	}
 }

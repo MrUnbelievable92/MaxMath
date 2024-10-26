@@ -1,23 +1,35 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v128 constdiv_epi32(v128 vector, int divisor, byte elements = 4)
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v128 div_epi32(v128 vector, int divisor)
-			{
-				return new v128((int)((long)vector.SInt0 / divisor), (int)((long)vector.SInt1 / divisor), (int)((long)vector.SInt2 / divisor), (int)((long)vector.SInt3 / divisor));
-			}
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v256 mm256_div_epi32(v256 vector, int divisor)
-			{
-				return new v256((int)((long)vector.SInt0 / divisor), (int)((long)vector.SInt1 / divisor), (int)((long)vector.SInt2 / divisor), (int)((long)vector.SInt3 / divisor), (int)((long)vector.SInt4 / divisor), (int)((long)vector.SInt5 / divisor), (int)((long)vector.SInt6 / divisor), (int)((long)vector.SInt7 / divisor));
-			}
+            if (Architecture.IsSIMDSupported)
+		    {
+				switch (elements)
+				{
+					case  2: return RegisterConversion.ToV128(RegisterConversion.ToInt2(vector) / new Divider<int>(divisor));
+					case  3: return RegisterConversion.ToV128(RegisterConversion.ToInt3(vector) / new Divider<int>(divisor));
+					default: return RegisterConversion.ToV128(RegisterConversion.ToInt4(vector) / new Divider<int>(divisor));
+				}
+		    }
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v256 mm256_constdiv_epi32(v256 vector, int divisor)
+		{
+		    if (Avx2.IsAvx2Supported)
+		    {
+				return (int8)vector / new Divider<int>(divisor);
+		    }
+			else throw new IllegalInstructionException();
 		}
 	}
 }

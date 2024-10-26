@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -6,33 +7,41 @@ namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v128 constdiv_epi64(v128 vector, v128 divisor)
 		{
-			internal static v128 div_epi64(v128 vector, v128 divisor)
+            if (Architecture.IsSIMDSupported)
 			{
 				if (constexpr.ALL_SAME_EPI64(divisor))
 				{
-					return div_epi64(vector, divisor.SLong0);
+					return constdiv_epi64(vector, divisor.SLong0);
 				}
 
-				return new v128(save_div(vector.SLong0, divisor.SLong0), save_div(vector.SLong1, divisor.SLong1));
+				return (long2)vector / new Divider<long2>((long2)divisor);
 			}
+			else throw new IllegalInstructionException();
+		}
 
-			internal static v256 mm256_div_epi64(v256 vector, v256 divisor, byte elements = 4)
-			{
-                if (Avx2.IsAvx2Supported)
-                {
-					if (constexpr.ALL_SAME_EPI64(divisor, elements))
-					{
-						return mm256_div_epi64(vector, divisor.SLong0);
-					}
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v256 mm256_constdiv_epi64(v256 vector, v256 divisor, byte elements = 4)
+		{
+		    if (Avx2.IsAvx2Supported)
+		    {
+				if (constexpr.ALL_SAME_EPI64(divisor, elements))
+				{
+					return mm256_constdiv_epi64(vector, divisor.SLong0);
+				}
 
-					divisor = mm256_blendv_si256(divisor, Avx.mm256_set1_epi64x(1), Avx2.mm256_cmpeq_epi64(divisor, Avx.mm256_setzero_si256()));
-
-					return new v256(save_div(vector.SLong0, divisor.SLong0), save_div(vector.SLong1, divisor.SLong1), save_div(vector.SLong2, divisor.SLong2), save_div(vector.SLong3, divisor.SLong3));
-                }
-				else throw new IllegalInstructionException();
-			}
+				if (elements == 4)
+				{
+					return (long4)vector / new Divider<long4>((long4)divisor);
+				}
+				else
+				{
+					return (long3)vector / new Divider<long3>((long3)divisor);
+				}
+		    }
+			else throw new IllegalInstructionException();
 		}
 	}
 }

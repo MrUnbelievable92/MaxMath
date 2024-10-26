@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -119,34 +116,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static short4x3 operator * (short4x3 left, short4x3 right) => new short4x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x3 operator / (short4x3 left, short4x3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                short8 div = new short8(left.c0, left.c1) / new short8(right.c0, right.c1);
-
-                return new short4x3(div.v4_0, div.v4_4, left.c2 / right.c2);
-            }
-            else
-            {
-                return new short4x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
-            }
-        }
+        public static short4x3 operator / (short4x3 left, short4x3 right) => new short4x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x3 operator % (short4x3 left, short4x3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                short8 rem = new short8(left.c0, left.c1) % new short8(right.c0, right.c1);
-
-                return new short4x3(rem.v4_0, rem.v4_4, left.c2 % right.c2);
-            }
-            else
-            {
-                return new short4x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
-            }
-        }
+        public static short4x3 operator % (short4x3 left, short4x3 right) => new short4x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -156,36 +129,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static short4x3 operator * (short left, short4x3 right) => new short4x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x3 operator / (short4x3 left, short right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    short8 div = new short8(left.c0, left.c1) / right;
-
-                    return new short4x3(div.v4_0, div.v4_4, left.c2 / right);
-                }
-            }
-
-            return new short4x3(left.c0 / right, left.c1 / right, left.c2 / right);
-        }
+        public static short4x3 operator / (short4x3 left, short right) => new short4x3(left.c0 / right, left.c1 / right, left.c2 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4x3 operator % (short4x3 left, short right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    short8 rem = new short8(left.c0, left.c1) % right;
-
-                    return new short4x3(rem.v4_0, rem.v4_4, left.c2 % right);
-                }
-            }
-
-            return new short4x3(left.c0 % right, left.c1 % right, left.c2 % right);
-        }
+        public static short4x3 operator % (short4x3 left, short right) => new short4x3(left.c0 % right, left.c1 % right, left.c2 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

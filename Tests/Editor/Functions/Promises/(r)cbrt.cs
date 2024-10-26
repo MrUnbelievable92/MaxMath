@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_r_cbrt
+    public static class f_PROMISE_r_cbrt
     {
         [Test]
         public static void _float2()
@@ -14,8 +14,8 @@ namespace MaxMath.Tests
             {
                 float2 l = math.abs(rng.NextFloat2() * 1_000_000f);
 
-                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, maxmath.Promise.NoOverflow));
-                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, Promise.NoOverflow));
+                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, Promise.NoOverflow));
             }
         }
 
@@ -28,8 +28,8 @@ namespace MaxMath.Tests
             {
                 float3 l = math.abs(rng.NextFloat3() * 1_000_000f);
 
-                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, maxmath.Promise.NoOverflow));
-                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, Promise.NoOverflow));
+                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, Promise.NoOverflow));
             }
         }
 
@@ -42,8 +42,8 @@ namespace MaxMath.Tests
             {
                 float4 l = math.abs(rng.NextFloat4() * 1_000_000f);
 
-                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, maxmath.Promise.NoOverflow));
-                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, Promise.NoOverflow));
+                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, Promise.NoOverflow));
             }
         }
 
@@ -56,8 +56,8 @@ namespace MaxMath.Tests
             {
                 float8 l = maxmath.abs(rng.NextFloat8() * 1_000_000f);
 
-                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, maxmath.Promise.NoOverflow));
-                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cbrt(l), maxmath.cbrt(l, Promise.NoOverflow));
+                Assert.AreEqual(maxmath.rcbrt(l), maxmath.rcbrt(l, Promise.NoOverflow));
             }
         }
     }

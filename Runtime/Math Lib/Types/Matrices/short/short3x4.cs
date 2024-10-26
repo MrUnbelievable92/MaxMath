@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -122,58 +119,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static short3x4 operator * (short3x4 left, short3x4 right) => new short3x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x4 operator / (short3x4 left, short3x4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                short8 dividend_lo = Sse2.unpacklo_epi64(left.c0, left.c1);
-                short8 dividend_hi = Sse2.unpacklo_epi64(left.c2, left.c3);
-
-                short8 divisor_lo = Sse2.unpacklo_epi64(right.c0, right.c1);
-                short8 divisor_hi = Sse2.unpacklo_epi64(right.c2, right.c3);
-#if DEBUG
-                divisor_lo.x3 = 1;
-                divisor_lo.x7 = 1;
-                divisor_hi.x3 = 1;
-                divisor_hi.x7 = 1;
-#endif
-                short8 div_lo = dividend_lo / divisor_lo;
-                short8 div_hi = dividend_hi / divisor_hi;
-
-                return new short3x4(div_lo.v3_0, div_lo.v3_4, div_hi.v3_0, div_hi.v3_4);
-            }
-            else
-            {
-                return new short3x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
-            }
-        }
+        public static short3x4 operator / (short3x4 left, short3x4 right) => new short3x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x4 operator % (short3x4 left, short3x4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                short8 dividend_lo = Sse2.unpacklo_epi64(left.c0, left.c1);
-                short8 dividend_hi = Sse2.unpacklo_epi64(left.c2, left.c3);
-
-                short8 divisor_lo = Sse2.unpacklo_epi64(right.c0, right.c1);
-                short8 divisor_hi = Sse2.unpacklo_epi64(right.c2, right.c3);
-#if DEBUG
-                divisor_lo.x3 = 1;
-                divisor_lo.x7 = 1;
-                divisor_hi.x3 = 1;
-                divisor_hi.x7 = 1;
-#endif
-                short8 rem_lo = dividend_lo % divisor_lo;
-                short8 rem_hi = dividend_hi % divisor_hi;
-
-                return new short3x4(rem_lo.v3_0, rem_lo.v3_4, rem_hi.v3_0, rem_hi.v3_4);
-            }
-            else
-            {
-                return new short3x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
-            }
-        }
+        public static short3x4 operator % (short3x4 left, short3x4 right) => new short3x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -183,44 +132,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static short3x4 operator * (short left, short3x4 right) => new short3x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x4 operator / (short3x4 left, short right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    short8 dividend_lo = Sse2.unpacklo_epi64(left.c0, left.c1);
-                    short8 dividend_hi = Sse2.unpacklo_epi64(left.c2, left.c3);
-
-                    short8 div_lo = dividend_lo / right;
-                    short8 div_hi = dividend_hi / right;
-
-                    return new short3x4(div_lo.v3_0, div_lo.v3_4, div_hi.v3_0, div_hi.v3_4);
-                }
-            }
-
-            return new short3x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
-        }
+        public static short3x4 operator / (short3x4 left, short right) => new short3x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x4 operator % (short3x4 left, short right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    short8 dividend_lo = Sse2.unpacklo_epi64(left.c0, left.c1);
-                    short8 dividend_hi = Sse2.unpacklo_epi64(left.c2, left.c3);
-
-                    short8 rem_lo = dividend_lo % right;
-                    short8 rem_hi = dividend_hi % right;
-
-                    return new short3x4(rem_lo.v3_0, rem_lo.v3_4, rem_hi.v3_0, rem_hi.v3_4);
-                }
-            }
-
-            return new short3x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
-        }
+        public static short3x4 operator % (short3x4 left, short right) => new short3x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

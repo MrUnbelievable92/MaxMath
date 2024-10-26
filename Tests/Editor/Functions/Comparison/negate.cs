@@ -3,490 +3,797 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class negate
+    unsafe public static class f_negate
     {
         [Test]
-        public static void Int128()
+        public static void _Int128()
         {
-            bool result = true;
-            Random128 x = new Random128(47);
+            Random128 x = Random128.New;
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool b = x.NextBool();
                 Int128 __int = x.NextInt128();
 
-                Int128 a = maxmath.negate(__int, b);
-
-                result &= a == (b ? -__int : __int);
+                Assert.AreEqual(maxmath.negate(__int, b), b ? -__int : __int);
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void Float()
+        public static void _sbyte()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__float8.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool b = x.NextBool();
-                float a = maxmath.negate(Tests.__float8.TestData_LHS[i].x0, b);
+                sbyte __int = x.NextSByte();
 
-                result &= a == (b ? -Tests.__float8.TestData_LHS[i].x0 : Tests.__float8.TestData_LHS[i].x0);
+                Assert.AreEqual(maxmath.negate(__int, b), (sbyte)(b ? -__int : __int));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Float2()
+        public static void _sbyte2()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__float2.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool2 b = x.NextBool2();
-                float2 a = maxmath.negate(Tests.__float2.TestData_LHS[i], b);
+                sbyte2 __int = x.NextSByte2();
 
-                result &= math.all(a == (math.select(Tests.__float2.TestData_LHS[i], -Tests.__float2.TestData_LHS[i], b)));
+                sbyte2 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Float3()
+        public static void _sbyte3()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__float3.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool3 b = x.NextBool3();
-                float3 a = maxmath.negate(Tests.__float3.TestData_LHS[i], b);
+                sbyte3 __int = x.NextSByte3();
 
-                result &= math.all(a == (math.select(Tests.__float3.TestData_LHS[i], -Tests.__float3.TestData_LHS[i], b)));
+                sbyte3 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Float4()
+        public static void _sbyte4()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__float4.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool4 b = x.NextBool4();
-                float4 a = maxmath.negate(Tests.__float4.TestData_LHS[i], b);
+                sbyte4 __int = x.NextSByte4();
 
-                result &= math.all(a == (math.select(Tests.__float4.TestData_LHS[i], -Tests.__float4.TestData_LHS[i], b)));
+                sbyte4 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Float8()
+        public static void _sbyte8()
         {
-            bool result = true;
-            Random64 x = new Random64(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__float8.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool8 b = x.NextBool8();
-                float8 a = maxmath.negate(Tests.__float8.TestData_LHS[i], b);
+                sbyte8 __int = x.NextSByte8();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__float8.TestData_LHS[i], -Tests.__float8.TestData_LHS[i], b));
+                sbyte8 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void Double()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__double4.NUM_TESTS; i++)
-            {
-                bool b = x.NextBool();
-                double a = maxmath.negate(Tests.__double4.TestData_LHS[i].x, b);
-
-                result &= a == (b ? -Tests.__double4.TestData_LHS[i].x : Tests.__double4.TestData_LHS[i].x);
-            }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Double2()
+        public static void _sbyte16()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__double2.NUM_TESTS; i++)
-            {
-                bool2 b = x.NextBool2();
-                double2 a = maxmath.negate(Tests.__double2.TestData_LHS[i], b);
-
-                result &= math.all(a == (math.select(Tests.__double2.TestData_LHS[i], -Tests.__double2.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void Double3()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__double3.NUM_TESTS; i++)
-            {
-                bool3 b = x.NextBool3();
-                double3 a = maxmath.negate(Tests.__double3.TestData_LHS[i], b);
-
-                result &= math.all(a == (math.select(Tests.__double3.TestData_LHS[i], -Tests.__double3.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void Double4()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__double4.NUM_TESTS; i++)
-            {
-                bool4 b = x.NextBool4();
-                double4 a = maxmath.negate(Tests.__double4.TestData_LHS[i], b);
-
-                result &= math.all(a == (math.select(Tests.__double4.TestData_LHS[i], -Tests.__double4.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void SByte2()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__sbyte2.NUM_TESTS; i++)
-            {
-                bool2 b = x.NextBool2();
-                sbyte2 a = maxmath.negate(Tests.__sbyte2.TestData_LHS[i], b);
-
-                result &= math.all(a == (maxmath.select(Tests.__sbyte2.TestData_LHS[i], -Tests.__sbyte2.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void SByte3()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__sbyte3.NUM_TESTS; i++)
-            {
-                bool3 b = x.NextBool3();
-                sbyte3 a = maxmath.negate(Tests.__sbyte3.TestData_LHS[i], b);
-
-                result &= math.all(a == (maxmath.select(Tests.__sbyte3.TestData_LHS[i], -Tests.__sbyte3.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void SByte4()
-        {
-            bool result = true;
-            Random32 x = new Random32(47);
-
-            for (int i = 0; i < Tests.__sbyte4.NUM_TESTS; i++)
-            {
-                bool4 b = x.NextBool4();
-                sbyte4 a = maxmath.negate(Tests.__sbyte4.TestData_LHS[i], b);
-
-                result &= math.all(a == (maxmath.select(Tests.__sbyte4.TestData_LHS[i], -Tests.__sbyte4.TestData_LHS[i], b)));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void SByte8()
-        {
-            bool result = true;
-            Random64 x = new Random64(47);
-
-            for (int i = 0; i < Tests.__sbyte8.NUM_TESTS; i++)
-            {
-                bool8 b = x.NextBool8();
-                sbyte8 a = maxmath.negate(Tests.__sbyte8.TestData_LHS[i], b);
-
-                result &= maxmath.all(a == maxmath.select(Tests.__sbyte8.TestData_LHS[i], -Tests.__sbyte8.TestData_LHS[i], b));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void SByte16()
-        {
-            bool result = true;
-            Random64 x = new Random64(47);
-
-            for (int i = 0; i < Tests.__sbyte16.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool16 b = x.NextBool16();
-                sbyte16 a = maxmath.negate(Tests.__sbyte16.TestData_LHS[i], b);
+                sbyte16 __int = x.NextSByte16();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__sbyte16.TestData_LHS[i], -Tests.__sbyte16.TestData_LHS[i], b));
+                sbyte16 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte32()
+        public static void _sbyte32()
         {
-            bool result = true;
-            Random64 x = new Random64(47);
+            Random8 x = Random8.New;
 
-            for (int i = 0; i < Tests.__sbyte32.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool32 b = x.NextBool32();
-                sbyte32 a = maxmath.negate(Tests.__sbyte32.TestData_LHS[i], b);
+                sbyte32 __int = x.NextSByte32();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__sbyte32.TestData_LHS[i], -Tests.__sbyte32.TestData_LHS[i], b));
+                sbyte32 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.AreEqual(test[j], (sbyte)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void Short2()
+        public static void _short()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random16 x = Random16.New;
 
-            for (int i = 0; i < Tests.__short2.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                short __int = x.NextShort();
+
+                Assert.AreEqual(maxmath.negate(__int, b), (short)(b ? -__int : __int));
+            }
+        }
+
+        [Test]
+        public static void _short2()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
                 bool2 b = x.NextBool2();
-                short2 a = maxmath.negate(Tests.__short2.TestData_LHS[i], b);
+                short2 __int = x.NextShort2();
 
-                result &= math.all(a == (maxmath.select(Tests.__short2.TestData_LHS[i], -Tests.__short2.TestData_LHS[i], b)));
+                short2 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (short)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short3()
+        public static void _short3()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random16 x = Random16.New;
 
-            for (int i = 0; i < Tests.__short3.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool3 b = x.NextBool3();
-                short3 a = maxmath.negate(Tests.__short3.TestData_LHS[i], b);
+                short3 __int = x.NextShort3();
 
-                result &= math.all(a == (maxmath.select(Tests.__short3.TestData_LHS[i], -Tests.__short3.TestData_LHS[i], b)));
+                short3 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (short)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short4()
+        public static void _short4()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random16 x = Random16.New;
 
-            for (int i = 0; i < Tests.__short4.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool4 b = x.NextBool4();
-                short4 a = maxmath.negate(Tests.__short4.TestData_LHS[i], b);
+                short4 __int = x.NextShort4();
 
-                result &= math.all(a == (maxmath.select(Tests.__short4.TestData_LHS[i], -Tests.__short4.TestData_LHS[i], b)));
+                short4 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (short)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short8()
+        public static void _short8()
         {
-            bool result = true;
-            Random64 x = new Random64(47);
+            Random16 x = Random16.New;
 
-            for (int i = 0; i < Tests.__short8.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool8 b = x.NextBool8();
-                short8 a = maxmath.negate(Tests.__short8.TestData_LHS[i], b);
+                short8 __int = x.NextShort8();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__short8.TestData_LHS[i], -Tests.__short8.TestData_LHS[i], b));
+                short8 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], (short)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short16()
+        public static void _short16()
         {
-            bool result = true;
-            Random64 x = new Random64(47);
+            Random16 x = Random16.New;
 
-            for (int i = 0; i < Tests.__short16.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool16 b = x.NextBool16();
-                short16 a = maxmath.negate(Tests.__short16.TestData_LHS[i], b);
+                short16 __int = x.NextShort16();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__short16.TestData_LHS[i], -Tests.__short16.TestData_LHS[i], b));
+                short16 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], (short)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void Int2()
+        public static void _int()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random32 x = Random32.New;
 
-            for (int i = 0; i < Tests.__int2.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                int __int = x.NextInt();
+
+                Assert.AreEqual(maxmath.negate(__int, b), (int)(b ? -__int : __int));
+            }
+        }
+
+        [Test]
+        public static void _int2()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
             {
                 bool2 b = x.NextBool2();
-                int2 a = maxmath.negate(Tests.__int2.TestData_LHS[i], b);
+                int2 __int = x.NextInt2();
 
-                result &= math.all(a == (math.select(Tests.__int2.TestData_LHS[i], -Tests.__int2.TestData_LHS[i], b)));
+                int2 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (int)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Int3()
+        public static void _int3()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random32 x = Random32.New;
 
-            for (int i = 0; i < Tests.__int3.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool3 b = x.NextBool3();
-                int3 a = maxmath.negate(Tests.__int3.TestData_LHS[i], b);
+                int3 __int = x.NextInt3();
 
-                result &= math.all(a == (math.select(Tests.__int3.TestData_LHS[i], -Tests.__int3.TestData_LHS[i], b)));
+                int3 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (int)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Int4()
+        public static void _int4()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random32 x = Random32.New;
 
-            for (int i = 0; i < Tests.__int4.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool4 b = x.NextBool4();
-                int4 a = maxmath.negate(Tests.__int4.TestData_LHS[i], b);
+                int4 __int = x.NextInt4();
 
-                result &= math.all(a == (math.select(Tests.__int4.TestData_LHS[i], -Tests.__int4.TestData_LHS[i], b)));
+                int4 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (int)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Int8()
+        public static void _int8()
         {
-            bool result = true;
-            Random64 x = new Random64(47);
+            Random32 x = Random32.New;
 
-            for (int i = 0; i < Tests.__int8.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool8 b = x.NextBool8();
-                int8 a = maxmath.negate(Tests.__int8.TestData_LHS[i], b);
+                int8 __int = x.NextInt8();
 
-                result &= maxmath.all(a == maxmath.select(Tests.__int8.TestData_LHS[i], -Tests.__int8.TestData_LHS[i], b));
+                int8 test = maxmath.negate(__int, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], (int)(b[j] ? -__int[j] : __int[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void Long2()
+        public static void _long()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random64 x = Random64.New;
 
-            for (int i = 0; i < Tests.__long2.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                long __long = x.NextLong();
+
+                Assert.AreEqual(maxmath.negate(__long, b), (long)(b ? -__long : __long));
+            }
+        }
+
+        [Test]
+        public static void _long2()
+        {
+            Random64 x = Random64.New;
+
+            for (int i = 0; i < 16; i++)
             {
                 bool2 b = x.NextBool2();
-                long2 a = maxmath.negate(Tests.__long2.TestData_LHS[i], b);
+                long2 __long = x.NextLong2();
 
-                result &= math.all(a == (maxmath.select(Tests.__long2.TestData_LHS[i], -Tests.__long2.TestData_LHS[i], b)));
+                long2 test = maxmath.negate(__long, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (long)(b[j] ? -__long[j] : __long[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Long3()
+        public static void _long3()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random64 x = Random64.New;
 
-            for (long i = 0; i < Tests.__long3.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool3 b = x.NextBool3();
-                long3 a = maxmath.negate(Tests.__long3.TestData_LHS[i], b);
+                long3 __long = x.NextLong3();
 
-                result &= math.all(a == (maxmath.select(Tests.__long3.TestData_LHS[i], -Tests.__long3.TestData_LHS[i], b)));
+                long3 test = maxmath.negate(__long, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (long)(b[j] ? -__long[j] : __long[j]));
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Long4()
+        public static void _long4()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Random64 x = Random64.New;
 
-            for (long i = 0; i < Tests.__long4.NUM_TESTS; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool4 b = x.NextBool4();
-                long4 a = maxmath.negate(Tests.__long4.TestData_LHS[i], b);
+                long4 __long = x.NextLong4();
 
-                result &= math.all(a == (maxmath.select(Tests.__long4.TestData_LHS[i], -Tests.__long4.TestData_LHS[i], b)));
+                long4 test = maxmath.negate(__long, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (long)(b[j] ? -__long[j] : __long[j]));
+                }
             }
+        }
 
-            Assert.AreEqual(true, result);
+
+        [Test]
+        public static void _quarter()
+        {
+            Random8 x = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                quarter __float = maxmath.asquarter(x.NextSByte());
+
+                if (!maxmath.isnan(maxmath.negate(__float, b)))
+                {
+                    Assert.AreEqual(maxmath.negate(__float, b), (quarter)(b ? -__float : __float));
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter2()
+        {
+            Random8 x = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool2 b = x.NextBool2();
+                quarter2 __float = maxmath.asquarter(x.NextSByte2());
+
+                quarter2 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (quarter)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter3()
+        {
+            Random8 x = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool3 b = x.NextBool3();
+                quarter3 __float = maxmath.asquarter(x.NextSByte3());
+
+                quarter3 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (quarter)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter4()
+        {
+            Random8 x = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool4 b = x.NextBool4();
+                quarter4 __float = maxmath.asquarter(x.NextSByte4());
+
+                quarter4 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (quarter)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter8()
+        {
+            Random8 x = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool8 b = x.NextBool8();
+                quarter8 __float = maxmath.asquarter(x.NextSByte8());
+
+                quarter8 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (quarter)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _half()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                half __float = maxmath.ashalf(x.NextShort());
+
+                if (!maxmath.isnan(maxmath.negate(__float, b)))
+                {
+                    Assert.AreEqual(maxmath.negate(__float, b), (half)(b ? -__float : __float));
+                }
+            }
+        }
+
+        [Test]
+        public static void _half2()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool2 b = x.NextBool2();
+                half2 __float = maxmath.ashalf(x.NextShort2());
+
+                half2 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (half)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half3()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool3 b = x.NextBool3();
+                half3 __float = maxmath.ashalf(x.NextShort3());
+
+                half3 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (half)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half4()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool4 b = x.NextBool4();
+                half4 __float = maxmath.ashalf(x.NextShort4());
+
+                half4 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (half)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half8()
+        {
+            Random16 x = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool8 b = x.NextBool8();
+                half8 __float = maxmath.ashalf(x.NextShort8());
+
+                half8 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (!maxmath.isnan(test[j]))
+                    {
+                        Assert.AreEqual(test[j], (half)(b[j] ? -__float[j] : __float[j]));
+                    }
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _float()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                float __float = x.NextFloat();
+
+                Assert.AreEqual(maxmath.negate(__float, b), (float)(b ? -__float : __float));
+            }
+        }
+
+        [Test]
+        public static void _float2()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool2 b = x.NextBool2();
+                float2 __float = x.NextFloat2();
+
+                float2 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (float)(b[j] ? -__float[j] : __float[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float3()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool3 b = x.NextBool3();
+                float3 __float = x.NextFloat3();
+
+                float3 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (float)(b[j] ? -__float[j] : __float[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float4()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool4 b = x.NextBool4();
+                float4 __float = x.NextFloat4();
+
+                float4 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (float)(b[j] ? -__float[j] : __float[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float8()
+        {
+            Random32 x = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool8 b = x.NextBool8();
+                float8 __float = x.NextFloat8();
+
+                float8 test = maxmath.negate(__float, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], (float)(b[j] ? -__float[j] : __float[j]));
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _double()
+        {
+            Random64 x = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool b = x.NextBool();
+                double __double= x.NextDouble();
+
+                Assert.AreEqual(maxmath.negate(__double, b), (double)(b ? -__double: __double));
+            }
+        }
+
+        [Test]
+        public static void _double2()
+        {
+            Random64 x = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool2 b = x.NextBool2();
+                double2 __double= x.NextDouble2();
+
+                double2 test = maxmath.negate(__double, b);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], (double)(b[j] ? -__double[j] : __double[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _double3()
+        {
+            Random64 x = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool3 b = x.NextBool3();
+                double3 __double= x.NextDouble3();
+
+                double3 test = maxmath.negate(__double, b);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], (double)(b[j] ? -__double[j] : __double[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _double4()
+        {
+            Random64 x = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                bool4 b = x.NextBool4();
+                double4 __double= x.NextDouble4();
+
+                double4 test = maxmath.negate(__double, b);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], (double)(b[j] ? -__double[j] : __double[j]));
+                }
+            }
         }
     }
 }

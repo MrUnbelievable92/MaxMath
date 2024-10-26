@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,13 +8,13 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort2"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort2"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort2 x, out ushort min)
         {
             if (Sse4_1.IsSse41Supported)
             {
-                v128 temp = Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0, -1, -1, -1)));
+                v128 temp = Xse.minpos_epu16(Xse.or_si128(x, new v128(0, -1, -1, -1)));
                 min = temp.UShort0;
 
                 return temp.UShort1;
@@ -33,13 +34,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort3"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort3"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort3 x, out ushort min)
         {
             if (Sse4_1.IsSse41Supported)
             {
-                v128 temp = Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0u, 0xFFFF_0000u, uint.MaxValue, uint.MaxValue)));
+                v128 temp = Xse.minpos_epu16(Xse.or_si128(x, new v128(0u, 0xFFFF_0000u, uint.MaxValue, uint.MaxValue)));
                 min = temp.UShort0;
 
                 return temp.UShort1;
@@ -63,13 +64,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort4"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort4"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort4 x, out ushort min)
         {
             if (Sse4_1.IsSse41Supported)
             {
-                v128 temp = Sse4_1.minpos_epu16(Sse2.or_si128(x, new v128(0, 0, -1, -1)));
+                v128 temp = Xse.minpos_epu16(Xse.or_si128(x, new v128(0, 0, -1, -1)));
                 min = temp.UShort0;
 
                 return temp.UShort1;
@@ -97,13 +98,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort8"/> with the minimum component as an <see langword="out" /> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort8"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort8 x, out ushort min)
         {
             if (Sse4_1.IsSse41Supported)
             {
-                v128 temp = Sse4_1.minpos_epu16(x);
+                v128 temp = Xse.minpos_epu16(x);
                 min = temp.UShort0;
 
                 return temp.UShort1;

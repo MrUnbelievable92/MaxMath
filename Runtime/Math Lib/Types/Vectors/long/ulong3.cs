@@ -4,17 +4,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable] 
-    [StructLayout(LayoutKind.Explicit, Size = 3 * sizeof(ulong))] 
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 3 * sizeof(ulong))]
     [DebuggerTypeProxy(typeof(long3.DebuggerProxy))]
     unsafe public struct ulong3 : IEquatable<ulong3>, IFormattable
     {
@@ -50,7 +48,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_epi64x(0L, (long)z, (long)y, (long)x);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong3 { _xy = new ulong2(x, y), z = z };
             }
@@ -65,9 +63,9 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                this = Avx.mm256_set1_epi64x((long)xyz);
+                this = Xse.mm256_set1_epi64x(xyz);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong3 { _xy = new ulong2(xyz), z = xyz };
             }
@@ -97,7 +95,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_insert_epi64(yz.xxy, (long)x, 0);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 yz = yz.yx;
                 ulong z = yz.x;
@@ -111,7 +109,7 @@ namespace MaxMath
             }
         }
 
-        
+
         #region Shuffle
         public readonly ulong4 xxxx
         {
@@ -122,15 +120,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_broadcastq_epi64(Avx.mm256_castsi256_si128(this));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _xx = xx;
-
-                    return new ulong4(_xx, _xx);
-                }
                 else
                 {
-                    return new ulong4(x, x, x, x);
+                    return new ulong4(xx, xx);
                 }
             }
         }
@@ -143,13 +135,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, _xy);
-                }
                 else
                 {
-                    return new ulong4(x, x, x, y);
+                    return new ulong4(xx, _xy);
                 }
             }
         }
@@ -162,13 +150,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, xz);
-                }
                 else
                 {
-                    return new ulong4(x, x, x, z);
+                    return new ulong4(xx, xz);
                 }
             }
         }
@@ -181,13 +165,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, yx);
-                }
                 else
                 {
-                    return new ulong4(x, x, y, x);
+                    return new ulong4(xx, yx);
                 }
             }
         }
@@ -200,13 +180,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, yy);
-                }
                 else
                 {
-                    return new ulong4(x, x, y, y);
+                    return new ulong4(xx, yy);
                 }
             }
         }
@@ -219,13 +195,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, yz);
-                }
                 else
                 {
-                    return new ulong4(x, x, y,z);
+                    return new ulong4(xx, yz);
                 }
             }
         }
@@ -238,13 +210,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, zx);
-                }
                 else
                 {
-                    return new ulong4(x, x, z, x);
+                    return new ulong4(xx, zx);
                 }
             }
         }
@@ -257,13 +225,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, zy);
-                }
                 else
                 {
-                    return new ulong4(x, x, z, y);
+                    return new ulong4(xx, zy);
                 }
             }
         }
@@ -276,13 +240,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xx, zz);
-                }
                 else
                 {
-                    return new ulong4(x, x, z, z);
+                    return new ulong4(xx, zz);
                 }
             }
         }
@@ -295,13 +255,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, xx);
-                }
                 else
                 {
-                    return new ulong4(x, y, x, x);
+                    return new ulong4(_xy, xx);
                 }
             }
         }
@@ -314,13 +270,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, _xy);
-                }
                 else
                 {
-                    return new ulong4(x, y, x, y);
+                    return new ulong4(_xy, _xy);
                 }
             }
         }
@@ -333,13 +285,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, xz);
-                }
                 else
                 {
-                    return new ulong4(x, y, x, z);
+                    return new ulong4(_xy, xz);
                 }
             }
         }
@@ -352,13 +300,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, yx);
-                }
                 else
                 {
-                    return new ulong4(x, y, y, x);
+                    return new ulong4(_xy, yx);
                 }
             }
         }
@@ -371,13 +315,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, yy);
-                }
                 else
                 {
-                    return new ulong4(x, y, y, y);
+                    return new ulong4(_xy, yy);
                 }
             }
         }
@@ -390,13 +330,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, yz);
-                }
                 else
                 {
-                    return new ulong4(x, y, y, z);
+                    return new ulong4(_xy, yz);
                 }
             }
         }
@@ -409,13 +345,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, zx);
-                }
                 else
                 {
-                    return new ulong4(x, y, z, x);
+                    return new ulong4(_xy, zx);
                 }
             }
         }
@@ -428,13 +360,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, zy);
-                }
                 else
                 {
-                    return new ulong4(x, y, z, y);
+                    return new ulong4(_xy, zy);
                 }
             }
         }
@@ -447,13 +375,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(_xy, zz);
-                }
                 else
                 {
-                    return new ulong4(x, y, z, z);
+                    return new ulong4(_xy, zz);
                 }
             }
         }
@@ -466,13 +390,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, xx);
-                }
                 else
                 {
-                    return new ulong4(x, z, x, x);
+                    return new ulong4(xz, xx);
                 }
             }
         }
@@ -485,13 +405,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, _xy);
-                }
                 else
                 {
-                    return new ulong4(x, z, x, y);
+                    return new ulong4(xz, _xy);
                 }
             }
         }
@@ -504,15 +420,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _xz = xz;
-
-                    return new ulong4(_xz, _xz);
-                }
                 else
                 {
-                    return new ulong4(x, z, x, z);
+                    return new ulong4(xz, xz);
                 }
             }
         }
@@ -525,13 +435,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, yx);
-                }
                 else
                 {
-                    return new ulong4(x, z, y, x);
+                    return new ulong4(xz, yx);
                 }
             }
         }
@@ -544,13 +450,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, yy);
-                }
                 else
                 {
-                    return new ulong4(x, z, y, y);
+                    return new ulong4(xz, yy);
                 }
             }
         }
@@ -563,13 +465,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, yz);
-                }
                 else
                 {
-                    return new ulong4(x, z, y, z);
+                    return new ulong4(xz, yz);
                 }
             }
         }
@@ -582,13 +480,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, zx);
-                }
                 else
                 {
-                    return new ulong4(x, z, z, x);
+                    return new ulong4(xz, zx);
                 }
             }
         }
@@ -601,13 +495,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, zy);
-                }
                 else
                 {
-                    return new ulong4(x, z, z, y);
+                    return new ulong4(xz, zy);
                 }
             }
         }
@@ -620,13 +510,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(xz, zz);
-                }
                 else
                 {
-                    return new ulong4(x, z, z, z);
+                    return new ulong4(xz, zz);
                 }
             }
         }
@@ -639,13 +525,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, xx);
-                }
                 else
                 {
-                    return new ulong4(y, x, x,  x);
+                    return new ulong4(yx, xx);
                 }
             }
         }
@@ -658,13 +540,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, _xy);
-                }
                 else
                 {
-                    return new ulong4(y, x, x, y);
+                    return new ulong4(yx, _xy);
                 }
             }
         }
@@ -677,13 +555,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, xz);
-                }
                 else
                 {
-                    return new ulong4(y, x, x, z);
+                    return new ulong4(yx, xz);
                 }
             }
         }
@@ -696,15 +570,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _yx = yx;
-
-                    return new ulong4(_yx, _yx);
-                }
                 else
                 {
-                    return new ulong4(y, x, y, x);
+                    return new ulong4(yx, yx);
                 }
             }
         }
@@ -717,13 +585,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, yy);
-                }
                 else
                 {
-                    return new ulong4(y, x, y, y);
+                    return new ulong4(yx, yy);
                 }
             }
         }
@@ -736,13 +600,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, yz);
-                }
                 else
                 {
-                    return new ulong4(y, x, y, z);
+                    return new ulong4(yx, yz);
                 }
             }
         }
@@ -755,13 +615,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, zx);
-                }
                 else
                 {
-                    return new ulong4(y, x, z, x);
+                    return new ulong4(yx, zx);
                 }
             }
         }
@@ -774,13 +630,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, zy);
-                }
                 else
                 {
-                    return new ulong4(y, x, z, y);
+                    return new ulong4(yx, zy);
                 }
             }
         }
@@ -793,13 +645,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yx, zz);
-                }
                 else
                 {
-                    return new ulong4(y, x, z, z);
+                    return new ulong4(yx, zz);
                 }
             }
         }
@@ -812,13 +660,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, xx);
-                }
                 else
                 {
-                    return new ulong4(y, y, x, x);
+                    return new ulong4(yy, xx);
                 }
             }
         }
@@ -831,13 +675,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, _xy);
-                }
                 else
                 {
-                    return new ulong4(y, y, x, y);
+                    return new ulong4(yy, _xy);
                 }
             }
         }
@@ -850,13 +690,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, xz);
-                }
                 else
                 {
-                    return new ulong4(y, y, x, z);
+                    return new ulong4(yy, xz);
                 }
             }
         }
@@ -869,13 +705,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, yx);
-                }
                 else
                 {
-                    return new ulong4(y, y, y, x);
+                    return new ulong4(yy, yx);
                 }
             }
         }
@@ -888,15 +720,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _yy = yy;
-
-                    return new ulong4(_yy, _yy);
-                }
                 else
                 {
-                    return new ulong4(y, y, y, y);
+                    return new ulong4(yy, yy);
                 }
             }
         }
@@ -909,13 +735,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, yz);
-                }
                 else
                 {
-                    return new ulong4(y, y, y, z);
+                    return new ulong4(yy, yz);
                 }
             }
         }
@@ -928,13 +750,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, zx);
-                }
                 else
                 {
-                    return new ulong4(y, y, z, x);
+                    return new ulong4(yy, zx);
                 }
             }
         }
@@ -947,13 +765,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, zy);
-                }
                 else
                 {
-                    return new ulong4(y, y, z, y);
+                    return new ulong4(yy, zy);
                 }
             }
         }
@@ -966,13 +780,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yy, zz);
-                }
                 else
                 {
-                    return new ulong4(y, y, z, z);
+                    return new ulong4(yy, zz);
                 }
             }
         }
@@ -985,13 +795,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, xx);
-                }
                 else
                 {
-                    return new ulong4(y, z, x, x);
+                    return new ulong4(yz, xx);
                 }
             }
         }
@@ -1004,13 +810,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, _xy);
-                }
                 else
                 {
-                    return new ulong4(y, z, x, y);
+                    return new ulong4(yz, _xy);
                 }
             }
         }
@@ -1023,13 +825,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, xz);
-                }
                 else
                 {
-                    return new ulong4(y, z, x, z);
+                    return new ulong4(yz, xz);
                 }
             }
         }
@@ -1042,13 +840,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, yx);
-                }
                 else
                 {
-                    return new ulong4(y, z, y, x);
+                    return new ulong4(yz, yx);
                 }
             }
         }
@@ -1061,13 +855,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, yy);
-                }
                 else
                 {
-                    return new ulong4(y, z, y, y);
+                    return new ulong4(yz, yy);
                 }
             }
         }
@@ -1080,15 +870,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _yz = yz;
-
-                    return new ulong4(_yz, _yz);
-                }
                 else
                 {
-                    return new ulong4(y, z, y, z);
+                    return new ulong4(yz, yz);
                 }
             }
         }
@@ -1101,13 +885,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, zx);
-                }
                 else
                 {
-                    return new ulong4(y, z, z, x);
+                    return new ulong4(yz, zx);
                 }
             }
         }
@@ -1117,16 +897,12 @@ namespace MaxMath
             get
             {
                 if (Avx2.IsAvx2Supported)
-                { 
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
                 {
-                    return new ulong4(yz, zy);
+                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 1));
                 }
                 else
                 {
-                    return new ulong4(y, z, z, y);
+                    return new ulong4(yz, zy);
                 }
             }
         }
@@ -1139,13 +915,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(yz, zz);
-                }
                 else
                 {
-                    return new ulong4(y, z, z, z);
+                    return new ulong4(yz, zz);
                 }
             }
         }
@@ -1158,13 +930,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, xx);
-                }
                 else
                 {
-                    return new ulong4(z, x, x, x);
+                    return new ulong4(zx, xx);
                 }
             }
         }
@@ -1177,13 +945,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, _xy);
-                }
                 else
                 {
-                    return new ulong4(z, x, x, y);
+                    return new ulong4(zx, _xy);
                 }
             }
         }
@@ -1196,13 +960,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, xz);
-                }
                 else
                 {
-                    return new ulong4(z, x, x, z);
+                    return new ulong4(zx, xz);
                 }
             }
         }
@@ -1215,13 +975,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, yx);
-                }
                 else
                 {
-                    return new ulong4(z, x, y, x);
+                    return new ulong4(zx, yx);
                 }
             }
         }
@@ -1234,13 +990,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, yy);
-                }
                 else
                 {
-                    return new ulong4(z, x, y, y);
+                    return new ulong4(zx, yy);
                 }
             }
         }
@@ -1253,13 +1005,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, yz);
-                }
                 else
                 {
-                    return new ulong4(z, x, y, z);
+                    return new ulong4(zx, yz);
                 }
             }
         }
@@ -1272,15 +1020,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _zx = zx;
-
-                    return new ulong4(_zx, _zx);
-                }
                 else
                 {
-                    return new ulong4(z, x, z, x);
+                    return new ulong4(zx, zx);
                 }
             }
         }
@@ -1293,13 +1035,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, zy);
-                }
                 else
                 {
-                    return new ulong4(z, x, z, y);
+                    return new ulong4(zx, zy);
                 }
             }
         }
@@ -1312,13 +1050,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zx, zz);
-                }
                 else
                 {
-                    return new ulong4(z, x, z, z);
+                    return new ulong4(zx, zz);
                 }
             }
         }
@@ -1331,13 +1065,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, xx);
-                }
                 else
                 {
-                    return new ulong4(z, y, x, x);
+                    return new ulong4(zy, xx);
                 }
             }
         }
@@ -1350,13 +1080,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, _xy);
-                }
                 else
                 {
-                    return new ulong4(z, y, x, y);
+                    return new ulong4(zy, _xy);
                 }
             }
         }
@@ -1369,13 +1095,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, xz);
-                }
                 else
                 {
-                    return new ulong4(z, y, x, z);
+                    return new ulong4(zy, xz);
                 }
             }
         }
@@ -1388,13 +1110,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, yx);
-                }
                 else
                 {
-                    return new ulong4(z, y, y, x);
+                    return new ulong4(zy, yx);
                 }
             }
         }
@@ -1407,13 +1125,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, yy);
-                }
                 else
                 {
-                    return new ulong4(z, y, y, y);
+                    return new ulong4(zy, yy);
                 }
             }
         }
@@ -1426,13 +1140,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, yz);
-                }
                 else
                 {
-                    return new ulong4(z, y, y, z);
+                    return new ulong4(zy, yz);
                 }
             }
         }
@@ -1445,13 +1155,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, zx);
-                }
                 else
                 {
-                    return new ulong4(z, y, z, x);
+                    return new ulong4(zy, zx);
                 }
             }
         }
@@ -1464,15 +1170,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _zy = zy;
-
-                    return new ulong4(_zy, _zy);
-                }
                 else
                 {
-                    return new ulong4(z, y, z, y);
+                    return new ulong4(zy, zy);
                 }
             }
         }
@@ -1485,13 +1185,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zy, zz);
-                }
                 else
                 {
-                    return new ulong4(z, y, z, z);
+                    return new ulong4(zy, zz);
                 }
             }
         }
@@ -1504,13 +1200,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, xx);
-                }
                 else
                 {
-                    return new ulong4(z, z, x, x);
+                    return new ulong4(zz, xx);
                 }
             }
         }
@@ -1523,13 +1215,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, _xy);
-                }
                 else
                 {
-                    return new ulong4(z, z, x, y);
+                    return new ulong4(zz, _xy);
                 }
             }
         }
@@ -1542,13 +1230,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, xz);
-                }
                 else
                 {
-                    return new ulong4(z, z, x, z);
+                    return new ulong4(zz, xz);
                 }
             }
         }
@@ -1561,13 +1245,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, yx);
-                }
                 else
                 {
-                    return new ulong4(z, z, y, x);
+                    return new ulong4(zz, yx);
                 }
             }
         }
@@ -1580,13 +1260,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, yy);
-                }
                 else
                 {
-                    return new ulong4(z, z, y, y);
+                    return new ulong4(zz, yy);
                 }
             }
         }
@@ -1599,13 +1275,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, yz);
-                }
                 else
                 {
-                    return new ulong4(z, z, y, z);
+                    return new ulong4(zz, yz);
                 }
             }
         }
@@ -1618,13 +1290,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, zx);
-                }
                 else
                 {
-                    return new ulong4(z, z, z, x);
+                    return new ulong4(zz, zx);
                 }
             }
         }
@@ -1637,13 +1305,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong4(zz, zy);
-                }
                 else
                 {
-                    return new ulong4(z, z, z, y);
+                    return new ulong4(zz, zy);
                 }
             }
         }
@@ -1656,15 +1320,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    ulong2 _zz = zz;
-
-                    return new ulong4(_zz, _zz);
-                }
                 else
                 {
-                    return new ulong4(z, z, z, z);
+                    return new ulong4(zz, zz);
                 }
             }
         }
@@ -1678,13 +1336,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_broadcastq_epi64(Avx.mm256_castsi256_si128(this));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xx, x);
-                }
                 else
                 {
-                    return new ulong3(x, x, x);
+                    return new ulong3(xx, x);
                 }
             }
         }
@@ -1697,13 +1351,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xx, y);
-                }
                 else
                 {
-                    return new ulong3(x, x, y);
+                    return new ulong3(xx, y);
                 }
             }
         }
@@ -1716,13 +1366,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xx, z);
-                }
                 else
                 {
-                    return new ulong3(x, x, z);
+                    return new ulong3(xx, z);
                 }
             }
         }
@@ -1735,13 +1381,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(_xy, x);
-                }
                 else
                 {
-                    return new ulong3(x, y, x);
+                    return new ulong3(_xy, x);
                 }
             }
         }
@@ -1754,13 +1396,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(_xy, y);
-                }
                 else
                 {
-                    return new ulong3(x, y, y);
+                    return new ulong3(_xy, y);
                 }
             }
         }
@@ -1773,13 +1411,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xz, x);
-                }
                 else
                 {
-                    return new ulong3(x, z, x);
+                    return new ulong3(xz, x);
                 }
             }
         }
@@ -1792,13 +1426,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xz, y);
-                }
                 else
                 {
-                    return new ulong3(x, z, y);
+                    return new ulong3(xz, y);
                 }
             }
 
@@ -1817,13 +1447,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 0));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(xz, z);
-                }
                 else
                 {
-                    return new ulong3(x, z, z);
+                    return new ulong3(xz, z);
                 }
             }
         }
@@ -1836,13 +1462,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yx, x);
-                }
                 else
                 {
-                    return new ulong3(y, x, x);
+                    return new ulong3(yx, x);
                 }
             }
         }
@@ -1855,13 +1477,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yx, y);
-                }
                 else
                 {
-                    return new ulong3(y, x, y);
+                    return new ulong3(yx, y);
                 }
             }
         }
@@ -1874,13 +1492,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yx, z);
-                }
                 else
                 {
-                    return new ulong3(y, x, z);
+                    return new ulong3(yx, z);
                 }
             }
 
@@ -1899,13 +1513,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yy, x);
-                }
                 else
                 {
-                    return new ulong3(y, y, x);
+                    return new ulong3(yy, x);
                 }
             }
         }
@@ -1918,13 +1528,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yy, y);
-                }
                 else
                 {
-                    return new ulong3(y, y, y);
+                    return new ulong3(yy, y);
                 }
             }
         }
@@ -1937,13 +1543,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yy, z);
-                }
                 else
                 {
-                    return new ulong3(y, y, z);
+                    return new ulong3(yy, z);
                 }
             }
         }
@@ -1956,13 +1558,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yz, x);
-                }
                 else
                 {
-                    return new ulong3(y, z, x);
+                    return new ulong3(yz, x);
                 }
             }
 
@@ -1981,13 +1579,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yz, y);
-                }
                 else
                 {
-                    return new ulong3(y, z, y);
+                    return new ulong3(yz, y);
                 }
             }
         }
@@ -2000,13 +1594,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 1));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(yz, z);
-                }
                 else
                 {
-                    return new ulong3(y, z, z);
+                    return new ulong3(yz, z);
                 }
             }
         }
@@ -2019,13 +1609,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zx, x);
-                }
                 else
                 {
-                    return new ulong3(z, x, x);
+                    return new ulong3(zx, x);
                 }
             }
         }
@@ -2038,13 +1624,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zx, y);
-                }
                 else
                 {
-                    return new ulong3(z, x, y);
+                    return new ulong3(zx, y);
                 }
             }
 
@@ -2063,13 +1645,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zx, z);
-                }
                 else
                 {
-                    return new ulong3(z, x, z);
+                    return new ulong3(zx, z);
                 }
             }
         }
@@ -2082,13 +1660,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zy, x);
-                }
                 else
                 {
-                    return new ulong3(z, y, x);
+                    return new ulong3(zy, x);
                 }
             }
 
@@ -2107,13 +1681,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zy, y);
-                }
                 else
                 {
-                    return new ulong3(z, y, y);
+                    return new ulong3(zy, y);
                 }
             }
         }
@@ -2126,13 +1696,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zy, z);
-                }
                 else
                 {
-                    return new ulong3(z, y, z);
+                    return new ulong3(zy, z);
                 }
             }
         }
@@ -2145,13 +1711,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zz, x);
-                }
                 else
                 {
-                    return new ulong3(z, z, x);
+                    return new ulong3(zz, x);
                 }
             }
         }
@@ -2164,13 +1726,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zz, y);
-                }
                 else
                 {
-                    return new ulong3(z, z, y);
+                    return new ulong3(zz, y);
                 }
             }
         }
@@ -2183,13 +1741,9 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 2));
                 }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new ulong3(zz, z);
-                }
                 else
                 {
-                    return new ulong3(z, z, z);
+                    return new ulong3(zz, z);
                 }
             }
         }
@@ -2201,7 +1755,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 1, 0));
+                    return Xse.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 1, 0));
                 }
                 else
                 {
@@ -2246,15 +1800,11 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)));
                 }
-                else if (Sse2.IsSse2Supported)
+                else
                 {
                     ulong2 _xz = _xy;
                     _xz.y = z;
                     return _xz;
-                }
-                else
-                {
-                    return new ulong2(x, z);
                 }
             }
 
@@ -2279,7 +1829,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 3, 2));
+                    return Xse.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 3, 2));
                 }
                 else
                 {
@@ -2308,7 +1858,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(3, 2, 3, 2));
+                    return Xse.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(3, 2, 3, 2));
                 }
                 else
                 {
@@ -2342,7 +1892,7 @@ namespace MaxMath
                 {
                     this.y = value.x;
                     this.z = value.y;
-                } 
+                }
             }
         }
         public          ulong2 zx
@@ -2383,15 +1933,11 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)));
                 }
-                else if (Sse2.IsSse2Supported)
+                else
                 {
                     ulong2 _zy = _xy;
                     _zy.x = z;
                     return _zy;
-                }
-                else
-                {
-                    return new ulong2(z, y);
                 }
             }
 
@@ -2426,7 +1972,7 @@ namespace MaxMath
         }
         #endregion
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v256(ulong3 input)
         {
@@ -2455,21 +2001,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong3(long3 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (v256)input;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new ulong3((ulong2)input._xy, (ulong)input.z);
-            }
-            else
-            {
-                return *(ulong3*)&input;
-            }
-        }
+        public static explicit operator ulong3(long3 input) => *(ulong3*)&input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong3(uint3 input)
@@ -2478,17 +2010,13 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else
             {
                 return new ulong3
                 {
                     _xy = (ulong2)input.xy,
                     z = (ulong)input.z
                 };
-            }
-            else
-            {
-                return new ulong3((ulong)input.x, (ulong)input.y, (ulong)input.z);
             }
         }
 
@@ -2499,7 +2027,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi32_epi64(RegisterConversion.ToV128(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else
             {
                 return new ulong3
                 {
@@ -2507,17 +2035,33 @@ namespace MaxMath
                     z = (ulong)input.z
                 };
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong3(half3 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttph_epu64(RegisterConversion.ToV128(input), 3);
+            }
             else
             {
-                return new ulong3((ulong)input.x, (ulong)input.y, (ulong)input.z);
+                return new ulong3((ulong2)input.xy, maxmath.BASE_cvtf16i32(input.z, signed: false, trunc: true));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong3(half3 input) => (ulong3)(int3)(float3)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong3(float3 input) => new ulong3((ulong2)input.xy, (ulong)input.z);
+        public static explicit operator ulong3(float3 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttps_epu64(RegisterConversion.ToV128(input), 3);
+            }
+            else
+            {
+                return new ulong3((ulong2)input.xy, (ulong)input.z);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong3(double3 input)
@@ -2540,11 +2084,11 @@ namespace MaxMath
             {
                 return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToUInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
+                return RegisterConversion.ToUInt3(Xse.unpacklo_epi64(temp, Xse.cvtsi32_si128((int)input.z)));
             }
             else
             {
@@ -2559,11 +2103,11 @@ namespace MaxMath
             {
                 return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
-                return RegisterConversion.ToInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
+                return RegisterConversion.ToInt3(Xse.unpacklo_epi64(temp, Xse.cvtsi32_si128((int)input.z)));
             }
             else
             {
@@ -2575,7 +2119,17 @@ namespace MaxMath
         public static explicit operator half3(ulong3 input) => (half3)(float3)(uint3)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float3(ulong3 input) => new float3((float2)input._xy, (float)input.z);
+        public static implicit operator float3(ulong3 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.ToFloat3(Xse.mm256_cvtepu64_ps(input, 3));
+            }
+            else
+            {
+                return new float3((float2)input._xy, (float)input.z);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double3(ulong3 input)
@@ -2602,9 +2156,9 @@ Assert.IsWithinArrayBounds(index, 3);
                 {
                     return Xse.mm256_extract_epi64(this, (byte)index);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 2)
                         {
@@ -2616,12 +2170,10 @@ Assert.IsWithinArrayBounds(index, 3);
                         }
                     }
                 }
-
-                ulong3 onStack = this;
-
-                return *((ulong*)&onStack + index);
+                
+                return this.GetField<ulong3, ulong>(index);
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -2633,9 +2185,9 @@ Assert.IsWithinArrayBounds(index, 3);
 
                     return;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 2)
                         {
@@ -2649,10 +2201,8 @@ Assert.IsWithinArrayBounds(index, 3);
                         return;
                     }
                 }
-
-                ulong3 onStack = this;
-                *((ulong*)&onStack + index) = value;
-                this = onStack;
+                
+                this.SetField(value, index);
             }
         }
 
@@ -2669,7 +2219,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy + right._xy, left.z + right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator - (ulong3 left, ulong3 right)
         {
@@ -2682,7 +2232,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy - right._xy, left.z - right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator * (ulong3 left, ulong3 right)
         {
@@ -2697,11 +2247,59 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (ulong3 left, uint3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong3)right, 3, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong3(left.xy * right.xy, left.z * right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (uint3 left, ulong3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (ulong3 left, ushort3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong3)right, 3, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong3(left.xy * right.xy, left.z * right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (ushort3 left, ulong3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (ulong3 left, byte3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong3)right, 3, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong3(left.xy * right.xy, left.z * right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator * (byte3 left, ulong3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator / (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_div_epu64(left, right, 3);
+                return Xse.mm256_div_epu64(left, right, elements: 3);
             }
             else
             {
@@ -2714,7 +2312,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_rem_epu64(left, right, 3);
+                return Xse.mm256_rem_epu64(left, right, elements: 3);
             }
             else
             {
@@ -2731,7 +2329,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
                     return (v256)((ulong4)((v256)left) * right);
                 }
@@ -2745,32 +2343,46 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy * right, left.z * right);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator / (ulong3 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_div_epu64(left, right, 3);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constdiv_epu64(left, right, 3);
+                    }
+                    else
+                    {
+                        return new ulong3(Xse.constdiv_epu64(left.xy, right), left.z / right);
+                    }
                 }
             }
-                
+
             return left / (ulong3)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator % (ulong3 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_rem_epu64(left, right, 3);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constrem_epu64(left, right, 3);
+                    }
+                    else
+                    {
+                        return new ulong3(Xse.constrem_epu64(left.xy, right), left.z % right);
+                    }
                 }
             }
-                
+
             return left % (ulong3)right;
         }
 
@@ -2787,7 +2399,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy & right._xy, left.z & right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator | (ulong3 left, ulong3 right)
         {
@@ -2800,7 +2412,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy | right._xy, left.z | right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator ^ (ulong3 left, ulong3 right)
         {
@@ -2813,8 +2425,8 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(left._xy ^ right._xy, left.z ^ right.z);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator ++ (ulong3 x)
         {
@@ -2827,7 +2439,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(x._xy + 1, x.z + 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator -- (ulong3 x)
         {
@@ -2840,7 +2452,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(x._xy - 1, x.z - 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator ~ (ulong3 x)
         {
@@ -2880,92 +2492,80 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new ulong3(x._xy >> n, x.z >> n);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator == (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right)));
             }
             else
             {
                 return new bool3(left._xy == right._xy, left.z == right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator < (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right, 3)));
             }
             else
             {
                 return new bool3(left._xy < right._xy, left.z < right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator > (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right)));
             }
             else
             {
                 return new bool3(left._xy > right._xy, left.z > right.z);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator != (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right)));
             }
             else
             {
                 return new bool3(left._xy != right._xy, left.z != right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator <= (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right)));
             }
             else
             {
                 return new bool3(left._xy <= right._xy, left.z <= right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator >= (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right, 3)));
             }
             else
             {
@@ -2979,7 +2579,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return bitmask32(24) == (bitmask32(24) & Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(this, other)));
+                return Xse.mm256_alltrue_epi256<ulong>(Avx2.mm256_cmpeq_epi64(this, other), 3);
             }
             else
             {
@@ -2997,7 +2597,7 @@ Assert.IsWithinArrayBounds(index, 3);
             {
                 return Hash.v192(this);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return Hash.v128(_xy ^ new ulong2(z));
             }

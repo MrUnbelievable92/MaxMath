@@ -13,8 +13,8 @@ using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable] 
-    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(byte))]  
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(byte))]
     [DebuggerTypeProxy(typeof(quarter8.DebuggerProxy))]
     unsafe public struct quarter8 : IEquatable<quarter8>, IFormattable
     {
@@ -84,7 +84,7 @@ namespace MaxMath
         public quarter8(quarter3 x012, quarter2 x34, quarter3 x567)
         {
             this = asquarter(new byte8(asbyte(x012), asbyte(x34), asbyte(x567)));
-        }   
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public quarter8(quarter3 x012, quarter3 x345, quarter2 x67)
@@ -117,28 +117,28 @@ namespace MaxMath
         }
 
 
-        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_0 = asbyte(value); this = asquarter(temp); } }
-        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_1 = asbyte(value); this = asquarter(temp); } }
-        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_2 = asbyte(value); this = asquarter(temp); } }
-        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_3 = asbyte(value); this = asquarter(temp); } }
-        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_4 = asbyte(value); this = asquarter(temp); } }
+        public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_0 = asbyte(value); this = asquarter(temp); } }
+        public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_1 = asbyte(value); this = asquarter(temp); } }
+        public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_2 = asbyte(value); this = asquarter(temp); } }
+        public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_3 = asbyte(value); this = asquarter(temp); } }
+        public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_4 = asbyte(value); this = asquarter(temp); } }
 
-        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_0 = asbyte(value); this = asquarter(temp); } }
-        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_1 = asbyte(value); this = asquarter(temp); } }
-        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_2 = asbyte(value); this = asquarter(temp); } }
-        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_3 = asbyte(value); this = asquarter(temp); } }
-        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_4 = asbyte(value); this = asquarter(temp); } }
-        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_5 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_0 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_1 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_2 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_3 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_4 = asbyte(value); this = asquarter(temp); } }
+        public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_5 = asbyte(value); this = asquarter(temp); } }
 
-        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_0 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_1 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_2 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_3 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_4 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_5 = asbyte(value); this = asquarter(temp); } }
-        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => asquarter(asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_6 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_0 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_1 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_2 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_3 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_4 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_5 = asbyte(value); this = asquarter(temp); } }
+        public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_6 = asbyte(value); this = asquarter(temp); } }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(quarter8 input)
         {
@@ -150,7 +150,7 @@ namespace MaxMath
             }
             else
             {
-                v128* dummyPtr = &result;
+                result = default(v128);
             }
 
             result.Byte0 = input.x0.value;
@@ -161,7 +161,7 @@ namespace MaxMath
             result.Byte5 = input.x5.value;
             result.Byte6 = input.x6.value;
             result.Byte7 = input.x7.value;
-            
+
             return result;
         }
 
@@ -181,23 +181,23 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter8(double input) => (quarter)input;
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 Byte8ToQuarter8(byte8 input, quarter overflowValue)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu8_pq(input, overflowValue, elements: 8);
+                return Xse.cvtepu8_pq(input, overflowValue, elements: 8);
             }
             else
             {
-                return new quarter8(quarter.ByteToQuarter(input.x0, overflowValue), 
-                                    quarter.ByteToQuarter(input.x1, overflowValue), 
-                                    quarter.ByteToQuarter(input.x2, overflowValue), 
-                                    quarter.ByteToQuarter(input.x3, overflowValue), 
-                                    quarter.ByteToQuarter(input.x4, overflowValue), 
-                                    quarter.ByteToQuarter(input.x5, overflowValue), 
-                                    quarter.ByteToQuarter(input.x6, overflowValue), 
+                return new quarter8(quarter.ByteToQuarter(input.x0, overflowValue),
+                                    quarter.ByteToQuarter(input.x1, overflowValue),
+                                    quarter.ByteToQuarter(input.x2, overflowValue),
+                                    quarter.ByteToQuarter(input.x3, overflowValue),
+                                    quarter.ByteToQuarter(input.x4, overflowValue),
+                                    quarter.ByteToQuarter(input.x5, overflowValue),
+                                    quarter.ByteToQuarter(input.x6, overflowValue),
                                     quarter.ByteToQuarter(input.x7, overflowValue));
             }
         }
@@ -207,24 +207,24 @@ namespace MaxMath
         {
             return Byte8ToQuarter8(input, quarter.PositiveInfinity);
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 SByte8ToQuarter8(sbyte8 input, quarter overflowValue)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi8_pq(input, overflowValue, elements: 8);
+                return Xse.cvtepi8_pq(input, overflowValue, elements: 8);
             }
             else
             {
-                return new quarter8(quarter.SByteToQuarter(input.x0, overflowValue), 
-                                    quarter.SByteToQuarter(input.x1, overflowValue), 
-                                    quarter.SByteToQuarter(input.x2, overflowValue), 
-                                    quarter.SByteToQuarter(input.x3, overflowValue), 
-                                    quarter.SByteToQuarter(input.x4, overflowValue), 
-                                    quarter.SByteToQuarter(input.x5, overflowValue), 
-                                    quarter.SByteToQuarter(input.x6, overflowValue), 
+                return new quarter8(quarter.SByteToQuarter(input.x0, overflowValue),
+                                    quarter.SByteToQuarter(input.x1, overflowValue),
+                                    quarter.SByteToQuarter(input.x2, overflowValue),
+                                    quarter.SByteToQuarter(input.x3, overflowValue),
+                                    quarter.SByteToQuarter(input.x4, overflowValue),
+                                    quarter.SByteToQuarter(input.x5, overflowValue),
+                                    quarter.SByteToQuarter(input.x6, overflowValue),
                                     quarter.SByteToQuarter(input.x7, overflowValue));
             }
         }
@@ -234,24 +234,24 @@ namespace MaxMath
         {
             return SByte8ToQuarter8(input, quarter.PositiveInfinity);
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 UShort8ToQuarter8(ushort8 input, quarter overflowValue)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu16_pq(input, overflowValue, elements: 8);
+                return Xse.cvtepu16_pq(input, overflowValue, elements: 8);
             }
             else
             {
-                return new quarter8(quarter.UShortToQuarter(input.x0, overflowValue), 
-                                    quarter.UShortToQuarter(input.x1, overflowValue), 
-                                    quarter.UShortToQuarter(input.x2, overflowValue), 
-                                    quarter.UShortToQuarter(input.x3, overflowValue), 
-                                    quarter.UShortToQuarter(input.x4, overflowValue), 
-                                    quarter.UShortToQuarter(input.x5, overflowValue), 
-                                    quarter.UShortToQuarter(input.x6, overflowValue), 
+                return new quarter8(quarter.UShortToQuarter(input.x0, overflowValue),
+                                    quarter.UShortToQuarter(input.x1, overflowValue),
+                                    quarter.UShortToQuarter(input.x2, overflowValue),
+                                    quarter.UShortToQuarter(input.x3, overflowValue),
+                                    quarter.UShortToQuarter(input.x4, overflowValue),
+                                    quarter.UShortToQuarter(input.x5, overflowValue),
+                                    quarter.UShortToQuarter(input.x6, overflowValue),
                                     quarter.UShortToQuarter(input.x7, overflowValue));
             }
         }
@@ -262,23 +262,23 @@ namespace MaxMath
             return UShort8ToQuarter8(input, quarter.PositiveInfinity);
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 Short8ToQuarter8(short8 input, quarter overflowValue)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi16_pq(input, overflowValue, elements: 8);
+                return Xse.cvtepi16_pq(input, overflowValue, elements: 8);
             }
             else
             {
-                return new quarter8(quarter.ShortToQuarter(input.x0, overflowValue), 
-                                    quarter.ShortToQuarter(input.x1, overflowValue), 
-                                    quarter.ShortToQuarter(input.x2, overflowValue), 
-                                    quarter.ShortToQuarter(input.x3, overflowValue), 
-                                    quarter.ShortToQuarter(input.x4, overflowValue), 
-                                    quarter.ShortToQuarter(input.x5, overflowValue), 
-                                    quarter.ShortToQuarter(input.x6, overflowValue), 
+                return new quarter8(quarter.ShortToQuarter(input.x0, overflowValue),
+                                    quarter.ShortToQuarter(input.x1, overflowValue),
+                                    quarter.ShortToQuarter(input.x2, overflowValue),
+                                    quarter.ShortToQuarter(input.x3, overflowValue),
+                                    quarter.ShortToQuarter(input.x4, overflowValue),
+                                    quarter.ShortToQuarter(input.x5, overflowValue),
+                                    quarter.ShortToQuarter(input.x6, overflowValue),
                                     quarter.ShortToQuarter(input.x7, overflowValue));
             }
         }
@@ -288,14 +288,14 @@ namespace MaxMath
         {
             return Short8ToQuarter8(input, quarter.PositiveInfinity);
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 UInt8ToQuarter8(uint8 input, quarter overflowValue)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepu32_pq(input, overflowValue);
+                return Xse.mm256_cvtepu32_pq(input, overflowValue);
             }
             else
             {
@@ -309,14 +309,14 @@ namespace MaxMath
         {
             return UInt8ToQuarter8(input, quarter.PositiveInfinity);
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter8 Int8ToQuarter8(int8 input, quarter overflowValue)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepi32_pq(input, overflowValue);
+                return Xse.mm256_cvtepi32_pq(input, overflowValue);
             }
             else
             {
@@ -330,14 +330,14 @@ namespace MaxMath
         {
             return Int8ToQuarter8(input, quarter.PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter8(half8 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtph_pq(input, elements: 8);
+                return Xse.cvtph_pq(input, elements: 8);
             }
             else
             {
@@ -345,101 +345,159 @@ namespace MaxMath
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter8(float8 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtps_pq(input);
+                return Xse.mm256_cvtps_pq(input);
             }
             else
             {
                 return new quarter8((quarter4)input.v4_0, (quarter4)input.v4_4);
             }
         }
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter8 FloatToQuarterInRange(float8 f)
+        public static explicit operator sbyte8(quarter8 input)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.mm256_cvtps_pq(f, promiseInRange: true);
+                return Xse.cvttpq_epi8(input, 8);
             }
             else
             {
-                return new quarter8(quarter4.FloatToQuarterInRange(f.v4_0), quarter4.FloatToQuarterInRange(f.v4_4));
+                return new sbyte8((sbyte)input.x0, (sbyte)input.x1, (sbyte)input.x2, (sbyte)input.x3, (sbyte)input.x4, (sbyte)input.x5, (sbyte)input.x6, (sbyte)input.x7);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter8 FloatToQuarterInRangeAbs(float8 f)
+        public static explicit operator byte8(quarter8 input)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.mm256_cvtps_pq(f, promiseAbsoluteAndInRange: true);
+                return Xse.cvttpq_epu8(input, 8);
             }
             else
             {
-                return new quarter8(quarter4.FloatToQuarterInRangeAbs(f.v4_0), quarter4.FloatToQuarterInRangeAbs(f.v4_4));
+                return new byte8((byte)input.x0, (byte)input.x1, (byte)input.x2, (byte)input.x3, (byte)input.x4, (byte)input.x5, (byte)input.x6, (byte)input.x7);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short8(quarter8 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttpq_epi16(input, 8);
+            }
+            else
+            {
+                return new short8((short)input.x0, (short)input.x1, (short)input.x2, (short)input.x3, (short)input.x4, (short)input.x5, (short)input.x6, (short)input.x7);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ushort8(quarter8 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttpq_epu16(input, 8);
+            }
+            else
+            {
+                return new ushort8((ushort)input.x0, (ushort)input.x1, (ushort)input.x2, (ushort)input.x3, (ushort)input.x4, (ushort)input.x5, (ushort)input.x6, (ushort)input.x7);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(quarter8 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttpq_epi32(input);
+            }
+            if (Architecture.IsSIMDSupported)
+            {
+                int4 lo = RegisterConversion.ToInt4(Xse.cvttpq_epi32(input));
+                int4 hi = RegisterConversion.ToInt4(Xse.cvttpq_epi32(Xse.bsrli_si128(input, 4 * sizeof(quarter))));
+
+                return new int8(lo, hi);
+            }
+            else
+            {
+                return new int8((int)input.x0, (int)input.x1, (int)input.x2, (int)input.x3, (int)input.x4, (int)input.x5, (int)input.x6, (int)input.x7);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint8(quarter8 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttpq_epu32(input);
+            }
+            if (Architecture.IsSIMDSupported)
+            {
+                uint4 lo = RegisterConversion.ToUInt4(Xse.cvttpq_epu32(input));
+                uint4 hi = RegisterConversion.ToUInt4(Xse.cvttpq_epu32(Xse.bsrli_si128(input, 4 * sizeof(quarter))));
+
+                return new uint8(lo, hi);
+            }
+            else
+            {
+                return new uint8((uint)input.x0, (uint)input.x1, (uint)input.x2, (uint)input.x3, (uint)input.x4, (uint)input.x5, (uint)input.x6, (uint)input.x7);
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte8(quarter8 input) => (byte8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator sbyte8(quarter8 input) => (sbyte8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ushort8(quarter8 input) => (ushort8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short8(quarter8 input) => (short8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator uint8(quarter8 input) => (uint8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator int8(quarter8 input) => (int8)(float8)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(quarter8 input) => (half8)(float8)input;
-
+        public static implicit operator half8(quarter8 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvtpq_ph(input, elements: 8);
+            }
+            else
+            {
+                return new half8(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(quarter8 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtpq_ps(input);
+                return Xse.mm256_cvtpq_ps(input);
             }
             else
             {
                 return new float8((float4)input.v4_0, (float4)input.v4_4);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float8 QuarterToFloatInRange(quarter8 q)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtpq_ps(q, promiseInRange: true);
+                return Xse.mm256_cvtpq_ps(q, promiseInRange: true);
             }
             else
             {
                 return new float8(quarter4.QuarterToFloatInRange(q.v4_0), quarter4.QuarterToFloatInRange(q.v4_4));
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float8 QuarterToFloatInRangeAbs(quarter8 q)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtpq_ps(q, promiseAbsoluteAndInRange: true);
+                return Xse.mm256_cvtpq_ps(q, promiseAbsoluteAndInRange: true);
             }
             else
             {
@@ -455,32 +513,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return asquarter(Xse.extract_epi8(this, (byte)index));
                 }
                 else
                 {
-                    quarter8 onStack = this;
-
-                    return *((quarter*)&onStack + index);
+                    return this.GetField<quarter8, quarter>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi8(this, asbyte(value), (byte)index);
                 }
                 else
                 {
-                    quarter8 onStack = this;
-                    *((quarter*)&onStack + index) = value;
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }
@@ -491,14 +545,14 @@ Assert.IsWithinArrayBounds(index, 8);
         {
             return asquarter(asbyte(value) ^ new byte8(0b1000_0000));
         }
-    
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, quarter8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(quarter.Vectorized.cmpeq_pq(left, right, elements: 8));
+                return RegisterConversion.IsTrue8(Xse.cmpeq_pq(left, right, elements: 8));
             }
             else
             {
@@ -521,136 +575,136 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator == (half left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, half8 right)
         {
-            if (Xse.constexpr.ALL_EQ_PS((float8)right, 0f))
+            if (constexpr.ALL_EQ_PS((float8)right, 0f))
             {
                 return left == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (half8 left, quarter8 right)
         {
-            if (Xse.constexpr.ALL_EQ_PS((float8)left, 0f))
+            if (constexpr.ALL_EQ_PS((float8)left, 0f))
             {
                 return right == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator == (float left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, float8 right)
         {
-            if (Xse.constexpr.IS_TRUE(all(right == 0f)))
+            if (constexpr.IS_TRUE(all(right == 0f)))
             {
                 return left == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (float8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(all(left == 0f)))
+            if (constexpr.IS_TRUE(all(left == 0f)))
             {
                 return right == default(quarter8);
             }
             else
             {
                 return (float8)left == (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (quarter8 left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left == default(quarter8);
             }
             else
             {
                 return new bool8((double4)left.v4_0 == right, (double4)left.v4_4 == right);
-            } 
+            }
         }
 
         public static bool8 operator == (double left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right == default(quarter8);
             }
             else
             {
                 return new bool8((double4)right.v4_0 == left, (double4)right.v4_4 == left);
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, quarter8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(quarter.Vectorized.cmpneq_pq(left, right, elements: 8));
+                return RegisterConversion.IsTrue8(Xse.cmpneq_pq(left, right, elements: 8));
             }
             else
             {
@@ -673,144 +727,144 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator != (half left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, half8 right)
         {
-            if (Xse.constexpr.ALL_EQ_PS((float8)right, 0f))
+            if (constexpr.ALL_EQ_PS((float8)right, 0f))
             {
                 return left != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (half8 left, quarter8 right)
         {
-            if (Xse.constexpr.ALL_EQ_PS((float8)left, 0f))
+            if (constexpr.ALL_EQ_PS((float8)left, 0f))
             {
                 return right != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator != (float left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, float8 right)
         {
-            if (Xse.constexpr.IS_TRUE(all(right == 0f)))
+            if (constexpr.IS_TRUE(all(right == 0f)))
             {
                 return left != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (float8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(all(left == 0f)))
+            if (constexpr.IS_TRUE(all(left == 0f)))
             {
                 return right != default(quarter8);
             }
             else
             {
                 return (float8)left != (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (quarter8 left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left != default(quarter8);
             }
             else
             {
                 return new bool8((double4)left.v4_0 != right, (double4)left.v4_4 != right);
-            } 
+            }
         }
 
         public static bool8 operator != (double left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right != default(quarter8);
             }
             else
             {
                 return new bool8((double4)right.v4_0 != left, (double4)right.v4_4 != left);
-            } 
+            }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, quarter8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(quarter.Vectorized.cmplt_pq(left, right, elements: 8));
+                return RegisterConversion.IsTrue8(Xse.cmplt_pq(left, right, elements: 8));
             }
             else
             {
                 return new bool8(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, quarter right)
         {
@@ -826,134 +880,134 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left < default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator < (half left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right > default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, half8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
             {
                 return left < default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (half8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
             {
                 return right > default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left < default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator < (float left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right > default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, float8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all(right == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all(right == 0f)))
             {
                 return left < default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (float8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all(left == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all(left == 0f)))
             {
                 return right > default(quarter8);
             }
             else
             {
                 return (float8)left < (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (quarter8 left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left < default(quarter8);
             }
             else
             {
                 return new bool8((double4)left.v4_0 < (double4)right, (double4)left.v4_4 < (double4)right);
-            } 
+            }
         }
 
         public static bool8 operator < (double left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right > default(quarter8);
             }
             else
             {
                 return new bool8((double4)left < (double4)right.v4_0, (double4)left < (double4)right.v4_4);
-            } 
+            }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator > (quarter8 left, quarter8 right) => right < left;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator > (quarter8 left, quarter right) => right < left;
 
@@ -986,21 +1040,21 @@ Assert.IsWithinArrayBounds(index, 8);
         public static bool8 operator > (quarter8 left, double right) => right < left;
 
         public static bool8 operator > (double left, quarter8 right) => right < left;
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, quarter8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(quarter.Vectorized.cmple_pq(left, right, elements: 8));
+                return RegisterConversion.IsTrue8(Xse.cmple_pq(left, right, elements: 8));
             }
             else
             {
                 return new bool8(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, quarter right)
         {
@@ -1016,134 +1070,134 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left <= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator <= (half left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right >= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, half8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
             {
                 return left <= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (half8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
             {
                 return right >= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left <= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         public static bool8 operator <= (float left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right >= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, float8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all(right == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all(right == 0f)))
             {
                 return left <= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (float8 left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(maxmath.all(left == 0f)))
+            if (constexpr.IS_TRUE(maxmath.all(left == 0f)))
             {
                 return right >= default(quarter8);
             }
             else
             {
                 return (float8)left <= (float8)right;
-            } 
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (quarter8 left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_TRUE(right == 0f))
             {
                 return left <= default(quarter8);
             }
             else
             {
                 return new bool8((double4)left.v4_0 <= (double4)right, (double4)left.v4_4 <= (double4)right);
-            } 
+            }
         }
 
         public static bool8 operator <= (double left, quarter8 right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
                 return right >= default(quarter8);
             }
             else
             {
                 return new bool8((double4)left <= (double4)right.v4_0, (double4)left <= (double4)right.v4_4);
-            } 
+            }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator >= (quarter8 left, quarter8 right) => right <= left;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator >= (quarter8 left, quarter right) => right <= left;
 
@@ -1181,9 +1235,9 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(quarter8 other)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.vcmpeq_pq(this, other, elements: 8);
+                return Xse.vcmpeq_pq(this, other, elements: 8);
             }
             else
             {
@@ -1197,7 +1251,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 quarter8 temp = this;
                 return (*(long*)&temp).GetHashCode();

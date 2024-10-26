@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class SizeOf
+    unsafe public static class f_SizeOf
     {
         [Test]
         public static void Size()
@@ -92,11 +92,11 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(8  * sizeof(uint), sizeof(uint8));
 
-            
+
             Assert.AreEqual(8  * sizeof(int), sizeof(int8));
 
 
-            
+
             Assert.AreEqual(2  * sizeof(ulong), sizeof(ulong2));
             Assert.AreEqual(3  * sizeof(ulong), sizeof(ulong3));
             Assert.AreEqual(4  * sizeof(ulong), sizeof(ulong4));
@@ -131,7 +131,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 4 * sizeof(long), sizeof(long4x4));
 
 
-            
+
             Assert.AreEqual(sizeof(quarter), sizeof(byte));
             Assert.AreEqual(2  * sizeof(quarter), sizeof(quarter2));
             Assert.AreEqual(3  * sizeof(quarter), sizeof(quarter3));
@@ -139,7 +139,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(8  * sizeof(quarter), sizeof(quarter8));
 
 
-            
+
             Assert.AreEqual(8  * sizeof(half), sizeof(half8));
 
 

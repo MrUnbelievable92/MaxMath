@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -127,40 +124,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte4x2 operator * (sbyte4x2 left, sbyte4x2 right) => new sbyte4x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x2 operator / (sbyte4x2 left, sbyte4x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
-                sbyte8 divisor  = Sse2.unpacklo_epi32(right.c0, right.c1);
-
-                sbyte8 quotient = dividend / divisor;
-
-                return new sbyte4x2(quotient.v4_0, quotient.v4_4);
-            }
-            else
-            {
-                return new sbyte4x2(left.c0 / right.c0, left.c1 / right.c1);
-            }
-        }
+        public static sbyte4x2 operator / (sbyte4x2 left, sbyte4x2 right) => new sbyte4x2(left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x2 operator % (sbyte4x2 left, sbyte4x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
-                sbyte8 divisor  = Sse2.unpacklo_epi32(right.c0, right.c1);
-
-                sbyte8 remainder = dividend % divisor;
-
-                return new sbyte4x2(remainder.v4_0, remainder.v4_4);
-            }
-            else
-            {
-                return new sbyte4x2(left.c0 % right.c0, left.c1 % right.c1);
-            }
-        }
+        public static sbyte4x2 operator % (sbyte4x2 left, sbyte4x2 right) => new sbyte4x2(left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -170,42 +137,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte4x2 operator * (sbyte left, sbyte4x2 right) => new sbyte4x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x2 operator / (sbyte4x2 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-
-                    sbyte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
-
-                    sbyte8 quotient = dividend / right;
-
-                    return new sbyte4x2(quotient.v4_0, quotient.v4_4);
-                }
-            }
-
-            return new sbyte4x2 (left.c0 / right, left.c1 / right);
-        }
+        public static sbyte4x2 operator / (sbyte4x2 left, sbyte right) => new sbyte4x2 (left.c0 / right, left.c1 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x2 operator % (sbyte4x2 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-
-                    sbyte8 dividend = Sse2.unpacklo_epi32(left.c0, left.c1);
-
-                    sbyte8 quotient = dividend % right;
-
-                    return new sbyte4x2(quotient.v4_0, quotient.v4_4);
-                }
-            }
-
-            return new sbyte4x2(left.c0 % right, left.c1 % right);
-        }
+        public static sbyte4x2 operator % (sbyte4x2 left, sbyte right) => new sbyte4x2(left.c0 % right, left.c1 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -14,11 +14,117 @@ namespace MaxMath
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [SkipLocalsInit]
+            public static v128 bslli_si128(v128 a, int imm8)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    if (constexpr.IS_CONST(imm8))
+                    {
+                        switch (imm8)
+                        {
+                            case 1:  return Sse2.bslli_si128(a, 1);
+                            case 2:  return Sse2.bslli_si128(a, 2);
+                            case 3:  return Sse2.bslli_si128(a, 3);
+                            case 4:  return Sse2.bslli_si128(a, 4);
+                            case 5:  return Sse2.bslli_si128(a, 5);
+                            case 6:  return Sse2.bslli_si128(a, 6);
+                            case 7:  return Sse2.bslli_si128(a, 7);
+                            case 8:  return Sse2.bslli_si128(a, 8);
+                            case 9:  return Sse2.bslli_si128(a, 9);
+                            case 10: return Sse2.bslli_si128(a, 10);
+                            case 11: return Sse2.bslli_si128(a, 11);
+                            case 12: return Sse2.bslli_si128(a, 12);
+                            case 13: return Sse2.bslli_si128(a, 13);
+                            case 14: return Sse2.bslli_si128(a, 14);
+                            case 15: return Sse2.bslli_si128(a, 15);
+
+                            default: return a;
+                        }
+                    }
+
+                    v128* stack = stackalloc v128[2];
+
+                    stack[0] = setzero_si128();
+                    stack[1] = a;
+
+                    return loadu_si128((byte*)stack + (sizeof(v128) - (((uint)imm8 % 16) * sizeof(byte))));
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    if (imm8 == 0)
+                    {
+                        return a;
+                    }
+                    else if ((imm8 & ~15) != 0)
+                    {
+                        return Arm.Neon.vdupq_n_s8(0);
+                    }
+                    else
+                    {
+                        return Xse.imm8.Arm.vextq_s8(Arm.Neon.vdupq_n_s8(0), a, ((imm8 <= 0) | (imm8 > 15)) ? 0 : (16 - imm8));
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            [SkipLocalsInit]
+            public static v128 bsrli_si128(v128 a, int imm8)
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    if (constexpr.IS_CONST(imm8))
+                    {
+                        switch (imm8)
+                        {
+                            case 1:  return Sse2.bsrli_si128(a, 1);
+                            case 2:  return Sse2.bsrli_si128(a, 2);
+                            case 3:  return Sse2.bsrli_si128(a, 3);
+                            case 4:  return Sse2.bsrli_si128(a, 4);
+                            case 5:  return Sse2.bsrli_si128(a, 5);
+                            case 6:  return Sse2.bsrli_si128(a, 6);
+                            case 7:  return Sse2.bsrli_si128(a, 7);
+                            case 8:  return Sse2.bsrli_si128(a, 8);
+                            case 9:  return Sse2.bsrli_si128(a, 9);
+                            case 10: return Sse2.bsrli_si128(a, 10);
+                            case 11: return Sse2.bsrli_si128(a, 11);
+                            case 12: return Sse2.bsrli_si128(a, 12);
+                            case 13: return Sse2.bsrli_si128(a, 13);
+                            case 14: return Sse2.bsrli_si128(a, 14);
+                            case 15: return Sse2.bsrli_si128(a, 15);
+
+                            default: return a;
+                        }
+                    }
+
+                    v128* stack = stackalloc v128[2];
+
+                    stack[0] = a;
+                    stack[1] = setzero_si128();
+
+                    return loadu_si128((byte*)stack + (((uint)imm8 % 16) * sizeof(byte)));
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    if ((imm8 & ~15) != 0)
+                    {
+                        return Arm.Neon.vdupq_n_s8(0);
+                    }
+                    else
+                    {
+                        return Xse.imm8.Arm.vextq_s8(a, Arm.Neon.vdupq_n_s8(0),  (imm8 > 15 ? 0 : imm8));
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            [SkipLocalsInit]
             public static v256 mm256_bslli_si256(v256 a, int imm8)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (Constant.IsConstantExpression(imm8))
+                    if (constexpr.IS_CONST(imm8))
                     {
                         switch (imm8)
                         {
@@ -69,14 +175,14 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [SkipLocalsInit]
             public static v256 mm256_bsrli_si256(v256 a, int imm8)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (Constant.IsConstantExpression(imm8))
+                    if (constexpr.IS_CONST(imm8))
                     {
                         switch (imm8)
                         {
@@ -141,35 +247,35 @@ namespace MaxMath
         {
             return tobool(vshl(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshl(bool3 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshl(bool4 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vshl(bool8 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vshl(bool16 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vshl(bool32 x, int n)
@@ -182,14 +288,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshl(int2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return RegisterConversion.ToInt2(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-
-                    default: return x;
-                }
+                return RegisterConversion.ToInt2(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
             else
             {
@@ -206,15 +307,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshl(int3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return RegisterConversion.ToInt3(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                    case 2: return RegisterConversion.ToInt3(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
-
-                    default: return x;
-                }
+                return RegisterConversion.ToInt3(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
             else
             {
@@ -233,28 +328,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vshl(int4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                        case 2: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
-                        case 3: return RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = Sse2.setzero_si128();
-                    stack[1] = RegisterConversion.ToV128(x);
-
-                    return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (sizeof(v128) - (((uint)n % 4) * sizeof(int)))));
-                }
+                return RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
             else
             {
@@ -278,44 +354,44 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(int) * n);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1: 
+                        case 1:
                         {
-                            v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int));
 
                             return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ));
                         }
-                        case 2: 
+                        case 2:
                         {
-                            v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int));
 
                             return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY));
                         }
-                        case 3: 
+                        case 3:
                         {
-                            v128 lo = Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int));
 
                             return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX));
                         }
 
                         case 4: return new int8(int4.zero, x._v4_0);
 
-                        case 5: 
+                        case 5:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int)))); 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int))));
                         }
                         case 6:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int)))); 
-                        } 
-                        case 7: 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int))));
+                        }
+                        case 7:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Sse2.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int)))); 
+                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int))));
                         }
 
                         default: return x;
@@ -323,7 +399,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -334,8 +410,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 8) * sizeof(int))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
@@ -379,7 +455,7 @@ namespace MaxMath
             return (uint4)vshl((int4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined..     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vshl(uint8 x, int n)
         {
@@ -500,14 +576,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshl(byte2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bslli_si128(x, sizeof(byte));
-
-                    default: return x;
-                }
+                return Xse.bslli_si128(x, n * sizeof(byte));
             }
             else
             {
@@ -524,15 +595,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshl(byte3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bslli_si128(x, sizeof(byte));
-                    case 2: return Sse2.bslli_si128(x, 2 * sizeof(byte));
-
-                    default: return x;
-                }
+                return Xse.bslli_si128(x, n * sizeof(byte));
             }
             else
             {
@@ -551,22 +616,15 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte4 vshl(byte4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bslli_si128(x, sizeof(byte));
-                        case 2: return Sse2.bslli_si128(x, 2 * sizeof(byte));
-                        case 3: return Sse2.bslli_si128(x, 3 * sizeof(byte));
-
-                        default: return x;
-                    }
+                    return Xse.bslli_si128(x, n * sizeof(byte));
                 }
                 else
                 {
-                    return Sse2.cvtsi32_si128(((v128)x).SInt0 << n * 8);
+                    return Xse.cvtsi32_si128(((v128)x).SInt0 << n * 8);
                 }
             }
             else
@@ -587,26 +645,15 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vshl(byte8 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bslli_si128(x, sizeof(byte));
-                        case 2: return Sse2.bslli_si128(x, 2 * sizeof(byte));
-                        case 3: return Sse2.bslli_si128(x, 3 * sizeof(byte));
-                        case 4: return Sse2.bslli_si128(x, 4 * sizeof(byte));
-                        case 5: return Sse2.bslli_si128(x, 5 * sizeof(byte));
-                        case 6: return Sse2.bslli_si128(x, 6 * sizeof(byte));
-                        case 7: return Sse2.bslli_si128(x, 7 * sizeof(byte));
-
-                        default: return x;
-                    }
+                    return Xse.bslli_si128(x, n * sizeof(byte));
                 }
                 else
                 {
-                    return Sse2.cvtsi64x_si128(((v128)x).SLong0 << n * 8);
+                    return Xse.cvtsi64x_si128(((v128)x).SLong0 << n * 8);
                 }
             }
             else
@@ -631,40 +678,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vshl(byte16 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1:  return Sse2.bslli_si128(x, sizeof(byte));
-                        case 2:  return Sse2.bslli_si128(x, 2 * sizeof(byte));
-                        case 3:  return Sse2.bslli_si128(x, 3 * sizeof(byte));
-                        case 4:  return Sse2.bslli_si128(x, 4 * sizeof(byte));
-                        case 5:  return Sse2.bslli_si128(x, 5 * sizeof(byte));
-                        case 6:  return Sse2.bslli_si128(x, 6 * sizeof(byte));
-                        case 7:  return Sse2.bslli_si128(x, 7 * sizeof(byte));
-                        case 8:  return Sse2.bslli_si128(x, 8 * sizeof(byte));
-                        case 9:  return Sse2.bslli_si128(x, 9 * sizeof(byte));
-                        case 10: return Sse2.bslli_si128(x, 10 * sizeof(byte));
-                        case 11: return Sse2.bslli_si128(x, 11 * sizeof(byte));
-                        case 12: return Sse2.bslli_si128(x, 12 * sizeof(byte));
-                        case 13: return Sse2.bslli_si128(x, 13 * sizeof(byte));
-                        case 14: return Sse2.bslli_si128(x, 14 * sizeof(byte));
-                        case 15: return Sse2.bslli_si128(x, 15 * sizeof(byte));
-                    
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = Sse2.setzero_si128();
-                    stack[1] = x;
-
-                    return Sse2.loadu_si128((byte*)stack + (sizeof(v128) - (((uint)n % 16) * sizeof(byte))));
-                }
+                return Xse.bslli_si128(x, n * sizeof(byte));
             }
             else
             {
@@ -700,50 +716,50 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Sse2.bslli_si128(x._v16_0,  1 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)));
-                        case 2:  return new byte32(Sse2.bslli_si128(x._v16_0,  2 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)));
-                        case 3:  return new byte32(Sse2.bslli_si128(x._v16_0,  3 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)));
-                        case 4:  return new byte32(Sse2.bslli_si128(x._v16_0,  4 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)));
-                        case 5:  return new byte32(Sse2.bslli_si128(x._v16_0,  5 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)));
-                        case 6:  return new byte32(Sse2.bslli_si128(x._v16_0,  6 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)));
-                        case 7:  return new byte32(Sse2.bslli_si128(x._v16_0,  7 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)));
-                        case 8:  return new byte32(Sse2.bslli_si128(x._v16_0,  8 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)));
-                        case 9:  return new byte32(Sse2.bslli_si128(x._v16_0,  9 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)));
-                        case 10: return new byte32(Sse2.bslli_si128(x._v16_0, 10 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)));
-                        case 11: return new byte32(Sse2.bslli_si128(x._v16_0, 11 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)));
-                        case 12: return new byte32(Sse2.bslli_si128(x._v16_0, 12 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)));
-                        case 13: return new byte32(Sse2.bslli_si128(x._v16_0, 13 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
-                        case 14: return new byte32(Sse2.bslli_si128(x._v16_0, 14 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
-                        case 15: return new byte32(Sse2.bslli_si128(x._v16_0, 15 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
-                        case 16: return new byte32(Sse2.setzero_si128(),      x._v16_0);
-                        case 17: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  1 * sizeof(byte)));
-                        case 18: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  2 * sizeof(byte)));
-                        case 19: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  3 * sizeof(byte)));
-                        case 20: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  4 * sizeof(byte)));
-                        case 21: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  5 * sizeof(byte)));
-                        case 22: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  6 * sizeof(byte)));
-                        case 23: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  7 * sizeof(byte)));
-                        case 24: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  8 * sizeof(byte)));
-                        case 25: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0,  9 * sizeof(byte)));
-                        case 26: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 10 * sizeof(byte)));
-                        case 27: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 11 * sizeof(byte)));
-                        case 28: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 12 * sizeof(byte)));
-                        case 29: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 13 * sizeof(byte)));
-                        case 30: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 14 * sizeof(byte)));
-                        case 31: return new byte32(Sse2.setzero_si128(),      Sse2.bslli_si128(x._v16_0, 15 * sizeof(byte)));
+                        case 1:  return new byte32(Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)));
+                        case 10: return new byte32(Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)));
+                        case 11: return new byte32(Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)));
+                        case 12: return new byte32(Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)));
+                        case 13: return new byte32(Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
+                        case 14: return new byte32(Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
+                        case 15: return new byte32(Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
+                        case 16: return new byte32(Xse.setzero_si128(),      x._v16_0);
+                        case 17: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)));
+                        case 18: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)));
+                        case 19: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)));
+                        case 20: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)));
+                        case 21: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)));
+                        case 22: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)));
+                        case 23: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)));
+                        case 24: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)));
+                        case 25: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)));
+                        case 26: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)));
+                        case 27: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)));
+                        case 28: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)));
+                        case 29: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)));
+                        case 30: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)));
+                        case 31: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -754,71 +770,71 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 32) * sizeof(byte))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new byte32(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Sse2.bslli_si128(x._v16_0, 1 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  1 * sizeof(byte))));
-                        case 2:  return new byte32(Sse2.bslli_si128(x._v16_0, 2 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  2 * sizeof(byte))));
-                        case 3:  return new byte32(Sse2.bslli_si128(x._v16_0, 3 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  3 * sizeof(byte))));
-                        case 4:  return new byte32(Sse2.bslli_si128(x._v16_0, 4 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  4 * sizeof(byte))));
-                        case 5:  return new byte32(Sse2.bslli_si128(x._v16_0, 5 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  5 * sizeof(byte))));
-                        case 6:  return new byte32(Sse2.bslli_si128(x._v16_0, 6 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  6 * sizeof(byte))));
-                        case 7:  return new byte32(Sse2.bslli_si128(x._v16_0, 7 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  7 * sizeof(byte))));
-                        case 8:  return new byte32(Sse2.bslli_si128(x._v16_0, 8 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  8 * sizeof(byte))));
-                        case 9:  return new byte32(Sse2.bslli_si128(x._v16_0, 9 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  9 * sizeof(byte))));
-                        case 10: return new byte32(Sse2.bslli_si128(x._v16_0, 10 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 10 * sizeof(byte))));
-                        case 11: return new byte32(Sse2.bslli_si128(x._v16_0, 11 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 11 * sizeof(byte))));
-                        case 12: return new byte32(Sse2.bslli_si128(x._v16_0, 12 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 12 * sizeof(byte))));
-                        case 13: return new byte32(Sse2.bslli_si128(x._v16_0, 13 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 13 * sizeof(byte))));
-                        case 14: return new byte32(Sse2.bslli_si128(x._v16_0, 14 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 14 * sizeof(byte))));
-                        case 15: return new byte32(Sse2.bslli_si128(x._v16_0, 15 * sizeof(byte)),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 15 * sizeof(byte))));
-                        case 16: return new byte32(Sse2.setzero_si128(), x._v16_0);
-                        case 17: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  1 * sizeof(byte)));
-                        case 18: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  2 * sizeof(byte)));
-                        case 19: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  3 * sizeof(byte)));
-                        case 20: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  4 * sizeof(byte)));
-                        case 21: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  5 * sizeof(byte)));
-                        case 22: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  6 * sizeof(byte)));
-                        case 23: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  7 * sizeof(byte)));
-                        case 24: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  8 * sizeof(byte)));
-                        case 25: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0,  9 * sizeof(byte)));
-                        case 26: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 10 * sizeof(byte)));
-                        case 27: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 11 * sizeof(byte)));
-                        case 28: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 12 * sizeof(byte)));
-                        case 29: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 13 * sizeof(byte)));
-                        case 30: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 14 * sizeof(byte)));
-                        case 31: return new byte32(Sse2.setzero_si128(), Sse2.bslli_si128(x._v16_0, 15 * sizeof(byte)));
+                        case 1:  return new byte32(Xse.bslli_si128(x._v16_0, 1 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  1 * sizeof(byte))));
+                        case 2:  return new byte32(Xse.bslli_si128(x._v16_0, 2 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  2 * sizeof(byte))));
+                        case 3:  return new byte32(Xse.bslli_si128(x._v16_0, 3 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  3 * sizeof(byte))));
+                        case 4:  return new byte32(Xse.bslli_si128(x._v16_0, 4 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  4 * sizeof(byte))));
+                        case 5:  return new byte32(Xse.bslli_si128(x._v16_0, 5 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  5 * sizeof(byte))));
+                        case 6:  return new byte32(Xse.bslli_si128(x._v16_0, 6 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  6 * sizeof(byte))));
+                        case 7:  return new byte32(Xse.bslli_si128(x._v16_0, 7 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  7 * sizeof(byte))));
+                        case 8:  return new byte32(Xse.bslli_si128(x._v16_0, 8 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  8 * sizeof(byte))));
+                        case 9:  return new byte32(Xse.bslli_si128(x._v16_0, 9 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  9 * sizeof(byte))));
+                        case 10: return new byte32(Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte))));
+                        case 11: return new byte32(Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte))));
+                        case 12: return new byte32(Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte))));
+                        case 13: return new byte32(Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte))));
+                        case 14: return new byte32(Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte))));
+                        case 15: return new byte32(Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte))));
+                        case 16: return new byte32(Xse.setzero_si128(), x._v16_0);
+                        case 17: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)));
+                        case 18: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)));
+                        case 19: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)));
+                        case 20: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)));
+                        case 21: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)));
+                        case 22: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)));
+                        case 23: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)));
+                        case 24: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)));
+                        case 25: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)));
+                        case 26: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)));
+                        case 27: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)));
+                        case 28: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)));
+                        case 29: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)));
+                        case 30: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)));
+                        case 31: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -829,14 +845,14 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 32) * sizeof(byte))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new byte32(lo, hi);
                 }
             }
             else
-            { 
+            {
                 switch (n)
                 {
                     case 1:  return new byte32(0, x.x0, x.x1, x.x2, x.x3, x.x4, x.x5, x.x6, x.x7, x.x8, x.x9, x.x10, x.x11, x.x12, x.x13, x.x14, x.x15, x.x16, x.x17, x.x18, x.x19, x.x20, x.x21, x.x22, x.x23, x.x24, x.x25, x.x26, x.x27, x.x28, x.x29, x.x30);
@@ -924,14 +940,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshl(short2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bslli_si128(x, sizeof(short));
-
-                    default: return x;
-                }
+                return Xse.bslli_si128(x, n * sizeof(short));
             }
             else
             {
@@ -948,15 +959,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshl(short3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bslli_si128(x, sizeof(short));
-                    case 2: return Sse2.bslli_si128(x, 2 * sizeof(short));
-
-                    default: return x;
-                }
+                return Xse.bslli_si128(x, n * sizeof(short));
             }
             else
             {
@@ -975,22 +980,15 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short4 vshl(short4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bslli_si128(x, sizeof(short));
-                        case 2: return Sse2.bslli_si128(x, 2 * sizeof(short));
-                        case 3: return Sse2.bslli_si128(x, 3 * sizeof(short));
-
-                        default: return x;
-                    }
+                    return Xse.bslli_si128(x, n * sizeof(short));
                 }
                 else
                 {
-                    return Sse2.cvtsi64x_si128(((v128)x).SLong0 << n * 16);
+                    return Xse.cvtsi64x_si128(((v128)x).SLong0 << n * 16);
                 }
             }
             else
@@ -1011,32 +1009,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vshl(short8 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bslli_si128(x, sizeof(short));
-                        case 2: return Sse2.bslli_si128(x, 2 * sizeof(short));
-                        case 3: return Sse2.bslli_si128(x, 3 * sizeof(short));
-                        case 4: return Sse2.bslli_si128(x, 4 * sizeof(short));
-                        case 5: return Sse2.bslli_si128(x, 5 * sizeof(short));
-                        case 6: return Sse2.bslli_si128(x, 6 * sizeof(short));
-                        case 7: return Sse2.bslli_si128(x, 7 * sizeof(short));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = Sse2.setzero_si128();
-                    stack[1] = x;
-
-                    return Sse2.loadu_si128((byte*)stack + (sizeof(v128) - (((uint)n % 8) * sizeof(short))));
-                }
+                return Xse.bslli_si128(x, n * sizeof(short));
             }
             else
             {
@@ -1064,34 +1039,34 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(short) * n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Sse2.bslli_si128(x._v8_0, 1 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
-                        case 2:  return new short16(Sse2.bslli_si128(x._v8_0, 2 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)));
-                        case 3:  return new short16(Sse2.bslli_si128(x._v8_0, 3 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)));
-                        case 4:  return new short16(Sse2.bslli_si128(x._v8_0, 4 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)));
-                        case 5:  return new short16(Sse2.bslli_si128(x._v8_0, 5 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
-                        case 6:  return new short16(Sse2.bslli_si128(x._v8_0, 6 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
-                        case 7:  return new short16(Sse2.bslli_si128(x._v8_0, 7 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
-                        case 8:  return new short16(Sse2.setzero_si128(), x._v8_0);
-                        case 9:  return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 1 * sizeof(short)));
-                        case 10: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 2 * sizeof(short)));
-                        case 11: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 3 * sizeof(short)));
-                        case 12: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 4 * sizeof(short)));
-                        case 13: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 5 * sizeof(short)));
-                        case 14: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 6 * sizeof(short)));
-                        case 15: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 7 * sizeof(short)));
+                        case 1:  return new short16(Xse.bslli_si128(x._v8_0, 1 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
+                        case 2:  return new short16(Xse.bslli_si128(x._v8_0, 2 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)));
+                        case 3:  return new short16(Xse.bslli_si128(x._v8_0, 3 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)));
+                        case 4:  return new short16(Xse.bslli_si128(x._v8_0, 4 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)));
+                        case 5:  return new short16(Xse.bslli_si128(x._v8_0, 5 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
+                        case 6:  return new short16(Xse.bslli_si128(x._v8_0, 6 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
+                        case 7:  return new short16(Xse.bslli_si128(x._v8_0, 7 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
+                        case 8:  return new short16(Xse.setzero_si128(), x._v8_0);
+                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 1 * sizeof(short)));
+                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 2 * sizeof(short)));
+                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 3 * sizeof(short)));
+                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 4 * sizeof(short)));
+                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 5 * sizeof(short)));
+                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 6 * sizeof(short)));
+                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 7 * sizeof(short)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -1102,47 +1077,47 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 16) * sizeof(short))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new short16(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Sse2.bslli_si128(x._v8_0, 1 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 1 * sizeof(short))));
-                        case 2:  return new short16(Sse2.bslli_si128(x._v8_0, 2 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 2 * sizeof(short))));
-                        case 3:  return new short16(Sse2.bslli_si128(x._v8_0, 3 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 3 * sizeof(short))));
-                        case 4:  return new short16(Sse2.bslli_si128(x._v8_0, 4 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 4 * sizeof(short))));
-                        case 5:  return new short16(Sse2.bslli_si128(x._v8_0, 5 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 5 * sizeof(short))));
-                        case 6:  return new short16(Sse2.bslli_si128(x._v8_0, 6 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 6 * sizeof(short))));
-                        case 7:  return new short16(Sse2.bslli_si128(x._v8_0, 7 * sizeof(short)),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 7 * sizeof(short))));
-                        case 8:  return new short16(Sse2.setzero_si128(), x._v8_0);
-                        case 9:  return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 1 * sizeof(short)));
-                        case 10: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 2 * sizeof(short)));
-                        case 11: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 3 * sizeof(short)));
-                        case 12: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 4 * sizeof(short)));
-                        case 13: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 5 * sizeof(short)));
-                        case 14: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 6 * sizeof(short)));
-                        case 15: return new short16(Sse2.setzero_si128(), Sse2.bslli_si128(x._v8_0, 7 * sizeof(short)));
+                        case 1:  return new short16(Xse.bslli_si128(x._v8_0, 1 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short))));
+                        case 2:  return new short16(Xse.bslli_si128(x._v8_0, 2 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short))));
+                        case 3:  return new short16(Xse.bslli_si128(x._v8_0, 3 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short))));
+                        case 4:  return new short16(Xse.bslli_si128(x._v8_0, 4 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short))));
+                        case 5:  return new short16(Xse.bslli_si128(x._v8_0, 5 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short))));
+                        case 6:  return new short16(Xse.bslli_si128(x._v8_0, 6 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short))));
+                        case 7:  return new short16(Xse.bslli_si128(x._v8_0, 7 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short))));
+                        case 8:  return new short16(Xse.setzero_si128(), x._v8_0);
+                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 1 * sizeof(short)));
+                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 2 * sizeof(short)));
+                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 3 * sizeof(short)));
+                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 4 * sizeof(short)));
+                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 5 * sizeof(short)));
+                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 6 * sizeof(short)));
+                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 7 * sizeof(short)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -1153,8 +1128,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 16) * sizeof(short))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new short16(lo, hi);
                 }
@@ -1225,14 +1200,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshl(long2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bslli_si128(x, sizeof(long));
-
-                    default: return x;
-                }
+                return Xse.bslli_si128(x, n * sizeof(long));
             }
             else
             {
@@ -1259,12 +1229,12 @@ namespace MaxMath
                     default: return x;
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 switch (n)
                 {
-                    case 1:  return new long3(Sse2.bslli_si128(x._xy, 1 * sizeof(long)), x.y);
-                    case 2:  return new long3(Sse2.setzero_si128(), x.x);
+                    case 1:  return new long3(Xse.bslli_si128(x._xy, 1 * sizeof(long)), x.y);
+                    case 2:  return new long3(Xse.setzero_si128(), x.x);
 
                     default: return x;
                 }
@@ -1279,7 +1249,7 @@ namespace MaxMath
                     default: return x;
                 }
             }
-            
+
         }
 
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
@@ -1291,22 +1261,22 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(long) * n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new long4(Sse2.bslli_si128(x._xy, 1 * sizeof(long)), Ssse3.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)));
-                        case 2:  return new long4(Sse2.setzero_si128(), x._xy);
-                        case 3:  return new long4(Sse2.setzero_si128(), Sse2.bslli_si128(x._xy, 1 * sizeof(long)));
+                        case 1:  return new long4(Xse.bslli_si128(x._xy, 1 * sizeof(long)), Xse.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)));
+                        case 2:  return new long4(Xse.setzero_si128(), x._xy);
+                        case 3:  return new long4(Xse.setzero_si128(), Xse.bslli_si128(x._xy, 1 * sizeof(long)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -1317,28 +1287,28 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 4) * sizeof(long))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new long4(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Sse2.bslli_si128(x._xy, 1 * sizeof(long)), Xse.blendv_si128(Sse2.bsrli_si128(x._xy, 1 * sizeof(long)), Sse2.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)));
-                        case 2: return new long4(Sse2.setzero_si128(), x._xy);
-                        case 3: return new long4(Sse2.setzero_si128(), Sse2.bslli_si128(x._xy, 1 * sizeof(long)));
+                        case 1: return new long4(Xse.bslli_si128(x._xy, 1 * sizeof(long)), Xse.blendv_si128(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), Xse.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)));
+                        case 2: return new long4(Xse.setzero_si128(), x._xy);
+                        case 3: return new long4(Xse.setzero_si128(), Xse.bslli_si128(x._xy, 1 * sizeof(long)));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -1349,8 +1319,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 4) * sizeof(long))));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new long4(lo, hi);
                 }
@@ -1397,35 +1367,35 @@ namespace MaxMath
         {
             return tobool(vshr(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshr(bool3 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshr(bool4 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vshr(bool8 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vshr(bool16 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
-        
+
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vshr(bool32 x, int n)
@@ -1437,14 +1407,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshr(int2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return RegisterConversion.ToInt2(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), 3 * sizeof(int)));
-
-                    default: return x;
-                }
+                return RegisterConversion.ToInt2(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), (2 + n) * sizeof(int)));
             }
             else
             {
@@ -1461,15 +1426,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshr(int3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return RegisterConversion.ToInt3(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 2 * sizeof(int)));
-                    case 2: return RegisterConversion.ToInt3(Sse2.bsrli_si128(Sse2.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), 3 * sizeof(int)));
-
-                    default: return x;
-                }
+                return RegisterConversion.ToInt3(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), (1 + n) * sizeof(int)));
             }
             else
             {
@@ -1488,28 +1447,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vshr(int4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), sizeof(int)));
-                        case 2: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)));
-                        case 3: return RegisterConversion.ToInt4(Sse2.bsrli_si128(RegisterConversion.ToV128(x), 3 * sizeof(int)));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = RegisterConversion.ToV128(x);
-                    stack[1] = Sse2.setzero_si128();
-
-                    return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
-                }
+                return RegisterConversion.ToInt4(Xse.bsrli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
             else
             {
@@ -1533,58 +1473,58 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(int) * n);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1: 
+                        case 1:
                         {
-                            v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
 
                             return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX), RegisterConversion.ToInt4(hi));
                         }
-                        case 2: 
+                        case 2:
                         {
-                            v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
 
                             return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY), RegisterConversion.ToInt4(hi));
                         }
-                        case 3: 
+                        case 3:
                         {
-                            v128 hi = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
 
                             return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ), RegisterConversion.ToInt4(hi));
                         }
 
                         case 4: return new int8(x._v4_4, int4.zero);
 
-                        case 5: 
+                        case 5:
                         {
-                            v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
-                            
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
+                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
+
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
                         }
                         case 6:
                         {
-                            v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
-                            
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
-                        } 
-                        case 7: 
-                        {
-                            v128 lo = Sse2.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
-                            
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero); 
+                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
+
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
                         }
-                        
-                        default: { v128 zero = Sse2.setzero_si128(); return new int8(RegisterConversion.ToInt4(zero), RegisterConversion.ToInt4(zero)); }
+                        case 7:
+                        {
+                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
+
+                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
+                        }
+
+                        default: { v128 zero = Xse.setzero_si128(); return new int8(RegisterConversion.ToInt4(zero), RegisterConversion.ToInt4(zero)); }
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -1595,8 +1535,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 8) * sizeof(int)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
@@ -1761,14 +1701,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshr(byte2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 14 * sizeof(byte)), 15 * sizeof(byte));
-
-                    default: return x;
-                }
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 14 * sizeof(byte)), (14 + n) * sizeof(byte));
             }
             else
             {
@@ -1785,15 +1720,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshr(byte3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 13 * sizeof(byte)), 14 * sizeof(byte));
-                    case 2: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 13 * sizeof(byte)), 15 * sizeof(byte));
-
-                    default: return x;
-                }
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 13 * sizeof(byte)), (13 + n) * sizeof(byte));
             }
             else
             {
@@ -1812,22 +1741,15 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte4 vshr(byte4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 12 * sizeof(byte)), 13 * sizeof(byte));
-                        case 2: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 12 * sizeof(byte)), 14 * sizeof(byte));
-                        case 3: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 12 * sizeof(byte)), 15 * sizeof(byte));
-
-                        default: return x;
-                    }
+                    return Xse.bsrli_si128(Xse.bslli_si128(x, 12 * sizeof(byte)), (12 + n) * sizeof(byte));
                 }
                 else
                 {
-                    return Sse2.cvtsi32_si128((int)(((v128)x).UInt0 >> n * 8));
+                    return Xse.cvtsi32_si128((int)(((v128)x).UInt0 >> n * 8));
                 }
             }
             else
@@ -1848,26 +1770,15 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vshr(byte8 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)),  9 * sizeof(byte));
-                        case 2: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 10 * sizeof(byte));
-                        case 3: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 11 * sizeof(byte));
-                        case 4: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 12 * sizeof(byte));
-                        case 5: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 13 * sizeof(byte));
-                        case 6: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 14 * sizeof(byte));
-                        case 7: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 8 * sizeof(byte)), 15 * sizeof(byte));
-
-                        default: return x;
-                    }
+                    return Xse.bsrli_si128(Xse.bslli_si128(x, 8 * sizeof(byte)), (8 + n) * sizeof(byte));
                 }
                 else
                 {
-                    return Sse2.cvtsi64x_si128((long)(((v128)x).ULong0 >> n * 8));
+                    return Xse.cvtsi64x_si128((long)(((v128)x).ULong0 >> n * 8));
                 }
             }
             else
@@ -1892,40 +1803,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vshr(byte16 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1:  return Sse2.bsrli_si128(x, sizeof(byte));
-                        case 2:  return Sse2.bsrli_si128(x, 2 * sizeof(byte));
-                        case 3:  return Sse2.bsrli_si128(x, 3 * sizeof(byte));
-                        case 4:  return Sse2.bsrli_si128(x, 4 * sizeof(byte));
-                        case 5:  return Sse2.bsrli_si128(x, 5 * sizeof(byte));
-                        case 6:  return Sse2.bsrli_si128(x, 6 * sizeof(byte));
-                        case 7:  return Sse2.bsrli_si128(x, 7 * sizeof(byte));
-                        case 8:  return Sse2.bsrli_si128(x, 8 * sizeof(byte));
-                        case 9:  return Sse2.bsrli_si128(x, 9 * sizeof(byte));
-                        case 10: return Sse2.bsrli_si128(x, 10 * sizeof(byte));
-                        case 11: return Sse2.bsrli_si128(x, 11 * sizeof(byte));
-                        case 12: return Sse2.bsrli_si128(x, 12 * sizeof(byte));
-                        case 13: return Sse2.bsrli_si128(x, 13 * sizeof(byte));
-                        case 14: return Sse2.bsrli_si128(x, 14 * sizeof(byte));
-                        case 15: return Sse2.bsrli_si128(x, 15 * sizeof(byte));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = x;
-                    stack[1] = Sse2.setzero_si128();
-
-                    return Sse2.loadu_si128((byte*)stack + (((uint)n % 16) * sizeof(byte)));
-                }
+                return Xse.bsrli_si128(x, n * sizeof(byte));
             }
             else
             {
@@ -1961,50 +1841,50 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  1 * sizeof(byte)));
-                        case 2:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  2 * sizeof(byte)));
-                        case 3:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  3 * sizeof(byte)));
-                        case 4:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
-                        case 5:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  5 * sizeof(byte)));
-                        case 6:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  6 * sizeof(byte)));
-                        case 7:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  7 * sizeof(byte)));
-                        case 8:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
-                        case 9:  return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16,  9 * sizeof(byte)));
-                        case 10: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
-                        case 11: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
-                        case 12: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
-                        case 13: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
-                        case 14: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
-                        case 15: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, Sse2.setzero_si128());
-                        case 17: return new byte32(Sse2.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Sse2.setzero_si128());
-                        case 18: return new byte32(Sse2.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Sse2.setzero_si128());
-                        case 19: return new byte32(Sse2.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Sse2.setzero_si128());
-                        case 20: return new byte32(Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Sse2.setzero_si128());
-                        case 21: return new byte32(Sse2.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Sse2.setzero_si128());
-                        case 22: return new byte32(Sse2.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Sse2.setzero_si128());
-                        case 23: return new byte32(Sse2.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Sse2.setzero_si128());
-                        case 24: return new byte32(Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Sse2.setzero_si128());
-                        case 25: return new byte32(Sse2.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Sse2.setzero_si128());
-                        case 26: return new byte32(Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Sse2.setzero_si128());
-                        case 27: return new byte32(Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Sse2.setzero_si128());
-                        case 28: return new byte32(Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Sse2.setzero_si128());
-                        case 29: return new byte32(Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Sse2.setzero_si128());
-                        case 30: return new byte32(Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Sse2.setzero_si128());
-                        case 31: return new byte32(Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Sse2.setzero_si128());
-                        
+                        case 1:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)));
+                        case 10: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
+                        case 11: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
+                        case 12: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
+                        case 13: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
+                        case 14: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
+                        case 15: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
+                        case 16: return new byte32(x._v16_16, Xse.setzero_si128());
+                        case 17: return new byte32(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.setzero_si128());
+                        case 18: return new byte32(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.setzero_si128());
+                        case 19: return new byte32(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.setzero_si128());
+                        case 20: return new byte32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.setzero_si128());
+                        case 21: return new byte32(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.setzero_si128());
+                        case 22: return new byte32(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.setzero_si128());
+                        case 23: return new byte32(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.setzero_si128());
+                        case 24: return new byte32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.setzero_si128());
+                        case 25: return new byte32(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.setzero_si128());
+                        case 26: return new byte32(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.setzero_si128());
+                        case 27: return new byte32(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.setzero_si128());
+                        case 28: return new byte32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.setzero_si128());
+                        case 29: return new byte32(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.setzero_si128());
+                        case 30: return new byte32(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.setzero_si128());
+                        case 31: return new byte32(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.setzero_si128());
+
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2015,71 +1895,71 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 32) * sizeof(byte)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new byte32(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 1 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255)), 
-                                                   Sse2.bsrli_si128(x._v16_16, 1 * sizeof(byte)));
-                        case 2:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 2 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 2 * sizeof(byte)));
-                        case 3:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 3 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 3 * sizeof(byte)));
-                        case 4:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 4 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 4 * sizeof(byte)));
-                        case 5:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 5 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 5 * sizeof(byte)));
-                        case 6:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 6 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 6 * sizeof(byte)));
-                        case 7:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 7 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 7 * sizeof(byte)));
-                        case 8:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 8 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 8 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 8 * sizeof(byte)));
-                        case 9:  return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 9 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 9 * sizeof(byte)));
-                        case 10: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 10 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 6 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
-                        case 11: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 11 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
-                        case 12: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 12 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 4 * sizeof(byte)), new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
-                        case 13: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 13 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
-                        case 14: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 14 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 2 * sizeof(byte)), new v128(0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
-                        case 15: return new byte32(Xse.blendv_si128(Sse2.bsrli_si128(x._v16_0, 15 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, Sse2.setzero_si128());
-                        case 17: return new byte32(Sse2.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Sse2.setzero_si128());
-                        case 18: return new byte32(Sse2.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Sse2.setzero_si128());
-                        case 19: return new byte32(Sse2.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Sse2.setzero_si128());
-                        case 20: return new byte32(Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Sse2.setzero_si128());
-                        case 21: return new byte32(Sse2.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Sse2.setzero_si128());
-                        case 22: return new byte32(Sse2.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Sse2.setzero_si128());
-                        case 23: return new byte32(Sse2.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Sse2.setzero_si128());
-                        case 24: return new byte32(Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Sse2.setzero_si128());
-                        case 25: return new byte32(Sse2.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Sse2.setzero_si128());
-                        case 26: return new byte32(Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Sse2.setzero_si128());
-                        case 27: return new byte32(Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Sse2.setzero_si128());
-                        case 28: return new byte32(Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Sse2.setzero_si128());
-                        case 29: return new byte32(Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Sse2.setzero_si128());
-                        case 30: return new byte32(Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Sse2.setzero_si128());
-                        case 31: return new byte32(Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Sse2.setzero_si128());
+                        case 1:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 1 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 2 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 3 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 4 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 5 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 6 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 7 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 7 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 8 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 8 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 9 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 9 * sizeof(byte)));
+                        case 10: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 10 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 6 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
+                        case 11: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 11 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
+                        case 12: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 12 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 4 * sizeof(byte)), new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
+                        case 13: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 13 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
+                        case 14: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 14 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 2 * sizeof(byte)), new v128(0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
+                        case 15: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 15 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
+                        case 16: return new byte32(x._v16_16, Xse.setzero_si128());
+                        case 17: return new byte32(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.setzero_si128());
+                        case 18: return new byte32(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.setzero_si128());
+                        case 19: return new byte32(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.setzero_si128());
+                        case 20: return new byte32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.setzero_si128());
+                        case 21: return new byte32(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.setzero_si128());
+                        case 22: return new byte32(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.setzero_si128());
+                        case 23: return new byte32(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.setzero_si128());
+                        case 24: return new byte32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.setzero_si128());
+                        case 25: return new byte32(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.setzero_si128());
+                        case 26: return new byte32(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.setzero_si128());
+                        case 27: return new byte32(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.setzero_si128());
+                        case 28: return new byte32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.setzero_si128());
+                        case 29: return new byte32(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.setzero_si128());
+                        case 30: return new byte32(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.setzero_si128());
+                        case 31: return new byte32(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.setzero_si128());
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2090,8 +1970,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 32) * sizeof(byte)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new byte32(lo, hi);
                 }
@@ -2185,14 +2065,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshr(short2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 6 * sizeof(short)), 7 * sizeof(short));
-
-                    default: return x;
-                }
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 6 * sizeof(short)), (6 + n) * sizeof(short));
             }
             else
             {
@@ -2209,15 +2084,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshr(short3 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 5 * sizeof(short)), 6 * sizeof(short));
-                    case 2: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 5 * sizeof(short)), 7 * sizeof(short));
-
-                    default: return x;
-                }
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 5 * sizeof(short)), (5 + n) * sizeof(short));
             }
             else
             {
@@ -2236,23 +2105,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short4 vshr(short4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 4 * sizeof(short)), 5 * sizeof(short));
-                        case 2: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 4 * sizeof(short)), 6 * sizeof(short));
-                        case 3: return Sse2.bsrli_si128(Sse2.bslli_si128(x, 4 * sizeof(short)), 7 * sizeof(short));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    return Sse2.cvtsi64x_si128((long)(((v128)x).ULong0 >> n * 16));
-                }
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 4 * sizeof(short)), (4 + n) * sizeof(short));
             }
             else
             {
@@ -2272,32 +2127,9 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vshr(short8 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch (n)
-                    {
-                        case 1: return Sse2.bsrli_si128(x, sizeof(short));
-                        case 2: return Sse2.bsrli_si128(x, 2 * sizeof(short));
-                        case 3: return Sse2.bsrli_si128(x, 3 * sizeof(short));
-                        case 4: return Sse2.bsrli_si128(x, 4 * sizeof(short));
-                        case 5: return Sse2.bsrli_si128(x, 5 * sizeof(short));
-                        case 6: return Sse2.bsrli_si128(x, 6 * sizeof(short));
-                        case 7: return Sse2.bsrli_si128(x, 7 * sizeof(short));
-
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    v128* stack = stackalloc v128[2];
-
-                    stack[0] = x;
-                    stack[1] = Sse2.setzero_si128();
-
-                    return Sse2.loadu_si128((byte*)stack + (((uint)n % 8) * sizeof(short)));
-                }
+                return Xse.bsrli_si128(x, n * sizeof(short));
             }
             else
             {
@@ -2313,7 +2145,7 @@ namespace MaxMath
 
                     default: return x;
                 }
-            }        
+            }
         }
 
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
@@ -2325,34 +2157,34 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(short) * n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  1 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  1 * sizeof(short)));
-                        case 2:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  2 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  2 * sizeof(short)));
-                        case 3:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  3 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  3 * sizeof(short)));
-                        case 4:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  4 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  4 * sizeof(short)));
-                        case 5:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  5 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  5 * sizeof(short)));
-                        case 6:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  6 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  6 * sizeof(short)));
-                        case 7:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8,  7 * sizeof(short)), Sse2.bsrli_si128(x._v8_8,  7 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, Sse2.setzero_si128());
-                        case 9:  return new short16(Sse2.bsrli_si128(x._v8_8,  1 * sizeof(short)), Sse2.setzero_si128());
-                        case 10: return new short16(Sse2.bsrli_si128(x._v8_8,  2 * sizeof(short)), Sse2.setzero_si128());
-                        case 11: return new short16(Sse2.bsrli_si128(x._v8_8,  3 * sizeof(short)), Sse2.setzero_si128());
-                        case 12: return new short16(Sse2.bsrli_si128(x._v8_8,  4 * sizeof(short)), Sse2.setzero_si128());
-                        case 13: return new short16(Sse2.bsrli_si128(x._v8_8,  5 * sizeof(short)), Sse2.setzero_si128());
-                        case 14: return new short16(Sse2.bsrli_si128(x._v8_8,  6 * sizeof(short)), Sse2.setzero_si128());
-                        case 15: return new short16(Sse2.bsrli_si128(x._v8_8,  7 * sizeof(short)), Sse2.setzero_si128());
+                        case 1:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  1 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)));
+                        case 2:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  2 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)));
+                        case 3:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  3 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)));
+                        case 4:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  4 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)));
+                        case 5:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  5 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)));
+                        case 6:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  6 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)));
+                        case 7:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  7 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)));
+                        case 8:  return new short16(x._v8_8, Xse.setzero_si128());
+                        case 9:  return new short16(Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)), Xse.setzero_si128());
+                        case 10: return new short16(Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)), Xse.setzero_si128());
+                        case 11: return new short16(Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)), Xse.setzero_si128());
+                        case 12: return new short16(Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)), Xse.setzero_si128());
+                        case 13: return new short16(Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)), Xse.setzero_si128());
+                        case 14: return new short16(Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)), Xse.setzero_si128());
+                        case 15: return new short16(Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)), Xse.setzero_si128());
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2363,47 +2195,47 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 16) * sizeof(short)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new short16(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 7 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, 0, -1)), 
-                                                    Sse2.bsrli_si128(x._v8_8, 1 * sizeof(short)));
-                        case 2:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 6 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 2 * sizeof(short)));
-                        case 3:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 5 * sizeof(short)), new v128(0, 0, 0, 0, 0, -1, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 3 * sizeof(short)));
-                        case 4:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 4 * sizeof(short)), new v128(0, 0, 0, 0, -1, -1, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 4 * sizeof(short)));
-                        case 5:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 3 * sizeof(short)), new v128(0, 0, 0, -1, -1, -1, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 5 * sizeof(short)));
-                        case 6:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 2 * sizeof(short)), new v128(0, 0, -1, -1, -1, -1, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 6 * sizeof(short)));
-                        case 7:  return new short16(Xse.blendv_si128(Sse2.bsrli_si128(x._v8_0, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 1 * sizeof(short)), new v128(0, -1, -1, -1, -1, -1, -1, -1)),
-                                                    Sse2.bsrli_si128(x._v8_8, 7 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, Sse2.setzero_si128());
-                        case 9:  return new short16(Sse2.bsrli_si128(x._v8_8,  1 * sizeof(short)), Sse2.setzero_si128());
-                        case 10: return new short16(Sse2.bsrli_si128(x._v8_8,  2 * sizeof(short)), Sse2.setzero_si128());
-                        case 11: return new short16(Sse2.bsrli_si128(x._v8_8,  3 * sizeof(short)), Sse2.setzero_si128());
-                        case 12: return new short16(Sse2.bsrli_si128(x._v8_8,  4 * sizeof(short)), Sse2.setzero_si128());
-                        case 13: return new short16(Sse2.bsrli_si128(x._v8_8,  5 * sizeof(short)), Sse2.setzero_si128());
-                        case 14: return new short16(Sse2.bsrli_si128(x._v8_8,  6 * sizeof(short)), Sse2.setzero_si128());
-                        case 15: return new short16(Sse2.bsrli_si128(x._v8_8,  7 * sizeof(short)), Sse2.setzero_si128());
-                        
+                        case 1:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, 0, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 1 * sizeof(short)));
+                        case 2:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 2 * sizeof(short)));
+                        case 3:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short)), new v128(0, 0, 0, 0, 0, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 3 * sizeof(short)));
+                        case 4:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short)), new v128(0, 0, 0, 0, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 4 * sizeof(short)));
+                        case 5:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short)), new v128(0, 0, 0, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 5 * sizeof(short)));
+                        case 6:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short)), new v128(0, 0, -1, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 6 * sizeof(short)));
+                        case 7:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short)), new v128(0, -1, -1, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x._v8_8, 7 * sizeof(short)));
+                        case 8:  return new short16(x._v8_8, Xse.setzero_si128());
+                        case 9:  return new short16(Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)), Xse.setzero_si128());
+                        case 10: return new short16(Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)), Xse.setzero_si128());
+                        case 11: return new short16(Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)), Xse.setzero_si128());
+                        case 12: return new short16(Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)), Xse.setzero_si128());
+                        case 13: return new short16(Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)), Xse.setzero_si128());
+                        case 14: return new short16(Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)), Xse.setzero_si128());
+                        case 15: return new short16(Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)), Xse.setzero_si128());
+
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2414,8 +2246,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 16) * sizeof(short)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new short16(lo, hi);
                 }
@@ -2487,14 +2319,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshr(long2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                switch (n)
-                {
-                    case 1: return Sse2.bsrli_si128(x, sizeof(long));
-
-                    default: return x;
-                }
+                return Xse.bsrli_si128(x, n * sizeof(long));
             }
             else
             {
@@ -2521,11 +2348,11 @@ namespace MaxMath
                     default: return x;
                 }
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsInsertExtractSupported)
             {
                 switch (n)
                 {
-                    case 1: return new long3(Sse4_1.insert_epi64(Sse2.bsrli_si128(x._xy, 1 * sizeof(long)), x.z, 1), 0);
+                    case 1: return new long3(Xse.insert_epi64(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), (ulong)x.z, 1), 0);
                     case 2: return new long3(x.z, 0, 0);
 
                     default: return x;
@@ -2552,22 +2379,22 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(long) * n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Ssse3.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)), Sse2.bsrli_si128(x._zw, 1 * sizeof(long)));
-                        case 2: return new long4(x._zw, Sse2.setzero_si128());
-                        case 3: return new long4(Sse2.bsrli_si128(x._zw, 1 * sizeof(long)), Sse2.setzero_si128());
+                        case 1: return new long4(Xse.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)), Xse.bsrli_si128(x._zw, 1 * sizeof(long)));
+                        case 2: return new long4(x._zw, Xse.setzero_si128());
+                        case 3: return new long4(Xse.bsrli_si128(x._zw, 1 * sizeof(long)), Xse.setzero_si128());
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2578,29 +2405,29 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 4) * sizeof(long)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new long4(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Xse.blendv_si128(Sse2.bsrli_si128(x._xy, 1 * sizeof(long)), Sse2.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)),
-                                                 Sse2.bsrli_si128(x._zw, 1 * sizeof(long)));
-                        case 2: return new long4(x._zw, Sse2.setzero_si128());
-                        case 3: return new long4(Sse2.bsrli_si128(x._zw, 1 * sizeof(long)), Sse2.setzero_si128());
-                        
+                        case 1: return new long4(Xse.blendv_si128(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), Xse.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)),
+                                                 Xse.bsrli_si128(x._zw, 1 * sizeof(long)));
+                        case 2: return new long4(x._zw, Xse.setzero_si128());
+                        case 3: return new long4(Xse.bsrli_si128(x._zw, 1 * sizeof(long)), Xse.setzero_si128());
+
                         default: return x;
                     }
                 }
                 else
                 {
-                    v128 ZERO = Sse2.setzero_si128(); 
+                    v128 ZERO = Xse.setzero_si128();
 
                     v128* stack = stackalloc v128[4];
 
@@ -2611,8 +2438,8 @@ namespace MaxMath
 
                     v128* address = (v128*)((byte*)stack + (((uint)n % 4) * sizeof(long)));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + 1);
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + 1);
 
                     return new long4(lo, hi);
                 }

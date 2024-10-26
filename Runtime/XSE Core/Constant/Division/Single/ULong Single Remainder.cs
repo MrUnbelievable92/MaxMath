@@ -1,23 +1,37 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v128 constrem_epu64(v128 vector, ulong divisor)
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v128 rem_epu64(v128 vector, ulong divisor)
+            if (Architecture.IsSIMDSupported)
 			{
-				return new v128((ulong)(vector.ULong0 % divisor), (ulong)(vector.ULong1 % divisor));
+				return (ulong2)vector % new Divider<ulong>(divisor);
 			}
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v256 mm256_rem_epu64(v256 vector, ulong divisor, byte elements = 4)
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v256 mm256_constrem_epu64(v256 vector, ulong divisor, byte elements = 4)
+		{
+			if (Avx2.IsAvx2Supported)
 			{
-				return new v256((ulong)(vector.ULong0 % divisor), (ulong)(vector.ULong1 % divisor), (ulong)(vector.ULong2 % divisor), (ulong)(vector.ULong3 % divisor));
+				if (elements == 4)
+				{
+					return (ulong4)vector % new Divider<ulong>(divisor);
+				}
+				else
+				{
+					return (ulong3)vector % new Divider<ulong>(divisor);
+				}
 			}
+			else throw new IllegalInstructionException();
 		}
 	}
 }

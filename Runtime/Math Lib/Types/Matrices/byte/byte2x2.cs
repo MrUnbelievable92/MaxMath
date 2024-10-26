@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -127,35 +124,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static byte2x2 operator * (byte2x2 left, byte2x2 right) => new byte2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x2 operator / (byte2x2 left, byte2x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                byte4 fused = new byte4(left.c0, left.c1) / new byte4(right.c0, right.c1);
-
-                return new byte2x2(fused.xy, fused.zw);
-            }
-            else
-            {
-                return new byte2x2(left.c0 / right.c0, left.c1 / right.c1);
-            }
-        }
-            
+        public static byte2x2 operator / (byte2x2 left, byte2x2 right) => new byte2x2(left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x2 operator % (byte2x2 left, byte2x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                byte4 fused = new byte4(left.c0, left.c1) % new byte4(right.c0, right.c1);
-
-                return new byte2x2(fused.xy, fused.zw);
-            }
-            else
-            {
-                return new byte2x2(left.c0 % right.c0, left.c1 % right.c1);
-            }
-        }
+        public static byte2x2 operator % (byte2x2 left, byte2x2 right) => new byte2x2(left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,36 +137,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static byte2x2 operator * (byte left, byte2x2 right) => new byte2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x2 operator / (byte2x2 left, byte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    byte4 fused = new byte4(left.c0, left.c1) / right;
-
-                    return new byte2x2(fused.xy, fused.zw);
-                }
-            }
-            
-            return new byte2x2(left.c0 / right, left.c1 / right);
-        }
+        public static byte2x2 operator / (byte2x2 left, byte right) => new byte2x2(left.c0 / right, left.c1 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2x2 operator % (byte2x2 left, byte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    byte4 fused = new byte4(left.c0, left.c1) % right;
-
-                    return new byte2x2(fused.xy, fused.zw);
-                }
-            }
-
-            return new byte2x2(left.c0 % right, left.c1 % right);
-        }
+        public static byte2x2 operator % (byte2x2 left, byte right) => new byte2x2(left.c0 % right, left.c1 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

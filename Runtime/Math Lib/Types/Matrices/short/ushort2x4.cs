@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -121,48 +118,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ushort2x4 operator * (ushort2x4 left, ushort2x4 right) => new ushort2x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator / (ushort2x4 left, ushort2x4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) / new ushort8(right.c0, right.c1, right.c2, right.c3);
-
-                return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                ushort4 lo = new ushort4(left.c0, left.c1) / new ushort4(right.c0, right.c1);
-                ushort4 hi = new ushort4(left.c2, left.c3) / new ushort4(right.c2, right.c3);
-
-                return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
-            }
-            else
-            {
-                return new ushort2x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
-            }
-        }
+        public static ushort2x4 operator / (ushort2x4 left, ushort2x4 right) => new ushort2x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator % (ushort2x4 left, ushort2x4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) % new ushort8(right.c0, right.c1, right.c2, right.c3);
-
-                return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                ushort4 lo = new ushort4(left.c0, left.c1) % new ushort4(right.c0, right.c1);
-                ushort4 hi = new ushort4(left.c2, left.c3) % new ushort4(right.c2, right.c3);
-
-                return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
-            }
-            else
-            {
-                return new ushort2x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
-            }
-        }
+        public static ushort2x4 operator % (ushort2x4 left, ushort2x4 right) => new ushort2x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -172,58 +131,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ushort2x4 operator * (ushort left, ushort2x4 right) => new ushort2x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator / (ushort2x4 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort8 div = new ushort8(left.c0, left.c1, left.c2, left.c3) / right;
-
-                    return new ushort2x4(div.v2_0, div.v2_2, div.v2_4, div.v2_6);
-                }
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort4 divisor = right;
-                    ushort4 lo = new ushort4(left.c0, left.c1) / divisor;
-                    ushort4 hi = new ushort4(left.c2, left.c3) / divisor;
-
-                    return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
-                }
-            }
-
-            return new ushort2x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
-        }
+        public static ushort2x4 operator / (ushort2x4 left, ushort right) => new ushort2x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x4 operator % (ushort2x4 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort8 rem = new ushort8(left.c0, left.c1, left.c2, left.c3) % right;
-
-                    return new ushort2x4(rem.v2_0, rem.v2_2, rem.v2_4, rem.v2_6);
-                }
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort4 divisor = right;
-                    ushort4 lo = new ushort4(left.c0, left.c1) % divisor;
-                    ushort4 hi = new ushort4(left.c2, left.c3) % divisor;
-
-                    return new ushort2x4(lo.xy, lo.zw, hi.xy, hi.zw);
-                }
-            }
-
-            return new ushort2x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
-        }
+        public static ushort2x4 operator % (ushort2x4 left, ushort right) => new ushort2x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

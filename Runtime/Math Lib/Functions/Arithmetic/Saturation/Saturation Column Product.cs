@@ -13,59 +13,30 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte2 x)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
-                v128 ints = Sse4_1.cvtepu8_epi16(x);
-                ints = Sse2.mullo_epi16(ints, Sse2.shufflelo_epi16(ints, Sse.SHUFFLE(0, 0, 0, 1)));
-                ints = Sse4_1.min_epu16(ints, Sse2.cvtsi32_si128(byte.MaxValue));
-
-                return ints.Byte0;
-            }
-            else
-            {
-                return mulsaturated(x.x, x.y);
-            }
+            return mulsaturated(x.x, x.y);
         }
 
         /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte3"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
-                v128 MAX_VALUE = Sse2.cvtsi32_si128(byte.MaxValue);
-
-                v128 ints = Sse4_1.cvtepu8_epi32(x);
-
-                v128 _y = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
-                v128 _z = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
-
-                v128 _xy = Sse4_1.mullo_epi32(ints, _y);
-                v128 _xyz = Sse4_1.mullo_epi32(_xy, _z);
-                _xyz = Sse4_1.min_epu32(_xyz, MAX_VALUE);
-
-                return _xyz.Byte0;
-            }
-            else
-            {
-                return (byte)math.min(byte.MaxValue, x.x * x.y * x.z);
-            }
+            return (byte)math.min(byte.MaxValue, x.x * x.y * x.z);
         }
 
         /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte4"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.cvtsi32_si128(byte.MaxValue);
+                v128 MAX_VALUE = Xse.cvtsi32_si128(byte.MaxValue);
 
-                v128 ints = Sse4_1.cvtepu8_epi32(x);
+                v128 ints = Xse.cvtepu8_epi32(x);
                 v128 product;
-                
-                product = Sse4_1.mullo_epi32(ints, Sse2.bsrli_si128(ints, 2 * sizeof(uint)));
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+
+                product = Xse.mullo_epi32(ints, Xse.bsrli_si128(ints, 2 * sizeof(uint)));
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (byte)product.SInt0;
             }
@@ -79,20 +50,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 24);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
-                v128 ints_lo = Sse4_1.cvtepu8_epi32(x);
-                v128 ints_hi = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x, 4 * sizeof(byte)));
+                v128 ints_lo = Xse.cvtepu8_epi32(x);
+                v128 ints_hi = Xse.cvtepu8_epi32(Xse.bsrli_si128(x, 4 * sizeof(byte)));
                 v128 product;
-                
-                product = Sse4_1.mullo_epi32(ints_lo, ints_hi);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                
+
+                product = Xse.mullo_epi32(ints_lo, ints_hi);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+
                 return (byte)product.SInt0;
             }
             else
@@ -107,35 +78,35 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 24);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
                 v256 ints_lo = Avx2.mm256_cvtepu8_epi32(x);
-                v256 ints_hi = Avx2.mm256_cvtepu8_epi32(Sse2.bsrli_si128(x, 8 * sizeof(byte)));
+                v256 ints_hi = Avx2.mm256_cvtepu8_epi32(Xse.bsrli_si128(x, 8 * sizeof(byte)));
 
                 v256 product = Avx2.mm256_mullo_epi32(ints_lo, ints_hi);
-                v128 product128 = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse4_1.min_epu32(product128, MAX_VALUE);
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(uint)));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(uint)));
-                product128 = Sse4_1.min_epu32(product128, MAX_VALUE);
+                v128 product128 = Xse.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.min_epu32(product128, MAX_VALUE);
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(uint)));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(uint)));
+                product128 = Xse.min_epu32(product128, MAX_VALUE);
 
                 return (byte)product128.SInt0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 24);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
-                v128 ints1 = Sse4_1.cvtepu8_epi32(x);
-                v128 ints2 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x,  4 * sizeof(byte)));
-                v128 ints3 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x,  8 * sizeof(byte)));
-                v128 ints4 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x, 12 * sizeof(byte)));
+                v128 ints1 = Xse.cvtepu8_epi32(x);
+                v128 ints2 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x,  4 * sizeof(byte)));
+                v128 ints3 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x,  8 * sizeof(byte)));
+                v128 ints4 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x, 12 * sizeof(byte)));
                 v128 product;
-                
-                product = Sse4_1.mullo_epi32(Sse4_1.mullo_epi32(ints1, ints2), Sse4_1.mullo_epi32(ints3, ints4));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(uint)));
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+
+                product = Xse.mullo_epi32(Xse.mullo_epi32(ints1, ints2), Xse.mullo_epi32(ints3, ints4));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(uint)));
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (byte)product.SInt0;
 
@@ -160,37 +131,37 @@ namespace MaxMath
 
                 v256 product = Avx2.mm256_mullo_epi32(ints_lo, ints_hi);
                 product = Avx2.mm256_min_epu32(product, MAX_VALUE);
-                v128 product128 = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(uint)));
-                product128 = Sse4_1.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(uint)));
-                product128 = Sse4_1.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
+                v128 product128 = Xse.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(uint)));
+                product128 = Xse.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(uint)));
+                product128 = Xse.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
 
                 return (byte)product128.SInt0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 24);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
-                v128 ints1 = Sse4_1.cvtepu8_epi32(x._v16_0);
-                v128 ints2 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_0,  4 * sizeof(byte)));
-                v128 ints3 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_0,  8 * sizeof(byte)));
-                v128 ints4 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_0, 12 * sizeof(byte)));
-                v128 ints5 = Sse4_1.cvtepu8_epi32(x._v16_16);
-                v128 ints6 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
-                v128 ints7 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
-                v128 ints8 = Sse4_1.cvtepu8_epi32(Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
+                v128 ints1 = Xse.cvtepu8_epi32(x._v16_0);
+                v128 ints2 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0,  4 * sizeof(byte)));
+                v128 ints3 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0,  8 * sizeof(byte)));
+                v128 ints4 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0, 12 * sizeof(byte)));
+                v128 ints5 = Xse.cvtepu8_epi32(x._v16_16);
+                v128 ints6 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
+                v128 ints7 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
+                v128 ints8 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
                 v128 product;
-                
-                v128 product1 = Sse4_1.mullo_epi32(Sse4_1.mullo_epi32(ints1, ints5), Sse4_1.mullo_epi32(ints3, ints4));
-                product1 = Sse4_1.min_epu32(product1, MAX_VALUE);
-                v128 product2 = Sse4_1.mullo_epi32(Sse4_1.mullo_epi32(ints2, ints6), Sse4_1.mullo_epi32(ints7, ints8));
-                product2 = Sse4_1.min_epu32(product2, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product1, product2);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+
+                v128 product1 = Xse.mullo_epi32(Xse.mullo_epi32(ints1, ints5), Xse.mullo_epi32(ints3, ints4));
+                product1 = Xse.min_epu32(product1, MAX_VALUE);
+                v128 product2 = Xse.mullo_epi32(Xse.mullo_epi32(ints2, ints6), Xse.mullo_epi32(ints7, ints8));
+                product2 = Xse.min_epu32(product2, MAX_VALUE);
+                product = Xse.mullo_epi32(product1, product2);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (byte)product.SInt0;
             }
@@ -208,9 +179,9 @@ namespace MaxMath
             {
                 v128 shorts = Xse.cvtepi8_epi16(x);
                 v128 product;
-                
-                product = Sse2.mullo_epi16(shorts, Sse2.bsrli_si128(shorts, 1 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
+
+                product = Xse.mullo_epi16(shorts, Xse.bsrli_si128(shorts, 1 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
@@ -224,19 +195,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints = Sse4_1.cvtepi8_epi32(x);
+                v128 ints = Xse.cvtepi8_epi32(x);
 
-                v128 _y = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
-                v128 _z = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
+                v128 _y = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
+                v128 _z = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
 
-                v128 _xy = Sse4_1.mullo_epi32(ints, _y);
-                v128 _xyz = Sse4_1.mullo_epi32(_xy, _z);
+                v128 _xy = Xse.mullo_epi32(ints, _y);
+                v128 _xyz = Xse.mullo_epi32(_xy, _z);
 
-                v128 shorts = Sse2.packs_epi32(_xyz, _xyz);
+                v128 shorts = Xse.packs_epi32(_xyz, _xyz);
 
-                return Sse2.packs_epi16(shorts, shorts).SByte0;
+                return Xse.packs_epi16(shorts, shorts).SByte0;
             }
             else
             {
@@ -248,32 +219,32 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints = Sse4_1.cvtepi8_epi32(x);
+                v128 ints = Xse.cvtepi8_epi32(x);
                 v128 product;
-                
-                product = Sse4_1.mullo_epi32(ints,    Sse2.bsrli_si128(ints,    2 * sizeof(int)));
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse2.packs_epi16(product, product);
+
+                product = Xse.mullo_epi32(ints,    Xse.bsrli_si128(ints,    2 * sizeof(int)));
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
-                v128 MIN_VALUE = Sse2.slli_epi16(ALL_ONES, 7);
-                v128 MAX_VALUE = Sse2.srli_epi16(ALL_ONES, 9);
+                v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
+                v128 MAX_VALUE = Xse.srli_epi16(ALL_ONES, 9);
 
                 v128 shorts = Xse.cvtepi8_epi16(x);
                 v128 product;
-                
-                product = Sse2.mullo_epi16(shorts, Sse2.bsrli_si128(shorts, 2 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 1 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
+
+                product = Xse.mullo_epi16(shorts, Xse.bsrli_si128(shorts, 2 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 1 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
@@ -285,41 +256,41 @@ namespace MaxMath
 
         /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte8"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte cprodsaturated(sbyte8 x)                            
+        public static sbyte cprodsaturated(sbyte8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints_lo = Sse4_1.cvtepi8_epi32(x);
-                v128 ints_hi = Sse4_1.cvtepi8_epi32(Sse2.bsrli_si128(x, 4 * sizeof(sbyte)));
+                v128 ints_lo = Xse.cvtepi8_epi32(x);
+                v128 ints_hi = Xse.cvtepi8_epi32(Xse.bsrli_si128(x, 4 * sizeof(sbyte)));
                 v128 product;
 
-                product = Sse4_1.mullo_epi32(ints_lo, ints_hi);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse2.packs_epi16(product, product);
+                product = Xse.mullo_epi32(ints_lo, ints_hi);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
-                v128 MIN_VALUE = Sse2.slli_epi16(ALL_ONES, 7);
-                v128 MAX_VALUE = Sse2.srli_epi16(ALL_ONES, 9);
+                v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
+                v128 MAX_VALUE = Xse.srli_epi16(ALL_ONES, 9);
 
                 v128 shorts = Xse.cvtepi8_epi16(x);
                 v128 product;
 
-                product = Sse2.mullo_epi16(shorts, Sse2.bsrli_si128(shorts, 4 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 2 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 1 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
+                product = Xse.mullo_epi16(shorts, Xse.bsrli_si128(shorts, 4 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 2 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 1 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
@@ -336,61 +307,61 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 ints_lo = Avx2.mm256_cvtepi8_epi32(x);
-                v256 ints_hi = Avx2.mm256_cvtepi8_epi32(Sse2.bsrli_si128(x, 8 * sizeof(sbyte)));
+                v256 ints_hi = Avx2.mm256_cvtepi8_epi32(Xse.bsrli_si128(x, 8 * sizeof(sbyte)));
 
                 v256 product = Avx2.mm256_mullo_epi32(ints_lo, ints_hi);
-                v128 product128 = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse2.packs_epi32(product128, product128);
-                product128 = Sse2.packs_epi16(product128, product128);
-                product128 = Sse4_1.cvtepi8_epi32(product128);
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(int)));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(int)));
-                product128 = Sse2.packs_epi32(product128, product128);
-                product128 = Sse2.packs_epi16(product128, product128);
+                v128 product128 = Xse.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.packs_epi32(product128, product128);
+                product128 = Xse.packs_epi16(product128, product128);
+                product128 = Xse.cvtepi8_epi32(product128);
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(int)));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(int)));
+                product128 = Xse.packs_epi32(product128, product128);
+                product128 = Xse.packs_epi16(product128, product128);
 
                 return product128.SByte0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
-                v128 shorts_lo = Sse4_1.cvtepi8_epi16(x);
-                v128 shorts_hi = Sse4_1.cvtepi8_epi16(Sse2.bsrli_si128(x, 8 * sizeof(sbyte)));
+                v128 shorts_lo = Xse.cvtepi8_epi16(x);
+                v128 shorts_hi = Xse.cvtepi8_epi16(Xse.bsrli_si128(x, 8 * sizeof(sbyte)));
                 v128 product;
 
-                product = Sse2.mullo_epi16(shorts_lo, shorts_hi);
-                product = Sse2.packs_epi16(product, product);
-                product = Sse4_1.cvtepi8_epi16(product);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 4 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
-                product = Sse4_1.cvtepi8_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(int)));
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse2.packs_epi16(product, product);
+                product = Xse.mullo_epi16(shorts_lo, shorts_hi);
+                product = Xse.packs_epi16(product, product);
+                product = Xse.cvtepi8_epi16(product);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 4 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
+                product = Xse.cvtepi8_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(int)));
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
-                v128 MIN_VALUE = Sse2.slli_epi16(ALL_ONES, 7);
-                v128 MAX_VALUE = Sse2.srli_epi16(ALL_ONES, 9);
+                v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
+                v128 MAX_VALUE = Xse.srli_epi16(ALL_ONES, 9);
 
-                v128 IsNegativeMask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), x);
-                v128 shorts_lo = Sse2.unpacklo_epi8(x, IsNegativeMask);
-                v128 shorts_hi = Sse2.unpackhi_epi8(x, IsNegativeMask);
+                v128 IsNegativeMask = Xse.cmpgt_epi8(Xse.setzero_si128(), x);
+                v128 shorts_lo = Xse.unpacklo_epi8(x, IsNegativeMask);
+                v128 shorts_hi = Xse.unpackhi_epi8(x, IsNegativeMask);
                 v128 product;
 
-                product = Sse2.mullo_epi16(shorts_lo, shorts_hi);
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 4 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 2 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 1 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
+                product = Xse.mullo_epi16(shorts_lo, shorts_hi);
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 4 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 2 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 1 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
@@ -409,82 +380,82 @@ namespace MaxMath
                 v256 shorts1 = Xse.mm256_cvt2x2epi8_epi16(x, out v256 shorts2);
 
                 v256 product = Avx2.mm256_mullo_epi16(shorts1, shorts2);
-                v128 product128 = Sse2.packs_epi16(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse2.mullo_epi16(Sse4_1.cvtepi8_epi16(product128), Sse4_1.cvtepi8_epi16(Sse2.bsrli_si128(product128, 8 * sizeof(sbyte))));
-                product128 = Sse2.packs_epi16(product128, product128);
-                product128 = Sse4_1.cvtepi8_epi16(product128);
-                product128 = Sse2.mullo_epi16(product128, Sse2.bsrli_si128(product128, 4 * sizeof(short)));
-                product128 = Sse2.packs_epi16(product128, product128);
-                product128 = Sse4_1.cvtepi8_epi32(product128);
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(int)));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(int)));
-                product128 = Sse2.packs_epi32(product128, product128);
-                product128 = Sse2.packs_epi16(product128, product128);
+                v128 product128 = Xse.packs_epi16(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.mullo_epi16(Xse.cvtepi8_epi16(product128), Xse.cvtepi8_epi16(Xse.bsrli_si128(product128, 8 * sizeof(sbyte))));
+                product128 = Xse.packs_epi16(product128, product128);
+                product128 = Xse.cvtepi8_epi16(product128);
+                product128 = Xse.mullo_epi16(product128, Xse.bsrli_si128(product128, 4 * sizeof(short)));
+                product128 = Xse.packs_epi16(product128, product128);
+                product128 = Xse.cvtepi8_epi32(product128);
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(int)));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(int)));
+                product128 = Xse.packs_epi32(product128, product128);
+                product128 = Xse.packs_epi16(product128, product128);
 
                 return product128.SByte0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
                 v128 lo = x._v16_0;
                 v128 hi = x._v16_16;
-                v128 shorts1 = Sse4_1.cvtepi8_epi16(lo);
-                v128 shorts2 = Sse4_1.cvtepi8_epi16(Sse2.bsrli_si128(lo, 8 * sizeof(sbyte)));
-                v128 shorts3 = Sse4_1.cvtepi8_epi16(hi);
-                v128 shorts4 = Sse4_1.cvtepi8_epi16(Sse2.bsrli_si128(hi, 8 * sizeof(sbyte)));
+                v128 shorts1 = Xse.cvtepi8_epi16(lo);
+                v128 shorts2 = Xse.cvtepi8_epi16(Xse.bsrli_si128(lo, 8 * sizeof(sbyte)));
+                v128 shorts3 = Xse.cvtepi8_epi16(hi);
+                v128 shorts4 = Xse.cvtepi8_epi16(Xse.bsrli_si128(hi, 8 * sizeof(sbyte)));
                 v128 product;
 
-                v128 product1 = Sse2.mullo_epi16(shorts1, shorts2);
-                v128 product2 = Sse2.mullo_epi16(shorts3, shorts4);
-                product = Sse2.packs_epi16(product1, product2);
-                product1 = Sse4_1.cvtepi8_epi16(product);
-                product2 = Sse4_1.cvtepi8_epi16(Sse2.bsrli_si128(product, 8 * sizeof(sbyte)));
-                product = Sse2.mullo_epi16(product1, product2);
-                product = Sse2.packs_epi16(product, product);
-                product = Sse4_1.cvtepi8_epi16(product);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 4 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
-                product = Sse4_1.cvtepi8_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(int)));
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse2.packs_epi16(product, product);
+                v128 product1 = Xse.mullo_epi16(shorts1, shorts2);
+                v128 product2 = Xse.mullo_epi16(shorts3, shorts4);
+                product = Xse.packs_epi16(product1, product2);
+                product1 = Xse.cvtepi8_epi16(product);
+                product2 = Xse.cvtepi8_epi16(Xse.bsrli_si128(product, 8 * sizeof(sbyte)));
+                product = Xse.mullo_epi16(product1, product2);
+                product = Xse.packs_epi16(product, product);
+                product = Xse.cvtepi8_epi16(product);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 4 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
+                product = Xse.cvtepi8_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(int)));
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                v128 ZERO = Sse2.setzero_si128();
+                v128 ZERO = Xse.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
-                v128 MIN_VALUE = Sse2.slli_epi16(ALL_ONES, 7);
-                v128 MAX_VALUE = Sse2.srli_epi16(ALL_ONES, 9);
+                v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
+                v128 MAX_VALUE = Xse.srli_epi16(ALL_ONES, 9);
 
                 v128 lo = x._v16_0;
                 v128 hi = x._v16_16;
-                v128 xNegativeMask_lo = Sse2.cmpgt_epi8(ZERO, lo);
-                v128 xNegativeMask_hi = Sse2.cmpgt_epi8(ZERO, hi);
-                v128 shorts1 = Sse2.unpacklo_epi8(lo, xNegativeMask_lo);
-                v128 shorts2 = Sse2.unpackhi_epi8(lo, xNegativeMask_lo);
-                v128 shorts3 = Sse2.unpacklo_epi8(hi, xNegativeMask_hi);
-                v128 shorts4 = Sse2.unpackhi_epi8(hi, xNegativeMask_hi);
+                v128 xNegativeMask_lo = Xse.cmpgt_epi8(ZERO, lo);
+                v128 xNegativeMask_hi = Xse.cmpgt_epi8(ZERO, hi);
+                v128 shorts1 = Xse.unpacklo_epi8(lo, xNegativeMask_lo);
+                v128 shorts2 = Xse.unpackhi_epi8(lo, xNegativeMask_lo);
+                v128 shorts3 = Xse.unpacklo_epi8(hi, xNegativeMask_hi);
+                v128 shorts4 = Xse.unpackhi_epi8(hi, xNegativeMask_hi);
                 v128 product;
 
-                v128 product1 = Sse2.mullo_epi16(shorts1, shorts2);
-                product1 = Sse2.max_epi16(product1, MIN_VALUE);
-                product1 = Sse2.min_epi16(product1, MAX_VALUE);
-                v128 product2 = Sse2.mullo_epi16(shorts3, shorts4);
-                product2 = Sse2.max_epi16(product2, MIN_VALUE);
-                product2 = Sse2.min_epi16(product2, MAX_VALUE);
-                product = Sse2.mullo_epi16(product1, product2);
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 4 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 2 * sizeof(short)));
-                product = Sse2.max_epi16(product, MIN_VALUE);
-                product = Sse2.min_epi16(product, MAX_VALUE);
-                product = Sse2.mullo_epi16(product, Sse2.bsrli_si128(product, 1 * sizeof(short)));
-                product = Sse2.packs_epi16(product, product);
+                v128 product1 = Xse.mullo_epi16(shorts1, shorts2);
+                product1 = Xse.max_epi16(product1, MIN_VALUE);
+                product1 = Xse.min_epi16(product1, MAX_VALUE);
+                v128 product2 = Xse.mullo_epi16(shorts3, shorts4);
+                product2 = Xse.max_epi16(product2, MIN_VALUE);
+                product2 = Xse.min_epi16(product2, MAX_VALUE);
+                product = Xse.mullo_epi16(product1, product2);
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 4 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 2 * sizeof(short)));
+                product = Xse.max_epi16(product, MIN_VALUE);
+                product = Xse.min_epi16(product, MAX_VALUE);
+                product = Xse.mullo_epi16(product, Xse.bsrli_si128(product, 1 * sizeof(short)));
+                product = Xse.packs_epi16(product, product);
 
                 return product.SByte0;
             }
@@ -499,12 +470,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints = Sse4_1.cvtepi16_epi32(x);
-                
-                v128 product = Sse4_1.mullo_epi32(ints, Sse2.bsrli_si128(ints, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
+                v128 ints = Xse.cvtepi16_epi32(x);
+
+                v128 product = Xse.mullo_epi32(ints, Xse.bsrli_si128(ints, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
 
                 return product.SShort0;
             }
@@ -518,18 +489,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints = Sse4_1.cvtepi16_epi32(x);
+                v128 ints = Xse.cvtepi16_epi32(x);
 
-                v128 _y = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
-                v128 _z = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
+                v128 _y = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
+                v128 _z = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
 
-                v128 _xy = Sse4_1.mullo_epi32(ints, _y);
-                _xy = Sse4_1.cvtepi16_epi32(Sse2.packs_epi32(_xy, _xy));
-                v128 _xyz = Sse4_1.mullo_epi32(_xy, _z);
+                v128 _xy = Xse.mullo_epi32(ints, _y);
+                _xy = Xse.cvtepi16_epi32(Xse.packs_epi32(_xy, _xy));
+                v128 _xyz = Xse.mullo_epi32(_xy, _z);
 
-                return Sse2.packs_epi32(_xyz, _xyz).SShort0;
+                return Xse.packs_epi32(_xyz, _xyz).SShort0;
             }
             else
             {
@@ -541,22 +512,22 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints = Sse4_1.cvtepi16_epi32(x);
+                v128 ints = Xse.cvtepi16_epi32(x);
                 v128 product;
 
-                product = Sse4_1.mullo_epi32(ints, Sse2.bsrli_si128(ints, 2 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
+                product = Xse.mullo_epi32(ints, Xse.bsrli_si128(ints, 2 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
 
                 return product.SShort0;
             }
             else
             {
-                return (short)math.clamp(((long)x.x * x.y) * ((long)x.z * x.w), short.MinValue, short.MaxValue); 
+                return (short)math.clamp(((long)x.x * x.y) * ((long)x.z * x.w), short.MinValue, short.MaxValue);
             }
         }
 
@@ -564,20 +535,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 ints1 = Sse4_1.cvtepi16_epi32(x);
-                v128 ints2 = Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(x, 4 * sizeof(short)));
+                v128 ints1 = Xse.cvtepi16_epi32(x);
+                v128 ints2 = Xse.cvtepi16_epi32(Xse.bsrli_si128(x, 4 * sizeof(short)));
                 v128 product;
 
-                product = Sse4_1.mullo_epi32(ints1, ints2);
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
+                product = Xse.mullo_epi32(ints1, ints2);
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
 
                 return product.SShort0;
             }
@@ -594,42 +565,42 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 ints1 = Xse.mm256_cvt2x2epi16_epi32(x, out v256 ints2);
-                
+
                 v256 product = Avx2.mm256_mullo_epi32(ints1, ints2);
-                v128 product128 = Sse2.packs_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse4_1.mullo_epi32(Sse4_1.cvtepi16_epi32(product128), Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(product128, 4 * sizeof(short))));
-                product128 = Sse2.packs_epi32(product128, product128);
-                product128 = Sse4_1.cvtepi16_epi32(product128);
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(int)));
-                product128 = Sse2.packs_epi32(product128, product128);
-                product128 = Sse4_1.cvtepi16_epi32(product128);
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(int)));
-                product128 = Sse2.packs_epi32(product128, product128);
+                v128 product128 = Xse.packs_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.mullo_epi32(Xse.cvtepi16_epi32(product128), Xse.cvtepi16_epi32(Xse.bsrli_si128(product128, 4 * sizeof(short))));
+                product128 = Xse.packs_epi32(product128, product128);
+                product128 = Xse.cvtepi16_epi32(product128);
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(int)));
+                product128 = Xse.packs_epi32(product128, product128);
+                product128 = Xse.cvtepi16_epi32(product128);
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(int)));
+                product128 = Xse.packs_epi32(product128, product128);
 
                 return product128.SShort0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
                 v128 lo = x._v8_0;
                 v128 hi = x._v8_8;
-                v128 ints1 = Sse4_1.cvtepi16_epi32(lo);
-                v128 ints2 = Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(lo, 4 * sizeof(short)));
-                v128 ints3 = Sse4_1.cvtepi16_epi32(hi);
-                v128 ints4 = Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(hi, 4 * sizeof(short)));
+                v128 ints1 = Xse.cvtepi16_epi32(lo);
+                v128 ints2 = Xse.cvtepi16_epi32(Xse.bsrli_si128(lo, 4 * sizeof(short)));
+                v128 ints3 = Xse.cvtepi16_epi32(hi);
+                v128 ints4 = Xse.cvtepi16_epi32(Xse.bsrli_si128(hi, 4 * sizeof(short)));
 
-                v128 product_lo = Sse4_1.mullo_epi32(ints1, ints3);
-                v128 product_hi = Sse4_1.mullo_epi32(ints2, ints4);
-                v128 product = Sse2.packs_epi32(product_lo, product_hi);
-                product_lo = Sse4_1.cvtepi16_epi32(product);
-                product_hi = Sse4_1.cvtepi16_epi32(Sse2.bsrli_si128(product, 4 * sizeof(short)));
-                product = Sse4_1.mullo_epi32(product_lo, product_hi);
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
-                product = Sse4_1.cvtepi16_epi32(product);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(int)));
-                product = Sse2.packs_epi32(product, product);
+                v128 product_lo = Xse.mullo_epi32(ints1, ints3);
+                v128 product_hi = Xse.mullo_epi32(ints2, ints4);
+                v128 product = Xse.packs_epi32(product_lo, product_hi);
+                product_lo = Xse.cvtepi16_epi32(product);
+                product_hi = Xse.cvtepi16_epi32(Xse.bsrli_si128(product, 4 * sizeof(short)));
+                product = Xse.mullo_epi32(product_lo, product_hi);
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
+                product = Xse.cvtepi16_epi32(product);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(int)));
+                product = Xse.packs_epi32(product, product);
 
                 return product.SShort0;
             }
@@ -644,14 +615,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 16);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
-                v128 ints = Sse4_1.cvtepu16_epi32(x);
+                v128 ints = Xse.cvtepu16_epi32(x);
 
-                v128 product = Sse4_1.mullo_epi32(ints, Sse2.bsrli_si128(ints, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+                v128 product = Xse.mullo_epi32(ints, Xse.bsrli_si128(ints, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (ushort)product.SInt0;
             }
@@ -665,19 +636,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 16);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
-                v128 ints = Sse4_1.cvtepu16_epi32(x);
+                v128 ints = Xse.cvtepu16_epi32(x);
 
-                v128 _y = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
-                v128 _z = Sse2.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
+                v128 _y = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 1));
+                v128 _z = Xse.shuffle_epi32(ints, Sse.SHUFFLE(0, 0, 0, 2));
 
-                v128 _xy = Sse4_1.mullo_epi32(ints, _y);
-                _xy = Sse4_1.min_epu32(_xy, MAX_VALUE);
-                v128 _xyz = Sse4_1.mullo_epi32(_xy, _z);
-                _xyz = Sse4_1.min_epu32(_xyz, MAX_VALUE);
+                v128 _xy = Xse.mullo_epi32(ints, _y);
+                _xy = Xse.min_epu32(_xy, MAX_VALUE);
+                v128 _xyz = Xse.mullo_epi32(_xy, _z);
+                _xyz = Xse.min_epu32(_xyz, MAX_VALUE);
 
                 return _xyz.UShort0;
             }
@@ -691,16 +662,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 16);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
-                v128 ints = Sse4_1.cvtepu16_epi32(x);
+                v128 ints = Xse.cvtepu16_epi32(x);
 
-                v128 product = Sse4_1.mullo_epi32(ints, Sse2.bsrli_si128(ints, 2 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+                v128 product = Xse.mullo_epi32(ints, Xse.bsrli_si128(ints, 2 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (ushort)product.SInt0;
             }
@@ -714,25 +685,25 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 16);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
-                v128 ints1 = Sse4_1.cvtepu16_epi32(x);
-                v128 ints2 = Sse4_1.cvtepu16_epi32(Sse2.bsrli_si128(x, 4 * sizeof(ushort)));
+                v128 ints1 = Xse.cvtepu16_epi32(x);
+                v128 ints2 = Xse.cvtepu16_epi32(Xse.bsrli_si128(x, 4 * sizeof(ushort)));
 
-                v128 product = Sse4_1.mullo_epi32(ints1, ints2);
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+                v128 product = Xse.mullo_epi32(ints1, ints2);
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (ushort)product.SInt0;
             }
             else
             {
-                return (ushort)math.min((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), ushort.MaxValue); 
+                return (ushort)math.min((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), ushort.MaxValue);
             }
         }
 
@@ -743,47 +714,47 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 MAX_VALUE = Avx2.mm256_srli_epi32(Xse.mm256_setall_si256(), 16);
-                
+
                 v256 ints1 = Xse.mm256_cvt2x2epu16_epi32(x, out v256 ints2);
 
                 v256 product = Avx2.mm256_mullo_epi32(ints1, ints2);
                 product = Avx2.mm256_min_epu32(product, MAX_VALUE);
-                v128 product128 = Sse4_1.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
-                product128 = Sse4_1.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 2 * sizeof(uint)));
-                product128 = Sse4_1.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
-                product128 = Sse4_1.mullo_epi32(product128, Sse2.bsrli_si128(product128, 1 * sizeof(uint)));
-                product128 = Sse4_1.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
+                v128 product128 = Xse.mullo_epi32(Avx.mm256_castsi256_si128(product), Avx2.mm256_extracti128_si256(product, 1));
+                product128 = Xse.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 2 * sizeof(uint)));
+                product128 = Xse.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
+                product128 = Xse.mullo_epi32(product128, Xse.bsrli_si128(product128, 1 * sizeof(uint)));
+                product128 = Xse.min_epu32(product128, Avx.mm256_castsi256_si128(MAX_VALUE));
 
                 return (ushort)product128.SInt0;
             }
-            else if (Sse4_1.IsSse41Supported)
+            else if (Architecture.IsMul32Supported)
             {
-                v128 MAX_VALUE = Sse2.srli_epi32(Xse.setall_si128(), 16);
+                v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
                 v128 lo = x._v8_0;
                 v128 hi = x._v8_8;
-                v128 ints1 = Sse4_1.cvtepu16_epi32(lo);
-                v128 ints2 = Sse4_1.cvtepu16_epi32(Sse2.bsrli_si128(lo, 4 * sizeof(ushort)));
-                v128 ints3 = Sse4_1.cvtepu16_epi32(hi);
-                v128 ints4 = Sse4_1.cvtepu16_epi32(Sse2.bsrli_si128(hi, 4 * sizeof(ushort)));
+                v128 ints1 = Xse.cvtepu16_epi32(lo);
+                v128 ints2 = Xse.cvtepu16_epi32(Xse.bsrli_si128(lo, 4 * sizeof(ushort)));
+                v128 ints3 = Xse.cvtepu16_epi32(hi);
+                v128 ints4 = Xse.cvtepu16_epi32(Xse.bsrli_si128(hi, 4 * sizeof(ushort)));
 
-                v128 product_lo = Sse4_1.mullo_epi32(ints1, ints3);
-                product_lo = Sse4_1.min_epu32(product_lo, MAX_VALUE);
-                v128 product_hi = Sse4_1.mullo_epi32(ints2, ints4);
-                product_hi = Sse4_1.min_epu32(product_hi, MAX_VALUE);
-                v128 product = Sse4_1.mullo_epi32(product_lo, product_hi);
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 2 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
-                product = Sse4_1.mullo_epi32(product, Sse2.bsrli_si128(product, 1 * sizeof(uint)));
-                product = Sse4_1.min_epu32(product, MAX_VALUE);
+                v128 product_lo = Xse.mullo_epi32(ints1, ints3);
+                product_lo = Xse.min_epu32(product_lo, MAX_VALUE);
+                v128 product_hi = Xse.mullo_epi32(ints2, ints4);
+                product_hi = Xse.min_epu32(product_hi, MAX_VALUE);
+                v128 product = Xse.mullo_epi32(product_lo, product_hi);
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 2 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
+                product = Xse.mullo_epi32(product, Xse.bsrli_si128(product, 1 * sizeof(uint)));
+                product = Xse.min_epu32(product, MAX_VALUE);
 
                 return (ushort)product.SInt0;
             }
             else
             {
-                return (ushort)math.min(((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4)) * ((ulong)cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12)), ushort.MaxValue); 
+                return (ushort)math.min(((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4)) * ((ulong)cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12)), ushort.MaxValue);
             }
         }
 

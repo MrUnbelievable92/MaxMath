@@ -22,6 +22,10 @@ namespace MaxMath.Intrinsics
                     v256 cmp = Avx2.mm256_cmpgt_epi32(a, b);
                     return Avx2.mm256_shuffle_epi32(cmp, Sse.SHUFFLE(2, 2, 0, 0));
                 }
+                if (constexpr.ALL_POW2_EPU64(a, elements) && constexpr.ALL_GE_EPI64(a, 0, elements) && constexpr.ALL_GE_EPI64(b, 0, elements))
+                {
+                    return Avx2.mm256_cmpeq_epi64(Avx.mm256_setzero_si256(), Avx2.mm256_and_si256(b, mm256_neg_epi64(a)));
+                }
 
 
                 return Avx2.mm256_cmpgt_epi64(a, b);

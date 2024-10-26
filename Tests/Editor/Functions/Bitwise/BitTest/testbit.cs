@@ -3,16 +3,16 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class testbit
+    unsafe public static class f_testbit
     {
         private static bool bt(UInt128 x, int i)
         {
             return (x & ((UInt128)1 << i)) != 0;
         }
 
-        
+
         [Test]
-        public static void _uint128()
+        public static void _UInt128()
         {
             Random128 r = Random128.New;
 
@@ -259,7 +259,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _uint()
         {

@@ -10,13 +10,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fmadd_ps(a, rcp23_ps(b), c);
+                return fmadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.add_ps(Sse.div_ps(a, b), c);
+                return add_ps(div_ps(a, b), c);
             }
             else throw new IllegalInstructionException();
         }
@@ -24,13 +24,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fmsub_ps(a, rcp23_ps(b), c);
+                return fmsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.sub_ps(Sse.div_ps(a, b), c);
+                return sub_ps(div_ps(a, b), c);
             }
             else throw new IllegalInstructionException();
         }
@@ -38,13 +38,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fndadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fnmadd_ps(a, rcp23_ps(b), c);
+                return fnmadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.sub_ps(c, Sse.div_ps(a, b));
+                return sub_ps(c, div_ps(a, b));
             }
             else throw new IllegalInstructionException();
         }
@@ -52,13 +52,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fndsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fnmsub_ps(a, rcp23_ps(b), c);
+                return fnmsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.sub_ps(Sse.div_ps(a, b), neg_ps(c));
+                return sub_ps(neg_ps(c), div_ps(a, b));
             }
             else throw new IllegalInstructionException();
         }
@@ -66,17 +66,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdaddsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fmaddsub_ps(a, rcp23_ps(b), c);
+                return fmaddsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse3.IsSse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse3.addsub_ps(Sse.div_ps(a, b), c);
-            }
-            else if (Sse.IsSseSupported)
-            {
-                return Sse.add_ps(Sse.div_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
+                return addsub_ps(div_ps(a, b), c);
             }
             else throw new IllegalInstructionException();
         }
@@ -84,17 +80,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdsubadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Architecture.IsFMASupported)
             {
-                return Fma.fmsubadd_ps(a, rcp23_ps(b), c);
+                return fmsubadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Sse3.IsSse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse3.addsub_ps(Sse.div_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
-            }
-            else if (Sse.IsSseSupported)
-            {
-                return Sse.sub_ps(Sse.div_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
+                return subadd_ps(div_ps(a, b), c);
             }
             else throw new IllegalInstructionException();
         }
@@ -151,7 +143,7 @@ namespace MaxMath.Intrinsics
             }
             else if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_sub_ps(Avx.mm256_div_ps(a, b), mm256_neg_ps(c));
+                return Avx.mm256_sub_ps(mm256_neg_ps(c), Avx.mm256_div_ps(a, b));
             }
             else throw new IllegalInstructionException();
         }
@@ -179,7 +171,7 @@ namespace MaxMath.Intrinsics
             }
             else if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_addsub_ps(Avx.mm256_div_ps(a, b), Avx.mm256_xor_ps(c, new v256(1 << 31, 0, 1 << 31, 0, 1 << 31, 0, 1 << 31, 0)));
+                return mm256_subadd_ps(Avx.mm256_div_ps(a, b), c);
             }
             else throw new IllegalInstructionException();
         }

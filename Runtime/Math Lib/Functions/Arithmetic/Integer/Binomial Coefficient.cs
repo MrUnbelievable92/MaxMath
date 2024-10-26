@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
@@ -15,14 +16,488 @@ namespace MaxMath
         unsafe public static partial class Xse
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    return comb_ep8(n, k, false, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k, elements, NumericDataType.Integer);
+
+                    return comb_ep8(n, k, true, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    comb_ep8x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n0, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k0, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n1, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k1, 16, NumericDataType.Integer);
+                    
+                    comb_ep8x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    return comb_ep16(n, k, false, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<short8, short>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k, elements, NumericDataType.Integer);
+
+                    return comb_ep16(n, k, true, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    comb_ep16x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<short8, short>(n0, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k0, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(n1, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k1, 8, NumericDataType.Integer);
+                    
+                    comb_ep16x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    return comb_ep32(n, k, false, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n), elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k), elements, NumericDataType.Integer);
+
+                    return comb_ep32(n, k, true, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    comb_ep32x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n0), 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k0), 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n1), 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k1), 4, NumericDataType.Integer);
+                    
+                    comb_ep32x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu64(v128 n, v128 k, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    return comb_ep64(n, k, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi64(v128 n, v128 k, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<long2, long>(n, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k, 2, NumericDataType.Integer);
+
+                    return comb_ep64(n, k, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    comb_ep64x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<long2, long>(n0, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k0, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(n1, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k1, 2, NumericDataType.Integer);
+                    
+                    comb_ep64x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu8(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return mm256_comb_ep8(n, k, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi8(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<sbyte32, sbyte>(n, 32, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte32, sbyte>(k, 32, NumericDataType.Integer);
+
+                    return mm256_comb_ep8(n, k, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu16(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return mm256_comb_ep16(n, k, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi16(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<short16, short>(n, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short16, short>(k, 16, NumericDataType.Integer);
+
+                    return mm256_comb_ep16(n, k, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu32(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return mm256_comb_ep32(n, k, false, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi32(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<int8, int>(n, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int8, int>(k, 8, NumericDataType.Integer);
+
+                    return mm256_comb_ep32(n, k, true, unsafeLevels);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return mm256_comb_ep64(n, k, false, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<long4, long>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
+
+                    return mm256_comb_ep64(n, k, true, unsafeLevels, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<byte16> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 15;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                        d = new Divider<byte16>((byte16)adds_epu8(d.Divisor, set1_epi8(16)), d._promises);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<byte32> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 31;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                        d = new Divider<byte32>((byte32)Avx2.mm256_adds_epu8(d.Divisor, mm256_set1_epi8(32)), d._promises);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<ushort8> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 7;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                        d = new Divider<ushort8>((ushort8)adds_epu16(d.Divisor, set1_epi16(8)), d._promises);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<ushort16> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 15;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                        d = new Divider<ushort16>((ushort16)Avx2.mm256_adds_epu16(d.Divisor, mm256_set1_epi16(16)), d._promises);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<uint4> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 3;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                    #if DEBUG
+                        d = new Divider<uint4>(RegisterConversion.ToUInt4(adds_epu32(RegisterConversion.ToV128(d.Divisor), set1_epi32(4))), d._promises);
+                    #else
+                        d = new Divider<uint4>(RegisterConversion.ToUInt4(add_epi32(RegisterConversion.ToV128(d.Divisor), set1_epi32(4))), d._promises);
+                    #endif
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<uint8> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 7;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                    #if DEBUG
+                        d = new Divider<uint8>((uint8)mm256_adds_epu32(d.Divisor, mm256_set1_epi32(8)), d._promises);
+                    #else
+                        d = new Divider<uint8>((uint8)Avx2.mm256_add_epi32(d.Divisor, mm256_set1_epi32(8)), d._promises);
+                    #endif
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<ulong2> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 1;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                    #if DEBUG
+                        d = new Divider<ulong2>((ulong2)adds_epu64(d.Divisor, set1_epi64x(2)), d._promises);
+                    #else
+                        d = new Divider<ulong2>((ulong2)add_epi64(d.Divisor, set1_epi64x(2)), d._promises);
+                    #endif
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static void next_comb_divider([NoAlias] ref Divider<ulong4> d, [NoAlias] ref int indexCurrentDivider)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    indexCurrentDivider++;
+                    indexCurrentDivider &= 3;
+                    if (Hint.Unlikely(indexCurrentDivider == 0))
+                    {
+                    #if DEBUG
+                        d = new Divider<ulong4>((ulong4)mm256_adds_epu64(d.Divisor, mm256_set1_epi64x(4)), d._promises);
+                    #else
+                        d = new Divider<ulong4>((ulong4)Avx2.mm256_add_epi64(d.Divisor, mm256_set1_epi64x(4)), d._promises);
+                    #endif
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 naivecomb_epu8(v128 n, v128 k, byte elements = 16)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     v128 nom = gamma_epu8(n, true, elements);
-                    v128 denom = mullo_epi8(gamma_epu8(k, true, elements), gamma_epu8(Sse2.sub_epi8(n, k), true, elements), elements);
-                    
+                    v128 denom = mullo_epi8(gamma_epu8(k, true, elements), gamma_epu8(sub_epi8(n, k), true, elements), elements);
+
                     return div_epu8(nom, denom, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 naivecomb_epu16(v128 n, v128 k, bool epu8range = false, byte elements = 8)
+            {
+                v128 nom;
+                v128 denom;
+                if (Architecture.IsSIMDSupported)
+                {
+                    if (epu8range || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8, elements))
+                    {
+                        if (Architecture.IsTableLookupSupported)
+                        {
+                            nom = gamma_epu16_epu8range(n);
+                            denom = mullo_epi16(gamma_epu16_epu8range(k), gamma_epu16_epu8range(sub_epi16(n, k)));
+
+                            return div_epu16(nom, denom, elements);
+                        }
+                    }
+
+                    nom = gamma_epu16(n, true, elements);
+                    denom = mullo_epi16(gamma_epu16(k, true, elements), gamma_epu16(sub_epi16(n, k), true, elements));
+
+                    return div_epu16(nom, denom, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 naivecomb_epu32(v128 n, v128 k, byte elements = 4)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 nom = gamma_epu32(n, true, elements);
+                    v128 denom = mullo_epi32(gamma_epu32(k, true, elements), gamma_epu32(sub_epi32(n, k), true, elements));
+
+                    return div_epu32(nom, denom, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 naivecomb_epu64(v128 n, v128 k, bool useFPU = false)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 nom = gamma_epu64(n, true);
+                    v128 denom = mullo_epi64(gamma_epu64(k, true), gamma_epu64(sub_epi64(n, k), true));
+
+                    return div_epu64(nom, denom, useFPU);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -34,35 +509,8 @@ namespace MaxMath
                 {
                     v256 nom = mm256_gamma_epu8(n, true);
                     v256 denom = mm256_mullo_epi8(mm256_gamma_epu8(k, true), mm256_gamma_epu8(Avx2.mm256_sub_epi8(n, k), true));
-                    
+
                     return mm256_div_epu8(nom, denom);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 naivecomb_epu16(v128 n, v128 k, bool epu8range = false, byte elements = 8)
-            {
-                v128 nom;
-                v128 denom;
-                if (Sse2.IsSse2Supported)
-                {
-                    if (epu8range || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8, elements))
-                    {
-                        if (Ssse3.IsSsse3Supported)
-                        {
-                            nom = gamma_epu16_epu8range(n);
-                            denom = Sse2.mullo_epi16(gamma_epu16_epu8range(k), gamma_epu16_epu8range(Sse2.sub_epi16(n, k)));
-
-                            return div_epu16(nom, denom, elements);
-                        }
-                    }
-
-                    nom = gamma_epu16(n, true, elements);
-                    denom = Sse2.mullo_epi16(gamma_epu16(k, true, elements), gamma_epu16(Sse2.sub_epi16(n, k), true, elements));
-                    
-                    return div_epu16(nom, denom, elements);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -76,30 +524,16 @@ namespace MaxMath
                     {
                         v256 nom = mm256_gamma_epu16_epu8range(n);
                         v256 denom = Avx2.mm256_mullo_epi16(mm256_gamma_epu16_epu8range(k), mm256_gamma_epu16_epu8range(Avx2.mm256_sub_epi16(n, k)));
-                        
+
                         return mm256_div_epu16(nom, denom);
                     }
                     else
                     {
                         v256 nom = mm256_gamma_epu16(n, true);
                         v256 denom = Avx2.mm256_mullo_epi16(mm256_gamma_epu16(k, true), mm256_gamma_epu16(Avx2.mm256_sub_epi16(n, k), true));
-                        
+
                         return mm256_div_epu16(nom, denom);
                     }
-                }
-                else throw new IllegalInstructionException();
-            }
-
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 naivecomb_epu32(v128 n, v128 k, byte elements = 4)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-                    v128 nom = gamma_epu32(n, true, elements);
-                    v128 denom = mullo_epi32(gamma_epu32(k, true, elements), gamma_epu32(Sse2.sub_epi32(n, k), true, elements));
-                    
-                    return div_epu32(nom, denom, elements);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -111,22 +545,8 @@ namespace MaxMath
                 {
                     v256 nom = mm256_gamma_epu32(n, true);
                     v256 denom = Avx2.mm256_mullo_epi32(mm256_gamma_epu32(k, true), mm256_gamma_epu32(Avx2.mm256_sub_epi32(n, k), true));
-                    
+
                     return mm256_div_epu32(nom, denom);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 naivecomb_epu64(v128 n, v128 k)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-                    v128 nom = gamma_epu64(n, true);
-                    v128 denom = mullo_epi64(gamma_epu64(k, true), gamma_epu64(Sse2.sub_epi64(n, k), true));
-                    
-                    return div_epu64(nom, denom);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -138,232 +558,550 @@ namespace MaxMath
                 {
                     v256 nom = mm256_gamma_epu64(n, true, elements);
                     v256 denom = mm256_mullo_epi64(mm256_gamma_epu64(k, true), mm256_gamma_epu64(Avx2.mm256_sub_epi64(n, k), true, elements));
-                    
-                    return mm256_div_epu64(nom, denom, elements);
+
+                    return mm256_div_epu64(nom, denom, elements: elements);
                 }
                 else throw new IllegalInstructionException();
             }
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epu8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            private static v128 castcomb_epu16(v128 n, v128 k, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-Assert.IsNotGreater(k.Byte0, n.Byte0);
-Assert.IsNotGreater(k.Byte1, n.Byte1);
-if (elements > 2)
-{
-Assert.IsNotGreater(k.Byte2, n.Byte2);
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.Byte3, n.Byte3);
-}
-if (elements > 4)
-{
-Assert.IsNotGreater(k.Byte4, n.Byte4);
-Assert.IsNotGreater(k.Byte5, n.Byte5);
-Assert.IsNotGreater(k.Byte6, n.Byte6);
-Assert.IsNotGreater(k.Byte7, n.Byte7);
-}
-if (elements > 8)
-{
-Assert.IsNotGreater(k.Byte8,  n.Byte8);
-Assert.IsNotGreater(k.Byte9,  n.Byte9);
-Assert.IsNotGreater(k.Byte10, n.Byte10);
-Assert.IsNotGreater(k.Byte11, n.Byte11);
-Assert.IsNotGreater(k.Byte12, n.Byte12);
-Assert.IsNotGreater(k.Byte13, n.Byte13);
-Assert.IsNotGreater(k.Byte14, n.Byte14);
-Assert.IsNotGreater(k.Byte15, n.Byte15);
-}
+                    v128 ONE = set1_epi16(1);
+                    Divider<ushort8> loopDividerSSE = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<ushort16> loopDividerAVX = new Divider<ushort16>(loopDividerSSE, new Divider<ushort8>(new ushort8(17, 18, 19, 20, 21, 22, 23, 24), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+                    
+                    v128 cmp;
+                    v128 results;
+                    v128 i = ONE;
+                    v128 c = n;
+                    k = min_epu8(k, sub_epi16(n, k));
+                    results = blendv_si128(c, ONE, cmpeq_epi16(k, setzero_si128()));
 
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU8(n, (byte)sbyte.MaxValue, elements))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                     {
-                        return comb_epi8(n, k, unsafeLevels, elements);
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 2, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 3, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 4, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 5, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 6, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 7, elements);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = mullo_epi16(c, n);
+                        c = constdiv_epu16(c, 8, elements);
+                        results = blendv_si128(results, c, cmp);
                     }
-                    else
+                    
+                    while (notallfalse_epi128<ushort>(cmp = cmpgt_epi16(k, i), elements))
                     {
-                        if (elements <= 8)
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                    
+                        c = mullo_epi16(c, n);
+
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi16_epi8(comb_epi16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: elements), elements);
+                            c = div_epu16(c, i, elements);
                         }
                         else
                         {
+                            Divider<ushort> currentDivider;
                             if (Avx2.IsAvx2Supported)
                             {
-                                return mm256_cvtepi16_epi8(mm256_comb_epi16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
+                                currentDivider = loopDividerAVX.GetInnerDivider<ushort>(indexCurrentDivider);
+                                next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
                             }
                             else
                             {
-                                v128 ONE = Sse2.set1_epi8(1);
-                                
-                                k = Sse2.min_epu8(k, Sse2.sub_epi8(n, k));
-                                
-                                v128 n2 = n;
-                                n = Sse2.sub_epi8(n, ONE);
-                                v128 c = Sse2.add_epi8(mullo_epi8(srli_epi8(n2, 1), n, 16), Sse2.and_si128(neg_epi8(Sse2.and_si128(n2, ONE)), srli_epi8(n, 1)));
-                                v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi8(k, ONE)), ONE, Sse2.cmpeq_epi8(k, Sse2.setzero_si128()));
-                                v128 i = Sse2.add_epi8(ONE, ONE);
-                                v128 cmp = cmple_epu8(k, i);
-                                
-                                while (Hint.Likely(notalltrue_epi128<byte>(cmp, 16)))
-                                {
-                                    i = Sse2.add_epi8(i, ONE);
-                                    v128 q = divrem_epu8(c, i, out v128 r);
-                                    n = Sse2.sub_epi8(n, ONE);
-                                    c = Sse2.add_epi8(mullo_epi8(q, n, 16), div_epu8(mullo_epi8(r, n, 16), i));
-                                
-                                    results = blendv_si128(c, results, cmp);
-                                    cmp = cmple_epu8(k, i);
-                                }
-                        
-                                return results;
+                                currentDivider = loopDividerSSE.GetInnerDivider<ushort>(indexCurrentDivider);
+                                next_comb_divider(ref loopDividerSSE, ref indexCurrentDivider);
+                            }
+                            switch (elements)
+                            {
+                                case 2:  c = (ushort2)c / currentDivider; break;
+                                case 3:  c = (ushort3)c / currentDivider; break;
+                                case 4:  c = (ushort4)c / currentDivider; break;
+                                default: c = (ushort8)c / currentDivider; break;
                             }
                         }
+                    
+                        results = blendv_si128(results, c, cmp);
                     }
+
+                    return results;
                 }
                 else throw new IllegalInstructionException();
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epu8(v256 n, v256 k, byte unsafeLevels = 0)
+            private static v128 castcomb_epu32(v128 n, v128 k, byte elements = 4)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi32(1);
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(new uint4(13, 14, 15, 16), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+                    
+                    v128 cmp;
+                    v128 results;
+                    v128 i = ONE;
+                    v128 c = n;
+                    k = min_epu16(k, sub_epi32(n, k), (byte)(2 * elements));
+                    results = blendv_si128(c, ONE, cmpeq_epi32(k, setzero_si128()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 2, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 3, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 4, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 5, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 6, elements, __unsafe: true);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 7, elements);
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = mullo_epi32(c, n, elements);
+                        c = constdiv_epu32(c, 8, elements);
+                        results = blendv_si128(results, c, cmp);
+                    }
+
+                    while (notallfalse_epi128<uint>(cmp = cmpgt_epi32(k, i), elements))
+                    {
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                    
+                        c = mullo_epi32(c, n, elements);
+
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            c = div_epu32(c, i, elements);
+                        }
+                        else
+                        {
+                            Divider<uint> currentDivider;
+                            if (Avx2.IsAvx2Supported)
+                            {
+                                currentDivider = loopDividerAVX.GetInnerDivider<uint>(indexCurrentDivider);
+                                next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                            }
+                            else
+                            {
+                                currentDivider = loopDividerSSE.GetInnerDivider<uint>(indexCurrentDivider);
+                                next_comb_divider(ref loopDividerSSE, ref indexCurrentDivider);
+                            }
+                            switch (elements)
+                            {
+                                case 2:  c = RegisterConversion.ToV128(RegisterConversion.ToUInt2(c) / currentDivider); break;
+                                case 3:  c = RegisterConversion.ToV128(RegisterConversion.ToUInt3(c) / currentDivider); break;
+                                default: c = RegisterConversion.ToV128(RegisterConversion.ToUInt4(c) / currentDivider); break;
+                            }
+                        }
+                    
+                        results = blendv_si128(results, c, cmp);
+                    }
+                    
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v256 mm256_castcomb_epu16(v256 n, v256 k)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-Assert.IsNotGreater(k.Byte0,  n.Byte0);
-Assert.IsNotGreater(k.Byte1,  n.Byte1);
-Assert.IsNotGreater(k.Byte2,  n.Byte2);
-Assert.IsNotGreater(k.Byte3,  n.Byte3);
-Assert.IsNotGreater(k.Byte4,  n.Byte4);
-Assert.IsNotGreater(k.Byte5,  n.Byte5);
-Assert.IsNotGreater(k.Byte6,  n.Byte6);
-Assert.IsNotGreater(k.Byte7,  n.Byte7);
-Assert.IsNotGreater(k.Byte8,  n.Byte8);
-Assert.IsNotGreater(k.Byte9,  n.Byte9);
-Assert.IsNotGreater(k.Byte10, n.Byte10);
-Assert.IsNotGreater(k.Byte11, n.Byte11);
-Assert.IsNotGreater(k.Byte12, n.Byte12);
-Assert.IsNotGreater(k.Byte13, n.Byte13);
-Assert.IsNotGreater(k.Byte14, n.Byte14);
-Assert.IsNotGreater(k.Byte15, n.Byte15);
-Assert.IsNotGreater(k.Byte16, n.Byte16);
-Assert.IsNotGreater(k.Byte17, n.Byte17);
-Assert.IsNotGreater(k.Byte18, n.Byte18);
-Assert.IsNotGreater(k.Byte19, n.Byte19);
-Assert.IsNotGreater(k.Byte20, n.Byte20);
-Assert.IsNotGreater(k.Byte21, n.Byte21);
-Assert.IsNotGreater(k.Byte22, n.Byte22);
-Assert.IsNotGreater(k.Byte23, n.Byte23);
-Assert.IsNotGreater(k.Byte24, n.Byte24);
-Assert.IsNotGreater(k.Byte25, n.Byte25);
-Assert.IsNotGreater(k.Byte26, n.Byte26);
-Assert.IsNotGreater(k.Byte27, n.Byte27);
-Assert.IsNotGreater(k.Byte28, n.Byte28);
-Assert.IsNotGreater(k.Byte29, n.Byte29);
-Assert.IsNotGreater(k.Byte30, n.Byte30);
-Assert.IsNotGreater(k.Byte31, n.Byte31);
+                    v256 ONE = mm256_set1_epi16(1);
+                    Divider<ushort16> loopDivider = new Divider<ushort16>(new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
+                    k = Avx2.mm256_min_epu8(k, Avx2.mm256_sub_epi16(n, k));
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi16(k, Avx.mm256_setzero_si256()));
 
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU8(n, (byte)sbyte.MaxValue))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                     {
-                        return mm256_comb_epi8(n, k, unsafeLevels);
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 2, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 3, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 4, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 5, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 6, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 7);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_mullo_epi16(c, n);
+                        c = mm256_constdiv_epu16(c, 8);
+                        results = mm256_blendv_si256(results, c, cmp);
                     }
-                    else
+
+                    while (mm256_notallfalse_epi256<ushort>(cmp = Avx2.mm256_cmpgt_epi16(k, i)))
                     {
-                        v256 ONE = Avx.mm256_set1_epi8(1);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
                     
-                        k = Avx2.mm256_min_epu8(k, Avx2.mm256_sub_epi8(n, k));
-                    
-                        v256 n2 = n;
-                        n = Avx2.mm256_sub_epi8(n, ONE);
-                        v256 c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_srli_epi8(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi8(Avx2.mm256_and_si256(n2, ONE)), mm256_srli_epi8(n, 1)));
-                        v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi8(k, ONE)), ONE, Avx2.mm256_cmpeq_epi8(k, Avx.mm256_setzero_si256()));
-                        v256 i = Avx2.mm256_add_epi8(ONE, ONE);
-                        v256 cmp = mm256_cmple_epu8(k, i);
-                    
-                        while (Hint.Likely(mm256_notalltrue_epi256<byte>(cmp, 32)))
+                        c = Avx2.mm256_mullo_epi16(c, n);
+
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            i = Avx2.mm256_add_epi8(i, ONE);
-                            v256 q = mm256_divrem_epu8(c, i, out v256 r);
-                            n = Avx2.mm256_sub_epi8(n, ONE);
-                            c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), mm256_div_epu8(mm256_mullo_epi8(r, n), i));
-                    
-                            results = mm256_blendv_si256(c, results, cmp);
-                            cmp = mm256_cmple_epu8(k, i);
+                            c = mm256_div_epu16(c, i);
+                        }
+                        else
+                        {
+                            c = (ushort16)c / loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
                         }
                     
-                        return results;
+                        results = mm256_blendv_si256(results, c, cmp);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v256 mm256_castcomb_epu32(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 ONE = mm256_set1_epi32(1);
+                    Divider<uint8> loopDivider = new Divider<uint8>(new uint8(9, 10, 11, 12, 13, 14, 15, 16), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
+                    k = Avx2.mm256_min_epu16(k, Avx2.mm256_sub_epi32(n, k));
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi32(k, Avx.mm256_setzero_si256()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 2, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 3, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 4, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 5, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 6, __unsafe: true);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 7);
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_mullo_epi32(c, n);
+                        c = mm256_constdiv_epu32(c, 8);
+                        results = mm256_blendv_si256(results, c, cmp);
+                    }
+
+                    while (mm256_notallfalse_epi256<uint>(cmp = Avx2.mm256_cmpgt_epi32(k, i)))
+                    {
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                    
+                        c = Avx2.mm256_mullo_epi32(c, n);
+
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            c = mm256_div_epu32(c, i);
+                        }
+                        else
+                        {
+                            c = (uint8)c / loopDivider.GetInnerDivider<uint>(indexCurrentDivider);
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                        }
+                    
+                        results = mm256_blendv_si256(results, c, cmp);
+                    }
+                    
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void PRELOOP_comb_ep8([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi8(1);
+
+                    v128 cmp;
+                    i = ONE;
+                    c = n;
+                    k = min_epu8(k, sub_epi8(n, k));
+                    results = blendv_si128(c, ONE, cmpeq_epi8(k, setzero_si128()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = cmpgt_epi8(k, ONE);
+                        n = sub_epi8(n, ONE);
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 2), n), and_si128(neg_epi8(constrem_epu8(c, 2)), constdiv_epu8(n, 2)));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi8(k, set1_epi8(2));
+                        n = sub_epi8(n, ONE);
+                        v128 rem3 = constrem_epu8(c, 3);
+                        v128 rem3is1orMore = cmpgt_epi8(rem3, setzero_si128());
+                        v128 rem3is2orMore = cmpgt_epi8(rem3, ONE);
+                        v128 mulrem3 = add_epi8(and_si128(rem3is1orMore, n), and_si128(rem3is2orMore, n));
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 3), n), constdiv_epu8(mulrem3, 3));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi8(k, set1_epi8(3));
+                        n = sub_epi8(n, ONE);
+                        v128 rem4 = constrem_epu8(c, 4); 
+                        v128 rem4is1orMore = cmpgt_epi8(rem4, setzero_si128());
+                        v128 rem4is2orMore = cmpgt_epi8(rem4, ONE);
+                        v128 rem4is3orMore = cmpgt_epi8(rem4, set1_epi8(2));
+                        v128 mulrem4 = add_epi8(and_si128(rem4is1orMore, n), add_epi8(and_si128(rem4is2orMore, n), and_si128(rem4is3orMore, n)));
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 4), n), constdiv_epu8(mulrem4, 4));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi8(k, set1_epi8(4));
+                        n = sub_epi8(n, ONE);
+                        v128 rem5 = constrem_epu8(c, 5);
+                        v128 rem5is1orMore = cmpgt_epi8(rem5, setzero_si128());
+                        v128 rem5is2orMore = cmpgt_epi8(rem5, ONE);
+                        v128 rem5is3orMore = cmpgt_epi8(rem5, set1_epi8(2));
+                        v128 rem5is4orMore = cmpgt_epi8(rem5, set1_epi8(3));
+                        v128 mulrem5 = add_epi8(add_epi8(and_si128(rem5is1orMore, n), and_si128(rem5is2orMore, n)), add_epi8(and_si128(rem5is3orMore, n), and_si128(rem5is4orMore, n)));
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 5), n), constdiv_epu8(mulrem5, 5));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi8(k, set1_epi8(5));
+                        n = sub_epi8(n, ONE);
+                        v128 rem6 = constrem_epu8(c, 6);
+                        v128 rem6is1orMore = cmpgt_epi8(rem6, setzero_si128());
+                        v128 rem6is2orMore = cmpgt_epi8(rem6, ONE);
+                        v128 rem6is3orMore = cmpgt_epi8(rem6, set1_epi8(2));
+                        v128 rem6is4orMore = cmpgt_epi8(rem6, set1_epi8(3));
+                        v128 rem6is5orMore = cmpgt_epi8(rem6, set1_epi8(4));
+                        v128 mulrem6 = add_epi8(add_epi8(add_epi8(and_si128(rem6is1orMore, n), and_si128(rem6is2orMore, n)), add_epi8(and_si128(rem6is3orMore, n), and_si128(rem6is4orMore, n))), and_si128(rem6is5orMore, n));
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 6), n), constdiv_epu8(mulrem6, 6));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        i = set1_epi8(6);
+                        cmp = cmpgt_epi8(k, i);
+                        i = add_epi8(i, ONE);
+                        n = sub_epi8(n, ONE);
+                        v128 rem7 = constrem_epu8(c, 7);
+                        v128 rem7is1orMore = cmpgt_epi8(rem7, setzero_si128());
+                        v128 rem7is2orMore = cmpgt_epi8(rem7, ONE);
+                        v128 rem7is3orMore = cmpgt_epi8(rem7, set1_epi8(2));
+                        v128 rem7is4orMore = cmpgt_epi8(rem7, set1_epi8(3));
+                        v128 rem7is5orMore = cmpgt_epi8(rem7, set1_epi8(4));
+                        v128 rem7is6orMore = cmpgt_epi8(rem7, set1_epi8(5));
+                        v128 mulrem7 = add_epi8(add_epi8(add_epi8(and_si128(rem7is1orMore, n), and_si128(rem7is2orMore, n)), add_epi8(and_si128(rem7is3orMore, n), and_si128(rem7is4orMore, n))), add_epi8(and_si128(rem7is5orMore, n), and_si128(rem7is6orMore, n)));
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 7), n), constdiv_epu8(mulrem7, 7));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi8(k, i);
+                        i = add_epi8(i, ONE);
+                        n = sub_epi8(n, ONE);
+                        c = add_epi8(mullo_epi8(constdiv_epu8(c, 8), n), constdiv_epu8(mullo_epi8(constrem_epu8(c, 8), n), 8));
+                        results = blendv_si128(results, c, cmp);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epi8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            private static void LOOP_comb_ep8([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<byte16> loopDivider, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool CMP_EPI, bool nextDividerTest)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-Assert.IsNotGreater(k.SByte0, n.SByte0);
-Assert.IsNotGreater(k.SByte1, n.SByte1);
-Assert.IsNonNegative(k.SByte0);                    
-Assert.IsNonNegative(n.SByte0);                    
-Assert.IsNonNegative(k.SByte1);
-Assert.IsNonNegative(n.SByte1);                    
-if (elements > 2)
-{
-Assert.IsNotGreater(k.SByte2, n.SByte2);             
-Assert.IsNonNegative(k.SByte2);
-Assert.IsNonNegative(n.SByte2);      
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.SByte3, n.SByte3);      
-Assert.IsNonNegative(k.SByte3);
-Assert.IsNonNegative(n.SByte3);  
-}
-if (elements > 4)
-{
-Assert.IsNotGreater(k.SByte4, n.SByte4);
-Assert.IsNotGreater(k.SByte5, n.SByte5);
-Assert.IsNotGreater(k.SByte6, n.SByte6);
-Assert.IsNotGreater(k.SByte7, n.SByte7);    
-Assert.IsNonNegative(k.SByte4);
-Assert.IsNonNegative(k.SByte5);
-Assert.IsNonNegative(k.SByte6);
-Assert.IsNonNegative(k.SByte7);
-Assert.IsNonNegative(n.SByte4);      
-Assert.IsNonNegative(n.SByte5);      
-Assert.IsNonNegative(n.SByte6);      
-Assert.IsNonNegative(n.SByte7);  
-}
-if (elements > 8)
-{
-Assert.IsNotGreater(k.SByte8,  n.SByte8);
-Assert.IsNotGreater(k.SByte9,  n.SByte9);
-Assert.IsNotGreater(k.SByte10, n.SByte10);
-Assert.IsNotGreater(k.SByte11, n.SByte11);
-Assert.IsNotGreater(k.SByte12, n.SByte12);
-Assert.IsNotGreater(k.SByte13, n.SByte13);
-Assert.IsNotGreater(k.SByte14, n.SByte14);
-Assert.IsNotGreater(k.SByte15, n.SByte15);
-Assert.IsNonNegative(k.SByte8);
-Assert.IsNonNegative(k.SByte9);
-Assert.IsNonNegative(k.SByte10);
-Assert.IsNonNegative(k.SByte11);
-Assert.IsNonNegative(k.SByte12);
-Assert.IsNonNegative(k.SByte13);
-Assert.IsNonNegative(k.SByte14);
-Assert.IsNonNegative(k.SByte15);
-Assert.IsNonNegative(n.SByte8);      
-Assert.IsNonNegative(n.SByte9);      
-Assert.IsNonNegative(n.SByte10);      
-Assert.IsNonNegative(n.SByte11);
-Assert.IsNonNegative(n.SByte12);      
-Assert.IsNonNegative(n.SByte13);      
-Assert.IsNonNegative(n.SByte14);      
-Assert.IsNonNegative(n.SByte15);  
-}
+                    v128 ONE = set1_epi8(1);
+
+                    i = add_epi8(i, ONE);
+                    n = sub_epi8(n, ONE);
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v128 q = divrem_epu8(c, i, out v128 r);
+                        c = add_epi8(mullo_epi8(q, n), div_epu8(mullo_epi8(r, n), i));
+                    }
+                    else
+                    {
+                        Divider<byte> currentDivider = loopDivider.GetInnerDivider<byte>(indexCurrentDivider);
+                        v128 q = currentDivider.DivRem(c, out byte16 r);
+                        c = add_epi8(mullo_epi8(q, n), (r * n) / currentDivider);
+
+                        if (nextDividerTest)
+                        {
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                        }
+                    }
+                    
+                    if (!nextDividerTest)
+                    {
+                        i = sub_epi8(i, ONE);
+                    }
+
+                    results = CMP_EPI ? blendv_si128(results, c, cmp) 
+                                      : blendv_si128(c, results, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 comb_ep8(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 16)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
 
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64, elements))
                     {
@@ -391,10 +1129,10 @@ Assert.IsNonNegative(n.SByte15);
                                         {
                                             v128 nLo16 = cvt2x2epu8_epi16(n, out v128 nHi16);
                                             v128 kLo16 = cvt2x2epu8_epi16(k, out v128 kHi16);
-                                            
+
                                             v128 resultLo = naivecomb_epu16(nLo16, kLo16, false, elements);
                                             v128 resultHi = naivecomb_epu16(nHi16, kHi16, false, elements);
-                                            
+
                                             return cvt2x2epi16_epi8(resultLo, resultHi);
                                         }
                                     }
@@ -417,50 +1155,43 @@ Assert.IsNonNegative(n.SByte15);
                                         else
                                         {
                                             v256 loN32 = Avx2.mm256_cvtepu8_epi32(n);
-                                            v256 hiN32 = Avx2.mm256_cvtepu8_epi32(Sse2.bsrli_si128(n, 8 * sizeof(byte)));
+                                            v256 hiN32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(n, 8 * sizeof(byte)));
                                             v256 loK32 = Avx2.mm256_cvtepu8_epi32(k);
-                                            v256 hiK32 = Avx2.mm256_cvtepu8_epi32(Sse2.bsrli_si128(k, 8 * sizeof(byte)));
-                    
+                                            v256 hiK32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(k, 8 * sizeof(byte)));
+
                                             v128 resultLo = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(loN32, loK32));
                                             v128 resultHi = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(hiN32, hiK32));
-                    
-                                            return Sse2.unpacklo_epi64(resultLo, resultHi);
+
+                                            return unpacklo_epi64(resultLo, resultHi);
                                         }
                                     }
                                     else
                                     {
                                         if (elements == 8)
                                         {
-                                            v128 loN32 = cvtepu8_epi32(n);
-                                            v128 hiN32 = cvtepu8_epi32(Sse2.bsrli_si128(n, 4 * sizeof(byte)));
-                                            v128 loK32 = cvtepu8_epi32(k);
-                                            v128 hiK32 = cvtepu8_epi32(Sse2.bsrli_si128(k, 4 * sizeof(byte)));
-                    
+                                            v128 loN32 = cvt2x2epu8_epi32(n, out v128 hiN32);
+                                            v128 loK32 = cvt2x2epu8_epi32(k, out v128 hiK32);
+
                                             v128 resultLo = naivecomb_epu32(loN32, loK32);
                                             v128 resultHi = naivecomb_epu32(hiN32, hiK32);
-                    
+
                                             v128 result = cvt2x2epi32_epi16(resultLo, resultHi);
 
                                             return cvt2x2epi16_epi8(result, result);
                                         }
                                         else
                                         {
-                                            v128 loN16 = cvt2x2epu8_epi16(n, out v128 hiN16);
-                                            v128 loK16 = cvt2x2epu8_epi16(k, out v128 hiK16);
-                    
-                                            v128 n32_0 = cvt2x2epu16_epi32(loN16, out v128 n32_1);
-                                            v128 n32_2 = cvt2x2epu16_epi32(hiN16, out v128 n32_3);
-                                            v128 k32_0 = cvt2x2epu16_epi32(loK16, out v128 k32_1);
-                                            v128 k32_2 = cvt2x2epu16_epi32(hiK16, out v128 k32_3);
-                    
+                                            cvt4x4epu8_epi32(n, out v128 n32_0, out v128 n32_1, out v128 n32_2, out v128 n32_3);
+                                            cvt4x4epu8_epi32(k, out v128 k32_0, out v128 k32_1, out v128 k32_2, out v128 k32_3);
+
                                             v128 result32_0 = naivecomb_epu32(n32_0, k32_0);
                                             v128 result32_1 = naivecomb_epu32(n32_1, k32_1);
                                             v128 result32_2 = naivecomb_epu32(n32_2, k32_2);
                                             v128 result32_3 = naivecomb_epu32(n32_3, k32_3);
-                    
+
                                             v128 result16_0 = cvt2x2epi32_epi16(result32_0, result32_1);
                                             v128 result16_1 = cvt2x2epi32_epi16(result32_2, result32_3);
-                    
+
                                             return cvt2x2epi16_epi8(result16_0, result16_1);
                                         }
                                     }
@@ -473,10 +1204,10 @@ Assert.IsNonNegative(n.SByte15);
                             {
                                 case 2:
                                 {
-                                    return Sse2.unpacklo_epi8(Sse2.cvtsi64x_si128((long)maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), maxmath.Promise.Unsafe0)),
-                                                              Sse2.cvtsi64x_si128((long)maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), maxmath.Promise.Unsafe0)));
+                                    return unpacklo_epi8(cvtsi64x_si128(maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0)),
+                                                         cvtsi64x_si128(maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0)));
                                 }
-                    
+
                                 case 3:
                                 case 4:
                                 {
@@ -486,10 +1217,10 @@ Assert.IsNonNegative(n.SByte15);
                                     }
                                     else
                                     {
-                                        return new v128((byte)maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), maxmath.Promise.Unsafe0),
-                                                        (byte)(elements == 4 ? maxmath.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), maxmath.Promise.Unsafe0) : 0),
+                                        return new v128((byte)maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0),
+                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0),
+                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe0),
+                                                        (byte)(elements == 4 ? maxmath.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe0) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -504,507 +1235,340 @@ Assert.IsNonNegative(n.SByte15);
                                                         0);
                                     }
                                 }
-                    
+
                                 case 8:
                                 {
                                     if (Avx2.IsAvx2Supported)
                                     {
                                         v256 n64Lo = Avx2.mm256_cvtepu8_epi64(n);
                                         v256 k64Lo = Avx2.mm256_cvtepu8_epi64(k);
-                                        v256 n64Hi = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(n, 4 * sizeof(byte)));
-                                        v256 k64Hi = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(k, 4 * sizeof(byte)));
+                                        v256 n64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte)));
+                                        v256 k64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte)));
 
                                         v128 lo = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Lo, k64Lo));
                                         v128 hi = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Hi, k64Hi));
-                    
-                                        return Sse2.unpacklo_epi32(lo, hi);
+
+                                        return unpacklo_epi32(lo, hi);
                                     }
                                     else
                                     {
-                                        return new v128((byte)maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), maxmath.Promise.Unsafe0),
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0);
+                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
+
+                                        v128 _4 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
+                                        v128 _4_5 = unpacklo_epi8(_4, _5);
+                                        v128 _6_7 = unpacklo_epi8(_6, _7);
+                                        v128 _4_5_6_7 = unpacklo_epi16(_4_5, _6_7);
+
+                                        return unpacklo_epi32(_0_1_2_3, _4_5_6_7);
                                     }
                                 }
-                    
+
                                 default:
                                 {
                                     if (Avx2.IsAvx2Supported)
                                     {
                                         v256 n0 = Avx2.mm256_cvtepu8_epi64(n);
                                         v256 k0 = Avx2.mm256_cvtepu8_epi64(k);
-                                        v256 n1 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(n,  4 * sizeof(byte)));
-                                        v256 k1 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(k,  4 * sizeof(byte)));
-                                        v256 n2 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(n,  8 * sizeof(byte)));
-                                        v256 k2 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(k,  8 * sizeof(byte)));
-                                        v256 n3 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(n, 12 * sizeof(byte)));
-                                        v256 k3 = Avx2.mm256_cvtepu8_epi64(Sse2.bsrli_si128(k, 12 * sizeof(byte)));
-                    
+                                        v256 n1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  4 * sizeof(byte)));
+                                        v256 k1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  4 * sizeof(byte)));
+                                        v256 n2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  8 * sizeof(byte)));
+                                        v256 k2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  8 * sizeof(byte)));
+                                        v256 n3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 12 * sizeof(byte)));
+                                        v256 k3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 12 * sizeof(byte)));
+
                                         v128 result0 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n0, k0));
                                         v128 result1 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n1, k1));
                                         v128 result2 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n2, k2));
                                         v128 result3 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n3, k3));
-                    
-                                        return Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(result0, result1), Sse2.unpacklo_epi32(result2, result3));
+
+                                        return unpacklo_epi64(unpacklo_epi32(result0, result1), unpacklo_epi32(result2, result3));
                                     }
                                     else
                                     {
-                                        return new v128((byte)maxmath.comb((ulong)extract_epi8(n, 0),  (ulong)extract_epi8(k, 0),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 1),  (ulong)extract_epi8(k, 1),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 2),  (ulong)extract_epi8(k, 2),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 3),  (ulong)extract_epi8(k, 3),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 4),  (ulong)extract_epi8(k, 4),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 5),  (ulong)extract_epi8(k, 5),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 6),  (ulong)extract_epi8(k, 6),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 7),  (ulong)extract_epi8(k, 7),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), maxmath.Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), maxmath.Promise.Unsafe0));
+                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
+                                        v128 _4_5 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte))), true);
+                                        v128 _6_7 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 6 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 6 * sizeof(byte))), true);
+
+                                        v128 _8  = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe0));
+                                        v128 _9  = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe0));
+                                        v128 _10 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe0));
+                                        v128 _11 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe0));
+                                        v128 _12 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe0));
+                                        v128 _13 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe0));
+                                        v128 _14 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe0));
+                                        v128 _15 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
+                                        v128 _4_5_6_7 = unpacklo_epi16(cvtepi64_epi8(_4_5), cvtepi64_epi8(_6_7));
+                                        v128 lo = unpacklo_epi32(_0_1_2_3, _4_5_6_7);
+
+                                        v128 _8_9   = unpacklo_epi8( _8,  _9);
+                                        v128 _10_11 = unpacklo_epi8(_10, _11);
+                                        v128 _12_13 = unpacklo_epi8(_12, _13);
+                                        v128 _14_15 = unpacklo_epi8(_14, _15);
+                                        v128 _8_9_10_11 = unpacklo_epi16(_8_9, _10_11);
+                                        v128 _12_13_14_15 = unpacklo_epi16(_12_13, _14_15);
+                                        v128 hi = unpacklo_epi32(_8_9_10_11, _12_13_14_15);
+
+                                        return unpacklo_epi64(lo, hi);
                                     }
                                 }
                             }
                         }
                     }
 
-
-                    if (elements <= 8)
+                    
+                    // ARM has native mullo_epi8, X86 does not
+                    if (Sse2.IsSse2Supported)
                     {
-                        return cvtepi16_epi8(comb_epi16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: elements), elements);
-                    }
-                    else
-                    {
-                        if (Avx2.IsAvx2Supported)
+                        if (elements <= 8)
                         {
-                            return mm256_cvtepi16_epi8(mm256_comb_epi16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
+                            return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: elements), elements);
                         }
-                        else
+                        else if (Avx2.IsAvx2Supported)
                         {
-                            v128 ONE = Sse2.set1_epi8(1);
-
-                            k = Sse2.min_epu8(k, Sse2.sub_epi8(n, k));
-
-                            v128 n2 = n;
-                            n = Sse2.sub_epi8(n, ONE);
-                            v128 c = Sse2.add_epi8(mullo_epi8(srli_epi8(n2, 1), n, 16), Sse2.and_si128(neg_epi8(Sse2.and_si128(n2, ONE)), srli_epi8(n, 1)));
-                            v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi8(k, ONE)), ONE, Sse2.cmpeq_epi8(k, Sse2.setzero_si128()));
-                            v128 i = Sse2.add_epi8(ONE, ONE);
-                            v128 cmp = Sse2.cmpgt_epi8(k, i);
-
-                            while (Hint.Likely(notallfalse_epi128<byte>(cmp, 16)))
-                            {
-                                i = Sse2.add_epi8(i, ONE);
-                                v128 q = divrem_epu8(c, i, out v128 r);
-                                n = Sse2.sub_epi8(n, ONE);
-                                c = Sse2.add_epi8(mullo_epi8(q, n, 16), div_epu8(mullo_epi8(r, n, 16), i));
-
-                                results = blendv_si128(results, c, cmp);
-                                cmp = Sse2.cmpgt_epi8(k, i);
-                            }
-
-                            return results;
+                            return mm256_cvtepi16_epi8(mm256_castcomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
                         }
                     }
-                }
-                else throw new IllegalInstructionException();
-            }
-            
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epi8(v256 n, v256 k, byte unsafeLevels = 0)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-Assert.IsNotGreater(k.SByte0,  n.SByte0);
-Assert.IsNotGreater(k.SByte1,  n.SByte1);
-Assert.IsNotGreater(k.SByte2,  n.SByte2);
-Assert.IsNotGreater(k.SByte3,  n.SByte3);
-Assert.IsNotGreater(k.SByte4,  n.SByte4);
-Assert.IsNotGreater(k.SByte5,  n.SByte5);
-Assert.IsNotGreater(k.SByte6,  n.SByte6);
-Assert.IsNotGreater(k.SByte7,  n.SByte7);
-Assert.IsNotGreater(k.SByte8,  n.SByte8);
-Assert.IsNotGreater(k.SByte9,  n.SByte9);
-Assert.IsNotGreater(k.SByte10, n.SByte10);
-Assert.IsNotGreater(k.SByte11, n.SByte11);
-Assert.IsNotGreater(k.SByte12, n.SByte12);
-Assert.IsNotGreater(k.SByte13, n.SByte13);
-Assert.IsNotGreater(k.SByte14, n.SByte14);
-Assert.IsNotGreater(k.SByte15, n.SByte15);
-Assert.IsNotGreater(k.SByte16, n.SByte16);
-Assert.IsNotGreater(k.SByte17, n.SByte17);
-Assert.IsNotGreater(k.SByte18, n.SByte18);
-Assert.IsNotGreater(k.SByte19, n.SByte19);
-Assert.IsNotGreater(k.SByte20, n.SByte20);
-Assert.IsNotGreater(k.SByte21, n.SByte21);
-Assert.IsNotGreater(k.SByte22, n.SByte22);
-Assert.IsNotGreater(k.SByte23, n.SByte23);
-Assert.IsNotGreater(k.SByte24, n.SByte24);
-Assert.IsNotGreater(k.SByte25, n.SByte25);
-Assert.IsNotGreater(k.SByte26, n.SByte26);
-Assert.IsNotGreater(k.SByte27, n.SByte27);
-Assert.IsNotGreater(k.SByte28, n.SByte28);
-Assert.IsNotGreater(k.SByte29, n.SByte29);
-Assert.IsNotGreater(k.SByte30, n.SByte30);
-Assert.IsNotGreater(k.SByte31, n.SByte31);
-Assert.IsNonNegative(k.SByte0);
-Assert.IsNonNegative(k.SByte1);
-Assert.IsNonNegative(k.SByte2);
-Assert.IsNonNegative(k.SByte3);
-Assert.IsNonNegative(k.SByte4);
-Assert.IsNonNegative(k.SByte5);
-Assert.IsNonNegative(k.SByte6);
-Assert.IsNonNegative(k.SByte7);
-Assert.IsNonNegative(k.SByte8);
-Assert.IsNonNegative(k.SByte9);
-Assert.IsNonNegative(k.SByte10);
-Assert.IsNonNegative(k.SByte11);
-Assert.IsNonNegative(k.SByte12);
-Assert.IsNonNegative(k.SByte13);
-Assert.IsNonNegative(k.SByte14);
-Assert.IsNonNegative(k.SByte15);
-Assert.IsNonNegative(k.SByte16);
-Assert.IsNonNegative(k.SByte17);
-Assert.IsNonNegative(k.SByte18);
-Assert.IsNonNegative(k.SByte19);
-Assert.IsNonNegative(k.SByte20);
-Assert.IsNonNegative(k.SByte21);
-Assert.IsNonNegative(k.SByte22);
-Assert.IsNonNegative(k.SByte23);
-Assert.IsNonNegative(k.SByte24);
-Assert.IsNonNegative(k.SByte25);
-Assert.IsNonNegative(k.SByte26);
-Assert.IsNonNegative(k.SByte27);
-Assert.IsNonNegative(k.SByte28);
-Assert.IsNonNegative(k.SByte29);
-Assert.IsNonNegative(k.SByte30);
-Assert.IsNonNegative(k.SByte31);
-Assert.IsNonNegative(n.SByte0);
-Assert.IsNonNegative(n.SByte1);
-Assert.IsNonNegative(n.SByte2);
-Assert.IsNonNegative(n.SByte3);
-Assert.IsNonNegative(n.SByte4);
-Assert.IsNonNegative(n.SByte5);
-Assert.IsNonNegative(n.SByte6);
-Assert.IsNonNegative(n.SByte7);
-Assert.IsNonNegative(n.SByte8);
-Assert.IsNonNegative(n.SByte9);
-Assert.IsNonNegative(n.SByte10);
-Assert.IsNonNegative(n.SByte11);
-Assert.IsNonNegative(n.SByte12);
-Assert.IsNonNegative(n.SByte13);
-Assert.IsNonNegative(n.SByte14);
-Assert.IsNonNegative(n.SByte15);
-Assert.IsNonNegative(n.SByte16);
-Assert.IsNonNegative(n.SByte17);
-Assert.IsNonNegative(n.SByte18);
-Assert.IsNonNegative(n.SByte19);
-Assert.IsNonNegative(n.SByte20);
-Assert.IsNonNegative(n.SByte21);
-Assert.IsNonNegative(n.SByte22);
-Assert.IsNonNegative(n.SByte23);
-Assert.IsNonNegative(n.SByte24);
-Assert.IsNonNegative(n.SByte25);
-Assert.IsNonNegative(n.SByte26);
-Assert.IsNonNegative(n.SByte27);
-Assert.IsNonNegative(n.SByte28);
-Assert.IsNonNegative(n.SByte29);
-Assert.IsNonNegative(n.SByte30);
-Assert.IsNonNegative(n.SByte31);
                     
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64))
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU8(n, byte.MaxValue);
+                    Divider<byte16> loopDivider = new Divider<byte16>(new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep8(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                    v128 cmp;
+
+                    while (CMP_EPI ? notallfalse_epi128<byte>(cmp = cmpgt_epi8(k, i))
+                                   : notalltrue_epi128<byte>(cmp = cmple_epu8(k, i)))
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16))
-                            {
-                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8))
-                                {
-                                    return mm256_naivecomb_epu8(n, k);
-                                }
-                                else
-                                {
-                                    v256 nLo16 = mm256_cvt2x2epu8_epi16(n, out v256 nHi16);
-                                    v256 kLo16 = mm256_cvt2x2epu8_epi16(k, out v256 kHi16);
-                            
-                                    return mm256_cvt2x2epi16_epi8(mm256_naivecomb_epu16(nLo16, kLo16), mm256_naivecomb_epu16(nHi16, kHi16));
-                                }
-                            }
-                            else
-                            {
-                                v256 loN16 = mm256_cvt2x2epu8_epi16(n, out v256 hiN16);
-                                v256 loK16 = mm256_cvt2x2epu8_epi16(k, out v256 hiK16);
-                                
-                                v256 n32_0 = mm256_cvt2x2epu16_epi32(loN16, out v256 n32_1);
-                                v256 n32_2 = mm256_cvt2x2epu16_epi32(hiN16, out v256 n32_3);
-                                v256 k32_0 = mm256_cvt2x2epu16_epi32(loK16, out v256 k32_1);
-                                v256 k32_2 = mm256_cvt2x2epu16_epi32(hiK16, out v256 k32_3);
-                                
-                                v256 result32_0 = mm256_naivecomb_epu32(n32_0, k32_0);
-                                v256 result32_1 = mm256_naivecomb_epu32(n32_1, k32_1);
-                                v256 result32_2 = mm256_naivecomb_epu32(n32_2, k32_2);
-                                v256 result32_3 = mm256_naivecomb_epu32(n32_3, k32_3);
-                                
-                                v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
-                                v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
-                                
-                                return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
-                            }
-                        }
-                        else
-                        {
-                            v256 loN16 = mm256_cvt2x2epu8_epi16(n, out v256 hiN16);
-                            v256 loK16 = mm256_cvt2x2epu8_epi16(k, out v256 hiK16);
-                            
-                            v256 n32_0 = mm256_cvt2x2epu16_epi32(loN16, out v256 n32_1);
-                            v256 n32_2 = mm256_cvt2x2epu16_epi32(hiN16, out v256 n32_3);
-                            v256 k32_0 = mm256_cvt2x2epu16_epi32(loK16, out v256 k32_1);
-                            v256 k32_2 = mm256_cvt2x2epu16_epi32(hiK16, out v256 k32_3);
-                            
-                            v256 n64_0 = mm256_cvt2x2epu32_epi64(n32_0, out v256 n64_1);
-                            v256 n64_2 = mm256_cvt2x2epu32_epi64(n32_1, out v256 n64_3);
-                            v256 n64_4 = mm256_cvt2x2epu32_epi64(n32_2, out v256 n64_5);
-                            v256 n64_6 = mm256_cvt2x2epu32_epi64(n32_3, out v256 n64_7);
-                            v256 k64_0 = mm256_cvt2x2epu32_epi64(k32_0, out v256 k64_1);
-                            v256 k64_2 = mm256_cvt2x2epu32_epi64(k32_1, out v256 k64_3);
-                            v256 k64_4 = mm256_cvt2x2epu32_epi64(k32_2, out v256 k64_5);
-                            v256 k64_6 = mm256_cvt2x2epu32_epi64(k32_3, out v256 k64_7);
-                            
-                            v256 result64_0 = mm256_naivecomb_epu64(n64_0, k64_0);
-                            v256 result64_1 = mm256_naivecomb_epu64(n64_1, k64_1);
-                            v256 result64_2 = mm256_naivecomb_epu64(n64_2, k64_2);
-                            v256 result64_3 = mm256_naivecomb_epu64(n64_3, k64_3);
-                            v256 result64_4 = mm256_naivecomb_epu64(n64_4, k64_4);
-                            v256 result64_5 = mm256_naivecomb_epu64(n64_5, k64_5);
-                            v256 result64_6 = mm256_naivecomb_epu64(n64_6, k64_6);
-                            v256 result64_7 = mm256_naivecomb_epu64(n64_7, k64_7);
-                            
-                            v256 result32_0 = mm256_cvt2x2epi64_epi32(result64_0, result64_1);
-                            v256 result32_1 = mm256_cvt2x2epi64_epi32(result64_2, result64_3);
-                            v256 result32_2 = mm256_cvt2x2epi64_epi32(result64_4, result64_5);
-                            v256 result32_3 = mm256_cvt2x2epi64_epi32(result64_6, result64_7);
-                            
-                            v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
-                            v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
-                            
-                            return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
-                        }
+                        LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, CMP_EPI, nextDividerTest: true);
                     }
 
-
-                    v256 ONE = Avx.mm256_set1_epi8(1);
-                    
-                    k = Avx2.mm256_min_epu8(k, Avx2.mm256_sub_epi8(n, k));
-                    
-                    v256 n2 = n;
-                    n = Avx2.mm256_sub_epi8(n, ONE);
-                    v256 c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_srli_epi8(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi8(Avx2.mm256_and_si256(n2, ONE)), mm256_srli_epi8(n, 1)));
-                    v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi8(k, ONE)), ONE, Avx2.mm256_cmpeq_epi8(k, Avx.mm256_setzero_si256()));
-                    v256 i = Avx2.mm256_add_epi8(ONE, ONE);
-                    v256 cmp = Avx2.mm256_cmpgt_epi8(k, i);
-                    
-                    while (Hint.Likely(mm256_notallfalse_epi256<byte>(cmp, 32)))
-                    {
-                        i = Avx2.mm256_add_epi8(i, ONE);
-                        v256 q = mm256_divrem_epu8(c, i, out v256 r);
-                        n = Avx2.mm256_sub_epi8(n, ONE);
-                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), mm256_div_epu8(mm256_mullo_epi8(r, n), i));
-                    
-                        results = mm256_blendv_si256(results, c, cmp);
-                        cmp = Avx2.mm256_cmpgt_epi8(k, i);
-                    }
-                    
                     return results;
                 }
                 else throw new IllegalInstructionException();
             }
 
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epu16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            private static void comb_ep8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
             {
-                if (Sse2.IsSse2Supported)
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
                 {
-Assert.IsNotGreater(k.UShort0, n.UShort0);
-Assert.IsNotGreater(k.UShort1, n.UShort1);
-if (elements > 2)
-{
-Assert.IsNotGreater(k.UShort2, n.UShort2);
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.UShort3, n.UShort3);
-}
-if (elements > 4)
-{
-Assert.IsNotGreater(k.UShort4, n.UShort4);
-Assert.IsNotGreater(k.UShort5, n.UShort5);
-Assert.IsNotGreater(k.UShort6, n.UShort6);
-Assert.IsNotGreater(k.UShort7, n.UShort7);
-}
-
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU16(n, (ushort)short.MaxValue, elements))
+                    if (Architecture.IsSIMDSupported)
                     {
-                        return comb_epi16(n, k, unsafeLevels, elements);
-                    }
-                    else
-                    {
-                        v128 ONE = Sse2.set1_epi16(1);
-                        
-                        k = min_epu16(k, Sse2.sub_epi16(n, k));
-                        
-                        v128 n2 = n;
-                        n = Sse2.sub_epi16(n, ONE);
-                        v128 c = Sse2.add_epi16(Sse2.mullo_epi16(Sse2.srli_epi16(n2, 1), n), Sse2.and_si128(neg_epi16(Sse2.and_si128(n2, ONE)), Sse2.srli_epi16(n, 1)));
-                        v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi16(k, ONE)), ONE, Sse2.cmpeq_epi16(k, Sse2.setzero_si128()));
-                        v128 i = Sse2.add_epi16(ONE, ONE);
-
-                        if (Sse4_1.IsSse41Supported)
+                        if (CMP_EPI)
                         {
-                            v128 cmp = cmple_epu16(k, i);
-                            while (Hint.Likely(notalltrue_epi128<ushort>(cmp, 8)))
-                            {
-                                i = Sse2.add_epi16(i, ONE);
-                                v128 q = divrem_epu16(c, i, out v128 r);
-                                n = Sse2.sub_epi16(n, ONE);
-                                c = Sse2.add_epi16(Sse2.mullo_epi16(q, n), div_epu16(Sse2.mullo_epi16(r, n), i));
-                            
-                                results = blendv_si128(c, results, cmp);
-                                cmp = cmple_epu16(k, i);
-                            }
+                            cmp0 = cmpgt_epi8(k0, i);
+                            cmp1 = cmpgt_epi8(k1, i);
+
+                            return notallfalse_epi128<byte>(or_si128(cmp0, cmp1));
                         }
                         else
                         {
-                            v128 cmp = cmpgt_epu16(k, i);
-                            while (Hint.Likely(notallfalse_epi128<ushort>(cmp, 8)))
-                            {
-                                i = Sse2.add_epi16(i, ONE);
-                                v128 q = divrem_epu16(c, i, out v128 r);
-                                n = Sse2.sub_epi16(n, ONE);
-                                c = Sse2.add_epi16(Sse2.mullo_epi16(q, n), div_epu16(Sse2.mullo_epi16(r, n), i));
+                            cmp0 = cmple_epu8(k0, i);
+                            cmp1 = cmple_epu8(k1, i);
                             
-                                results = blendv_si128(results, c, cmp);
-                                cmp = cmpgt_epu16(k, i);
-                            }
+                            return notalltrue_epi128<byte>(and_si128(cmp0, cmp1));
                         }
-                        
-                        
-                        return results;
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<byte16, byte>(k0, n0, 16);
+VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
+
+                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU8(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU8(n1, MAX_INVERSE_FACTORIAL_U64)))
+                    {
+                        r0 = comb_ep8(n0, k0, signed, unsafeLevels);
+                        r1 = comb_ep8(n1, k1, signed, unsafeLevels);
+
+                        return;
+                    }
+
+                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU8(n0, byte.MaxValue) && constexpr.ALL_LT_EPU8(n1, byte.MaxValue));
+                    Divider<byte16> loopDivider = new Divider<byte16>(new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep8(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep8(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<byte16>.Create();
+                    v128 cmp1 = Uninitialized<byte16>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    {
+                        LOOP_comb_ep8(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
+                        LOOP_comb_ep8(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epu16(v256 n, v256 k, byte unsafeLevels = 0)
+            private static void PRELOOP_comb_ep16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c)
             {
-                if (Avx2.IsAvx2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-Assert.IsNotGreater(k.UShort0,  n.UShort0);
-Assert.IsNotGreater(k.UShort1,  n.UShort1);
-Assert.IsNotGreater(k.UShort2,  n.UShort2);
-Assert.IsNotGreater(k.UShort3,  n.UShort3);
-Assert.IsNotGreater(k.UShort4,  n.UShort4);
-Assert.IsNotGreater(k.UShort5,  n.UShort5);
-Assert.IsNotGreater(k.UShort6,  n.UShort6);
-Assert.IsNotGreater(k.UShort7,  n.UShort7);
-Assert.IsNotGreater(k.UShort8,  n.UShort8);
-Assert.IsNotGreater(k.UShort9,  n.UShort9);
-Assert.IsNotGreater(k.UShort10, n.UShort10);
-Assert.IsNotGreater(k.UShort11, n.UShort11);
-Assert.IsNotGreater(k.UShort12, n.UShort12);
-Assert.IsNotGreater(k.UShort13, n.UShort13);
-Assert.IsNotGreater(k.UShort14, n.UShort14);
-Assert.IsNotGreater(k.UShort15, n.UShort15);
+                    v128 ONE = set1_epi16(1);
 
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU16(n, (ushort)short.MaxValue))
+                    v128 cmp;
+                    i = ONE;
+                    c = n;
+                    k = min_epu16(k, sub_epi16(n, k));
+                    results = blendv_si128(c, ONE, cmpeq_epi16(k, setzero_si128()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                     {
-                        return mm256_comb_epi16(n, k, unsafeLevels);
-                    }
-                    else
-                    {
-                        v256 ONE = Avx.mm256_set1_epi16(1);
-                    
-                        k = Avx2.mm256_min_epu16(k, Avx2.mm256_sub_epi16(n, k));
-                    
-                        v256 n2 = n;
-                        n = Avx2.mm256_sub_epi16(n, ONE);
-                        v256 c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_srli_epi16(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi16(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi16(n, 1)));
-                        v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi16(k, ONE)), ONE, Avx2.mm256_cmpeq_epi16(k, Avx.mm256_setzero_si256()));
-                        v256 i = Avx2.mm256_add_epi16(ONE, ONE);
-                        v256 cmp = mm256_cmple_epu16(k, i);
-                    
-                        while (Hint.Likely(mm256_notalltrue_epi256<ushort>(cmp, 16)))
-                        {
-                            i = Avx2.mm256_add_epi16(i, ONE);
-                            v256 q = mm256_divrem_epu16(c, i, out v256 r);
-                            n = Avx2.mm256_sub_epi16(n, ONE);
-                            c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), mm256_div_epu16(Avx2.mm256_mullo_epi16(r, n), i));
-                    
-                            results = mm256_blendv_si256(c, results, cmp);
-                            cmp = mm256_cmple_epu16(k, i);
-                        }
-                    
-                        return results;
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 2), n), and_si128(neg_epi16(constrem_epu16(c, 2)), constdiv_epu16(n, 2)));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        v128 rem3 = constrem_epu16(c, 3);
+                        v128 rem3is1orMore = cmpgt_epi16(rem3, setzero_si128());
+                        v128 rem3is2orMore = cmpgt_epi16(rem3, ONE);
+                        v128 mulrem3 = add_epi16(and_si128(rem3is1orMore, n), and_si128(rem3is2orMore, n));
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 3), n), constdiv_epu16(mulrem3, 3));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 4), n), constdiv_epu16(mullo_epi16(constrem_epu16(c, 4), n), 4));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 5), n), constdiv_epu16(mullo_epi16(constrem_epu16(c, 5), n), 5));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 6), n), constdiv_epu16(mullo_epi16(constrem_epu16(c, 6), n), 6));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 7), n), constdiv_epu16(mullo_epi16(constrem_epu16(c, 7), n), 7));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi16(k, i);
+                        i = add_epi16(i, ONE);
+                        n = sub_epi16(n, ONE);
+                        c = add_epi16(mullo_epi16(constdiv_epu16(c, 8), n), constdiv_epu16(mullo_epi16(constrem_epu16(c, 8), n), 8));
+                        results = blendv_si128(results, c, cmp);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epi16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            private static void LOOP_comb_ep16([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<ushort8> loopDivider, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool CMP_EPI, bool nextDividerTest, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-Assert.IsNotGreater(k.SShort0, n.SShort0);
-Assert.IsNotGreater(k.SShort1, n.SShort1);
-Assert.IsNonNegative(k.SShort0);                    
-Assert.IsNonNegative(n.SShort0);                    
-Assert.IsNonNegative(k.SShort1);
-Assert.IsNonNegative(n.SShort1);                    
-if (elements > 2)
-{
-Assert.IsNotGreater(k.SShort2, n.SShort2);             
-Assert.IsNonNegative(k.SShort2);
-Assert.IsNonNegative(n.SShort2);      
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.SShort3, n.SShort3);      
-Assert.IsNonNegative(k.SShort3);
-Assert.IsNonNegative(n.SShort3);  
-}
-if (elements > 4)
-{
-Assert.IsNotGreater(k.SShort4, n.SShort4);
-Assert.IsNotGreater(k.SShort5, n.SShort5);
-Assert.IsNotGreater(k.SShort6, n.SShort6);
-Assert.IsNotGreater(k.SShort7, n.SShort7);    
-Assert.IsNonNegative(k.SShort4);
-Assert.IsNonNegative(k.SShort5);
-Assert.IsNonNegative(k.SShort6);
-Assert.IsNonNegative(k.SShort7);
-Assert.IsNonNegative(n.SShort4);      
-Assert.IsNonNegative(n.SShort5);      
-Assert.IsNonNegative(n.SShort6);      
-Assert.IsNonNegative(n.SShort7);  
-}
+                    v128 ONE = set1_epi16(1);
+
+                    i = add_epi16(i, ONE);
+                    n = sub_epi16(n, ONE);
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v128 q = divrem_epu16(c, i, out v128 r, elements);
+                        c = add_epi16(mullo_epi16(q, n), div_epu16(mullo_epi16(r, n), i, elements));
+                    }
+                    else
+                    {
+                        Divider<ushort> currentDivider = loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
+                        if (elements <= 4)
+                        {
+                            v128 q = currentDivider.DivRem(c, out ushort4 r);
+                            c = add_epi16(mullo_epi16(q, n), (ushort4)(r * n) / currentDivider);
+                        }
+                        else
+                        {
+                            v128 q = currentDivider.DivRem(c, out ushort8 r);
+                            c = add_epi16(mullo_epi16(q, n), (ushort8)(r * n) / currentDivider);
+                        }
+
+                        if (nextDividerTest)
+                        {
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                        }
+                    }
+
+                    if (!nextDividerTest)
+                    {
+                        i = sub_epi16(i, ONE);
+                    }
+                    
+                    if (CMP_EPI)
+                    {
+                        results = blendv_si128(results, c, cmp);
+                    }
+                    else
+                    {
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            results = blendv_si128(c, results, cmp);
+                        }
+                        else
+                        {
+                            results = blendv_si128(results, c, cmp);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 comb_ep16(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 8)
+            {
+                static bool ContinueLoop(v128 k, v128 i, ref v128 cmp, bool CMP_EPI, byte elements)
+                {
+                    if (Architecture.IsSIMDSupported)
+                    {
+                        if (CMP_EPI)
+                        {
+                            return notallfalse_epi128<ushort>(cmp = cmpgt_epi16(k, i), elements);
+                        }
+                        else
+                        {
+                            if (Sse4_1.IsSse41Supported)
+                            {
+                                return notalltrue_epi128<ushort>(cmp = cmple_epu16(k, i, elements), elements);
+                            }
+                            else
+                            {
+                                return notallfalse_epi128<ushort>(cmp = cmpgt_epu16(k, i, elements), elements);
+                            }
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+                
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
 
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64, elements))
                     {
@@ -1042,8 +1606,8 @@ Assert.IsNonNegative(n.SShort7);
                             {
                                 case 2:
                                 {
-                                    return Sse2.unpacklo_epi16(Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), maxmath.Promise.Unsafe0)),
-                                                               Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), maxmath.Promise.Unsafe0)));
+                                    return unpacklo_epi16(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0)),
+                                                          cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0)));
                                 }
 
                                 case 3:
@@ -1055,10 +1619,10 @@ Assert.IsNonNegative(n.SShort7);
                                     }
                                     else
                                     {
-                                        return new v128((ushort)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), maxmath.Promise.Unsafe0),
-                                                        (ushort)(elements == 4 ? maxmath.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), maxmath.Promise.Unsafe0) : 0),
+                                        return new v128((ushort)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0),
+                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0),
+                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe0),
+                                                        (ushort)(elements == 4 ? maxmath.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe0) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -1072,111 +1636,955 @@ Assert.IsNonNegative(n.SShort7);
                                     {
                                         v256 n64Lo = Avx2.mm256_cvtepu16_epi64(n);
                                         v256 k64Lo = Avx2.mm256_cvtepu16_epi64(k);
-                                        v256 n64Hi = Avx2.mm256_cvtepu16_epi64(Sse2.bsrli_si128(n, 4 * sizeof(ushort)));
-                                        v256 k64Hi = Avx2.mm256_cvtepu16_epi64(Sse2.bsrli_si128(k, 4 * sizeof(ushort)));
+                                        v256 n64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(n, 4 * sizeof(ushort)));
+                                        v256 k64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(k, 4 * sizeof(ushort)));
 
                                         v128 result64Lo = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Lo, k64Lo));
                                         v128 result64Hi = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Hi, k64Hi));
 
-                                        return Sse2.unpacklo_epi64(result64Lo, result64Hi);
+                                        return unpacklo_epi64(result64Lo, result64Hi);
                                     }
                                     else
                                     {
-                                        return new v128((ushort)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), maxmath.Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), maxmath.Promise.Unsafe0));
+                                        v128 _0_1 = naivecomb_epu64(cvtepu16_epi64(n), cvtepu16_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu16_epi64(bsrli_si128(n, 2 * sizeof(ushort))), cvtepu16_epi64(bsrli_si128(k, 2 * sizeof(ushort))), true);
+
+                                        v128 _4 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi32(cvtepi64_epi16(_0_1), cvtepi64_epi16(_2_3));
+                                        v128 _4_5 = unpacklo_epi16(_4, _5);
+                                        v128 _6_7 = unpacklo_epi16(_6, _7);
+                                        v128 _4_5_6_7 = unpacklo_epi32(_4_5, _6_7);
+
+                                        return unpacklo_epi64(_0_1_2_3, _4_5_6_7);
                                     }
                                 }
                             }
                         }
                     }
-
-                    
-                    v128 ONE = Sse2.set1_epi16(1);
-                    
-                    k = Sse2.min_epi16(k, Sse2.sub_epi16(n, k));
-                    
-                    v128 n2 = n;
-                    n = Sse2.sub_epi16(n, ONE);
-                    v128 c = Sse2.add_epi16(Sse2.mullo_epi16(Sse2.srli_epi16(n2, 1), n), Sse2.and_si128(neg_epi16(Sse2.and_si128(n2, ONE)), Sse2.srli_epi16(n, 1)));
-                    v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi16(k, ONE)), ONE, Sse2.cmpeq_epi16(k, Sse2.setzero_si128()));
-                    v128 i = Sse2.add_epi16(ONE, ONE);
-                    v128 cmp = Sse2.cmpgt_epi16(k, i);
-                    
-                    while (Hint.Likely(notallfalse_epi128<ushort>(cmp, elements)))
+                    if (elements <= 4)
                     {
-                        i = Sse2.add_epi16(i, ONE);
-                        v128 q = divrem_epu16(c, i, out v128 r, elements);
-                        n = Sse2.sub_epi16(n, ONE);
-                        c = Sse2.add_epi16(Sse2.mullo_epi16(q, n), div_epu16(Sse2.mullo_epi16(r, n), i, elements));
-                    
-                        results = blendv_si128(results, c, cmp);
-                        cmp = Sse2.cmpgt_epi16(k, i);
+                        return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), elements), elements);
+                    }
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return mm256_cvtepi32_epi16(mm256_castcomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
                     }
                     
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU16(n, ushort.MaxValue);
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    PRELOOP_comb_ep16(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                    v128 cmp = Uninitialized<ushort8>.Create();
+
+                    while (ContinueLoop(k, i, ref cmp, CMP_EPI, elements))
+                    {
+                        LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, CMP_EPI, true, elements);
+                    }
+
                     return results;
                 }
                 else throw new IllegalInstructionException();
             }
             
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epi16(v256 n, v256 k, byte unsafeLevels = 0)
+            private static void comb_ep16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                {
+                    if (Architecture.IsSIMDSupported)
+                    {
+                        if (CMP_EPI)
+                        {
+                            cmp0 = cmpgt_epi16(k0, i);
+                            cmp1 = cmpgt_epi16(k1, i);
+
+                            return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
+                        }
+                        else
+                        {
+                            if (Sse4_1.IsSse41Supported)
+                            {
+                                cmp0 = cmple_epu16(k0, i);
+                                cmp1 = cmple_epu16(k1, i);
+
+                                return notalltrue_epi128<ushort>(and_si128(cmp0, cmp1));
+                            }
+                            else
+                            {
+                                cmp0 = cmpgt_epu16(k0, i);
+                                cmp1 = cmpgt_epu16(k1, i);
+
+                                return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
+                            }
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+                
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ushort8, ushort>(k0, n0, 8);
+VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
+
+                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU16(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU16(n1, MAX_INVERSE_FACTORIAL_U64)))
+                    {
+                        r0 = comb_ep16(n0, k0, signed, unsafeLevels);
+                        r1 = comb_ep16(n1, k1, signed, unsafeLevels);
+
+                        return;
+                    }
+
+                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU16(n0, ushort.MaxValue) && constexpr.ALL_LT_EPU16(n1, ushort.MaxValue));
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep16(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep16(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<ushort8>.Create();
+                    v128 cmp1 = Uninitialized<ushort8>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    {
+                        LOOP_comb_ep16(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
+                        LOOP_comb_ep16(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void PRELOOP_comb_ep32([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c, byte elements = 4)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi32(1);
+
+                    i = ONE;
+                    c = n;
+                    k = constexpr.ALL_LE_EPU32(n, (uint)int.MaxValue)
+                      ? min_epi32(k, sub_epi32(n, k))
+                      : min_epu32(k, sub_epi32(n, k));
+
+                    results = blendv_si128(c, ONE, cmpeq_epi32(k, setzero_si128()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        v128 cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = add_epi32(mullo_epi32(constdiv_epu32(c, 2, elements), n, elements), and_si128(neg_epi32(constrem_epu32(c, 2, elements)), constdiv_epu32(n, 2, elements)));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        v128 rem3 = constrem_epu32(c, 3);
+                        v128 rem3is1orMore = cmpgt_epi32(rem3, setzero_si128());
+                        v128 rem3is2orMore = cmpgt_epi32(rem3, ONE);
+                        v128 mulrem3 = add_epi32(and_si128(rem3is1orMore, n), and_si128(rem3is2orMore, n));
+                        c = add_epi32(mullo_epi32(constdiv_epu32(c, 3), n), constdiv_epu32(mulrem3, 3));
+                        results = blendv_si128(results, c, cmp);
+
+                        if (Architecture.IsMul32Supported)
+                        {
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 4, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 4, elements), n, elements), 4));
+                            results = blendv_si128(results, c, cmp);
+                        
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 5, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 5, elements), n, elements), 5));
+                            results = blendv_si128(results, c, cmp);
+                            
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 6, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 6, elements), n, elements), 6));
+                            results = blendv_si128(results, c, cmp);
+                            
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 7, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 7, elements), n, elements), 7));
+                            results = blendv_si128(results, c, cmp);
+                        }
+                        else
+                        {
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            v128 rem4 = constrem_epu32(c, 4); 
+                            v128 rem4is1orMore = cmpgt_epi32(rem4, setzero_si128());
+                            v128 rem4is2orMore = cmpgt_epi32(rem4, ONE);
+                            v128 rem4is3orMore = cmpgt_epi32(rem4, set1_epi32(2));
+                            v128 mulrem4 = add_epi32(and_si128(rem4is1orMore, n), add_epi32(and_si128(rem4is2orMore, n), and_si128(rem4is3orMore, n)));
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 4), n), constdiv_epu32(mulrem4, 4));
+                            results = blendv_si128(results, c, cmp);
+                            
+                            cmp = cmpgt_epi32(k, i);
+                            i = add_epi32(i, ONE);
+                            n = sub_epi32(n, ONE);
+                            v128 rem5 = constrem_epu32(c, 5);
+                            v128 rem5is1orMore = cmpgt_epi32(rem5, setzero_si128());
+                            v128 rem5is2orMore = cmpgt_epi32(rem5, ONE);
+                            v128 rem5is3orMore = cmpgt_epi32(rem5, set1_epi32(2));
+                            v128 rem5is4orMore = cmpgt_epi32(rem5, set1_epi32(3));
+                            v128 mulrem5 = add_epi32(add_epi32(and_si128(rem5is1orMore, n), and_si128(rem5is2orMore, n)), add_epi32(and_si128(rem5is3orMore, n), and_si128(rem5is4orMore, n)));
+                            c = add_epi32(mullo_epi32(constdiv_epu32(c, 5), n), constdiv_epu32(mulrem5, 5));
+                            results = blendv_si128(results, c, cmp);
+
+                            if (elements > 2)
+                            {
+                                cmp = cmpgt_epi32(k, i);
+                                i = add_epi32(i, ONE);
+                                n = sub_epi32(n, ONE);
+                                v128 rem6 = constrem_epu32(c, 6);
+                                v128 rem6is1orMore = cmpgt_epi32(rem6, setzero_si128());
+                                v128 rem6is2orMore = cmpgt_epi32(rem6, ONE);
+                                v128 rem6is3orMore = cmpgt_epi32(rem6, set1_epi32(2));
+                                v128 rem6is4orMore = cmpgt_epi32(rem6, set1_epi32(3));
+                                v128 rem6is5orMore = cmpgt_epi32(rem6, set1_epi32(4));
+                                v128 mulrem6 = add_epi32(add_epi32(add_epi32(and_si128(rem6is1orMore, n), and_si128(rem6is2orMore, n)), add_epi32(and_si128(rem6is3orMore, n), and_si128(rem6is4orMore, n))), and_si128(rem6is5orMore, n));
+                                c = add_epi32(mullo_epi32(constdiv_epu32(c, 6), n), constdiv_epu32(mulrem6, 6));
+                                results = blendv_si128(results, c, cmp);
+                                
+                                cmp = cmpgt_epi32(k, i);
+                                i = add_epi32(i, ONE);
+                                n = sub_epi32(n, ONE);
+                                v128 rem7 = constrem_epu32(c, 7);
+                                v128 rem7is1orMore = cmpgt_epi32(rem7, setzero_si128());
+                                v128 rem7is2orMore = cmpgt_epi32(rem7, ONE);
+                                v128 rem7is3orMore = cmpgt_epi32(rem7, set1_epi32(2));
+                                v128 rem7is4orMore = cmpgt_epi32(rem7, set1_epi32(3));
+                                v128 rem7is5orMore = cmpgt_epi32(rem7, set1_epi32(4));
+                                v128 rem7is6orMore = cmpgt_epi32(rem7, set1_epi32(5));
+                                v128 mulrem7 = add_epi32(add_epi32(add_epi32(and_si128(rem7is1orMore, n), and_si128(rem7is2orMore, n)), add_epi32(and_si128(rem7is3orMore, n), and_si128(rem7is4orMore, n))), add_epi32(and_si128(rem7is5orMore, n), and_si128(rem7is6orMore, n)));
+                                c = add_epi32(mullo_epi32(constdiv_epu32(c, 7), n), constdiv_epu32(mulrem7, 7));
+                                results = blendv_si128(results, c, cmp);
+                            }
+                            else
+                            {
+                                cmp = cmpgt_epi32(k, i);
+                                i = add_epi32(i, ONE);
+                                n = sub_epi32(n, ONE);
+                                c = add_epi32(mullo_epi32(constdiv_epu32(c, 6, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 6, elements), n, elements), 6));
+                                results = blendv_si128(results, c, cmp);
+                                
+                                cmp = cmpgt_epi32(k, i);
+                                i = add_epi32(i, ONE);
+                                n = sub_epi32(n, ONE);
+                                c = add_epi32(mullo_epi32(constdiv_epu32(c, 7, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 7, elements), n, elements), 7));
+                                results = blendv_si128(results, c, cmp);
+                            }
+                        }
+                        
+                        cmp = cmpgt_epi32(k, i);
+                        i = add_epi32(i, ONE);
+                        n = sub_epi32(n, ONE);
+                        c = add_epi32(mullo_epi32(constdiv_epu32(c, 8, elements), n, elements), constdiv_epu32(mullo_epi32(constrem_epu32(c, 8, elements), n, elements), 8));
+                        results = blendv_si128(results, c, cmp);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void LOOP_comb_ep32([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<uint4> loopDividerSSE, [NoAlias] ref Divider<uint8> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool CMP_EPI, bool nextDividerTest, byte elements = 8)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi32(1);
+                    
+                    i = add_epi32(i, ONE);
+                    n = sub_epi32(n, ONE);
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v128 q = divrem_epu32(c, i, out v128 r, elements);
+                        c = add_epi32(mullo_epi32(q, n, elements), div_epu32(mullo_epi32(r, n, elements), i, elements));
+                    }
+                    else
+                    {
+                        Divider<uint> currentDivider;
+                        if (Avx2.IsAvx2Supported)
+                        {
+                            currentDivider = loopDividerAVX.GetInnerDivider<uint>(indexCurrentDivider);
+
+                            if (nextDividerTest)
+                            {
+                                next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                            }
+                        }
+                        else
+                        {
+                            currentDivider = loopDividerSSE.GetInnerDivider<uint>(indexCurrentDivider);
+                            
+                            if (nextDividerTest)
+                            {
+                                next_comb_divider(ref loopDividerSSE, ref indexCurrentDivider);
+                            }
+                        }
+                        if (elements == 2)
+                        {
+                            uint2 q = currentDivider.DivRem(RegisterConversion.ToUInt2(c), out uint2 r);
+                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 2), RegisterConversion.ToV128(RegisterConversion.ToUInt2(mullo_epi32(RegisterConversion.ToV128(r), n, 2)) / currentDivider));
+                        }
+                        else if (elements == 3)
+                        {
+                            uint3 q = currentDivider.DivRem(RegisterConversion.ToUInt3(c), out uint3 r);
+                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 3), RegisterConversion.ToV128(RegisterConversion.ToUInt3(mullo_epi32(RegisterConversion.ToV128(r), n, 3)) / currentDivider));
+                        }
+                        else
+                        {
+                            uint4 q = currentDivider.DivRem(RegisterConversion.ToUInt4(c), out uint4 r);
+                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 4), RegisterConversion.ToV128(RegisterConversion.ToUInt4(mullo_epi32(RegisterConversion.ToV128(r), n, 4)) / currentDivider));
+                        }
+                    }
+
+                    if (!nextDividerTest)
+                    {
+                        i = sub_epi32(i, ONE);
+                    }
+                    
+                    if (CMP_EPI)
+                    {
+                        results = blendv_si128(results, c, cmp);
+                    }
+                    else
+                    {
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            results = blendv_si128(c, results, cmp);
+                        }
+                        else
+                        {
+                            results = blendv_si128(results, c, cmp);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 comb_ep32(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 4)
+            {
+                static bool ContinueLoop(v128 k, v128 i, ref v128 cmp, bool CMP_EPI, byte elements)
+                {
+                    if (Architecture.IsSIMDSupported)
+                    {
+                        if (CMP_EPI)
+                        {
+                            return notallfalse_epi128<uint>(cmp = cmpgt_epi32(k, i), elements);
+                        }
+                        else
+                        {
+                            if (Sse4_1.IsSse41Supported)
+                            {
+                                return notalltrue_epi128<uint>(cmp = cmple_epu32(k, i, elements), elements);
+                            }
+                            else
+                            {
+                                return notallfalse_epi128<uint>(cmp = cmpgt_epu32(k, i, elements), elements);
+                            }
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+                
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterConversion.ToUInt4(n), elements);
+
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        {
+                            return naivecomb_epu32(n, k, elements);
+                        }
+                        else
+                        {
+                            if (elements > 2)
+                            {
+                                if (Avx2.IsAvx2Supported)
+                                {
+                                    return mm256_cvtepi64_epi32(mm256_naivecomb_epu64(Avx2.mm256_cvtepu32_epi64(n), Avx2.mm256_cvtepu32_epi64(k), elements));
+                                }
+                                else
+                                {
+                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                             cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                                    v128 hi = cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe0));
+
+                                    if (elements == 4)
+                                    {
+                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe0)));
+                                    }
+
+                                    return unpacklo_epi64(lo, hi);
+                                }
+                            }
+                            else
+                            {
+                                return unpacklo_epi32(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                      cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                            }
+                        }
+                    }
+                    
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU32(n, uint.MaxValue);
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(new uint4(13, 14, 15, 16), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+                    
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, elements);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+
+                    while (ContinueLoop(k, i, ref cmp, CMP_EPI, elements))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, CMP_EPI, true, elements);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void comb_ep32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                {
+                    if (Architecture.IsSIMDSupported)
+                    {
+                        if (CMP_EPI)
+                        {
+                            cmp0 = cmpgt_epi32(k0, i);
+                            cmp1 = cmpgt_epi32(k1, i);
+
+                            return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
+                        }
+                        else
+                        {
+                            if (Sse4_1.IsSse41Supported)
+                            {
+                                cmp0 = cmple_epu32(k0, i);
+                                cmp1 = cmple_epu32(k1, i);
+
+                                return notalltrue_epi128<uint>(and_si128(cmp0, cmp1));
+                            }
+                            else
+                            {
+                                cmp0 = cmpgt_epu32(k0, i);
+                                cmp1 = cmpgt_epu32(k1, i);
+
+                                return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
+                            }
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+                
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k0), RegisterConversion.ToUInt4(n0), 4);
+VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterConversion.ToUInt4(n1), 4);
+
+                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU32(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU32(n1, MAX_INVERSE_FACTORIAL_U64)))
+                    {
+                        r0 = comb_ep32(n0, k0, signed, unsafeLevels);
+                        r1 = comb_ep32(n1, k1, signed, unsafeLevels);
+
+                        return;
+                    }
+
+                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU32(n0, uint.MaxValue) && constexpr.ALL_LT_EPU32(n1, uint.MaxValue));
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(new uint4(13, 14, 15, 16), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep32(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<ulong2>.Create();
+                    v128 cmp1 = Uninitialized<ulong2>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    {
+                        LOOP_comb_ep32(ref n0, ref i, ref c0, ref r0, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
+                        LOOP_comb_ep32(ref n1, ref i, ref c1, ref r1, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void PRELOOP_comb_ep64([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c, bool signed)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi64x(1);
+
+                    i = ONE;
+                    c = n;
+                    k = signed || constexpr.ALL_LE_EPU64(n, (ulong)long.MaxValue)
+                      ? min_epi64(k, sub_epi64(n, k))
+                      : min_epu64(k, sub_epi64(n, k));
+
+                    results = blendv_si128(c, ONE, cmpeq_epi64(k, setzero_si128()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        v128 cmp = cmpgt_epi64(k, i);
+                        n = sub_epi64(n, ONE);
+                        c = add_epi64(mullo_epi64(constdiv_epu64(c, 2), n), and_si128(neg_epi64(constrem_epu64(c, 2)), constdiv_epu64(n, 2)));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        cmp = cmpgt_epi64(k, set1_epi64x(2));
+                        n = sub_epi64(n, ONE);
+                        v128 rem3 = constrem_epu64(c, 3);
+                        v128 rem3is1orMore = shuffle_epi32(cmpgt_epi32(rem3, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                        v128 rem3is2orMore = shuffle_epi32(cmpgt_epi32(rem3, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                        v128 mulrem3 = add_epi64(and_si128(rem3is1orMore, n), and_si128(rem3is2orMore, n));
+                        c = add_epi64(mullo_epi64(constdiv_epu64(c, 3), n), constdiv_epu64(mulrem3, 3));
+                        results = blendv_si128(results, c, cmp);
+                        
+                        //if (Avx512.IsAvx512Supported)
+                        //{
+                        //    cmp = cmpgt_epi64(k, i);
+                        //    i = add_epi64(i, ONE);
+                        //    n = sub_epi64(n, ONE);
+                        //    c = add_epi64(mullo_epi64(constdiv_epu64(c, 4), n), constdiv_epu64(mullo_epi64(constrem_epu64(c, 4), n), 4));
+                        //    results = blendv_si128(results, c, cmp);
+                        //    
+                        //    cmp = cmpgt_epi64(k, i);
+                        //    i = add_epi64(i, ONE);
+                        //    n = sub_epi64(n, ONE);
+                        //    c = add_epi64(mullo_epi64(constdiv_epu64(c, 5), n), constdiv_epu64(mullo_epi64(constrem_epu64(c, 5), n), 5));
+                        //    results = blendv_si128(results, c, cmp);
+                        //    
+                        //    cmp = cmpgt_epi64(k, i);
+                        //    i = add_epi64(i, ONE);
+                        //    n = sub_epi64(n, ONE);
+                        //    c = add_epi64(mullo_epi64(constdiv_epu64(c, 6), n), constdiv_epu64(mullo_epi64(constrem_epu64(c, 6), n), 6));
+                        //    results = blendv_si128(results, c, cmp);
+                        //    
+                        //    cmp = cmpgt_epi64(k, i);
+                        //    i = add_epi64(i, ONE);
+                        //    n = sub_epi64(n, ONE);
+                        //    c = add_epi64(mullo_epi64(constdiv_epu64(c, 7), n), constdiv_epu64(mullo_epi64(constrem_epu64(c, 7), n), 7));
+                        //    results = blendv_si128(results, c, cmp);
+                        //    
+                        //    cmp = cmpgt_epi64(k, i);
+                        //    i = add_epi64(i, ONE);
+                        //    n = sub_epi64(n, ONE);
+                        //    c = add_epi64(mullo_epi64(constdiv_epu64(c, 8), n), constdiv_epu64(mullo_epi64(constrem_epu64(c, 8), n), 8));
+                        //    results = blendv_si128(results, c, cmp);
+                        //}
+                        //else
+                        //{
+                              cmp = cmpgt_epi64(k, set1_epi64x(3));
+                              n = sub_epi64(n, ONE);
+                              v128 rem4 = constrem_epu64(c, 4); 
+                              v128 rem4is1orMore = shuffle_epi32(cmpgt_epi32(rem4, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem4is2orMore = shuffle_epi32(cmpgt_epi32(rem4, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem4is3orMore = shuffle_epi32(cmpgt_epi32(rem4, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 mulrem4 = add_epi64(and_si128(rem4is1orMore, n), add_epi64(and_si128(rem4is2orMore, n), and_si128(rem4is3orMore, n)));
+                              c = add_epi64(mullo_epi64(constdiv_epu64(c, 4), n), constdiv_epu64(mulrem4, 4));
+                              results = blendv_si128(results, c, cmp);
+                              
+                              cmp = cmpgt_epi64(k, set1_epi64x(4));
+                              n = sub_epi64(n, ONE);
+                              v128 rem5 = constrem_epu64(c, 5);
+                              v128 rem5is1orMore = shuffle_epi32(cmpgt_epi32(rem5, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem5is2orMore = shuffle_epi32(cmpgt_epi32(rem5, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem5is3orMore = shuffle_epi32(cmpgt_epi32(rem5, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem5is4orMore = shuffle_epi32(cmpgt_epi32(rem5, set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 mulrem5 = add_epi64(add_epi64(and_si128(rem5is1orMore, n), and_si128(rem5is2orMore, n)), add_epi64(and_si128(rem5is3orMore, n), and_si128(rem5is4orMore, n)));
+                              c = add_epi64(mullo_epi64(constdiv_epu64(c, 5), n), constdiv_epu64(mulrem5, 5));
+                              results = blendv_si128(results, c, cmp);
+                              
+                              cmp = cmpgt_epi64(k, set1_epi64x(5));
+                              n = sub_epi64(n, ONE);
+                              v128 rem6 = constrem_epu64(c, 6);
+                              v128 rem6is1orMore = shuffle_epi32(cmpgt_epi32(rem6, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem6is2orMore = shuffle_epi32(cmpgt_epi32(rem6, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem6is3orMore = shuffle_epi32(cmpgt_epi32(rem6, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem6is4orMore = shuffle_epi32(cmpgt_epi32(rem6, set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem6is5orMore = shuffle_epi32(cmpgt_epi32(rem6, set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 mulrem6 = add_epi64(add_epi64(add_epi64(and_si128(rem6is1orMore, n), and_si128(rem6is2orMore, n)), add_epi64(and_si128(rem6is3orMore, n), and_si128(rem6is4orMore, n))), and_si128(rem6is5orMore, n));
+                              c = add_epi64(mullo_epi64(constdiv_epu64(c, 6), n), constdiv_epu64(mulrem6, 6));
+                              results = blendv_si128(results, c, cmp);
+                              
+                              cmp = cmpgt_epi64(k, set1_epi64x(6));
+                              n = sub_epi64(n, ONE);
+                              v128 rem7 = constrem_epu64(c, 7);
+                              v128 rem7is1orMore = shuffle_epi32(cmpgt_epi32(rem7, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem7is2orMore = shuffle_epi32(cmpgt_epi32(rem7, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem7is3orMore = shuffle_epi32(cmpgt_epi32(rem7, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem7is4orMore = shuffle_epi32(cmpgt_epi32(rem7, set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem7is5orMore = shuffle_epi32(cmpgt_epi32(rem7, set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem7is6orMore = shuffle_epi32(cmpgt_epi32(rem7, set1_epi64x(5)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 mulrem7 = add_epi64(add_epi64(add_epi64(and_si128(rem7is1orMore, n), and_si128(rem7is2orMore, n)), add_epi64(and_si128(rem7is3orMore, n), and_si128(rem7is4orMore, n))), add_epi64(and_si128(rem7is5orMore, n), and_si128(rem7is6orMore, n)));
+                              c = add_epi64(mullo_epi64(constdiv_epu64(c, 7), n), constdiv_epu64(mulrem7, 7));
+                              results = blendv_si128(results, c, cmp);
+                              
+                              i = set1_epi64x(7);
+                              cmp = cmpgt_epi64(k, i);
+                              i = add_epi64(i, ONE);
+                              n = sub_epi64(n, ONE);
+                              v128 rem8 = constrem_epu64(c, 8);
+                              v128 rem8is1orMore = shuffle_epi32(cmpgt_epi32(rem8, setzero_si128()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is2orMore = shuffle_epi32(cmpgt_epi32(rem8, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is3orMore = shuffle_epi32(cmpgt_epi32(rem8, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is4orMore = shuffle_epi32(cmpgt_epi32(rem8, set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is5orMore = shuffle_epi32(cmpgt_epi32(rem8, set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is6orMore = shuffle_epi32(cmpgt_epi32(rem8, set1_epi64x(5)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 rem8is7orMore = shuffle_epi32(cmpgt_epi32(rem8, set1_epi64x(6)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v128 mulrem8 = add_epi64(add_epi64(add_epi64(add_epi64(and_si128(rem8is1orMore, n), and_si128(rem8is2orMore, n)), add_epi64(and_si128(rem8is3orMore, n), and_si128(rem8is4orMore, n))), add_epi64(and_si128(rem8is5orMore, n), and_si128(rem8is6orMore, n))), and_si128(rem8is7orMore, n));
+                              c = add_epi64(mullo_epi64(constdiv_epu64(c, 8), n), constdiv_epu64(mulrem8, 8));
+                              results = blendv_si128(results, c, cmp);
+                        //}
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void LOOP_comb_ep64([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<ulong4> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool CMP_EPI, bool nextDividerTest)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 ONE = set1_epi64x(1);
+                    
+                    i = add_epi64(i, ONE);
+                    n = sub_epi64(n, ONE);
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v128 q = divrem_epu64(c, i, out v128 r, bLEu32max: true);
+                        c = add_epi64(mullo_epi64(q, n), div_epu64(mullo_epi64(r, n), i, bLEu32max: true));
+                    }
+                    else
+                    {
+                        if (Avx2.IsAvx2Supported)
+                        {
+                            Divider<ulong> currentDivider = loopDividerAVX.GetInnerDivider<ulong>(indexCurrentDivider);
+                            v128 q = currentDivider.DivRem(c, out ulong2 r);
+                            c = add_epi64(mullo_epi64(q, n), (ulong2)mullo_epi64(r, n) / currentDivider);
+
+                            if (nextDividerTest)
+                            {
+                                next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                            }
+                        }
+                        else
+                        {
+                            v128 q = divrem_epu64(c, i, out v128 r, bLEu32max: true);
+                            c = add_epi64(mullo_epi64(q, n), div_epu64(mullo_epi64(r, n), i, bLEu32max: true));
+                        }
+                    }
+                    
+                    if (!nextDividerTest)
+                    {
+                        i = sub_epi64(i, ONE);
+                    }
+
+                    results = blendv_si128(results, c, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 comb_ep64(v128 n, v128 k, bool signed, byte unsafeLevels = 0)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
+
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            v128 nFactorial  = gamma_epu64(n, true);
+                            v128 kFactorial  = gamma_epu64(k, true);
+                            v128 nkFactorial = gamma_epu64(sub_epi64(n, k), true);
+
+                            return cvttpd_epu64(div_pd(usfcvtepu64_pd(nFactorial), usfcvtepu64_pd(mullo_epi64(kFactorial, nkFactorial))), nonZero: true);
+                        }
+                        else
+                        {
+                            return unpacklo_epi64(cvtsi64x_si128(maxmath.comb(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe0)),
+                                                  cvtsi64x_si128(maxmath.comb(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe0)));
+                        }
+                    }
+                    
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU64(n, ulong.MaxValue);
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    PRELOOP_comb_ep64(ref n, ref k, out v128 results, out v128 i, out v128 c, signed);
+                    
+                    v128 cmp = Uninitialized<ulong2>.Create();
+
+                    while (notallfalse_epi128<ulong>(cmp = CMP_EPI ? cmpgt_epi64(k, i)
+                                                                   : cmpgt_epu64(k, i)))
+                    {
+                        LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDividerAVX, ref indexCurrentDivider, cmp, CMP_EPI, true);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void comb_ep64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                {
+                    if (Architecture.IsSIMDSupported)
+                    {
+                        if (CMP_EPI)
+                        {
+                            cmp0 = cmpgt_epi64(k0, i);
+                            cmp1 = cmpgt_epi64(k1, i);
+                        }
+                        else
+                        {
+                            cmp0 = cmpgt_epu64(k0, i);
+                            cmp1 = cmpgt_epu64(k1, i);
+                        }
+                                
+                        return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+                
+                if (Architecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ulong2, ulong>(k0, n0, 2);
+VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
+
+                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU64(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU64(n1, MAX_INVERSE_FACTORIAL_U64)))
+                    {
+                        r0 = comb_ep64(n0, k0, signed, unsafeLevels);
+                        r1 = comb_ep64(n1, k1, signed, unsafeLevels);
+
+                        return;
+                    }
+
+                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU64(n0, ulong.MaxValue) && constexpr.ALL_LT_EPU64(n1, ulong.MaxValue));
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep64(ref n0, ref k0, out r0, out v128 i, out v128 c0, signed);
+                    PRELOOP_comb_ep64(ref n1, ref k1, out r1, out _,      out v128 c1, signed);
+
+                    v128 cmp0 = Uninitialized<ulong2>.Create();
+                    v128 cmp1 = Uninitialized<ulong2>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    {
+                        LOOP_comb_ep64(ref n0, ref i, ref c0, ref r0, ref loopDividerAVX, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
+                        LOOP_comb_ep64(ref n1, ref i, ref c1, ref r1, ref loopDividerAVX, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v256 mm256_comb_ep8(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-Assert.IsNotGreater(k.SShort0,  n.SShort0);
-Assert.IsNotGreater(k.SShort1,  n.SShort1);
-Assert.IsNotGreater(k.SShort2,  n.SShort2);
-Assert.IsNotGreater(k.SShort3,  n.SShort3);
-Assert.IsNotGreater(k.SShort4,  n.SShort4);
-Assert.IsNotGreater(k.SShort5,  n.SShort5);
-Assert.IsNotGreater(k.SShort6,  n.SShort6);
-Assert.IsNotGreater(k.SShort7,  n.SShort7);
-Assert.IsNotGreater(k.SShort8,  n.SShort8);
-Assert.IsNotGreater(k.SShort9,  n.SShort9);
-Assert.IsNotGreater(k.SShort10, n.SShort10);
-Assert.IsNotGreater(k.SShort11, n.SShort11);
-Assert.IsNotGreater(k.SShort12, n.SShort12);
-Assert.IsNotGreater(k.SShort13, n.SShort13);
-Assert.IsNotGreater(k.SShort14, n.SShort14);
-Assert.IsNotGreater(k.SShort15, n.SShort15);
-Assert.IsNonNegative(k.SShort0);
-Assert.IsNonNegative(k.SShort1);
-Assert.IsNonNegative(k.SShort2);
-Assert.IsNonNegative(k.SShort3);
-Assert.IsNonNegative(k.SShort4);
-Assert.IsNonNegative(k.SShort5);
-Assert.IsNonNegative(k.SShort6);
-Assert.IsNonNegative(k.SShort7);
-Assert.IsNonNegative(k.SShort8);
-Assert.IsNonNegative(k.SShort9);
-Assert.IsNonNegative(k.SShort10);
-Assert.IsNonNegative(k.SShort11);
-Assert.IsNonNegative(k.SShort12);
-Assert.IsNonNegative(k.SShort13);
-Assert.IsNonNegative(k.SShort14);
-Assert.IsNonNegative(k.SShort15);
-Assert.IsNonNegative(n.SShort0);
-Assert.IsNonNegative(n.SShort1);
-Assert.IsNonNegative(n.SShort2);
-Assert.IsNonNegative(n.SShort3);
-Assert.IsNonNegative(n.SShort4);
-Assert.IsNonNegative(n.SShort5);
-Assert.IsNonNegative(n.SShort6);
-Assert.IsNonNegative(n.SShort7);
-Assert.IsNonNegative(n.SShort8);
-Assert.IsNonNegative(n.SShort9);
-Assert.IsNonNegative(n.SShort10);
-Assert.IsNonNegative(n.SShort11);
-Assert.IsNonNegative(n.SShort12);
-Assert.IsNonNegative(n.SShort13);
-Assert.IsNonNegative(n.SShort14);
-Assert.IsNonNegative(n.SShort15);
+VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
+                    
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16))
+                            {
+                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8))
+                                {
+                                    return mm256_naivecomb_epu8(n, k);
+                                }
+                                else
+                                {
+                                    v256 nLo16 = mm256_cvt2x2epu8_epi16(n, out v256 nHi16);
+                                    v256 kLo16 = mm256_cvt2x2epu8_epi16(k, out v256 kHi16);
+
+                                    return mm256_cvt2x2epi16_epi8(mm256_naivecomb_epu16(nLo16, kLo16), mm256_naivecomb_epu16(nHi16, kHi16));
+                                }
+                            }
+                            else
+                            {
+                                mm256_cvt4x4epu8_epi32(n, out v256 n32_0, out v256 n32_1, out v256 n32_2, out v256 n32_3);
+                                mm256_cvt4x4epu8_epi32(k, out v256 k32_0, out v256 k32_1, out v256 k32_2, out v256 k32_3);
+
+                                v256 result32_0 = mm256_naivecomb_epu32(n32_0, k32_0);
+                                v256 result32_1 = mm256_naivecomb_epu32(n32_1, k32_1);
+                                v256 result32_2 = mm256_naivecomb_epu32(n32_2, k32_2);
+                                v256 result32_3 = mm256_naivecomb_epu32(n32_3, k32_3);
+
+                                v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
+                                v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
+
+                                return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
+                            }
+                        }
+                        else
+                        {
+                            mm256_cvt8x8epu8_epi64(n, out v256 n64_0, out v256 n64_1, out v256 n64_2, out v256 n64_3, out v256 n64_4, out v256 n64_5, out v256 n64_6, out v256 n64_7);
+                            mm256_cvt8x8epu8_epi64(k, out v256 k64_0, out v256 k64_1, out v256 k64_2, out v256 k64_3, out v256 k64_4, out v256 k64_5, out v256 k64_6, out v256 k64_7);
+
+                            v256 result64_0 = mm256_naivecomb_epu64(n64_0, k64_0);
+                            v256 result64_1 = mm256_naivecomb_epu64(n64_1, k64_1);
+                            v256 result64_2 = mm256_naivecomb_epu64(n64_2, k64_2);
+                            v256 result64_3 = mm256_naivecomb_epu64(n64_3, k64_3);
+                            v256 result64_4 = mm256_naivecomb_epu64(n64_4, k64_4);
+                            v256 result64_5 = mm256_naivecomb_epu64(n64_5, k64_5);
+                            v256 result64_6 = mm256_naivecomb_epu64(n64_6, k64_6);
+                            v256 result64_7 = mm256_naivecomb_epu64(n64_7, k64_7);
+
+                            v256 result32_0 = mm256_cvt2x2epi64_epi32(result64_0, result64_1);
+                            v256 result32_1 = mm256_cvt2x2epi64_epi32(result64_2, result64_3);
+                            v256 result32_2 = mm256_cvt2x2epi64_epi32(result64_4, result64_5);
+                            v256 result32_3 = mm256_cvt2x2epi64_epi32(result64_6, result64_7);
+
+                            v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
+                            v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
+
+                            return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
+                        }
+                    }
+                    
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU8(n, byte.MaxValue);
+                    v256 ONE = mm256_set1_epi8(1);
+                    Divider<byte32> loopDivider = new Divider<byte32>(new byte32(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40), Divider<byte32>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
+                    k = Avx2.mm256_min_epu8(k, Avx2.mm256_sub_epi8(n, k));
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi8(k, Avx.mm256_setzero_si256()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = Avx2.mm256_cmpgt_epi8(k, ONE);
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 2), n), Avx2.mm256_and_si256(mm256_neg_epi8(mm256_constrem_epu8(c, 2)), mm256_constdiv_epu8(n, 2)));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi8(k, mm256_set1_epi8(2));
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 rem3 = mm256_constrem_epu8(c, 3);
+                        v256 rem3is1orMore = Avx2.mm256_cmpgt_epi8(rem3, Avx.mm256_setzero_si256());
+                        v256 rem3is2orMore = Avx2.mm256_cmpgt_epi8(rem3, ONE);
+                        v256 mulrem3 = Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem3is1orMore, n), Avx2.mm256_and_si256(rem3is2orMore, n));
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 3), n), mm256_constdiv_epu8(mulrem3, 3));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi8(k, mm256_set1_epi8(3));
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 rem4 = mm256_constrem_epu8(c, 4); 
+                        v256 rem4is1orMore = Avx2.mm256_cmpgt_epi8(rem4, Avx.mm256_setzero_si256());
+                        v256 rem4is2orMore = Avx2.mm256_cmpgt_epi8(rem4, ONE);
+                        v256 rem4is3orMore = Avx2.mm256_cmpgt_epi8(rem4, mm256_set1_epi8(2));
+                        v256 mulrem4 = Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem4is1orMore, n), Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem4is2orMore, n), Avx2.mm256_and_si256(rem4is3orMore, n)));
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 4), n), mm256_constdiv_epu8(mulrem4, 4));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi8(k, mm256_set1_epi8(4));
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 rem5 = mm256_constrem_epu8(c, 5);
+                        v256 rem5is1orMore = Avx2.mm256_cmpgt_epi8(rem5, Avx.mm256_setzero_si256());
+                        v256 rem5is2orMore = Avx2.mm256_cmpgt_epi8(rem5, ONE);
+                        v256 rem5is3orMore = Avx2.mm256_cmpgt_epi8(rem5, mm256_set1_epi8(2));
+                        v256 rem5is4orMore = Avx2.mm256_cmpgt_epi8(rem5, mm256_set1_epi8(3));
+                        v256 mulrem5 = Avx2.mm256_add_epi8(Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem5is1orMore, n), Avx2.mm256_and_si256(rem5is2orMore, n)), Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem5is3orMore, n), Avx2.mm256_and_si256(rem5is4orMore, n)));
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 5), n), mm256_constdiv_epu8(mulrem5, 5));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi8(k, mm256_set1_epi8(5));
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 rem6 = mm256_constrem_epu8(c, 6);
+                        v256 rem6is1orMore = Avx2.mm256_cmpgt_epi8(rem6, Avx.mm256_setzero_si256());
+                        v256 rem6is2orMore = Avx2.mm256_cmpgt_epi8(rem6, ONE);
+                        v256 rem6is3orMore = Avx2.mm256_cmpgt_epi8(rem6, mm256_set1_epi8(2));
+                        v256 rem6is4orMore = Avx2.mm256_cmpgt_epi8(rem6, mm256_set1_epi8(3));
+                        v256 rem6is5orMore = Avx2.mm256_cmpgt_epi8(rem6, mm256_set1_epi8(4));
+                        v256 mulrem6 = Avx2.mm256_add_epi8(Avx2.mm256_add_epi8(Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem6is1orMore, n), Avx2.mm256_and_si256(rem6is2orMore, n)), Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem6is3orMore, n), Avx2.mm256_and_si256(rem6is4orMore, n))), Avx2.mm256_and_si256(rem6is5orMore, n));
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 6), n), mm256_constdiv_epu8(mulrem6, 6));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        i = mm256_set1_epi8(6);
+                        cmp = Avx2.mm256_cmpgt_epi8(k, i);
+                        i = Avx2.mm256_add_epi8(i, ONE);
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 rem7 = mm256_constrem_epu8(c, 7);
+                        v256 rem7is1orMore = Avx2.mm256_cmpgt_epi8(rem7, Avx.mm256_setzero_si256());
+                        v256 rem7is2orMore = Avx2.mm256_cmpgt_epi8(rem7, ONE);
+                        v256 rem7is3orMore = Avx2.mm256_cmpgt_epi8(rem7, mm256_set1_epi8(2));
+                        v256 rem7is4orMore = Avx2.mm256_cmpgt_epi8(rem7, mm256_set1_epi8(3));
+                        v256 rem7is5orMore = Avx2.mm256_cmpgt_epi8(rem7, mm256_set1_epi8(4));
+                        v256 rem7is6orMore = Avx2.mm256_cmpgt_epi8(rem7, mm256_set1_epi8(5));
+                        v256 mulrem7 = Avx2.mm256_add_epi8(Avx2.mm256_add_epi8(Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem7is1orMore, n), Avx2.mm256_and_si256(rem7is2orMore, n)), Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem7is3orMore, n), Avx2.mm256_and_si256(rem7is4orMore, n))), Avx2.mm256_add_epi8(Avx2.mm256_and_si256(rem7is5orMore, n), Avx2.mm256_and_si256(rem7is6orMore, n)));
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 7), n), mm256_constdiv_epu8(mulrem7, 7));
+                        results = mm256_blendv_si256(results, c, cmp);
+                    }
+                    
+                    while (CMP_EPI ? mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi8(k, i))
+                                   : mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu8(k, i)))
+                    {
+                        i = Avx2.mm256_add_epi8(i, ONE);
+                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            v256 q = mm256_divrem_epu8(c, i, out v256 r);
+                            c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), mm256_div_epu8(mm256_mullo_epi8(r, n), i));
+                        }
+                        else
+                        {
+                            Divider<byte> currentDivider = loopDivider.GetInnerDivider<byte>(indexCurrentDivider);
+                            v256 q = currentDivider.DivRem(c, out byte32 r);
+                            c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), (r * n) / currentDivider);
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                        }
+                    
+                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp) 
+                                          : mm256_blendv_si256(c, results, cmp);
+                    }
+                    
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v256 mm256_comb_ep16(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                     
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64))
                     {
@@ -1193,7 +2601,7 @@ Assert.IsNonNegative(n.SShort15);
 
                                 v256 resultLo = mm256_naivecomb_epu32(nLo32, kLo32);
                                 v256 resultHi = mm256_naivecomb_epu32(nHi32, kHi32);
-                        
+
                                 return mm256_cvt2x2epi32_epi16(resultLo, resultHi);
                             }
                         }
@@ -1217,117 +2625,89 @@ Assert.IsNonNegative(n.SShort15);
                             return mm256_cvt2x2epi32_epi16(result32Lo, result32Hi);
                         }
                     }
-
-
-                    v256 ONE = Avx.mm256_set1_epi16(1);
                     
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU16(n, ushort.MaxValue);
+                    v256 ONE = mm256_set1_epi16(1);
+                    Divider<ushort16> loopDivider = new Divider<ushort16>(new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
                     k = Avx2.mm256_min_epu16(k, Avx2.mm256_sub_epi16(n, k));
-                    
-                    v256 n2 = n;
-                    n = Avx2.mm256_sub_epi16(n, ONE);
-                    v256 c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_srli_epi16(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi16(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi16(n, 1)));
-                    v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi16(k, ONE)), ONE, Avx2.mm256_cmpeq_epi16(k, Avx.mm256_setzero_si256()));
-                    v256 i = Avx2.mm256_add_epi16(ONE, ONE);
-                    v256 cmp = Avx2.mm256_cmpgt_epi16(k, i);
-                    
-                    while (Hint.Likely(mm256_notallfalse_epi256<ushort>(cmp, 16)))
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi16(k, Avx.mm256_setzero_si256()));
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                     {
-                        i = Avx2.mm256_add_epi16(i, ONE);
-                        v256 q = mm256_divrem_epu16(c, i, out v256 r);
-                        n = Avx2.mm256_sub_epi16(n, ONE);
-                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), mm256_div_epu16(Avx2.mm256_mullo_epi16(r, n), i));
-                    
-                        results = mm256_blendv_si256(results, c, cmp);
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 2), n), Avx2.mm256_and_si256(mm256_neg_epi16(mm256_constrem_epu16(c, 2)), mm256_constdiv_epu16(n, 2)));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        v256 rem3 = mm256_constrem_epu16(c, 3);
+                        v256 rem3is1orMore = Avx2.mm256_cmpgt_epi16(rem3, Avx.mm256_setzero_si256());
+                        v256 rem3is2orMore = Avx2.mm256_cmpgt_epi16(rem3, ONE);
+                        v256 mulrem3 = Avx2.mm256_add_epi16(Avx2.mm256_and_si256(rem3is1orMore, n), Avx2.mm256_and_si256(rem3is2orMore, n));
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 3), n), mm256_constdiv_epu16(mulrem3, 3));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 4), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 4), n), 4));
+                        results = mm256_blendv_si256(results, c, cmp);
+
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 5), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 5), n), 5));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 6), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 6), n), 6));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 7), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 7), n), 7));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi16(k, i);
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 8), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 8), n), 8));
+                        results = mm256_blendv_si256(results, c, cmp);
                     }
                     
-                    return results;
-                }
-                else throw new IllegalInstructionException();
-            }
-
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epi32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-Assert.IsNotGreater(k.SInt0, n.SInt0);
-Assert.IsNotGreater(k.SInt1, n.SInt1);
-Assert.IsNonNegative(k.SInt0);
-Assert.IsNonNegative(k.SInt1);
-Assert.IsNonNegative(n.SInt0);
-Assert.IsNonNegative(n.SInt1);
-if (elements > 2)
-{
-Assert.IsNotGreater(k.SInt2, n.SInt2);
-Assert.IsNonNegative(k.SInt2);
-Assert.IsNonNegative(n.SInt2);
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.SInt3, n.SInt3);
-Assert.IsNonNegative(k.SInt3);
-Assert.IsNonNegative(n.SInt3);
-}
-                    
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    while (CMP_EPI ? mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi16(k, i))
+                                   : mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu16(k, i)))
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        i = Avx2.mm256_add_epi16(i, ONE);
+                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return naivecomb_epu32(n, k, elements);
+                            v256 q = mm256_divrem_epu16(c, i, out v256 r);
+                            c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), mm256_div_epu16(Avx2.mm256_mullo_epi16(r, n), i));
                         }
                         else
                         {
-                            if (elements > 2)
-                            {
-                                if (Avx2.IsAvx2Supported)
-                                {
-                                    return mm256_cvtepi64_epi32(mm256_naivecomb_epu64(Avx2.mm256_cvtepu32_epi64(n), Avx2.mm256_cvtepu32_epi64(k), elements));
-                                }
-                                else
-                                {
-                                    v128 lo = Sse2.unpacklo_epi32(Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), maxmath.Promise.Unsafe0)),
-                                                                  Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), maxmath.Promise.Unsafe0)));
-                                    v128 hi = Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), maxmath.Promise.Unsafe0));
-
-                                    if (elements == 4)
-                                    {
-                                        hi = Sse2.unpacklo_epi32(hi, Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), maxmath.Promise.Unsafe0)));
-                                    }
-
-                                    return Sse2.unpacklo_epi64(lo, hi);
-                                }
-                            }
-                            else
-                            {
-                                return Sse2.unpacklo_epi32(Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), maxmath.Promise.Unsafe0)),
-                                                           Sse2.cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), maxmath.Promise.Unsafe0)));
-                            }
+                            Divider<ushort> currentDivider = loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
+                            v256 q = currentDivider.DivRem(c, out ushort16 r);
+                            c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), (r * n) / currentDivider);
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
                         }
-                    }
-
-
-                    v128 ONE = Sse2.set1_epi32(1);
-
-                    k = min_epi32(k, Sse2.sub_epi32(n, k));
-
-                    v128 n2 = n;
-                    n = Sse2.sub_epi32(n, ONE);
-                    v128 c = Sse2.add_epi32(mullo_epi32(Sse2.srli_epi32(n2, 1), n, elements), Sse2.and_si128(neg_epi32(Sse2.and_si128(n2, ONE)), Sse2.srli_epi32(n, 1)));
-                    v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi32(k, ONE)), ONE, Sse2.cmpeq_epi32(k, Sse2.setzero_si128()));
-                    v128 i = Sse2.add_epi32(ONE, ONE);
-                    v128 cmp = Sse2.cmpgt_epi32(k, i);
-
-                    while (Hint.Likely(notallfalse_epi128<uint>(cmp, elements)))
-                    {
-                        i = Sse2.add_epi32(i, ONE);
-                        v128 q = divrem_epu32(c, i, out v128 r, elements);
-                        n = Sse2.sub_epi32(n, ONE);
-                        c = Sse2.add_epi32(mullo_epi32(q, n, elements), div_epu32(mullo_epi32(r, n, elements), i, elements));
-
-                        results = blendv_si128(results, c, cmp);
-                        cmp = Sse2.cmpgt_epi32(k, i);
+                        
+                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp) 
+                                          : mm256_blendv_si256(c, results, cmp);
                     }
 
                     return results;
@@ -1336,35 +2716,12 @@ Assert.IsNonNegative(n.SInt3);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epi32(v256 n, v256 k, byte unsafeLevels = 0)
+            private static v256 mm256_comb_ep32(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-Assert.IsNotGreater(k.SInt0, n.SInt0);
-Assert.IsNotGreater(k.SInt1, n.SInt1);
-Assert.IsNotGreater(k.SInt2, n.SInt2);
-Assert.IsNotGreater(k.SInt3, n.SInt3);
-Assert.IsNotGreater(k.SInt4, n.SInt4);
-Assert.IsNotGreater(k.SInt5, n.SInt5);
-Assert.IsNotGreater(k.SInt6, n.SInt6);
-Assert.IsNotGreater(k.SInt7, n.SInt7);
-Assert.IsNonNegative(k.SInt0);
-Assert.IsNonNegative(k.SInt1);
-Assert.IsNonNegative(k.SInt2);
-Assert.IsNonNegative(k.SInt3);
-Assert.IsNonNegative(k.SInt4);
-Assert.IsNonNegative(k.SInt5);
-Assert.IsNonNegative(k.SInt6);
-Assert.IsNonNegative(k.SInt7);
-Assert.IsNonNegative(n.SInt0);
-Assert.IsNonNegative(n.SInt1);
-Assert.IsNonNegative(n.SInt2);
-Assert.IsNonNegative(n.SInt3);
-Assert.IsNonNegative(n.SInt4);
-Assert.IsNonNegative(n.SInt5);
-Assert.IsNonNegative(n.SInt6);
-Assert.IsNonNegative(n.SInt7);
-                    
+VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
+
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64))
                     {
                         if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32))
@@ -1375,208 +2732,96 @@ Assert.IsNonNegative(n.SInt7);
                         {
                             v256 n64Lo = mm256_cvt2x2epu32_epi64(n, out v256 n64Hi);
                             v256 k64Lo = mm256_cvt2x2epu32_epi64(k, out v256 k64Hi);
-                            
+
                             v256 resultLo = mm256_naivecomb_epu64(n64Lo, k64Lo);
                             v256 resultHi = mm256_naivecomb_epu64(n64Hi, k64Hi);
-                            
+
                             return mm256_cvt2x2epi64_epi32(resultLo, resultHi);
                         }
                     }
+                    
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU32(n, uint.MaxValue);
+                    v256 ONE = mm256_set1_epi32(1);
+                    Divider<uint8> loopDivider = new Divider<uint8>(new uint8(9, 10, 11, 12, 13, 14, 15, 16), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
 
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
+                    k = Avx2.mm256_min_epu32(k, Avx2.mm256_sub_epi32(n, k));
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi32(k, Avx.mm256_setzero_si256()));
 
-                    v256 ONE = Avx.mm256_set1_epi32(1);
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 2), n), Avx2.mm256_and_si256(mm256_neg_epi32(mm256_constrem_epu32(c, 2)), mm256_constdiv_epu32(n, 2)));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        v256 rem3 = mm256_constrem_epu32(c, 3);
+                        v256 rem3is1orMore = Avx2.mm256_cmpgt_epi32(rem3, Avx.mm256_setzero_si256());
+                        v256 rem3is2orMore = Avx2.mm256_cmpgt_epi32(rem3, ONE);
+                        v256 mulrem3 = Avx2.mm256_add_epi32(Avx2.mm256_and_si256(rem3is1orMore, n), Avx2.mm256_and_si256(rem3is2orMore, n));
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 3), n), mm256_constdiv_epu32(mulrem3, 3));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 4), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 4), n), 4));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 5), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 5), n), 5));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 6), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 6), n), 6));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 7), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 7), n), 7));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
+                        i = Avx2.mm256_add_epi32(i, ONE);
+                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 8), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 8), n), 8));
+                        results = mm256_blendv_si256(results, c, cmp);
+                    }
 
-                    k = Avx2.mm256_min_epi32(k, Avx2.mm256_sub_epi32(n, k));
-
-                    v256 n2 = n;
-                    n = Avx2.mm256_sub_epi32(n, ONE);
-                    v256 c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_srli_epi32(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi32(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi32(n, 1)));
-                    v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi32(k, ONE)), ONE, Avx2.mm256_cmpeq_epi32(k, Avx.mm256_setzero_si256()));
-                    v256 i = Avx2.mm256_add_epi32(ONE, ONE);
-                    v256 cmp = Avx2.mm256_cmpgt_epi32(k, i);
-
-                    while (Hint.Likely(mm256_notallfalse_epi256<uint>(cmp, 8)))
+                    while (CMP_EPI ? mm256_notallfalse_epi256<uint>(cmp = Avx2.mm256_cmpgt_epi32(k, i))
+                                   : mm256_notalltrue_epi256<uint>(cmp = mm256_cmple_epu32(k, i)))
                     {
                         i = Avx2.mm256_add_epi32(i, ONE);
-                        v256 q = mm256_divrem_epu32(c, i, out v256 r);
                         n = Avx2.mm256_sub_epi32(n, ONE);
-                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), mm256_div_epu32(Avx2.mm256_mullo_epi32(r, n), i));
-
-                        results = mm256_blendv_si256(results, c, cmp);
-                        cmp = Avx2.mm256_cmpgt_epi32(k, i);
-                    }
-
-                    return results;
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epu32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-Assert.IsNotGreater(k.UInt0, n.UInt0);
-Assert.IsNotGreater(k.UInt1, n.UInt1);
-if (elements > 2)
-{
-Assert.IsNotGreater(k.UInt2, n.UInt2);
-}
-if (elements > 3)
-{
-Assert.IsNotGreater(k.UInt3, n.UInt3);
-}
-
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU32(n, int.MaxValue))
-                    {
-                        return comb_epi32(n, k, unsafeLevels, elements);
-                    }
-                    else
-                    {
-                        v128 ONE = Sse2.set1_epi32(1);
-
-                        k = min_epu32(k, Sse2.sub_epi32(n, k));
-
-                        v128 n2 = n;
-                        n = Sse2.sub_epi32(n, ONE);
-                        v128 c = Sse2.add_epi32(mullo_epi32(Sse2.srli_epi32(n2, 1), n, elements), Sse2.and_si128(neg_epi32(Sse2.and_si128(n2, ONE)), Sse2.srli_epi32(n, 1)));
-                        v128 results = blendv_si128(blendv_si128(c, n2, Sse2.cmpeq_epi32(k, ONE)), ONE, Sse2.cmpeq_epi32(k, Sse2.setzero_si128()));
-                        v128 i = Sse2.add_epi32(ONE, ONE);
-
-                        if (Sse4_1.IsSse41Supported)
+                        
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            v128 cmp = cmple_epu32(k, i, elements);
-                            while (Hint.Likely(notalltrue_epi128<uint>(cmp, elements)))
-                            {
-                                i = Sse2.add_epi32(i, ONE);
-                                v128 q = divrem_epu32(c, i, out v128 r);
-                                n = Sse2.sub_epi32(n, ONE);
-                                c = Sse2.add_epi32(mullo_epi32(q, n, elements), div_epu32(mullo_epi32(r, n, elements), i, elements));
-
-                                results = blendv_si128(c, results, cmp);
-                                cmp = cmple_epu32(k, i, elements);
-                            }
-                        }
-                        else
-                        {
-                            v128 cmp = cmpgt_epu32(k, i, elements);
-                            while (Hint.Likely(notallfalse_epi128<uint>(cmp, elements)))
-                            {
-                                i = Sse2.add_epi32(i, ONE);
-                                v128 q = divrem_epu32(c, i, out v128 r);
-                                n = Sse2.sub_epi32(n, ONE);
-                                c = Sse2.add_epi32(mullo_epi32(q, n, elements), div_epu32(mullo_epi32(r, n, elements), i, elements));
-
-                                results = blendv_si128(results, c, cmp);
-                                cmp = cmpgt_epu32(k, i, elements);
-                            }
-                        }
-
-                        return results;
-                    }
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epu32(v256 n, v256 k, byte unsafeLevels = 0)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-Assert.IsNotGreater(k.UInt0, n.UInt0);
-Assert.IsNotGreater(k.UInt1, n.UInt1);
-Assert.IsNotGreater(k.UInt2, n.UInt2);
-Assert.IsNotGreater(k.UInt3, n.UInt3);
-Assert.IsNotGreater(k.UInt4, n.UInt4);
-Assert.IsNotGreater(k.UInt5, n.UInt5);
-Assert.IsNotGreater(k.UInt6, n.UInt6);
-Assert.IsNotGreater(k.UInt7, n.UInt7);
-
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU32(n, int.MaxValue))
-                    {
-                        return mm256_comb_epi32(n, k, unsafeLevels);
-                    }
-                    else
-                    {
-                        v256 ONE = Avx.mm256_set1_epi32(1);
-
-                        k = Avx2.mm256_min_epu32(k, Avx2.mm256_sub_epi32(n, k));
-
-                        v256 n2 = n;
-                        n = Avx2.mm256_sub_epi32(n, ONE);
-                        v256 c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_srli_epi32(n2, 1), n), Avx2.mm256_and_si256(mm256_neg_epi32(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi32(n, 1)));
-                        v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi32(k, ONE)), ONE, Avx2.mm256_cmpeq_epi32(k, Avx.mm256_setzero_si256()));
-                        v256 i = Avx2.mm256_add_epi32(ONE, ONE);
-                        v256 cmp = mm256_cmple_epu32(k, i);
-
-                        while (Hint.Likely(mm256_notalltrue_epi256<uint>(cmp, 8)))
-                        {
-                            i = Avx2.mm256_add_epi32(i, ONE);
                             v256 q = mm256_divrem_epu32(c, i, out v256 r);
-                            n = Avx2.mm256_sub_epi32(n, ONE);
                             c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), mm256_div_epu32(Avx2.mm256_mullo_epi32(r, n), i));
-
-                            results = mm256_blendv_si256(c, results, cmp);
-                            cmp = mm256_cmple_epu32(k, i);
-                        }
-
-                        return results;
-                    }
-                }
-                else throw new IllegalInstructionException();
-            }
-
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epi64(v128 n, v128 k, byte unsafeLevels = 0)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-Assert.IsNotGreater(k.SLong0, n.SLong0);
-Assert.IsNotGreater(k.SLong1, n.SLong1);
-Assert.IsNonNegative(k.SLong0);
-Assert.IsNonNegative(k.SLong1);
-Assert.IsNonNegative(n.SLong0);
-Assert.IsNonNegative(n.SLong1);
-                    
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
-                    {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            v128 nFactorial  = gamma_epu64(n, true);
-                            v128 kFactorial  = gamma_epu64(k, true);
-                            v128 nkFactorial = gamma_epu64(Sse2.sub_epi64(n, k), true);
-
-                            return usfcvttpd_epu64(Sse2.div_pd(usfcvtepu64_pd(nFactorial), usfcvtepu64_pd(mullo_epi64(kFactorial, nkFactorial))));
                         }
                         else
                         {
-                            return Sse2.unpacklo_epi64(Sse2.cvtsi64x_si128((long)maxmath.comb(extract_epi64(n, 0), extract_epi64(k, 0), maxmath.Promise.Unsafe0)),
-                                                       Sse2.cvtsi64x_si128((long)maxmath.comb(extract_epi64(n, 1), extract_epi64(k, 1), maxmath.Promise.Unsafe0)));
+                            Divider<uint> currentDivider = loopDivider.GetInnerDivider<uint>(indexCurrentDivider);
+                            v256 q = currentDivider.DivRem(c, out uint8 r);
+                            c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), (r * n) / currentDivider);
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
                         }
-                    }
 
-
-                    v128 ONE = Sse2.set1_epi64x(1);
-
-                    k = min_epi64(k, Sse2.sub_epi64(n, k));
-
-                    v128 n2 = n;
-                    n = Sse2.sub_epi64(n, ONE);
-                    v128 c = Sse2.add_epi64(mullo_epi64(Sse2.srli_epi64(n2, 1), n), Sse2.and_si128(neg_epi64(Sse2.and_si128(n2, ONE)), Sse2.srli_epi64(n, 1)));
-                    v128 results = blendv_si128(blendv_si128(c, n2, cmpeq_epi64(k, ONE)), ONE, cmpeq_epi64(k, Sse2.setzero_si128()));
-                    v128 i = Sse2.add_epi64(ONE, ONE);
-                    v128 cmp = cmpgt_epi64(k, i);
-
-                    while (Hint.Likely(notallfalse_epi128<ulong>(cmp, 2)))
-                    {
-                        i = Sse2.add_epi64(i, ONE);
-                        v128 q = divrem_epu64(c, i, out v128 r);
-                        n = Sse2.sub_epi64(n, ONE);
-                        c = Sse2.add_epi64(mullo_epi64(q, n), div_epu64(mullo_epi64(r, n), i));
-
-                        results = blendv_si128(results, c, cmp);
-                        cmp = cmpgt_epi64(k, i);
+                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp)
+                                          : mm256_blendv_si256(c, results, cmp);
                     }
 
                     return results;
@@ -1585,25 +2830,12 @@ Assert.IsNonNegative(n.SLong1);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epi64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
+            private static v256 mm256_comb_ep64(v256 n, v256 k, bool signed, byte unsafeLevels = 0, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-Assert.IsNotGreater(k.SLong0, n.SLong0);
-Assert.IsNotGreater(k.SLong1, n.SLong1);
-Assert.IsNotGreater(k.SLong2, n.SLong2);
-Assert.IsNonNegative(k.SLong0);
-Assert.IsNonNegative(k.SLong1);
-Assert.IsNonNegative(k.SLong2);
-Assert.IsNonNegative(n.SLong0);
-Assert.IsNonNegative(n.SLong1);
-Assert.IsNonNegative(n.SLong2);
-if (elements > 3)
-{
-    Assert.IsNotGreater(k.SLong3, n.SLong3);
-    Assert.IsNonNegative(k.SLong3);
-    Assert.IsNonNegative(n.SLong3);
-}
+VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
+
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
                     {
                         if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
@@ -1611,127 +2843,176 @@ if (elements > 3)
                             v256 nFactorial  = mm256_gamma_epu64(n, true);
                             v256 kFactorial  = mm256_gamma_epu64(k, true);
                             v256 nkFactorial = mm256_gamma_epu64(Avx2.mm256_sub_epi64(n, k), true);
-                    
-                            return mm256_usfcvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(nFactorial), mm256_usfcvtepu64_pd(mm256_mullo_epi64(kFactorial, nkFactorial, elements))));
+
+                            return mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(nFactorial), mm256_usfcvtepu64_pd(mm256_mullo_epi64(kFactorial, nkFactorial, elements))), elements: elements, nonZero: true);
                         }
                         else
                         {
                             return mm256_naivecomb_epu64(n, k, elements);
                         }
                     }
+                    
+                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU64(n, ulong.MaxValue, elements);
+                    v256 ONE = mm256_set1_epi64x(1);
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    
+                    v256 cmp;
+                    v256 results;
+                    v256 i = ONE;
+                    v256 c = n;
+                    k = signed || constexpr.ALL_LE_EPU64(n, (ulong)long.MaxValue)
+                      ? mm256_min_epi64(k, Avx2.mm256_sub_epi64(n, k))
+                      : mm256_min_epu64(k, Avx2.mm256_sub_epi64(n, k));
+                    results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi64(k, Avx.mm256_setzero_si256()));
 
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
+                    {
+                        cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        i = Avx2.mm256_add_epi64(i, ONE);
+                        n = Avx2.mm256_sub_epi64(n, ONE);
+                        c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 2, elements), n, elements), Avx2.mm256_and_si256(mm256_neg_epi64(mm256_constrem_epu64(c, 2, elements)), mm256_constdiv_epu64(n, 2, elements)));
+                        results = mm256_blendv_si256(results, c, cmp);
+                        
+                        cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        i = Avx2.mm256_add_epi64(i, ONE);
+                        n = Avx2.mm256_sub_epi64(n, ONE);
+                        v256 rem3 = mm256_constrem_epu64(c, 3, elements);
+                        v256 rem3is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem3, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                        v256 rem3is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem3, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                        v256 mulrem3 = Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem3is1orMore, n), Avx2.mm256_and_si256(rem3is2orMore, n));
+                        c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 3, elements), n, elements), mm256_constdiv_epu64(mulrem3, 3, elements));
+                        results = mm256_blendv_si256(results, c, cmp);
 
-                    v256 ONE = Avx.mm256_set1_epi64x(1);
+                        //if (Avx512.IsAvx512Supported)
+                        //{
+                        //    cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        //    i = Avx2.mm256_add_epi64(i, ONE);
+                        //    n = Avx2.mm256_sub_epi64(n, ONE);
+                        //    c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 4, elements), n, elements), mm256_constdiv_epu64(mm256_mullo_epi64(mm256_constrem_epu64(c, 4, elements), n, elements), 4, elements));
+                        //    results = mm256_blendv_si256(results, c, cmp);
+                        //    
+                        //    cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        //    i = Avx2.mm256_add_epi64(i, ONE);
+                        //    n = Avx2.mm256_sub_epi64(n, ONE);
+                        //    c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 5, elements), n, elements), mm256_constdiv_epu64(mm256_mullo_epi64(mm256_constrem_epu64(c, 5, elements), n, elements), 5, elements));
+                        //    results = mm256_blendv_si256(results, c, cmp);
+                        //    
+                        //    cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        //    i = Avx2.mm256_add_epi64(i, ONE);
+                        //    n = Avx2.mm256_sub_epi64(n, ONE);
+                        //    c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 6, elements), n, elements), mm256_constdiv_epu64(mm256_mullo_epi64(mm256_constrem_epu64(c, 6, elements), n, elements), 6, elements));
+                        //    results = mm256_blendv_si256(results, c, cmp);
+                        //    
+                        //    cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        //    i = Avx2.mm256_add_epi64(i, ONE);
+                        //    n = Avx2.mm256_sub_epi64(n, ONE);
+                        //    c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 7, elements), n, elements), mm256_constdiv_epu64(mm256_mullo_epi64(mm256_constrem_epu64(c, 7, elements), n, elements), 7, elements));
+                        //    results = mm256_blendv_si256(results, c, cmp);
+                        //    
+                        //    cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                        //    i = Avx2.mm256_add_epi64(i, ONE);
+                        //    n = Avx2.mm256_sub_epi64(n, ONE);
+                        //    c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 8, elements), n, elements), mm256_constdiv_epu64(mm256_mullo_epi64(mm256_constrem_epu64(c, 8, elements), n, elements), 8, elements));
+                        //    results = mm256_blendv_si256(results, c, cmp);
+                        //}
+                        //else
+                        //{
+                              cmp = Avx2.mm256_cmpgt_epi64(k, mm256_set1_epi64x(3));
+                              n = Avx2.mm256_sub_epi64(n, ONE);
+                              v256 rem4 = mm256_constrem_epu64(c, 4, elements); 
+                              v256 rem4is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem4, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem4is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem4, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem4is3orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem4, mm256_set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 mulrem4 = Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem4is1orMore, n), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem4is2orMore, n), Avx2.mm256_and_si256(rem4is3orMore, n)));
+                              c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 4, elements), n, elements), mm256_constdiv_epu64(mulrem4, 4, elements));
+                              results = mm256_blendv_si256(results, c, cmp);
+                              
+                              cmp = Avx2.mm256_cmpgt_epi64(k, mm256_set1_epi64x(4));
+                              n = Avx2.mm256_sub_epi64(n, ONE);
+                              v256 rem5 = mm256_constrem_epu64(c, 5, elements);
+                              v256 rem5is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem5, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem5is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem5, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem5is3orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem5, mm256_set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem5is4orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem5, mm256_set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 mulrem5 = Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem5is1orMore, n), Avx2.mm256_and_si256(rem5is2orMore, n)), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem5is3orMore, n), Avx2.mm256_and_si256(rem5is4orMore, n)));
+                              c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 5, elements), n, elements), mm256_constdiv_epu64(mulrem5, 5, elements));
+                              results = mm256_blendv_si256(results, c, cmp);
+                              
+                              cmp = Avx2.mm256_cmpgt_epi64(k, mm256_set1_epi64x(5));
+                              n = Avx2.mm256_sub_epi64(n, ONE);
+                              v256 rem6 = mm256_constrem_epu64(c, 6, elements);
+                              v256 rem6is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem6, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem6is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem6, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem6is3orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem6, mm256_set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem6is4orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem6, mm256_set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem6is5orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem6, mm256_set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 mulrem6 = Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem6is1orMore, n), Avx2.mm256_and_si256(rem6is2orMore, n)), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem6is3orMore, n), Avx2.mm256_and_si256(rem6is4orMore, n))), Avx2.mm256_and_si256(rem6is5orMore, n));
+                              c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 6, elements), n, elements), mm256_constdiv_epu64(mulrem6, 6, elements));
+                              results = mm256_blendv_si256(results, c, cmp);
+                              
+                              cmp = Avx2.mm256_cmpgt_epi64(k, mm256_set1_epi64x(6));
+                              n = Avx2.mm256_sub_epi64(n, ONE);
+                              v256 rem7 = mm256_constrem_epu64(c, 7, elements);
+                              v256 rem7is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem7is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem7is3orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, mm256_set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem7is4orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, mm256_set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem7is5orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, mm256_set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem7is6orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem7, mm256_set1_epi64x(5)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 mulrem7 = Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem7is1orMore, n), Avx2.mm256_and_si256(rem7is2orMore, n)), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem7is3orMore, n), Avx2.mm256_and_si256(rem7is4orMore, n))), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem7is5orMore, n), Avx2.mm256_and_si256(rem7is6orMore, n)));
+                              c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 7, elements), n, elements), mm256_constdiv_epu64(mulrem7, 7, elements));
+                              results = mm256_blendv_si256(results, c, cmp);
+                              
+                              i = mm256_set1_epi64x(7);
+                              cmp = Avx2.mm256_cmpgt_epi64(k, i);
+                              i = Avx2.mm256_add_epi64(i, ONE);
+                              n = Avx2.mm256_sub_epi64(n, ONE);
+                              v256 rem8 = mm256_constrem_epu64(c, 8, elements);
+                              v256 rem8is1orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, Avx.mm256_setzero_si256()), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is2orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, ONE), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is3orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, mm256_set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is4orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, mm256_set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is5orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, mm256_set1_epi64x(4)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is6orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, mm256_set1_epi64x(5)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 rem8is7orMore = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(rem8, mm256_set1_epi64x(6)), Sse.SHUFFLE(2, 2, 0, 0));
+                              v256 mulrem8 = Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem8is1orMore, n), Avx2.mm256_and_si256(rem8is2orMore, n)), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem8is3orMore, n), Avx2.mm256_and_si256(rem8is4orMore, n))), Avx2.mm256_add_epi64(Avx2.mm256_and_si256(rem8is5orMore, n), Avx2.mm256_and_si256(rem8is6orMore, n))), Avx2.mm256_and_si256(rem8is7orMore, n));
+                              c = Avx2.mm256_add_epi64(mm256_mullo_epi64(mm256_constdiv_epu64(c, 8, elements), n, elements), mm256_constdiv_epu64(mulrem8, 8, elements));
+                              results = mm256_blendv_si256(results, c, cmp);
+                        //}
+                    }
 
-                    k = mm256_min_epi64(k, Avx2.mm256_sub_epi64(n, k));
-
-                    v256 n2 = n;
-                    n = Avx2.mm256_sub_epi64(n, ONE);
-                    v256 c = Avx2.mm256_add_epi64(mm256_mullo_epi64(Avx2.mm256_srli_epi64(n2, 1), n, elements), Avx2.mm256_and_si256(mm256_neg_epi64(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi64(n, 1)));
-                    v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi64(k, ONE)), ONE, Avx2.mm256_cmpeq_epi64(k, Avx.mm256_setzero_si256()));
-                    v256 i = Avx2.mm256_add_epi64(ONE, ONE);
-                    v256 cmp = mm256_cmpgt_epi64(k, i, elements);
-
-                    while (Hint.Likely(mm256_notallfalse_epi256<ulong>(cmp, elements)))
+                    while (mm256_notallfalse_epi256<ulong>(cmp = CMP_EPI ? mm256_cmpgt_epi64(k, i, elements)
+                                                                         : mm256_cmpgt_epu64(k, i, elements), elements))
                     {
                         i = Avx2.mm256_add_epi64(i, ONE);
-                        v256 q = mm256_divrem_epu64(c, i, out v256 r, elements);
                         n = Avx2.mm256_sub_epi64(n, ONE);
-                        c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, elements), mm256_div_epu64(mm256_mullo_epi64(r, n, elements), i, elements));
+                        
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            v256 q = mm256_divrem_epu64(c, i, out v256 r, bLEu32max: true);
+                            c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, elements), mm256_div_epu64(mm256_mullo_epi64(r, n, elements), i, bLEu32max: true));
+                        }
+                        else
+                        {
+                            Divider<ulong> currentDivider = loopDivider.GetInnerDivider<ulong>(indexCurrentDivider);
+                            if (elements == 3)
+                            {
+                                v256 q = currentDivider.DivRem(c, out ulong3 r);
+                                c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 3), (ulong3)mm256_mullo_epi64(r, n, 3) / currentDivider);
+                            }
+                            else
+                            {
+                                v256 q = currentDivider.DivRem(c, out ulong4 r);
+                                c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 4), (ulong4)mm256_mullo_epi64(r, n, 4) / currentDivider);
+                            }
+                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                        }
 
                         results = mm256_blendv_si256(results, c, cmp);
-                        cmp = mm256_cmpgt_epi64(k, i, elements);
                     }
 
                     return results;
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 comb_epu64(v128 n, v128 k, byte unsafeLevels = 0)
-            {
-                if (Sse2.IsSse2Supported)
-                {
-Assert.IsNotGreater(k.ULong0, n.ULong0);
-Assert.IsNotGreater(k.ULong1, n.ULong1);
-
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU64(n, long.MaxValue))
-                    {
-                        return comb_epi64(n, k, unsafeLevels);
-                    }
-                    else
-                    {
-                        v128 ONE = Sse2.set1_epi64x(1);
-
-                        k = min_epu64(k, Sse2.sub_epi64(n, k));
-
-                        v128 n2 = n;
-                        n = Sse2.sub_epi64(n, ONE);
-                        v128 c = Sse2.add_epi64(mullo_epi64(Sse2.srli_epi64(n2, 1), n), Sse2.and_si128(neg_epi64(Sse2.and_si128(n2, ONE)), Sse2.srli_epi64(n, 1)));
-                        v128 results = blendv_si128(blendv_si128(c, n2, cmpeq_epi64(k, ONE)), ONE, cmpeq_epi64(k, Sse2.setzero_si128()));
-                        v128 i = Sse2.add_epi64(ONE, ONE);
-                        v128 cmp = cmpgt_epu64(k, i);
-
-                        while (Hint.Likely(notallfalse_epi128<ulong>(cmp, 2)))
-                        {
-                            i = Sse2.add_epi64(i, ONE);
-                            v128 q = divrem_epu64(c, i, out v128 r);
-                            n = Sse2.sub_epi64(n, ONE);
-                            c = Sse2.add_epi64(mullo_epi64(q, n), div_epu64(mullo_epi64(r, n), i));
-
-                            results = blendv_si128(results, c, cmp);
-                            cmp = cmpgt_epu64(k, i);
-                        }
-
-                        return results;
-                    }
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_comb_epu64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-Assert.IsNotGreater(k.ULong0, n.ULong0);
-Assert.IsNotGreater(k.ULong1, n.ULong1);
-Assert.IsNotGreater(k.ULong2, n.ULong2);
-if (elements > 3)
-{
-    Assert.IsNotGreater(k.ULong3, n.ULong3);
-}
-                    if (unsafeLevels != 0 || constexpr.ALL_LE_EPU64(n, long.MaxValue, elements))
-                    {
-                        return mm256_comb_epi64(n, k, unsafeLevels, elements);
-                    }
-                    else
-                    {
-                        v256 ONE = Avx.mm256_set1_epi64x(1);
-
-                        k = mm256_min_epu64(k, Avx2.mm256_sub_epi64(n, k));
-
-                        v256 n2 = n;
-                        n = Avx2.mm256_sub_epi64(n, ONE);
-                        v256 c = Avx2.mm256_add_epi64(mm256_mullo_epi64(Avx2.mm256_srli_epi64(n2, 1), n, elements), Avx2.mm256_and_si256(mm256_neg_epi64(Avx2.mm256_and_si256(n2, ONE)), Avx2.mm256_srli_epi64(n, 1)));
-                        v256 results = mm256_blendv_si256(mm256_blendv_si256(c, n2, Avx2.mm256_cmpeq_epi64(k, ONE)), ONE, Avx2.mm256_cmpeq_epi64(k, Avx.mm256_setzero_si256()));
-                        v256 i = Avx2.mm256_add_epi64(ONE, ONE);
-                        v256 cmp = mm256_cmpgt_epu64(k, i, elements);
-
-                        while (Hint.Likely(mm256_notallfalse_epi256<ulong>(cmp, elements)))
-                        {
-                            i = Avx2.mm256_add_epi64(i, ONE);
-                            v256 q = mm256_divrem_epu64(c, i, out v256 r, elements);
-                            n = Avx2.mm256_sub_epi64(n, ONE);
-                            c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, elements), mm256_div_epu64(mm256_mullo_epi64(r, n), i, elements));
-
-                            results = mm256_blendv_si256(results, c, cmp);
-                            cmp = mm256_cmpgt_epu64(k, i, elements);
-                        }
-
-                        return results;
-                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1741,76 +3022,128 @@ if (elements > 3)
 
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 128 bit overflow are undefined.     </summary>
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 128 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 128 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt128 comb(UInt128 n, UInt128 k, Promise useFactorial = Promise.Nothing) 
+        public static UInt128 comb(UInt128 n, UInt128 k, Promise useFactorial = Promise.Nothing)
         {
+            static void LoopIteration([NoAlias] ref UInt128 c, [NoAlias] ref UInt128 n, ulong i)
+            {
+                UInt128 q = divrem(c, i, out ulong r);
+                n--;
+                c = (q * n) + ((r * n) / i);
+            }
+
+
 Assert.IsNotGreater(k, n);
 
-            if (useFactorial.CountUnsafeLevels() > 0 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U128))
+            if (useFactorial.CountUnsafeLevels() > 0 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U128))
             {
                 return factorial(n, Promise.NoOverflow) / (factorial(k, Promise.NoOverflow) * factorial(n - k, Promise.NoOverflow));
             }
 
-
+            
+            // going beyond ulong.MaxValue iterations is not realistic whatsoever (takes literal years of runtime) - optimized
+            ulong i;
+            UInt128 c = n;
             k = min(k, n - k);
-            if (Hint.Unlikely(k.IsZero)) 
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                return 1;
-            }
-            
-            UInt128 c = n--;
-            
-            if (Hint.Likely(k > 1))
-            {
-                c = ((c >> 1) * n) + (((UInt128)(-(Int128)(c & 1))) & (n >> 1));
-            
-                UInt128 i = 2;
-                while (Hint.Likely(k > i++))
+                if (Hint.Unlikely(k.IsZero))
                 {
-                    UInt128 q = divrem(c, i, out UInt128 r);
-                    n--;
-                    c = (q * n) + ((r * n) / i);
+                    return 1;
+                }
+
+                i = 1;
+                
+                while (k > i++)
+                {
+                    LoopIteration(ref c, ref n, i);
+                }
+            }
+            else
+            {
+                if (Hint.Unlikely(k <= 1))
+                {
+                    return select(n, 1, k.IsZero);
+                }
+
+                i = 8;
+
+                n--;
+                c = ((c >> 1) * n) + select(n >> 1, 0, (c.lo64 & 1) == 0);
+                
+                if (Hint.Unlikely(k <= 2)) return c;
+                LoopIteration(ref c, ref n, 3);
+                
+                if (Hint.Unlikely(k <= 3)) return c;
+                LoopIteration(ref c, ref n, 4);
+                
+                if (Hint.Unlikely(k <= 4)) return c;
+                LoopIteration(ref c, ref n, 5);
+                
+                if (Hint.Unlikely(k <= 5)) return c;
+                LoopIteration(ref c, ref n, 6);
+                
+                if (Hint.Unlikely(k <= 6)) return c;
+                LoopIteration(ref c, ref n, 7);
+                
+                if (Hint.Unlikely(k <= 7)) return c;
+                LoopIteration(ref c, ref n, 8);
+                
+                while (k > i++)
+                {
+                    LoopIteration(ref c, ref n, i);
                 }
             }
             
             return c;
         }
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 128 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 128 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 128 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt128 comb(Int128 n, Int128 k, Promise useFactorial = Promise.Nothing) 
+        public static UInt128 comb(Int128 n, Int128 k, Promise useFactorial = Promise.Nothing)
         {
 Assert.IsTrue(k >= 0);
 Assert.IsTrue(n >= 0);
-            
+
             return comb((UInt128)n, (UInt128)k, useFactorial);
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte comb(byte n, byte k, Promise useFactorial = Promise.Nothing) 
+        public static byte comb(byte n, byte k, Promise useFactorial = Promise.Nothing)
         {
-            if (useFactorial.CountUnsafeLevels() > 0 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            static void FallbackLoopIteration([NoAlias] ref ushort c, [NoAlias] ref byte n, ushort i)
             {
-                if (useFactorial.CountUnsafeLevels() > 1 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
+                c *= --n;
+                c /= i;
+            }
+
+
+            if (useFactorial.CountUnsafeLevels() > 0 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            {
+                if (useFactorial.CountUnsafeLevels() > 1 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
                 {
-                    if (useFactorial.CountUnsafeLevels() > 2 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U16))
+                    if (useFactorial.CountUnsafeLevels() > 2 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U16))
                     {
-                        if (useFactorial.CountUnsafeLevels() > 3 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U8))
+                        if (useFactorial.CountUnsafeLevels() > 3 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U8))
                         {
                             return (byte)(factorial(n, Promise.NoOverflow) / (factorial(k, Promise.NoOverflow) * factorial((byte)(n - k), Promise.NoOverflow)));
                         }
@@ -1830,108 +3163,171 @@ Assert.IsTrue(n >= 0);
                 }
             }
 
-
+            
+            ushort i;
+            ushort c = n;
             k = min(k, (byte)(n - k));
-            if (Hint.Unlikely(k == 0)) 
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                return 1;
-            }
-            
-            byte c = n--;
-            
-            if (Hint.Likely(k > 1))
-            {
-                c = (byte)((byte)((c >> 1) * n) + (byte)((-(c & 1)) & (n >> 1)));
-            
-                byte i = 2;
-                while (Hint.Likely(k > i++))
+                if (Hint.Unlikely(k == 0))
                 {
-                    byte q = divrem(c, i, out byte r);
-                    n--;
-                    c = (byte)((byte)(q * n) + (byte)((byte)(r * n) / i));
+                    return 1;
+                }
+
+                i = 1;
+                
+                while (k > i++)
+                {
+                    FallbackLoopIteration(ref c, ref n, i);
                 }
             }
-            
-            return c;
+            else
+            {
+                if (Hint.Unlikely(k <= 1))
+                {
+                    return k == 0 ? (byte)1 : n;
+                }
+
+                i = 8;
+
+                FallbackLoopIteration(ref c, ref n, 2);
+
+                if (Hint.Unlikely(k <= 2)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 3);
+
+                if (Hint.Unlikely(k <= 3)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 4);
+
+                if (Hint.Unlikely(k <= 4)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 5);
+
+                if (Hint.Unlikely(k <= 5)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 6);
+
+                if (Hint.Unlikely(k <= 6)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 7);
+
+                if (Hint.Unlikely(k <= 7)) return (byte)c;
+                FallbackLoopIteration(ref c, ref n, 8);
+
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ushort16> loopDivider = new Divider<ushort16>(new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                
+                    while (k > i++)
+                    {
+                        c *= --n;
+                        c /= loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
+                        Xse.next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                    }
+                }
+                else if (Architecture.IsSIMDSupported)
+                {
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                
+                    while (k > i++)
+                    {
+                        c *= --n;
+                        c /= loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
+                        Xse.next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                    }
+                }
+                else
+                {
+                    while (k > i++)
+                    {
+                        FallbackLoopIteration(ref c, ref n, i);
+                    }
+                }
+            }
+
+            return (byte)c;
         }
 
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 comb(byte2 n, byte2 k, Promise useFactorial = Promise.Nothing) 
+        public static byte2 comb(byte2 n, byte2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu8(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
-                return new byte2(comb(n.x, k.x, useFactorial), 
+                return new byte2(comb(n.x, k.x, useFactorial),
                                  comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3 comb(byte3 n, byte3 k, Promise useFactorial = Promise.Nothing) 
+        public static byte3 comb(byte3 n, byte3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu8(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
-                return new byte3(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
+                return new byte3(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
                                  comb(n.z, k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4 comb(byte4 n, byte4 k, Promise useFactorial = Promise.Nothing) 
+        public static byte4 comb(byte4 n, byte4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu8(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
-                return new byte4(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
-                                 comb(n.z, k.z, useFactorial), 
+                return new byte4(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
+                                 comb(n.z, k.z, useFactorial),
                                  comb(n.w, k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 comb(byte8 n, byte8 k, Promise useFactorial = Promise.Nothing) 
+        public static byte8 comb(byte8 n, byte8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu8(n, k, useFactorial.CountUnsafeLevels(), 8);
             }
@@ -1947,18 +3343,19 @@ Assert.IsTrue(n >= 0);
                                  comb(n.x7, k.x7, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 comb(byte16 n, byte16 k, Promise useFactorial = Promise.Nothing) 
+        public static byte16 comb(byte16 n, byte16 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu8(n, k, useFactorial.CountUnsafeLevels(), 16);
             }
@@ -1982,212 +3379,240 @@ Assert.IsTrue(n >= 0);
                                   comb(n.x15, k.x15, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte32 comb(byte32 n, byte32 k, Promise useFactorial = Promise.Nothing) 
+        public static byte32 comb(byte32 n, byte32 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epu8(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu8x2(n.v16_0, n.v16_16, k.v16_0, k.v16_16, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new byte32(lo, hi);
+            }
             else
             {
-                return new byte32(comb(n.v16_0,  k.v16_0,  useFactorial), 
+                return new byte32(comb(n.v16_0,  k.v16_0,  useFactorial),
                                   comb(n.v16_16, k.v16_16, useFactorial));
             }
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte comb(sbyte n, sbyte k, Promise useFactorial = Promise.Nothing) 
+        public static byte comb(sbyte n, sbyte k, Promise useFactorial = Promise.Nothing)
         {
 Assert.IsNonNegative(k);
 Assert.IsNonNegative(n);
-            
+
             return comb((byte)n, (byte)k, useFactorial);
         }
 
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte2 comb(sbyte2 n, sbyte2 k, Promise useFactorial = Promise.Nothing) 
+        public static byte2 comb(sbyte2 n, sbyte2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi8(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
-                return new byte2((byte)comb((int)n.x, (int)k.x, useFactorial), 
-                                 (byte)comb((int)n.y, (int)k.y, useFactorial));
+                return new byte2(comb((byte)n.x, (byte)k.x, useFactorial),
+                                 comb((byte)n.y, (byte)k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte3 comb(sbyte3 n, sbyte3 k, Promise useFactorial = Promise.Nothing) 
+        public static byte3 comb(sbyte3 n, sbyte3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi8(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
-                return new byte3((byte)comb((int)n.x, (int)k.x, useFactorial), 
-                                 (byte)comb((int)n.y, (int)k.y, useFactorial), 
-                                 (byte)comb((int)n.z, (int)k.z, useFactorial));
+                return new byte3(comb((byte)n.x, (byte)k.x, useFactorial),
+                                 comb((byte)n.y, (byte)k.y, useFactorial),
+                                 comb((byte)n.z, (byte)k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4 comb(sbyte4 n, sbyte4 k, Promise useFactorial = Promise.Nothing) 
+        public static byte4 comb(sbyte4 n, sbyte4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi8(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
-                return new byte4((byte)comb((int)n.x, (int)k.x, useFactorial), 
-                                 (byte)comb((int)n.y, (int)k.y, useFactorial), 
-                                 (byte)comb((int)n.z, (int)k.z, useFactorial), 
-                                 (byte)comb((int)n.w, (int)k.w, useFactorial));
+                return new byte4(comb((byte)n.x, (byte)k.x, useFactorial),
+                                 comb((byte)n.y, (byte)k.y, useFactorial),
+                                 comb((byte)n.z, (byte)k.z, useFactorial),
+                                 comb((byte)n.w, (byte)k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte8 comb(sbyte8 n, sbyte8 k, Promise useFactorial = Promise.Nothing) 
+        public static byte8 comb(sbyte8 n, sbyte8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi8(n, k, useFactorial.CountUnsafeLevels(), 8);
             }
             else
             {
-                return new byte8((byte)comb((int)n.x0, (int)k.x0, useFactorial),
-                                 (byte)comb((int)n.x1, (int)k.x1, useFactorial),
-                                 (byte)comb((int)n.x2, (int)k.x2, useFactorial),
-                                 (byte)comb((int)n.x3, (int)k.x3, useFactorial),
-                                 (byte)comb((int)n.x4, (int)k.x4, useFactorial),
-                                 (byte)comb((int)n.x5, (int)k.x5, useFactorial),
-                                 (byte)comb((int)n.x6, (int)k.x6, useFactorial),
-                                 (byte)comb((int)n.x7, (int)k.x7, useFactorial));
+                return new byte8(comb((byte)n.x0, (byte)k.x0, useFactorial),
+                                 comb((byte)n.x1, (byte)k.x1, useFactorial),
+                                 comb((byte)n.x2, (byte)k.x2, useFactorial),
+                                 comb((byte)n.x3, (byte)k.x3, useFactorial),
+                                 comb((byte)n.x4, (byte)k.x4, useFactorial),
+                                 comb((byte)n.x5, (byte)k.x5, useFactorial),
+                                 comb((byte)n.x6, (byte)k.x6, useFactorial),
+                                 comb((byte)n.x7, (byte)k.x7, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte16 comb(sbyte16 n, sbyte16 k, Promise useFactorial = Promise.Nothing) 
+        public static byte16 comb(sbyte16 n, sbyte16 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.comb_epi8(n, k, 16, useFactorial.CountUnsafeLevels());
+                return Xse.comb_epi8(n, k, useFactorial.CountUnsafeLevels(), 16);
             }
             else
             {
-                return new byte16((byte)comb((int)n.x0,  (int)k.x0,  useFactorial),
-                                  (byte)comb((int)n.x1,  (int)k.x1,  useFactorial),
-                                  (byte)comb((int)n.x2,  (int)k.x2,  useFactorial),
-                                  (byte)comb((int)n.x3,  (int)k.x3,  useFactorial),
-                                  (byte)comb((int)n.x4,  (int)k.x4,  useFactorial),
-                                  (byte)comb((int)n.x5,  (int)k.x5,  useFactorial),
-                                  (byte)comb((int)n.x6,  (int)k.x6,  useFactorial),
-                                  (byte)comb((int)n.x7,  (int)k.x7,  useFactorial),
-                                  (byte)comb((int)n.x8,  (int)k.x8,  useFactorial),
-                                  (byte)comb((int)n.x9,  (int)k.x9,  useFactorial),
-                                  (byte)comb((int)n.x10, (int)k.x10, useFactorial),
-                                  (byte)comb((int)n.x11, (int)k.x11, useFactorial),
-                                  (byte)comb((int)n.x12, (int)k.x12, useFactorial),
-                                  (byte)comb((int)n.x13, (int)k.x13, useFactorial),
-                                  (byte)comb((int)n.x14, (int)k.x14, useFactorial),
-                                  (byte)comb((int)n.x15, (int)k.x15, useFactorial));
+                return new byte16(comb((byte)n.x0,  (byte)k.x0,  useFactorial),
+                                  comb((byte)n.x1,  (byte)k.x1,  useFactorial),
+                                  comb((byte)n.x2,  (byte)k.x2,  useFactorial),
+                                  comb((byte)n.x3,  (byte)k.x3,  useFactorial),
+                                  comb((byte)n.x4,  (byte)k.x4,  useFactorial),
+                                  comb((byte)n.x5,  (byte)k.x5,  useFactorial),
+                                  comb((byte)n.x6,  (byte)k.x6,  useFactorial),
+                                  comb((byte)n.x7,  (byte)k.x7,  useFactorial),
+                                  comb((byte)n.x8,  (byte)k.x8,  useFactorial),
+                                  comb((byte)n.x9,  (byte)k.x9,  useFactorial),
+                                  comb((byte)n.x10, (byte)k.x10, useFactorial),
+                                  comb((byte)n.x11, (byte)k.x11, useFactorial),
+                                  comb((byte)n.x12, (byte)k.x12, useFactorial),
+                                  comb((byte)n.x13, (byte)k.x13, useFactorial),
+                                  comb((byte)n.x14, (byte)k.x14, useFactorial),
+                                  comb((byte)n.x15, (byte)k.x15, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 8 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 8 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte32 comb(sbyte32 n, sbyte32 k, Promise useFactorial = Promise.Nothing) 
+        public static byte32 comb(sbyte32 n, sbyte32 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epi8(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epi8x2(n.v16_0, n.v16_16, k.v16_0, k.v16_16, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new byte32(lo, hi);
+            }
             else
             {
-                return new byte32(comb(n.v16_0,  k.v16_0,  useFactorial), 
+                return new byte32(comb(n.v16_0,  k.v16_0,  useFactorial),
                                   comb(n.v16_16, k.v16_16, useFactorial));
             }
         }
-        
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort comb(ushort n, ushort k, Promise useFactorial = Promise.Nothing) 
+        public static ushort comb(ushort n, ushort k, Promise useFactorial = Promise.Nothing)
         {
-            if (useFactorial.CountUnsafeLevels() > 0 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            static void FallbackLoopIteration([NoAlias] ref uint c, [NoAlias] ref ushort n, uint i)
             {
-                if (useFactorial.CountUnsafeLevels() > 1 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
+                c *= --n;
+                c /= i;
+            }
+
+
+            if (useFactorial.CountUnsafeLevels() > 0 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            {
+                if (useFactorial.CountUnsafeLevels() > 1 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
                 {
-                    if (useFactorial.CountUnsafeLevels() > 2 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U16))
+                    if (useFactorial.CountUnsafeLevels() > 2 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U16))
                     {
-                        if (useFactorial.CountUnsafeLevels() > 3 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U8))
+                        if (useFactorial.CountUnsafeLevels() > 3 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U8))
                         {
                             return (ushort)(factorial((byte)n, Promise.NoOverflow) / (factorial((byte)k, Promise.NoOverflow) * factorial((byte)(n - k), Promise.NoOverflow)));
                         }
@@ -2207,108 +3632,174 @@ Assert.IsNonNegative(n);
                 }
             }
 
-
+            
+            uint i;
+            uint c = n;
             k = min(k, (ushort)(n - k));
-            if (Hint.Unlikely(k == 0)) 
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                return 1;
-            }
-            
-            ushort c = n--;
-            
-            if (Hint.Likely(k > 1))
-            {
-                c = (ushort)((ushort)((c >> 1) * n) + (ushort)((-(c & 1)) & (n >> 1)));
-            
-                ushort i = 2;
-                while (Hint.Likely(k > i++))
+                if (Hint.Unlikely(k == 0))
                 {
-                    ushort q = divrem(c, i, out ushort r);
-                    n--;
-                    c = (ushort)((ushort)(q * n) + (ushort)((ushort)(r * n) / i));
+                    return 1;
+                }
+
+                i = 1;
+                
+                while (k > i++)
+                {
+                    FallbackLoopIteration(ref c, ref n, i);
                 }
             }
-            
-            return c;
+            else
+            {
+                if (Hint.Unlikely(k <= 1))
+                {
+                    return k == 0 ? (ushort)1 : n;
+                }
+
+                i = 8;
+
+                FallbackLoopIteration(ref c, ref n, 2);
+
+                if (Hint.Unlikely(k <= 2)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 3);
+
+                if (Hint.Unlikely(k <= 3)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 4);
+
+                if (Hint.Unlikely(k <= 4)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 5);
+
+                if (Hint.Unlikely(k <= 5)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 6);
+
+                if (Hint.Unlikely(k <= 6)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 7);
+
+                if (Hint.Unlikely(k <= 7)) return (ushort)c;
+                FallbackLoopIteration(ref c, ref n, 8);
+                
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<uint8> loopDivider = new Divider<uint8>(new uint8(9, 10, 11, 12, 13, 14, 15, 16), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                
+                    while (k > i++)
+                    {
+                        Divider<uint> currentDivider = loopDivider.GetInnerDivider<uint>(indexCurrentDivider);
+                
+                        c *= --n;
+                        c /= currentDivider;
+
+                        Xse.next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                    }
+                }
+                else if (Architecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDivider = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                
+                    while (k > i++)
+                    {
+                        c *= --n;
+                        c /= loopDivider.GetInnerDivider<uint>(indexCurrentDivider);
+                        Xse.next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                    }
+                }
+                else
+                {
+                    while (k > i++)
+                    {
+                        FallbackLoopIteration(ref c, ref n, i);
+                    }
+                }
+            }
+
+            return (ushort)c;
         }
 
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 comb(ushort2 n, ushort2 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort2 comb(ushort2 n, ushort2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu16(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
-                return new ushort2(comb(n.x, k.x, useFactorial), 
+                return new ushort2(comb(n.x, k.x, useFactorial),
                                    comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 comb(ushort3 n, ushort3 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort3 comb(ushort3 n, ushort3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu16(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
-                return new ushort3(comb(n.x, k.x, useFactorial), 
-                                   comb(n.y, k.y, useFactorial), 
+                return new ushort3(comb(n.x, k.x, useFactorial),
+                                   comb(n.y, k.y, useFactorial),
                                    comb(n.z, k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 comb(ushort4 n, ushort4 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort4 comb(ushort4 n, ushort4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu16(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
-                return new ushort4(comb(n.x, k.x, useFactorial), 
-                                   comb(n.y, k.y, useFactorial), 
-                                   comb(n.z, k.z, useFactorial), 
+                return new ushort4(comb(n.x, k.x, useFactorial),
+                                   comb(n.y, k.y, useFactorial),
+                                   comb(n.z, k.z, useFactorial),
                                    comb(n.w, k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 comb(ushort8 n, ushort8 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort8 comb(ushort8 n, ushort8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu16(n, k, useFactorial.CountUnsafeLevels(), 8);
             }
@@ -2324,173 +3815,200 @@ Assert.IsNonNegative(n);
                                    comb(n.x7, k.x7, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 comb(ushort16 n, ushort16 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort16 comb(ushort16 n, ushort16 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epu16(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu16x2(n.v8_0, n.v8_8, k.v8_0, k.v8_8, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ushort16(lo, hi);
+            }
             else
             {
-                return new ushort16(comb(n.v8_0, k.v8_0, useFactorial), 
+                return new ushort16(comb(n.v8_0, k.v8_0, useFactorial),
                                     comb(n.v8_8, k.v8_8, useFactorial));
             }
         }
-        
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort comb(short n, short k, Promise useFactorial = Promise.Nothing) 
+        public static ushort comb(short n, short k, Promise useFactorial = Promise.Nothing)
         {
 Assert.IsNonNegative(k);
 Assert.IsNonNegative(n);
-            
-            return comb((short)n, (short)k, useFactorial);
+
+            return comb((ushort)n, (ushort)k, useFactorial);
         }
 
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2 comb(short2 n, short2 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort2 comb(short2 n, short2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi16(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
-                return new ushort2((ushort)comb((int)n.x, (int)k.x, useFactorial), 
-                                   (ushort)comb((int)n.y, (int)k.y, useFactorial));
+                return new ushort2(comb((ushort)n.x, (ushort)k.x, useFactorial),
+                                   comb((ushort)n.y, (ushort)k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3 comb(short3 n, short3 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort3 comb(short3 n, short3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi16(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
-                return new ushort3((ushort)comb((int)n.x, (int)k.x, useFactorial), 
-                                   (ushort)comb((int)n.y, (int)k.y, useFactorial), 
-                                   (ushort)comb((int)n.z, (int)k.z, useFactorial));
+                return new ushort3(comb((ushort)n.x, (ushort)k.x, useFactorial),
+                                   comb((ushort)n.y, (ushort)k.y, useFactorial),
+                                   comb((ushort)n.z, (ushort)k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort4 comb(short4 n, short4 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort4 comb(short4 n, short4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi16(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
-                return new ushort4((ushort)comb((int)n.x, (int)k.x, useFactorial), 
-                                   (ushort)comb((int)n.y, (int)k.y, useFactorial), 
-                                   (ushort)comb((int)n.z, (int)k.z, useFactorial), 
-                                   (ushort)comb((int)n.w, (int)k.w, useFactorial));
+                return new ushort4(comb((ushort)n.x, (ushort)k.x, useFactorial),
+                                   comb((ushort)n.y, (ushort)k.y, useFactorial),
+                                   comb((ushort)n.z, (ushort)k.z, useFactorial),
+                                   comb((ushort)n.w, (ushort)k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort8 comb(short8 n, short8 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort8 comb(short8 n, short8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi16(n, k, useFactorial.CountUnsafeLevels(), 8);
             }
             else
             {
-                return new ushort8((ushort)comb((int)n.x0, (int)k.x0, useFactorial),
-                                   (ushort)comb((int)n.x1, (int)k.x1, useFactorial),
-                                   (ushort)comb((int)n.x2, (int)k.x2, useFactorial),
-                                   (ushort)comb((int)n.x3, (int)k.x3, useFactorial),
-                                   (ushort)comb((int)n.x4, (int)k.x4, useFactorial),
-                                   (ushort)comb((int)n.x5, (int)k.x5, useFactorial),
-                                   (ushort)comb((int)n.x6, (int)k.x6, useFactorial),
-                                   (ushort)comb((int)n.x7, (int)k.x7, useFactorial));
+                return new ushort8(comb((ushort)n.x0, (ushort)k.x0, useFactorial),
+                                   comb((ushort)n.x1, (ushort)k.x1, useFactorial),
+                                   comb((ushort)n.x2, (ushort)k.x2, useFactorial),
+                                   comb((ushort)n.x3, (ushort)k.x3, useFactorial),
+                                   comb((ushort)n.x4, (ushort)k.x4, useFactorial),
+                                   comb((ushort)n.x5, (ushort)k.x5, useFactorial),
+                                   comb((ushort)n.x6, (ushort)k.x6, useFactorial),
+                                   comb((ushort)n.x7, (ushort)k.x7, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 16 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 16 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe2"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 16 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe3"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 8 bit overflow.         </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort16 comb(short16 n, short16 k, Promise useFactorial = Promise.Nothing) 
+        public static ushort16 comb(short16 n, short16 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epi16(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epi16x2(n.v8_0, n.v8_8, k.v8_0, k.v8_8, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ushort16(lo, hi);
+            }
             else
             {
-                return new ushort16(comb(n.v8_0, k.v8_0, useFactorial), 
+                return new ushort16(comb(n.v8_0, k.v8_0, useFactorial),
                                     comb(n.v8_8, k.v8_8, useFactorial));
             }
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint comb(uint n, uint k, Promise useFactorial = Promise.Nothing) 
+        public static uint comb(uint n, uint k, Promise useFactorial = Promise.Nothing)
         {
-Assert.IsNotGreater(k, n);
-            
-            if (useFactorial.CountUnsafeLevels() > 0 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            static void FallbackLoopIteration([NoAlias] ref ulong c, [NoAlias] ref uint n, ulong i)
             {
-                if (useFactorial.CountUnsafeLevels() > 1 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
+                c *= --n;
+                c /= i;
+            }
+
+
+Assert.IsNotGreater(k, n);
+
+            if (useFactorial.CountUnsafeLevels() > 0 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            {
+                if (useFactorial.CountUnsafeLevels() > 1 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
                 {
                     return factorial(n, Promise.NoOverflow) / (factorial(k, Promise.NoOverflow) * factorial(n - k, Promise.NoOverflow));
                 }
@@ -2501,217 +4019,279 @@ Assert.IsNotGreater(k, n);
             }
 
             
+            ulong i;
+            ulong c = n;
             k = math.min(k, n - k);
-            if (Hint.Unlikely(k == 0)) 
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                return 1;
-            }
-            
-            uint c = n--;
-            
-            if (Hint.Likely(k > 1))
-            {
-                c = ((c >> 1) * n) + (((uint)-(int)(c & 1)) & (n >> 1));
-            
-                uint i = 2;
-                while (Hint.Likely(k > i++))
+                if (Hint.Unlikely(k == 0))
                 {
-                    uint q = divrem(c, i, out uint r);
-                    n--;
-                    c = (q * n) + ((r * n) / i);
+                    return 1;
+                }
+
+                i = 1;
+                
+                while (k > i++)
+                {
+                    FallbackLoopIteration(ref c, ref n, i);
                 }
             }
-            
-            return c;
+            else
+            {
+                if (Hint.Unlikely(k <= 1))
+                {
+                    return k == 0 ? 1 : n;
+                }
+
+                i = 8;
+
+                FallbackLoopIteration(ref c, ref n, 2);
+
+                if (Hint.Unlikely(k <= 2)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 3);
+
+                if (Hint.Unlikely(k <= 3)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 4);
+
+                if (Hint.Unlikely(k <= 4)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 5);
+
+                if (Hint.Unlikely(k <= 5)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 6);
+
+                if (Hint.Unlikely(k <= 6)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 7);
+
+                if (Hint.Unlikely(k <= 7)) return (uint)c;
+                FallbackLoopIteration(ref c, ref n, 8);
+
+                while (k > i++)
+                {
+                    FallbackLoopIteration(ref c, ref n, i);
+                }
+            }
+
+            return (uint)c;
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint2 comb(uint2 n, uint2 k, Promise useFactorial = Promise.Nothing) 
+        public static uint2 comb(uint2 n, uint2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 2));
             }
             else
             {
-                return new uint2(comb(n.x, k.x, useFactorial), 
+                return new uint2(comb(n.x, k.x, useFactorial),
                                  comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint3 comb(uint3 n, uint3 k, Promise useFactorial = Promise.Nothing) 
+        public static uint3 comb(uint3 n, uint3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 3));
             }
             else
             {
-                return new uint3(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
+                return new uint3(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
                                  comb(n.z, k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint4 comb(uint4 n, uint4 k, Promise useFactorial = Promise.Nothing) 
+        public static uint4 comb(uint4 n, uint4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 4));
             }
             else
             {
-                return new uint4(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
-                                 comb(n.z, k.z, useFactorial), 
+                return new uint4(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
+                                 comb(n.z, k.z, useFactorial),
                                  comb(n.w, k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 comb(uint8 n, uint8 k, Promise useFactorial = Promise.Nothing) 
+        public static uint8 comb(uint8 n, uint8 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epu32(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+                
+                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+            }
             else
             {
-                return new uint8(comb(n.v4_0, k.v4_0, useFactorial), 
+                return new uint8(comb(n.v4_0, k.v4_0, useFactorial),
                                  comb(n.v4_4, k.v4_4, useFactorial));
             }
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint comb(int n, int k, Promise useFactorial = Promise.Nothing) 
+        public static uint comb(int n, int k, Promise useFactorial = Promise.Nothing)
         {
 Assert.IsNonNegative(k);
 Assert.IsNonNegative(n);
-            
+
             return comb((uint)n, (uint)k, useFactorial);
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint2 comb(int2 n, int2 k, Promise useFactorial = Promise.Nothing) 
+        public static uint2 comb(int2 n, int2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 2));
             }
             else
             {
-                return new uint2(comb(n.x, k.x, useFactorial), 
+                return new uint2(comb(n.x, k.x, useFactorial),
                                  comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint3 comb(int3 n, int3 k, Promise useFactorial = Promise.Nothing) 
+        public static uint3 comb(int3 n, int3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 3));
             }
             else
             {
-                return new uint3(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
+                return new uint3(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
                                  comb(n.z, k.z, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint4 comb(int4 n, int4 k, Promise useFactorial = Promise.Nothing) 
+        public static uint4 comb(int4 n, int4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 4));
             }
             else
             {
-                return new uint4(comb(n.x, k.x, useFactorial), 
-                                 comb(n.y, k.y, useFactorial), 
-                                 comb(n.z, k.z, useFactorial), 
+                return new uint4(comb(n.x, k.x, useFactorial),
+                                 comb(n.y, k.y, useFactorial),
+                                 comb(n.z, k.z, useFactorial),
                                  comb(n.w, k.w, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>".
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 comb(int8 n, int8 k, Promise useFactorial = Promise.Nothing) 
+        public static uint8 comb(int8 n, int8 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epi32(n, k, useFactorial.CountUnsafeLevels());
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epi32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+                
+                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+            }
             else
             {
-                return new uint8(comb(n.v4_0, k.v4_0, useFactorial), 
+                return new uint8(comb(n.v4_0, k.v4_0, useFactorial),
                                  comb(n.v4_4, k.v4_4, useFactorial));
             }
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong comb(ulong n, ulong k, Promise useFactorial = Promise.Nothing) 
+        public static ulong comb(ulong n, ulong k, Promise useFactorial = Promise.Nothing)
         {
+            static void FallbackLoopIteration([NoAlias] ref ulong c, [NoAlias] ref ulong n, ulong i)
+            {
+                ulong q = divrem(c, i, out ulong r);
+                n--;
+                c = (q * n) + ((r * n) / i);
+            }
+
+
 Assert.IsNotGreater(k, n);
 
-            if (useFactorial.CountUnsafeLevels() > 0 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
+            if (useFactorial.CountUnsafeLevels() > 0 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U64))
             {
-                if (useFactorial.CountUnsafeLevels() > 1 || Xse.constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
+                if (useFactorial.CountUnsafeLevels() > 1 || constexpr.IS_TRUE(n <= MAX_INVERSE_FACTORIAL_U32))
                 {
                     return (ulong)factorial((uint)n, Promise.NoOverflow) / (ulong)(factorial((uint)k, Promise.NoOverflow) * factorial((uint)n - (uint)k, Promise.NoOverflow));
                 }
@@ -2722,155 +4302,237 @@ Assert.IsNotGreater(k, n);
             }
 
 
+            ulong i;
+            ulong c = n;
             k = math.min(k, n - k);
-            if (Hint.Unlikely(k == 0)) 
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                return 1;
-            }
-            
-            ulong c = n--;
-            
-            if (Hint.Likely(k > 1))
-            {
-                c = ((c >> 1) * n) + (((ulong)-(long)(c & 1)) & (n >> 1));
-            
-                ulong i = 2;
-                while (Hint.Likely(k > i++))
+                if (Hint.Unlikely(k == 0))
                 {
-                    ulong q = divrem(c, i, out ulong r);
-                    n--;
-                    c = (q * n) + ((r * n) / i);
+                    return 1;
+                }
+
+                i = 1;
+                
+                while (k > i++)
+                {
+                    FallbackLoopIteration(ref c, ref n, i);
+                }
+            }
+            else
+            {
+                if (Hint.Unlikely(k <= 1))
+                {
+                    return k == 0 ? 1 : n;
+                }
+
+                i = 8;
+                n--;
+                c = ((c >> 1) * n) + ((c & 1) == 0 ? 0 : n >> 1);
+                
+                if (Hint.Unlikely(k <= 2)) return c;
+                FallbackLoopIteration(ref c, ref n, 3);
+                
+                if (Hint.Unlikely(k <= 3)) return c;
+                FallbackLoopIteration(ref c, ref n, 4);
+                
+                if (Hint.Unlikely(k <= 4)) return c;
+                FallbackLoopIteration(ref c, ref n, 5);
+                
+                if (Hint.Unlikely(k <= 5)) return c;
+                FallbackLoopIteration(ref c, ref n, 6);
+                
+                if (Hint.Unlikely(k <= 6)) return c;
+                FallbackLoopIteration(ref c, ref n, 7);
+                
+                if (Hint.Unlikely(k <= 7)) return c;
+                FallbackLoopIteration(ref c, ref n, 8);
+
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                
+                    while (k > i++)
+                    {
+                        Divider<ulong> currentDivider = loopDivider.GetInnerDivider<ulong>(indexCurrentDivider);
+                
+                        ulong q = currentDivider.DivRem(c, out ulong r);
+                        n--;
+                        c = (q * n) + ((r * n) / currentDivider);
+                        
+                        Xse.next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                    }
+                }
+                else
+                {
+                    while (k > i++)
+                    {
+                        FallbackLoopIteration(ref c, ref n, i);
+                    }
                 }
             }
             
             return c;
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 comb(ulong2 n, ulong2 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong2 comb(ulong2 n, ulong2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epu64(n, k, useFactorial.CountUnsafeLevels());
             }
             else
             {
-                return new ulong2(comb(n.x, k.x, useFactorial), 
+                return new ulong2(comb(n.x, k.x, useFactorial),
                                   comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 comb(ulong3 n, ulong3 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong3 comb(ulong3 n, ulong3 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epu64(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu64x2(n.xy, n.zz, k.xy, k.zz, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ulong3(lo, hi.ULong0);
+            }
             else
             {
-                return new ulong3(comb(n.xy, k.xy, useFactorial), 
+                return new ulong3(comb(n.xy, k.xy, useFactorial),
                                   comb(n.z,  k.z,  useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 comb(ulong4 n, ulong4 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong4 comb(ulong4 n, ulong4 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epu64(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu64x2(n.xy, n.zw, k.xy, k.zw, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ulong4(lo, hi);
+            }
             else
             {
-                return new ulong4(comb(n.xy, k.xy, useFactorial), 
+                return new ulong4(comb(n.xy, k.xy, useFactorial),
                                   comb(n.zw, k.zw, useFactorial));
             }
         }
 
-        
-        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong comb(long n, long k, Promise useFactorial = Promise.Nothing) 
+        public static ulong comb(long n, long k, Promise useFactorial = Promise.Nothing)
         {
 Assert.IsNonNegative(k);
 Assert.IsNonNegative(n);
-            
+
             return comb((ulong)n, (ulong)k, useFactorial);
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 comb(long2 n, long2 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong2 comb(long2 n, long2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.comb_epi64(n, k, useFactorial.CountUnsafeLevels());
             }
             else
             {
-                return new ulong2(comb(n.x, k.x, useFactorial), 
+                return new ulong2(comb(n.x, k.x, useFactorial),
                                   comb(n.y, k.y, useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 comb(long3 n, long3 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong3 comb(long3 n, long3 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epi64(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epi64x2(n.xy, n.zz, k.xy, k.zz, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ulong3(lo, hi.ULong0);
+            }
             else
             {
-                return new ulong3(comb(n.xy, k.xy, useFactorial), 
+                return new ulong3(comb(n.xy, k.xy, useFactorial),
                                   comb(n.z,  k.z,  useFactorial));
             }
         }
-        
-        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Arguments that produce an unsigned 64 bit overflow are undefined.     </summary>
+
+        /// <summary>       Returns for each pair of corresponding components the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 64 bit overflow are undefined.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe0"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 64 bit overflow.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="useFactorial"/>' with its <see cref="Promise.Unsafe1"/> flag set may cause a memory access violation for any <paramref name="n"/>! that result in an unsigned 32 bit overflow.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 comb(long4 n, long4 k, Promise useFactorial = Promise.Nothing) 
+        public static ulong4 comb(long4 n, long4 k, Promise useFactorial = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_comb_epi64(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
+            else if (Architecture.IsSIMDSupported)
+            {
+                Xse.comb_epu64x2(n.xy, n.zw, k.xy, k.zw, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+
+                return new ulong4(lo, hi);
+            }
             else
             {
-                return new ulong4(comb(n.xy, k.xy, useFactorial), 
+                return new ulong4(comb(n.xy, k.xy, useFactorial),
                                   comb(n.zw, k.zw, useFactorial));
             }
         }

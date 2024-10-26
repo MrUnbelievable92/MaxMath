@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class factorial
+    unsafe public static class f_factorial
     {
         private static UInt128 truefactorial(UInt128 x)
         {
@@ -13,29 +13,29 @@ namespace MaxMath.Tests
             {
                 result *= x--;
             }
-            
+
             return result;
         }
 
         private static bool overflows<T>(UInt128 x)
         {
-            if (typeof(T) == typeof(byte))      return x > 5; 
-            if (typeof(T) == typeof(sbyte))     return x > 5; 
-            if (typeof(T) == typeof(short))     return x > 7; 
-            if (typeof(T) == typeof(ushort))    return x > 8; 
-            if (typeof(T) == typeof(int))       return x > 12; 
-            if (typeof(T) == typeof(uint))      return x > 12; 
-            if (typeof(T) == typeof(long))      return x > 20; 
+            if (typeof(T) == typeof(byte))      return x > 5;
+            if (typeof(T) == typeof(sbyte))     return x > 5;
+            if (typeof(T) == typeof(short))     return x > 7;
+            if (typeof(T) == typeof(ushort))    return x > 8;
+            if (typeof(T) == typeof(int))       return x > 12;
+            if (typeof(T) == typeof(uint))      return x > 12;
+            if (typeof(T) == typeof(long))      return x > 20;
             if (typeof(T) == typeof(ulong))     return x > 20;
-            if (typeof(T) == typeof(Int128))    return x > 33; 
-            if (typeof(T) == typeof(UInt128))   return x > 34; 
+            if (typeof(T) == typeof(Int128))    return x > 33;
+            if (typeof(T) == typeof(UInt128))   return x > 34;
 
             return false;
         }
 
 
         [Test]
-        public static void uint128()
+        public static void _UInt128()
         {
             Random128 r = Random128.New;
 
@@ -45,9 +45,9 @@ namespace MaxMath.Tests
                 Assert.AreEqual((UInt128)maxmath.factorial(x), overflows<UInt128>(x) ? UInt128.MaxValue : truefactorial(x));
             }
         }
-        
+
         [Test]
-        public static void int128()
+        public static void _Int128()
         {
             Random128 r = Random128.New;
 
@@ -60,20 +60,20 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void byte1()
+        public static void _byte1()
         {
             Random8 r = Random8.New;
 
             for (int i = 0; i < 34; i++)
             {
                 byte x = r.NextByte(0, 40);
-             
+
                 Assert.AreEqual((UInt128)maxmath.factorial(x), overflows<byte>(x) ? byte.MaxValue : truefactorial(x));
             }
         }
 
         [Test]
-        public static void byte2()
+        public static void _byte2()
         {
             Random8 r = Random8.New;
 
@@ -86,7 +86,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
             Random8 r = Random8.New;
 
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
             Random8 r = Random8.New;
 
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
             Random8 r = Random8.New;
 
@@ -134,7 +134,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
             Random8 r = Random8.New;
 
@@ -161,7 +161,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
             Random8 r = Random8.New;
 
@@ -205,7 +205,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void sbyte1()
+        public static void _sbyte1()
         {
             Random8 r = Random8.New;
 
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte2()
+        public static void _sbyte2()
         {
             Random8 r = Random8.New;
 
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
             Random8 r = Random8.New;
 
@@ -244,7 +244,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
             Random8 r = Random8.New;
 
@@ -259,7 +259,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
             Random8 r = Random8.New;
 
@@ -278,7 +278,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
             Random8 r = Random8.New;
 
@@ -305,7 +305,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
             Random8 r = Random8.New;
 
@@ -346,9 +346,9 @@ namespace MaxMath.Tests
                 Assert.AreEqual((Int128)maxmath.factorial(x.x31), overflows<sbyte>((UInt128)x.x31) ? sbyte.MaxValue : (Int128)truefactorial((UInt128)x.x31));
             }
         }
-        
+
         [Test]
-        public static void ushort1()
+        public static void _ushort1()
         {
             Random16 r = Random16.New;
 
@@ -360,7 +360,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort2()
+        public static void _ushort2()
         {
             Random16 r = Random16.New;
 
@@ -373,7 +373,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
             Random16 r = Random16.New;
 
@@ -387,7 +387,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
             Random16 r = Random16.New;
 
@@ -402,7 +402,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
             Random16 r = Random16.New;
 
@@ -421,7 +421,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
             Random16 r = Random16.New;
 
@@ -449,7 +449,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void short1()
+        public static void _short1()
         {
             Random16 r = Random16.New;
 
@@ -461,7 +461,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short2()
+        public static void _short2()
         {
             Random16 r = Random16.New;
 
@@ -474,7 +474,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
             Random16 r = Random16.New;
 
@@ -488,7 +488,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
             Random16 r = Random16.New;
 
@@ -503,7 +503,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
             Random16 r = Random16.New;
 
@@ -522,7 +522,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
             Random16 r = Random16.New;
 
@@ -548,9 +548,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void uint1()
+        public static void _uint1()
         {
             Random32 r = Random32.New;
 
@@ -562,7 +562,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint2()
+        public static void _uint2()
         {
             Random32 r = Random32.New;
 
@@ -575,7 +575,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
             Random32 r = Random32.New;
 
@@ -589,7 +589,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
             Random32 r = Random32.New;
 
@@ -604,7 +604,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
             Random32 r = Random32.New;
 
@@ -624,7 +624,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int1()
+        public static void _int1()
         {
             Random32 r = Random32.New;
 
@@ -636,7 +636,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int2()
+        public static void _int2()
         {
             Random32 r = Random32.New;
 
@@ -649,7 +649,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
             Random32 r = Random32.New;
 
@@ -663,7 +663,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
             Random32 r = Random32.New;
 
@@ -678,7 +678,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
             Random32 r = Random32.New;
 
@@ -698,7 +698,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ulong1()
+        public static void _ulong1()
         {
             Random64 r = Random64.New;
 
@@ -710,7 +710,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong2()
+        public static void _ulong2()
         {
             Random64 r = Random64.New;
 
@@ -723,7 +723,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong3()
+        public static void _ulong3()
         {
             Random64 r = Random64.New;
 
@@ -737,7 +737,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong4()
+        public static void _ulong4()
         {
             Random64 r = Random64.New;
 
@@ -753,7 +753,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void long1()
+        public static void _long1()
         {
             Random64 r = Random64.New;
 
@@ -765,7 +765,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long2()
+        public static void _long2()
         {
             Random64 r = Random64.New;
 
@@ -778,7 +778,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long3()
+        public static void _long3()
         {
             Random64 r = Random64.New;
 
@@ -792,7 +792,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long4()
+        public static void _long4()
         {
             Random64 r = Random64.New;
 

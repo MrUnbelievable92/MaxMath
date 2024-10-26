@@ -1,1984 +1,1042 @@
 using NUnit.Framework;
 using Unity.Mathematics;
 
+using static MaxMath.maxmath;
+using static Unity.Mathematics.math;
+
 namespace MaxMath.Tests
 {
-    unsafe public static class select_via_int
+    unsafe public static class f_select_via_int
     {
         [Test]
-        public static void byte2_via_int()
+        public static void _byte2()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                byte2 l = rng.NextByte2();
+                byte2 r = rng.NextByte2();
+                int b = ((Random32)rng).NextInt();
 
-            byte2 selected;
+                byte2 test = select(l, r, b);
 
-            selected = maxmath.select(__byte2.TestData_LHS[0], __byte2.TestData_RHS[0], 0b10);
-            result &= selected.x == __byte2.TestData_LHS[0].x;
-            result &= selected.y == __byte2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__byte2.TestData_LHS[1], __byte2.TestData_RHS[1], 0b11);
-            result &= selected.x == __byte2.TestData_RHS[1].x;
-            result &= selected.y == __byte2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__byte2.TestData_LHS[2], __byte2.TestData_RHS[2], 0b00);
-            result &= selected.x == __byte2.TestData_LHS[2].x;
-            result &= selected.y == __byte2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__byte2.TestData_LHS[3], __byte2.TestData_RHS[3], 0b01);
-            result &= selected.x == __byte2.TestData_RHS[3].x;
-            result &= selected.y == __byte2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte2_via_int()
+        public static void _byte3()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                byte3 l = rng.NextByte3();
+                byte3 r = rng.NextByte3();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte2 selected;
+                byte3 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte2.TestData_LHS[0], __sbyte2.TestData_RHS[0], 0b10);
-            result &= selected.x == __sbyte2.TestData_LHS[0].x;
-            result &= selected.y == __sbyte2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__sbyte2.TestData_LHS[1], __sbyte2.TestData_RHS[1], 0b11);
-            result &= selected.x == __sbyte2.TestData_RHS[1].x;
-            result &= selected.y == __sbyte2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__sbyte2.TestData_LHS[2], __sbyte2.TestData_RHS[2], 0b00);
-            result &= selected.x == __sbyte2.TestData_LHS[2].x;
-            result &= selected.y == __sbyte2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__sbyte2.TestData_LHS[3], __sbyte2.TestData_RHS[3], 0b01);
-            result &= selected.x == __sbyte2.TestData_RHS[3].x;
-            result &= selected.y == __sbyte2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void byte3_via_int()
-        {
-            bool result = true;
-
-
-            byte3 selected;
-
-            selected = maxmath.select(__byte3.TestData_LHS[0], __byte3.TestData_RHS[0], 0b110);
-            result &= selected.x == __byte3.TestData_LHS[0].x;
-            result &= selected.y == __byte3.TestData_RHS[0].y;
-            result &= selected.z == __byte3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__byte3.TestData_LHS[1], __byte3.TestData_RHS[1], 0b011);
-            result &= selected.x == __byte3.TestData_RHS[1].x;
-            result &= selected.y == __byte3.TestData_RHS[1].y;
-            result &= selected.z == __byte3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__byte3.TestData_LHS[2], __byte3.TestData_RHS[2], 0b100);
-            result &= selected.x == __byte3.TestData_LHS[2].x;
-            result &= selected.y == __byte3.TestData_LHS[2].y;
-            result &= selected.z == __byte3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__byte3.TestData_LHS[3], __byte3.TestData_RHS[3], 0b101);
-            result &= selected.x == __byte3.TestData_RHS[3].x;
-            result &= selected.y == __byte3.TestData_LHS[3].y;
-            result &= selected.z == __byte3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte3_via_int()
+        public static void _byte4()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                byte4 l = rng.NextByte4();
+                byte4 r = rng.NextByte4();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte3 selected;
+                byte4 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte3.TestData_LHS[0], __sbyte3.TestData_RHS[0], 0b110);
-            result &= selected.x == __sbyte3.TestData_LHS[0].x;
-            result &= selected.y == __sbyte3.TestData_RHS[0].y;
-            result &= selected.z == __sbyte3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__sbyte3.TestData_LHS[1], __sbyte3.TestData_RHS[1], 0b011);
-            result &= selected.x == __sbyte3.TestData_RHS[1].x;
-            result &= selected.y == __sbyte3.TestData_RHS[1].y;
-            result &= selected.z == __sbyte3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__sbyte3.TestData_LHS[2], __sbyte3.TestData_RHS[2], 0b100);
-            result &= selected.x == __sbyte3.TestData_LHS[2].x;
-            result &= selected.y == __sbyte3.TestData_LHS[2].y;
-            result &= selected.z == __sbyte3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__sbyte3.TestData_LHS[3], __sbyte3.TestData_RHS[3], 0b101);
-            result &= selected.x == __sbyte3.TestData_RHS[3].x;
-            result &= selected.y == __sbyte3.TestData_LHS[3].y;
-            result &= selected.z == __sbyte3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void byte4_via_int()
-        {
-            bool result = true;
-
-
-            byte4 selected;
-
-            selected = maxmath.select(__byte4.TestData_LHS[0], __byte4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __byte4.TestData_LHS[0].x;
-            result &= selected.y == __byte4.TestData_RHS[0].y;
-            result &= selected.z == __byte4.TestData_RHS[0].z;
-            result &= selected.w == __byte4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__byte4.TestData_LHS[1], __byte4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __byte4.TestData_RHS[1].x;
-            result &= selected.y == __byte4.TestData_RHS[1].y;
-            result &= selected.z == __byte4.TestData_RHS[1].z;
-            result &= selected.w == __byte4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__byte4.TestData_LHS[2], __byte4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __byte4.TestData_LHS[2].x;
-            result &= selected.y == __byte4.TestData_RHS[2].y;
-            result &= selected.z == __byte4.TestData_RHS[2].z;
-            result &= selected.w == __byte4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__byte4.TestData_LHS[3], __byte4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __byte4.TestData_RHS[3].x;
-            result &= selected.y == __byte4.TestData_LHS[3].y;
-            result &= selected.z == __byte4.TestData_RHS[3].z;
-            result &= selected.w == __byte4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte4_via_int()
+        public static void _byte8()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                byte8 l = rng.NextByte8();
+                byte8 r = rng.NextByte8();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte4 selected;
+                byte8 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte4.TestData_LHS[0], __sbyte4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __sbyte4.TestData_LHS[0].x;
-            result &= selected.y == __sbyte4.TestData_RHS[0].y;
-            result &= selected.z == __sbyte4.TestData_RHS[0].z;
-            result &= selected.w == __sbyte4.TestData_RHS[0].w;
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__sbyte4.TestData_LHS[1], __sbyte4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __sbyte4.TestData_RHS[1].x;
-            result &= selected.y == __sbyte4.TestData_RHS[1].y;
-            result &= selected.z == __sbyte4.TestData_RHS[1].z;
-            result &= selected.w == __sbyte4.TestData_LHS[1].w;
+        [Test]
+        public static void _byte16()
+        {
+            Random8 rng = Random8.New;
 
-            selected = maxmath.select(__sbyte4.TestData_LHS[2], __sbyte4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __sbyte4.TestData_LHS[2].x;
-            result &= selected.y == __sbyte4.TestData_RHS[2].y;
-            result &= selected.z == __sbyte4.TestData_RHS[2].z;
-            result &= selected.w == __sbyte4.TestData_LHS[2].w;
+            for (int i = 0; i < 16; i++)
+            {
+                byte16 l = rng.NextByte16();
+                byte16 r = rng.NextByte16();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__sbyte4.TestData_LHS[3], __sbyte4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __sbyte4.TestData_RHS[3].x;
-            result &= selected.y == __sbyte4.TestData_LHS[3].y;
-            result &= selected.z == __sbyte4.TestData_RHS[3].z;
-            result &= selected.w == __sbyte4.TestData_RHS[3].w;
+                byte16 test = select(l, r, b);
 
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _byte32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                byte32 l = rng.NextByte32();
+                byte32 r = rng.NextByte32();
+                int b = ((Random32)rng).NextInt();
+
+                byte32 test = select(l, r, b);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void byte8_via_int()
+        public static void _ushort2()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                ushort2 l = rng.NextUShort2();
+                ushort2 r = rng.NextUShort2();
+                int b = ((Random32)rng).NextInt();
 
-            byte8 selected;
+                ushort2 test = select(l, r, b);
 
-            selected = maxmath.select(__byte8.TestData_LHS[0], __byte8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0  == __byte8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __byte8.TestData_RHS[0].x1;
-            result &= selected.x2  == __byte8.TestData_LHS[0].x2;
-            result &= selected.x3  == __byte8.TestData_RHS[0].x3;
-            result &= selected.x4  == __byte8.TestData_RHS[0].x4;
-            result &= selected.x5  == __byte8.TestData_RHS[0].x5;
-            result &= selected.x6  == __byte8.TestData_LHS[0].x6;
-            result &= selected.x7  == __byte8.TestData_RHS[0].x7;
-
-            selected = maxmath.select(__byte8.TestData_LHS[1], __byte8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0  == __byte8.TestData_RHS[1].x0;
-            result &= selected.x1  == __byte8.TestData_RHS[1].x1;
-            result &= selected.x2  == __byte8.TestData_LHS[1].x2;
-            result &= selected.x3  == __byte8.TestData_LHS[1].x3;
-            result &= selected.x4  == __byte8.TestData_LHS[1].x4;
-            result &= selected.x5  == __byte8.TestData_RHS[1].x5;
-            result &= selected.x6  == __byte8.TestData_RHS[1].x6;
-            result &= selected.x7  == __byte8.TestData_RHS[1].x7;
-
-            selected = maxmath.select(__byte8.TestData_LHS[2], __byte8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __byte8.TestData_RHS[2].x0;
-            result &= selected.x1  == __byte8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __byte8.TestData_LHS[2].x2;
-            result &= selected.x3  == __byte8.TestData_RHS[2].x3;
-            result &= selected.x4  == __byte8.TestData_LHS[2].x4;
-            result &= selected.x5  == __byte8.TestData_RHS[2].x5;
-            result &= selected.x6  == __byte8.TestData_LHS[2].x6;
-            result &= selected.x7  == __byte8.TestData_LHS[2].x7;
-
-            selected = maxmath.select(__byte8.TestData_LHS[3], __byte8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __byte8.TestData_RHS[3].x0;
-            result &= selected.x1  == __byte8.TestData_RHS[3].x1;
-            result &= selected.x2  == __byte8.TestData_LHS[3].x2;
-            result &= selected.x3  == __byte8.TestData_RHS[3].x3;
-            result &= selected.x4  == __byte8.TestData_RHS[3].x4;
-            result &= selected.x5  == __byte8.TestData_RHS[3].x5;
-            result &= selected.x6  == __byte8.TestData_RHS[3].x6;
-            result &= selected.x7  == __byte8.TestData_RHS[3].x7;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte8_via_int()
+        public static void _ushort3()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                ushort3 l = rng.NextUShort3();
+                ushort3 r = rng.NextUShort3();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte8 selected;
+                ushort3 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte8.TestData_LHS[0], __sbyte8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0  == __sbyte8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __sbyte8.TestData_RHS[0].x1;
-            result &= selected.x2  == __sbyte8.TestData_LHS[0].x2;
-            result &= selected.x3  == __sbyte8.TestData_RHS[0].x3;
-            result &= selected.x4  == __sbyte8.TestData_RHS[0].x4;
-            result &= selected.x5  == __sbyte8.TestData_RHS[0].x5;
-            result &= selected.x6  == __sbyte8.TestData_LHS[0].x6;
-            result &= selected.x7  == __sbyte8.TestData_RHS[0].x7;
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__sbyte8.TestData_LHS[1], __sbyte8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0  == __sbyte8.TestData_RHS[1].x0;
-            result &= selected.x1  == __sbyte8.TestData_RHS[1].x1;
-            result &= selected.x2  == __sbyte8.TestData_LHS[1].x2;
-            result &= selected.x3  == __sbyte8.TestData_LHS[1].x3;
-            result &= selected.x4  == __sbyte8.TestData_LHS[1].x4;
-            result &= selected.x5  == __sbyte8.TestData_RHS[1].x5;
-            result &= selected.x6  == __sbyte8.TestData_RHS[1].x6;
-            result &= selected.x7  == __sbyte8.TestData_RHS[1].x7;
+        [Test]
+        public static void _ushort4()
+        {
+            Random16 rng = Random16.New;
 
-            selected = maxmath.select(__sbyte8.TestData_LHS[2], __sbyte8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __sbyte8.TestData_RHS[2].x0;
-            result &= selected.x1  == __sbyte8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __sbyte8.TestData_LHS[2].x2;
-            result &= selected.x3  == __sbyte8.TestData_RHS[2].x3;
-            result &= selected.x4  == __sbyte8.TestData_LHS[2].x4;
-            result &= selected.x5  == __sbyte8.TestData_RHS[2].x5;
-            result &= selected.x6  == __sbyte8.TestData_LHS[2].x6;
-            result &= selected.x7  == __sbyte8.TestData_LHS[2].x7;
+            for (int i = 0; i < 16; i++)
+            {
+                ushort4 l = rng.NextUShort4();
+                ushort4 r = rng.NextUShort4();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__sbyte8.TestData_LHS[3], __sbyte8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __sbyte8.TestData_RHS[3].x0;
-            result &= selected.x1  == __sbyte8.TestData_RHS[3].x1;
-            result &= selected.x2  == __sbyte8.TestData_LHS[3].x2;
-            result &= selected.x3  == __sbyte8.TestData_RHS[3].x3;
-            result &= selected.x4  == __sbyte8.TestData_RHS[3].x4;
-            result &= selected.x5  == __sbyte8.TestData_RHS[3].x5;
-            result &= selected.x6  == __sbyte8.TestData_RHS[3].x6;
-            result &= selected.x7  == __sbyte8.TestData_RHS[3].x7;
+                ushort4 test = select(l, r, b);
 
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _ushort8()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                ushort8 l = rng.NextUShort8();
+                ushort8 r = rng.NextUShort8();
+                int b = ((Random32)rng).NextInt();
+
+                ushort8 test = select(l, r, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void _ushort16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                ushort16 l = rng.NextUShort16();
+                ushort16 r = rng.NextUShort16();
+                int b = ((Random32)rng).NextInt();
+
+                ushort16 test = select(l, r, b);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void byte16_via_int()
+        public static void _uint2()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                uint2 l = rng.NextUInt2();
+                uint2 r = rng.NextUInt2();
+                int b = ((Random32)rng).NextInt();
 
-            byte16 selected;
+                uint2 test = select(l, r, b);
 
-            selected = maxmath.select(__byte16.TestData_LHS[0], __byte16.TestData_RHS[0], unchecked((int)0b1010_1010_1011_1011u));
-            result &= selected.x0  == __byte16.TestData_RHS[0].x0; 
-            result &= selected.x1  == __byte16.TestData_RHS[0].x1;
-            result &= selected.x2  == __byte16.TestData_LHS[0].x2;
-            result &= selected.x3  == __byte16.TestData_RHS[0].x3;
-            result &= selected.x4  == __byte16.TestData_RHS[0].x4;
-            result &= selected.x5  == __byte16.TestData_RHS[0].x5;
-            result &= selected.x6  == __byte16.TestData_LHS[0].x6;
-            result &= selected.x7  == __byte16.TestData_RHS[0].x7;
-            result &= selected.x8  == __byte16.TestData_LHS[0].x8;
-            result &= selected.x9  == __byte16.TestData_RHS[0].x9;
-            result &= selected.x10 == __byte16.TestData_LHS[0].x10;
-            result &= selected.x11 == __byte16.TestData_RHS[0].x11;
-            result &= selected.x12 == __byte16.TestData_LHS[0].x12;
-            result &= selected.x13 == __byte16.TestData_RHS[0].x13;
-            result &= selected.x14 == __byte16.TestData_LHS[0].x14;
-            result &= selected.x15 == __byte16.TestData_RHS[0].x15;
-
-            selected = maxmath.select(__byte16.TestData_LHS[1], __byte16.TestData_RHS[1], unchecked((int)0b0010_0011_1110_0011u));
-            result &= selected.x0  == __byte16.TestData_RHS[1].x0;
-            result &= selected.x1  == __byte16.TestData_RHS[1].x1;
-            result &= selected.x2  == __byte16.TestData_LHS[1].x2;
-            result &= selected.x3  == __byte16.TestData_LHS[1].x3;
-            result &= selected.x4  == __byte16.TestData_LHS[1].x4;
-            result &= selected.x5  == __byte16.TestData_RHS[1].x5;
-            result &= selected.x6  == __byte16.TestData_RHS[1].x6;
-            result &= selected.x7  == __byte16.TestData_RHS[1].x7;
-            result &= selected.x8  == __byte16.TestData_RHS[1].x8;
-            result &= selected.x9  == __byte16.TestData_RHS[1].x9;
-            result &= selected.x10 == __byte16.TestData_LHS[1].x10;
-            result &= selected.x11 == __byte16.TestData_LHS[1].x11;
-            result &= selected.x12 == __byte16.TestData_LHS[1].x12;
-            result &= selected.x13 == __byte16.TestData_RHS[1].x13;
-            result &= selected.x14 == __byte16.TestData_LHS[1].x14;
-            result &= selected.x15 == __byte16.TestData_LHS[1].x15;
-
-            selected = maxmath.select(__byte16.TestData_LHS[2], __byte16.TestData_RHS[2], 0b0111_1011_0010_1001);
-            result &= selected.x0  == __byte16.TestData_RHS[2].x0;
-            result &= selected.x1  == __byte16.TestData_LHS[2].x1; 
-            result &= selected.x2  == __byte16.TestData_LHS[2].x2;
-            result &= selected.x3  == __byte16.TestData_RHS[2].x3;
-            result &= selected.x4  == __byte16.TestData_LHS[2].x4;
-            result &= selected.x5  == __byte16.TestData_RHS[2].x5;
-            result &= selected.x6  == __byte16.TestData_LHS[2].x6;
-            result &= selected.x7  == __byte16.TestData_LHS[2].x7;
-            result &= selected.x8  == __byte16.TestData_RHS[2].x8;
-            result &= selected.x9  == __byte16.TestData_RHS[2].x9;
-            result &= selected.x10 == __byte16.TestData_LHS[2].x10;
-            result &= selected.x11 == __byte16.TestData_RHS[2].x11;
-            result &= selected.x12 == __byte16.TestData_RHS[2].x12;
-            result &= selected.x13 == __byte16.TestData_RHS[2].x13;
-            result &= selected.x14 == __byte16.TestData_RHS[2].x14;
-            result &= selected.x15 == __byte16.TestData_LHS[2].x15;
-
-            selected = maxmath.select(__byte16.TestData_LHS[3], __byte16.TestData_RHS[3], 0b0010_1110_1111_1011);
-            result &= selected.x0  == __byte16.TestData_RHS[3].x0;
-            result &= selected.x1  == __byte16.TestData_RHS[3].x1;
-            result &= selected.x2  == __byte16.TestData_LHS[3].x2;
-            result &= selected.x3  == __byte16.TestData_RHS[3].x3;
-            result &= selected.x4  == __byte16.TestData_RHS[3].x4;
-            result &= selected.x5  == __byte16.TestData_RHS[3].x5;
-            result &= selected.x6  == __byte16.TestData_RHS[3].x6;
-            result &= selected.x7  == __byte16.TestData_RHS[3].x7;
-            result &= selected.x8  == __byte16.TestData_LHS[3].x8;
-            result &= selected.x9  == __byte16.TestData_RHS[3].x9;
-            result &= selected.x10 == __byte16.TestData_RHS[3].x10;
-            result &= selected.x11 == __byte16.TestData_RHS[3].x11;
-            result &= selected.x12 == __byte16.TestData_LHS[3].x12;
-            result &= selected.x13 == __byte16.TestData_RHS[3].x13;
-            result &= selected.x14 == __byte16.TestData_LHS[3].x14;
-            result &= selected.x15 == __byte16.TestData_LHS[3].x15;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte16_via_int()
+        public static void _uint3()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                uint3 l = rng.NextUInt3();
+                uint3 r = rng.NextUInt3();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte16 selected;
+                uint3 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte16.TestData_LHS[0], __sbyte16.TestData_RHS[0], unchecked((int)0b1010_1010_1011_1011u));
-            result &= selected.x0  == __sbyte16.TestData_RHS[0].x0; 
-            result &= selected.x1  == __sbyte16.TestData_RHS[0].x1;
-            result &= selected.x2  == __sbyte16.TestData_LHS[0].x2;
-            result &= selected.x3  == __sbyte16.TestData_RHS[0].x3;
-            result &= selected.x4  == __sbyte16.TestData_RHS[0].x4;
-            result &= selected.x5  == __sbyte16.TestData_RHS[0].x5;
-            result &= selected.x6  == __sbyte16.TestData_LHS[0].x6;
-            result &= selected.x7  == __sbyte16.TestData_RHS[0].x7;
-            result &= selected.x8  == __sbyte16.TestData_LHS[0].x8;
-            result &= selected.x9  == __sbyte16.TestData_RHS[0].x9;
-            result &= selected.x10 == __sbyte16.TestData_LHS[0].x10;
-            result &= selected.x11 == __sbyte16.TestData_RHS[0].x11;
-            result &= selected.x12 == __sbyte16.TestData_LHS[0].x12;
-            result &= selected.x13 == __sbyte16.TestData_RHS[0].x13;
-            result &= selected.x14 == __sbyte16.TestData_LHS[0].x14;
-            result &= selected.x15 == __sbyte16.TestData_RHS[0].x15;
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__sbyte16.TestData_LHS[1], __sbyte16.TestData_RHS[1], unchecked((int)0b0010_0011_1110_0011u));
-            result &= selected.x0  == __sbyte16.TestData_RHS[1].x0;
-            result &= selected.x1  == __sbyte16.TestData_RHS[1].x1;
-            result &= selected.x2  == __sbyte16.TestData_LHS[1].x2;
-            result &= selected.x3  == __sbyte16.TestData_LHS[1].x3;
-            result &= selected.x4  == __sbyte16.TestData_LHS[1].x4;
-            result &= selected.x5  == __sbyte16.TestData_RHS[1].x5;
-            result &= selected.x6  == __sbyte16.TestData_RHS[1].x6;
-            result &= selected.x7  == __sbyte16.TestData_RHS[1].x7;
-            result &= selected.x8  == __sbyte16.TestData_RHS[1].x8;
-            result &= selected.x9  == __sbyte16.TestData_RHS[1].x9;
-            result &= selected.x10 == __sbyte16.TestData_LHS[1].x10;
-            result &= selected.x11 == __sbyte16.TestData_LHS[1].x11;
-            result &= selected.x12 == __sbyte16.TestData_LHS[1].x12;
-            result &= selected.x13 == __sbyte16.TestData_RHS[1].x13;
-            result &= selected.x14 == __sbyte16.TestData_LHS[1].x14;
-            result &= selected.x15 == __sbyte16.TestData_LHS[1].x15;
+        [Test]
+        public static void _uint4()
+        {
+            Random32 rng = Random32.New;
 
-            selected = maxmath.select(__sbyte16.TestData_LHS[2], __sbyte16.TestData_RHS[2], 0b0111_1011_0010_1001);
-            result &= selected.x0  == __sbyte16.TestData_RHS[2].x0;
-            result &= selected.x1  == __sbyte16.TestData_LHS[2].x1; 
-            result &= selected.x2  == __sbyte16.TestData_LHS[2].x2;
-            result &= selected.x3  == __sbyte16.TestData_RHS[2].x3;
-            result &= selected.x4  == __sbyte16.TestData_LHS[2].x4;
-            result &= selected.x5  == __sbyte16.TestData_RHS[2].x5;
-            result &= selected.x6  == __sbyte16.TestData_LHS[2].x6;
-            result &= selected.x7  == __sbyte16.TestData_LHS[2].x7;
-            result &= selected.x8  == __sbyte16.TestData_RHS[2].x8;
-            result &= selected.x9  == __sbyte16.TestData_RHS[2].x9;
-            result &= selected.x10 == __sbyte16.TestData_LHS[2].x10;
-            result &= selected.x11 == __sbyte16.TestData_RHS[2].x11;
-            result &= selected.x12 == __sbyte16.TestData_RHS[2].x12;
-            result &= selected.x13 == __sbyte16.TestData_RHS[2].x13;
-            result &= selected.x14 == __sbyte16.TestData_RHS[2].x14;
-            result &= selected.x15 == __sbyte16.TestData_LHS[2].x15;
+            for (int i = 0; i < 16; i++)
+            {
+                uint4 l = rng.NextUInt4();
+                uint4 r = rng.NextUInt4();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__sbyte16.TestData_LHS[3], __sbyte16.TestData_RHS[3], 0b0010_1110_1111_1011);
-            result &= selected.x0  == __sbyte16.TestData_RHS[3].x0;
-            result &= selected.x1  == __sbyte16.TestData_RHS[3].x1;
-            result &= selected.x2  == __sbyte16.TestData_LHS[3].x2;
-            result &= selected.x3  == __sbyte16.TestData_RHS[3].x3;
-            result &= selected.x4  == __sbyte16.TestData_RHS[3].x4;
-            result &= selected.x5  == __sbyte16.TestData_RHS[3].x5;
-            result &= selected.x6  == __sbyte16.TestData_RHS[3].x6;
-            result &= selected.x7  == __sbyte16.TestData_RHS[3].x7;
-            result &= selected.x8  == __sbyte16.TestData_LHS[3].x8;
-            result &= selected.x9  == __sbyte16.TestData_RHS[3].x9;
-            result &= selected.x10 == __sbyte16.TestData_RHS[3].x10;
-            result &= selected.x11 == __sbyte16.TestData_RHS[3].x11;
-            result &= selected.x12 == __sbyte16.TestData_LHS[3].x12;
-            result &= selected.x13 == __sbyte16.TestData_RHS[3].x13;
-            result &= selected.x14 == __sbyte16.TestData_LHS[3].x14;
-            result &= selected.x15 == __sbyte16.TestData_LHS[3].x15;
+                uint4 test = select(l, r, b);
 
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _uint8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                uint8 l = rng.NextUInt8();
+                uint8 r = rng.NextUInt8();
+                int b = ((Random32)rng).NextInt();
+
+                uint8 test = select(l, r, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void byte32_via_int()
+        public static void _ulong2()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                ulong2 l = rng.NextULong2();
+                ulong2 r = rng.NextULong2();
+                int b = ((Random32)rng).NextInt();
 
-            byte32 selected;
+                ulong2 test = select(l, r, b);
 
-            selected = maxmath.select(__byte32.TestData_LHS[0], __byte32.TestData_RHS[0], unchecked((int)0b0101_0001_1011_0100_1010_1010_1011_1011u));
-            result &= selected.x0  == __byte32.TestData_RHS[0].x0; 
-            result &= selected.x1  == __byte32.TestData_RHS[0].x1;
-            result &= selected.x2  == __byte32.TestData_LHS[0].x2;
-            result &= selected.x3  == __byte32.TestData_RHS[0].x3;
-            result &= selected.x4  == __byte32.TestData_RHS[0].x4;
-            result &= selected.x5  == __byte32.TestData_RHS[0].x5;
-            result &= selected.x6  == __byte32.TestData_LHS[0].x6;
-            result &= selected.x7  == __byte32.TestData_RHS[0].x7;
-            result &= selected.x8  == __byte32.TestData_LHS[0].x8;
-            result &= selected.x9  == __byte32.TestData_RHS[0].x9;
-            result &= selected.x10 == __byte32.TestData_LHS[0].x10;
-            result &= selected.x11 == __byte32.TestData_RHS[0].x11;
-            result &= selected.x12 == __byte32.TestData_LHS[0].x12;
-            result &= selected.x13 == __byte32.TestData_RHS[0].x13;
-            result &= selected.x14 == __byte32.TestData_LHS[0].x14;
-            result &= selected.x15 == __byte32.TestData_RHS[0].x15;
-            result &= selected.x16 == __byte32.TestData_LHS[0].x16;
-            result &= selected.x17 == __byte32.TestData_LHS[0].x17;
-            result &= selected.x18 == __byte32.TestData_RHS[0].x18;
-            result &= selected.x19 == __byte32.TestData_LHS[0].x19;
-            result &= selected.x20 == __byte32.TestData_RHS[0].x20;
-            result &= selected.x21 == __byte32.TestData_RHS[0].x21;
-            result &= selected.x22 == __byte32.TestData_LHS[0].x22;
-            result &= selected.x23 == __byte32.TestData_RHS[0].x23;
-            result &= selected.x24 == __byte32.TestData_RHS[0].x24;
-            result &= selected.x25 == __byte32.TestData_LHS[0].x25;
-            result &= selected.x26 == __byte32.TestData_LHS[0].x26;
-            result &= selected.x27 == __byte32.TestData_LHS[0].x27;
-            result &= selected.x28 == __byte32.TestData_RHS[0].x28;
-            result &= selected.x29 == __byte32.TestData_LHS[0].x29;
-            result &= selected.x30 == __byte32.TestData_RHS[0].x30;
-            result &= selected.x31 == __byte32.TestData_LHS[0].x31;
-
-            selected = maxmath.select(__byte32.TestData_LHS[1], __byte32.TestData_RHS[1], unchecked((int)0b1101_1110_0100_1010_0010_0011_1110_0011u));
-            result &= selected.x0  == __byte32.TestData_RHS[1].x0;
-            result &= selected.x1  == __byte32.TestData_RHS[1].x1;
-            result &= selected.x2  == __byte32.TestData_LHS[1].x2;
-            result &= selected.x3  == __byte32.TestData_LHS[1].x3;
-            result &= selected.x4  == __byte32.TestData_LHS[1].x4;
-            result &= selected.x5  == __byte32.TestData_RHS[1].x5;
-            result &= selected.x6  == __byte32.TestData_RHS[1].x6;
-            result &= selected.x7  == __byte32.TestData_RHS[1].x7;
-            result &= selected.x8  == __byte32.TestData_RHS[1].x8;
-            result &= selected.x9  == __byte32.TestData_RHS[1].x9;
-            result &= selected.x10 == __byte32.TestData_LHS[1].x10;
-            result &= selected.x11 == __byte32.TestData_LHS[1].x11;
-            result &= selected.x12 == __byte32.TestData_LHS[1].x12;
-            result &= selected.x13 == __byte32.TestData_RHS[1].x13;
-            result &= selected.x14 == __byte32.TestData_LHS[1].x14;
-            result &= selected.x15 == __byte32.TestData_LHS[1].x15;
-            result &= selected.x16 == __byte32.TestData_LHS[1].x16;
-            result &= selected.x17 == __byte32.TestData_RHS[1].x17;
-            result &= selected.x18 == __byte32.TestData_LHS[1].x18;
-            result &= selected.x19 == __byte32.TestData_RHS[1].x19;
-            result &= selected.x20 == __byte32.TestData_LHS[1].x20;
-            result &= selected.x21 == __byte32.TestData_LHS[1].x21;
-            result &= selected.x22 == __byte32.TestData_RHS[1].x22;
-            result &= selected.x23 == __byte32.TestData_LHS[1].x23;
-            result &= selected.x24 == __byte32.TestData_LHS[1].x24;
-            result &= selected.x25 == __byte32.TestData_RHS[1].x25;
-            result &= selected.x26 == __byte32.TestData_RHS[1].x26;
-            result &= selected.x27 == __byte32.TestData_RHS[1].x27;
-            result &= selected.x28 == __byte32.TestData_RHS[1].x28;
-            result &= selected.x29 == __byte32.TestData_LHS[1].x29;
-            result &= selected.x30 == __byte32.TestData_RHS[1].x30;
-            result &= selected.x31 == __byte32.TestData_RHS[1].x31;
-
-            selected = maxmath.select(__byte32.TestData_LHS[2], __byte32.TestData_RHS[2], 0b0001_1011_1010_1101_0111_1011_0010_1001);
-            result &= selected.x0  == __byte32.TestData_RHS[2].x0;
-            result &= selected.x1  == __byte32.TestData_LHS[2].x1; 
-            result &= selected.x2  == __byte32.TestData_LHS[2].x2;
-            result &= selected.x3  == __byte32.TestData_RHS[2].x3;
-            result &= selected.x4  == __byte32.TestData_LHS[2].x4;
-            result &= selected.x5  == __byte32.TestData_RHS[2].x5;
-            result &= selected.x6  == __byte32.TestData_LHS[2].x6;
-            result &= selected.x7  == __byte32.TestData_LHS[2].x7;
-            result &= selected.x8  == __byte32.TestData_RHS[2].x8;
-            result &= selected.x9  == __byte32.TestData_RHS[2].x9;
-            result &= selected.x10 == __byte32.TestData_LHS[2].x10;
-            result &= selected.x11 == __byte32.TestData_RHS[2].x11;
-            result &= selected.x12 == __byte32.TestData_RHS[2].x12;
-            result &= selected.x13 == __byte32.TestData_RHS[2].x13;
-            result &= selected.x14 == __byte32.TestData_RHS[2].x14;
-            result &= selected.x15 == __byte32.TestData_LHS[2].x15;
-            result &= selected.x16 == __byte32.TestData_RHS[2].x16; 
-            result &= selected.x17 == __byte32.TestData_LHS[2].x17;
-            result &= selected.x18 == __byte32.TestData_RHS[2].x18;
-            result &= selected.x19 == __byte32.TestData_RHS[2].x19;
-            result &= selected.x20 == __byte32.TestData_LHS[2].x20;
-            result &= selected.x21 == __byte32.TestData_RHS[2].x21;
-            result &= selected.x22 == __byte32.TestData_LHS[2].x22;
-            result &= selected.x23 == __byte32.TestData_RHS[2].x23;
-            result &= selected.x24 == __byte32.TestData_RHS[2].x24;
-            result &= selected.x25 == __byte32.TestData_RHS[2].x25;
-            result &= selected.x26 == __byte32.TestData_LHS[2].x26;
-            result &= selected.x27 == __byte32.TestData_RHS[2].x27;
-            result &= selected.x28 == __byte32.TestData_RHS[2].x28;
-            result &= selected.x29 == __byte32.TestData_LHS[2].x29;
-            result &= selected.x30 == __byte32.TestData_LHS[2].x30;
-            result &= selected.x31 == __byte32.TestData_LHS[2].x31;
-
-            selected = maxmath.select(__byte32.TestData_LHS[3], __byte32.TestData_RHS[3], 0b0111_1001_1001_0101_0010_1110_1111_1011);
-            result &= selected.x0  == __byte32.TestData_RHS[3].x0;
-            result &= selected.x1  == __byte32.TestData_RHS[3].x1;
-            result &= selected.x2  == __byte32.TestData_LHS[3].x2;
-            result &= selected.x3  == __byte32.TestData_RHS[3].x3;
-            result &= selected.x4  == __byte32.TestData_RHS[3].x4;
-            result &= selected.x5  == __byte32.TestData_RHS[3].x5;
-            result &= selected.x6  == __byte32.TestData_RHS[3].x6;
-            result &= selected.x7  == __byte32.TestData_RHS[3].x7;
-            result &= selected.x8  == __byte32.TestData_LHS[3].x8;
-            result &= selected.x9  == __byte32.TestData_RHS[3].x9;
-            result &= selected.x10 == __byte32.TestData_RHS[3].x10;
-            result &= selected.x11 == __byte32.TestData_RHS[3].x11;
-            result &= selected.x12 == __byte32.TestData_LHS[3].x12;
-            result &= selected.x13 == __byte32.TestData_RHS[3].x13;
-            result &= selected.x14 == __byte32.TestData_LHS[3].x14;
-            result &= selected.x15 == __byte32.TestData_LHS[3].x15;
-            result &= selected.x16 == __byte32.TestData_RHS[3].x16;
-            result &= selected.x17 == __byte32.TestData_LHS[3].x17;
-            result &= selected.x18 == __byte32.TestData_RHS[3].x18;
-            result &= selected.x19 == __byte32.TestData_LHS[3].x19;
-            result &= selected.x20 == __byte32.TestData_RHS[3].x20;
-            result &= selected.x21 == __byte32.TestData_LHS[3].x21;
-            result &= selected.x22 == __byte32.TestData_LHS[3].x22;
-            result &= selected.x23 == __byte32.TestData_RHS[3].x23;
-            result &= selected.x24 == __byte32.TestData_RHS[3].x24;
-            result &= selected.x25 == __byte32.TestData_LHS[3].x25;
-            result &= selected.x26 == __byte32.TestData_LHS[3].x26;
-            result &= selected.x27 == __byte32.TestData_RHS[3].x27;
-            result &= selected.x28 == __byte32.TestData_RHS[3].x28;
-            result &= selected.x29 == __byte32.TestData_RHS[3].x29;
-            result &= selected.x30 == __byte32.TestData_RHS[3].x30;
-            result &= selected.x31 == __byte32.TestData_LHS[3].x31;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void sbyte32_via_int()
+        public static void _ulong3()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                ulong3 l = rng.NextULong3();
+                ulong3 r = rng.NextULong3();
+                int b = ((Random32)rng).NextInt();
 
-            sbyte32 selected;
+                ulong3 test = select(l, r, b);
 
-            selected = maxmath.select(__sbyte32.TestData_LHS[0], __sbyte32.TestData_RHS[0], unchecked((int)0b0101_0001_1011_0100_1010_1010_1011_1011u));
-            result &= selected.x0  == __sbyte32.TestData_RHS[0].x0;
-            result &= selected.x1  == __sbyte32.TestData_RHS[0].x1;
-            result &= selected.x2  == __sbyte32.TestData_LHS[0].x2;
-            result &= selected.x3  == __sbyte32.TestData_RHS[0].x3;
-            result &= selected.x4  == __sbyte32.TestData_RHS[0].x4;
-            result &= selected.x5  == __sbyte32.TestData_RHS[0].x5;
-            result &= selected.x6  == __sbyte32.TestData_LHS[0].x6;
-            result &= selected.x7  == __sbyte32.TestData_RHS[0].x7;
-            result &= selected.x8  == __sbyte32.TestData_LHS[0].x8;
-            result &= selected.x9  == __sbyte32.TestData_RHS[0].x9;
-            result &= selected.x10 == __sbyte32.TestData_LHS[0].x10;
-            result &= selected.x11 == __sbyte32.TestData_RHS[0].x11;
-            result &= selected.x12 == __sbyte32.TestData_LHS[0].x12;
-            result &= selected.x13 == __sbyte32.TestData_RHS[0].x13;
-            result &= selected.x14 == __sbyte32.TestData_LHS[0].x14;
-            result &= selected.x15 == __sbyte32.TestData_RHS[0].x15;
-            result &= selected.x16 == __sbyte32.TestData_LHS[0].x16;
-            result &= selected.x17 == __sbyte32.TestData_LHS[0].x17;
-            result &= selected.x18 == __sbyte32.TestData_RHS[0].x18;
-            result &= selected.x19 == __sbyte32.TestData_LHS[0].x19;
-            result &= selected.x20 == __sbyte32.TestData_RHS[0].x20;
-            result &= selected.x21 == __sbyte32.TestData_RHS[0].x21;
-            result &= selected.x22 == __sbyte32.TestData_LHS[0].x22;
-            result &= selected.x23 == __sbyte32.TestData_RHS[0].x23;
-            result &= selected.x24 == __sbyte32.TestData_RHS[0].x24;
-            result &= selected.x25 == __sbyte32.TestData_LHS[0].x25;
-            result &= selected.x26 == __sbyte32.TestData_LHS[0].x26;
-            result &= selected.x27 == __sbyte32.TestData_LHS[0].x27;
-            result &= selected.x28 == __sbyte32.TestData_RHS[0].x28;
-            result &= selected.x29 == __sbyte32.TestData_LHS[0].x29;
-            result &= selected.x30 == __sbyte32.TestData_RHS[0].x30;
-            result &= selected.x31 == __sbyte32.TestData_LHS[0].x31;
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__sbyte32.TestData_LHS[1], __sbyte32.TestData_RHS[1], unchecked((int)0b1101_1110_0100_1010_0010_0011_1110_0011u));
-            result &= selected.x0  == __sbyte32.TestData_RHS[1].x0; 
-            result &= selected.x1  == __sbyte32.TestData_RHS[1].x1;
-            result &= selected.x2  == __sbyte32.TestData_LHS[1].x2;
-            result &= selected.x3  == __sbyte32.TestData_LHS[1].x3;
-            result &= selected.x4  == __sbyte32.TestData_LHS[1].x4;
-            result &= selected.x5  == __sbyte32.TestData_RHS[1].x5;
-            result &= selected.x6  == __sbyte32.TestData_RHS[1].x6;
-            result &= selected.x7  == __sbyte32.TestData_RHS[1].x7;
-            result &= selected.x8  == __sbyte32.TestData_RHS[1].x8;
-            result &= selected.x9  == __sbyte32.TestData_RHS[1].x9;
-            result &= selected.x10 == __sbyte32.TestData_LHS[1].x10;
-            result &= selected.x11 == __sbyte32.TestData_LHS[1].x11;
-            result &= selected.x12 == __sbyte32.TestData_LHS[1].x12;
-            result &= selected.x13 == __sbyte32.TestData_RHS[1].x13;
-            result &= selected.x14 == __sbyte32.TestData_LHS[1].x14;
-            result &= selected.x15 == __sbyte32.TestData_LHS[1].x15;
-            result &= selected.x16 == __sbyte32.TestData_LHS[1].x16;
-            result &= selected.x17 == __sbyte32.TestData_RHS[1].x17;
-            result &= selected.x18 == __sbyte32.TestData_LHS[1].x18;
-            result &= selected.x19 == __sbyte32.TestData_RHS[1].x19;
-            result &= selected.x20 == __sbyte32.TestData_LHS[1].x20;
-            result &= selected.x21 == __sbyte32.TestData_LHS[1].x21; 
-            result &= selected.x22 == __sbyte32.TestData_RHS[1].x22;
-            result &= selected.x23 == __sbyte32.TestData_LHS[1].x23;
-            result &= selected.x24 == __sbyte32.TestData_LHS[1].x24;
-            result &= selected.x25 == __sbyte32.TestData_RHS[1].x25;
-            result &= selected.x26 == __sbyte32.TestData_RHS[1].x26;
-            result &= selected.x27 == __sbyte32.TestData_RHS[1].x27;
-            result &= selected.x28 == __sbyte32.TestData_RHS[1].x28;
-            result &= selected.x29 == __sbyte32.TestData_LHS[1].x29;
-            result &= selected.x30 == __sbyte32.TestData_RHS[1].x30;
-            result &= selected.x31 == __sbyte32.TestData_RHS[1].x31;
+        [Test]
+        public static void _ulong4()
+        {
+            Random64 rng = Random64.New;
 
-            selected = maxmath.select(__sbyte32.TestData_LHS[2], __sbyte32.TestData_RHS[2], 0b0001_1011_1010_1101_0111_1011_0010_1001);
-            result &= selected.x0  == __sbyte32.TestData_RHS[2].x0;
-            result &= selected.x1  == __sbyte32.TestData_LHS[2].x1; 
-            result &= selected.x2  == __sbyte32.TestData_LHS[2].x2;
-            result &= selected.x3  == __sbyte32.TestData_RHS[2].x3;
-            result &= selected.x4  == __sbyte32.TestData_LHS[2].x4;
-            result &= selected.x5  == __sbyte32.TestData_RHS[2].x5;
-            result &= selected.x6  == __sbyte32.TestData_LHS[2].x6;
-            result &= selected.x7  == __sbyte32.TestData_LHS[2].x7;
-            result &= selected.x8  == __sbyte32.TestData_RHS[2].x8;
-            result &= selected.x9  == __sbyte32.TestData_RHS[2].x9;
-            result &= selected.x10 == __sbyte32.TestData_LHS[2].x10;
-            result &= selected.x11 == __sbyte32.TestData_RHS[2].x11;
-            result &= selected.x12 == __sbyte32.TestData_RHS[2].x12;
-            result &= selected.x13 == __sbyte32.TestData_RHS[2].x13;
-            result &= selected.x14 == __sbyte32.TestData_RHS[2].x14;
-            result &= selected.x15 == __sbyte32.TestData_LHS[2].x15;
-            result &= selected.x16 == __sbyte32.TestData_RHS[2].x16;
-            result &= selected.x17 == __sbyte32.TestData_LHS[2].x17;
-            result &= selected.x18 == __sbyte32.TestData_RHS[2].x18;
-            result &= selected.x19 == __sbyte32.TestData_RHS[2].x19;
-            result &= selected.x20 == __sbyte32.TestData_LHS[2].x20;
-            result &= selected.x21 == __sbyte32.TestData_RHS[2].x21;
-            result &= selected.x22 == __sbyte32.TestData_LHS[2].x22;
-            result &= selected.x23 == __sbyte32.TestData_RHS[2].x23;
-            result &= selected.x24 == __sbyte32.TestData_RHS[2].x24;
-            result &= selected.x25 == __sbyte32.TestData_RHS[2].x25;
-            result &= selected.x26 == __sbyte32.TestData_LHS[2].x26;
-            result &= selected.x27 == __sbyte32.TestData_RHS[2].x27;
-            result &= selected.x28 == __sbyte32.TestData_RHS[2].x28;
-            result &= selected.x29 == __sbyte32.TestData_LHS[2].x29;
-            result &= selected.x30 == __sbyte32.TestData_LHS[2].x30;
-            result &= selected.x31 == __sbyte32.TestData_LHS[2].x31;
+            for (int i = 0; i < 16; i++)
+            {
+                ulong4 l = rng.NextULong4();
+                ulong4 r = rng.NextULong4();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__sbyte32.TestData_LHS[3], __sbyte32.TestData_RHS[3], 0b0111_1001_1001_0101_0010_1110_1111_1011);
-            result &= selected.x0  == __sbyte32.TestData_RHS[3].x0;
-            result &= selected.x1  == __sbyte32.TestData_RHS[3].x1;
-            result &= selected.x2  == __sbyte32.TestData_LHS[3].x2;
-            result &= selected.x3  == __sbyte32.TestData_RHS[3].x3;
-            result &= selected.x4  == __sbyte32.TestData_RHS[3].x4;
-            result &= selected.x5  == __sbyte32.TestData_RHS[3].x5;
-            result &= selected.x6  == __sbyte32.TestData_RHS[3].x6;
-            result &= selected.x7  == __sbyte32.TestData_RHS[3].x7;
-            result &= selected.x8  == __sbyte32.TestData_LHS[3].x8;
-            result &= selected.x9  == __sbyte32.TestData_RHS[3].x9;
-            result &= selected.x10 == __sbyte32.TestData_RHS[3].x10;
-            result &= selected.x11 == __sbyte32.TestData_RHS[3].x11;
-            result &= selected.x12 == __sbyte32.TestData_LHS[3].x12;
-            result &= selected.x13 == __sbyte32.TestData_RHS[3].x13;
-            result &= selected.x14 == __sbyte32.TestData_LHS[3].x14;
-            result &= selected.x15 == __sbyte32.TestData_LHS[3].x15;
-            result &= selected.x16 == __sbyte32.TestData_RHS[3].x16;
-            result &= selected.x17 == __sbyte32.TestData_LHS[3].x17;
-            result &= selected.x18 == __sbyte32.TestData_RHS[3].x18;
-            result &= selected.x19 == __sbyte32.TestData_LHS[3].x19;
-            result &= selected.x20 == __sbyte32.TestData_RHS[3].x20;
-            result &= selected.x21 == __sbyte32.TestData_LHS[3].x21;
-            result &= selected.x22 == __sbyte32.TestData_LHS[3].x22;
-            result &= selected.x23 == __sbyte32.TestData_RHS[3].x23;
-            result &= selected.x24 == __sbyte32.TestData_RHS[3].x24;
-            result &= selected.x25 == __sbyte32.TestData_LHS[3].x25;
-            result &= selected.x26 == __sbyte32.TestData_LHS[3].x26;
-            result &= selected.x27 == __sbyte32.TestData_RHS[3].x27;
-            result &= selected.x28 == __sbyte32.TestData_RHS[3].x28;
-            result &= selected.x29 == __sbyte32.TestData_RHS[3].x29;
-            result &= selected.x30 == __sbyte32.TestData_RHS[3].x30;
-            result &= selected.x31 == __sbyte32.TestData_LHS[3].x31;
+                ulong4 test = select(l, r, b);
 
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void ushort2_via_int()
+        public static void _sbyte2()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte2 l = rng.NextSByte2();
+                sbyte2 r = rng.NextSByte2();
+                int b = ((Random32)rng).NextInt();
 
-            ushort2 selected;
+                sbyte2 test = select(l, r, b);
 
-            selected = maxmath.select(__ushort2.TestData_LHS[0], __ushort2.TestData_RHS[0], 0b10);
-            result &= selected.x == __ushort2.TestData_LHS[0].x;
-            result &= selected.y == __ushort2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__ushort2.TestData_LHS[1], __ushort2.TestData_RHS[1], 0b11);
-            result &= selected.x == __ushort2.TestData_RHS[1].x;
-            result &= selected.y == __ushort2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__ushort2.TestData_LHS[2], __ushort2.TestData_RHS[2], 0b00);
-            result &= selected.x == __ushort2.TestData_LHS[2].x;
-            result &= selected.y == __ushort2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__ushort2.TestData_LHS[3], __ushort2.TestData_RHS[3], 0b01);
-            result &= selected.x == __ushort2.TestData_RHS[3].x;
-            result &= selected.y == __ushort2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void short2_via_int()
+        public static void _sbyte3()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte3 l = rng.NextSByte3();
+                sbyte3 r = rng.NextSByte3();
+                int b = ((Random32)rng).NextInt();
 
-            short2 selected;
+                sbyte3 test = select(l, r, b);
 
-            selected = maxmath.select(__short2.TestData_LHS[0], __short2.TestData_RHS[0], 0b10);
-            result &= selected.x == __short2.TestData_LHS[0].x;
-            result &= selected.y == __short2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__short2.TestData_LHS[1], __short2.TestData_RHS[1], 0b11);
-            result &= selected.x == __short2.TestData_RHS[1].x;
-            result &= selected.y == __short2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__short2.TestData_LHS[2], __short2.TestData_RHS[2], 0b00);
-            result &= selected.x == __short2.TestData_LHS[2].x;
-            result &= selected.y == __short2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__short2.TestData_LHS[3], __short2.TestData_RHS[3], 0b01);
-            result &= selected.x == __short2.TestData_RHS[3].x;
-            result &= selected.y == __short2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void ushort3_via_int()
-        {
-            bool result = true;
-
-
-            ushort3 selected;
-
-            selected = maxmath.select(__ushort3.TestData_LHS[0], __ushort3.TestData_RHS[0], 0b110);
-            result &= selected.x == __ushort3.TestData_LHS[0].x;
-            result &= selected.y == __ushort3.TestData_RHS[0].y;
-            result &= selected.z == __ushort3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__ushort3.TestData_LHS[1], __ushort3.TestData_RHS[1], 0b011);
-            result &= selected.x == __ushort3.TestData_RHS[1].x;
-            result &= selected.y == __ushort3.TestData_RHS[1].y;
-            result &= selected.z == __ushort3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__ushort3.TestData_LHS[2], __ushort3.TestData_RHS[2], 0b100);
-            result &= selected.x == __ushort3.TestData_LHS[2].x;
-            result &= selected.y == __ushort3.TestData_LHS[2].y;
-            result &= selected.z == __ushort3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__ushort3.TestData_LHS[3], __ushort3.TestData_RHS[3], 0b101);
-            result &= selected.x == __ushort3.TestData_RHS[3].x;
-            result &= selected.y == __ushort3.TestData_LHS[3].y;
-            result &= selected.z == __ushort3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void short3_via_int()
+        public static void _sbyte4()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte4 l = rng.NextSByte4();
+                sbyte4 r = rng.NextSByte4();
+                int b = ((Random32)rng).NextInt();
 
-            short3 selected;
+                sbyte4 test = select(l, r, b);
 
-            selected = maxmath.select(__short3.TestData_LHS[0], __short3.TestData_RHS[0], 0b110);
-            result &= selected.x == __short3.TestData_LHS[0].x;
-            result &= selected.y == __short3.TestData_RHS[0].y;
-            result &= selected.z == __short3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__short3.TestData_LHS[1], __short3.TestData_RHS[1], 0b011);
-            result &= selected.x == __short3.TestData_RHS[1].x;
-            result &= selected.y == __short3.TestData_RHS[1].y;
-            result &= selected.z == __short3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__short3.TestData_LHS[2], __short3.TestData_RHS[2], 0b100);
-            result &= selected.x == __short3.TestData_LHS[2].x;
-            result &= selected.y == __short3.TestData_LHS[2].y;
-            result &= selected.z == __short3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__short3.TestData_LHS[3], __short3.TestData_RHS[3], 0b101);
-            result &= selected.x == __short3.TestData_RHS[3].x;
-            result &= selected.y == __short3.TestData_LHS[3].y;
-            result &= selected.z == __short3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void ushort4_via_int()
-        {
-            bool result = true;
-
-
-            ushort4 selected;
-
-            selected = maxmath.select(__ushort4.TestData_LHS[0], __ushort4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __ushort4.TestData_LHS[0].x;
-            result &= selected.y == __ushort4.TestData_RHS[0].y;
-            result &= selected.z == __ushort4.TestData_RHS[0].z;
-            result &= selected.w == __ushort4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__ushort4.TestData_LHS[1], __ushort4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __ushort4.TestData_RHS[1].x;
-            result &= selected.y == __ushort4.TestData_RHS[1].y;
-            result &= selected.z == __ushort4.TestData_RHS[1].z;
-            result &= selected.w == __ushort4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__ushort4.TestData_LHS[2], __ushort4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __ushort4.TestData_LHS[2].x;
-            result &= selected.y == __ushort4.TestData_RHS[2].y;
-            result &= selected.z == __ushort4.TestData_RHS[2].z;
-            result &= selected.w == __ushort4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__ushort4.TestData_LHS[3], __ushort4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __ushort4.TestData_RHS[3].x;
-            result &= selected.y == __ushort4.TestData_LHS[3].y;
-            result &= selected.z == __ushort4.TestData_RHS[3].z;
-            result &= selected.w == __ushort4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void short4_via_int()
+        public static void _sbyte8()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte8 l = rng.NextSByte8();
+                sbyte8 r = rng.NextSByte8();
+                int b = ((Random32)rng).NextInt();
 
-            short4 selected;
+                sbyte8 test = select(l, r, b);
 
-            selected = maxmath.select(__short4.TestData_LHS[0], __short4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __short4.TestData_LHS[0].x;
-            result &= selected.y == __short4.TestData_RHS[0].y;
-            result &= selected.z == __short4.TestData_RHS[0].z;
-            result &= selected.w == __short4.TestData_RHS[0].w;
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__short4.TestData_LHS[1], __short4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __short4.TestData_RHS[1].x;
-            result &= selected.y == __short4.TestData_RHS[1].y;
-            result &= selected.z == __short4.TestData_RHS[1].z;
-            result &= selected.w == __short4.TestData_LHS[1].w;
+        [Test]
+        public static void _sbyte16()
+        {
+            Random8 rng = Random8.New;
 
-            selected = maxmath.select(__short4.TestData_LHS[2], __short4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __short4.TestData_LHS[2].x;
-            result &= selected.y == __short4.TestData_RHS[2].y;
-            result &= selected.z == __short4.TestData_RHS[2].z;
-            result &= selected.w == __short4.TestData_LHS[2].w;
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte16 l = rng.NextSByte16();
+                sbyte16 r = rng.NextSByte16();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__short4.TestData_LHS[3], __short4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __short4.TestData_RHS[3].x;
-            result &= selected.y == __short4.TestData_LHS[3].y;
-            result &= selected.z == __short4.TestData_RHS[3].z;
-            result &= selected.w == __short4.TestData_RHS[3].w;
+                sbyte16 test = select(l, r, b);
 
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _sbyte32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte32 l = rng.NextSByte32();
+                sbyte32 r = rng.NextSByte32();
+                int b = ((Random32)rng).NextInt();
+
+                sbyte32 test = select(l, r, b);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void ushort8_via_int()
+        public static void _short2()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                short2 l = rng.NextShort2();
+                short2 r = rng.NextShort2();
+                int b = ((Random32)rng).NextInt();
 
-            ushort8 selected;
+                short2 test = select(l, r, b);
 
-            selected = maxmath.select(__ushort8.TestData_LHS[0], __ushort8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0  == __ushort8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __ushort8.TestData_RHS[0].x1;
-            result &= selected.x2  == __ushort8.TestData_LHS[0].x2;
-            result &= selected.x3  == __ushort8.TestData_RHS[0].x3;
-            result &= selected.x4  == __ushort8.TestData_RHS[0].x4;
-            result &= selected.x5  == __ushort8.TestData_RHS[0].x5;
-            result &= selected.x6  == __ushort8.TestData_LHS[0].x6;
-            result &= selected.x7  == __ushort8.TestData_RHS[0].x7;
-
-            selected = maxmath.select(__ushort8.TestData_LHS[1], __ushort8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0  == __ushort8.TestData_RHS[1].x0;
-            result &= selected.x1  == __ushort8.TestData_RHS[1].x1;
-            result &= selected.x2  == __ushort8.TestData_LHS[1].x2;
-            result &= selected.x3  == __ushort8.TestData_LHS[1].x3;
-            result &= selected.x4  == __ushort8.TestData_LHS[1].x4;
-            result &= selected.x5  == __ushort8.TestData_RHS[1].x5;
-            result &= selected.x6  == __ushort8.TestData_RHS[1].x6;
-            result &= selected.x7  == __ushort8.TestData_RHS[1].x7;
-
-            selected = maxmath.select(__ushort8.TestData_LHS[2], __ushort8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __ushort8.TestData_RHS[2].x0;
-            result &= selected.x1  == __ushort8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __ushort8.TestData_LHS[2].x2;
-            result &= selected.x3  == __ushort8.TestData_RHS[2].x3;
-            result &= selected.x4  == __ushort8.TestData_LHS[2].x4;
-            result &= selected.x5  == __ushort8.TestData_RHS[2].x5;
-            result &= selected.x6  == __ushort8.TestData_LHS[2].x6;
-            result &= selected.x7  == __ushort8.TestData_LHS[2].x7;
-
-            selected = maxmath.select(__ushort8.TestData_LHS[3], __ushort8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __ushort8.TestData_RHS[3].x0;
-            result &= selected.x1  == __ushort8.TestData_RHS[3].x1;
-            result &= selected.x2  == __ushort8.TestData_LHS[3].x2;
-            result &= selected.x3  == __ushort8.TestData_RHS[3].x3;
-            result &= selected.x4  == __ushort8.TestData_RHS[3].x4;
-            result &= selected.x5  == __ushort8.TestData_RHS[3].x5;
-            result &= selected.x6  == __ushort8.TestData_RHS[3].x6;
-            result &= selected.x7  == __ushort8.TestData_RHS[3].x7;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void short8_via_int()
+        public static void _short3()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                short3 l = rng.NextShort3();
+                short3 r = rng.NextShort3();
+                int b = ((Random32)rng).NextInt();
 
-            short8 selected;
+                short3 test = select(l, r, b);
 
-            selected = maxmath.select(__short8.TestData_LHS[0], __short8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0  == __short8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __short8.TestData_RHS[0].x1;
-            result &= selected.x2  == __short8.TestData_LHS[0].x2;
-            result &= selected.x3  == __short8.TestData_RHS[0].x3;
-            result &= selected.x4  == __short8.TestData_RHS[0].x4;
-            result &= selected.x5  == __short8.TestData_RHS[0].x5;
-            result &= selected.x6  == __short8.TestData_LHS[0].x6;
-            result &= selected.x7  == __short8.TestData_RHS[0].x7;
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__short8.TestData_LHS[1], __short8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0  == __short8.TestData_RHS[1].x0;
-            result &= selected.x1  == __short8.TestData_RHS[1].x1;
-            result &= selected.x2  == __short8.TestData_LHS[1].x2;
-            result &= selected.x3  == __short8.TestData_LHS[1].x3;
-            result &= selected.x4  == __short8.TestData_LHS[1].x4;
-            result &= selected.x5  == __short8.TestData_RHS[1].x5;
-            result &= selected.x6  == __short8.TestData_RHS[1].x6;
-            result &= selected.x7  == __short8.TestData_RHS[1].x7;
+        [Test]
+        public static void _short4()
+        {
+            Random16 rng = Random16.New;
 
-            selected = maxmath.select(__short8.TestData_LHS[2], __short8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __short8.TestData_RHS[2].x0;
-            result &= selected.x1  == __short8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __short8.TestData_LHS[2].x2;
-            result &= selected.x3  == __short8.TestData_RHS[2].x3;
-            result &= selected.x4  == __short8.TestData_LHS[2].x4;
-            result &= selected.x5  == __short8.TestData_RHS[2].x5;
-            result &= selected.x6  == __short8.TestData_LHS[2].x6;
-            result &= selected.x7  == __short8.TestData_LHS[2].x7;
+            for (int i = 0; i < 16; i++)
+            {
+                short4 l = rng.NextShort4();
+                short4 r = rng.NextShort4();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__short8.TestData_LHS[3], __short8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __short8.TestData_RHS[3].x0;
-            result &= selected.x1  == __short8.TestData_RHS[3].x1;
-            result &= selected.x2  == __short8.TestData_LHS[3].x2;
-            result &= selected.x3  == __short8.TestData_RHS[3].x3;
-            result &= selected.x4  == __short8.TestData_RHS[3].x4;
-            result &= selected.x5  == __short8.TestData_RHS[3].x5;
-            result &= selected.x6  == __short8.TestData_RHS[3].x6;
-            result &= selected.x7  == __short8.TestData_RHS[3].x7;
+                short4 test = select(l, r, b);
 
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _short8()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                short8 l = rng.NextShort8();
+                short8 r = rng.NextShort8();
+                int b = ((Random32)rng).NextInt();
+
+                short8 test = select(l, r, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void _short16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                short16 l = rng.NextShort16();
+                short16 r = rng.NextShort16();
+                int b = ((Random32)rng).NextInt();
+
+                short16 test = select(l, r, b);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void ushort16_via_int()
+        public static void _int2()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                int2 l = rng.NextInt2();
+                int2 r = rng.NextInt2();
+                int b = ((Random32)rng).NextInt();
 
-            ushort16 selected;
+                int2 test = select(l, r, b);
 
-            selected = maxmath.select(__ushort16.TestData_LHS[0], __ushort16.TestData_RHS[0], unchecked((int)0b1010_1010_1011_1011u));
-            result &= selected.x0  == __ushort16.TestData_RHS[0].x0; 
-            result &= selected.x1  == __ushort16.TestData_RHS[0].x1;
-            result &= selected.x2  == __ushort16.TestData_LHS[0].x2;
-            result &= selected.x3  == __ushort16.TestData_RHS[0].x3;
-            result &= selected.x4  == __ushort16.TestData_RHS[0].x4;
-            result &= selected.x5  == __ushort16.TestData_RHS[0].x5;
-            result &= selected.x6  == __ushort16.TestData_LHS[0].x6;
-            result &= selected.x7  == __ushort16.TestData_RHS[0].x7;
-            result &= selected.x8  == __ushort16.TestData_LHS[0].x8;
-            result &= selected.x9  == __ushort16.TestData_RHS[0].x9;
-            result &= selected.x10 == __ushort16.TestData_LHS[0].x10;
-            result &= selected.x11 == __ushort16.TestData_RHS[0].x11;
-            result &= selected.x12 == __ushort16.TestData_LHS[0].x12;
-            result &= selected.x13 == __ushort16.TestData_RHS[0].x13;
-            result &= selected.x14 == __ushort16.TestData_LHS[0].x14;
-            result &= selected.x15 == __ushort16.TestData_RHS[0].x15;
-
-            selected = maxmath.select(__ushort16.TestData_LHS[1], __ushort16.TestData_RHS[1], unchecked((int)0b0010_0011_1110_0011u));
-            result &= selected.x0  == __ushort16.TestData_RHS[1].x0;
-            result &= selected.x1  == __ushort16.TestData_RHS[1].x1;
-            result &= selected.x2  == __ushort16.TestData_LHS[1].x2;
-            result &= selected.x3  == __ushort16.TestData_LHS[1].x3;
-            result &= selected.x4  == __ushort16.TestData_LHS[1].x4;
-            result &= selected.x5  == __ushort16.TestData_RHS[1].x5;
-            result &= selected.x6  == __ushort16.TestData_RHS[1].x6;
-            result &= selected.x7  == __ushort16.TestData_RHS[1].x7;
-            result &= selected.x8  == __ushort16.TestData_RHS[1].x8;
-            result &= selected.x9  == __ushort16.TestData_RHS[1].x9;
-            result &= selected.x10 == __ushort16.TestData_LHS[1].x10;
-            result &= selected.x11 == __ushort16.TestData_LHS[1].x11;
-            result &= selected.x12 == __ushort16.TestData_LHS[1].x12;
-            result &= selected.x13 == __ushort16.TestData_RHS[1].x13;
-            result &= selected.x14 == __ushort16.TestData_LHS[1].x14;
-            result &= selected.x15 == __ushort16.TestData_LHS[1].x15;
-
-            selected = maxmath.select(__ushort16.TestData_LHS[2], __ushort16.TestData_RHS[2], 0b0111_1011_0010_1001);
-            result &= selected.x0  == __ushort16.TestData_RHS[2].x0;
-            result &= selected.x1  == __ushort16.TestData_LHS[2].x1; 
-            result &= selected.x2  == __ushort16.TestData_LHS[2].x2;
-            result &= selected.x3  == __ushort16.TestData_RHS[2].x3;
-            result &= selected.x4  == __ushort16.TestData_LHS[2].x4;
-            result &= selected.x5  == __ushort16.TestData_RHS[2].x5;
-            result &= selected.x6  == __ushort16.TestData_LHS[2].x6;
-            result &= selected.x7  == __ushort16.TestData_LHS[2].x7;
-            result &= selected.x8  == __ushort16.TestData_RHS[2].x8;
-            result &= selected.x9  == __ushort16.TestData_RHS[2].x9;
-            result &= selected.x10 == __ushort16.TestData_LHS[2].x10;
-            result &= selected.x11 == __ushort16.TestData_RHS[2].x11;
-            result &= selected.x12 == __ushort16.TestData_RHS[2].x12;
-            result &= selected.x13 == __ushort16.TestData_RHS[2].x13;
-            result &= selected.x14 == __ushort16.TestData_RHS[2].x14;
-            result &= selected.x15 == __ushort16.TestData_LHS[2].x15;
-
-            selected = maxmath.select(__ushort16.TestData_LHS[3], __ushort16.TestData_RHS[3], 0b0010_1110_1111_1011);
-            result &= selected.x0  == __ushort16.TestData_RHS[3].x0;
-            result &= selected.x1  == __ushort16.TestData_RHS[3].x1;
-            result &= selected.x2  == __ushort16.TestData_LHS[3].x2;
-            result &= selected.x3  == __ushort16.TestData_RHS[3].x3;
-            result &= selected.x4  == __ushort16.TestData_RHS[3].x4;
-            result &= selected.x5  == __ushort16.TestData_RHS[3].x5;
-            result &= selected.x6  == __ushort16.TestData_RHS[3].x6;
-            result &= selected.x7  == __ushort16.TestData_RHS[3].x7;
-            result &= selected.x8  == __ushort16.TestData_LHS[3].x8;
-            result &= selected.x9  == __ushort16.TestData_RHS[3].x9;
-            result &= selected.x10 == __ushort16.TestData_RHS[3].x10;
-            result &= selected.x11 == __ushort16.TestData_RHS[3].x11;
-            result &= selected.x12 == __ushort16.TestData_LHS[3].x12;
-            result &= selected.x13 == __ushort16.TestData_RHS[3].x13;
-            result &= selected.x14 == __ushort16.TestData_LHS[3].x14;
-            result &= selected.x15 == __ushort16.TestData_LHS[3].x15;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void short16_via_int()
+        public static void _int3()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                int3 l = rng.NextInt3();
+                int3 r = rng.NextInt3();
+                int b = ((Random32)rng).NextInt();
 
-            short16 selected;
+                int3 test = select(l, r, b);
 
-            selected = maxmath.select(__short16.TestData_LHS[0], __short16.TestData_RHS[0], unchecked((int)0b1010_1010_1011_1011u));
-            result &= selected.x0  == __short16.TestData_RHS[0].x0; 
-            result &= selected.x1  == __short16.TestData_RHS[0].x1;
-            result &= selected.x2  == __short16.TestData_LHS[0].x2;
-            result &= selected.x3  == __short16.TestData_RHS[0].x3;
-            result &= selected.x4  == __short16.TestData_RHS[0].x4;
-            result &= selected.x5  == __short16.TestData_RHS[0].x5;
-            result &= selected.x6  == __short16.TestData_LHS[0].x6;
-            result &= selected.x7  == __short16.TestData_RHS[0].x7;
-            result &= selected.x8  == __short16.TestData_LHS[0].x8;
-            result &= selected.x9  == __short16.TestData_RHS[0].x9;
-            result &= selected.x10 == __short16.TestData_LHS[0].x10;
-            result &= selected.x11 == __short16.TestData_RHS[0].x11;
-            result &= selected.x12 == __short16.TestData_LHS[0].x12;
-            result &= selected.x13 == __short16.TestData_RHS[0].x13;
-            result &= selected.x14 == __short16.TestData_LHS[0].x14;
-            result &= selected.x15 == __short16.TestData_RHS[0].x15;
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            selected = maxmath.select(__short16.TestData_LHS[1], __short16.TestData_RHS[1], unchecked((int)0b0010_0011_1110_0011u));
-            result &= selected.x0  == __short16.TestData_RHS[1].x0;
-            result &= selected.x1  == __short16.TestData_RHS[1].x1;
-            result &= selected.x2  == __short16.TestData_LHS[1].x2;
-            result &= selected.x3  == __short16.TestData_LHS[1].x3;
-            result &= selected.x4  == __short16.TestData_LHS[1].x4;
-            result &= selected.x5  == __short16.TestData_RHS[1].x5;
-            result &= selected.x6  == __short16.TestData_RHS[1].x6;
-            result &= selected.x7  == __short16.TestData_RHS[1].x7;
-            result &= selected.x8  == __short16.TestData_RHS[1].x8;
-            result &= selected.x9  == __short16.TestData_RHS[1].x9;
-            result &= selected.x10 == __short16.TestData_LHS[1].x10;
-            result &= selected.x11 == __short16.TestData_LHS[1].x11;
-            result &= selected.x12 == __short16.TestData_LHS[1].x12;
-            result &= selected.x13 == __short16.TestData_RHS[1].x13;
-            result &= selected.x14 == __short16.TestData_LHS[1].x14;
-            result &= selected.x15 == __short16.TestData_LHS[1].x15;
+        [Test]
+        public static void _int4()
+        {
+            Random32 rng = Random32.New;
 
-            selected = maxmath.select(__short16.TestData_LHS[2], __short16.TestData_RHS[2], 0b0111_1011_0010_1001);
-            result &= selected.x0  == __short16.TestData_RHS[2].x0;
-            result &= selected.x1  == __short16.TestData_LHS[2].x1; 
-            result &= selected.x2  == __short16.TestData_LHS[2].x2;
-            result &= selected.x3  == __short16.TestData_RHS[2].x3;
-            result &= selected.x4  == __short16.TestData_LHS[2].x4;
-            result &= selected.x5  == __short16.TestData_RHS[2].x5;
-            result &= selected.x6  == __short16.TestData_LHS[2].x6;
-            result &= selected.x7  == __short16.TestData_LHS[2].x7;
-            result &= selected.x8  == __short16.TestData_RHS[2].x8;
-            result &= selected.x9  == __short16.TestData_RHS[2].x9;
-            result &= selected.x10 == __short16.TestData_LHS[2].x10;
-            result &= selected.x11 == __short16.TestData_RHS[2].x11;
-            result &= selected.x12 == __short16.TestData_RHS[2].x12;
-            result &= selected.x13 == __short16.TestData_RHS[2].x13;
-            result &= selected.x14 == __short16.TestData_RHS[2].x14;
-            result &= selected.x15 == __short16.TestData_LHS[2].x15;
+            for (int i = 0; i < 16; i++)
+            {
+                int4 l = rng.NextInt4();
+                int4 r = rng.NextInt4();
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__short16.TestData_LHS[3], __short16.TestData_RHS[3], 0b0010_1110_1111_1011);
-            result &= selected.x0  == __short16.TestData_RHS[3].x0;
-            result &= selected.x1  == __short16.TestData_RHS[3].x1;
-            result &= selected.x2  == __short16.TestData_LHS[3].x2;
-            result &= selected.x3  == __short16.TestData_RHS[3].x3;
-            result &= selected.x4  == __short16.TestData_RHS[3].x4;
-            result &= selected.x5  == __short16.TestData_RHS[3].x5;
-            result &= selected.x6  == __short16.TestData_RHS[3].x6;
-            result &= selected.x7  == __short16.TestData_RHS[3].x7;
-            result &= selected.x8  == __short16.TestData_LHS[3].x8;
-            result &= selected.x9  == __short16.TestData_RHS[3].x9;
-            result &= selected.x10 == __short16.TestData_RHS[3].x10;
-            result &= selected.x11 == __short16.TestData_RHS[3].x11;
-            result &= selected.x12 == __short16.TestData_LHS[3].x12;
-            result &= selected.x13 == __short16.TestData_RHS[3].x13;
-            result &= selected.x14 == __short16.TestData_LHS[3].x14;
-            result &= selected.x15 == __short16.TestData_LHS[3].x15;
+                int4 test = select(l, r, b);
 
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _int8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                int8 l = rng.NextInt8();
+                int8 r = rng.NextInt8();
+                int b = ((Random32)rng).NextInt();
+
+                int8 test = select(l, r, b);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void uint2_via_int()
+        public static void _long2()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                long2 l = rng.NextLong2();
+                long2 r = rng.NextLong2();
+                int b = ((Random32)rng).NextInt();
 
-            uint2 selected;
+                long2 test = select(l, r, b);
 
-            selected = maxmath.select(__uint2.TestData_LHS[0], __uint2.TestData_RHS[0], 0b10);
-            result &= selected.x == __uint2.TestData_LHS[0].x;
-            result &= selected.y == __uint2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__uint2.TestData_LHS[1], __uint2.TestData_RHS[1], 0b11);
-            result &= selected.x == __uint2.TestData_RHS[1].x;
-            result &= selected.y == __uint2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__uint2.TestData_LHS[2], __uint2.TestData_RHS[2], 0b00);
-            result &= selected.x == __uint2.TestData_LHS[2].x;
-            result &= selected.y == __uint2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__uint2.TestData_LHS[3], __uint2.TestData_RHS[3], 0b01);
-            result &= selected.x == __uint2.TestData_RHS[3].x;
-            result &= selected.y == __uint2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void int2_via_int()
+        public static void _long3()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                long3 l = rng.NextLong3();
+                long3 r = rng.NextLong3();
+                int b = ((Random32)rng).NextInt();
 
-            int2 selected;
+                long3 test = select(l, r, b);
 
-            selected = maxmath.select(__int2.TestData_LHS[0], __int2.TestData_RHS[0], 0b10);
-            result &= selected.x == __int2.TestData_LHS[0].x;
-            result &= selected.y == __int2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__int2.TestData_LHS[1], __int2.TestData_RHS[1], 0b11);
-            result &= selected.x == __int2.TestData_RHS[1].x;
-            result &= selected.y == __int2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__int2.TestData_LHS[2], __int2.TestData_RHS[2], 0b00);
-            result &= selected.x == __int2.TestData_LHS[2].x;
-            result &= selected.y == __int2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__int2.TestData_LHS[3], __int2.TestData_RHS[3], 0b01);
-            result &= selected.x == __int2.TestData_RHS[3].x;
-            result &= selected.y == __int2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void uint3_via_int()
-        {
-            bool result = true;
-
-
-            uint3 selected;
-
-            selected = maxmath.select(__uint3.TestData_LHS[0], __uint3.TestData_RHS[0], 0b110);
-            result &= selected.x == __uint3.TestData_LHS[0].x;
-            result &= selected.y == __uint3.TestData_RHS[0].y;
-            result &= selected.z == __uint3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__uint3.TestData_LHS[1], __uint3.TestData_RHS[1], 0b011);
-            result &= selected.x == __uint3.TestData_RHS[1].x;
-            result &= selected.y == __uint3.TestData_RHS[1].y;
-            result &= selected.z == __uint3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__uint3.TestData_LHS[2], __uint3.TestData_RHS[2], 0b100);
-            result &= selected.x == __uint3.TestData_LHS[2].x;
-            result &= selected.y == __uint3.TestData_LHS[2].y;
-            result &= selected.z == __uint3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__uint3.TestData_LHS[3], __uint3.TestData_RHS[3], 0b101);
-            result &= selected.x == __uint3.TestData_RHS[3].x;
-            result &= selected.y == __uint3.TestData_LHS[3].y;
-            result &= selected.z == __uint3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
         [Test]
-        public static void int3_via_int()
+        public static void _long4()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                long4 l = rng.NextLong4();
+                long4 r = rng.NextLong4();
+                int b = ((Random32)rng).NextInt();
 
-            int3 selected;
+                long4 test = select(l, r, b);
 
-            selected = maxmath.select(__int3.TestData_LHS[0], __int3.TestData_RHS[0], 0b110);
-            result &= selected.x == __int3.TestData_LHS[0].x;
-            result &= selected.y == __int3.TestData_RHS[0].y;
-            result &= selected.z == __int3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__int3.TestData_LHS[1], __int3.TestData_RHS[1], 0b011);
-            result &= selected.x == __int3.TestData_RHS[1].x;
-            result &= selected.y == __int3.TestData_RHS[1].y;
-            result &= selected.z == __int3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__int3.TestData_LHS[2], __int3.TestData_RHS[2], 0b100);
-            result &= selected.x == __int3.TestData_LHS[2].x;
-            result &= selected.y == __int3.TestData_LHS[2].y;
-            result &= selected.z == __int3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__int3.TestData_LHS[3], __int3.TestData_RHS[3], 0b101);
-            result &= selected.x == __int3.TestData_RHS[3].x;
-            result &= selected.y == __int3.TestData_LHS[3].y;
-            result &= selected.z == __int3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(test[j], testbit(b, j) ? r[j] : l[j]);
+                }
+            }
         }
 
 
         [Test]
-        public static void uint4_via_int()
+        public static void _quarter2()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                quarter2 l = asquarter(rng.NextSByte2());
+                quarter2 r = asquarter(rng.NextSByte2());
+                int b = ((Random32)rng).NextInt();
 
-            uint4 selected;
+                quarter2 test = select(l, r, b);
 
-            selected = maxmath.select(__uint4.TestData_LHS[0], __uint4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __uint4.TestData_LHS[0].x;
-            result &= selected.y == __uint4.TestData_RHS[0].y;
-            result &= selected.z == __uint4.TestData_RHS[0].z;
-            result &= selected.w == __uint4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__uint4.TestData_LHS[1], __uint4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __uint4.TestData_RHS[1].x;
-            result &= selected.y == __uint4.TestData_RHS[1].y;
-            result &= selected.z == __uint4.TestData_RHS[1].z;
-            result &= selected.w == __uint4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__uint4.TestData_LHS[2], __uint4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __uint4.TestData_LHS[2].x;
-            result &= selected.y == __uint4.TestData_RHS[2].y;
-            result &= selected.z == __uint4.TestData_RHS[2].z;
-            result &= selected.w == __uint4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__uint4.TestData_LHS[3], __uint4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __uint4.TestData_RHS[3].x;
-            result &= selected.y == __uint4.TestData_LHS[3].y;
-            result &= selected.z == __uint4.TestData_RHS[3].z;
-            result &= selected.w == __uint4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(asbyte(test[j]), asbyte(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void int4_via_int()
+        public static void _quarter3()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                quarter3 l = asquarter(rng.NextSByte3());
+                quarter3 r = asquarter(rng.NextSByte3());
+                int b = ((Random32)rng).NextInt();
 
-            int4 selected;
+                quarter3 test = select(l, r, b);
 
-            selected = maxmath.select(__int4.TestData_LHS[0], __int4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __int4.TestData_LHS[0].x;
-            result &= selected.y == __int4.TestData_RHS[0].y;
-            result &= selected.z == __int4.TestData_RHS[0].z;
-            result &= selected.w == __int4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__int4.TestData_LHS[1], __int4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __int4.TestData_RHS[1].x;
-            result &= selected.y == __int4.TestData_RHS[1].y;
-            result &= selected.z == __int4.TestData_RHS[1].z;
-            result &= selected.w == __int4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__int4.TestData_LHS[2], __int4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __int4.TestData_LHS[2].x;
-            result &= selected.y == __int4.TestData_RHS[2].y;
-            result &= selected.z == __int4.TestData_RHS[2].z;
-            result &= selected.w == __int4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__int4.TestData_LHS[3], __int4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __int4.TestData_RHS[3].x;
-            result &= selected.y == __int4.TestData_LHS[3].y;
-            result &= selected.z == __int4.TestData_RHS[3].z;
-            result &= selected.w == __int4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(asbyte(test[j]), asbyte(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void uint8_via_int()
+        public static void _quarter4()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                quarter4 l = asquarter(rng.NextSByte4());
+                quarter4 r = asquarter(rng.NextSByte4());
+                int b = ((Random32)rng).NextInt();
 
-            uint8 selected;
+                quarter4 test = select(l, r, b);
 
-            selected = maxmath.select(__uint8.TestData_LHS[0], __uint8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0  == __uint8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __uint8.TestData_RHS[0].x1;
-            result &= selected.x2  == __uint8.TestData_LHS[0].x2;
-            result &= selected.x3  == __uint8.TestData_RHS[0].x3;
-            result &= selected.x4  == __uint8.TestData_RHS[0].x4;
-            result &= selected.x5  == __uint8.TestData_RHS[0].x5;
-            result &= selected.x6  == __uint8.TestData_LHS[0].x6;
-            result &= selected.x7  == __uint8.TestData_RHS[0].x7;
-
-            selected = maxmath.select(__uint8.TestData_LHS[1], __uint8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0  == __uint8.TestData_RHS[1].x0;
-            result &= selected.x1  == __uint8.TestData_RHS[1].x1;
-            result &= selected.x2  == __uint8.TestData_LHS[1].x2;
-            result &= selected.x3  == __uint8.TestData_LHS[1].x3;
-            result &= selected.x4  == __uint8.TestData_LHS[1].x4;
-            result &= selected.x5  == __uint8.TestData_RHS[1].x5;
-            result &= selected.x6  == __uint8.TestData_RHS[1].x6;
-            result &= selected.x7  == __uint8.TestData_RHS[1].x7;
-
-            selected = maxmath.select(__uint8.TestData_LHS[2], __uint8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __uint8.TestData_RHS[2].x0;
-            result &= selected.x1  == __uint8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __uint8.TestData_LHS[2].x2;
-            result &= selected.x3  == __uint8.TestData_RHS[2].x3;
-            result &= selected.x4  == __uint8.TestData_LHS[2].x4;
-            result &= selected.x5  == __uint8.TestData_RHS[2].x5;
-            result &= selected.x6  == __uint8.TestData_LHS[2].x6;
-            result &= selected.x7  == __uint8.TestData_LHS[2].x7;
-
-            selected = maxmath.select(__uint8.TestData_LHS[3], __uint8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __uint8.TestData_RHS[3].x0;
-            result &= selected.x1  == __uint8.TestData_RHS[3].x1;
-            result &= selected.x2  == __uint8.TestData_LHS[3].x2;
-            result &= selected.x3  == __uint8.TestData_RHS[3].x3;
-            result &= selected.x4  == __uint8.TestData_RHS[3].x4;
-            result &= selected.x5  == __uint8.TestData_RHS[3].x5;
-            result &= selected.x6  == __uint8.TestData_RHS[3].x6;
-            result &= selected.x7  == __uint8.TestData_RHS[3].x7;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(asbyte(test[j]), asbyte(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void int8_via_int()
+        public static void _quarter8()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                quarter8 l = asquarter(rng.NextSByte8());
+                quarter8 r = asquarter(rng.NextSByte8());
+                int b = ((Random32)rng).NextInt();
 
-            int8 selected;
+                quarter8 test = select(l, r, b);
 
-            selected = maxmath.select(__int8.TestData_LHS[0], __int8.TestData_RHS[0], 0b1011_1011);
-            result &= selected.x0  == __int8.TestData_RHS[0].x0; 
-            result &= selected.x1  == __int8.TestData_RHS[0].x1;
-            result &= selected.x2  == __int8.TestData_LHS[0].x2;
-            result &= selected.x3  == __int8.TestData_RHS[0].x3;
-            result &= selected.x4  == __int8.TestData_RHS[0].x4;
-            result &= selected.x5  == __int8.TestData_RHS[0].x5;
-            result &= selected.x6  == __int8.TestData_LHS[0].x6;
-            result &= selected.x7  == __int8.TestData_RHS[0].x7;
-
-            selected = maxmath.select(__int8.TestData_LHS[1], __int8.TestData_RHS[1], 0b1110_0011);
-            result &= selected.x0  == __int8.TestData_RHS[1].x0;
-            result &= selected.x1  == __int8.TestData_RHS[1].x1;
-            result &= selected.x2  == __int8.TestData_LHS[1].x2;
-            result &= selected.x3  == __int8.TestData_LHS[1].x3;
-            result &= selected.x4  == __int8.TestData_LHS[1].x4;
-            result &= selected.x5  == __int8.TestData_RHS[1].x5;
-            result &= selected.x6  == __int8.TestData_RHS[1].x6;
-            result &= selected.x7  == __int8.TestData_RHS[1].x7;
-
-            selected = maxmath.select(__int8.TestData_LHS[2], __int8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0  == __int8.TestData_RHS[2].x0;
-            result &= selected.x1  == __int8.TestData_LHS[2].x1; 
-            result &= selected.x2  == __int8.TestData_LHS[2].x2;
-            result &= selected.x3  == __int8.TestData_RHS[2].x3;
-            result &= selected.x4  == __int8.TestData_LHS[2].x4;
-            result &= selected.x5  == __int8.TestData_RHS[2].x5;
-            result &= selected.x6  == __int8.TestData_LHS[2].x6;
-            result &= selected.x7  == __int8.TestData_LHS[2].x7;
-
-            selected = maxmath.select(__int8.TestData_LHS[3], __int8.TestData_RHS[3], 0b1111_1011);
-            result &= selected.x0  == __int8.TestData_RHS[3].x0;
-            result &= selected.x1  == __int8.TestData_RHS[3].x1;
-            result &= selected.x2  == __int8.TestData_LHS[3].x2;
-            result &= selected.x3  == __int8.TestData_RHS[3].x3;
-            result &= selected.x4  == __int8.TestData_RHS[3].x4;
-            result &= selected.x5  == __int8.TestData_RHS[3].x5;
-            result &= selected.x6  == __int8.TestData_RHS[3].x6;
-            result &= selected.x7  == __int8.TestData_RHS[3].x7;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(asbyte(test[j]), asbyte(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
 
         [Test]
-        public static void ulong2_via_int()
+        public static void _half2()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                half2 l = ashalf(rng.NextShort2());
+                half2 r = ashalf(rng.NextShort2());
+                int b = ((Random32)rng).NextInt();
 
-            ulong2 selected;
+                half2 test = select(l, r, b);
 
-            selected = maxmath.select(__ulong2.TestData_LHS[0], __ulong2.TestData_RHS[0], 0b10);
-            result &= selected.x == __ulong2.TestData_LHS[0].x;
-            result &= selected.y == __ulong2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__ulong2.TestData_LHS[1], __ulong2.TestData_RHS[1], 0b11);
-            result &= selected.x == __ulong2.TestData_RHS[1].x;
-            result &= selected.y == __ulong2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__ulong2.TestData_LHS[2], __ulong2.TestData_RHS[2], 0b00);
-            result &= selected.x == __ulong2.TestData_LHS[2].x;
-            result &= selected.y == __ulong2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__ulong2.TestData_LHS[3], __ulong2.TestData_RHS[3], 0b01);
-            result &= selected.x == __ulong2.TestData_RHS[3].x;
-            result &= selected.y == __ulong2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(asshort(test[j]), asshort(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void long2_via_int()
+        public static void _half3()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                half3 l = ashalf(rng.NextShort3());
+                half3 r = ashalf(rng.NextShort3());
+                int b = ((Random32)rng).NextInt();
 
-            long2 selected;
+                half3 test = select(l, r, b);
 
-            selected = maxmath.select(__long2.TestData_LHS[0], __long2.TestData_RHS[0], 0b10);
-            result &= selected.x == __long2.TestData_LHS[0].x;
-            result &= selected.y == __long2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__long2.TestData_LHS[1], __long2.TestData_RHS[1], 0b11);
-            result &= selected.x == __long2.TestData_RHS[1].x;
-            result &= selected.y == __long2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__long2.TestData_LHS[2], __long2.TestData_RHS[2], 0b00);
-            result &= selected.x == __long2.TestData_LHS[2].x;
-            result &= selected.y == __long2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__long2.TestData_LHS[3], __long2.TestData_RHS[3], 0b01);
-            result &= selected.x == __long2.TestData_RHS[3].x;
-            result &= selected.y == __long2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void ulong3_via_int()
-        {
-            bool result = true;
-
-
-            ulong3 selected;
-
-            selected = maxmath.select(__ulong3.TestData_LHS[0], __ulong3.TestData_RHS[0], 0b110);
-            result &= selected.x == __ulong3.TestData_LHS[0].x;
-            result &= selected.y == __ulong3.TestData_RHS[0].y;
-            result &= selected.z == __ulong3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__ulong3.TestData_LHS[1], __ulong3.TestData_RHS[1], 0b011);
-            result &= selected.x == __ulong3.TestData_RHS[1].x;
-            result &= selected.y == __ulong3.TestData_RHS[1].y;
-            result &= selected.z == __ulong3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__ulong3.TestData_LHS[2], __ulong3.TestData_RHS[2], 0b100);
-            result &= selected.x == __ulong3.TestData_LHS[2].x;
-            result &= selected.y == __ulong3.TestData_LHS[2].y;
-            result &= selected.z == __ulong3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__ulong3.TestData_LHS[3], __ulong3.TestData_RHS[3], 0b101);
-            result &= selected.x == __ulong3.TestData_RHS[3].x;
-            result &= selected.y == __ulong3.TestData_LHS[3].y;
-            result &= selected.z == __ulong3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(asshort(test[j]), asshort(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void long3_via_int()
+        public static void _half4()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                half4 l = ashalf(rng.NextShort4());
+                half4 r = ashalf(rng.NextShort4());
+                int b = ((Random32)rng).NextInt();
 
-            long3 selected;
+                half4 test = select(l, r, b);
 
-            selected = maxmath.select(__long3.TestData_LHS[0], __long3.TestData_RHS[0], 0b110);
-            result &= selected.x == __long3.TestData_LHS[0].x;
-            result &= selected.y == __long3.TestData_RHS[0].y;
-            result &= selected.z == __long3.TestData_RHS[0].z;
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(asshort(test[j]), asshort(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
+        }
 
-            selected = maxmath.select(__long3.TestData_LHS[1], __long3.TestData_RHS[1], 0b011);
-            result &= selected.x == __long3.TestData_RHS[1].x;
-            result &= selected.y == __long3.TestData_RHS[1].y;
-            result &= selected.z == __long3.TestData_LHS[1].z;
+        [Test]
+        public static void _half8()
+        {
+            Random16 rng = Random16.New;
 
-            selected = maxmath.select(__long3.TestData_LHS[2], __long3.TestData_RHS[2], 0b100);
-            result &= selected.x == __long3.TestData_LHS[2].x;
-            result &= selected.y == __long3.TestData_LHS[2].y;
-            result &= selected.z == __long3.TestData_RHS[2].z;
+            for (int i = 0; i < 16; i++)
+            {
+                half8 l = ashalf(rng.NextShort8());
+                half8 r = ashalf(rng.NextShort8());
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__long3.TestData_LHS[3], __long3.TestData_RHS[3], 0b101);
-            result &= selected.x == __long3.TestData_RHS[3].x;
-            result &= selected.y == __long3.TestData_LHS[3].y;
-            result &= selected.z == __long3.TestData_RHS[3].z;
+                half8 test = select(l, r, b);
 
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(asshort(test[j]), asshort(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
 
         [Test]
-        public static void ulong4_via_int()
+        public static void _float2()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                float2 l = asfloat(rng.NextInt2());
+                float2 r = asfloat(rng.NextInt2());
+                int b = ((Random32)rng).NextInt();
 
-            ulong4 selected;
+                float2 test = select(l, r, b);
 
-            selected = maxmath.select(__ulong4.TestData_LHS[0], __ulong4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __ulong4.TestData_LHS[0].x;
-            result &= selected.y == __ulong4.TestData_RHS[0].y;
-            result &= selected.z == __ulong4.TestData_RHS[0].z;
-            result &= selected.w == __ulong4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__ulong4.TestData_LHS[1], __ulong4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __ulong4.TestData_RHS[1].x;
-            result &= selected.y == __ulong4.TestData_RHS[1].y;
-            result &= selected.z == __ulong4.TestData_RHS[1].z;
-            result &= selected.w == __ulong4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__ulong4.TestData_LHS[2], __ulong4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __ulong4.TestData_LHS[2].x;
-            result &= selected.y == __ulong4.TestData_RHS[2].y;
-            result &= selected.z == __ulong4.TestData_RHS[2].z;
-            result &= selected.w == __ulong4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__ulong4.TestData_LHS[3], __ulong4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __ulong4.TestData_RHS[3].x;
-            result &= selected.y == __ulong4.TestData_LHS[3].y;
-            result &= selected.z == __ulong4.TestData_RHS[3].z;
-            result &= selected.w == __ulong4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(asint(test[j]), asint(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void long4_via_int()
+        public static void _float3()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                float3 l = asfloat(rng.NextInt3());
+                float3 r = asfloat(rng.NextInt3());
+                int b = ((Random32)rng).NextInt();
 
-            long4 selected;
+                float3 test = select(l, r, b);
 
-            selected = maxmath.select(__long4.TestData_LHS[0], __long4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __long4.TestData_LHS[0].x;
-            result &= selected.y == __long4.TestData_RHS[0].y;
-            result &= selected.z == __long4.TestData_RHS[0].z;
-            result &= selected.w == __long4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__long4.TestData_LHS[1], __long4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __long4.TestData_RHS[1].x;
-            result &= selected.y == __long4.TestData_RHS[1].y;
-            result &= selected.z == __long4.TestData_RHS[1].z;
-            result &= selected.w == __long4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__long4.TestData_LHS[2], __long4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __long4.TestData_LHS[2].x;
-            result &= selected.y == __long4.TestData_RHS[2].y;
-            result &= selected.z == __long4.TestData_RHS[2].z;
-            result &= selected.w == __long4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__long4.TestData_LHS[3], __long4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __long4.TestData_RHS[3].x;
-            result &= selected.y == __long4.TestData_LHS[3].y;
-            result &= selected.z == __long4.TestData_RHS[3].z;
-            result &= selected.w == __long4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void float2_via_int()
-        {
-            bool result = true;
-
-
-            float2 selected;
-
-            selected = maxmath.select(__float2.TestData_LHS[0], __float2.TestData_RHS[0], 0b10);
-            result &= selected.x == __float2.TestData_LHS[0].x;
-            result &= selected.y == __float2.TestData_RHS[0].y;
-
-            selected = maxmath.select(__float2.TestData_LHS[1], __float2.TestData_RHS[1], 0b11);
-            result &= selected.x == __float2.TestData_RHS[1].x;
-            result &= selected.y == __float2.TestData_RHS[1].y;
-
-            selected = maxmath.select(__float2.TestData_LHS[2], __float2.TestData_RHS[2], 0b00);
-            result &= selected.x == __float2.TestData_LHS[2].x;
-            result &= selected.y == __float2.TestData_LHS[2].y;
-
-            selected = maxmath.select(__float2.TestData_LHS[3], __float2.TestData_RHS[3], 0b01);
-            result &= selected.x == __float2.TestData_RHS[3].x;
-            result &= selected.y == __float2.TestData_LHS[3].y;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(asint(test[j]), asint(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void double2_via_int()
+        public static void _float4()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                float4 l = asfloat(rng.NextInt4());
+                float4 r = asfloat(rng.NextInt4());
+                int b = ((Random32)rng).NextInt();
 
-            double2 selected;
+                float4 test = select(l, r, b);
 
-            selected = maxmath.select(__double2.TestData_LHS[0], __double2.TestData_RHS[0], 0b10);
-            result &= selected.x == __double2.TestData_LHS[0].x;
-            result &= selected.y == __double2.TestData_RHS[0].y;
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(asint(test[j]), asint(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
+        }
 
-            selected = maxmath.select(__double2.TestData_LHS[1], __double2.TestData_RHS[1], 0b11);
-            result &= selected.x == __double2.TestData_RHS[1].x;
-            result &= selected.y == __double2.TestData_RHS[1].y;
+        [Test]
+        public static void _float8()
+        {
+            Random32 rng = Random32.New;
 
-            selected = maxmath.select(__double2.TestData_LHS[2], __double2.TestData_RHS[2], 0b00);
-            result &= selected.x == __double2.TestData_LHS[2].x;
-            result &= selected.y == __double2.TestData_LHS[2].y;
+            for (int i = 0; i < 16; i++)
+            {
+                float8 l = asfloat(rng.NextInt8());
+                float8 r = asfloat(rng.NextInt8());
+                int b = ((Random32)rng).NextInt();
 
-            selected = maxmath.select(__double2.TestData_LHS[3], __double2.TestData_RHS[3], 0b01);
-            result &= selected.x == __double2.TestData_RHS[3].x;
-            result &= selected.y == __double2.TestData_LHS[3].y;
+                float8 test = select(l, r, b);
 
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(asint(test[j]), asint(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
 
         [Test]
-        public static void float3_via_int()
+        public static void _double2()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                double2 l = asdouble(rng.NextLong2());
+                double2 r = asdouble(rng.NextLong2());
+                int b = ((Random32)rng).NextInt();
 
-            float3 selected;
+                double2 test = select(l, r, b);
 
-            selected = maxmath.select(__float3.TestData_LHS[0], __float3.TestData_RHS[0], 0b110);
-            result &= selected.x == __float3.TestData_LHS[0].x;
-            result &= selected.y == __float3.TestData_RHS[0].y;
-            result &= selected.z == __float3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__float3.TestData_LHS[1], __float3.TestData_RHS[1], 0b011);
-            result &= selected.x == __float3.TestData_RHS[1].x;
-            result &= selected.y == __float3.TestData_RHS[1].y;
-            result &= selected.z == __float3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__float3.TestData_LHS[2], __float3.TestData_RHS[2], 0b100);
-            result &= selected.x == __float3.TestData_LHS[2].x;
-            result &= selected.y == __float3.TestData_LHS[2].y;
-            result &= selected.z == __float3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__float3.TestData_LHS[3], __float3.TestData_RHS[3], 0b101);
-            result &= selected.x == __float3.TestData_RHS[3].x;
-            result &= selected.y == __float3.TestData_LHS[3].y;
-            result &= selected.z == __float3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(aslong(test[j]), aslong(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void double3_via_int()
+        public static void _double3()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                double3 l = asdouble(rng.NextLong3());
+                double3 r = asdouble(rng.NextLong3());
+                int b = ((Random32)rng).NextInt();
 
-            double3 selected;
+                double3 test = select(l, r, b);
 
-            selected = maxmath.select(__double3.TestData_LHS[0], __double3.TestData_RHS[0], 0b110);
-            result &= selected.x == __double3.TestData_LHS[0].x;
-            result &= selected.y == __double3.TestData_RHS[0].y;
-            result &= selected.z == __double3.TestData_RHS[0].z;
-
-            selected = maxmath.select(__double3.TestData_LHS[1], __double3.TestData_RHS[1], 0b011);
-            result &= selected.x == __double3.TestData_RHS[1].x;
-            result &= selected.y == __double3.TestData_RHS[1].y;
-            result &= selected.z == __double3.TestData_LHS[1].z;
-
-            selected = maxmath.select(__double3.TestData_LHS[2], __double3.TestData_RHS[2], 0b100);
-            result &= selected.x == __double3.TestData_LHS[2].x;
-            result &= selected.y == __double3.TestData_LHS[2].y;
-            result &= selected.z == __double3.TestData_RHS[2].z;
-
-            selected = maxmath.select(__double3.TestData_LHS[3], __double3.TestData_RHS[3], 0b101);
-            result &= selected.x == __double3.TestData_RHS[3].x;
-            result &= selected.y == __double3.TestData_LHS[3].y;
-            result &= selected.z == __double3.TestData_RHS[3].z;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void float4_via_int()
-        {
-            bool result = true;
-
-
-            float4 selected;
-
-            selected = maxmath.select(__float4.TestData_LHS[0], __float4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __float4.TestData_LHS[0].x;
-            result &= selected.y == __float4.TestData_RHS[0].y;
-            result &= selected.z == __float4.TestData_RHS[0].z;
-            result &= selected.w == __float4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__float4.TestData_LHS[1], __float4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __float4.TestData_RHS[1].x;
-            result &= selected.y == __float4.TestData_RHS[1].y;
-            result &= selected.z == __float4.TestData_RHS[1].z;
-            result &= selected.w == __float4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__float4.TestData_LHS[2], __float4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __float4.TestData_LHS[2].x;
-            result &= selected.y == __float4.TestData_RHS[2].y;
-            result &= selected.z == __float4.TestData_RHS[2].z;
-            result &= selected.w == __float4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__float4.TestData_LHS[3], __float4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __float4.TestData_RHS[3].x;
-            result &= selected.y == __float4.TestData_LHS[3].y;
-            result &= selected.z == __float4.TestData_RHS[3].z;
-            result &= selected.w == __float4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(aslong(test[j]), aslong(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
 
         [Test]
-        public static void double4_via_int()
+        public static void _double4()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
+            for (int i = 0; i < 16; i++)
+            {
+                double4 l = asdouble(rng.NextLong4());
+                double4 r = asdouble(rng.NextLong4());
+                int b = ((Random32)rng).NextInt();
 
-            double4 selected;
+                double4 test = select(l, r, b);
 
-            selected = maxmath.select(__double4.TestData_LHS[0], __double4.TestData_RHS[0], 0b1110);
-            result &= selected.x == __double4.TestData_LHS[0].x;
-            result &= selected.y == __double4.TestData_RHS[0].y;
-            result &= selected.z == __double4.TestData_RHS[0].z;
-            result &= selected.w == __double4.TestData_RHS[0].w;
-
-            selected = maxmath.select(__double4.TestData_LHS[1], __double4.TestData_RHS[1], 0b0111);
-            result &= selected.x == __double4.TestData_RHS[1].x;
-            result &= selected.y == __double4.TestData_RHS[1].y;
-            result &= selected.z == __double4.TestData_RHS[1].z;
-            result &= selected.w == __double4.TestData_LHS[1].w;
-
-            selected = maxmath.select(__double4.TestData_LHS[2], __double4.TestData_RHS[2], 0b0110);
-            result &= selected.x == __double4.TestData_LHS[2].x;
-            result &= selected.y == __double4.TestData_RHS[2].y;
-            result &= selected.z == __double4.TestData_RHS[2].z;
-            result &= selected.w == __double4.TestData_LHS[2].w;
-
-            selected = maxmath.select(__double4.TestData_LHS[3], __double4.TestData_RHS[3], 0b1101);
-            result &= selected.x == __double4.TestData_RHS[3].x;
-            result &= selected.y == __double4.TestData_LHS[3].y;
-            result &= selected.z == __double4.TestData_RHS[3].z;
-            result &= selected.w == __double4.TestData_RHS[3].w;
-
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void float8_via_int()
-        {
-            bool result = true;
-
-
-            float8 selected;
-
-            selected = maxmath.select(__float8.TestData_LHS[0], __float8.TestData_RHS[0], unchecked((int)0b1011_1011u));
-            result &= selected.x0 == __float8.TestData_RHS[0].x0; 
-            result &= selected.x1 == __float8.TestData_RHS[0].x1;
-            result &= selected.x2 == __float8.TestData_LHS[0].x2;
-            result &= selected.x3 == __float8.TestData_RHS[0].x3;
-            result &= selected.x4 == __float8.TestData_RHS[0].x4;
-            result &= selected.x5 == __float8.TestData_RHS[0].x5;
-            result &= selected.x6 == __float8.TestData_LHS[0].x6;
-            result &= selected.x7 == __float8.TestData_RHS[0].x7;
-
-            selected = maxmath.select(__float8.TestData_LHS[1], __float8.TestData_RHS[1], unchecked((int)0b1110_0011u));
-            result &= selected.x0 == __float8.TestData_RHS[1].x0;
-            result &= selected.x1 == __float8.TestData_RHS[1].x1;
-            result &= selected.x2 == __float8.TestData_LHS[1].x2;
-            result &= selected.x3 == __float8.TestData_LHS[1].x3;
-            result &= selected.x4 == __float8.TestData_LHS[1].x4;
-            result &= selected.x5 == __float8.TestData_RHS[1].x5;
-            result &= selected.x6 == __float8.TestData_RHS[1].x6;
-            result &= selected.x7 == __float8.TestData_RHS[1].x7;
-
-            selected = maxmath.select(__float8.TestData_LHS[2], __float8.TestData_RHS[2], 0b0010_1001);
-            result &= selected.x0 == __float8.TestData_RHS[2].x0;
-            result &= selected.x1 == __float8.TestData_LHS[2].x1;
-            result &= selected.x2 == __float8.TestData_LHS[2].x2;
-            result &= selected.x3 == __float8.TestData_RHS[2].x3;
-            result &= selected.x4 == __float8.TestData_LHS[2].x4;
-            result &= selected.x5 == __float8.TestData_RHS[2].x5;
-            result &= selected.x6 == __float8.TestData_LHS[2].x6;
-            result &= selected.x7 == __float8.TestData_LHS[2].x7;
-
-            selected = maxmath.select(__float8.TestData_LHS[3], __float8.TestData_RHS[3], 0b1111_1101);
-            result &= selected.x0 == __float8.TestData_RHS[3].x0;
-            result &= selected.x1 == __float8.TestData_LHS[3].x1;
-            result &= selected.x2 == __float8.TestData_RHS[3].x2;
-            result &= selected.x3 == __float8.TestData_RHS[3].x3;
-            result &= selected.x4 == __float8.TestData_RHS[3].x4;
-            result &= selected.x5 == __float8.TestData_RHS[3].x5;
-            result &= selected.x6 == __float8.TestData_RHS[3].x6;
-            result &= selected.x7 == __float8.TestData_RHS[3].x7;
-
-
-            Assert.AreEqual(true, result);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(aslong(test[j]), aslong(testbit(b, j) ? r[j] : l[j]));
+                }
+            }
         }
     }
 }

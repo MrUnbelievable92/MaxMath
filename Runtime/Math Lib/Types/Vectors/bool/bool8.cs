@@ -10,7 +10,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]  
+    [Serializable]
     [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(bool))]
     unsafe public struct bool8 : IEquatable<bool8>
     {
@@ -118,7 +118,7 @@ namespace MaxMath
             }
             else
             {
-                v128* dummyPtr = &result;
+                result = default(v128);
             }
 
             result.Byte0 = *(byte*)&input.x0;
@@ -137,7 +137,7 @@ namespace MaxMath
         public static implicit operator bool8(v128 input)
         {
             bool8 result;
-            
+
             result.x0 = maxmath.tobool(input.Byte0);
             result.x1 = maxmath.tobool(input.Byte1);
             result.x2 = maxmath.tobool(input.Byte2);
@@ -146,7 +146,7 @@ namespace MaxMath
             result.x5 = maxmath.tobool(input.Byte5);
             result.x6 = maxmath.tobool(input.Byte6);
             result.x7 = maxmath.tobool(input.Byte7);
-            
+
             return result;
         }
 
@@ -174,9 +174,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator ! (bool8 val)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.andnot_si128(val, new byte8(1));
+                return Xse.andnot_si128(val, new byte8(1));
             }
             else
             {
@@ -192,33 +192,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return maxmath.tobool(Xse.extract_epi8(this, (byte)index));
                 }
                 else
                 {
-                    bool8 onStack = this;
-
-                    return *((bool*)&onStack + index);
+                    return this.GetField<bool8, bool>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi8(this, *(byte*)&value, (byte)index);
                 }
                 else
                 {
-                    bool8 onStack = this;
-                    *((bool*)&onStack + index) = value;
-
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }

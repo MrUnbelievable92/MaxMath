@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -17,9 +18,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v48(v128 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 2, 2))).SInt0;
+                return Xse.xor_si128(x, Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 2, 2))).SInt0;
             }
             else throw new IllegalInstructionException();
         }
@@ -27,9 +28,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v64(v128 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.xor_si128(x, Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
+                return Xse.xor_si128(x, Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
             }
             else throw new IllegalInstructionException();
         }
@@ -37,9 +38,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v128(v128 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return v64(Sse2.xor_si128(x, Sse2.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2))));
+                return v64(Xse.xor_si128(x, Xse.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2))));
             }
             else throw new IllegalInstructionException();
         }
@@ -51,7 +52,7 @@ namespace MaxMath
             {
                 v128 hi = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(2, 2, 2, 2)));
 
-                return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x), hi));
+                return v128(Xse.xor_si128(Avx.mm256_castsi256_si128(x), hi));
             }
             else throw new IllegalInstructionException();
         }
@@ -62,8 +63,8 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return v128(Sse2.xor_si128(Avx.mm256_castsi256_si128(x),
-                                           Avx2.mm256_extracti128_si256(x, 1)));
+                return v128(Xse.xor_si128(Avx.mm256_castsi256_si128(x),
+                                          Avx2.mm256_extracti128_si256(x, 1)));
             }
             else throw new IllegalInstructionException();
         }
@@ -73,8 +74,8 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return v128(Sse2.xor_si128(Avx.mm256_castps256_ps128(x),
-                                           Avx.mm256_extractf128_ps(x, 1)));
+                return v128(Sse.xor_ps(Avx.mm256_castps256_ps128(x),
+                                       Avx.mm256_extractf128_ps(x, 1)));
             }
             else throw new IllegalInstructionException();
         }

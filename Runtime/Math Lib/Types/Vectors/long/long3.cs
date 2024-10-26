@@ -4,17 +4,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable]  
-    [StructLayout(LayoutKind.Explicit, Size = 3 * sizeof(long))]  
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 3 * sizeof(long))]
     [DebuggerTypeProxy(typeof(long3.DebuggerProxy))]
     unsafe public struct long3 : IEquatable<long3>, IFormattable
     {
@@ -43,2390 +40,154 @@ namespace MaxMath
         public static long3 zero => default;
 
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3(long x, long y, long z)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_set_epi64x(0L, z, y, x);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                this = new long3 { _xy = new long2(x, y), z = z };
-            }
-            else
-            {
-                this = new long3 { x = x, y = y, z = z };
-            }
+            this = (long3)new ulong3((ulong)x, (ulong)y, (ulong)z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3(long xyz)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_set1_epi64x(xyz);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                this = new long3 { _xy = new long2(xyz), z = xyz };
-            }
-            else
-            {
-                this = new long3 { x = xyz, y = xyz, z = xyz };
-            }
+            this = (long3)new ulong3((ulong)xyz);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3(long2 xy, long z)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_insert_epi64(Avx.mm256_castsi128_si256(xy), z, 2);
-            }
-            else
-            {
-                this = new long3 { _xy = xy, z = z };
-            }
+            this = (long3)new ulong3((ulong2)xy, (ulong)z);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3(long x, long2 yz)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_insert_epi64(yz.xxy, x, 0);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                yz = yz.yx;
-                long z = yz.x;
-                yz.x = x;
-
-                this = new long3 { _xy = yz, z = z };
-            }
-            else
-            {
-                this = new long3 { x = x, y = yz.x, z = yz.y };
-            }
+            this = (long3)new ulong3((ulong)x, (ulong2)yz);
         }
 
 
         #region Shuffle
-        public readonly long4 xxxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_broadcastq_epi64(Avx.mm256_castsi256_si128(this));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _xx = xx;
+        public readonly long4 xxxx => (long4)((ulong3)this).xxxx;
+        public readonly long4 xxxy => (long4)((ulong3)this).xxxy;
+        public readonly long4 xxxz => (long4)((ulong3)this).xxxz;
+        public readonly long4 xxyx => (long4)((ulong3)this).xxyx;
+        public readonly long4 xxyy => (long4)((ulong3)this).xxyy;
+        public readonly long4 xxyz => (long4)((ulong3)this).xxyz;
+        public readonly long4 xxzx => (long4)((ulong3)this).xxzx;
+        public readonly long4 xxzy => (long4)((ulong3)this).xxzy;
+        public readonly long4 xxzz => (long4)((ulong3)this).xxzz;
+        public readonly long4 xyxx => (long4)((ulong3)this).xyxx;
+		public readonly long4 xyxy => (long4)((ulong3)this).xyxy;
+        public readonly long4 xyxz => (long4)((ulong3)this).xyxz;
+		public readonly long4 xyyx => (long4)((ulong3)this).xyyx;
+		public readonly long4 xyyy => (long4)((ulong3)this).xyyy;
+		public readonly long4 xyyz => (long4)((ulong3)this).xyyz;
+		public readonly long4 xyzx => (long4)((ulong3)this).xyzx;
+        public readonly long4 xyzy => (long4)((ulong3)this).xyzy;
+        public readonly long4 xyzz => (long4)((ulong3)this).xyzz;
+		public readonly long4 xzxx => (long4)((ulong3)this).xzxx;
+        public readonly long4 xzxy => (long4)((ulong3)this).xzxy;
+        public readonly long4 xzxz => (long4)((ulong3)this).xzxz;
+		public readonly long4 xzyx => (long4)((ulong3)this).xzyx;
+        public readonly long4 xzyy => (long4)((ulong3)this).xzyy;
+        public readonly long4 xzyz => (long4)((ulong3)this).xzyz;
+		public readonly long4 xzzx => (long4)((ulong3)this).xzzx;
+        public readonly long4 xzzy => (long4)((ulong3)this).xzzy;
+        public readonly long4 xzzz => (long4)((ulong3)this).xzzz;
+		public readonly long4 yxxx => (long4)((ulong3)this).yxxx;
+        public readonly long4 yxxy => (long4)((ulong3)this).yxxy;
+        public readonly long4 yxxz => (long4)((ulong3)this).yxxz;
+		public readonly long4 yxyx => (long4)((ulong3)this).yxyx;
+        public readonly long4 yxyy => (long4)((ulong3)this).yxyy;
+        public readonly long4 yxyz => (long4)((ulong3)this).yxyz;
+		public readonly long4 yxzx => (long4)((ulong3)this).yxzx;
+        public readonly long4 yxzy => (long4)((ulong3)this).yxzy;
+        public readonly long4 yxzz => (long4)((ulong3)this).yxzz;
+		public readonly long4 yyxx => (long4)((ulong3)this).yyxx;
+        public readonly long4 yyxy => (long4)((ulong3)this).yyxy;
+        public readonly long4 yyxz => (long4)((ulong3)this).yyxz;
+		public readonly long4 yyyx => (long4)((ulong3)this).yyyx;
+        public readonly long4 yyyy => (long4)((ulong3)this).yyyy;
+        public readonly long4 yyyz => (long4)((ulong3)this).yyyz;
+		public readonly long4 yyzx => (long4)((ulong3)this).yyzx;
+        public readonly long4 yyzy => (long4)((ulong3)this).yyzy;
+        public readonly long4 yyzz => (long4)((ulong3)this).yyzz;
+		public readonly long4 yzxx => (long4)((ulong3)this).yzxx;
+        public readonly long4 yzxy => (long4)((ulong3)this).yzxy;
+        public readonly long4 yzxz => (long4)((ulong3)this).yzxz;
+		public readonly long4 yzyx => (long4)((ulong3)this).yzyx;
+        public readonly long4 yzyy => (long4)((ulong3)this).yzyy;
+        public readonly long4 yzyz => (long4)((ulong3)this).yzyz;
+		public readonly long4 yzzx => (long4)((ulong3)this).yzzx;
+        public readonly long4 yzzy => (long4)((ulong3)this).yzzy;
+        public readonly long4 yzzz => (long4)((ulong3)this).yzzz;
+		public readonly long4 zxxx => (long4)((ulong3)this).zxxx;
+        public readonly long4 zxxy => (long4)((ulong3)this).zxxy;
+        public readonly long4 zxxz => (long4)((ulong3)this).zxxz;
+		public readonly long4 zxyx => (long4)((ulong3)this).zxyx;
+        public readonly long4 zxyy => (long4)((ulong3)this).zxyy;
+        public readonly long4 zxyz => (long4)((ulong3)this).zxyz;
+		public readonly long4 zxzx => (long4)((ulong3)this).zxzx;
+        public readonly long4 zxzy => (long4)((ulong3)this).zxzy;
+        public readonly long4 zxzz => (long4)((ulong3)this).zxzz;
+		public readonly long4 zyxx => (long4)((ulong3)this).zyxx;
+        public readonly long4 zyxy => (long4)((ulong3)this).zyxy;
+        public readonly long4 zyxz => (long4)((ulong3)this).zyxz;
+		public readonly long4 zyyx => (long4)((ulong3)this).zyyx;
+        public readonly long4 zyyy => (long4)((ulong3)this).zyyy;
+        public readonly long4 zyyz => (long4)((ulong3)this).zyyz;
+		public readonly long4 zyzx => (long4)((ulong3)this).zyzx;
+        public readonly long4 zyzy => (long4)((ulong3)this).zyzy;
+        public readonly long4 zyzz => (long4)((ulong3)this).zyzz;
+		public readonly long4 zzxx => (long4)((ulong3)this).zzxx;
+        public readonly long4 zzxy => (long4)((ulong3)this).zzxy;
+        public readonly long4 zzxz => (long4)((ulong3)this).zzxz;
+		public readonly long4 zzyx => (long4)((ulong3)this).zzyx;
+        public readonly long4 zzyy => (long4)((ulong3)this).zzyy;
+        public readonly long4 zzyz => (long4)((ulong3)this).zzyz;
+		public readonly long4 zzzx => (long4)((ulong3)this).zzzx;
+        public readonly long4 zzzy => (long4)((ulong3)this).zzzy;
+        public readonly long4 zzzz => (long4)((ulong3)this).zzzz;
 
-                    return new long4(_xx, _xx);
-                }
-                else
-                {
-                    return new long4(x, x, x, x);
-                }
-            }
-        }
-        public readonly long4 xxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, _xy);
-                }
-                else
-                {
-                    return new long4(x, x, x, y);
-                }
-            }
-        }
-        public readonly long4 xxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, xz);
-                }
-                else
-                {
-                    return new long4(x, x, x, z);
-                }
-            }
-        }
-        public readonly long4 xxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, yx);
-                }
-                else
-                {
-                    return new long4(x, x, y, x);
-                }
-            }
-        }
-        public readonly long4 xxyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, yy);
-                }
-                else
-                {
-                    return new long4(x, x, y, y);
-                }
-            }
-        }
-        public readonly long4 xxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, yz);
-                }
-                else
-                {
-                    return new long4(x, x, y,z);
-                }
-            }
-        }
-        public readonly long4 xxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, zx);
-                }
-                else
-                {
-                    return new long4(x, x, z, x);
-                }
-            }
-        }
-        public readonly long4 xxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, zy);
-                }
-                else
-                {
-                    return new long4(x, x, z, y);
-                }
-            }
-        }
-        public readonly long4 xxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xx, zz);
-                }
-                else
-                {
-                    return new long4(x, x, z, z);
-                }
-            }
-        }
-        public readonly long4 xyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, xx);
-                }
-                else
-                {
-                    return new long4(x, y, x, x);
-                }
-            }
-        }
-        public readonly long4 xyxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, _xy);
-                }
-                else
-                {
-                    return new long4(x, y, x, y);
-                }
-            }
-        }
-        public readonly long4 xyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, xz);
-                }
-                else
-                {
-                    return new long4(x, y, x, z);
-                }
-            }
-        }
-        public readonly long4 xyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, yx);
-                }
-                else
-                {
-                    return new long4(x, y, y, x);
-                }
-            }
-        }
-        public readonly long4 xyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, yy);
-                }
-                else
-                {
-                    return new long4(x, y, y, y);
-                }
-            }
-        }
-        public readonly long4 xyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, yz);
-                }
-                else
-                {
-                    return new long4(x, y, y, z);
-                }
-            }
-        }
-        public readonly long4 xyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, zx);
-                }
-                else
-                {
-                    return new long4(x, y, z, x);
-                }
-            }
-        }
-        public readonly long4 xyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, zy);
-                }
-                else
-                {
-                    return new long4(x, y, z, y);
-                }
-            }
-        }
-        public readonly long4 xyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(_xy, zz);
-                }
-                else
-                {
-                    return new long4(x, y, z, z);
-                }
-            }
-        }
-        public readonly long4 xzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, xx);
-                }
-                else
-                {
-                    return new long4(x, z, x, x);
-                }
-            }
-        }
-        public readonly long4 xzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, _xy);
-                }
-                else
-                {
-                    return new long4(x, z, x, y);
-                }
-            }
-        }
-        public readonly long4 xzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _xz = xz;
+		public readonly long3 xxx => (long3)((ulong3)this).xxx;
+        public readonly long3 xxy => (long3)((ulong3)this).xxy;
+        public readonly long3 xxz => (long3)((ulong3)this).xxz;
+		public readonly long3 xyx => (long3)((ulong3)this).xyx;
+        public readonly long3 xyy => (long3)((ulong3)this).xyy;
+		public readonly long3 xzx => (long3)((ulong3)this).xzx;
+        public          long3 xzy { readonly get => (long3)((ulong3)this).xzy;  set { ulong3 _this = (ulong3)this; _this.xzy = (ulong3)value; this = (long3)_this; } }
+        public readonly long3 xzz => (long3)((ulong3)this).xzz;
+		public readonly long3 yxx => (long3)((ulong3)this).yxx;
+        public readonly long3 yxy => (long3)((ulong3)this).yxy;
+        public          long3 yxz { readonly get => (long3)((ulong3)this).yxz;  set { ulong3 _this = (ulong3)this; _this.yxz = (ulong3)value; this = (long3)_this; } }
+		public readonly long3 yyx => (long3)((ulong3)this).yyx;
+        public readonly long3 yyy => (long3)((ulong3)this).yyy;
+        public readonly long3 yyz => (long3)((ulong3)this).yyz;
+		public          long3 yzx { readonly get => (long3)((ulong3)this).yzx;  set { ulong3 _this = (ulong3)this; _this.yzx = (ulong3)value; this = (long3)_this; } }
+        public readonly long3 yzy => (long3)((ulong3)this).yzy;
+        public readonly long3 yzz => (long3)((ulong3)this).yzz;
+		public readonly long3 zxx => (long3)((ulong3)this).zxx;
+        public          long3 zxy { readonly get => (long3)((ulong3)this).zxy;  set { ulong3 _this = (ulong3)this; _this.zxy = (ulong3)value; this = (long3)_this; } }
+        public readonly long3 zxz => (long3)((ulong3)this).zxz;
+		public          long3 zyx { readonly get => (long3)((ulong3)this).zyx;  set { ulong3 _this = (ulong3)this; _this.zyx = (ulong3)value; this = (long3)_this; } }
+        public readonly long3 zyy => (long3)((ulong3)this).zyy;
+        public readonly long3 zyz => (long3)((ulong3)this).zyz;
+		public readonly long3 zzx => (long3)((ulong3)this).zzx;
+        public readonly long3 zzy => (long3)((ulong3)this).zzy;
+        public readonly long3 zzz => (long3)((ulong3)this).zzz;
 
-                    return new long4(_xz, _xz);
-                }
-                else
-                {
-                    return new long4(x, z, x, z);
-                }
-            }
-        }
-        public readonly long4 xzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, yx);
-                }
-                else
-                {
-                    return new long4(x, z, y, x);
-                }
-            }
-        }
-        public readonly long4 xzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, yy);
-                }
-                else
-                {
-                    return new long4(x, z, y, y);
-                }
-            }
-        }
-        public readonly long4 xzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, yz);
-                }
-                else
-                {
-                    return new long4(x, z, y, z);
-                }
-            }
-        }
-        public readonly long4 xzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, zx);
-                }
-                else
-                {
-                    return new long4(x, z, z, x);
-                }
-            }
-        }
-        public readonly long4 xzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, zy);
-                }
-                else
-                {
-                    return new long4(x, z, z, y);
-                }
-            }
-        }
-        public readonly long4 xzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(xz, zz);
-                }
-                else
-                {
-                    return new long4(x, z, z, z);
-                }
-            }
-        }
-        public readonly long4 yxxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, xx);
-                }
-                else
-                {
-                    return new long4(y, x, x,  x);
-                }
-            }
-        }
-        public readonly long4 yxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, _xy);
-                }
-                else
-                {
-                    return new long4(y, x, x, y);
-                }
-            }
-        }
-        public readonly long4 yxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, xz);
-                }
-                else
-                {
-                    return new long4(y, x, x, z);
-                }
-            }
-        }
-        public readonly long4 yxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _yx = yx;
-
-                    return new long4(_yx, _yx);
-                }
-                else
-                {
-                    return new long4(y, x, y, x);
-                }
-            }
-        }
-        public readonly long4 yxyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, yy);
-                }
-                else
-                {
-                    return new long4(y, x, y, y);
-                }
-            }
-        }
-        public readonly long4 yxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, yz);
-                }
-                else
-                {
-                    return new long4(y, x, y, z);
-                }
-            }
-        }
-        public readonly long4 yxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, zx);
-                }
-                else
-                {
-                    return new long4(y, x, z, x);
-                }
-            }
-        }
-        public readonly long4 yxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, zy);
-                }
-                else
-                {
-                    return new long4(y, x, z, y);
-                }
-            }
-        }
-        public readonly long4 yxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yx, zz);
-                }
-                else
-                {
-                    return new long4(y, x, z, z);
-                }
-            }
-        }
-        public readonly long4 yyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, xx);
-                }
-                else
-                {
-                    return new long4(y, y, x, x);
-                }
-            }
-        }
-        public readonly long4 yyxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, _xy);
-                }
-                else
-                {
-                    return new long4(y, y, x, y);
-                }
-            }
-        }
-        public readonly long4 yyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, xz);
-                }
-                else
-                {
-                    return new long4(y, y, x, z);
-                }
-            }
-        }
-        public readonly long4 yyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, yx);
-                }
-                else
-                {
-                    return new long4(y, y, y, x);
-                }
-            }
-        }
-        public readonly long4 yyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _yy = yy;
-
-                    return new long4(_yy, _yy);
-                }
-                else
-                {
-                    return new long4(y, y, y, y);
-                }
-            }
-        }
-        public readonly long4 yyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, yz);
-                }
-                else
-                {
-                    return new long4(y, y, y, z);
-                }
-            }
-        }
-        public readonly long4 yyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, zx);
-                }
-                else
-                {
-                    return new long4(y, y, z, x);
-                }
-            }
-        }
-        public readonly long4 yyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, zy);
-                }
-                else
-                {
-                    return new long4(y, y, z, y);
-                }
-            }
-        }
-        public readonly long4 yyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yy, zz);
-                }
-                else
-                {
-                    return new long4(y, y, z, z);
-                }
-            }
-        }
-        public readonly long4 yzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, xx);
-                }
-                else
-                {
-                    return new long4(y, z, x, x);
-                }
-            }
-        }
-        public readonly long4 yzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, _xy);
-                }
-                else
-                {
-                    return new long4(y, z, x, y);
-                }
-            }
-        }
-        public readonly long4 yzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, xz);
-                }
-                else
-                {
-                    return new long4(y, z, x, z);
-                }
-            }
-        }
-        public readonly long4 yzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, yx);
-                }
-                else
-                {
-                    return new long4(y, z, y, x);
-                }
-            }
-        }
-        public readonly long4 yzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, yy);
-                }
-                else
-                {
-                    return new long4(y, z, y, y);
-                }
-            }
-        }
-        public readonly long4 yzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _yz = yz;
-
-                    return new long4(_yz, _yz);
-                }
-                else
-                {
-                    return new long4(y, z, y, z);
-                }
-            }
-        }
-        public readonly long4 yzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, zx);
-                }
-                else
-                {
-                    return new long4(y, z, z, x);
-                }
-            }
-        }
-        public readonly long4 yzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                { 
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, zy);
-                }
-                else
-                {
-                    return new long4(y, z, z, y);
-                }
-            }
-        }
-        public readonly long4 yzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(yz, zz);
-                }
-                else
-                {
-                    return new long4(y, z, z, z);
-                }
-            }
-        }
-        public readonly long4 zxxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, xx);
-                }
-                else
-                {
-                    return new long4(z, x, x, x);
-                }
-            }
-        }
-        public readonly long4 zxxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, _xy);
-                }
-                else
-                {
-                    return new long4(z, x, x, y);
-                }
-            }
-        }
-        public readonly long4 zxxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, xz);
-                }
-                else
-                {
-                    return new long4(z, x, x, z);
-                }
-            }
-        }
-        public readonly long4 zxyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, yx);
-                }
-                else
-                {
-                    return new long4(z, x, y, x);
-                }
-            }
-        }
-        public readonly long4 zxyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, yy);
-                }
-                else
-                {
-                    return new long4(z, x, y, y);
-                }
-            }
-        }
-        public readonly long4 zxyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, yz);
-                }
-                else
-                {
-                    return new long4(z, x, y, z);
-                }
-            }
-        }
-        public readonly long4 zxzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _zx = zx;
-
-                    return new long4(_zx, _zx);
-                }
-                else
-                {
-                    return new long4(z, x, z, x);
-                }
-            }
-        }
-        public readonly long4 zxzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, zy);
-                }
-                else
-                {
-                    return new long4(z, x, z, y);
-                }
-            }
-        }
-        public readonly long4 zxzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zx, zz);
-                }
-                else
-                {
-                    return new long4(z, x, z, z);
-                }
-            }
-        }
-        public readonly long4 zyxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, xx);
-                }
-                else
-                {
-                    return new long4(z, y, x, x);
-                }
-            }
-        }
-        public readonly long4 zyxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, _xy);
-                }
-                else
-                {
-                    return new long4(z, y, x, y);
-                }
-            }
-        }
-        public readonly long4 zyxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, xz);
-                }
-                else
-                {
-                    return new long4(z, y, x, z);
-                }
-            }
-        }
-        public readonly long4 zyyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, yx);
-                }
-                else
-                {
-                    return new long4(z, y, y, x);
-                }
-            }
-        }
-        public readonly long4 zyyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, yy);
-                }
-                else
-                {
-                    return new long4(z, y, y, y);
-                }
-            }
-        }
-        public readonly long4 zyyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, yz);
-                }
-                else
-                {
-                    return new long4(z, y, y, z);
-                }
-            }
-        }
-        public readonly long4 zyzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, zx);
-                }
-                else
-                {
-                    return new long4(z, y, z, x);
-                }
-            }
-        }
-        public readonly long4 zyzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _zy = zy;
-
-                    return new long4(_zy, _zy);
-                }
-                else
-                {
-                    return new long4(z, y, z, y);
-                }
-            }
-        }
-        public readonly long4 zyzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zy, zz);
-                }
-                else
-                {
-                    return new long4(z, y, z, z);
-                }
-            }
-        }
-        public readonly long4 zzxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, xx);
-                }
-                else
-                {
-                    return new long4(z, z, x, x);
-                }
-            }
-        }
-        public readonly long4 zzxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, _xy);
-                }
-                else
-                {
-                    return new long4(z, z, x, y);
-                }
-            }
-        }
-        public readonly long4 zzxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 0, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, xz);
-                }
-                else
-                {
-                    return new long4(z, z, x, z);
-                }
-            }
-        }
-        public readonly long4 zzyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 1, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, yx);
-                }
-                else
-                {
-                    return new long4(z, z, y, x);
-                }
-            }
-        }
-        public readonly long4 zzyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 1, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, yy);
-                }
-                else
-                {
-                    return new long4(z, z, y, y);
-                }
-            }
-        }
-        public readonly long4 zzyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 1, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, yz);
-                }
-                else
-                {
-                    return new long4(z, z, y, z);
-                }
-            }
-        }
-        public readonly long4 zzzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 2, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, zx);
-                }
-                else
-                {
-                    return new long4(z, z, z, x);
-                }
-            }
-        }
-        public readonly long4 zzzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 2, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long4(zz, zy);
-                }
-                else
-                {
-                    return new long4(z, z, z, y);
-                }
-            }
-        }
-        public readonly long4 zzzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(2, 2, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _zz = zz;
-
-                    return new long4(_zz, _zz);
-                }
-                else
-                {
-                    return new long4(z, z, z, z);
-                }
-            }
-        }
-
-        public readonly long3 xxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_broadcastq_epi64(Avx.mm256_castsi256_si128(this));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xx, x);
-                }
-                else
-                {
-                    return new long3(x, x, x);
-                }
-            }
-        }
-        public readonly long3 xxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xx, y);
-                }
-                else
-                {
-                    return new long3(x, x, y);
-                }
-            }
-        }
-        public readonly long3 xxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xx, z);
-                }
-                else
-                {
-                    return new long3(x, x, z);
-                }
-            }
-        }
-        public readonly long3 xyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(1, 0, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(_xy, x);
-                }
-                else
-                {
-                    return new long3(x, y, x);
-                }
-            }
-        }
-        public readonly long3 xyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(_xy, y);
-                }
-                else
-                {
-                    return new long3(x, y, y);
-                }
-            }
-        }
-        public readonly long3 xzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xz, x);
-                }
-                else
-                {
-                    return new long3(x, z, x);
-                }
-            }
-        }
-        public          long3 xzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xz, y);
-                }
-                else
-                {
-                    return new long3(x, z, y);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                this = value.xzy;
-            }
-        }
-        public readonly long3 xzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 0));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(xz, z);
-                }
-                else
-                {
-                    return new long3(x, z, z);
-                }
-            }
-        }
-        public readonly long3 yxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yx, x);
-                }
-                else
-                {
-                    return new long3(y, x, x);
-                }
-            }
-        }
-        public readonly long3 yxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yx, y);
-                }
-                else
-                {
-                    return new long3(y, x, y);
-                }
-            }
-        }
-        public          long3 yxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yx, z);
-                }
-                else
-                {
-                    return new long3(y, x, z);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                this = value.yxz;
-            }
-        }
-        public readonly long3 yyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yy, x);
-                }
-                else
-                {
-                    return new long3(y, y, x);
-                }
-            }
-        }
-        public readonly long3 yyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yy, y);
-                }
-                else
-                {
-                    return new long3(y, y, y);
-                }
-            }
-        }
-        public readonly long3 yyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yy, z);
-                }
-                else
-                {
-                    return new long3(y, y, z);
-                }
-            }
-        }
-        public          long3 yzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yz, x);
-                }
-                else
-                {
-                    return new long3(y, z, x);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                this = value.zxy;
-            }
-        }
-        public readonly long3 yzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yz, y);
-                }
-                else
-                {
-                    return new long3(y, z, y);
-                }
-            }
-        }
-        public readonly long3 yzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 1));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(yz, z);
-                }
-                else
-                {
-                    return new long3(y, z, z);
-                }
-            }
-        }
-        public readonly long3 zxx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zx, x);
-                }
-                else
-                {
-                    return new long3(z, x, x);
-                }
-            }
-        }
-        public          long3 zxy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zx, y);
-                }
-                else
-                {
-                    return new long3(z, x, y);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                this = value.yzx;
-            }
-        }
-        public readonly long3 zxz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 0, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zx, z);
-                }
-                else
-                {
-                    return new long3(z, x, z);
-                }
-            }
-        }
-        public          long3 zyx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zy, x);
-                }
-                else
-                {
-                    return new long3(z, y, x);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                this = value.zyx;
-            }
-        }
-        public readonly long3 zyy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zy, y);
-                }
-                else
-                {
-                    return new long3(z, y, y);
-                }
-            }
-        }
-        public readonly long3 zyz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 1, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zy, z);
-                }
-                else
-                {
-                    return new long3(z, y, z);
-                }
-            }
-        }
-        public readonly long3 zzx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 0, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zz, x);
-                }
-                else
-                {
-                    return new long3(z, z, x);
-                }
-            }
-        }
-        public readonly long3 zzy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 1, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zz, y);
-                }
-                else
-                {
-                    return new long3(z, z, y);
-                }
-            }
-        }
-        public readonly long3 zzz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 2, 2, 2));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    return new long3(zz, z);
-                }
-                else
-                {
-                    return new long3(z, z, z);
-                }
-            }
-        }
-
-        public readonly long2 xx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 1, 0));
-                }
-                else
-                {
-                    return _xy.xx;
-                }
-            }
-        }
-        public          long2 xy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(this);
-                }
-                else
-                {
-                    return _xy;
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_inserti128_si256(this, value, 0);
-                }
-                else
-                {
-                    this._xy = value;
-                }
-            }
-        }
-        public          long2 xz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _xz = _xy;
-                    _xz.y = z;
-                    return _xz;
-                }
-                else
-                {
-                    return new long2(x, z);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_blend_epi32(this, value.xxyy, 0b0011_0011);
-                }
-                else
-                {
-                    this.x = value.x;
-                    this.z = value.y;
-                }
-            }
-        }
-        public          long2 yx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 3, 2));
-                }
-                else
-                {
-                    return _xy.yx;
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_inserti128_si256(this, value.yx, 0);
-                }
-                else
-                {
-                    this.y = value.x;
-                    this.x = value.y;
-                }
-            }
-        }
-        public readonly long2 yy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(3, 2, 3, 2));
-                }
-                else
-                {
-                    return _xy.yy;
-                }
-            }
-        }
-        public          long2 yz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1)));
-                }
-                else
-                {
-                    return new long2(y, z);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_blend_epi32(this, value.yxyx, 0b0011_1100);
-                }
-                else
-                {
-                    this.y = value.x;
-                    this.z = value.y;
-                } 
-            }
-        }
-        public          long2 zx
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2)));
-                }
-                else
-                {
-                    return new long2(z, x);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b0011_0011);
-                }
-                else
-                {
-                    this.z = value.x;
-                    this.x = value.y;
-                }
-            }
-        }
-        public          long2 zy
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)));
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    long2 _zy = _xy;
-                    _zy.x = z;
-                    return _zy;
-                }
-                else
-                {
-                    return new long2(z, y);
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b0011_1100);
-                }
-                else
-                {
-                    this.z = value.x;
-                    this.y = value.y;
-                }
-            }
-        }
-        public readonly long2 zz
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 2)));
-                }
-                else
-                {
-                    return new long2(z, z);
-                }
-            }
-        }
+		public readonly long2 xx => (long2)((ulong3)this).xx;
+        public          long2 xy { readonly get => (long2)((ulong3)this).xy;  set { ulong3 _this = (ulong3)this; _this.xy = (ulong2)value; this = (long3)_this; } }
+        public          long2 xz { readonly get => (long2)((ulong3)this).xz;  set { ulong3 _this = (ulong3)this; _this.xz = (ulong2)value; this = (long3)_this; } }
+		public          long2 yx { readonly get => (long2)((ulong3)this).yx;  set { ulong3 _this = (ulong3)this; _this.yx = (ulong2)value; this = (long3)_this; } }
+        public readonly long2 yy => (long2)((ulong3)this).yy;
+        public          long2 yz { readonly get => (long2)((ulong3)this).yz;  set { ulong3 _this = (ulong3)this; _this.yz = (ulong2)value; this = (long3)_this; } }
+		public          long2 zx { readonly get => (long2)((ulong3)this).zx;  set { ulong3 _this = (ulong3)this; _this.zx = (ulong2)value; this = (long3)_this; } }
+        public          long2 zy { readonly get => (long2)((ulong3)this).zy;  set { ulong3 _this = (ulong3)this; _this.zy = (ulong2)value; this = (long3)_this; } }
+        public readonly long2 zz => (long2)((ulong3)this).zz;
         #endregion
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v256(long3 input)
         {
@@ -2455,69 +216,39 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator long3(ulong3 input)
+        public static explicit operator long3(ulong3 input) => *(long3*)&input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3(uint3 input) => (long3)(ulong3)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3(int3 input) => (long3)(ulong3)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator long3(half3 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return (v256)input;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new long3((long2)input._xy, (long)input.z);
+                return Xse.mm256_cvttph_epi64(RegisterConversion.ToV128(input), 3);
             }
             else
             {
-                return *(long3*)&input;
+                return new long3((long2)input.xy, maxmath.BASE_cvtf16i32(input.z, signed: true, trunc: true));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long3(uint3 input)
+        public static explicit operator long3(float3 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(input));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new long3
-                {
-                    _xy = (long2)input.xy,
-                    z   = (long)input.z
-                };
+                return Xse.mm256_cvttps_epi64(RegisterConversion.ToV128(input), 3);
             }
             else
             {
-                return new long3((long)input.x, (long)input.y, (long)input.z);
+                return new long3((long2)input.xy, (long)input.z);
             }
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long3(int3 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_cvtepi32_epi64(RegisterConversion.ToV128(input));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new long3
-                {
-                    _xy = (long2)input.xy,
-                    z   = (long)input.z
-                };
-            }
-            else
-            {
-                return new long3((long)input.x, (long)input.y, (long)input.z);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator long3(half3 input) => (long3)(int3)(float3)input;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator long3(float3 input) => new long3((long2)input.xy, (long)input.z);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long3(double3 input)
@@ -2530,64 +261,30 @@ namespace MaxMath
             {
                 return new long3((long2)input.xy, (long)input.z);
             }
-        } 
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator uint3(long3 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(input));
-            }
-            else if (Sse4_1.IsSse41Supported)
-            {
-                v128 temp = Xse.cvtepi64_epi32(input._xy);
-
-                return RegisterConversion.ToUInt3(Sse4_1.insert_epi32(temp, (int)input.z, 2));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 temp = Xse.cvtepi64_epi32(input._xy);
-
-                return RegisterConversion.ToUInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
-            }
-            else
-            {
-                return new uint3((uint2)input.xy, (uint)input.z);
-            }
-        }
+        public static explicit operator uint3(long3 input) => (uint3)(ulong3)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator int3(long3 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(input));
-            }
-            else if (Sse4_1.IsSse41Supported)
-            {
-                v128 temp = Xse.cvtepi64_epi32(input._xy);
-
-                return RegisterConversion.ToInt3(Sse4_1.insert_epi32(temp, (int)input.z, 2));
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                v128 temp = Xse.cvtepi64_epi32(input._xy);
-
-                return RegisterConversion.ToInt3(Sse2.unpacklo_epi64(temp, Sse2.cvtsi32_si128((int)input.z)));
-            }
-            else
-            {
-                return new int3((int2)input.xy, (int)input.z);
-            }
-        }
+        public static explicit operator int3(long3 input) => (int3)(ulong3)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator half3(long3 input) => (half3)(float3)(int3)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float3(long3 input) => new float3((float2)input._xy, (float)input.z);
+        public static implicit operator float3(long3 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.ToFloat3(Xse.mm256_cvtepi64_ps(input, 3));
+            }
+            else
+            {
+                return new float3((float2)input._xy, (float)input.z);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double3(long3 input)
@@ -2601,106 +298,41 @@ namespace MaxMath
                 return new double3((double2)input._xy, (double)input.z);
             }
         }
-    
+
 
         public long this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-Assert.IsWithinArrayBounds(index, 3);
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    return (long)Xse.mm256_extract_epi64(this, (byte)index);
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    if (Constant.IsConstantExpression(index))
-                    {
-                        if (index < 2)
-                        {
-                            return (long)Xse.extract_epi64(_xy, (byte)index);
-                        }
-                        else
-                        {
-                            return z;
-                        }
-                    }
-                }
-
-                long3 onStack = this;
-
-                return *((long*)&onStack + index);
+                return (long)((ulong3)this)[index];
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-Assert.IsWithinArrayBounds(index, 3);
-
-                if (Avx2.IsAvx2Supported)
-                {
-                    this = Xse.mm256_insert_epi64(this, (ulong)value, (byte)index);
-
-                    return;
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    if (Constant.IsConstantExpression(index))
-                    {
-                        if (index < 2)
-                        {
-                            _xy = Xse.insert_epi64(_xy, (ulong)value, (byte)index);
-                        }
-                        else
-                        {
-                            z = value;
-                        }
-
-                        return;
-                    }
-                }
-
-                long3 onStack = this;
-                *((long*)&onStack + index) = value;
-                this = onStack;
+                ulong3 _this = (ulong3)this;
+                _this[index] = (ulong)value;
+                this = (long3)_this;
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator + (long3 left, long3 right)
+        public static long3 operator + (long3 left, long3 right) => (long3)((ulong3)left + (ulong3)right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator - (long3 left, long3 right) => (long3)((ulong3)left - (ulong3)right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long3 left, long3 right) => (long3)((ulong3)left * (ulong3)right);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long3 left, uint3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_add_epi64(left, right);
-            }
-            else
-            {
-                return new long3(left._xy + right._xy, left.z + right.z);
-            }
-        }
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator - (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_sub_epi64(left, right);
-            }
-            else
-            {
-                return new long3(left._xy - right._xy, left.z - right.z);
-            }
-        }
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator * (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_mullo_epi64(left, right, 3);
+                return Xse.mm256_mullo_epi64(left, (long3)right, 3, unsigned_B_lessequalU32Max: true);
             }
             else
             {
@@ -2709,24 +341,59 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (uint3 left, long3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long3 left, ushort3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (long3)right, 3, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new long3(left.xy * right.xy, left.z * right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (ushort3 left, long3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (long3 left, byte3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (long3)right, 3, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new long3(left.xy * right.xy, left.z * right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 operator * (byte3 left, long3 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator / (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_div_epi64(left, right, 3);
+                return Xse.mm256_div_epi64(left, right, elements: 3);
             }
             else
             {
                 return new long3(left._xy / right._xy, left.z / right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator % (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_rem_epi64(left, right, 3);
+                return Xse.mm256_rem_epi64(left, right, elements: 3);
             }
             else
             {
@@ -2743,7 +410,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
                     return (v256)((long4)((v256)left) * right);
                 }
@@ -2756,76 +423,60 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new long3(left._xy * right, left.z * right);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator / (long3 left, long right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_div_epi64(left, right, 3);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constdiv_epi64(left, right, 3);
+                    }
+                    else
+                    {
+                        return new long3(Xse.constdiv_epi64(left.xy, right), left.z / right);
+                    }
                 }
             }
-                
+
             return left / (long3)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator % (long3 left, long right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_rem_epi64(left, right, 3);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constrem_epi64(left, right, 3);
+                    }
+                    else
+                    {
+                        return new long3(Xse.constrem_epi64(left.xy, right), left.z / right);
+                    }
                 }
             }
-                
+
             return left % (long3)right;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator & (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_and_si256(left, right);
-            }
-            else
-            {
-                return new long3(left._xy & right._xy, left.z & right.z);
-            }
-        }
-    
+        public static long3 operator & (long3 left, long3 right) => (long3)((ulong3)left & (ulong3)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator | (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_or_si256(left, right);
-            }
-            else
-            {
-                return new long3(left._xy | right._xy, left.z | right.z);
-            }
-        }
-    
+        public static long3 operator | (long3 left, long3 right) => (long3)((ulong3)left | (ulong3)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator ^ (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_xor_si256(left, right);
-            }
-            else
-            {
-                return new long3(left._xy ^ right._xy, left.z ^ right.z);
-            }
-        }
-    
-    
+        public static long3 operator ^ (long3 left, long3 right) => (long3)((ulong3)left ^ (ulong3)right);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator - (long3 x)
         {
@@ -2851,7 +502,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new long3(x._xy + 1, x.z + 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator -- (long3 x)
         {
@@ -2864,40 +515,20 @@ Assert.IsWithinArrayBounds(index, 3);
                 return new long3(x._xy - 1, x.z - 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator ~ (long3 x)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_not_si256(x);
-            }
-            else
-            {
-                return new long3(~x._xy, ~x.z);
-            }
-        }
+        public static long3 operator ~ (long3 x) => (long3)~(ulong3)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 operator << (long3 x, int n)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_slli_epi64(x, n);
-            }
-            else
-            {
-                return new long3(x._xy << n, x.z << n);
-            }
-        }
+        public static long3 operator << (long3 x, int n) => (long3)((ulong3)x << n);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 operator >> (long3 x, int n)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_srai_epi64(x, n);
+                return Xse.mm256_srai_epi64(x, n, 3);
             }
             else
             {
@@ -2907,129 +538,72 @@ Assert.IsWithinArrayBounds(index, 3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator == (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int results = RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
+        public static bool3 operator == (long3 left, long3 right) => (ulong3)left == (ulong3)right;
 
-                return *(bool3*)&results;
-            }
-            else
-            {
-                return new bool3(left._xy == right._xy, left.z == right.z);
-            }
-        }
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator < (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.mm256_cmplt_epi64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmplt_epi64(left, right, 3)));
             }
             else
             {
                 return new bool3(left._xy < right._xy, left.z < right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator > (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epi64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epi64(left, right, 3)));
             }
             else
             {
                 return new bool3(left._xy > right._xy, left.z > right.z);
             }
         }
-    
-    
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 operator != (long3 left, long3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                int results = RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
 
-                return *(bool3*)&results;
-            }
-            else
-            {
-                return new bool3(left._xy != right._xy, left.z != right.z);
-            }
-        }
-    
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (long3 left, long3 right) => (ulong3)left != (ulong3)right;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator <= (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epi64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epi64(left, right, 3)));
             }
             else
             {
                 return new bool3(left._xy <= right._xy, left.z <= right.z);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator >= (long3 left, long3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.mm256_cmplt_epi64(left, right, 3));
-
-                return *(bool3*)&results;
+                return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Xse.mm256_cmplt_epi64(left, right, 3)));
             }
             else
             {
                 return new bool3(left._xy >= right._xy, left.z >= right.z);
             }
         }
-    
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(long3 other)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return bitmask32(24) == (bitmask32(24) & Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(this, other)));
-            }
-            else
-            {
-                return this._xy.Equals(other._xy) & this.z == other.z;
-            }
-        }
+        public readonly bool Equals(long3 other) => ((ulong3)this).Equals((ulong3)other);
 
         public override readonly bool Equals(object obj) => obj is long3 converted && this.Equals(converted);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Hash.v192(this);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return Hash.v128(_xy ^ new long2(z));
-            }
-            else
-            {
-                return ((x ^ z) ^ (y ^ z)).GetHashCode();
-            }
-        }
+        public override readonly int GetHashCode() => ((ulong3)this).GetHashCode();
 
 
         public override readonly string ToString() => $"long3({x}, {y}, {z})";

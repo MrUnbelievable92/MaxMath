@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -13,8 +12,8 @@ using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable] 
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(ushort))] 
+    [Serializable]
+	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(ushort))]
 	[DebuggerTypeProxy(typeof(ushort4.DebuggerProxy))]
     unsafe public struct ushort4 : IEquatable<ushort4>, IFormattable
 	{
@@ -47,15 +46,15 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort x, ushort y, ushort z, ushort w)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
 			{
-                if (Constant.IsConstantExpression(x) && Constant.IsConstantExpression(y) && Constant.IsConstantExpression(z) && Constant.IsConstantExpression(w))
+                if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y) && constexpr.IS_CONST(z) && constexpr.IS_CONST(w))
                 {
-                    this = Sse2.cvtsi64x_si128((long)bitfield(x, y, z, w));
+                    this = Xse.cvtsi64x_si128(bitfield(x, y, z, w));
                 }
                 else
                 {
-					this = Sse2.set_epi16(0, 0, 0, 0, (short)w, (short)z, (short)y, (short)x);
+					this = Xse.set_epi16(0, 0, 0, 0, (short)w, (short)z, (short)y, (short)x);
                 }
 			}
 			else
@@ -69,19 +68,19 @@ namespace MaxMath
 				};
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort xyzw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-                if (Constant.IsConstantExpression(xyzw))
+                if (constexpr.IS_CONST(xyzw))
 				{
-					this = Sse2.cvtsi64x_si128((long)bitfield(xyzw, xyzw, xyzw, xyzw));
+					this = Xse.cvtsi64x_si128(bitfield(xyzw, xyzw, xyzw, xyzw));
                 }
 				else
 				{
-					this = Sse2.shufflelo_epi16(Sse2.cvtsi32_si128(xyzw), Sse.SHUFFLE(0, 0, 0, 0));
+					this = Xse.shufflelo_epi16(Xse.cvtsi32_si128(xyzw), Sse.SHUFFLE(0, 0, 0, 0));
 				}
 			}
 			else
@@ -99,7 +98,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort2 xy, ushort z, ushort w)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
 			{
 				this = Xse.insert_epi16(Xse.insert_epi16(xy, z, 2), w, 3);
 			}
@@ -118,9 +117,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort x, ushort2 yz, ushort w)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Xse.insert_epi16(Xse.insert_epi16(Sse2.bslli_si128(yz, sizeof(ushort)), x, 0), w, 3);
+				this = Xse.insert_epi16(Xse.insert_epi16(Xse.bslli_si128(yz, sizeof(ushort)), x, 0), w, 3);
 			}
 			else
 			{
@@ -137,9 +136,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort x, ushort y, ushort2 zw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.unpacklo_epi32(new ushort2(x, y), zw);
+				this = Xse.unpacklo_epi32(new ushort2(x, y), zw);
 			}
 			else
 			{
@@ -156,9 +155,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort2 xy, ushort2 zw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Sse2.unpacklo_epi32(xy, zw);
+				this = Xse.unpacklo_epi32(xy, zw);
 			}
 			else
 			{
@@ -175,7 +174,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort3 xyz, ushort w)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				this = Xse.insert_epi16(xyz, w, 3);
 			}
@@ -194,9 +193,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4(ushort x, ushort3 yzw)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				this = Xse.insert_epi16(Sse2.bslli_si128(yzw, sizeof(ushort)), x, 0);
+				this = Xse.insert_epi16(Xse.bslli_si128(yzw, sizeof(ushort)), x, 0);
 			}
 			else
 			{
@@ -210,16 +209,16 @@ namespace MaxMath
 			}
         }
 
-		
+
         #region Shuffle
         public readonly ushort4 xxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
 				}
 				else
 				{
@@ -232,9 +231,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 0));
 				}
 				else
 				{
@@ -247,9 +246,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 0));
 				}
 				else
 				{
@@ -262,9 +261,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 0));
 				}
 				else
 				{
@@ -277,9 +276,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 0));
 				}
 				else
 				{
@@ -292,9 +291,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 0));
 				}
 				else
 				{
@@ -307,9 +306,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 0));
 				}
 				else
 				{
@@ -322,9 +321,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
 				}
 				else
 				{
@@ -337,9 +336,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 0));
 				}
 				else
 				{
@@ -352,9 +351,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 0));
 				}
 				else
 				{
@@ -367,9 +366,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 0));
 				}
 				else
 				{
@@ -382,9 +381,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
 				}
 				else
 				{
@@ -397,9 +396,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 0));
 				}
 				else
 				{
@@ -412,9 +411,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 0));
 				}
 				else
 				{
@@ -427,9 +426,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 0));
 				}
 				else
 				{
@@ -442,9 +441,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
 				}
 				else
 				{
@@ -457,9 +456,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 0));
 				}
 				else
 				{
@@ -472,9 +471,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 0));
 				}
 				else
 				{
@@ -487,9 +486,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 0));
 				}
 				else
 				{
@@ -502,9 +501,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
 				}
 				else
 				{
@@ -517,9 +516,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 0));
 				}
 				else
 				{
@@ -532,9 +531,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 0));
 				}
 				else
 				{
@@ -547,9 +546,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 0));
 				}
 				else
 				{
@@ -562,9 +561,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
 				}
 				else
 				{
@@ -577,9 +576,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 0));
 				}
 				else
 				{
@@ -592,9 +591,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 0));
 				}
 				else
 				{
@@ -607,9 +606,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 0));
 				}
 				else
 				{
@@ -622,9 +621,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 0));
 				}
 				else
 				{
@@ -637,9 +636,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 0));
 				}
 				else
 				{
@@ -652,9 +651,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 0));
 				}
 				else
 				{
@@ -673,9 +672,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
 				}
 				else
 				{
@@ -688,9 +687,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 0));
 				}
 				else
 				{
@@ -703,9 +702,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 0));
 				}
 				else
 				{
@@ -718,9 +717,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 0));
 				}
 				else
 				{
@@ -733,9 +732,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
 				}
 				else
 				{
@@ -748,9 +747,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 0));
 				}
 				else
 				{
@@ -763,9 +762,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 0));
 				}
 				else
 				{
@@ -778,9 +777,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 0));
 				}
 				else
 				{
@@ -793,9 +792,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
 				}
 				else
 				{
@@ -814,9 +813,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 0));
 				}
 				else
 				{
@@ -829,9 +828,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 0));
 				}
 				else
 				{
@@ -844,9 +843,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 0));
 				}
 				else
 				{
@@ -859,9 +858,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
 				}
 				else
 				{
@@ -874,9 +873,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 0)); ;
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 0)); ;
 				}
 				else
 				{
@@ -889,9 +888,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 0));
 				}
 				else
 				{
@@ -910,9 +909,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 0));
 				}
 				else
 				{
@@ -925,9 +924,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
 				}
 				else
 				{
@@ -940,9 +939,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 0));
 				}
 				else
 				{
@@ -955,9 +954,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 0));
 				}
 				else
 				{
@@ -970,9 +969,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 0));
 				}
 				else
 				{
@@ -985,9 +984,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
 				}
 				else
 				{
@@ -1000,9 +999,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 0));
 				}
 				else
 				{
@@ -1015,9 +1014,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 0));
 				}
 				else
 				{
@@ -1030,9 +1029,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 0));
 				}
 				else
 				{
@@ -1051,9 +1050,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
 				}
 				else
 				{
@@ -1066,9 +1065,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 0));
 				}
 				else
 				{
@@ -1081,9 +1080,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 0));
 				}
 				else
 				{
@@ -1102,9 +1101,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 0));
 				}
 				else
 				{
@@ -1117,9 +1116,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
 				}
 				else
 				{
@@ -1132,9 +1131,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 0));
 				}
 				else
 				{
@@ -1147,9 +1146,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 0));
 				}
 				else
 				{
@@ -1162,9 +1161,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 0));
 				}
 				else
 				{
@@ -1177,9 +1176,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
 				}
 				else
 				{
@@ -1192,9 +1191,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 1));
 				}
 				else
 				{
@@ -1207,9 +1206,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 1));
 				}
 				else
 				{
@@ -1222,9 +1221,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 1));
 				}
 				else
 				{
@@ -1237,9 +1236,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
 				}
 				else
 				{
@@ -1252,9 +1251,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 1));
 				}
 				else
 				{
@@ -1267,9 +1266,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 1));
 				}
 				else
 				{
@@ -1282,9 +1281,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 1));
 				}
 				else
 				{
@@ -1297,9 +1296,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
 				}
 				else
 				{
@@ -1312,9 +1311,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 1));
 				}
 				else
 				{
@@ -1327,9 +1326,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 1));
 				}
 				else
 				{
@@ -1342,9 +1341,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 1));
 				}
 				else
 				{
@@ -1357,9 +1356,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
 				}
 				else
 				{
@@ -1378,9 +1377,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 1));
 				}
 				else
 				{
@@ -1393,9 +1392,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 1));
 				}
 				else
 				{
@@ -1408,9 +1407,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 1));
 				}
 				else
 				{
@@ -1429,9 +1428,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
 				}
 				else
 				{
@@ -1444,9 +1443,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 1));
 				}
 				else
 				{
@@ -1459,9 +1458,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 1));
 				}
 				else
 				{
@@ -1474,9 +1473,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 1));
 				}
 				else
 				{
@@ -1489,9 +1488,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
 				}
 				else
 				{
@@ -1504,9 +1503,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 1));
 				}
 				else
 				{
@@ -1519,9 +1518,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 1));
 				}
 				else
 				{
@@ -1534,9 +1533,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 1));
 				}
 				else
 				{
@@ -1549,9 +1548,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
 				}
 				else
 				{
@@ -1564,9 +1563,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 1));
 				}
 				else
 				{
@@ -1579,9 +1578,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 1));
 				}
 				else
 				{
@@ -1594,9 +1593,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 1));
 				}
 				else
 				{
@@ -1609,9 +1608,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
 				}
 				else
 				{
@@ -1624,9 +1623,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 1));
 				}
 				else
 				{
@@ -1639,9 +1638,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 1));
 				}
 				else
 				{
@@ -1654,9 +1653,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 1));
 				}
 				else
 				{
@@ -1669,9 +1668,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
 				}
 				else
 				{
@@ -1684,9 +1683,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1));
 				}
 				else
 				{
@@ -1699,9 +1698,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 1));
 				}
 				else
 				{
@@ -1714,9 +1713,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 1));
 				}
 				else
 				{
@@ -1729,9 +1728,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
 				}
 				else
 				{
@@ -1750,9 +1749,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 1));
 				}
 				else
 				{
@@ -1765,9 +1764,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 1));
 				}
 				else
 				{
@@ -1780,9 +1779,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 1));
 				}
 				else
 				{
@@ -1795,9 +1794,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
 				}
 				else
 				{
@@ -1810,9 +1809,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 1));
 				}
 				else
 				{
@@ -1825,9 +1824,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 1));
 				}
 				else
 				{
@@ -1840,9 +1839,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 1));
 				}
 				else
 				{
@@ -1855,9 +1854,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
 				}
 				else
 				{
@@ -1870,9 +1869,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 1)); ;
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 1)); ;
 				}
 				else
 				{
@@ -1891,9 +1890,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 1));
 				}
 				else
 				{
@@ -1906,9 +1905,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 1));
 				}
 				else
 				{
@@ -1921,9 +1920,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
 				}
 				else
 				{
@@ -1936,9 +1935,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 1));
 				}
 				else
 				{
@@ -1951,9 +1950,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 1));
 				}
 				else
 				{
@@ -1966,9 +1965,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 1));
 				}
 				else
 				{
@@ -1987,9 +1986,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
 				}
 				else
 				{
@@ -2002,9 +2001,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 1));
 				}
 				else
 				{
@@ -2017,9 +2016,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 1));
 				}
 				else
 				{
@@ -2032,9 +2031,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 1));
 				}
 				else
 				{
@@ -2047,9 +2046,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
 				}
 				else
 				{
@@ -2062,9 +2061,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 1));
 				}
 				else
 				{
@@ -2083,9 +2082,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 1));
 				}
 				else
 				{
@@ -2098,9 +2097,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 1));
 				}
 				else
 				{
@@ -2113,9 +2112,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
 				}
 				else
 				{
@@ -2128,9 +2127,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 1));
 				}
 				else
 				{
@@ -2143,9 +2142,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 1));
 				}
 				else
 				{
@@ -2158,9 +2157,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 1));
 				}
 				else
 				{
@@ -2173,9 +2172,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
 				}
 				else
 				{
@@ -2188,9 +2187,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 2));
 				}
 				else
 				{
@@ -2203,9 +2202,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 2));
 				}
 				else
 				{
@@ -2218,9 +2217,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 2));
 				}
 				else
 				{
@@ -2233,9 +2232,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
 				}
 				else
 				{
@@ -2248,9 +2247,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 2));
 				}
 				else
 				{
@@ -2263,9 +2262,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 2));
 				}
 				else
 				{
@@ -2278,9 +2277,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 2));
 				}
 				else
 				{
@@ -2293,9 +2292,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
 				}
 				else
 				{
@@ -2314,9 +2313,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 2));
 				}
 				else
 				{
@@ -2329,9 +2328,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 2));
 				}
 				else
 				{
@@ -2344,9 +2343,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 2));
 				}
 				else
 				{
@@ -2359,9 +2358,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
 				}
 				else
 				{
@@ -2374,9 +2373,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 2));
 				}
 				else
 				{
@@ -2389,9 +2388,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 2));
 				}
 				else
 				{
@@ -2410,9 +2409,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 2));
 				}
 				else
 				{
@@ -2425,9 +2424,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
 				}
 				else
 				{
@@ -2440,9 +2439,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 2));
 				}
 				else
 				{
@@ -2455,9 +2454,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 2));
 				}
 				else
 				{
@@ -2470,9 +2469,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 2));
 				}
 				else
 				{
@@ -2485,9 +2484,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
 				}
 				else
 				{
@@ -2506,9 +2505,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 2));
 				}
 				else
 				{
@@ -2521,9 +2520,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 2));
 				}
 				else
 				{
@@ -2536,9 +2535,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 2));
 				}
 				else
 				{
@@ -2551,9 +2550,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
 				}
 				else
 				{
@@ -2566,9 +2565,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 2));
 				}
 				else
 				{
@@ -2581,9 +2580,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 2));
 				}
 				else
 				{
@@ -2596,9 +2595,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 2));
 				}
 				else
 				{
@@ -2611,9 +2610,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
 				}
 				else
 				{
@@ -2626,9 +2625,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 2));
 				}
 				else
 				{
@@ -2647,9 +2646,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 2));
 				}
 				else
 				{
@@ -2662,9 +2661,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 2));
 				}
 				else
 				{
@@ -2677,9 +2676,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
 				}
 				else
 				{
@@ -2692,9 +2691,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 2));
 				}
 				else
 				{
@@ -2707,9 +2706,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 2));
 				}
 				else
 				{
@@ -2722,9 +2721,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 2));
 				}
 				else
 				{
@@ -2737,9 +2736,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
 				}
 				else
 				{
@@ -2752,9 +2751,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 2));
 				}
 				else
 				{
@@ -2767,9 +2766,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 2));
 				}
 				else
 				{
@@ -2782,9 +2781,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 2));
 				}
 				else
 				{
@@ -2797,9 +2796,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
 				}
 				else
 				{
@@ -2812,9 +2811,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 2));
 				}
 				else
 				{
@@ -2827,9 +2826,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 2));
 				}
 				else
 				{
@@ -2842,9 +2841,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 2));
 				}
 				else
 				{
@@ -2857,9 +2856,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
 				}
 				else
 				{
@@ -2872,9 +2871,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 2)); ;
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 2)); ;
 				}
 				else
 				{
@@ -2887,9 +2886,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 2));
 				}
 				else
 				{
@@ -2902,9 +2901,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 2));
 				}
 				else
 				{
@@ -2917,9 +2916,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
 				}
 				else
 				{
@@ -2932,9 +2931,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2));
 				}
 				else
 				{
@@ -2947,9 +2946,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 2));
 				}
 				else
 				{
@@ -2968,9 +2967,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 2));
 				}
 				else
 				{
@@ -2983,9 +2982,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
 				}
 				else
 				{
@@ -2998,9 +2997,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 2));
 				}
 				else
 				{
@@ -3019,9 +3018,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 2));
 				}
 				else
 				{
@@ -3034,9 +3033,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 2));
 				}
 				else
 				{
@@ -3049,9 +3048,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
 				}
 				else
 				{
@@ -3064,9 +3063,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 2));
 				}
 				else
 				{
@@ -3079,9 +3078,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 2));
 				}
 				else
 				{
@@ -3094,9 +3093,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 2));
 				}
 				else
 				{
@@ -3109,9 +3108,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
 				}
 				else
 				{
@@ -3124,9 +3123,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 2));
 				}
 				else
 				{
@@ -3139,9 +3138,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 2));
 				}
 				else
 				{
@@ -3154,9 +3153,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 2));
 				}
 				else
 				{
@@ -3169,9 +3168,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
 				}
 				else
 				{
@@ -3184,9 +3183,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3));
 				}
 				else
 				{
@@ -3199,9 +3198,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 3));
 				}
 				else
 				{
@@ -3214,9 +3213,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 3));
 				}
 				else
 				{
@@ -3229,9 +3228,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
 				}
 				else
 				{
@@ -3244,9 +3243,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 3));
 				}
 				else
 				{
@@ -3259,9 +3258,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 3));
 				}
 				else
 				{
@@ -3274,9 +3273,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 3));
 				}
 				else
 				{
@@ -3295,9 +3294,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
 				}
 				else
 				{
@@ -3310,9 +3309,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 3));
 				}
 				else
 				{
@@ -3325,9 +3324,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 3));
 				}
 				else
 				{
@@ -3346,9 +3345,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 3));
 				}
 				else
 				{
@@ -3361,9 +3360,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
 				}
 				else
 				{
@@ -3376,9 +3375,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 3));
 				}
 				else
 				{
@@ -3391,9 +3390,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 3));
 				}
 				else
 				{
@@ -3406,9 +3405,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 3));
 				}
 				else
 				{
@@ -3421,9 +3420,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
 				}
 				else
 				{
@@ -3436,9 +3435,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 3));
 				}
 				else
 				{
@@ -3451,9 +3450,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 3));
 				}
 				else
 				{
@@ -3466,9 +3465,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 3));
 				}
 				else
 				{
@@ -3487,9 +3486,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
 				}
 				else
 				{
@@ -3502,9 +3501,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 3));
 				}
 				else
 				{
@@ -3517,9 +3516,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 3));
 				}
 				else
 				{
@@ -3532,9 +3531,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 3));
 				}
 				else
 				{
@@ -3547,9 +3546,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
 				}
 				else
 				{
@@ -3562,9 +3561,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 3));
 				}
 				else
 				{
@@ -3583,9 +3582,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 3));
 				}
 				else
 				{
@@ -3598,9 +3597,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 3));
 				}
 				else
 				{
@@ -3613,9 +3612,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
 				}
 				else
 				{
@@ -3628,9 +3627,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 3));
 				}
 				else
 				{
@@ -3643,9 +3642,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 3));
 				}
 				else
 				{
@@ -3658,9 +3657,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 3));
 				}
 				else
 				{
@@ -3673,9 +3672,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
 				}
 				else
 				{
@@ -3688,9 +3687,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 3));
 				}
 				else
 				{
@@ -3703,9 +3702,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 3));
 				}
 				else
 				{
@@ -3724,9 +3723,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 3));
 				}
 				else
 				{
@@ -3739,9 +3738,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
 				}
 				else
 				{
@@ -3754,9 +3753,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 3));
 				}
 				else
 				{
@@ -3775,9 +3774,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 3));
 				}
 				else
 				{
@@ -3790,9 +3789,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 3));
 				}
 				else
 				{
@@ -3805,9 +3804,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
 				}
 				else
 				{
@@ -3820,9 +3819,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 3));
 				}
 				else
 				{
@@ -3835,9 +3834,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 3));
 				}
 				else
 				{
@@ -3850,9 +3849,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 3));
 				}
 				else
 				{
@@ -3865,9 +3864,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
 				}
 				else
 				{
@@ -3880,9 +3879,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 3)); ;
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 3)); ;
 				}
 				else
 				{
@@ -3895,9 +3894,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 3));
 				}
 				else
 				{
@@ -3910,9 +3909,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 3));
 				}
 				else
 				{
@@ -3925,9 +3924,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
 				}
 				else
 				{
@@ -3940,9 +3939,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 3));
 				}
 				else
 				{
@@ -3955,9 +3954,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 3));
 				}
 				else
 				{
@@ -3970,9 +3969,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 3));
 				}
 				else
 				{
@@ -3985,9 +3984,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
 				}
 				else
 				{
@@ -4000,9 +3999,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 3));
 				}
 				else
 				{
@@ -4015,9 +4014,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 3));
 				}
 				else
 				{
@@ -4030,9 +4029,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 3));
 				}
 				else
 				{
@@ -4045,9 +4044,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
 				}
 				else
 				{
@@ -4060,9 +4059,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 3));
 				}
 				else
 				{
@@ -4075,9 +4074,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 3));
 				}
 				else
 				{
@@ -4090,9 +4089,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 3));
 				}
 				else
 				{
@@ -4105,9 +4104,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
 				}
 				else
 				{
@@ -4120,9 +4119,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 3));
 				}
 				else
 				{
@@ -4135,9 +4134,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 3));
 				}
 				else
 				{
@@ -4150,9 +4149,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 3));
 				}
 				else
 				{
@@ -4165,9 +4164,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
 				}
 				else
 				{
@@ -4181,9 +4180,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
 				}
 				else
 				{
@@ -4196,9 +4195,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
 				}
 				else
 				{
@@ -4211,9 +4210,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
 				}
 				else
 				{
@@ -4226,9 +4225,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
 				}
 				else
 				{
@@ -4241,9 +4240,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
 				}
 				else
 				{
@@ -4256,9 +4255,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
 				}
 				else
 				{
@@ -4267,11 +4266,11 @@ namespace MaxMath
 			}
 		}
         public          ushort3 xyz
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					return (v128)this;
 				}
@@ -4284,7 +4283,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value, 0b0111);
 				}
@@ -4301,9 +4300,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
 				}
 				else
 				{
@@ -4314,7 +4313,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xyzz, 0b1011);
 				}
@@ -4331,9 +4330,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
 				}
 				else
 				{
@@ -4346,9 +4345,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
 				}
 				else
 				{
@@ -4359,7 +4358,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xzyy, 0b0111);
 				}
@@ -4376,9 +4375,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
 				}
 				else
 				{
@@ -4391,9 +4390,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
 				}
 				else
 				{
@@ -4404,7 +4403,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyz, 0b1101);
 				}
@@ -4421,9 +4420,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
 				}
 				else
 				{
@@ -4436,9 +4435,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
 				}
 				else
 				{
@@ -4449,7 +4448,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xzzy, 0b1011);
 				}
@@ -4466,9 +4465,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
 				}
 				else
 				{
@@ -4479,7 +4478,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxzy, 0b1101);
 				}
@@ -4496,9 +4495,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
 				}
 				else
 				{
@@ -4511,9 +4510,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
 				}
 				else
 				{
@@ -4526,9 +4525,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
 				}
 				else
 				{
@@ -4541,9 +4540,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
 				}
 				else
 				{
@@ -4554,7 +4553,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yxzz, 0b0111);
 				}
@@ -4571,9 +4570,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
 				}
 				else
 				{
@@ -4584,7 +4583,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yxzz, 0b1011);
 				}
@@ -4601,9 +4600,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
 				}
 				else
 				{
@@ -4616,9 +4615,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
 				}
 				else
 				{
@@ -4631,9 +4630,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
 				}
 				else
 				{
@@ -4646,9 +4645,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
 				}
 				else
 				{
@@ -4661,9 +4660,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
 				}
 				else
 				{
@@ -4674,7 +4673,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zxyy, 0b0111);
 				}
@@ -4691,9 +4690,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
 				}
 				else
 				{
@@ -4706,9 +4705,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
 				}
 				else
 				{
@@ -4721,9 +4720,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
 				}
 				else
 				{
@@ -4734,7 +4733,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyz, 0b1110);
 				}
@@ -4751,9 +4750,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
 				}
 				else
 				{
@@ -4764,7 +4763,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zxxy, 0b1011);
 				}
@@ -4781,9 +4780,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
 				}
 				else
 				{
@@ -4796,9 +4795,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
 				}
 				else
 				{
@@ -4809,7 +4808,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxzy, 0b1110);
 				}
@@ -4826,9 +4825,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
 				}
 				else
 				{
@@ -4841,9 +4840,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
 				}
 				else
 				{
@@ -4856,9 +4855,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
 				}
 				else
 				{
@@ -4869,7 +4868,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yzxx, 0b0111);
 				}
@@ -4886,9 +4885,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
 				}
 				else
 				{
@@ -4901,9 +4900,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
 				}
 				else
 				{
@@ -4914,7 +4913,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxz, 0b1101);
 				}
@@ -4931,9 +4930,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
 				}
 				else
 				{
@@ -4944,7 +4943,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zyxx, 0b0111);
 				}
@@ -4961,9 +4960,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
 				}
 				else
 				{
@@ -4976,9 +4975,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
 				}
 				else
 				{
@@ -4991,9 +4990,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
 				}
 				else
 				{
@@ -5004,7 +5003,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxz, 0b1110);
 				}
@@ -5021,9 +5020,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
 				}
 				else
 				{
@@ -5036,9 +5035,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
 				}
 				else
 				{
@@ -5051,9 +5050,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
 				}
 				else
 				{
@@ -5066,9 +5065,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
 				}
 				else
 				{
@@ -5081,9 +5080,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
 				}
 				else
 				{
@@ -5094,7 +5093,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zzxy, 0b1101);
 				}
@@ -5111,9 +5110,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
 				}
 				else
 				{
@@ -5124,7 +5123,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zzxy, 0b1110);
 				}
@@ -5141,9 +5140,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
 				}
 				else
 				{
@@ -5156,9 +5155,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
 				}
 				else
 				{
@@ -5171,9 +5170,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
 				}
 				else
 				{
@@ -5186,9 +5185,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
 				}
 				else
 				{
@@ -5199,7 +5198,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yzzx, 0b1011);
 				}
@@ -5216,9 +5215,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
 				}
 				else
 				{
@@ -5229,7 +5228,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyzx, 0b1101);
 				}
@@ -5246,9 +5245,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
 				}
 				else
 				{
@@ -5261,9 +5260,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
 				}
 				else
 				{
@@ -5274,7 +5273,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zyyx, 0b1011);
 				}
@@ -5291,9 +5290,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
 				}
 				else
 				{
@@ -5306,9 +5305,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
 				}
 				else
 				{
@@ -5319,7 +5318,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyzx, 0b1110);
 				}
@@ -5336,9 +5335,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
 				}
 				else
 				{
@@ -5351,9 +5350,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
 				}
 				else
 				{
@@ -5364,7 +5363,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zzyx, 0b1101);
 				}
@@ -5381,9 +5380,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
 				}
 				else
 				{
@@ -5394,7 +5393,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.zzyx, 0b1110);
 				}
@@ -5411,9 +5410,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
 				}
 				else
 				{
@@ -5426,9 +5425,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
 				}
 				else
 				{
@@ -5441,9 +5440,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
 				}
 				else
 				{
@@ -5456,9 +5455,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
 				}
 				else
 				{
@@ -5471,9 +5470,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
 				}
 				else
 				{
@@ -5486,9 +5485,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
 				}
 				else
 				{
@@ -5502,9 +5501,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
 				}
 				else
 				{
@@ -5513,11 +5512,11 @@ namespace MaxMath
 			}
 		}
         public          ushort2 xy
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					return (v128)this;
 				}
@@ -5530,7 +5529,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value, 0b0011);
 				}
@@ -5546,9 +5545,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
 				}
 				else
 				{
@@ -5559,7 +5558,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyy, 0b0101);
 				}
@@ -5575,9 +5574,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
 				}
 				else
 				{
@@ -5588,7 +5587,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyy, 0b1001);
 				}
@@ -5604,9 +5603,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
 				}
 				else
 				{
@@ -5617,7 +5616,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yx, 0b0011);
 				}
@@ -5633,9 +5632,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
 				}
 				else
 				{
@@ -5648,9 +5647,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.bsrli_si128(this, sizeof(ushort));
+					return Xse.bsrli_si128(this, sizeof(ushort));
 				}
 				else
 				{
@@ -5661,7 +5660,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyy, 0b0110);
 				}
@@ -5677,9 +5676,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
 				}
 				else
 				{
@@ -5690,7 +5689,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.xxyy, 0b1010);
 				}
@@ -5706,9 +5705,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
 				}
 				else
 				{
@@ -5719,7 +5718,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxx, 0b0101);
 				}
@@ -5735,9 +5734,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
 				}
 				else
 				{
@@ -5748,7 +5747,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxx, 0b0110);
 				}
@@ -5764,9 +5763,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
 				}
 				else
 				{
@@ -5779,9 +5778,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.bsrli_si128(this, 2 * sizeof(ushort));
+					return Xse.bsrli_si128(this, 2 * sizeof(ushort));
 				}
 				else
 				{
@@ -5792,9 +5791,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					this = Sse2.unpacklo_epi32(this, value);
+					this = Xse.unpacklo_epi32(this, value);
 				}
 				else
 				{
@@ -5808,9 +5807,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
 				}
 				else
 				{
@@ -5821,7 +5820,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxx, 0b1001);
 				}
@@ -5837,9 +5836,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
 				}
 				else
 				{
@@ -5850,7 +5849,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yyxx, 0b1010);
 				}
@@ -5866,9 +5865,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
 				}
 				else
 				{
@@ -5879,7 +5878,7 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
 				{
 					this = Xse.blend_epi16(this, value.yxyx, 0b1100);
 				}
@@ -5895,9 +5894,9 @@ namespace MaxMath
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
+					return Xse.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
 				}
 				else
                 {
@@ -5907,7 +5906,7 @@ namespace MaxMath
         }
         #endregion
 
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(ushort4 input)
         {
@@ -5919,14 +5918,14 @@ namespace MaxMath
             }
             else
             {
-                v128* dummyPtr = &result;
+                result = default(v128);
             }
 
             result.UShort0 = input.x;
             result.UShort1 = input.y;
             result.UShort2 = input.z;
             result.UShort3 = input.w;
-            
+
             return result;
         }
 
@@ -5939,22 +5938,12 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ushort4(short4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return (v128)input;
-            }
-            else
-            {
-                return *(ushort4*)&input;
-            }
-        }
+        public static explicit operator ushort4(short4 input) => *(ushort4*)&input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort4(int4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi32_epi16(RegisterConversion.ToV128(input), 4);
 			}
@@ -5967,7 +5956,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort4(uint4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi32_epi16(RegisterConversion.ToV128(input), 4);
 			}
@@ -5984,7 +5973,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi64_epi16(input);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new ushort4(Xse.cvtepi64_epi16(input._xy), Xse.cvtepi64_epi16(input._zw));
 			}
@@ -6001,7 +5990,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi64_epi16(input);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new ushort4(Xse.cvtepi64_epi16(input._xy), Xse.cvtepi64_epi16(input._zw));
             }
@@ -6012,7 +6001,20 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ushort4(half4 input) => (ushort4)(float4)input;
+        public static explicit operator ushort4(half4 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttph_epu16(RegisterConversion.ToV128(input), 4);
+            }
+            else
+            {
+                return new ushort4((ushort)maxmath.BASE_cvtf16i32(input.x, signed: false, trunc: true),
+                                   (ushort)maxmath.BASE_cvtf16i32(input.y, signed: false, trunc: true),
+                                   (ushort)maxmath.BASE_cvtf16i32(input.z, signed: false, trunc: true),
+                                   (ushort)maxmath.BASE_cvtf16i32(input.w, signed: false, trunc: true));
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort4(float4 input) => (ushort4)(int4)input;
@@ -6024,7 +6026,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int4(ushort4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToInt4(Xse.cvtepu16_epi32(input));
             }
@@ -6037,7 +6039,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator uint4(ushort4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToUInt4(Xse.cvtepu16_epi32(input));
             }
@@ -6054,7 +6056,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepu16_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new long4((long2)input.xy, (long2)input.zw);
 			}
@@ -6071,7 +6073,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepu16_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new ulong4((ulong2)input.xy, (ulong2)input.zw);
             }
@@ -6085,9 +6087,9 @@ namespace MaxMath
         public static explicit operator half4(ushort4 input) => (half4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float4(ushort4 input) 
+        public static implicit operator float4(ushort4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.cvtepu16_ps(input));
             }
@@ -6108,32 +6110,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return Xse.extract_epi16(this, (byte)index);
                 }
                 else
                 {
-                    ushort4 onStack = this;
-
-                    return *((ushort*)&onStack + index);
+				    return this.GetField<ushort4, ushort>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi16(this, value, (byte)index);
                 }
                 else
                 {
-                    ushort4 onStack = this;
-                    *((ushort*)&onStack + index) = value;
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }
@@ -6142,46 +6140,46 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator + (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi16(left, right);
+                return Xse.add_epi16(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x + right.x), (ushort)(left.y + right.y), (ushort)(left.z + right.z), (ushort)(left.w + right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator - (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi16(left, right);
+                return Xse.sub_epi16(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x - right.x), (ushort)(left.y - right.y), (ushort)(left.z - right.z), (ushort)(left.w - right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator * (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.mullo_epi16(left, right);
+                return Xse.mullo_epi16(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x * right.x), (ushort)(left.y * right.y), (ushort)(left.z * right.z), (ushort)(left.w * right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator / (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epu16(left, right, 4);
             }
@@ -6194,7 +6192,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator % (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rem_epu16(left, right, 4);
             }
@@ -6211,9 +6209,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator * (ushort4 left, ushort right)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				if (Constant.IsConstantExpression(right))
+				if (constexpr.IS_CONST(right))
 				{
 					return (v128)((ushort8)((v128)left) * right);
 				}
@@ -6221,32 +6219,32 @@ Assert.IsWithinArrayBounds(index, 4);
 
 			return left * (ushort4)right;
 		}
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator / (ushort4 left, ushort right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.div_epu16(left, right, 4);
+                    return Xse.constdiv_epu16(left, right, 4);
                 }
             }
-                
+
             return left / (ushort4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator % (ushort4 left, ushort right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.rem_epu16(left, right, 4);
+                    return Xse.constrem_epu16(left, right, 4);
                 }
             }
-                
+
             return left % (ushort4)right;
         }
 
@@ -6254,47 +6252,47 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator & (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.and_si128(left, right);
+                return Xse.and_si128(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x & right.x), (ushort)(left.y & right.y), (ushort)(left.z & right.z), (ushort)(left.w & right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator | (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.or_si128(left, right);
+                return Xse.or_si128(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x | right.x), (ushort)(left.y | right.y), (ushort)(left.z | right.z), (ushort)(left.w | right.w));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator ^ (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.xor_si128(left, right);
+                return Xse.xor_si128(left, right);
             }
             else
             {
                 return new ushort4((ushort)(left.x ^ right.x), (ushort)(left.y ^ right.y), (ushort)(left.z ^ right.z), (ushort)(left.w ^ right.w));
             }
         }
-    
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator ++ (ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.inc_epi16(x);
 			}
@@ -6303,11 +6301,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new ushort4((ushort)(x.x + 1), (ushort)(x.y + 1), (ushort)(x.z + 1), (ushort)(x.w + 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator -- (ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.dec_epi16(x);
 			}
@@ -6316,11 +6314,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new ushort4((ushort)(x.x - 1), (ushort)(x.y - 1), (ushort)(x.z - 1), (ushort)(x.w - 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator ~ (ushort4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.not_si128(x);
 			}
@@ -6329,14 +6327,14 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new ushort4((ushort)(~x.x), (ushort)(~x.y), (ushort)(~x.z), (ushort)(~x.w));
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator << (ushort4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.slli_epi16(x, n);
+                return Xse.slli_epi16(x, n, inRange: true);
             }
             else
             {
@@ -6347,9 +6345,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 operator >> (ushort4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.srli_epi16(x, n);
+                return Xse.srli_epi16(x, n, inRange: true);
             }
             else
             {
@@ -6361,9 +6359,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator == (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue16(Sse2.cmpeq_epi16(left, right));
+                v128 results = RegisterConversion.IsTrue16(Xse.cmpeq_epi16(left, right));
 
 				return *(bool4*)&results;
             }
@@ -6372,11 +6370,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new bool4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator < (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmplt_epu16(left, right, 4));
 
@@ -6391,7 +6389,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator > (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmpgt_epu16(left, right, 4));
 
@@ -6407,9 +6405,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator != (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsFalse16(Sse2.cmpeq_epi16(left, right));
+                v128 results = RegisterConversion.IsFalse16(Xse.cmpeq_epi16(left, right));
 
 				return *(bool4*)&results;
             }
@@ -6418,11 +6416,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new bool4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator <= (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmple_epu16(left, right, 4));
 
@@ -6437,7 +6435,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator >= (ushort4 left, ushort4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmpge_epu16(left, right, 4));
 
@@ -6453,9 +6451,9 @@ Assert.IsWithinArrayBounds(index, 4);
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly bool Equals(ushort4 other)
 		{
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				return ulong.MaxValue == Sse2.cmpeq_epi16(this, other).ULong0;
+				return ulong.MaxValue == Xse.cmpeq_epi16(this, other).ULong0;
 			}
 			else
 			{
@@ -6469,7 +6467,7 @@ Assert.IsWithinArrayBounds(index, 4);
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override readonly int GetHashCode()
 		{
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return Hash.v64(this);
 			}

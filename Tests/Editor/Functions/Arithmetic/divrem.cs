@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class divrem
+    unsafe public static class f_divrem
     {
         [Test]
         public static void CONSTbyte()
@@ -32,9 +32,9 @@ namespace MaxMath.Tests
 
                 byte2 q = maxmath.divrem(left, (byte)i, out byte2 r);
 
-                Assert.AreEqual(new byte2((byte)(left.x / (byte)i), 
+                Assert.AreEqual(new byte2((byte)(left.x / (byte)i),
                                           (byte)(left.y / (byte)i)), q);
-                Assert.AreEqual(new byte2((byte)(left.x % (byte)i), 
+                Assert.AreEqual(new byte2((byte)(left.x % (byte)i),
                                           (byte)(left.y % (byte)i)), r);
             }
         }
@@ -43,18 +43,18 @@ namespace MaxMath.Tests
         public static void CONSTbyte3()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte3 left  = rng.NextByte3();
 
                 byte3 q = maxmath.divrem(left, (byte)i, out byte3 r);
-                
-                Assert.AreEqual(new byte3((byte)(left.x / (byte)i), 
-                                          (byte)(left.y / (byte)i), 
+
+                Assert.AreEqual(new byte3((byte)(left.x / (byte)i),
+                                          (byte)(left.y / (byte)i),
                                           (byte)(left.z / (byte)i)), q);
-                Assert.AreEqual(new byte3((byte)(left.x % (byte)i), 
-                                          (byte)(left.y % (byte)i), 
+                Assert.AreEqual(new byte3((byte)(left.x % (byte)i),
+                                          (byte)(left.y % (byte)i),
                                           (byte)(left.z % (byte)i)), r);
             }
         }
@@ -63,20 +63,20 @@ namespace MaxMath.Tests
         public static void CONSTbyte4()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte4 left  = rng.NextByte4();
 
                 byte4 q = maxmath.divrem(left, (byte)i, out byte4 r);
-                
-                Assert.AreEqual(new byte4((byte)(left.x / (byte)i), 
-                                          (byte)(left.y / (byte)i), 
-                                          (byte)(left.z / (byte)i), 
+
+                Assert.AreEqual(new byte4((byte)(left.x / (byte)i),
+                                          (byte)(left.y / (byte)i),
+                                          (byte)(left.z / (byte)i),
                                           (byte)(left.w / (byte)i)), q);
-                Assert.AreEqual(new byte4((byte)(left.x % (byte)i), 
-                                          (byte)(left.y % (byte)i), 
-                                          (byte)(left.z % (byte)i), 
+                Assert.AreEqual(new byte4((byte)(left.x % (byte)i),
+                                          (byte)(left.y % (byte)i),
+                                          (byte)(left.z % (byte)i),
                                           (byte)(left.w % (byte)i)), r);
             }
         }
@@ -85,28 +85,28 @@ namespace MaxMath.Tests
         public static void CONSTbyte8()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte8 left  = rng.NextByte8();
 
                 byte8 q = maxmath.divrem(left, (byte)i, out byte8 r);
-                
-                Assert.AreEqual(new byte8((byte)(left.x0 / (byte)i), 
-                                          (byte)(left.x1 / (byte)i), 
-                                          (byte)(left.x2 / (byte)i), 
-                                          (byte)(left.x3 / (byte)i), 
-                                          (byte)(left.x4 / (byte)i), 
-                                          (byte)(left.x5 / (byte)i), 
-                                          (byte)(left.x6 / (byte)i), 
+
+                Assert.AreEqual(new byte8((byte)(left.x0 / (byte)i),
+                                          (byte)(left.x1 / (byte)i),
+                                          (byte)(left.x2 / (byte)i),
+                                          (byte)(left.x3 / (byte)i),
+                                          (byte)(left.x4 / (byte)i),
+                                          (byte)(left.x5 / (byte)i),
+                                          (byte)(left.x6 / (byte)i),
                                           (byte)(left.x7 / (byte)i)), q);
-                Assert.AreEqual(new byte8((byte)(left.x0 % (byte)i), 
-                                          (byte)(left.x1 % (byte)i), 
-                                          (byte)(left.x2 % (byte)i), 
-                                          (byte)(left.x3 % (byte)i), 
-                                          (byte)(left.x4 % (byte)i), 
-                                          (byte)(left.x5 % (byte)i), 
-                                          (byte)(left.x6 % (byte)i), 
+                Assert.AreEqual(new byte8((byte)(left.x0 % (byte)i),
+                                          (byte)(left.x1 % (byte)i),
+                                          (byte)(left.x2 % (byte)i),
+                                          (byte)(left.x3 % (byte)i),
+                                          (byte)(left.x4 % (byte)i),
+                                          (byte)(left.x5 % (byte)i),
+                                          (byte)(left.x6 % (byte)i),
                                           (byte)(left.x7 % (byte)i)), r);
             }
         }
@@ -115,28 +115,28 @@ namespace MaxMath.Tests
         public static void CONSTbyte16()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = 1; i <= byte.MaxValue; i++)
             {
                 byte16 left  = rng.NextByte16();
 
                 byte16 q = maxmath.divrem(left, (byte)i, out byte16 r);
-                
-                Assert.AreEqual(new byte16((byte)(left.x0  / (byte)i), 
-                                           (byte)(left.x1  / (byte)i), 
-                                           (byte)(left.x2  / (byte)i), 
-                                           (byte)(left.x3  / (byte)i), 
-                                           (byte)(left.x4  / (byte)i), 
-                                           (byte)(left.x5  / (byte)i), 
-                                           (byte)(left.x6  / (byte)i), 
+
+                Assert.AreEqual(new byte16((byte)(left.x0  / (byte)i),
+                                           (byte)(left.x1  / (byte)i),
+                                           (byte)(left.x2  / (byte)i),
+                                           (byte)(left.x3  / (byte)i),
+                                           (byte)(left.x4  / (byte)i),
+                                           (byte)(left.x5  / (byte)i),
+                                           (byte)(left.x6  / (byte)i),
                                            (byte)(left.x7  / (byte)i),
-                                           (byte)(left.x8  / (byte)i), 
-                                           (byte)(left.x9  / (byte)i), 
-                                           (byte)(left.x10 / (byte)i), 
-                                           (byte)(left.x11 / (byte)i), 
-                                           (byte)(left.x12 / (byte)i), 
-                                           (byte)(left.x13 / (byte)i), 
-                                           (byte)(left.x14 / (byte)i), 
+                                           (byte)(left.x8  / (byte)i),
+                                           (byte)(left.x9  / (byte)i),
+                                           (byte)(left.x10 / (byte)i),
+                                           (byte)(left.x11 / (byte)i),
+                                           (byte)(left.x12 / (byte)i),
+                                           (byte)(left.x13 / (byte)i),
+                                           (byte)(left.x14 / (byte)i),
                                            (byte)(left.x15 / (byte)i)), q);
 
 
@@ -145,21 +145,21 @@ namespace MaxMath.Tests
 
 
 
-                Assert.AreEqual(new byte16((byte)(left.x0  % (byte)i), 
-                                           (byte)(left.x1  % (byte)i), 
-                                           (byte)(left.x2  % (byte)i), 
-                                           (byte)(left.x3  % (byte)i), 
-                                           (byte)(left.x4  % (byte)i), 
-                                           (byte)(left.x5  % (byte)i), 
-                                           (byte)(left.x6  % (byte)i), 
+                Assert.AreEqual(new byte16((byte)(left.x0  % (byte)i),
+                                           (byte)(left.x1  % (byte)i),
+                                           (byte)(left.x2  % (byte)i),
+                                           (byte)(left.x3  % (byte)i),
+                                           (byte)(left.x4  % (byte)i),
+                                           (byte)(left.x5  % (byte)i),
+                                           (byte)(left.x6  % (byte)i),
                                            (byte)(left.x7  % (byte)i),
-                                           (byte)(left.x8  % (byte)i), 
-                                           (byte)(left.x9  % (byte)i), 
-                                           (byte)(left.x10 % (byte)i), 
-                                           (byte)(left.x11 % (byte)i), 
-                                           (byte)(left.x12 % (byte)i), 
-                                           (byte)(left.x13 % (byte)i), 
-                                           (byte)(left.x14 % (byte)i), 
+                                           (byte)(left.x8  % (byte)i),
+                                           (byte)(left.x9  % (byte)i),
+                                           (byte)(left.x10 % (byte)i),
+                                           (byte)(left.x11 % (byte)i),
+                                           (byte)(left.x12 % (byte)i),
+                                           (byte)(left.x13 % (byte)i),
+                                           (byte)(left.x14 % (byte)i),
                                            (byte)(left.x15 % (byte)i)), r);
             }
         }
@@ -174,76 +174,96 @@ namespace MaxMath.Tests
                 byte32 left  = rng.NextByte32();
 
                 byte32 q = maxmath.divrem(left, (byte)i, out byte32 r);
-                
-                Assert.AreEqual(new byte32((byte)(left.x0  / (byte)i), 
-                                           (byte)(left.x1  / (byte)i), 
-                                           (byte)(left.x2  / (byte)i), 
-                                           (byte)(left.x3  / (byte)i), 
-                                           (byte)(left.x4  / (byte)i), 
-                                           (byte)(left.x5  / (byte)i), 
-                                           (byte)(left.x6  / (byte)i), 
+
+                Assert.AreEqual(new byte32((byte)(left.x0  / (byte)i),
+                                           (byte)(left.x1  / (byte)i),
+                                           (byte)(left.x2  / (byte)i),
+                                           (byte)(left.x3  / (byte)i),
+                                           (byte)(left.x4  / (byte)i),
+                                           (byte)(left.x5  / (byte)i),
+                                           (byte)(left.x6  / (byte)i),
                                            (byte)(left.x7  / (byte)i),
-                                           (byte)(left.x8  / (byte)i), 
-                                           (byte)(left.x9  / (byte)i), 
-                                           (byte)(left.x10 / (byte)i), 
-                                           (byte)(left.x11 / (byte)i), 
-                                           (byte)(left.x12 / (byte)i), 
-                                           (byte)(left.x13 / (byte)i), 
-                                           (byte)(left.x14 / (byte)i), 
+                                           (byte)(left.x8  / (byte)i),
+                                           (byte)(left.x9  / (byte)i),
+                                           (byte)(left.x10 / (byte)i),
+                                           (byte)(left.x11 / (byte)i),
+                                           (byte)(left.x12 / (byte)i),
+                                           (byte)(left.x13 / (byte)i),
+                                           (byte)(left.x14 / (byte)i),
                                            (byte)(left.x15 / (byte)i),
-                                           (byte)(left.x16 / (byte)i), 
-                                           (byte)(left.x17 / (byte)i), 
-                                           (byte)(left.x18 / (byte)i), 
-                                           (byte)(left.x19 / (byte)i), 
-                                           (byte)(left.x20 / (byte)i), 
-                                           (byte)(left.x21 / (byte)i), 
-                                           (byte)(left.x22 / (byte)i), 
+                                           (byte)(left.x16 / (byte)i),
+                                           (byte)(left.x17 / (byte)i),
+                                           (byte)(left.x18 / (byte)i),
+                                           (byte)(left.x19 / (byte)i),
+                                           (byte)(left.x20 / (byte)i),
+                                           (byte)(left.x21 / (byte)i),
+                                           (byte)(left.x22 / (byte)i),
                                            (byte)(left.x23 / (byte)i),
-                                           (byte)(left.x24 / (byte)i), 
-                                           (byte)(left.x25 / (byte)i), 
-                                           (byte)(left.x26 / (byte)i), 
-                                           (byte)(left.x27 / (byte)i), 
-                                           (byte)(left.x28 / (byte)i), 
-                                           (byte)(left.x29 / (byte)i), 
-                                           (byte)(left.x30 / (byte)i), 
+                                           (byte)(left.x24 / (byte)i),
+                                           (byte)(left.x25 / (byte)i),
+                                           (byte)(left.x26 / (byte)i),
+                                           (byte)(left.x27 / (byte)i),
+                                           (byte)(left.x28 / (byte)i),
+                                           (byte)(left.x29 / (byte)i),
+                                           (byte)(left.x30 / (byte)i),
                                            (byte)(left.x31 / (byte)i)), q);
-                Assert.AreEqual(new byte32((byte)(left.x0  % (byte)i), 
-                                           (byte)(left.x1  % (byte)i), 
-                                           (byte)(left.x2  % (byte)i), 
-                                           (byte)(left.x3  % (byte)i), 
-                                           (byte)(left.x4  % (byte)i), 
-                                           (byte)(left.x5  % (byte)i), 
-                                           (byte)(left.x6  % (byte)i), 
+                Assert.AreEqual(new byte32((byte)(left.x0  % (byte)i),
+                                           (byte)(left.x1  % (byte)i),
+                                           (byte)(left.x2  % (byte)i),
+                                           (byte)(left.x3  % (byte)i),
+                                           (byte)(left.x4  % (byte)i),
+                                           (byte)(left.x5  % (byte)i),
+                                           (byte)(left.x6  % (byte)i),
                                            (byte)(left.x7  % (byte)i),
-                                           (byte)(left.x8  % (byte)i), 
-                                           (byte)(left.x9  % (byte)i), 
-                                           (byte)(left.x10 % (byte)i), 
-                                           (byte)(left.x11 % (byte)i), 
-                                           (byte)(left.x12 % (byte)i), 
-                                           (byte)(left.x13 % (byte)i), 
-                                           (byte)(left.x14 % (byte)i), 
+                                           (byte)(left.x8  % (byte)i),
+                                           (byte)(left.x9  % (byte)i),
+                                           (byte)(left.x10 % (byte)i),
+                                           (byte)(left.x11 % (byte)i),
+                                           (byte)(left.x12 % (byte)i),
+                                           (byte)(left.x13 % (byte)i),
+                                           (byte)(left.x14 % (byte)i),
                                            (byte)(left.x15 % (byte)i),
-                                           (byte)(left.x16 % (byte)i), 
-                                           (byte)(left.x17 % (byte)i), 
-                                           (byte)(left.x18 % (byte)i), 
-                                           (byte)(left.x19 % (byte)i), 
-                                           (byte)(left.x20 % (byte)i), 
-                                           (byte)(left.x21 % (byte)i), 
-                                           (byte)(left.x22 % (byte)i), 
+                                           (byte)(left.x16 % (byte)i),
+                                           (byte)(left.x17 % (byte)i),
+                                           (byte)(left.x18 % (byte)i),
+                                           (byte)(left.x19 % (byte)i),
+                                           (byte)(left.x20 % (byte)i),
+                                           (byte)(left.x21 % (byte)i),
+                                           (byte)(left.x22 % (byte)i),
                                            (byte)(left.x23 % (byte)i),
-                                           (byte)(left.x24 % (byte)i), 
-                                           (byte)(left.x25 % (byte)i), 
-                                           (byte)(left.x26 % (byte)i), 
-                                           (byte)(left.x27 % (byte)i), 
-                                           (byte)(left.x28 % (byte)i), 
-                                           (byte)(left.x29 % (byte)i), 
-                                           (byte)(left.x30 % (byte)i), 
+                                           (byte)(left.x24 % (byte)i),
+                                           (byte)(left.x25 % (byte)i),
+                                           (byte)(left.x26 % (byte)i),
+                                           (byte)(left.x27 % (byte)i),
+                                           (byte)(left.x28 % (byte)i),
+                                           (byte)(left.x29 % (byte)i),
+                                           (byte)(left.x30 % (byte)i),
                                            (byte)(left.x31 % (byte)i)), r);
             }
         }
 
+
         [Test]
-        public static void byte2()
+        public static void _byte()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                byte left  = rng.NextByte();
+                byte right = rng.NextByte();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                byte q = maxmath.divrem(left, right, out byte r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _byte2()
         {
             Random8 rng = Random8.New;
 
@@ -262,7 +282,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
             Random8 rng = Random8.New;
 
@@ -281,7 +301,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
             Random8 rng = Random8.New;
 
@@ -300,7 +320,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
             Random8 rng = Random8.New;
 
@@ -319,7 +339,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
             Random8 rng = Random8.New;
 
@@ -338,7 +358,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
             Random8 rng = Random8.New;
 
@@ -358,7 +378,26 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ushort2()
+        public static void _ushort()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                ushort left  = rng.NextUShort();
+                ushort right = rng.NextUShort();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                ushort q = maxmath.divrem(left, right, out ushort r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _ushort2()
         {
             Random16 rng = Random16.New;
 
@@ -377,7 +416,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
             Random16 rng = Random16.New;
 
@@ -396,7 +435,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
             Random16 rng = Random16.New;
 
@@ -415,7 +454,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
             Random16 rng = Random16.New;
 
@@ -434,7 +473,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
             Random16 rng = Random16.New;
 
@@ -454,7 +493,26 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void uint2()
+        public static void _uint()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                uint left  = rng.NextUInt();
+                uint right = rng.NextUInt();
+
+                right = math.select(right, 1, right == 0);
+
+                uint q = maxmath.divrem(left, right, out uint r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _uint2()
         {
             Random32 rng = Random32.New;
 
@@ -473,7 +531,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
             Random32 rng = Random32.New;
 
@@ -492,7 +550,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
             Random32 rng = Random32.New;
 
@@ -511,7 +569,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
             Random32 rng = Random32.New;
 
@@ -530,7 +588,83 @@ namespace MaxMath.Tests
         }
 
 
-        
+        [Test]
+        public static void _ulong()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                ulong left  = rng.NextULong();
+                ulong right = rng.NextULong();
+
+                right = math.select(right, 1, right == 0);
+
+                ulong q = maxmath.divrem(left, right, out ulong r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _ulong2()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                ulong2 left  = rng.NextULong2();
+                ulong2 right = rng.NextULong2();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                ulong2 q = maxmath.divrem(left, right, out ulong2 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _ulong3()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                ulong3 left  = rng.NextULong3();
+                ulong3 right = rng.NextULong3();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                ulong3 q = maxmath.divrem(left, right, out ulong3 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _ulong4()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                ulong4 left  = rng.NextULong4();
+                ulong4 right = rng.NextULong4();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                ulong4 q = maxmath.divrem(left, right, out ulong4 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+
         [Test]
         public static void CONSTsbyte()
         {
@@ -568,9 +702,9 @@ namespace MaxMath.Tests
 
                 sbyte2 q = maxmath.divrem(left, (sbyte)i, out sbyte2 r);
 
-                Assert.AreEqual(new sbyte2((sbyte)(left.x / (sbyte)i), 
+                Assert.AreEqual(new sbyte2((sbyte)(left.x / (sbyte)i),
                                           (sbyte)(left.y / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte2((sbyte)(left.x % (sbyte)i), 
+                Assert.AreEqual(new sbyte2((sbyte)(left.x % (sbyte)i),
                                           (sbyte)(left.y % (sbyte)i)), r);
             }
         }
@@ -579,7 +713,7 @@ namespace MaxMath.Tests
         public static void CONSTsbyte3()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
@@ -589,12 +723,12 @@ namespace MaxMath.Tests
                 sbyte3 left  = rng.NextSByte3();
 
                 sbyte3 q = maxmath.divrem(left, (sbyte)i, out sbyte3 r);
-                
-                Assert.AreEqual(new sbyte3((sbyte)(left.x / (sbyte)i), 
-                                          (sbyte)(left.y / (sbyte)i), 
+
+                Assert.AreEqual(new sbyte3((sbyte)(left.x / (sbyte)i),
+                                          (sbyte)(left.y / (sbyte)i),
                                           (sbyte)(left.z / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte3((sbyte)(left.x % (sbyte)i), 
-                                          (sbyte)(left.y % (sbyte)i), 
+                Assert.AreEqual(new sbyte3((sbyte)(left.x % (sbyte)i),
+                                          (sbyte)(left.y % (sbyte)i),
                                           (sbyte)(left.z % (sbyte)i)), r);
             }
         }
@@ -603,7 +737,7 @@ namespace MaxMath.Tests
         public static void CONSTsbyte4()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
@@ -613,14 +747,14 @@ namespace MaxMath.Tests
                 sbyte4 left  = rng.NextSByte4();
 
                 sbyte4 q = maxmath.divrem(left, (sbyte)i, out sbyte4 r);
-                
-                Assert.AreEqual(new sbyte4((sbyte)(left.x / (sbyte)i), 
-                                          (sbyte)(left.y / (sbyte)i), 
-                                          (sbyte)(left.z / (sbyte)i), 
+
+                Assert.AreEqual(new sbyte4((sbyte)(left.x / (sbyte)i),
+                                          (sbyte)(left.y / (sbyte)i),
+                                          (sbyte)(left.z / (sbyte)i),
                                           (sbyte)(left.w / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte4((sbyte)(left.x % (sbyte)i), 
-                                          (sbyte)(left.y % (sbyte)i), 
-                                          (sbyte)(left.z % (sbyte)i), 
+                Assert.AreEqual(new sbyte4((sbyte)(left.x % (sbyte)i),
+                                          (sbyte)(left.y % (sbyte)i),
+                                          (sbyte)(left.z % (sbyte)i),
                                           (sbyte)(left.w % (sbyte)i)), r);
             }
         }
@@ -629,7 +763,7 @@ namespace MaxMath.Tests
         public static void CONSTsbyte8()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
@@ -639,22 +773,22 @@ namespace MaxMath.Tests
                 sbyte8 left  = rng.NextSByte8();
 
                 sbyte8 q = maxmath.divrem(left, (sbyte)i, out sbyte8 r);
-                
-                Assert.AreEqual(new sbyte8((sbyte)(left.x0 / (sbyte)i), 
-                                          (sbyte)(left.x1 / (sbyte)i), 
-                                          (sbyte)(left.x2 / (sbyte)i), 
-                                          (sbyte)(left.x3 / (sbyte)i), 
-                                          (sbyte)(left.x4 / (sbyte)i), 
-                                          (sbyte)(left.x5 / (sbyte)i), 
-                                          (sbyte)(left.x6 / (sbyte)i), 
+
+                Assert.AreEqual(new sbyte8((sbyte)(left.x0 / (sbyte)i),
+                                          (sbyte)(left.x1 / (sbyte)i),
+                                          (sbyte)(left.x2 / (sbyte)i),
+                                          (sbyte)(left.x3 / (sbyte)i),
+                                          (sbyte)(left.x4 / (sbyte)i),
+                                          (sbyte)(left.x5 / (sbyte)i),
+                                          (sbyte)(left.x6 / (sbyte)i),
                                           (sbyte)(left.x7 / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte8((sbyte)(left.x0 % (sbyte)i), 
-                                          (sbyte)(left.x1 % (sbyte)i), 
-                                          (sbyte)(left.x2 % (sbyte)i), 
-                                          (sbyte)(left.x3 % (sbyte)i), 
-                                          (sbyte)(left.x4 % (sbyte)i), 
-                                          (sbyte)(left.x5 % (sbyte)i), 
-                                          (sbyte)(left.x6 % (sbyte)i), 
+                Assert.AreEqual(new sbyte8((sbyte)(left.x0 % (sbyte)i),
+                                          (sbyte)(left.x1 % (sbyte)i),
+                                          (sbyte)(left.x2 % (sbyte)i),
+                                          (sbyte)(left.x3 % (sbyte)i),
+                                          (sbyte)(left.x4 % (sbyte)i),
+                                          (sbyte)(left.x5 % (sbyte)i),
+                                          (sbyte)(left.x6 % (sbyte)i),
                                           (sbyte)(left.x7 % (sbyte)i)), r);
             }
         }
@@ -663,7 +797,7 @@ namespace MaxMath.Tests
         public static void CONSTsbyte16()
         {
             Random8 rng = Random8.New;
-            
+
             for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
             {
                 if (i == 0)
@@ -673,38 +807,38 @@ namespace MaxMath.Tests
                 sbyte16 left  = rng.NextSByte16();
 
                 sbyte16 q = maxmath.divrem(left, (sbyte)i, out sbyte16 r);
-                
-                Assert.AreEqual(new sbyte16((sbyte)(left.x0  / (sbyte)i), 
-                                           (sbyte)(left.x1  / (sbyte)i), 
-                                           (sbyte)(left.x2  / (sbyte)i), 
-                                           (sbyte)(left.x3  / (sbyte)i), 
-                                           (sbyte)(left.x4  / (sbyte)i), 
-                                           (sbyte)(left.x5  / (sbyte)i), 
-                                           (sbyte)(left.x6  / (sbyte)i), 
+
+                Assert.AreEqual(new sbyte16((sbyte)(left.x0  / (sbyte)i),
+                                           (sbyte)(left.x1  / (sbyte)i),
+                                           (sbyte)(left.x2  / (sbyte)i),
+                                           (sbyte)(left.x3  / (sbyte)i),
+                                           (sbyte)(left.x4  / (sbyte)i),
+                                           (sbyte)(left.x5  / (sbyte)i),
+                                           (sbyte)(left.x6  / (sbyte)i),
                                            (sbyte)(left.x7  / (sbyte)i),
-                                           (sbyte)(left.x8  / (sbyte)i), 
-                                           (sbyte)(left.x9  / (sbyte)i), 
-                                           (sbyte)(left.x10 / (sbyte)i), 
-                                           (sbyte)(left.x11 / (sbyte)i), 
-                                           (sbyte)(left.x12 / (sbyte)i), 
-                                           (sbyte)(left.x13 / (sbyte)i), 
-                                           (sbyte)(left.x14 / (sbyte)i), 
+                                           (sbyte)(left.x8  / (sbyte)i),
+                                           (sbyte)(left.x9  / (sbyte)i),
+                                           (sbyte)(left.x10 / (sbyte)i),
+                                           (sbyte)(left.x11 / (sbyte)i),
+                                           (sbyte)(left.x12 / (sbyte)i),
+                                           (sbyte)(left.x13 / (sbyte)i),
+                                           (sbyte)(left.x14 / (sbyte)i),
                                            (sbyte)(left.x15 / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte16((sbyte)(left.x0  % (sbyte)i), 
-                                           (sbyte)(left.x1  % (sbyte)i), 
-                                           (sbyte)(left.x2  % (sbyte)i), 
-                                           (sbyte)(left.x3  % (sbyte)i), 
-                                           (sbyte)(left.x4  % (sbyte)i), 
-                                           (sbyte)(left.x5  % (sbyte)i), 
-                                           (sbyte)(left.x6  % (sbyte)i), 
+                Assert.AreEqual(new sbyte16((sbyte)(left.x0  % (sbyte)i),
+                                           (sbyte)(left.x1  % (sbyte)i),
+                                           (sbyte)(left.x2  % (sbyte)i),
+                                           (sbyte)(left.x3  % (sbyte)i),
+                                           (sbyte)(left.x4  % (sbyte)i),
+                                           (sbyte)(left.x5  % (sbyte)i),
+                                           (sbyte)(left.x6  % (sbyte)i),
                                            (sbyte)(left.x7  % (sbyte)i),
-                                           (sbyte)(left.x8  % (sbyte)i), 
-                                           (sbyte)(left.x9  % (sbyte)i), 
-                                           (sbyte)(left.x10 % (sbyte)i), 
-                                           (sbyte)(left.x11 % (sbyte)i), 
-                                           (sbyte)(left.x12 % (sbyte)i), 
-                                           (sbyte)(left.x13 % (sbyte)i), 
-                                           (sbyte)(left.x14 % (sbyte)i), 
+                                           (sbyte)(left.x8  % (sbyte)i),
+                                           (sbyte)(left.x9  % (sbyte)i),
+                                           (sbyte)(left.x10 % (sbyte)i),
+                                           (sbyte)(left.x11 % (sbyte)i),
+                                           (sbyte)(left.x12 % (sbyte)i),
+                                           (sbyte)(left.x13 % (sbyte)i),
+                                           (sbyte)(left.x14 % (sbyte)i),
                                            (sbyte)(left.x15 % (sbyte)i)), r);
             }
         }
@@ -723,76 +857,96 @@ namespace MaxMath.Tests
                 sbyte32 left  = rng.NextSByte32();
 
                 sbyte32 q = maxmath.divrem(left, (sbyte)i, out sbyte32 r);
-                
-                Assert.AreEqual(new sbyte32((sbyte)(left.x0  / (sbyte)i), 
-                                           (sbyte)(left.x1  / (sbyte)i), 
-                                           (sbyte)(left.x2  / (sbyte)i), 
-                                           (sbyte)(left.x3  / (sbyte)i), 
-                                           (sbyte)(left.x4  / (sbyte)i), 
-                                           (sbyte)(left.x5  / (sbyte)i), 
-                                           (sbyte)(left.x6  / (sbyte)i), 
+
+                Assert.AreEqual(new sbyte32((sbyte)(left.x0  / (sbyte)i),
+                                           (sbyte)(left.x1  / (sbyte)i),
+                                           (sbyte)(left.x2  / (sbyte)i),
+                                           (sbyte)(left.x3  / (sbyte)i),
+                                           (sbyte)(left.x4  / (sbyte)i),
+                                           (sbyte)(left.x5  / (sbyte)i),
+                                           (sbyte)(left.x6  / (sbyte)i),
                                            (sbyte)(left.x7  / (sbyte)i),
-                                           (sbyte)(left.x8  / (sbyte)i), 
-                                           (sbyte)(left.x9  / (sbyte)i), 
-                                           (sbyte)(left.x10 / (sbyte)i), 
-                                           (sbyte)(left.x11 / (sbyte)i), 
-                                           (sbyte)(left.x12 / (sbyte)i), 
-                                           (sbyte)(left.x13 / (sbyte)i), 
-                                           (sbyte)(left.x14 / (sbyte)i), 
+                                           (sbyte)(left.x8  / (sbyte)i),
+                                           (sbyte)(left.x9  / (sbyte)i),
+                                           (sbyte)(left.x10 / (sbyte)i),
+                                           (sbyte)(left.x11 / (sbyte)i),
+                                           (sbyte)(left.x12 / (sbyte)i),
+                                           (sbyte)(left.x13 / (sbyte)i),
+                                           (sbyte)(left.x14 / (sbyte)i),
                                            (sbyte)(left.x15 / (sbyte)i),
-                                           (sbyte)(left.x16 / (sbyte)i), 
-                                           (sbyte)(left.x17 / (sbyte)i), 
-                                           (sbyte)(left.x18 / (sbyte)i), 
-                                           (sbyte)(left.x19 / (sbyte)i), 
-                                           (sbyte)(left.x20 / (sbyte)i), 
-                                           (sbyte)(left.x21 / (sbyte)i), 
-                                           (sbyte)(left.x22 / (sbyte)i), 
+                                           (sbyte)(left.x16 / (sbyte)i),
+                                           (sbyte)(left.x17 / (sbyte)i),
+                                           (sbyte)(left.x18 / (sbyte)i),
+                                           (sbyte)(left.x19 / (sbyte)i),
+                                           (sbyte)(left.x20 / (sbyte)i),
+                                           (sbyte)(left.x21 / (sbyte)i),
+                                           (sbyte)(left.x22 / (sbyte)i),
                                            (sbyte)(left.x23 / (sbyte)i),
-                                           (sbyte)(left.x24 / (sbyte)i), 
-                                           (sbyte)(left.x25 / (sbyte)i), 
-                                           (sbyte)(left.x26 / (sbyte)i), 
-                                           (sbyte)(left.x27 / (sbyte)i), 
-                                           (sbyte)(left.x28 / (sbyte)i), 
-                                           (sbyte)(left.x29 / (sbyte)i), 
-                                           (sbyte)(left.x30 / (sbyte)i), 
+                                           (sbyte)(left.x24 / (sbyte)i),
+                                           (sbyte)(left.x25 / (sbyte)i),
+                                           (sbyte)(left.x26 / (sbyte)i),
+                                           (sbyte)(left.x27 / (sbyte)i),
+                                           (sbyte)(left.x28 / (sbyte)i),
+                                           (sbyte)(left.x29 / (sbyte)i),
+                                           (sbyte)(left.x30 / (sbyte)i),
                                            (sbyte)(left.x31 / (sbyte)i)), q);
-                Assert.AreEqual(new sbyte32((sbyte)(left.x0  % (sbyte)i), 
-                                           (sbyte)(left.x1  % (sbyte)i), 
-                                           (sbyte)(left.x2  % (sbyte)i), 
-                                           (sbyte)(left.x3  % (sbyte)i), 
-                                           (sbyte)(left.x4  % (sbyte)i), 
-                                           (sbyte)(left.x5  % (sbyte)i), 
-                                           (sbyte)(left.x6  % (sbyte)i), 
+                Assert.AreEqual(new sbyte32((sbyte)(left.x0  % (sbyte)i),
+                                           (sbyte)(left.x1  % (sbyte)i),
+                                           (sbyte)(left.x2  % (sbyte)i),
+                                           (sbyte)(left.x3  % (sbyte)i),
+                                           (sbyte)(left.x4  % (sbyte)i),
+                                           (sbyte)(left.x5  % (sbyte)i),
+                                           (sbyte)(left.x6  % (sbyte)i),
                                            (sbyte)(left.x7  % (sbyte)i),
-                                           (sbyte)(left.x8  % (sbyte)i), 
-                                           (sbyte)(left.x9  % (sbyte)i), 
-                                           (sbyte)(left.x10 % (sbyte)i), 
-                                           (sbyte)(left.x11 % (sbyte)i), 
-                                           (sbyte)(left.x12 % (sbyte)i), 
-                                           (sbyte)(left.x13 % (sbyte)i), 
-                                           (sbyte)(left.x14 % (sbyte)i), 
+                                           (sbyte)(left.x8  % (sbyte)i),
+                                           (sbyte)(left.x9  % (sbyte)i),
+                                           (sbyte)(left.x10 % (sbyte)i),
+                                           (sbyte)(left.x11 % (sbyte)i),
+                                           (sbyte)(left.x12 % (sbyte)i),
+                                           (sbyte)(left.x13 % (sbyte)i),
+                                           (sbyte)(left.x14 % (sbyte)i),
                                            (sbyte)(left.x15 % (sbyte)i),
-                                           (sbyte)(left.x16 % (sbyte)i), 
-                                           (sbyte)(left.x17 % (sbyte)i), 
-                                           (sbyte)(left.x18 % (sbyte)i), 
-                                           (sbyte)(left.x19 % (sbyte)i), 
-                                           (sbyte)(left.x20 % (sbyte)i), 
-                                           (sbyte)(left.x21 % (sbyte)i), 
-                                           (sbyte)(left.x22 % (sbyte)i), 
+                                           (sbyte)(left.x16 % (sbyte)i),
+                                           (sbyte)(left.x17 % (sbyte)i),
+                                           (sbyte)(left.x18 % (sbyte)i),
+                                           (sbyte)(left.x19 % (sbyte)i),
+                                           (sbyte)(left.x20 % (sbyte)i),
+                                           (sbyte)(left.x21 % (sbyte)i),
+                                           (sbyte)(left.x22 % (sbyte)i),
                                            (sbyte)(left.x23 % (sbyte)i),
-                                           (sbyte)(left.x24 % (sbyte)i), 
-                                           (sbyte)(left.x25 % (sbyte)i), 
-                                           (sbyte)(left.x26 % (sbyte)i), 
-                                           (sbyte)(left.x27 % (sbyte)i), 
-                                           (sbyte)(left.x28 % (sbyte)i), 
-                                           (sbyte)(left.x29 % (sbyte)i), 
-                                           (sbyte)(left.x30 % (sbyte)i), 
+                                           (sbyte)(left.x24 % (sbyte)i),
+                                           (sbyte)(left.x25 % (sbyte)i),
+                                           (sbyte)(left.x26 % (sbyte)i),
+                                           (sbyte)(left.x27 % (sbyte)i),
+                                           (sbyte)(left.x28 % (sbyte)i),
+                                           (sbyte)(left.x29 % (sbyte)i),
+                                           (sbyte)(left.x30 % (sbyte)i),
                                            (sbyte)(left.x31 % (sbyte)i)), r);
             }
         }
 
+
         [Test]
-        public static void sbyte2()
+        public static void _sbyte()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                sbyte left  = rng.NextSByte();
+                sbyte right = rng.NextSByte();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                sbyte q = maxmath.divrem(left, right, out sbyte r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _sbyte2()
         {
             Random8 rng = Random8.New;
 
@@ -811,7 +965,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
             Random8 rng = Random8.New;
 
@@ -830,7 +984,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
             Random8 rng = Random8.New;
 
@@ -849,7 +1003,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
             Random8 rng = Random8.New;
 
@@ -868,7 +1022,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
             Random8 rng = Random8.New;
 
@@ -887,7 +1041,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
             Random8 rng = Random8.New;
 
@@ -907,7 +1061,26 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void short2()
+        public static void _short()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                short left  = rng.NextShort();
+                short right = rng.NextShort();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                short q = maxmath.divrem(left, right, out short r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _short2()
         {
             Random16 rng = Random16.New;
 
@@ -926,7 +1099,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
             Random16 rng = Random16.New;
 
@@ -945,7 +1118,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
             Random16 rng = Random16.New;
 
@@ -964,7 +1137,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
             Random16 rng = Random16.New;
 
@@ -983,7 +1156,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
             Random16 rng = Random16.New;
 
@@ -1003,7 +1176,26 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int2()
+        public static void _int()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 15; i++)
+            {
+                int left  = rng.NextInt();
+                int right = rng.NextInt();
+
+                right = math.select(right, 1, right == 0);
+
+                int q = maxmath.divrem(left, right, out int r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _int2()
         {
             Random32 rng = Random32.New;
 
@@ -1022,7 +1214,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
             Random32 rng = Random32.New;
 
@@ -1041,7 +1233,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
             Random32 rng = Random32.New;
 
@@ -1060,7 +1252,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
             Random32 rng = Random32.New;
 
@@ -1080,7 +1272,84 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void uint128()
+        public static void _long()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 15; i++)
+            {
+                long left  = rng.NextLong();
+                long right = rng.NextLong();
+
+                right = math.select(right, 1, right == 0);
+
+                long q = maxmath.divrem(left, right, out long r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _long2()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 15; i++)
+            {
+                long2 left  = rng.NextLong2();
+                long2 right = rng.NextLong2();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                long2 q = maxmath.divrem(left, right, out long2 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _long3()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 15; i++)
+            {
+                long3 left  = rng.NextLong3();
+                long3 right = rng.NextLong3();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                long3 q = maxmath.divrem(left, right, out long3 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+        [Test]
+        public static void _long4()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 15; i++)
+            {
+                long4 left  = rng.NextLong4();
+                long4 right = rng.NextLong4();
+
+                right = maxmath.select(right, 1, right == 0);
+
+                long4 q = maxmath.divrem(left, right, out long4 r);
+
+                Assert.AreEqual(left / right, q);
+                Assert.AreEqual(left % right, r);
+            }
+        }
+
+
+        [Test]
+        public static void _UInt128()
         {
             Random128 rng = Random128.New;
 
@@ -1100,7 +1369,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int128()
+        public static void _Int128()
         {
             Random128 rng = Random128.New;
 

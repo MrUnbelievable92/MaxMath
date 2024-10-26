@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi8(v128 v, bool promise = false, byte elements = 16)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -23,33 +23,33 @@ namespace MaxMath
                         {
                             case 16:
                             {
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(v, 8 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(v, 8 * sizeof(byte)));
 
                                 goto case 8;
                             }
                             case 8:
                             {
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(v, 4 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(v, 4 * sizeof(byte)));
 
                                 goto case 4;
                             }
                             case 4:
                             {
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(v, 2 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(v, 2 * sizeof(byte)));
 
                                 goto case 2;
                             }
                             case 3:
                             {
                                 v128 __v = v;
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(__v, 2 * sizeof(byte)));
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(__v, 1 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(__v, 2 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(__v, 1 * sizeof(byte)));
 
                                 return v;
                             }
                             case 2:
                             {
-                                v = Sse2.add_epi8(v, Sse2.bsrli_si128(v, 1 * sizeof(byte)));
+                                v = add_epi8(v, bsrli_si128(v, 1 * sizeof(byte)));
 
                                 return v;
                             }
@@ -59,16 +59,20 @@ namespace MaxMath
                     }
                     else
                     {
+                        v128 result;
                         if (elements == 16)
                         {
                             v128 v16Lo = cvt2x2epi8_epi16(v, out v128 v16Hi);
 
-                            return vsum_epi16(Sse2.add_epi16(v16Lo, v16Hi), true, 8);
+                            result = vsum_epi16(add_epi16(v16Lo, v16Hi), true, 8);
                         }
                         else
                         {
-                            return vsum_epi16(cvtepi8_epi16(v), true, elements);
+                            result = vsum_epi16(cvtepi8_epi16(v), true, elements);
                         }
+
+                        constexpr.ASSUME_RANGE_EPI16(result, elements * sbyte.MinValue, elements * sbyte.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -77,23 +81,29 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu8(v128 v, bool promise = false, byte elements = 16)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
+                    v128 result;
                     if (elements == 16)
                     {
-                        v = Sse2.sad_epu8(v, Sse2.setzero_si128());
-                        v = Sse2.add_epi16(v, Sse2.bsrli_si128(v, 4 * sizeof(ushort)));
-
-                        return v;
+                        result = sad_epu8(v, setzero_si128());
+                        result = add_epi16(result, bsrli_si128(result, sizeof(ulong)));
                     }
                     else if (elements == 8)
                     {
-                        return Sse2.sad_epu8(v, Sse2.setzero_si128());
+                        result = sad_epu8(v, setzero_si128());
                     }
                     else
                     {
-                        return promise ? vsum_epi8(v, true, elements) : vsum_epi16(cvtepu8_epi16(v), true, elements);
+                        result = promise ? vsum_epi8(v, true, elements) : vsum_epi16(cvtepu8_epi16(v), true, elements);
                     }
+
+                    if (!promise)
+                    {
+                        constexpr.ASSUME_LE_EPU16(result, elements * 255u, 1);
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -102,7 +112,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi16(v128 v, bool promise = false, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -110,27 +120,27 @@ namespace MaxMath
                         {
                             case 8:
                             {
-                                v = Sse2.add_epi16(v, Sse2.bsrli_si128(v, 4 * sizeof(short)));
+                                v = add_epi16(v, bsrli_si128(v, 4 * sizeof(short)));
 
                                 goto case 4;
                             }
                             case 4:
                             {
-                                v = Sse2.add_epi16(v, Sse2.bsrli_si128(v, 2 * sizeof(short)));
+                                v = add_epi16(v, bsrli_si128(v, 2 * sizeof(short)));
 
                                 goto case 2;
                             }
                             case 3:
                             {
                                 v128 __v = v;
-                                v = Sse2.add_epi16(v, Sse2.bsrli_si128(__v, 2 * sizeof(short)));
-                                v = Sse2.add_epi16(v, Sse2.bsrli_si128(__v, 1 * sizeof(short)));
+                                v = add_epi16(v, bsrli_si128(__v, 2 * sizeof(short)));
+                                v = add_epi16(v, bsrli_si128(__v, 1 * sizeof(short)));
 
                                 return v;
                             }
                             case 2:
                             {
-                                v = Sse2.add_epi16(v, Sse2.bsrli_si128(v, 1 * sizeof(short)));
+                                v = add_epi16(v, bsrli_si128(v, 1 * sizeof(short)));
 
                                 return v;
                             }
@@ -140,16 +150,20 @@ namespace MaxMath
                     }
                     else
                     {
+                        v128 result;
                         if (elements == 8)
                         {
                             v128 v16Lo = cvt2x2epi16_epi32(v, out v128 v16Hi);
 
-                            return vsum_epi32(Sse2.add_epi32(v16Lo, v16Hi), true, 4);
+                            result = vsum_epi32(add_epi32(v16Lo, v16Hi), true, 4);
                         }
                         else
                         {
-                            return vsum_epi32(cvtepi16_epi32(v), true, elements);
+                            result = vsum_epi32(cvtepi16_epi32(v), true, elements);
                         }
+
+                        constexpr.ASSUME_RANGE_EPI32(result, elements * short.MinValue, elements * short.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -158,7 +172,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu16(v128 v, bool promise = false, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -166,16 +180,20 @@ namespace MaxMath
                     }
                     else
                     {
+                        v128 result;
                         if (elements == 8)
                         {
                             v128 v16Lo = cvt2x2epu16_epi32(v, out v128 v16Hi);
 
-                            return vsum_epi32(Sse2.add_epi32(v16Lo, v16Hi), true, 4);
+                            result = vsum_epi32(add_epi32(v16Lo, v16Hi), true, 4);
                         }
                         else
                         {
-                            return vsum_epi32(cvtepu16_epi32(v), true, elements);
+                            result = vsum_epi32(cvtepu16_epi32(v), true, elements);
                         }
+
+                        constexpr.ASSUME_LE_EPU32(result, elements * (uint)ushort.MaxValue);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -185,7 +203,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi32(v128 v, bool promise = false, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -193,21 +211,21 @@ namespace MaxMath
                         {
                             case 4:
                             {
-                                v = Sse2.add_epi32(v, Sse2.bsrli_si128(v, 2 * sizeof(int)));
+                                v = add_epi32(v, bsrli_si128(v, 2 * sizeof(int)));
 
                                 goto case 2;
                             }
                             case 3:
                             {
                                 v128 __v = v;
-                                v = Sse2.add_epi32(v, Sse2.bsrli_si128(__v, 2 * sizeof(int)));
-                                v = Sse2.add_epi32(v, Sse2.bsrli_si128(__v, 1 * sizeof(int)));
+                                v = add_epi32(v, bsrli_si128(__v, 2 * sizeof(int)));
+                                v = add_epi32(v, bsrli_si128(__v, 1 * sizeof(int)));
 
                                 return v;
                             }
                             case 2:
                             {
-                                v = Sse2.add_epi32(v, Sse2.bsrli_si128(v, 1 * sizeof(int)));
+                                v = add_epi32(v, bsrli_si128(v, 1 * sizeof(int)));
 
                                 return v;
                             }
@@ -217,9 +235,10 @@ namespace MaxMath
                     }
                     else
                     {
+                        v128 result;
                         if (elements == 2)
                         {
-                            return vsum_epi64(cvtepi32_epi64(v));
+                            result = vsum_epi64(cvtepi32_epi64(v));
                         }
                         else
                         {
@@ -227,17 +246,21 @@ namespace MaxMath
 
                             if (elements == 4)
                             {
-                                return vsum_epi64(Sse2.add_epi64(v16Lo, v16Hi));
+                                result = vsum_epi64(add_epi64(v16Lo, v16Hi));
                             }
                             else
                             {
-                                v128 y = Sse2.bsrli_si128(v16Lo, sizeof(long));
-                                v128 sum = Sse2.add_epi64(v16Lo, v16Hi);
-                                sum = Sse2.add_epi64(sum, y);
+                                v128 y = bsrli_si128(v16Lo, sizeof(long));
+                                v128 sum = add_epi64(v16Lo, v16Hi);
+                                sum = add_epi64(sum, y);
 
-                                return sum;
+                                result = sum;
                             }
                         }
+
+                        // TODO, uncomment once mono bug is fixed
+                        ////constexpr.ASSUME_RANGE_EPI64(result, elements * (long)int.MinValue, elements * (long)int.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -246,7 +269,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu32(v128 v, bool promise = false, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -254,9 +277,10 @@ namespace MaxMath
                     }
                     else
                     {
+                        v128 result;
                         if (elements == 2)
                         {
-                            return vsum_epi64(cvtepu32_epi64(v));
+                            result = vsum_epi64(cvtepu32_epi64(v));
                         }
                         else
                         {
@@ -264,17 +288,20 @@ namespace MaxMath
 
                             if (elements == 4)
                             {
-                                return vsum_epi64(Sse2.add_epi64(v16Lo, v16Hi));
+                                result = vsum_epi64(add_epi64(v16Lo, v16Hi));
                             }
                             else
                             {
-                                v128 y = Sse2.bsrli_si128(v16Lo, sizeof(long));
-                                v128 sum = Sse2.add_epi64(v16Lo, v16Hi);
-                                sum = Sse2.add_epi64(sum, y);
+                                v128 y = bsrli_si128(v16Lo, sizeof(long));
+                                v128 sum = add_epi64(v16Lo, v16Hi);
+                                sum = add_epi64(sum, y);
 
-                                return sum;
+                                result = sum;
                             }
                         }
+
+                        constexpr.ASSUME_LE_EPU64(result, elements * (ulong)uint.MaxValue);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -284,9 +311,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi64(v128 v)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    return Sse2.add_epi64(v, Sse2.bsrli_si128(v, 1 * sizeof(long)));
+                    return add_epi64(v, bsrli_si128(v, 1 * sizeof(long)));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -299,7 +326,8 @@ namespace MaxMath
                 {
                     v = Avx2.mm256_sad_epu8(v, Avx.mm256_setzero_si256());
                     v = Avx2.mm256_add_epi16(v, Avx2.mm256_bsrli_epi128(v, 4 * sizeof(ushort)));
-                    
+
+                    constexpr.ASSUME_LE_EPU16(v, 32 * byte.MaxValue);
                     return v;
                 }
                 else throw new IllegalInstructionException();
@@ -323,7 +351,9 @@ namespace MaxMath
                     {
                         v256 v16Lo = mm256_cvt2x2epi8_epi16(v, out v256 v16Hi);
 
-                        return mm256_vsum_epi16(Avx2.mm256_add_epi16(v16Lo, v16Hi), true);
+                        v256 result = mm256_vsum_epi16(Avx2.mm256_add_epi16(v16Lo, v16Hi), true);
+                        constexpr.ASSUME_RANGE_EPI16(result, 32 * sbyte.MinValue, 32 * sbyte.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -340,14 +370,16 @@ namespace MaxMath
                         v = Avx2.mm256_add_epi16(v, Avx2.mm256_bsrli_epi128(v, 4 * sizeof(short)));
                         v = Avx2.mm256_add_epi16(v, Avx2.mm256_bsrli_epi128(v, 2 * sizeof(short)));
                         v = Avx2.mm256_add_epi16(v, Avx2.mm256_bsrli_epi128(v, 1 * sizeof(short)));
-                        
+
                         return v;
                     }
                     else
                     {
                         v256 v16Lo = mm256_cvt2x2epi16_epi32(v, out v256 v16Hi);
 
-                        return mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
+                        v256 result = mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
+                        constexpr.ASSUME_RANGE_EPI32(result, 16 * short.MinValue, 16 * short.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -366,7 +398,9 @@ namespace MaxMath
                     {
                         v256 v16Lo = mm256_cvt2x2epu16_epi32(v, out v256 v16Hi);
 
-                        return mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
+                        v256 result = mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
+                        constexpr.ASSUME_LE_EPU32(result, 16 * ushort.MaxValue);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -382,14 +416,16 @@ namespace MaxMath
                     {
                         v = Avx2.mm256_add_epi32(v, Avx2.mm256_bsrli_epi128(v, 2 * sizeof(int)));
                         v = Avx2.mm256_add_epi32(v, Avx2.mm256_bsrli_epi128(v, 1 * sizeof(int)));
-                        
+
                         return v;
                     }
                     else
                     {
                         v256 v16Lo = mm256_cvt2x2epi32_epi64(v, out v256 v16Hi);
-                        
-                        return mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
+
+                        v256 result = mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
+                        constexpr.ASSUME_RANGE_EPI64(result, 8 * (long)int.MinValue, 8 * (long)int.MaxValue, 1);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -404,14 +440,16 @@ namespace MaxMath
                     {
                         v = Avx2.mm256_add_epi32(v, Avx2.mm256_bsrli_epi128(v, 2 * sizeof(int)));
                         v = Avx2.mm256_add_epi32(v, Avx2.mm256_bsrli_epi128(v, 1 * sizeof(int)));
-                        
+
                         return v;
                     }
                     else
                     {
                         v256 v16Lo = mm256_cvt2x2epu32_epi64(v, out v256 v16Hi);
-                        
-                        return mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
+
+                        v256 result = mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
+                        constexpr.ASSUME_LE_EPU64(result, 8 * (ulong)uint.MaxValue);
+                        return result;
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -439,12 +477,12 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                v128 result = Sse.add_ps(Avx.mm256_castps256_ps128(c),
+                v128 result = Xse.add_ps(Avx.mm256_castps256_ps128(c),
                                          Avx.mm256_extractf128_ps(c, 1));
 
-                result = Sse.add_ps(result, Sse2.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
+                result = Xse.add_ps(result, Xse.shuffle_epi32(result, Sse.SHUFFLE(0, 1, 2, 3)));
 
-                return Sse.add_ss(result, Sse2.shufflelo_epi16(result, Sse.SHUFFLE(0, 0, 3, 2))).Float0;
+                return Xse.add_ss(result, Xse.shufflelo_epi16(result, Sse.SHUFFLE(0, 0, 3, 2))).Float0;
             }
             else
             {
@@ -453,13 +491,16 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte2"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte2"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 2ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -476,13 +517,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte3"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte3"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 3ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -499,13 +543,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte4"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte4"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 4ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -524,10 +571,10 @@ namespace MaxMath
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte8"/>.       </summary>
         [return: AssumeRange(0ul, 8ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte8 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.vsum_epu8(c, false, 8).UShort0;
             }
@@ -539,10 +586,10 @@ namespace MaxMath
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte16"/>.       </summary>
         [return: AssumeRange(0ul, 16ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte16 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.vsum_epu8(c, false, 16).UShort0;
             }
@@ -554,14 +601,14 @@ namespace MaxMath
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte32"/>.       </summary>
         [return: AssumeRange(0ul, 32ul * byte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte32 c)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 half = Xse.mm256_vsum_epu8(c);
 
-                return Sse2.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UShort0;
+                return Xse.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UShort0;
             }
             else
             {
@@ -570,13 +617,16 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte2"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte2"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(2 * sbyte.MinValue, 2 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -593,13 +643,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte3"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte3"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(3 * sbyte.MinValue, 3 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -616,13 +669,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte4"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte4"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(4 * sbyte.MinValue, 4 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -639,13 +695,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte8"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte8"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(8 * sbyte.MinValue, 8 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-        public static int csum(sbyte8 c, Promise noOverflow = Promise.Nothing)                            
-        {       
-            if (Sse2.IsSse2Supported)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int csum(sbyte8 c, Promise noOverflow = Promise.Nothing)
+        {
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -662,13 +721,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte16"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte16"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(16 * sbyte.MinValue, 16 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -685,10 +747,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte32"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte32"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(32 * sbyte.MinValue, 32 * sbyte.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte32 c, Promise noOverflow = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
@@ -697,13 +762,13 @@ namespace MaxMath
                 {
                     v256 half = Xse.mm256_vsum_epi8(c, true);
 
-                    return Sse2.add_epi8(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SByte0;
+                    return Xse.add_epi8(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SByte0;
                 }
                 else
                 {
                     v256 half = Xse.mm256_vsum_epi8(c, false);
 
-                    return Sse2.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SShort0;
+                    return Xse.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SShort0;
                 }
             }
             else
@@ -713,13 +778,16 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short2"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short2"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(2 * short.MinValue, 2 * short.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -736,13 +804,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short3"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short3"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(3 * short.MinValue, 3 * short.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -759,13 +830,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short4"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short4"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(4 * short.MinValue, 4 * short.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -782,13 +856,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short8"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short8"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(8 * short.MinValue, 8 * short.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -805,10 +882,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short16"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short16"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(16 * short.MinValue, 16 * short.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short16 c, Promise noOverflow = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
@@ -817,13 +897,13 @@ namespace MaxMath
                 {
                     v256 half = Xse.mm256_vsum_epi16(c, true);
 
-                    return Sse2.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SShort0;
+                    return Xse.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SShort0;
                 }
                 else
                 {
                     v256 half = Xse.mm256_vsum_epi16(c, false);
 
-                    return Sse2.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SInt0;
+                    return Xse.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SInt0;
                 }
             }
             else
@@ -833,13 +913,16 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort2"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort2"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 2ul * ushort.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -856,13 +939,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort3"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort3"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 3ul * ushort.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -879,13 +965,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort4"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort4"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 4ul * ushort.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -902,13 +991,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort8"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort8"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 8ul * ushort.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -925,10 +1017,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort16"/>.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.     </remarks>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort16"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 16ul * ushort.MaxValue)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort16 c, Promise noOverflow = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
@@ -937,13 +1032,13 @@ namespace MaxMath
                 {
                     v256 half = Xse.mm256_vsum_epu16(c, true);
 
-                    return Sse2.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UShort0;
+                    return Xse.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UShort0;
                 }
                 else
                 {
                     v256 half = Xse.mm256_vsum_epu16(c, false);
 
-                    return Sse2.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UInt0;
+                    return Xse.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).UInt0;
                 }
             }
             else
@@ -961,7 +1056,7 @@ namespace MaxMath
             {
                 v256 half = Xse.mm256_vsum_epi32(c, true);
 
-                return Sse2.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SInt0;
+                return Xse.add_epi32(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SInt0;
             }
             else
             {
@@ -982,7 +1077,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long2 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.vsum_epi64(c).SLong0;
             }
@@ -1001,8 +1096,8 @@ namespace MaxMath
                 v128 lo = Avx.mm256_castsi256_si128(c);
                 v128 hi = Avx2.mm256_extracti128_si256(c, 1);
 
-                v128 sum = Sse2.add_epi64(lo, Sse2.bsrli_si128(lo, 1 * sizeof(ulong)));
-                sum = Sse2.add_epi64(sum, hi);
+                v128 sum = Xse.add_epi64(lo, Xse.bsrli_si128(lo, 1 * sizeof(ulong)));
+                sum = Xse.add_epi64(sum, hi);
 
                 return sum.SLong0;
             }
@@ -1020,7 +1115,7 @@ namespace MaxMath
             {
                 v256 half = Xse.mm256_vsum_epi64(c);
 
-                return Sse2.add_epi64(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SLong0;
+                return Xse.add_epi64(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SLong0;
             }
             else
             {

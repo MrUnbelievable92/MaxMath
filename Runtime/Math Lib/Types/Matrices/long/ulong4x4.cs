@@ -61,6 +61,19 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4x4(int4x4 input) => new ulong4x4((ulong4)input.c0, (ulong4)input.c1, (ulong4)input.c2, (ulong4)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong4x4(uint4x4 input) => new ulong4x4((ulong4)input.c0, (ulong4)input.c1, (ulong4)input.c2, (ulong4)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int4x4(ulong4x4 input) => new int4x4((int4)input.c0, (int4)input.c1, (int4)input.c2, (int4)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint4x4(ulong4x4 input) => new uint4x4((uint4)input.c0, (uint4)input.c1, (uint4)input.c2, (uint4)input.c3);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong4x4(float4x4 input) => new ulong4x4((ulong4)input.c0, (ulong4)input.c1, (ulong4)input.c2, (ulong4)input.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,6 +115,25 @@ Assert.IsWithinArrayBounds(index, 4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 operator % (ulong4x4 left, ulong4x4 right) => new ulong4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (ulong4x4 left, uint4x4 right) => new ulong4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (ulong4x4 left, ushort4x4 right) => new ulong4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (ulong4x4 left, byte4x4 right) => new ulong4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (uint4x4 left, ulong4x4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (ushort4x4 left, ulong4x4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator * (byte4x4 left, ulong4x4 right) => right * left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

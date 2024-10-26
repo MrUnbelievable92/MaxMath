@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class gcd
+    unsafe public static class f_gcd
     {
         private static byte _gcd(sbyte x, sbyte y) => (byte)_gcd((long)x, (long)y);
         private static byte _gcd(byte x, byte y) => (byte)_gcd((ulong)x, (ulong)y);
@@ -34,9 +34,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int64()
+        public static void _int64()
         {
-            Random64 rng = new Random64(13255);
+            Random64 rng = Random64.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -51,9 +51,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint64()
+        public static void _uint64()
         {
-            Random64 rng = new Random64(13255);
+            Random64 rng = Random64.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -69,9 +69,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int128()
+        public static void _Int128()
         {
-            Random128 rng = new Random128(13255);
+            Random128 rng = Random128.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -86,9 +86,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint128()
+        public static void _UInt128()
         {
-            Random128 rng = new Random128(13255);
+            Random128 rng = Random128.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -104,291 +104,239 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void sbyte2()
+        public static void _sbyte2()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte2 x = rng.NextSByte2();
-                sbyte2 y = rng.NextSByte2();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte2 x = (sbyte)i;
+                    sbyte2 y = (sbyte)j;
+                    byte2 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte2((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 2; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte3 x = rng.NextSByte3();
-                sbyte3 y = rng.NextSByte3();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte3 x = (sbyte)i;
+                    sbyte3 y = (sbyte)j;
+                    byte3 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte3((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y), (byte)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 3; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte4 x = rng.NextSByte4();
-                sbyte4 y = rng.NextSByte4();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte4 x = (sbyte)i;
+                    sbyte4 y = (sbyte)j;
+                    byte4 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte4((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y), (byte)_gcd(x.z, y.z), (byte)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 4; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte8 x = rng.NextSByte8();
-                sbyte8 y = rng.NextSByte8();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte8 x = (sbyte)i;
+                    sbyte8 y = (sbyte)j;
+                    byte8 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte8((byte)_gcd(x.x0, y.x0), 
-                                          (byte)_gcd(x.x1, y.x1), 
-                                          (byte)_gcd(x.x2, y.x2), 
-                                          (byte)_gcd(x.x3, y.x3),
-                                          (byte)_gcd(x.x4, y.x4),
-                                          (byte)_gcd(x.x5, y.x5),
-                                          (byte)_gcd(x.x6, y.x6),
-                                          (byte)_gcd(x.x7, y.x7)), 
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 8; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte16 x = rng.NextSByte16();
-                sbyte16 y = rng.NextSByte16();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte16 x = (sbyte)i;
+                    sbyte16 y = (sbyte)j;
+                    byte16 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte16((byte)_gcd(x.x0,  y.x0),
-                                           (byte)_gcd(x.x1,  y.x1),
-                                           (byte)_gcd(x.x2,  y.x2),
-                                           (byte)_gcd(x.x3,  y.x3),
-                                           (byte)_gcd(x.x4,  y.x4),
-                                           (byte)_gcd(x.x5,  y.x5),
-                                           (byte)_gcd(x.x6,  y.x6),
-                                           (byte)_gcd(x.x7,  y.x7),
-                                           (byte)_gcd(x.x8,  y.x8),
-                                           (byte)_gcd(x.x9,  y.x9),
-                                           (byte)_gcd(x.x10, y.x10),
-                                           (byte)_gcd(x.x11, y.x11),
-                                           (byte)_gcd(x.x12, y.x12),
-                                           (byte)_gcd(x.x13, y.x13),
-                                           (byte)_gcd(x.x14, y.x14),
-                                           (byte)_gcd(x.x15, y.x15)),
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 16; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= sbyte.MaxValue; i++)
             {
-                sbyte32 x = rng.NextSByte32();
-                sbyte32 y = rng.NextSByte32();
+                for (int j = 0; j <= sbyte.MaxValue; j++)
+                {
+                    sbyte32 x = (sbyte)i;
+                    sbyte32 y = (sbyte)j;
+                    byte32 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte32((byte)_gcd(x.x0,  y.x0),
-                                           (byte)_gcd(x.x1,  y.x1),
-                                           (byte)_gcd(x.x2,  y.x2),
-                                           (byte)_gcd(x.x3,  y.x3),
-                                           (byte)_gcd(x.x4,  y.x4),
-                                           (byte)_gcd(x.x5,  y.x5),
-                                           (byte)_gcd(x.x6,  y.x6),
-                                           (byte)_gcd(x.x7,  y.x7),
-                                           (byte)_gcd(x.x8,  y.x8),
-                                           (byte)_gcd(x.x9,  y.x9),
-                                           (byte)_gcd(x.x10, y.x10),
-                                           (byte)_gcd(x.x11, y.x11),
-                                           (byte)_gcd(x.x12, y.x12),
-                                           (byte)_gcd(x.x13, y.x13),
-                                           (byte)_gcd(x.x14, y.x14),
-                                           (byte)_gcd(x.x15, y.x15),
-                                           (byte)_gcd(x.x16, y.x16),
-                                           (byte)_gcd(x.x17, y.x17),
-                                           (byte)_gcd(x.x18, y.x18),
-                                           (byte)_gcd(x.x19, y.x19),
-                                           (byte)_gcd(x.x20, y.x20),
-                                           (byte)_gcd(x.x21, y.x21),
-                                           (byte)_gcd(x.x22, y.x22),
-                                           (byte)_gcd(x.x23, y.x23),
-                                           (byte)_gcd(x.x24, y.x24),
-                                           (byte)_gcd(x.x25, y.x25),
-                                           (byte)_gcd(x.x26, y.x26),
-                                           (byte)_gcd(x.x27, y.x27),
-                                           (byte)_gcd(x.x28, y.x28),
-                                           (byte)_gcd(x.x29, y.x29),
-                                           (byte)_gcd(x.x30, y.x30),
-                                           (byte)_gcd(x.x31, y.x31)),
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 32; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
 
         [Test]
-        public static void byte2()
+        public static void _byte2()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte2 x = rng.NextByte2();
-                byte2 y = rng.NextByte2();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte2 x = (byte)i;
+                    byte2 y = (byte)j;
+                    byte2 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte2((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 2; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte3 x = rng.NextByte3();
-                byte3 y = rng.NextByte3();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte3 x = (byte)i;
+                    byte3 y = (byte)j;
+                    byte3 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte3((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y), (byte)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 3; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte4 x = rng.NextByte4();
-                byte4 y = rng.NextByte4();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte4 x = (byte)i;
+                    byte4 y = (byte)j;
+                    byte4 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte4((byte)_gcd(x.x, y.x), (byte)_gcd(x.y, y.y), (byte)_gcd(x.z, y.z), (byte)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                    for (int h = 0; h < 4; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte8 x = rng.NextByte8();
-                byte8 y = rng.NextByte8();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte8 x = (byte)i;
+                    byte8 y = (byte)j;
+                    byte8 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte8((byte)_gcd(x.x0, y.x0), 
-                                          (byte)_gcd(x.x1, y.x1), 
-                                          (byte)_gcd(x.x2, y.x2), 
-                                          (byte)_gcd(x.x3, y.x3),
-                                          (byte)_gcd(x.x4, y.x4),
-                                          (byte)_gcd(x.x5, y.x5),
-                                          (byte)_gcd(x.x6, y.x6),
-                                          (byte)_gcd(x.x7, y.x7)), 
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 8; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte16 x = rng.NextByte16();
-                byte16 y = rng.NextByte16();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte16 x = (byte)i;
+                    byte16 y = (byte)j;
+                    byte16 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte16((byte)_gcd(x.x0,  y.x0),
-                                           (byte)_gcd(x.x1,  y.x1),
-                                           (byte)_gcd(x.x2,  y.x2),
-                                           (byte)_gcd(x.x3,  y.x3),
-                                           (byte)_gcd(x.x4,  y.x4),
-                                           (byte)_gcd(x.x5,  y.x5),
-                                           (byte)_gcd(x.x6,  y.x6),
-                                           (byte)_gcd(x.x7,  y.x7),
-                                           (byte)_gcd(x.x8,  y.x8),
-                                           (byte)_gcd(x.x9,  y.x9),
-                                           (byte)_gcd(x.x10, y.x10),
-                                           (byte)_gcd(x.x11, y.x11),
-                                           (byte)_gcd(x.x12, y.x12),
-                                           (byte)_gcd(x.x13, y.x13),
-                                           (byte)_gcd(x.x14, y.x14),
-                                           (byte)_gcd(x.x15, y.x15)),
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 16; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
-            Random8 rng = new Random8(135);
-
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i <= byte.MaxValue; i++)
             {
-                byte32 x = rng.NextByte32();
-                byte32 y = rng.NextByte32();
+                for (int j = 0; j <= byte.MaxValue; j++)
+                {
+                    byte32 x = (byte)i;
+                    byte32 y = (byte)j;
+                    byte32 g = maxmath.gcd(x, y);
 
-                Assert.AreEqual(new byte32((byte)_gcd(x.x0,  y.x0),
-                                           (byte)_gcd(x.x1,  y.x1),
-                                           (byte)_gcd(x.x2,  y.x2),
-                                           (byte)_gcd(x.x3,  y.x3),
-                                           (byte)_gcd(x.x4,  y.x4),
-                                           (byte)_gcd(x.x5,  y.x5),
-                                           (byte)_gcd(x.x6,  y.x6),
-                                           (byte)_gcd(x.x7,  y.x7),
-                                           (byte)_gcd(x.x8,  y.x8),
-                                           (byte)_gcd(x.x9,  y.x9),
-                                           (byte)_gcd(x.x10, y.x10),
-                                           (byte)_gcd(x.x11, y.x11),
-                                           (byte)_gcd(x.x12, y.x12),
-                                           (byte)_gcd(x.x13, y.x13),
-                                           (byte)_gcd(x.x14, y.x14),
-                                           (byte)_gcd(x.x15, y.x15),
-                                           (byte)_gcd(x.x16, y.x16),
-                                           (byte)_gcd(x.x17, y.x17),
-                                           (byte)_gcd(x.x18, y.x18),
-                                           (byte)_gcd(x.x19, y.x19),
-                                           (byte)_gcd(x.x20, y.x20),
-                                           (byte)_gcd(x.x21, y.x21),
-                                           (byte)_gcd(x.x22, y.x22),
-                                           (byte)_gcd(x.x23, y.x23),
-                                           (byte)_gcd(x.x24, y.x24),
-                                           (byte)_gcd(x.x25, y.x25),
-                                           (byte)_gcd(x.x26, y.x26),
-                                           (byte)_gcd(x.x27, y.x27),
-                                           (byte)_gcd(x.x28, y.x28),
-                                           (byte)_gcd(x.x29, y.x29),
-                                           (byte)_gcd(x.x30, y.x30),
-                                           (byte)_gcd(x.x31, y.x31)),
-                                maxmath.gcd(x, y));
+                    for (int h = 0; h < 32; h++)
+                    {
+                        Assert.AreEqual(g[h], _gcd(x[h], y[h]));
+                    }
+                }
             }
         }
 
 
         [Test]
-        public static void short2()
+        public static void _short2()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -400,9 +348,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -414,9 +362,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -428,31 +376,31 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
                 short8 x = rng.NextShort8();
                 short8 y = rng.NextShort8();
 
-                Assert.AreEqual(new ushort8((ushort)_gcd(x.x0, y.x0), 
-                                           (ushort)_gcd(x.x1, y.x1), 
-                                           (ushort)_gcd(x.x2, y.x2), 
+                Assert.AreEqual(new ushort8((ushort)_gcd(x.x0, y.x0),
+                                           (ushort)_gcd(x.x1, y.x1),
+                                           (ushort)_gcd(x.x2, y.x2),
                                            (ushort)_gcd(x.x3, y.x3),
                                            (ushort)_gcd(x.x4, y.x4),
                                            (ushort)_gcd(x.x5, y.x5),
                                            (ushort)_gcd(x.x6, y.x6),
-                                           (ushort)_gcd(x.x7, y.x7)), 
+                                           (ushort)_gcd(x.x7, y.x7)),
                                 maxmath.gcd(x, y));
             }
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -481,9 +429,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ushort2()
+        public static void _ushort2()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -495,9 +443,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -509,9 +457,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -523,31 +471,31 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
                 ushort8 x = rng.NextUShort8();
                 ushort8 y = rng.NextUShort8();
 
-                Assert.AreEqual(new ushort8((ushort)_gcd(x.x0, y.x0), 
-                                            (ushort)_gcd(x.x1, y.x1), 
-                                            (ushort)_gcd(x.x2, y.x2), 
+                Assert.AreEqual(new ushort8((ushort)_gcd(x.x0, y.x0),
+                                            (ushort)_gcd(x.x1, y.x1),
+                                            (ushort)_gcd(x.x2, y.x2),
                                             (ushort)_gcd(x.x3, y.x3),
                                             (ushort)_gcd(x.x4, y.x4),
                                             (ushort)_gcd(x.x5, y.x5),
                                             (ushort)_gcd(x.x6, y.x6),
-                                            (ushort)_gcd(x.x7, y.x7)), 
+                                            (ushort)_gcd(x.x7, y.x7)),
                                 maxmath.gcd(x, y));
             }
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -576,9 +524,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int2()
+        public static void _int2()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -590,9 +538,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -604,9 +552,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -618,9 +566,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -641,9 +589,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void uint2()
+        public static void _uint2()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -655,9 +603,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -669,9 +617,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -683,9 +631,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -706,9 +654,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void long2()
+        public static void _long2()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {
@@ -720,9 +668,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long3()
+        public static void _long3()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {
@@ -734,9 +682,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long4()
+        public static void _long4()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {
@@ -749,9 +697,9 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ulong2()
+        public static void _ulong2()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (ulong i = 0; i < 64; i++)
             {
@@ -763,9 +711,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong3()
+        public static void _ulong3()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (ulong i = 0; i < 64; i++)
             {
@@ -777,9 +725,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong4()
+        public static void _ulong4()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (ulong i = 0; i < 64; i++)
             {

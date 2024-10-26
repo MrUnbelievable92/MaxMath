@@ -16,30 +16,30 @@ namespace MaxMath
             [SkipLocalsInit]
             public static v128 brol_si128(v128 a, int imm8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(imm8))
+                    if (constexpr.IS_CONST(imm8))
                     {
-                        if (Ssse3.IsSsse3Supported)
+                        if (Architecture.IsTableLookupSupported)
                         {
                             switch ((uint)imm8 % 16)
                             {
-                                case 1:  return Ssse3.alignr_epi8(a, a, 15 * sizeof(byte));
-                                case 2:  return Ssse3.alignr_epi8(a, a, 14 * sizeof(byte));
-                                case 3:  return Ssse3.alignr_epi8(a, a, 13 * sizeof(byte));
-                                case 4:  return Sse2.shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
-                                case 5:  return Ssse3.alignr_epi8(a, a, 11 * sizeof(byte));
-                                case 6:  return Ssse3.alignr_epi8(a, a, 10 * sizeof(byte));
-                                case 7:  return Ssse3.alignr_epi8(a, a,  9 * sizeof(byte));
-                                case 8:  return Sse2.shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
-                                case 9:  return Ssse3.alignr_epi8(a, a,  7 * sizeof(byte));
-                                case 10: return Ssse3.alignr_epi8(a, a,  6 * sizeof(byte));
-                                case 11: return Ssse3.alignr_epi8(a, a,  5 * sizeof(byte));
-                                case 12: return Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
-                                case 13: return Ssse3.alignr_epi8(a, a,  3 * sizeof(byte));
-                                case 14: return Ssse3.alignr_epi8(a, a,  2 * sizeof(byte));
-                                case 15: return Ssse3.alignr_epi8(a, a,  1 * sizeof(byte));
-    
+                                case 1:  return alignr_epi8(a, a, 15 * sizeof(byte));
+                                case 2:  return alignr_epi8(a, a, 14 * sizeof(byte));
+                                case 3:  return alignr_epi8(a, a, 13 * sizeof(byte));
+                                case 4:  return shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
+                                case 5:  return alignr_epi8(a, a, 11 * sizeof(byte));
+                                case 6:  return alignr_epi8(a, a, 10 * sizeof(byte));
+                                case 7:  return alignr_epi8(a, a,  9 * sizeof(byte));
+                                case 8:  return shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
+                                case 9:  return alignr_epi8(a, a,  7 * sizeof(byte));
+                                case 10: return alignr_epi8(a, a,  6 * sizeof(byte));
+                                case 11: return alignr_epi8(a, a,  5 * sizeof(byte));
+                                case 12: return shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
+                                case 13: return alignr_epi8(a, a,  3 * sizeof(byte));
+                                case 14: return alignr_epi8(a, a,  2 * sizeof(byte));
+                                case 15: return alignr_epi8(a, a,  1 * sizeof(byte));
+
                                 default: return a;
                             }
                         }
@@ -47,143 +47,189 @@ namespace MaxMath
                         {
                             switch ((uint)imm8 % 16)
                             {
-                                case 1:  return Sse2.or_si128(Sse2.bsrli_si128(a, 15 * sizeof(byte)), Sse2.bslli_si128(a,  1 * sizeof(byte)));
-                                case 2:  return Sse2.or_si128(Sse2.bsrli_si128(a, 14 * sizeof(byte)), Sse2.bslli_si128(a,  2 * sizeof(byte)));
-                                case 3:  return Sse2.or_si128(Sse2.bsrli_si128(a, 13 * sizeof(byte)), Sse2.bslli_si128(a,  3 * sizeof(byte)));
-                                case 4:  return Sse2.shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
-                                case 5:  return Sse2.or_si128(Sse2.bsrli_si128(a, 11 * sizeof(byte)), Sse2.bslli_si128(a,  5 * sizeof(byte)));
-                                case 6:  return Sse2.or_si128(Sse2.bsrli_si128(a, 10 * sizeof(byte)), Sse2.bslli_si128(a,  6 * sizeof(byte)));
-                                case 7:  return Sse2.or_si128(Sse2.bsrli_si128(a,  9 * sizeof(byte)), Sse2.bslli_si128(a,  7 * sizeof(byte)));
-                                case 8:  return Sse2.shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
-                                case 9:  return Sse2.or_si128(Sse2.bsrli_si128(a,  7 * sizeof(byte)), Sse2.bslli_si128(a,  9 * sizeof(byte)));
-                                case 10: return Sse2.or_si128(Sse2.bsrli_si128(a,  6 * sizeof(byte)), Sse2.bslli_si128(a, 10 * sizeof(byte)));
-                                case 11: return Sse2.or_si128(Sse2.bsrli_si128(a,  5 * sizeof(byte)), Sse2.bslli_si128(a, 11 * sizeof(byte)));
-                                case 12: return Sse2.shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
-                                case 13: return Sse2.or_si128(Sse2.bsrli_si128(a,  3 * sizeof(byte)), Sse2.bslli_si128(a, 13 * sizeof(byte)));
-                                case 14: return Sse2.or_si128(Sse2.bsrli_si128(a,  2 * sizeof(byte)), Sse2.bslli_si128(a, 14 * sizeof(byte)));
-                                case 15: return Sse2.or_si128(Sse2.bsrli_si128(a,  1 * sizeof(byte)), Sse2.bslli_si128(a, 15 * sizeof(byte)));
-    
+                                case 1:  return or_si128(bsrli_si128(a, 15 * sizeof(byte)), bslli_si128(a,  1 * sizeof(byte)));
+                                case 2:  return or_si128(bsrli_si128(a, 14 * sizeof(byte)), bslli_si128(a,  2 * sizeof(byte)));
+                                case 3:  return or_si128(bsrli_si128(a, 13 * sizeof(byte)), bslli_si128(a,  3 * sizeof(byte)));
+                                case 4:  return shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
+                                case 5:  return or_si128(bsrli_si128(a, 11 * sizeof(byte)), bslli_si128(a,  5 * sizeof(byte)));
+                                case 6:  return or_si128(bsrli_si128(a, 10 * sizeof(byte)), bslli_si128(a,  6 * sizeof(byte)));
+                                case 7:  return or_si128(bsrli_si128(a,  9 * sizeof(byte)), bslli_si128(a,  7 * sizeof(byte)));
+                                case 8:  return shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
+                                case 9:  return or_si128(bsrli_si128(a,  7 * sizeof(byte)), bslli_si128(a,  9 * sizeof(byte)));
+                                case 10: return or_si128(bsrli_si128(a,  6 * sizeof(byte)), bslli_si128(a, 10 * sizeof(byte)));
+                                case 11: return or_si128(bsrli_si128(a,  5 * sizeof(byte)), bslli_si128(a, 11 * sizeof(byte)));
+                                case 12: return shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
+                                case 13: return or_si128(bsrli_si128(a,  3 * sizeof(byte)), bslli_si128(a, 13 * sizeof(byte)));
+                                case 14: return or_si128(bsrli_si128(a,  2 * sizeof(byte)), bslli_si128(a, 14 * sizeof(byte)));
+                                case 15: return or_si128(bsrli_si128(a,  1 * sizeof(byte)), bslli_si128(a, 15 * sizeof(byte)));
+
                                 default: return a;
                             }
                         }
                     }
-                    
+
                     v128* stack = stackalloc v128[2];
-                    stack[0] = a; 
-                    stack[1] = a; 
-    
-                    return Sse2.loadu_si128((byte*)stack + (16 - ((uint)imm8 % 16)));
+                    stack[0] = a;
+                    stack[1] = a;
+
+                    return loadu_si128((byte*)stack + (16 - ((uint)imm8 % 16)));
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_brol_si128(v256 a, int imm8)
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    if (Constant.IsConstantExpression(imm8))
+                    if (constexpr.IS_CONST(imm8))
                     {
-                        switch ((uint)imm8 % 16)
+                        if (Avx2.IsAvx2Supported)
                         {
-                            case 1:  return Avx2.mm256_alignr_epi8(a, a, 15 * sizeof(byte));
-                            case 2:  return Avx2.mm256_alignr_epi8(a, a, 14 * sizeof(byte));
-                            case 3:  return Avx2.mm256_alignr_epi8(a, a, 13 * sizeof(byte));
-                            case 4:  return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
-                            case 5:  return Avx2.mm256_alignr_epi8(a, a, 11 * sizeof(byte));
-                            case 6:  return Avx2.mm256_alignr_epi8(a, a, 10 * sizeof(byte));
-                            case 7:  return Avx2.mm256_alignr_epi8(a, a,  9 * sizeof(byte));
-                            case 8:  return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
-                            case 9:  return Avx2.mm256_alignr_epi8(a, a,  7 * sizeof(byte));
-                            case 10: return Avx2.mm256_alignr_epi8(a, a,  6 * sizeof(byte));
-                            case 11: return Avx2.mm256_alignr_epi8(a, a,  5 * sizeof(byte));
-                            case 12: return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
-                            case 13: return Avx2.mm256_alignr_epi8(a, a,  3 * sizeof(byte));
-                            case 14: return Avx2.mm256_alignr_epi8(a, a,  2 * sizeof(byte));
-                            case 15: return Avx2.mm256_alignr_epi8(a, a,  1 * sizeof(byte));
-    
-                            default: return a;
+                            switch ((uint)imm8 % 16)
+                            {
+                                case 1:  return Avx2.mm256_alignr_epi8(a, a, 15 * sizeof(byte));
+                                case 2:  return Avx2.mm256_alignr_epi8(a, a, 14 * sizeof(byte));
+                                case 3:  return Avx2.mm256_alignr_epi8(a, a, 13 * sizeof(byte));
+                                case 4:  return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(2, 1, 0, 3));
+                                case 5:  return Avx2.mm256_alignr_epi8(a, a, 11 * sizeof(byte));
+                                case 6:  return Avx2.mm256_alignr_epi8(a, a, 10 * sizeof(byte));
+                                case 7:  return Avx2.mm256_alignr_epi8(a, a,  9 * sizeof(byte));
+                                case 8:  return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(1, 0, 3, 2));
+                                case 9:  return Avx2.mm256_alignr_epi8(a, a,  7 * sizeof(byte));
+                                case 10: return Avx2.mm256_alignr_epi8(a, a,  6 * sizeof(byte));
+                                case 11: return Avx2.mm256_alignr_epi8(a, a,  5 * sizeof(byte));
+                                case 12: return Avx2.mm256_shuffle_epi32(a, Sse.SHUFFLE(0, 3, 2, 1));
+                                case 13: return Avx2.mm256_alignr_epi8(a, a,  3 * sizeof(byte));
+                                case 14: return Avx2.mm256_alignr_epi8(a, a,  2 * sizeof(byte));
+                                case 15: return Avx2.mm256_alignr_epi8(a, a,  1 * sizeof(byte));
+
+                                default: return a;
+                            }
+                        }
+                        else
+                        {
+                            switch ((uint)imm8 % 16)
+                            {
+                                case 0:  return a;
+                                case 4:  return Avx.mm256_shuffle_ps(a, a, Sse.SHUFFLE(2, 1, 0, 3));
+                                case 8:  return Avx.mm256_shuffle_ps(a, a, Sse.SHUFFLE(1, 0, 3, 2));
+                                case 12: return Avx.mm256_shuffle_ps(a, a, Sse.SHUFFLE(0, 3, 2, 1));
+
+                                default: break;
+                            }
                         }
                     }
-                    
-                    return new v256(brol_si128(Avx.mm256_castsi256_si128(a), imm8), brol_si128(Avx2.mm256_extracti128_si256(a, 1), imm8));
+
+                    return new v256(brol_si128(Avx.mm256_castsi256_si128(a), imm8), brol_si128(Avx.mm256_extractf128_ps(a, 1), imm8));
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [SkipLocalsInit]
             public static v256 mm256_brol_si256(v256 a, int imm8)
             {
-                if (Avx2.IsAvx2Supported)
+                if (Avx.IsAvxSupported)
                 {
-                    if (Constant.IsConstantExpression(imm8))
+                    if (constexpr.IS_CONST(imm8))
                     {
-                        switch ((uint)imm8 % 32)
+                        if (Avx2.IsAvx2Supported)
                         {
-                            case 1:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 15 * sizeof(byte));
-                            case 2:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 14 * sizeof(byte));
-                            case 3:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 13 * sizeof(byte));
-                            case 4:  return Avx2.mm256_permutevar8x32_epi32(a, new v256(7, 0, 1, 2, 3, 4, 5, 6));
-                            case 5:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 11 * sizeof(byte));
-                            case 6:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 10 * sizeof(byte));
-                            case 7:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  9 * sizeof(byte));
-                            case 8:  return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(2, 1, 0, 3));
-                            case 9:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  7 * sizeof(byte));
-                            case 10: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  6 * sizeof(byte));
-                            case 11: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  5 * sizeof(byte));
-                            case 12: return Avx2.mm256_permutevar8x32_epi32(a, new v256(5, 6, 7, 0, 1, 2, 3, 4));
-                            case 13: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  3 * sizeof(byte));
-                            case 14: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  2 * sizeof(byte));
-                            case 15: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  1 * sizeof(byte));
-                            case 16: return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2));
-                            case 17: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 15 * sizeof(byte));
-                            case 18: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 14 * sizeof(byte));
-                            case 19: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 13 * sizeof(byte));
-                            case 20: return Avx2.mm256_permutevar8x32_epi32(a, new v256(3, 4, 5, 6, 7, 0, 1, 2));
-                            case 21: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 11 * sizeof(byte));
-                            case 22: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 10 * sizeof(byte));
-                            case 23: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  9 * sizeof(byte));
-                            case 24: return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(0, 3, 2, 1));
-                            case 25: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  7 * sizeof(byte));
-                            case 26: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  6 * sizeof(byte));
-                            case 27: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  5 * sizeof(byte));
-                            case 28: return Avx2.mm256_permutevar8x32_epi32(a, new v256(1, 2, 3, 4, 5, 6, 7, 0));
-                            case 29: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  3 * sizeof(byte));
-                            case 30: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  2 * sizeof(byte));
-                            case 31: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  1 * sizeof(byte));
-    
-                            default: return a;
+                            switch ((uint)imm8 % 32)
+                            {
+                                case 1:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 15 * sizeof(byte));
+                                case 2:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 14 * sizeof(byte));
+                                case 3:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 13 * sizeof(byte));
+                                case 4:  return Avx2.mm256_permutevar8x32_epi32(a, new v256(7, 0, 1, 2, 3, 4, 5, 6));
+                                case 5:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 11 * sizeof(byte));
+                                case 6:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a, 10 * sizeof(byte));
+                                case 7:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  9 * sizeof(byte));
+                                case 8:  return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(2, 1, 0, 3));
+                                case 9:  return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  7 * sizeof(byte));
+                                case 10: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  6 * sizeof(byte));
+                                case 11: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  5 * sizeof(byte));
+                                case 12: return Avx2.mm256_permutevar8x32_epi32(a, new v256(5, 6, 7, 0, 1, 2, 3, 4));
+                                case 13: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  3 * sizeof(byte));
+                                case 14: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  2 * sizeof(byte));
+                                case 15: return Avx2.mm256_alignr_epi8(Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), a,  1 * sizeof(byte));
+                                case 16: return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2));
+                                case 17: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 15 * sizeof(byte));
+                                case 18: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 14 * sizeof(byte));
+                                case 19: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 13 * sizeof(byte));
+                                case 20: return Avx2.mm256_permutevar8x32_epi32(a, new v256(3, 4, 5, 6, 7, 0, 1, 2));
+                                case 21: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 11 * sizeof(byte));
+                                case 22: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)), 10 * sizeof(byte));
+                                case 23: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  9 * sizeof(byte));
+                                case 24: return Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(0, 3, 2, 1));
+                                case 25: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  7 * sizeof(byte));
+                                case 26: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  6 * sizeof(byte));
+                                case 27: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  5 * sizeof(byte));
+                                case 28: return Avx2.mm256_permutevar8x32_epi32(a, new v256(1, 2, 3, 4, 5, 6, 7, 0));
+                                case 29: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  3 * sizeof(byte));
+                                case 30: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  2 * sizeof(byte));
+                                case 31: return Avx2.mm256_alignr_epi8(a, Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(1, 0, 3, 2)),  1 * sizeof(byte));
+
+                                default: return a;
+                            }
+                        }
+                        else
+                        {
+                            v256 aLaneSwap = Avx.mm256_permute2f128_ps(a, a, 0b01);
+
+                            switch ((uint)imm8 % 32)
+                            {
+                                case 0:  return a;
+                                case 4:  return Avx.mm256_blend_ps(Avx.mm256_permute_ps(a, Sse.SHUFFLE(2, 1, 0, 3)), Avx.mm256_permute_ps(aLaneSwap, Sse.SHUFFLE(2, 1, 0, 3)), 0b0001_0001);
+                                case 8:  return Avx.mm256_shuffle_ps(aLaneSwap, a,         Sse.SHUFFLE(1, 0, 3, 2));
+                                case 12: return Avx.mm256_blend_ps(Avx.mm256_permute_ps(a, Sse.SHUFFLE(0, 3, 2, 1)), Avx.mm256_permute_ps(aLaneSwap, Sse.SHUFFLE(0, 3, 2, 1)), 0b0111_0111);
+                                case 16: return aLaneSwap;
+                                case 20: return Avx.mm256_blend_ps(Avx.mm256_permute_ps(aLaneSwap, Sse.SHUFFLE(2, 1, 0, 3)), Avx.mm256_permute_ps(a, Sse.SHUFFLE(2, 1, 0, 3)), 0b0001_0001);
+                                case 24: return Avx.mm256_shuffle_ps(a, aLaneSwap,                 Sse.SHUFFLE(1, 0, 3, 2));
+                                case 28: return Avx.mm256_blend_ps(Avx.mm256_permute_ps(aLaneSwap, Sse.SHUFFLE(0, 3, 2, 1)), Avx.mm256_permute_ps(a, Sse.SHUFFLE(0, 3, 2, 1)), 0b0111_0111);
+
+                                default: break;
+                            }
                         }
                     }
-                    else
-                    {
-                        v256* stack = stackalloc v256[2];
-                        stack[0] = a; 
-                        stack[1] = a; 
-    
-                        return Avx.mm256_loadu_si256((byte*)stack + (32 - ((uint)imm8 % 32)));
-                    }
+
+                    v256* stack = stackalloc v256[2];
+                    stack[0] = a;
+                    stack[1] = a;
+
+                    return Avx.mm256_loadu_si256((byte*)stack + (32 - ((uint)imm8 % 32)));
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bror_si128(v128 a, int imm8)
             {
-                return brol_si128(a, 16 - imm8);
+                if (Architecture.IsSIMDSupported)
+                {
+                    return brol_si128(a, 16 - imm8);
+                }
+                else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bror_si128(v256 a, int imm8)
             {
-                return mm256_brol_si128(a, 16 - imm8);
+                if (Avx.IsAvxSupported)
+                {
+                    return mm256_brol_si128(a, 16 - imm8);
+                }
+                else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bror_si256(v256 a, int imm8)
             {
-                return mm256_brol_si256(a, 32 - imm8);
+                if (Avx.IsAvxSupported)
+                {
+                    return mm256_brol_si256(a, 32 - imm8);
+                }
+                else throw new IllegalInstructionException();
             }
         }
     }
@@ -258,13 +304,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 vror(byte4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Sse2.cvtsi32_si128(math.ror(((v128)x).SInt0, n * 8));
+                return Xse.cvtsi32_si128(math.ror(((v128)x).SInt0, n * 8));
             }
 
             switch ((uint)n % 4)
@@ -281,13 +327,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vror(byte8 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Sse2.cvtsi64x_si128(math.ror(((v128)x).SLong0, n * 8));
+                return Xse.cvtsi64x_si128(math.ror(((v128)x).SLong0, n * 8));
             }
 
             switch ((uint)n % 8)
@@ -309,17 +355,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vror(byte16 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
-                stack[0] = x; 
-                stack[1] = x; 
+                stack[0] = x;
+                stack[1] = x;
 
-                return Sse2.loadu_si128((byte*)stack + ((uint)n % 16));
+                return Xse.loadu_si128((byte*)stack + ((uint)n % 16));
             }
 
             switch ((uint)n % 16)
@@ -339,7 +385,7 @@ namespace MaxMath
                 case 13: return vrol(x,  3);
                 case 14: return vrol(x,  2);
                 case 15: return vrol(x,  1);
-            
+
                 default: return x;
             }
         }
@@ -349,34 +395,34 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte32 vror(byte32 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
-                stack[0] = x; 
-                stack[1] = x; 
-                
+                stack[0] = x;
+                stack[1] = x;
+
                 return Avx.mm256_loadu_si256((byte*)stack + ((uint)n % 32));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
-                stack[0] = x._v16_0; 
-                stack[1] = x._v16_16; 
-                stack[2] = x._v16_0; 
-                stack[3] = x._v16_16; 
-                
+                stack[0] = x._v16_0;
+                stack[1] = x._v16_16;
+                stack[2] = x._v16_0;
+                stack[3] = x._v16_16;
+
                 byte* address = (byte*)stack + ((uint)n % 32);
-                
-                v128 lo = Sse2.loadu_si128(address);
-                v128 hi = Sse2.loadu_si128(address + sizeof(v128));
-                
+
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
+
                 return new byte32(lo, hi);
             }
-                
+
             switch ((uint)n % 32)
             {
                 case 1:  return vrol(x, 31);
@@ -483,21 +529,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 vror(short4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Sse2.cvtsi64x_si128(math.ror(((v128)x).SLong0, n * 16));
+                return Xse.cvtsi64x_si128(math.ror(((v128)x).SLong0, n * 16));
             }
-                
+
             switch ((uint)n % 4)
             {
                 case 1: return x.yzwx;
                 case 2: return x.zwxy;
                 case 3: return x.wxyz;
-            
+
                 default: return x;
             }
         }
@@ -507,17 +553,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vror(short8 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
                 v128* stack = stackalloc v128[2];
-                stack[0] = x; 
-                stack[1] = x; 
-                
-                return Sse2.loadu_si128((byte*)stack + (((uint)n % 8) * sizeof(short)));
+                stack[0] = x;
+                stack[1] = x;
+
+                return Xse.loadu_si128((byte*)stack + (((uint)n % 8) * sizeof(short)));
             }
 
             switch ((uint)n % 8)
@@ -529,7 +575,7 @@ namespace MaxMath
                 case 5: return vrol(x, 3);
                 case 6: return vrol(x, 2);
                 case 7: return vrol(x, 1);
-            
+
                 default: return x;
             }
         }
@@ -539,31 +585,31 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short16 vror(short16 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
-                stack[0] = x; 
-                stack[1] = x; 
-                
+                stack[0] = x;
+                stack[1] = x;
+
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 16) * sizeof(short)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
-                stack[0] = x._v8_0; 
-                stack[1] = x._v8_8; 
-                stack[2] = x._v8_0; 
-                stack[3] = x._v8_8; 
-                
+                stack[0] = x._v8_0;
+                stack[1] = x._v8_8;
+                stack[2] = x._v8_0;
+                stack[3] = x._v8_8;
+
                 byte* address = (byte*)stack + (((uint)n % 16) * sizeof(short));
-                
-                v128 lo = Sse2.loadu_si128(address);
-                v128 hi = Sse2.loadu_si128(address + sizeof(v128));
-                
+
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
+
                 return new short16(lo, hi);
             }
 
@@ -650,17 +696,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vror(int4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
+                return RegisterConversion.ToInt4(Xse.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(int))));
             }
 
             switch ((uint)n % 4)
@@ -668,7 +714,7 @@ namespace MaxMath
                 case 1: return x.yzwx;
                 case 2: return x.zwxy;
                 case 3: return x.wxyz;
-            
+
                 default: return x;
             }
         }
@@ -678,31 +724,31 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int8 vror(int8 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
-                stack[0] = x; 
-                stack[1] = x; 
-                
+                stack[0] = x;
+                stack[1] = x;
+
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 8) * sizeof(int)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
-                stack[0] = RegisterConversion.ToV128(x._v4_0); 
-                stack[1] = RegisterConversion.ToV128(x._v4_4); 
-                stack[2] = RegisterConversion.ToV128(x._v4_0); 
-                stack[3] = RegisterConversion.ToV128(x._v4_4); 
-               
+                stack[0] = RegisterConversion.ToV128(x._v4_0);
+                stack[1] = RegisterConversion.ToV128(x._v4_4);
+                stack[2] = RegisterConversion.ToV128(x._v4_0);
+                stack[3] = RegisterConversion.ToV128(x._v4_4);
+
                 byte* address = (byte*)stack + (((uint)n % 8) * sizeof(int));
-               
-                v128 lo = Sse2.loadu_si128(address);
-                v128 hi = Sse2.loadu_si128(address + sizeof(v128));
-               
+
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
+
                 return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
 
@@ -715,7 +761,7 @@ namespace MaxMath
                 case 5: return vrol(x, 3);
                 case 6: return vrol(x, 2);
                 case 7: return vrol(x, 1);
-            
+
                 default: return x;
             }
         }
@@ -775,11 +821,11 @@ namespace MaxMath
         [SkipLocalsInit]
         public static long4 vror(long4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
                 stack[0] = x;
@@ -787,7 +833,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 4) * sizeof(long)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x.xy;
@@ -797,8 +843,8 @@ namespace MaxMath
 
                 byte* address = (byte*)stack + (((uint)n % 4) * sizeof(long));
 
-                v128 lo = Sse2.loadu_si128(address);
-                v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                 return new long4(lo, hi);
             }
@@ -808,7 +854,7 @@ namespace MaxMath
                 case 1: return x.yzwx;
                 case 2: return x.zwxy;
                 case 3: return x.wxyz;
-            
+
                 default: return x;
             }
         }
@@ -919,17 +965,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static float4 vror(float4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                v128 result = Sse.loadu_ps((byte*)stack + (((uint)n % 4) * sizeof(float)));
+                v128 result = Xse.loadu_si128((byte*)stack + (((uint)n % 4) * sizeof(float)));
 
                 return *(float4*)&result;
             }
@@ -939,7 +985,7 @@ namespace MaxMath
                 case 1: return x.yzwx;
                 case 2: return x.zwxy;
                 case 3: return x.wxyz;
-            
+
                 default: return x;
             }
         }
@@ -949,31 +995,31 @@ namespace MaxMath
         [SkipLocalsInit]
         public static float8 vror(float8 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
-                stack[0] = x; 
-                stack[1] = x; 
-                
+                stack[0] = x;
+                stack[1] = x;
+
                 return Avx.mm256_loadu_ps((byte*)stack + (((uint)n % 8) * sizeof(float)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
-                stack[0] = RegisterConversion.ToV128(x._v4_0); 
-                stack[1] = RegisterConversion.ToV128(x._v4_4); 
-                stack[2] = RegisterConversion.ToV128(x._v4_0); 
-                stack[3] = RegisterConversion.ToV128(x._v4_4); 
-                
+                stack[0] = RegisterConversion.ToV128(x._v4_0);
+                stack[1] = RegisterConversion.ToV128(x._v4_4);
+                stack[2] = RegisterConversion.ToV128(x._v4_0);
+                stack[3] = RegisterConversion.ToV128(x._v4_4);
+
                 byte* address = (byte*)stack + (((uint)n % 8) * sizeof(float));
-                
-                v128 lo = Sse.loadu_ps(address);
-                v128 hi = Sse.loadu_ps(address + sizeof(v128));
-                
+
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
+
                 return new float8(*(float4*)&lo, *(float4*)&hi);
             }
 
@@ -986,7 +1032,7 @@ namespace MaxMath
                 case 5: return vrol(x, 3);
                 case 6: return vrol(x, 2);
                 case 7: return vrol(x, 1);
-            
+
                 default: return x;
             }
         }
@@ -1017,11 +1063,11 @@ namespace MaxMath
         [SkipLocalsInit]
         public static double4 vror(double4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
                 stack[0] = RegisterConversion.ToV256(x);
@@ -1029,7 +1075,7 @@ namespace MaxMath
 
                 return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + (((uint)n % 4) * sizeof(double))));
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x.xy);
@@ -1039,8 +1085,8 @@ namespace MaxMath
 
                 byte* address = (byte*)stack + (((uint)n % 4) * sizeof(double));
 
-                v128 lo = Sse.loadu_ps(address);
-                v128 hi = Sse.loadu_ps(address + sizeof(v128));
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                 return new double4(RegisterConversion.ToDouble2(lo), RegisterConversion.ToDouble2(hi));
             }
@@ -1124,13 +1170,13 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte4 vrol(byte4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Sse2.cvtsi32_si128(math.rol(((v128)x).SInt0, n * 8));
+                return Xse.cvtsi32_si128(math.rol(((v128)x).SInt0, n * 8));
             }
 
             switch ((uint)n % 4)
@@ -1148,48 +1194,48 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vrol(byte8 x, int n)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 8)
                     {
-                        case 1: return Ssse3.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6,      0, 0, 0, 0, 0, 0, 0, 0));
-                        case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
-                        case 3: return Ssse3.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4,      0, 0, 0, 0, 0, 0, 0, 0));
-                        case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
-                        case 5: return Ssse3.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2,      0, 0, 0, 0, 0, 0, 0, 0));
-                        case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
-                        case 7: return Ssse3.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0,      0, 0, 0, 0, 0, 0, 0, 0));
-                    
-                        default: return x;
-                    }
-                }
-                else
-                {
-                    return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 8));
-                }
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(n))
-                {
-                    switch ((uint)n % 8)
-                    {
-                        case 1: return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, 1 * 8)); 
-                        case 2: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
-                        case 3: return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, 3 * 8)); 
-                        case 4: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
-                        case 5: return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, 5 * 8)); 
-                        case 6: return Sse2.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
-                        case 7: return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, 7 * 8)); 
+                        case 1: return Xse.shuffle_epi8(x, new v128(7, 0, 1, 2, 3, 4, 5, 6,      0, 0, 0, 0, 0, 0, 0, 0));
+                        case 2: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
+                        case 3: return Xse.shuffle_epi8(x, new v128(5, 6, 7, 0, 1, 2, 3, 4,      0, 0, 0, 0, 0, 0, 0, 0));
+                        case 4: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
+                        case 5: return Xse.shuffle_epi8(x, new v128(3, 4, 5, 6, 7, 0, 1, 2,      0, 0, 0, 0, 0, 0, 0, 0));
+                        case 6: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
+                        case 7: return Xse.shuffle_epi8(x, new v128(1, 2, 3, 4, 5, 6, 7, 0,      0, 0, 0, 0, 0, 0, 0, 0));
 
                         default: return x;
                     }
                 }
                 else
                 {
-                    return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 8));
+                    return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 8));
+                }
+            }
+            else if (Architecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(n))
+                {
+                    switch ((uint)n % 8)
+                    {
+                        case 1: return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, 1 * 8));
+                        case 2: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(2, 1, 0, 3));
+                        case 3: return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, 3 * 8));
+                        case 4: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(1, 0, 3, 2));
+                        case 5: return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, 5 * 8));
+                        case 6: return Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 3, 2, 1));
+                        case 7: return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, 7 * 8));
+
+                        default: return x;
+                    }
+                }
+                else
+                {
+                    return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 8));
                 }
             }
             else
@@ -1214,7 +1260,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vrol(byte16 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.brol_si128(x, n);
             }
@@ -1248,47 +1294,47 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte32 vrol(byte32 x, int n)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_brol_si256(x, n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 32)
                     {
-                        case 1:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 15 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)));
-                        case 2:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 14 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)));
-                        case 3:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 13 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)));
-                        case 4:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 12 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)));
-                        case 5:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 11 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)));
-                        case 6:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0, 10 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)));
-                        case 7:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  9 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)));
-                        case 8:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  8 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)));
-                        case 9:  return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  7 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)));
-                        case 10: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  6 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)));
-                        case 11: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  5 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)));
-                        case 12: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  4 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)));
-                        case 13: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  3 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
-                        case 14: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  2 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
-                        case 15: return new byte32(Ssse3.alignr_epi8(x._v16_16, x._v16_0,  1 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, x._v16_0);
-                        case 17: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 15 * sizeof(byte)));
-                        case 18: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 14 * sizeof(byte)));
-                        case 19: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 13 * sizeof(byte)));
-                        case 20: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 12 * sizeof(byte)));
-                        case 21: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 11 * sizeof(byte)));
-                        case 22: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0, 10 * sizeof(byte)));
-                        case 23: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  9 * sizeof(byte)));
-                        case 24: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  8 * sizeof(byte)));
-                        case 25: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  7 * sizeof(byte)));
-                        case 26: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  6 * sizeof(byte)));
-                        case 27: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  5 * sizeof(byte)));
-                        case 28: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  4 * sizeof(byte)));
-                        case 29: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  3 * sizeof(byte)));
-                        case 30: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  2 * sizeof(byte)));
-                        case 31: return new byte32(Ssse3.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)), Ssse3.alignr_epi8(x._v16_16, x._v16_0,  1 * sizeof(byte)));
+                        case 1:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 15 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 14 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 13 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 12 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 11 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0, 10 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  9 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  8 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  7 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)));
+                        case 10: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  6 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)));
+                        case 11: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  5 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)));
+                        case 12: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  4 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)));
+                        case 13: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  3 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
+                        case 14: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  2 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
+                        case 15: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  1 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
+                        case 16: return new byte32(x._v16_16, x._v16_0);                                    
+                        case 17: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 15 * sizeof(byte)));
+                        case 18: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 14 * sizeof(byte)));
+                        case 19: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 13 * sizeof(byte)));
+                        case 20: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 12 * sizeof(byte)));
+                        case 21: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 11 * sizeof(byte)));
+                        case 22: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 10 * sizeof(byte)));
+                        case 23: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  9 * sizeof(byte)));
+                        case 24: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  8 * sizeof(byte)));
+                        case 25: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  7 * sizeof(byte)));
+                        case 26: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  6 * sizeof(byte)));
+                        case 27: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  5 * sizeof(byte)));
+                        case 28: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  4 * sizeof(byte)));
+                        case 29: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  3 * sizeof(byte)));
+                        case 30: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  2 * sizeof(byte)));
+                        case 31: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0,  1 * sizeof(byte)));
 
                         default: return x;
                     }
@@ -1296,86 +1342,86 @@ namespace MaxMath
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = x._v16_0; 
-                    stack[1] = x._v16_16; 
-                    stack[2] = x._v16_0; 
-                    stack[3] = x._v16_16; 
+                    stack[0] = x._v16_0;
+                    stack[1] = x._v16_16;
+                    stack[2] = x._v16_0;
+                    stack[3] = x._v16_16;
 
                     byte* address = (byte*)stack + (32 - ((uint)n % 32));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new byte32(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 32)
                     {
-                        case 1:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   1 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  1 * sizeof(byte))));
-                        case 2:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   2 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  2 * sizeof(byte))));
-                        case 3:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   3 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  3 * sizeof(byte))));
-                        case 4:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   4 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  4 * sizeof(byte))));
-                        case 5:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   5 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  5 * sizeof(byte))));
-                        case 6:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   6 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  6 * sizeof(byte))));
-                        case 7:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   7 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  7 * sizeof(byte))));
-                        case 8:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   8 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  8 * sizeof(byte))));
-                        case 9:  return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   9 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  9 * sizeof(byte))));
-                        case 10: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  10 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 10 * sizeof(byte))));
-                        case 11: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  11 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 11 * sizeof(byte))));
-                        case 12: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  12 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 12 * sizeof(byte))));
-                        case 13: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  13 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 13 * sizeof(byte))));
-                        case 14: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  14 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 14 * sizeof(byte))));
-                        case 15: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  15 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 15 * sizeof(byte))));
+                        case 1:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   1 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  1 * sizeof(byte))));
+                        case 2:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   2 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  2 * sizeof(byte))));
+                        case 3:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   3 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  3 * sizeof(byte))));
+                        case 4:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   4 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  4 * sizeof(byte))));
+                        case 5:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   5 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  5 * sizeof(byte))));
+                        case 6:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   6 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  6 * sizeof(byte))));
+                        case 7:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   7 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  7 * sizeof(byte))));
+                        case 8:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   8 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  8 * sizeof(byte))));
+                        case 9:  return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   9 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  9 * sizeof(byte))));
+                        case 10: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  10 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte))));
+                        case 11: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  11 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte))));
+                        case 12: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  12 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte))));
+                        case 13: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  13 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte))));
+                        case 14: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  14 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte))));
+                        case 15: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  15 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte))));
                         case 16: return new byte32(x._v16_16, x._v16_0);
-                        case 17: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  1 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   1 * sizeof(byte))));
-                        case 18: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  2 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   2 * sizeof(byte))));
-                        case 19: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  3 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   3 * sizeof(byte))));
-                        case 20: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  4 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   4 * sizeof(byte))));
-                        case 21: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  5 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   5 * sizeof(byte))));
-                        case 22: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  6 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   6 * sizeof(byte))));
-                        case 23: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  7 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   7 * sizeof(byte))));
-                        case 24: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  8 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   8 * sizeof(byte))));
-                        case 25: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Sse2.bslli_si128(x._v16_16,  9 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,   9 * sizeof(byte))));
-                        case 26: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 10 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  10 * sizeof(byte))));
-                        case 27: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 11 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  11 * sizeof(byte))));
-                        case 28: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 12 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  12 * sizeof(byte))));
-                        case 29: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 13 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  13 * sizeof(byte))));
-                        case 30: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 14 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  14 * sizeof(byte))));
-                        case 31: return new byte32(Sse2.or_si128(Sse2.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Sse2.bslli_si128(x._v16_16, 15 * sizeof(byte))),
-                                                   Sse2.or_si128(Sse2.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Sse2.bslli_si128(x._v16_0,  15 * sizeof(byte))));
+                        case 17: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  1 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   1 * sizeof(byte))));
+                        case 18: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  2 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   2 * sizeof(byte))));
+                        case 19: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  3 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   3 * sizeof(byte))));
+                        case 20: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  4 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   4 * sizeof(byte))));
+                        case 21: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  5 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   5 * sizeof(byte))));
+                        case 22: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  6 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   6 * sizeof(byte))));
+                        case 23: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  7 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   7 * sizeof(byte))));
+                        case 24: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  8 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   8 * sizeof(byte))));
+                        case 25: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  9 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.bslli_si128(x._v16_0,   9 * sizeof(byte))));
+                        case 26: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  10 * sizeof(byte))));
+                        case 27: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  11 * sizeof(byte))));
+                        case 28: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  12 * sizeof(byte))));
+                        case 29: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  13 * sizeof(byte))));
+                        case 30: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  14 * sizeof(byte))));
+                        case 31: return new byte32(Xse.or_si128(Xse.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte))),
+                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.bslli_si128(x._v16_0,  15 * sizeof(byte))));
 
                         default: return x;
                     }
@@ -1383,15 +1429,15 @@ namespace MaxMath
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = x._v16_0; 
-                    stack[1] = x._v16_16; 
-                    stack[2] = x._v16_0; 
-                    stack[3] = x._v16_16; 
+                    stack[0] = x._v16_0;
+                    stack[1] = x._v16_16;
+                    stack[2] = x._v16_0;
+                    stack[3] = x._v16_16;
 
                     byte* address = (byte*)stack + (32 - ((uint)n % 32));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new byte32(lo, hi);
                 }
@@ -1506,13 +1552,13 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short4 vrol(short4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
             else if (Sse2.IsSse2Supported)
             {
-                return Sse2.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 16));
+                return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 16));
             }
 
             switch ((uint)n % 4)
@@ -1530,7 +1576,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vrol(short8 x, int n)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.brol_si128(x, 2 * n);
             }
@@ -1556,31 +1602,31 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short16 vrol(short16 x, int n)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_brol_si256(x, 2 * n);
             }
-            else if (Ssse3.IsSsse3Supported)
+            else if (Architecture.IsTableLookupSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 16)
                     {
-                        case 1:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
-                        case 2:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 6 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)));
-                        case 3:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 5 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)));
-                        case 4:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 4 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)));
-                        case 5:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 3 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
-                        case 6:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 2 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
-                        case 7:  return new short16(Ssse3.alignr_epi8(x._v8_8, x._v8_0, 1 * sizeof(short)), Ssse3.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, x._v8_0);
-                        case 9:  return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)));
-                        case 10: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 6 * sizeof(short)));
-                        case 11: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 5 * sizeof(short)));
-                        case 12: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 4 * sizeof(short)));
-                        case 13: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 3 * sizeof(short)));
-                        case 14: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 2 * sizeof(short)));
-                        case 15: return new short16(Ssse3.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)), Ssse3.alignr_epi8(x._v8_8, x._v8_0, 1 * sizeof(short)));
+                        case 1:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
+                        case 2:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 6 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)));
+                        case 3:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 5 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)));
+                        case 4:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 4 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)));
+                        case 5:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 3 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
+                        case 6:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 2 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
+                        case 7:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 1 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
+                        case 8:  return new short16(x._v8_8, x._v8_0);                                    
+                        case 9:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)));
+                        case 10: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 6 * sizeof(short)));
+                        case 11: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 5 * sizeof(short)));
+                        case 12: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 4 * sizeof(short)));
+                        case 13: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 3 * sizeof(short)));
+                        case 14: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 2 * sizeof(short)));
+                        case 15: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 1 * sizeof(short)));
 
                         default: return x;
                     }
@@ -1588,54 +1634,54 @@ namespace MaxMath
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = x._v8_0; 
-                    stack[1] = x._v8_8; 
-                    stack[2] = x._v8_0; 
-                    stack[3] = x._v8_8; 
+                    stack[0] = x._v8_0;
+                    stack[1] = x._v8_8;
+                    stack[2] = x._v8_0;
+                    stack[3] = x._v8_8;
 
                     byte* address = (byte*)stack + ((16 - ((uint)n %16)) * sizeof(short));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new short16(lo, hi);
                 }
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 16)
                     {
-                        case 1:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 1 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 1 * sizeof(short))));
-                        case 2:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 2 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 2 * sizeof(short))));
-                        case 3:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 3 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 3 * sizeof(short))));
-                        case 4:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 4 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 4 * sizeof(short))));
-                        case 5:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 5 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 5 * sizeof(short))));
-                        case 6:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 6 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 6 * sizeof(short))));
-                        case 7:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 7 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 7 * sizeof(short))));
+                        case 1:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 7 * sizeof(short)), Xse.bslli_si128(x._v8_0, 1 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short))));
+                        case 2:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 6 * sizeof(short)), Xse.bslli_si128(x._v8_0, 2 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short))));
+                        case 3:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 5 * sizeof(short)), Xse.bslli_si128(x._v8_0, 3 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short))));
+                        case 4:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 4 * sizeof(short)), Xse.bslli_si128(x._v8_0, 4 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short))));
+                        case 5:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 3 * sizeof(short)), Xse.bslli_si128(x._v8_0, 5 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short))));
+                        case 6:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 2 * sizeof(short)), Xse.bslli_si128(x._v8_0, 6 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short))));
+                        case 7:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_8, 1 * sizeof(short)), Xse.bslli_si128(x._v8_0, 7 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short))));
                         case 8:  return new short16(x._v8_8, x._v8_0);
-                        case 9:  return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 1 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 7 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 1 * sizeof(short))));
-                        case 10: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 2 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 6 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 2 * sizeof(short))));
-                        case 11: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 3 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 5 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 3 * sizeof(short))));
-                        case 12: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 4 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 4 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 4 * sizeof(short))));
-                        case 13: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 5 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 3 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 5 * sizeof(short))));
-                        case 14: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 6 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 2 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 6 * sizeof(short))));
-                        case 15: return new short16(Sse2.or_si128(Sse2.bsrli_si128(x._v8_0, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_8, 7 * sizeof(short))),
-                                                    Sse2.or_si128(Sse2.bsrli_si128(x._v8_8, 1 * sizeof(short)), Sse2.bslli_si128(x._v8_0, 7 * sizeof(short))));
+                        case 9:  return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 7 * sizeof(short)), Xse.bslli_si128(x._v8_0, 1 * sizeof(short))));
+                        case 10: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 6 * sizeof(short)), Xse.bslli_si128(x._v8_0, 2 * sizeof(short))));
+                        case 11: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 5 * sizeof(short)), Xse.bslli_si128(x._v8_0, 3 * sizeof(short))));
+                        case 12: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 4 * sizeof(short)), Xse.bslli_si128(x._v8_0, 4 * sizeof(short))));
+                        case 13: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 3 * sizeof(short)), Xse.bslli_si128(x._v8_0, 5 * sizeof(short))));
+                        case 14: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 2 * sizeof(short)), Xse.bslli_si128(x._v8_0, 6 * sizeof(short))));
+                        case 15: return new short16(Xse.or_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short))),
+                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_8, 1 * sizeof(short)), Xse.bslli_si128(x._v8_0, 7 * sizeof(short))));
 
                         default: return x;
                     }
@@ -1643,15 +1689,15 @@ namespace MaxMath
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = x._v8_0; 
-                    stack[1] = x._v8_8; 
-                    stack[2] = x._v8_0; 
-                    stack[3] = x._v8_8; 
+                    stack[0] = x._v8_0;
+                    stack[1] = x._v8_8;
+                    stack[2] = x._v8_0;
+                    stack[3] = x._v8_8;
 
                     byte* address = (byte*)stack + ((16 - ((uint)n %16)) * sizeof(short));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new short16(lo, hi);
                 }
@@ -1743,17 +1789,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vrol(int4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                return RegisterConversion.ToInt4(Sse2.loadu_si128((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(int))));
+                return RegisterConversion.ToInt4(Xse.loadu_si128((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(int))));
             }
 
             switch ((uint)n % 4)
@@ -1771,33 +1817,33 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int8 vrol(int8 x, int n)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_brol_si256(x, 4 * n);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     ;
                 }
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = RegisterConversion.ToV128(x._v4_0); 
-                    stack[1] = RegisterConversion.ToV128(x._v4_4); 
-                    stack[2] = RegisterConversion.ToV128(x._v4_0); 
-                    stack[3] = RegisterConversion.ToV128(x._v4_4); 
+                    stack[0] = RegisterConversion.ToV128(x._v4_0);
+                    stack[1] = RegisterConversion.ToV128(x._v4_4);
+                    stack[2] = RegisterConversion.ToV128(x._v4_0);
+                    stack[3] = RegisterConversion.ToV128(x._v4_4);
 
                     byte* address = (byte*)stack + ((8 - ((uint)n % 8)) * sizeof(int));
 
-                    v128 lo = Sse2.loadu_si128(address);
-                    v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
                 }
             }
-                    
+
             switch ((uint)n % 8)
             {
                 case 1: return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.RightW, math.ShuffleComponent.LeftX,  math.ShuffleComponent.LeftY,  math.ShuffleComponent.LeftZ),
@@ -1874,11 +1920,11 @@ namespace MaxMath
         [SkipLocalsInit]
         public static long4 vrol(long4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
                 stack[0] = x;
@@ -1886,7 +1932,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(long)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x.xy;
@@ -1896,8 +1942,8 @@ namespace MaxMath
 
                 byte* address = (byte*)stack + ((4 - ((uint)n % 4)) * sizeof(long));
 
-                v128 lo = Sse2.loadu_si128(address);
-                v128 hi = Sse2.loadu_si128(address + sizeof(v128));
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                 return new long4(lo, hi);
             }
@@ -2018,17 +2064,17 @@ namespace MaxMath
         [SkipLocalsInit]
         public static float4 vrol(float4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
                 stack[1] = RegisterConversion.ToV128(x);
 
-                v128 result = Sse.loadu_ps((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(float)));
+                v128 result = Xse.loadu_si128((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(float)));
 
                 return *(float4*)&result;
             }
@@ -2050,7 +2096,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     switch ((uint)n % 8)
                     {
@@ -2068,35 +2114,35 @@ namespace MaxMath
                 else
                 {
                     v256* stack = stackalloc v256[2];
-                    stack[0] = x; 
-                    stack[1] = x; 
+                    stack[0] = x;
+                    stack[1] = x;
 
                     return Avx.mm256_loadu_ps((byte*)stack + ((8 - ((uint)n % 8)) * sizeof(float)));
                 }
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(n))
+                if (constexpr.IS_CONST(n))
                 {
                     ;
                 }
                 else
                 {
                     v128* stack = stackalloc v128[4];
-                    stack[0] = RegisterConversion.ToV128(x._v4_0); 
-                    stack[1] = RegisterConversion.ToV128(x._v4_4); 
-                    stack[2] = RegisterConversion.ToV128(x._v4_0); 
-                    stack[3] = RegisterConversion.ToV128(x._v4_4); 
+                    stack[0] = RegisterConversion.ToV128(x._v4_0);
+                    stack[1] = RegisterConversion.ToV128(x._v4_4);
+                    stack[2] = RegisterConversion.ToV128(x._v4_0);
+                    stack[3] = RegisterConversion.ToV128(x._v4_4);
 
                     byte* address = (byte*)stack + ((8 - ((uint)n % 8)) * sizeof(float));
 
-                    v128 lo = Sse.loadu_ps(address);
-                    v128 hi = Sse.loadu_ps(address + sizeof(v128));
+                    v128 lo = Xse.loadu_si128(address);
+                    v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                     return new float8(*(float4*)&lo, *(float4*)&hi);
                 }
             }
-            
+
             switch ((uint)n % 8)
             {
                 case 1: return new float8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.RightW, math.ShuffleComponent.LeftX,  math.ShuffleComponent.LeftY,  math.ShuffleComponent.LeftZ),
@@ -2112,7 +2158,7 @@ namespace MaxMath
                                           math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.RightZ, math.ShuffleComponent.RightW, math.ShuffleComponent.LeftX,  math.ShuffleComponent.LeftY));
                 case 7: return new float8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY,  math.ShuffleComponent.LeftZ,  math.ShuffleComponent.LeftW,  math.ShuffleComponent.RightX),
                                           math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ, math.ShuffleComponent.RightW, math.ShuffleComponent.LeftX));
-            
+
                 default: return x;
             }
         }
@@ -2143,11 +2189,11 @@ namespace MaxMath
         [SkipLocalsInit]
         public static double4 vrol(double4 x, int n)
         {
-            if (Constant.IsConstantExpression(n))
+            if (constexpr.IS_CONST(n))
             {
                 ;
             }
-            else if (Avx2.IsAvx2Supported)
+            else if (Avx.IsAvxSupported)
             {
                 v256* stack = stackalloc v256[2];
                 stack[0] = RegisterConversion.ToV256(x);
@@ -2155,7 +2201,7 @@ namespace MaxMath
 
                 return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(double))));
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x.xy);
@@ -2165,8 +2211,8 @@ namespace MaxMath
 
                 byte* address = (byte*)stack + ((4 - ((uint)n % 4)) * sizeof(double));
 
-                v128 lo = Sse.loadu_ps(address);
-                v128 hi = Sse.loadu_ps(address + sizeof(v128));
+                v128 lo = Xse.loadu_si128(address);
+                v128 hi = Xse.loadu_si128(address + sizeof(v128));
 
                 return new double4(RegisterConversion.ToDouble2(lo), RegisterConversion.ToDouble2(hi));
             }

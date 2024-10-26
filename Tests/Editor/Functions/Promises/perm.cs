@@ -5,7 +5,7 @@ using static MaxMath.LUT.FACTORIAL;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_perm
+    public static class f_PROMISE_perm
     {
         [Test]
         public static void _byte2()
@@ -18,19 +18,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
@@ -45,19 +45,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
@@ -72,19 +72,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
@@ -99,19 +99,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
@@ -126,19 +126,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
@@ -153,23 +153,23 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte32(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte32(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte32(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte32(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe3));
             }
         }
 
-         
+
         [Test]
         public static void _ushort2()
         {
@@ -181,15 +181,15 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
             }
         }
 
@@ -204,15 +204,15 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
             }
         }
 
@@ -227,15 +227,15 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
             }
         }
 
@@ -250,15 +250,15 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
             }
         }
 
@@ -273,19 +273,19 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
 
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe2));
             }
         }
 
-        
+
         [Test]
         public static void _uint()
         {
@@ -297,11 +297,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextUInt(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
-                
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
+
                 n = rng.NextUInt(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -316,11 +316,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -335,11 +335,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -354,11 +354,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -373,11 +373,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt8(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -393,11 +393,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextULong(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
-                
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
+
                 n = rng.NextULong(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -412,11 +412,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextULong2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong2(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -431,11 +431,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextULong3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong3(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
@@ -450,17 +450,17 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextULong4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong4(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
 
-        
+
         [Test]
-        public static void _uint128()
+        public static void _UInt128()
         {
             Random128 rng = Random128.New;
             UInt128 n;
@@ -470,11 +470,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt128(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextUInt128(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt128(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt128(0, n + 1);
-                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.perm(n, k), maxmath.perm(n, k, Promise.Unsafe1));
             }
         }
     }

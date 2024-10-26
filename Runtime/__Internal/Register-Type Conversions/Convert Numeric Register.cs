@@ -25,7 +25,7 @@ namespace MaxMath
             }
             else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v256 ToV256(double4 input)
@@ -42,7 +42,7 @@ namespace MaxMath
             }
             else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(double2 input)
@@ -68,16 +68,15 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Double0 = input;
 
                 return result;
             }
         }
-        
-        
+
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(float input)
@@ -92,15 +91,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);;
 
                 result.Float0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(float2 input)
@@ -114,19 +112,17 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);;
 
                 result.Float0 = input.x;
                 result.Float1 = input.y;
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(float3 input)
@@ -141,10 +137,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Float0 = input.x;
                 result.Float1 = input.y;
@@ -152,9 +147,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(float4 input)
@@ -167,7 +161,7 @@ namespace MaxMath
                 Float3 = input.w
             };
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(int input)
@@ -182,15 +176,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SInt0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(int2 input)
@@ -204,19 +197,17 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SInt0 = input.x;
                 result.SInt1 = input.y;
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(int3 input)
@@ -231,10 +222,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SInt0 = input.x;
                 result.SInt1 = input.y;
@@ -242,9 +232,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(int4 input)
@@ -257,7 +246,7 @@ namespace MaxMath
                 SInt3 = input.w
             };
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(uint input)
@@ -272,15 +261,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UInt0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(uint2 input)
@@ -294,19 +282,17 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UInt0 = input.x;
                 result.UInt1 = input.y;
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(uint3 input)
@@ -321,10 +307,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UInt0 = input.x;
                 result.UInt1 = input.y;
@@ -332,9 +317,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(uint4 input)
@@ -347,7 +331,7 @@ namespace MaxMath
                 UInt3 = input.w
             };
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(half input)
@@ -362,15 +346,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UShort0 = input.value;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(half2 input)
@@ -384,19 +367,17 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UShort0 = input.x.value;
                 result.UShort1 = input.y.value;
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(half3 input)
@@ -411,10 +392,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UShort0 = input.x.value;
                 result.UShort1 = input.y.value;
@@ -422,9 +402,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(half4 input)
@@ -437,7 +416,7 @@ namespace MaxMath
                 UShort3 = input.w.value
             };
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(bool input)
@@ -452,15 +431,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Byte0 = *(byte*)&input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(bool2 input)
@@ -474,19 +452,17 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Byte0 = maxmath.tobyte(input.x);
                 result.Byte1 = maxmath.tobyte(input.y);
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(bool3 input)
@@ -501,10 +477,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Byte0 = maxmath.tobyte(input.x);
                 result.Byte1 = maxmath.tobyte(input.y);
@@ -512,9 +487,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(bool4 input)
@@ -530,10 +504,9 @@ namespace MaxMath
 
                 return result;
             }
-            else if (Sse.IsSseSupported)
+            else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Byte0 = maxmath.tobyte(input.x);
                 result.Byte1 = maxmath.tobyte(input.y);
@@ -542,9 +515,8 @@ namespace MaxMath
 
                 return result;
             }
-            else throw new IllegalInstructionException();
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(byte input)
@@ -559,15 +531,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.Byte0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(sbyte input)
@@ -582,15 +553,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SByte0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(ushort input)
@@ -605,15 +575,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.UShort0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(short input)
@@ -628,15 +597,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SShort0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(ulong input)
@@ -651,15 +619,14 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.ULong0 = input;
 
                 return result;
             }
         }
-        
+
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 ToV128(long input)
@@ -674,8 +641,7 @@ namespace MaxMath
             }
             else
             {
-                v128 result;
-                v128* dummyPtr = &result;
+                v128 result = default(v128);
 
                 result.SLong0 = input;
 
@@ -803,37 +769,37 @@ namespace MaxMath
         {
             return new uint4(input.UInt0, input.UInt1, input.UInt2, input.UInt3);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static byte ToByte(v128 input)
         {
             return input.Byte0;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static sbyte ToSByte(v128 input)
         {
             return input.SByte0;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ushort ToUShort(v128 input)
         {
             return input.UShort0;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static short ToShort(v128 input)
         {
             return input.SShort0;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ulong ToULong(v128 input)
         {
             return input.ULong0;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static long ToLong(v128 input)
         {

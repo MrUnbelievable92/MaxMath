@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class minmaxmag
+    unsafe public static class f_minmaxmag
     {
         [Test]
         public static void _sbyte2()
@@ -55,7 +55,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte8()
         {
@@ -72,7 +72,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte16()
         {
@@ -89,7 +89,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte32()
         {
@@ -158,7 +158,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _short8()
         {
@@ -175,7 +175,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _short16()
         {
@@ -244,7 +244,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _int8()
         {
@@ -314,7 +314,7 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
         public static void _float2()
         {
@@ -365,7 +365,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.maxmag(l, r));
             }
         }
-        
+
         [Test]
         public static void _float8()
         {

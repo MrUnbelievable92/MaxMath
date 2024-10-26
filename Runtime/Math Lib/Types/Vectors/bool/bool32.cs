@@ -7,11 +7,10 @@ using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using Unity.Burst.CompilerServices;
 
 namespace MaxMath
 {
-    [Serializable]  
+    [Serializable]
     [StructLayout(LayoutKind.Explicit, Size = 32 * sizeof(bool))]
     unsafe public struct bool32 : IEquatable<bool32>
     {
@@ -240,7 +239,7 @@ namespace MaxMath
         public bool2 v2_30 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get => maxmath.tobool(maxmath.tobyte(this).v2_30); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte32 temp = maxmath.tobyte(this); temp.v2_30 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         #endregion
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v256(bool32 input) => new v256 { Byte0 = maxmath.tobyte(input.x0), Byte1 = maxmath.tobyte(input.x1), Byte2 = maxmath.tobyte(input.x2), Byte3 = maxmath.tobyte(input.x3), Byte4 = maxmath.tobyte(input.x4), Byte5 = maxmath.tobyte(input.x5), Byte6 = maxmath.tobyte(input.x6), Byte7 = maxmath.tobyte(input.x7), Byte8 = maxmath.tobyte(input.x8), Byte9 = maxmath.tobyte(input.x9), Byte10 = maxmath.tobyte(input.x10), Byte11 = maxmath.tobyte(input.x11), Byte12 = maxmath.tobyte(input.x12), Byte13 = maxmath.tobyte(input.x13), Byte14 = maxmath.tobyte(input.x14), Byte15 = maxmath.tobyte(input.x15), Byte16 = maxmath.tobyte(input.x16), Byte17 = maxmath.tobyte(input.x17), Byte18 = maxmath.tobyte(input.x18), Byte19 = maxmath.tobyte(input.x19), Byte20 = maxmath.tobyte(input.x20), Byte21 = maxmath.tobyte(input.x21), Byte22 = maxmath.tobyte(input.x22), Byte23 = maxmath.tobyte(input.x23), Byte24 = maxmath.tobyte(input.x24), Byte25 = maxmath.tobyte(input.x25), Byte26 = maxmath.tobyte(input.x26), Byte27 = maxmath.tobyte(input.x27), Byte28 = maxmath.tobyte(input.x28), Byte29 = maxmath.tobyte(input.x29), Byte30 = maxmath.tobyte(input.x30), Byte31 = maxmath.tobyte(input.x31) };
 
@@ -274,7 +273,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_andnot_si256(val, Avx.mm256_set1_epi8(1));
+                return Avx2.mm256_andnot_si256(val, Xse.mm256_set1_epi8(1));
             }
             else
             {
@@ -294,9 +293,9 @@ Assert.IsWithinArrayBounds(index, 32);
                 {
                     return maxmath.tobool(Xse.mm256_extract_epi8(this, (byte)index));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 16)
                         {
@@ -308,12 +307,10 @@ Assert.IsWithinArrayBounds(index, 32);
                         }
                     }
                 }
-
-                bool32 onStack = this;
-
-                return *((bool*)&onStack + index);
+                
+                return this.GetField<bool32, bool>(index);
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -325,9 +322,9 @@ Assert.IsWithinArrayBounds(index, 32);
 
                     return;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 16)
                         {
@@ -337,15 +334,12 @@ Assert.IsWithinArrayBounds(index, 32);
                         {
                             _v16_16 = Xse.insert_epi8(_v16_16, *(byte*)&value, (byte)(index - 16));
                         }
-                        
+
                         return;
                     }
                 }
                 
-                bool32 onStack = this;
-                *((bool*)&onStack + index) = value;
-
-                this = onStack;
+                this.SetField(value, index);
             }
         }
 

@@ -37,7 +37,7 @@ namespace MaxMath
         {
             return (byte)math.clamp(x, byte.MinValue, byte.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="byte"/> and returns the result, which is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte tobytesaturated(Int128 x)
@@ -66,7 +66,7 @@ namespace MaxMath
         {
             return (byte)math.min(byte.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="byte"/> and returns the result, which is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte tobytesaturated(UInt128 x)
@@ -204,9 +204,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tobytesaturated(short2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packus_epi16(x, x);
+                return Xse.packus_epi16(x, x);
             }
             else
             {
@@ -218,9 +218,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 tobytesaturated(short3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packus_epi16(x, x);
+                return Xse.packus_epi16(x, x);
             }
             else
             {
@@ -232,9 +232,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 tobytesaturated(short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packus_epi16(x, x);
+                return Xse.packus_epi16(x, x);
             }
             else
             {
@@ -246,9 +246,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tobytesaturated(short8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packus_epi16(x, x);
+                return Xse.packus_epi16(x, x);
             }
             else
             {
@@ -267,9 +267,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesaturated(short8 lo, short8 hi)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packus_epi16(lo, hi);
+                return Xse.packus_epi16(lo, hi);
             }
             else
             {
@@ -355,13 +355,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tobytesaturated(int2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packus_epi16(shorts, shorts);
+                return Xse.packus_epi16(shorts, shorts);
             }
             else
             {
@@ -373,13 +373,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 tobytesaturated(int3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packus_epi16(shorts, shorts);
+                return Xse.packus_epi16(shorts, shorts);
             }
             else
             {
@@ -391,13 +391,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 tobytesaturated(int4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packus_epi16(shorts, shorts);
+                return Xse.packus_epi16(shorts, shorts);
             }
             else
             {
@@ -409,14 +409,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tobytesaturated(int4 x, int4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
                 v128 _y = RegisterConversion.ToV128(y);
 
-                v128 shorts = Sse2.packs_epi32(_x, _y);
+                v128 shorts = Xse.packs_epi32(_x, _y);
 
-                return Sse2.packus_epi16(shorts, shorts);
+                return Xse.packus_epi16(shorts, shorts);
             }
             else
             {
@@ -441,8 +441,8 @@ namespace MaxMath
                 v256 bytes  = Avx2.mm256_packus_epi16(shorts, shorts);
 
                 v128 ordered = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(0, 0, 2, 0)));
-                ordered = Sse2.shuffle_epi32(ordered, Sse.SHUFFLE(3, 1, 2, 0));
-                
+                ordered = Xse.shuffle_epi32(ordered, Sse.SHUFFLE(3, 1, 2, 0));
+
                 return ordered;
             }
             else
@@ -464,7 +464,7 @@ namespace MaxMath
                 v256 bytes = Avx2.mm256_packs_epi16(shorts_lo, shorts_hi);
                 bytes = Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(3, 1, 2, 0));
                 bytes = Avx2.mm256_shuffle_epi32(bytes, Sse.SHUFFLE(3, 1, 2, 0));
-                
+
                 return bytes;
             }
             else
@@ -624,7 +624,7 @@ namespace MaxMath
         {
             return tobytesaturated((float4)lo, (float4)hi);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.byte16"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesaturated(quarter4 x0_3, quarter4 x4_7, quarter4 x8_11, quarter4 x12_15)
@@ -687,7 +687,7 @@ namespace MaxMath
         {
             return tobytesaturated((float4)lo, (float4)hi);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.byte16"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesaturated(half4 x0_3, half4 x4_7, half4 x8_11, half4 x12_15)
@@ -750,7 +750,7 @@ namespace MaxMath
         {
             return (byte8)clamp(new float8(x, y), (float)byte.MinValue, (float)byte.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="float4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.byte16"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesaturated(float4 x0_3, float4 x4_7, float4 x8_11, float4 x12_15)
@@ -887,7 +887,7 @@ namespace MaxMath
         {
             return (sbyte)math.clamp(x, sbyte.MinValue, sbyte.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="sbyte"/> and returns the result, which is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte tosbytesaturated(Int128 x)
@@ -915,7 +915,7 @@ namespace MaxMath
         {
             return (sbyte)math.min(sbyte.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="sbyte"/> and returns the result, which is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte tosbytesaturated(UInt128 x)
@@ -923,7 +923,7 @@ namespace MaxMath
             return (sbyte)min((byte)sbyte.MaxValue, x);
         }
 
-        
+
         /// <summary>       Casts the <see cref="quarter"/> <paramref name="x"/> to an <see cref="sbyte"/> and returns the result, which is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte tosbytesaturated(quarter x)
@@ -1053,9 +1053,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 tosbytesaturated(short2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packs_epi16(x, x);
+                return Xse.packs_epi16(x, x);
             }
             else
             {
@@ -1067,9 +1067,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 tosbytesaturated(short3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packs_epi16(x, x);
+                return Xse.packs_epi16(x, x);
             }
             else
             {
@@ -1081,9 +1081,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 tosbytesaturated(short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packs_epi16(x, x);
+                return Xse.packs_epi16(x, x);
             }
             else
             {
@@ -1095,9 +1095,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 tosbytesaturated(short8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packs_epi16(x, x);
+                return Xse.packs_epi16(x, x);
             }
             else
             {
@@ -1116,9 +1116,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tosbytesaturated(short8 lo, short8 hi)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.packs_epi16(lo, hi);
+                return Xse.packs_epi16(lo, hi);
             }
             else
             {
@@ -1204,13 +1204,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 tosbytesaturated(int2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packs_epi16(shorts, shorts);
+                return Xse.packs_epi16(shorts, shorts);
             }
             else
             {
@@ -1222,13 +1222,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 tosbytesaturated(int3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packs_epi16(shorts, shorts);
+                return Xse.packs_epi16(shorts, shorts);
             }
             else
             {
@@ -1240,13 +1240,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 tosbytesaturated(int4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                v128 shorts = Sse2.packs_epi32(_x, _x);
+                v128 shorts = Xse.packs_epi32(_x, _x);
 
-                return Sse2.packs_epi16(shorts, shorts);
+                return Xse.packs_epi16(shorts, shorts);
             }
             else
             {
@@ -1258,14 +1258,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 tosbytesaturated(int4 x, int4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
                 v128 _y = RegisterConversion.ToV128(y);
 
-                v128 shorts = Sse2.packs_epi32(_x, _y);
+                v128 shorts = Xse.packs_epi32(_x, _y);
 
-                return Sse2.packs_epi16(shorts, shorts);
+                return Xse.packs_epi16(shorts, shorts);
             }
             else
             {
@@ -1290,8 +1290,8 @@ namespace MaxMath
                 v256 bytes  = Avx2.mm256_packs_epi16(shorts, shorts);
 
                 v128 ordered = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(0, 0, 2, 0)));
-                ordered = Sse2.shuffle_epi32(ordered, Sse.SHUFFLE(3, 1, 2, 0));
-                
+                ordered = Xse.shuffle_epi32(ordered, Sse.SHUFFLE(3, 1, 2, 0));
+
                 return ordered;
             }
             else
@@ -1313,7 +1313,7 @@ namespace MaxMath
                 v256 bytes = Avx2.mm256_packs_epi16(shorts_lo, shorts_hi);
                 bytes = Avx2.mm256_permute4x64_epi64(bytes, Sse.SHUFFLE(3, 1, 2, 0));
                 bytes = Avx2.mm256_shuffle_epi32(bytes, Sse.SHUFFLE(3, 1, 2, 0));
-                
+
                 return bytes;
             }
             else
@@ -1473,7 +1473,7 @@ namespace MaxMath
         {
             return tosbytesaturated((float4)x, (float4)y);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.sbyte16"/> and returns the result, where each component is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tosbytesaturated(quarter4 x0_3, quarter4 x4_7, quarter4 x8_11, quarter4 x12_15)
@@ -1501,7 +1501,7 @@ namespace MaxMath
         {
             return tosbytesaturated((float8)lo, (float8)hi);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter8"/>s <paramref name="x0_7"/>, <paramref name="x8_15"/>, <paramref name="x16_23"/> and <paramref name="x24_31"/> to an <see cref="MaxMath.sbyte32"/> and returns the result, where each component is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 tosbytesaturated(quarter8 x0_7, quarter8 x8_15, quarter8 x16_23, quarter8 x24_31)
@@ -1536,7 +1536,7 @@ namespace MaxMath
         {
             return tosbytesaturated((float4)x, (float4)y);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.sbyte16"/> and returns the result, where each component is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tosbytesaturated(half4 x0_3, half4 x4_7, half4 x8_11, half4 x12_15)
@@ -1599,7 +1599,7 @@ namespace MaxMath
         {
             return (sbyte8)clamp(new float8(x, y), sbyte.MinValue, sbyte.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="float4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/>, <paramref name="x12_15"/> to an <see cref="MaxMath.sbyte16"/> and returns the result, where each component is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tosbytesaturated(float4 x0_3, float4 x4_7, float4 x8_11, float4 x12_15)
@@ -1736,7 +1736,7 @@ namespace MaxMath
         {
             return (ushort)math.clamp(x, ushort.MinValue, ushort.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="ushort"/> and returns the result, which is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort toushortsaturated(Int128 x)
@@ -1765,7 +1765,7 @@ namespace MaxMath
         {
             return (ushort)math.min(ushort.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="ushort"/> and returns the result, which is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort toushortsaturated(UInt128 x)
@@ -1913,12 +1913,12 @@ namespace MaxMath
             if (Sse4_1.IsSse41Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
-                return Sse4_1.packus_epi32(_x, _x);
+
+                return Xse.packus_epi32(_x, _x);
             }
             else
             {
-                return new ushort2(toushortsaturated(x.x), toushortsaturated(x.y));
+                return (ushort2)math.clamp(x, ushort.MinValue, ushort.MaxValue);
             }
         }
 
@@ -1929,12 +1929,12 @@ namespace MaxMath
             if (Sse4_1.IsSse41Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
-                return Sse4_1.packus_epi32(_x, _x);
+
+                return Xse.packus_epi32(_x, _x);
             }
             else
             {
-                return new ushort3(toushortsaturated(x.x), toushortsaturated(x.y), toushortsaturated(x.z));
+                return (ushort3)math.clamp(x, ushort.MinValue, ushort.MaxValue);
             }
         }
 
@@ -1945,12 +1945,12 @@ namespace MaxMath
             if (Sse4_1.IsSse41Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
-                return Sse4_1.packus_epi32(_x, _x);
+
+                return Xse.packus_epi32(_x, _x);
             }
             else
             {
-                return new ushort4(toushortsaturated(x.x), toushortsaturated(x.y), toushortsaturated(x.z), toushortsaturated(x.w));
+                return (ushort4)math.clamp(x, ushort.MinValue, ushort.MaxValue);
             }
         }
 
@@ -1970,12 +1970,12 @@ namespace MaxMath
                 v128 _lo = RegisterConversion.ToV128(lo);
                 v128 _hi = RegisterConversion.ToV128(hi);
 
-                return Sse4_1.packus_epi32(_lo, _hi);
+                return Xse.packus_epi32(_lo, _hi);
             }
             else
             {
-                return new ushort8(toushortsaturated(lo.x), toushortsaturated(lo.y), toushortsaturated(lo.z), toushortsaturated(lo.w), 
-                                   toushortsaturated(hi.x), toushortsaturated(hi.y), toushortsaturated(hi.z), toushortsaturated(hi.w));
+                return new ushort8((ushort4)math.clamp(lo, ushort.MinValue, ushort.MaxValue),
+                                   (ushort4)math.clamp(hi, ushort.MinValue, ushort.MaxValue));
             }
         }
 
@@ -2147,7 +2147,7 @@ namespace MaxMath
         {
             return toushortsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/> and <paramref name="x12_15"/> to a <see cref="MaxMath.ushort16"/> and returns the result, where each component is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 toushortsaturated(quarter4 x0_3, quarter4 x4_7, quarter4 x8_11, quarter4 x12_15)
@@ -2196,14 +2196,14 @@ namespace MaxMath
         {
             return toushortsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.ushort8"/> and returns the result, where each component is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 toushortsaturated(half4 lo, half4 hi)
         {
             return toushortsaturated(new float8(lo, hi));
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/> and <paramref name="x12_15"/> to a <see cref="MaxMath.ushort16"/> and returns the result, where each component is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 toushortsaturated(half4 x0_3, half4 x4_7, half4 x8_11, half4 x12_15)
@@ -2260,7 +2260,7 @@ namespace MaxMath
             float8 MIN_VALUE = ushort.MinValue;
             float8 MAX_VALUE = ushort.MaxValue;
 
-            return new ushort16((ushort8)clamp(lo, MIN_VALUE, MAX_VALUE), 
+            return new ushort16((ushort8)clamp(lo, MIN_VALUE, MAX_VALUE),
                                 (ushort8)clamp(hi, MIN_VALUE, MAX_VALUE));
         }
 
@@ -2331,7 +2331,7 @@ namespace MaxMath
         {
             return (short)math.clamp(x, short.MinValue, short.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="short"/> and returns the result, which is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short toshortsaturated(Int128 x)
@@ -2353,7 +2353,7 @@ namespace MaxMath
         {
             return (short)math.min(short.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="short"/> and returns the result, which is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short toshortsaturated(UInt128 x)
@@ -2361,7 +2361,7 @@ namespace MaxMath
             return (short)min((ushort)short.MaxValue, x);
         }
 
-        
+
         /// <summary>       Casts the <see cref="quarter"/> <paramref name="x"/> to a <see cref="short"/> and returns the result, which is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short toshortsaturated(quarter x)
@@ -2430,11 +2430,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 toshortsaturated(int2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                return Sse2.packs_epi32(_x, _x);
+                return Xse.packs_epi32(_x, _x);
             }
             else
             {
@@ -2446,11 +2446,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 toshortsaturated(int3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                return Sse2.packs_epi32(_x, _x);
+                return Xse.packs_epi32(_x, _x);
             }
             else
             {
@@ -2462,11 +2462,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 toshortsaturated(int4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
 
-                return Sse2.packs_epi32(_x, _x);
+                return Xse.packs_epi32(_x, _x);
             }
             else
             {
@@ -2485,16 +2485,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 toshortsaturated(int4 lo, int4 hi)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _lo = RegisterConversion.ToV128(lo);
                 v128 _hi = RegisterConversion.ToV128(hi);
 
-                return Sse2.packs_epi32(_lo, _hi);
+                return Xse.packs_epi32(_lo, _hi);
             }
             else
             {
-                return new short8(toshortsaturated(lo.x), toshortsaturated(lo.y), toshortsaturated(lo.z), toshortsaturated(lo.w), 
+                return new short8(toshortsaturated(lo.x), toshortsaturated(lo.y), toshortsaturated(lo.z), toshortsaturated(lo.w),
                                   toshortsaturated(hi.x), toshortsaturated(hi.y), toshortsaturated(hi.z), toshortsaturated(hi.w));
             }
         }
@@ -2646,7 +2646,7 @@ namespace MaxMath
                                (short4)min(x8_11,  MAX_VALUE),
                                (short4)min(x12_15, MAX_VALUE));
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter2"/> <paramref name="x"/> to a <see cref="MaxMath.short2"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 toshortsaturated(quarter2 x)
@@ -2667,14 +2667,14 @@ namespace MaxMath
         {
             return toshortsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.short8"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 toshortsaturated(quarter4 lo, quarter4 hi)
         {
             return toshortsaturated(new float8(lo, hi));
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/> and <paramref name="x12_15"/> to a <see cref="MaxMath.short16"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 toshortsaturated(quarter4 x0_3, quarter4 x4_7, quarter4 x8_11, quarter4 x12_15)
@@ -2688,7 +2688,7 @@ namespace MaxMath
         {
             return toshortsaturated((float8)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter8"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.short8"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 toshortsaturated(quarter8 lo, quarter8 hi)
@@ -2716,14 +2716,14 @@ namespace MaxMath
         {
             return toshortsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.short8"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 toshortsaturated(half4 lo, half4 hi)
         {
             return toshortsaturated(new float8(lo, hi));
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="x0_3"/>, <paramref name="x4_7"/>, <paramref name="x8_11"/> and <paramref name="x12_15"/> to a <see cref="MaxMath.short16"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 toshortsaturated(half4 x0_3, half4 x4_7, half4 x8_11, half4 x12_15)
@@ -2737,7 +2737,7 @@ namespace MaxMath
         {
             return toshortsaturated((float8)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.half8"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.short16"/> and returns the result, where each component is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 toshortsaturated(half8 lo, half8 hi)
@@ -2781,7 +2781,7 @@ namespace MaxMath
             float8 MIN_VALUE = short.MinValue;
             float8 MAX_VALUE = short.MaxValue;
 
-            return new short16((short8)clamp(lo, MIN_VALUE, MAX_VALUE), 
+            return new short16((short8)clamp(lo, MIN_VALUE, MAX_VALUE),
                                (short8)clamp(hi, MIN_VALUE, MAX_VALUE));
         }
 
@@ -2852,7 +2852,7 @@ namespace MaxMath
         {
             return (uint)math.max(x, (int)uint.MinValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="uint"/> and returns the result, which is clamped to the interval [<see cref="uint.MinValue"/>, <see cref="uint.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touintsaturated(Int128 x)
@@ -2874,7 +2874,7 @@ namespace MaxMath
         {
             return (uint)math.min(uint.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="uint"/> and returns the result, which is clamped to the interval [<see cref="uint.MinValue"/>, <see cref="uint.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touintsaturated(UInt128 x)
@@ -2882,7 +2882,7 @@ namespace MaxMath
             return (uint)min(uint.MaxValue, x);
         }
 
-        
+
         /// <summary>       Casts the <see cref="quarter"/> <paramref name="x"/> to a <see cref="uint"/> and returns the result, which is clamped to the interval [<see cref="uint.MinValue"/>, <see cref="uint.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touintsaturated(quarter x)
@@ -2915,7 +2915,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 touintsaturated(sbyte2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint2)max((sbyte)uint.MinValue, x);
             }
@@ -2929,7 +2929,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 touintsaturated(sbyte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint3)max((sbyte)uint.MinValue, x);
             }
@@ -2943,7 +2943,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 touintsaturated(sbyte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint4)max((sbyte)uint.MinValue, x);
             }
@@ -2957,7 +2957,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 touintsaturated(sbyte8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint8)max((sbyte)uint.MinValue, x);
             }
@@ -2971,7 +2971,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 touintsaturated(short2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint2)max((short)uint.MinValue, x);
             }
@@ -2985,7 +2985,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 touintsaturated(short3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint3)max((short)uint.MinValue, x);
             }
@@ -2999,7 +2999,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 touintsaturated(short4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint4)max((short)uint.MinValue, x);
             }
@@ -3013,7 +3013,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 touintsaturated(short8 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (uint8)max((short)uint.MinValue, x);
             }
@@ -3055,7 +3055,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 touintsaturated(long2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 clamped = clamp(x, uint.MinValue, uint.MaxValue);
 
@@ -3123,7 +3123,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 touintsaturated(ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 clamped = min(x, uint.MaxValue);
 
@@ -3206,7 +3206,7 @@ namespace MaxMath
         {
             return touintsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.uint8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 touintsaturated(quarter4 lo, quarter4 hi)
@@ -3241,7 +3241,7 @@ namespace MaxMath
         {
             return touintsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.uint8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 touintsaturated(half4 lo, half4 hi)
@@ -3276,7 +3276,7 @@ namespace MaxMath
         {
             return math.select(math.select((uint4)x, uint.MinValue, x <= uint.MinValue), uint.MaxValue, x >= uint.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="float4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.uint8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 touintsaturated(float4 lo, float4 hi)
@@ -3297,8 +3297,8 @@ namespace MaxMath
 
                 v256 cast = (uint8)x;
 
-                v256 overflowMask  = Avx.mm256_cmp_ps(x, MAX_VALUE_F32, (int)Avx.CMP.GE_OQ);
-                v256 underflowMask = Avx.mm256_cmp_ps(x, MIN_VALUE_F32, (int)Avx.CMP.LE_OQ);
+                v256 overflowMask  = Xse.mm256_cmpge_ps(x, MAX_VALUE_F32);
+                v256 underflowMask = Xse.mm256_cmple_ps(x, MIN_VALUE_F32);
 
                 return Avx.mm256_blendv_ps(Avx.mm256_blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -3311,15 +3311,15 @@ namespace MaxMath
 
                 v256 cast = (uint8)x;
 
-                v256 overflowMask  = Avx.mm256_cmp_ps(x, MAX_VALUE_F32, (int)Avx.CMP.GE_OQ);
-                v256 underflowMask = Avx.mm256_cmp_ps(x, MIN_VALUE_F32, (int)Avx.CMP.LE_OQ);
+                v256 overflowMask  = Xse.mm256_cmpge_ps(x, MAX_VALUE_F32);
+                v256 underflowMask = Xse.mm256_cmple_ps(x, MIN_VALUE_F32);
 
                 v256 result = Avx.mm256_blendv_ps(Avx.mm256_blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
 
                 v128 lo = Avx.mm256_castps256_ps128(result);
                 v128 hi = Avx.mm256_extractf128_ps(result, 1);
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi)); 
+                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
             else
             {
@@ -3370,7 +3370,7 @@ namespace MaxMath
         {
             return (int)math.clamp(x, int.MinValue, int.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="int"/> and returns the result, which is clamped to the interval [<see cref="int.MinValue"/>, <see cref="int.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int tointsaturated(Int128 x)
@@ -3385,7 +3385,7 @@ namespace MaxMath
         {
             return (int)math.min(int.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="int"/> and returns the result, which is clamped to the interval [<see cref="int.MinValue"/>, <see cref="int.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int tointsaturated(UInt128 x)
@@ -3393,7 +3393,7 @@ namespace MaxMath
             return (int)min(int.MaxValue, x);
         }
 
-        
+
         /// <summary>       Casts the <see cref="quarter"/> <paramref name="x"/> to a <see cref="int"/> and returns the result, which is clamped to the interval [<see cref="int.MinValue"/>, <see cref="int.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int tointsaturated(quarter x)
@@ -3454,7 +3454,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tointsaturated(long2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 clamped = clamp(x, int.MinValue, int.MaxValue);
 
@@ -3522,7 +3522,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tointsaturated(ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 clamped = min(x, int.MaxValue);
 
@@ -3584,7 +3584,7 @@ namespace MaxMath
                 return new int8(tointsaturated(lo), tointsaturated(hi));
             }
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter2"/> <paramref name="x"/> to a <see cref="int2"/> and returns the result, where each component is clamped to the interval [<see cref="int.MinValue"/>, <see cref="int.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tointsaturated(quarter2 x)
@@ -3605,7 +3605,7 @@ namespace MaxMath
         {
             return tointsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.int8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tointsaturated(quarter4 lo, quarter4 hi)
@@ -3640,7 +3640,7 @@ namespace MaxMath
         {
             return tointsaturated((float4)x);
         }
-        
+
         /// <summary>       Casts the <see cref="half4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.int8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tointsaturated(half4 lo, half4 hi)
@@ -3675,7 +3675,7 @@ namespace MaxMath
         {
             return math.select(math.select((int4)x, int.MinValue, x <= int.MinValue), int.MaxValue, x >= int.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="float4"/>s <paramref name="lo"/> and <paramref name="hi"/> to a <see cref="MaxMath.int8"/> and returns the result, where each component is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tointsaturated(float4 lo, float4 hi)
@@ -3696,8 +3696,8 @@ namespace MaxMath
 
                 v256 cast = Avx.mm256_cvttps_epi32(x);
 
-                v256 overflowMask  = Avx.mm256_cmp_ps(x, MAX_VALUE_F32, (int)Avx.CMP.GE_OQ);
-                v256 underflowMask = Avx.mm256_cmp_ps(x, MIN_VALUE_F32, (int)Avx.CMP.LE_OQ);
+                v256 overflowMask  = Xse.mm256_cmpge_ps(x, MAX_VALUE_F32);
+                v256 underflowMask = Xse.mm256_cmple_ps(x, MIN_VALUE_F32);
 
                 return Avx.mm256_blendv_ps(Avx.mm256_blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -3710,15 +3710,15 @@ namespace MaxMath
 
                 v256 cast = Avx.mm256_cvttps_epi32(x);
 
-                v256 overflowMask  = Avx.mm256_cmp_ps(x, MAX_VALUE_F32, (int)Avx.CMP.GE_OQ);
-                v256 underflowMask = Avx.mm256_cmp_ps(x, MIN_VALUE_F32, (int)Avx.CMP.LE_OQ);
+                v256 overflowMask  = Xse.mm256_cmpge_ps(x, MAX_VALUE_F32);
+                v256 underflowMask = Xse.mm256_cmple_ps(x, MIN_VALUE_F32);
 
                 v256 result = Avx.mm256_blendv_ps(Avx.mm256_blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
 
                 v128 lo = Avx.mm256_castps256_ps128(result);
                 v128 hi = Avx.mm256_extractf128_ps(result, 1);
 
-                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi)); 
+                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
             else
             {
@@ -3754,7 +3754,7 @@ namespace MaxMath
             return new int8(tointsaturated(lo), tointsaturated(hi));
         }
         #endregion
-        
+
         #region To ulong
         /// <summary>       Casts the <see cref="sbyte"/> <paramref name="x"/> to a <see cref="ulong"/> and returns the result, which is clamped to the interval [<see cref="ulong.MinValue"/>, <see cref="ulong.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3783,7 +3783,7 @@ namespace MaxMath
         {
             return (ulong)math.max((long)ulong.MinValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="Int128"/> <paramref name="x"/> to a <see cref="ulong"/> and returns the result, which is clamped to the interval [<see cref="ulong.MinValue"/>, <see cref="ulong.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong toulongsaturated(Int128 x)
@@ -3791,12 +3791,12 @@ namespace MaxMath
             return (ulong)clamp(x, ulong.MinValue, ulong.MaxValue);
         }
 
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="ulong"/> and returns the result, which is clamped to the interval [<see cref="ulong.MinValue"/>, <see cref="ulong.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong toulongsaturated(UInt128 x)
         {
-            return x.hi64 == 0 ? x.lo64 : ulong.MaxValue; 
+            return x.hi64 == 0 ? x.lo64 : ulong.MaxValue;
         }
 
 
@@ -3832,7 +3832,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsaturated(sbyte2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong2)max((sbyte)ulong.MinValue, x);
             }
@@ -3846,7 +3846,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 toulongsaturated(sbyte3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong3)max((sbyte)ulong.MinValue, x);
             }
@@ -3860,7 +3860,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 toulongsaturated(sbyte4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong4)max((sbyte)ulong.MinValue, x);
             }
@@ -3874,7 +3874,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsaturated(short2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong2)max((short)ulong.MinValue, x);
             }
@@ -3888,7 +3888,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 toulongsaturated(short3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong3)max((short)ulong.MinValue, x);
             }
@@ -3902,7 +3902,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 toulongsaturated(short4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong4)max((short)ulong.MinValue, x);
             }
@@ -3916,7 +3916,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsaturated(int2 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong2)math.max((int)ulong.MinValue, x);
             }
@@ -3930,7 +3930,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 toulongsaturated(int3 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong3)math.max((int)ulong.MinValue, x);
             }
@@ -3944,7 +3944,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 toulongsaturated(int4 x)
         {
-            if (Sse4_1.IsSse41Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ulong4)math.max((int)ulong.MinValue, x);
             }
@@ -4021,10 +4021,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsaturated(float2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v128 MIN_VALUE = new v128(ulong.MinValue);
                 v128 MAX_VALUE = new v128(ulong.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)ulong.MinValue, (float)ulong.MinValue, 0f, 0f);
@@ -4032,10 +4032,10 @@ namespace MaxMath
 
                 v128 cast = (ulong2)x;
 
-                v128 underflowMask = Sse.cmple_ps(_x, MIN_VALUE_F32);
-                underflowMask = Sse2.unpacklo_epi32(underflowMask, underflowMask);
-                v128 overflowMask  = Sse.cmpge_ps(_x, MAX_VALUE_F32);
-                overflowMask = Sse2.unpacklo_epi32(overflowMask, overflowMask);
+                v128 underflowMask = Xse.cmple_ps(_x, MIN_VALUE_F32);
+                underflowMask = Xse.unpacklo_epi32(underflowMask, underflowMask);
+                v128 overflowMask  = Xse.cmpge_ps(_x, MAX_VALUE_F32);
+                overflowMask = Xse.unpacklo_epi32(overflowMask, overflowMask);
 
                 return Xse.blendv_si128(Xse.blendv_si128(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4052,7 +4052,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v256 MIN_VALUE = new v256(ulong.MinValue);
                 v256 MAX_VALUE = new v256(ulong.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)ulong.MinValue);
@@ -4082,7 +4082,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v256 MIN_VALUE = new v256(ulong.MinValue);
                 v256 MAX_VALUE = new v256(ulong.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)ulong.MinValue);
@@ -4109,10 +4109,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsaturated(double2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v128 MIN_VALUE = new v128(ulong.MinValue);
                 v128 MAX_VALUE = new v128(ulong.MaxValue);
                 v128 MIN_VALUE_F64 = new v128((double)ulong.MinValue);
@@ -4120,10 +4120,10 @@ namespace MaxMath
 
                 v128 cast = (ulong2)x;
 
-                v128 underflowMask = Sse2.cmple_pd(_x, MIN_VALUE_F64);
-                v128 overflowMask  = Sse2.cmpge_pd(_x, MAX_VALUE_F64);
+                v128 underflowMask = Xse.cmple_pd(_x, MIN_VALUE_F64);
+                v128 overflowMask  = Xse.cmpge_pd(_x, MAX_VALUE_F64);
 
-                return Xse.blendv_ps(Xse.blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
+                return Xse.blendv_si128(Xse.blendv_si128(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
             else
             {
@@ -4138,7 +4138,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 _x = RegisterConversion.ToV256(x);
-                
+
                 v256 MIN_VALUE = new v256(ulong.MinValue);
                 v256 MAX_VALUE = new v256(ulong.MaxValue);
                 v256 MIN_VALUE_F64 = new v256((double)ulong.MinValue);
@@ -4146,8 +4146,8 @@ namespace MaxMath
 
                 v256 cast = (ulong3)x;
 
-                v256 underflowMask = Avx.mm256_cmp_pd(_x, MIN_VALUE_F64, (int)Avx.CMP.LE_OQ);
-                v256 overflowMask  = Avx.mm256_cmp_pd(_x, MAX_VALUE_F64, (int)Avx.CMP.GE_OQ);
+                v256 underflowMask = Xse.mm256_cmple_pd(_x, MIN_VALUE_F64);
+                v256 overflowMask  = Xse.mm256_cmpge_pd(_x, MAX_VALUE_F64);
 
                 return Avx.mm256_blendv_pd(Avx.mm256_blendv_pd(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4164,7 +4164,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 _x = RegisterConversion.ToV256(x);
-                
+
                 v256 MIN_VALUE = new v256(ulong.MinValue);
                 v256 MAX_VALUE = new v256(ulong.MaxValue);
                 v256 MIN_VALUE_F64 = new v256((double)ulong.MinValue);
@@ -4172,8 +4172,8 @@ namespace MaxMath
 
                 v256 cast = (ulong4)x;
 
-                v256 underflowMask = Avx.mm256_cmp_pd(_x, MIN_VALUE_F64, (int)Avx.CMP.LE_OQ);
-                v256 overflowMask  = Avx.mm256_cmp_pd(_x, MAX_VALUE_F64, (int)Avx.CMP.GE_OQ);
+                v256 underflowMask = Xse.mm256_cmple_pd(_x, MIN_VALUE_F64);
+                v256 overflowMask  = Xse.mm256_cmpge_pd(_x, MAX_VALUE_F64);
 
                 return Avx.mm256_blendv_pd(Avx.mm256_blendv_pd(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4199,7 +4199,7 @@ namespace MaxMath
         {
             return (long)math.min((ulong)long.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="UInt128"/> <paramref name="x"/> to a <see cref="long"/> and returns the result, which is clamped to the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long tolongsaturated(UInt128 x)
@@ -4207,7 +4207,7 @@ namespace MaxMath
             return (long)min(long.MaxValue, x);
         }
 
-        
+
         /// <summary>       Casts the <see cref="quarter"/> <paramref name="x"/> to a <see cref="long"/> and returns the result, which is clamped to the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long tolongsaturated(quarter x)
@@ -4256,7 +4256,7 @@ namespace MaxMath
         {
             return (long4)min((ulong)long.MaxValue, x);
         }
-        
+
         /// <summary>       Casts the <see cref="MaxMath.quarter2"/> <paramref name="x"/> to a <see cref="MaxMath.long2"/> and returns the result, where each component is clamped to the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tolongsaturated(quarter2 x)
@@ -4303,10 +4303,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tolongsaturated(float2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v128 MIN_VALUE = new v128(long.MinValue);
                 v128 MAX_VALUE = new v128(long.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)long.MinValue, (float)long.MinValue, 0f, 0f);
@@ -4314,10 +4314,10 @@ namespace MaxMath
 
                 v128 cast = (long2)x;
 
-                v128 underflowMask = Sse.cmple_ps(_x, MIN_VALUE_F32);
-                underflowMask = Sse2.unpacklo_epi32(underflowMask, underflowMask);
-                v128 overflowMask  = Sse.cmpge_ps(_x, MAX_VALUE_F32);
-                overflowMask = Sse2.unpacklo_epi32(overflowMask, overflowMask);
+                v128 underflowMask = Xse.cmple_ps(_x, MIN_VALUE_F32);
+                underflowMask = Xse.unpacklo_epi32(underflowMask, underflowMask);
+                v128 overflowMask  = Xse.cmpge_ps(_x, MAX_VALUE_F32);
+                overflowMask = Xse.unpacklo_epi32(overflowMask, overflowMask);
 
                 return Xse.blendv_si128(Xse.blendv_si128(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4334,7 +4334,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v256 MIN_VALUE = new v256(long.MinValue);
                 v256 MAX_VALUE = new v256(long.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)long.MinValue);
@@ -4364,7 +4364,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v256 MIN_VALUE = new v256(long.MinValue);
                 v256 MAX_VALUE = new v256(long.MaxValue);
                 v128 MIN_VALUE_F32 = new v128((float)long.MinValue);
@@ -4391,10 +4391,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tolongsaturated(double2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 _x = RegisterConversion.ToV128(x);
-                
+
                 v128 MIN_VALUE = new v128(long.MinValue);
                 v128 MAX_VALUE = new v128(long.MaxValue);
                 v128 MIN_VALUE_F64 = new v128((double)long.MinValue);
@@ -4402,10 +4402,10 @@ namespace MaxMath
 
                 v128 cast = (long2)x;
 
-                v128 underflowMask = Sse2.cmple_pd(_x, MIN_VALUE_F64);
-                v128 overflowMask  = Sse2.cmpge_pd(_x, MAX_VALUE_F64);
+                v128 underflowMask = Xse.cmple_pd(_x, MIN_VALUE_F64);
+                v128 overflowMask  = Xse.cmpge_pd(_x, MAX_VALUE_F64);
 
-                return Xse.blendv_ps(Xse.blendv_ps(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
+                return Xse.blendv_si128(Xse.blendv_si128(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
             else
             {
@@ -4420,7 +4420,7 @@ namespace MaxMath
             if (Avx.IsAvxSupported)
             {
                 v256 _x = RegisterConversion.ToV256(x);
-                
+
                 v256 MIN_VALUE = new v256(long.MinValue);
                 v256 MAX_VALUE = new v256(long.MaxValue);
                 v256 MIN_VALUE_F64 = new v256((double)long.MinValue);
@@ -4428,8 +4428,8 @@ namespace MaxMath
 
                 v256 cast = (long3)x;
 
-                v256 underflowMask = Avx.mm256_cmp_pd(_x, MIN_VALUE_F64, (int)Avx.CMP.LE_OQ);
-                v256 overflowMask  = Avx.mm256_cmp_pd(_x, MAX_VALUE_F64, (int)Avx.CMP.GE_OQ);
+                v256 underflowMask = Xse.mm256_cmple_pd(_x, MIN_VALUE_F64);
+                v256 overflowMask  = Xse.mm256_cmpge_pd(_x, MAX_VALUE_F64);
 
                 return Avx.mm256_blendv_pd(Avx.mm256_blendv_pd(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4446,7 +4446,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 v256 _x = RegisterConversion.ToV256(x);
-                
+
                 v256 MIN_VALUE = new v256(long.MinValue);
                 v256 MAX_VALUE = new v256(long.MaxValue);
                 v256 MIN_VALUE_F64 = new v256((double)long.MinValue);
@@ -4454,8 +4454,8 @@ namespace MaxMath
 
                 v256 cast = (long4)x;
 
-                v256 underflowMask = Avx.mm256_cmp_pd(_x, MIN_VALUE_F64, (int)Avx.CMP.LE_OQ);
-                v256 overflowMask  = Avx.mm256_cmp_pd(_x, MAX_VALUE_F64, (int)Avx.CMP.GE_OQ);
+                v256 underflowMask = Xse.mm256_cmple_pd(_x, MIN_VALUE_F64);
+                v256 overflowMask  = Xse.mm256_cmpge_pd(_x, MAX_VALUE_F64);
 
                 return Avx.mm256_blendv_pd(Avx.mm256_blendv_pd(cast, MIN_VALUE, underflowMask), MAX_VALUE, overflowMask);
             }
@@ -4604,7 +4604,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquartersaturated(half x)
         {
-            return (quarter)math.clamp(x, quarter.MinValue, quarter.MaxValue);
+            return (quarter)math.clamp((float)x, quarter.MinValue, quarter.MaxValue);
         }
 
         /// <summary>       Casts the <see cref="float"/> <paramref name="x"/> to a <see cref="quarter"/> and returns the result, which is clamped to the interval [<see cref="quarter.MinValue"/>, <see cref="quarter.MaxValue"/>].    </summary>
@@ -4613,7 +4613,7 @@ namespace MaxMath
         {
             return (quarter)math.clamp(x, quarter.MinValue, quarter.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="double"/> <paramref name="x"/> to a <see cref="quarter"/> and returns the result, which is clamped to the interval [<see cref="quarter.MinValue"/>, <see cref="quarter.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquartersaturated(double x)
@@ -4819,7 +4819,7 @@ namespace MaxMath
             return MaxMath.quarter8.UInt8ToQuarter8(x, quarter.MaxValue);
         }
 
-        
+
         /// <summary>       Casts the <see cref="MaxMath.ulong2"/> <paramref name="x"/> to a <see cref="MaxMath.quarter2"/> and returns the result, where each component is clamped to the interval [<see cref="MaxMath.quarter.MinValue"/>, <see cref="MaxMath.quarter.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquartersaturated(ulong2 x)
@@ -4853,28 +4853,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquartersaturated(half2 x)
         {
-            return (quarter2)math.clamp(x, quarter.MinValue, quarter.MaxValue);
+            return (quarter2)math.clamp((float2)x, quarter.MinValue, quarter.MaxValue);
         }
 
         /// <summary>       Casts the <see cref="half3"/> <paramref name="x"/> to a <see cref="MaxMath.quarter3"/> and returns the result, where each component is clamped to the interval [<see cref="MaxMath.quarter.MinValue"/>, <see cref="MaxMath.quarter.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquartersaturated(half3 x)
         {
-            return (quarter3)math.clamp(x, quarter.MinValue, quarter.MaxValue);
+            return (quarter3)math.clamp((float3)x, quarter.MinValue, quarter.MaxValue);
         }
 
         /// <summary>       Casts the <see cref="half4"/> <paramref name="x"/> to a <see cref="MaxMath.quarter4"/> and returns the result, where each component is clamped to the interval [<see cref="MaxMath.quarter.MinValue"/>, <see cref="MaxMath.quarter.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquartersaturated(half4 x)
         {
-            return (quarter4)math.clamp(x, quarter.MinValue, quarter.MaxValue);
+            return (quarter4)math.clamp((float4)x, quarter.MinValue, quarter.MaxValue);
         }
 
         /// <summary>       Casts the <see cref="MaxMath.half8"/> <paramref name="x"/> to a <see cref="MaxMath.quarter8"/> and returns the result, where each component is clamped to the interval [<see cref="MaxMath.quarter.MinValue"/>, <see cref="MaxMath.quarter.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquartersaturated(half8 x)
         {
-            return (quarter8)clamp(x, quarter.MinValue, quarter.MaxValue);
+            return (quarter8)clamp((float8)x, quarter.MinValue, quarter.MaxValue);
         }
 
         /// <summary>       Casts the <see cref="float2"/> <paramref name="x"/> to a <see cref="MaxMath.quarter2"/> and returns the result, where each component is clamped to the interval [<see cref="MaxMath.quarter.MinValue"/>, <see cref="MaxMath.quarter.MaxValue"/>].    </summary>
@@ -4996,7 +4996,7 @@ namespace MaxMath
         {
             return (half)math.clamp(x, half.MinValue, half.MaxValue);
         }
-        
+
         /// <summary>       Casts the <see cref="double"/> <paramref name="x"/> to a <see cref="half"/> and returns the result, which is clamped to the interval [<see cref="half.MinValue"/>, <see cref="half.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half tohalfsaturated(double x)
@@ -5093,7 +5093,7 @@ namespace MaxMath
             return (half8)(float8)min(x, (ushort)half.MaxValue);
         }
 
-        
+
         /// <summary>       Casts the <see cref="uint2"/> <paramref name="x"/> to a <see cref="half2"/> and returns the result, where each component is clamped to the interval [<see cref="half.MinValue"/>, <see cref="half.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 tohalfsaturated(uint2 x)
@@ -5122,7 +5122,7 @@ namespace MaxMath
             return (half8)(float8)min(x, (uint)half.MaxValue);
         }
 
-        
+
         /// <summary>       Casts the <see cref="MaxMath.ulong2"/> <paramref name="x"/> to a <see cref="half2"/> and returns the result, where each component is clamped to the interval [<see cref="half.MinValue"/>, <see cref="half.MaxValue"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 tohalfsaturated(ulong2 x)

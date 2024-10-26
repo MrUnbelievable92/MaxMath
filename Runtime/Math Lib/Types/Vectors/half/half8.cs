@@ -1,6 +1,5 @@
 //#define TESTING
 
-
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -14,8 +13,8 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable]  
-    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(ushort))]  
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(ushort))]
     [DebuggerTypeProxy(typeof(half8.DebuggerProxy))]
     unsafe public struct half8 : IEquatable<half8>, IFormattable
     {
@@ -118,28 +117,28 @@ namespace MaxMath
         }
 
 
-        public half4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } } 
-        public half4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
+        public half4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v4_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
 
-        public half3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_5 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
+        public half3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v3_5 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
 
-        public half2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
-        public half2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }  
+        public half2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_0 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_1 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_2 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_3 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
+        public half2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_4 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
         public half2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_5 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
         public half2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_6 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(half8 input) => new v128 { UShort0 = input.x0.value, UShort1 = input.x1.value, UShort2 = input.x2.value, UShort3 = input.x3.value, UShort4 = input.x4.value, UShort5 = input.x5.value, UShort6 = input.x6.value, UShort7 = input.x7.value };
 
@@ -193,42 +192,39 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return maxmath.ashalf(Xse.extract_epi16(this, (byte)index));
                 }
                 else
                 {
-                    half8 onStack = this;
-                    return *((half*)&onStack + index);
+                    return this.GetField<half8, half>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 8);
-                
-                if (Sse2.IsSse2Supported)
+
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi16(this, maxmath.asushort(value), (byte)index);
                 }
                 else
                 {
-                    half8 onStack = this;
-                    *((half*)&onStack + index) = value;
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }
-    
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (half8 left, half8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsTrue16(Xse.cmpeq_epi16(left, right));
             }
             else
             {
@@ -239,9 +235,9 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (half8 left, half8 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsFalse16(Sse2.cmpeq_epi16(left, right));
+                return RegisterConversion.IsFalse16(Xse.cmpeq_epi16(left, right));
             }
             else
             {
@@ -253,9 +249,9 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(half8 other)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return ulong.MaxValue == Sse2.cmpeq_epi16(this, other).ULong0;
+                return ulong.MaxValue == Xse.cmpeq_epi16(this, other).ULong0;
             }
             else
             {
@@ -269,7 +265,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode()
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Hash.v128(this);
             }

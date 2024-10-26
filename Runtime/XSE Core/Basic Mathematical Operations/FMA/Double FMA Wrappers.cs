@@ -1,6 +1,5 @@
 //#define TESTING
 
-
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -18,11 +17,15 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.add_pd(Sse2.mul_pd(a, b), c);
+                return add_pd(mul_pd(a, b), c);
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return Arm.Neon.vfmaq_f64(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -35,11 +38,15 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_pd(Sse2.mul_pd(a, b), c);
+                return sub_pd(mul_pd(a, b), c);
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return Arm.Neon.vfmsq_f64(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -52,11 +59,24 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fnmadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_pd(c, Sse2.mul_pd(a, b));
+                return sub_pd(c, mul_pd(a, b));
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                if (constexpr.IS_CONST(a))
+                {
+                    a = neg_pd(a);
+                }
+                else
+                {
+                    b = neg_pd(b);
+                }
+
+                return fmadd_pd(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -69,11 +89,24 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fnmsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse2.IsSse2Supported)
             {
-                return Sse2.sub_pd(Sse2.mul_pd(a, b), neg_pd(c));
+                return sub_pd(neg_pd(c), mul_pd(a, b));
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                if (constexpr.IS_CONST(a))
+                {
+                    a = neg_pd(a);
+                }
+                else
+                {
+                    b = neg_pd(b);
+                }
+
+                return fmsub_pd(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -86,15 +119,15 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmaddsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse3.IsSse3Supported)
             {
-                return Sse3.addsub_pd(Sse2.mul_pd(a, b), c);
+                return addsub_pd(mul_pd(a, b), c);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_pd(Sse2.mul_pd(a, b), Sse2.xor_pd(c, new v128(1ul << 63, 0)));
+                return fmadd_pd(a, b, xor_pd(c, new v128(1ul << 63, 0)));
             }
             else throw new IllegalInstructionException();
         }
@@ -107,20 +140,20 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmsubadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Sse3.IsSse3Supported)
             {
-                return Sse3.addsub_pd(Sse2.mul_pd(a, b), Sse2.xor_pd(c, new v128(1ul << 63, 0)));
+                return addsub_pd(mul_pd(a, b), xor_pd(c, new v128(1ul << 63, 0)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_pd(Sse2.mul_pd(a, b), Sse2.xor_pd(c, new v128(1ul << 63, 0)));
+                return fmsub_pd(a, b, xor_pd(c, new v128(1ul << 63, 0)));
             }
             else throw new IllegalInstructionException();
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_fmadd_pd(v256 a, v256 b, v256 c)
         {
@@ -129,7 +162,7 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fmadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {
@@ -146,7 +179,7 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fmsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {
@@ -163,7 +196,7 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fnmadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {
@@ -180,11 +213,11 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fnmsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_sub_pd(Avx.mm256_mul_pd(a, b), mm256_neg_pd(c));
+                return Avx.mm256_sub_pd(mm256_neg_pd(c), Avx.mm256_mul_pd(a, b));
             }
             else throw new IllegalInstructionException();
         }
@@ -197,7 +230,7 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fmaddsub_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {
@@ -214,7 +247,7 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.mm256_fmsubadd_pd(a, b, c);
             }
-            else 
+            else
 #endif
             if (Avx.IsAvxSupported)
             {

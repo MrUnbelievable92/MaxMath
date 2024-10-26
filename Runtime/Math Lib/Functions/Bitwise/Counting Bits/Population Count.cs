@@ -16,19 +16,43 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi8(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Arm.Neon.IsNeonSupported)
                 {
-                    v128 LOOKUP = new v128(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
-                    v128 MASK = Sse2.set1_epi8(0x0F);
-    
-                    v128 countLo = Ssse3.shuffle_epi8(LOOKUP, Sse2.and_si128(MASK, a));
-                    v128 countHi = Ssse3.shuffle_epi8(LOOKUP, Sse2.and_si128(MASK, Sse2.srli_epi16(a, 4)));
-    
-                    return Sse2.add_epi8(countLo, countHi);
+                    return Arm.Neon.vcntq_u8(a);
+                }
+                else if (Sse2.IsSse2Supported)
+                {
+                    v128 result;
+                    
+                    if (Ssse3.IsSsse3Supported)
+                    {
+                        v128 LOOKUP = new v128(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
+
+                        v128 countLo = shuffle_epi8(LOOKUP, and_si128(NIBBLE_MASK, a));
+                        v128 countHi = shuffle_epi8(LOOKUP, and_si128(NIBBLE_MASK, srli_epi16(a, 4)));
+
+                        result = add_epi8(countLo, countHi);
+                    }
+                    else
+                    {
+                        v128 ONE = set1_epi8(1);
+
+                        result = add_epi8(add_epi8(add_epi8(and_si128(ONE, a),
+                                                            and_si128(ONE, srli_epi16(a, 1))),
+                                                   add_epi8(and_si128(ONE, srli_epi16(a, 2)),
+                                                            and_si128(ONE, srli_epi16(a, 3)))),
+                                          add_epi8(add_epi8(and_si128(ONE, srli_epi16(a, 4)),
+                                                            and_si128(ONE, srli_epi16(a, 5))),
+                                                   add_epi8(and_si128(ONE, srli_epi16(a, 6)),
+                                                            and_si128(ONE, srli_epi16(a, 7)))));
+                    }
+
+                    constexpr.ASSUME_LE_EPU8(result, 8);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_popcnt_epi8(v256 a)
             {
@@ -36,86 +60,125 @@ namespace MaxMath
                 {
                     v256 LOOKUP = new v256(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
                                            0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
-    
-                    v256 MASK = Avx.mm256_set1_epi8(0x0F);
-    
-                    v256 countLo = Avx2.mm256_shuffle_epi8(LOOKUP, Avx2.mm256_and_si256(MASK, a));
-                    v256 countHi = Avx2.mm256_shuffle_epi8(LOOKUP, Avx2.mm256_and_si256(MASK, Avx2.mm256_srli_epi16(a, 4)));
-    
-                    return Avx2.mm256_add_epi8(countLo, countHi);
+
+                    v256 countLo = Avx2.mm256_shuffle_epi8(LOOKUP, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, a));
+                    v256 countHi = Avx2.mm256_shuffle_epi8(LOOKUP, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4)));
+
+                    v256 result = Avx2.mm256_add_epi8(countLo, countHi);
+
+                    constexpr.ASSUME_LE_EPU8(result, 8);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
-    
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi16(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     v128 byteBits = popcnt_epi8(a);
-    
-                    v128 lo = Sse2.and_si128(byteBits, Sse2.set1_epi16(0x00FF));
-                    v128 hi = Sse2.srli_epi16(byteBits, 8);
-    
-                    return Sse2.add_epi16(lo, hi);
+
+                    v128 lo = and_si128(byteBits, set1_epi16(0x00FF));
+                    v128 hi = srli_epi16(byteBits, 8);
+
+                    v128 result = add_epi16(lo, hi);
+                    
+                    constexpr.ASSUME_LE_EPU16(result, 16);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_popcnt_epi16(v256 a)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 byteBits = mm256_popcnt_epi8(a);
-                    v256 lo = Avx2.mm256_and_si256(byteBits, Avx.mm256_set1_epi16(0x00FF));
+                    v256 lo = Avx2.mm256_and_si256(byteBits, mm256_set1_epi16(0x00FF));
                     v256 hi = Avx2.mm256_srli_epi16(byteBits, 8);
-    
-                    return Avx2.mm256_add_epi16(lo, hi);
+
+                    v256 result = Avx2.mm256_add_epi16(lo, hi);
+                    
+                    constexpr.ASSUME_LE_EPU16(result, 16);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
-    
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi32(v128 a)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     v128 byteBits = popcnt_epi16(a);
-    
-                    v128 lo = Sse2.and_si128(byteBits, Sse2.set1_epi32(0x0000_FFFF));
-                    v128 hi = Sse2.srli_epi32(byteBits, 16);
-    
-                    return Sse2.add_epi32(lo, hi);
+
+                    v128 lo = and_si128(byteBits, set1_epi32(0x0000_FFFF));
+                    v128 hi = srli_epi32(byteBits, 16);
+
+                    v128 result = add_epi32(lo, hi);
+                    
+                    constexpr.ASSUME_LE_EPU32(result, 32);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_popcnt_epi32(v256 a)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 shortBits = mm256_popcnt_epi16(a);
-                    v256 lo = Avx2.mm256_and_si256(shortBits, Avx.mm256_set1_epi32(0x0000_FFFF));
+                    v256 lo = Avx2.mm256_and_si256(shortBits, mm256_set1_epi32(0x0000_FFFF));
                     v256 hi = Avx2.mm256_srli_epi32(shortBits, 16);
-    
-                    return Avx2.mm256_add_epi32(lo, hi);
+
+                    v256 result = Avx2.mm256_add_epi32(lo, hi);
+                    
+                    constexpr.ASSUME_LE_EPU32(result, 32);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-    
-    
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 popcnt_epi64(v128 a)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 result;
+
+                    if (Popcnt.IsPopcntSupported)
+                    {
+                        int lo = Popcnt.popcnt_u64((ulong)cvtsi128_si64x(a));
+                        int hi = Popcnt.popcnt_u64((ulong)cvtsi128_si64x(bsrli_si128(a, sizeof(ulong))));
+
+                        result = unpacklo_epi64(cvtsi32_si128(lo), cvtsi32_si128(hi));
+                    }
+                    else
+                    {
+                        result = sad_epu8(popcnt_epi8(a), setzero_si128());
+                    }
+                    
+                    constexpr.ASSUME_LE_EPU64(result, 64);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_popcnt_epi64(v256 a)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 byteBits = mm256_popcnt_epi8(a);
-    
-                    return Avx2.mm256_sad_epu8(byteBits, Avx.mm256_setzero_si256());
+                    v256 result = Avx2.mm256_sad_epu8(mm256_popcnt_epi8(a), Avx.mm256_setzero_si256());
+                    
+                    constexpr.ASSUME_LE_EPU64(result, 64);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -127,7 +190,7 @@ namespace MaxMath
     {
         /// <summary>       Returns number of 1-bits in the binary representation of a <see cref="UInt128"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 128L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(UInt128 x)
         {
             return math.countbits(x.lo64) + math.countbits(x.hi64);
@@ -135,10 +198,10 @@ namespace MaxMath
 
         /// <summary>       Returns number of 1-bits in the binary representation of an <see cref="Int128"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 128L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(Int128 x)
         {
-            return math.countbits(x.lo64) + math.countbits(x.hi64);
+            return countbits((UInt128)x);
         }
 
 
@@ -160,7 +223,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 countbits(byte16 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -174,7 +237,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 countbits(byte8 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -188,7 +251,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 countbits(byte4 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -202,7 +265,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 countbits(byte3 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -216,7 +279,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 countbits(byte2 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -228,7 +291,7 @@ namespace MaxMath
 
         /// <summary>       Returns number of 1-bits in the binary representation of a <see cref="byte"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 8L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(byte x)
         {
             return math.countbits((uint)x);
@@ -279,7 +342,7 @@ namespace MaxMath
 
         /// <summary>       Returns number of 1-bits in the binary representation of an <see cref="sbyte"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 8L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(sbyte x)
         {
             return math.countbits((uint)(byte)x);
@@ -304,7 +367,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 countbits(ushort8 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -318,7 +381,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 countbits(ushort4 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -332,7 +395,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 countbits(ushort3 x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -351,7 +414,7 @@ namespace MaxMath
 
         /// <summary>       Returns number of 1-bits in the binary representation of a <see cref="ushort"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 16L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(ushort x)
         {
             return math.countbits((uint)x);
@@ -369,33 +432,33 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 countbits(short8 x)
         {
-            return (short8)countbits((short8)x);
+            return (short8)countbits((ushort8)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.short4"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 countbits(short4 x)
         {
-            return (short4)countbits((short4)x);
+            return (short4)countbits((ushort4)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.short3"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 countbits(short3 x)
         {
-            return (short3)countbits((short3)x);
+            return (short3)countbits((ushort3)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.short2"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 countbits(short2 x)
         {
-            return (short2)countbits((short2)x);
+            return (short2)countbits((ushort2)x);
         }
 
         /// <summary>       Returns number of 1-bits in the binary representation of a <see cref="short"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.     </summary>
         [return: AssumeRange(0L, 16L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(short x)
         {
             return math.countbits((uint)(ushort)x);
@@ -404,7 +467,7 @@ namespace MaxMath
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.uint8"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 countbits(uint8 x)
+        public static int8 countbits(uint8 x)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -412,7 +475,7 @@ namespace MaxMath
             }
             else
             {
-                return new uint8((uint4)math.countbits(x.v4_0), (uint4)math.countbits(x.v4_4));
+                return new int8(math.countbits(x.v4_0), math.countbits(x.v4_4));
             }
         }
 
@@ -429,7 +492,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 countbits(ulong2 x)
         {
-            return new ulong2((uint)math.countbits(x.x), (uint)math.countbits(x.y));
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.popcnt_epi64(x);
+            }
+            else
+            {
+                return new ulong2((uint)math.countbits(x.x), (uint)math.countbits(x.y));
+            }
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.ulong3"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
@@ -442,7 +512,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3((uint)math.countbits(x.x), (uint)math.countbits(x.y), (uint)math.countbits(x.z));
+                return new ulong3(countbits(x.xy), (uint)math.countbits(x.z));
             }
         }
 
@@ -456,7 +526,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong4((uint)math.countbits(x.x), (uint)math.countbits(x.y), (uint)math.countbits(x.z), (uint)math.countbits(x.w));
+                return new ulong4(countbits(x.xy), countbits(x.zw));
             }
         }
 
@@ -465,35 +535,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 countbits(long2 x)
         {
-            return new long2((uint)math.countbits(x.x), (uint)math.countbits(x.y));
+            return (long2)countbits((ulong2)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.long3"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 countbits(long3 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_popcnt_epi64(x);
-            }
-            else
-            {
-                return new long3((uint)math.countbits(x.x), (uint)math.countbits(x.y), (uint)math.countbits(x.z));
-            }
+            return (long3)countbits((ulong3)x);
         }
 
         /// <summary>       Returns component-wise number of 1-bits in the binary representation of a <see cref="MaxMath.long4"/>. Also known as the Hamming weight, popcnt on x86, and vcnt on ARM.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 countbits(long4 x)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_popcnt_epi64(x);
-            }
-            else
-            {
-                return new long4((uint)math.countbits(x.x), (uint)math.countbits(x.y), (uint)math.countbits(x.z), (uint)math.countbits(x.w));
-            }
+            return (long4)countbits((ulong4)x);
         }
     }
 }

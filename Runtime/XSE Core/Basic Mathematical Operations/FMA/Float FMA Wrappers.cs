@@ -14,9 +14,13 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmadd_ps(a, b, c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Sse2.IsSse2Supported)
             {
-                return Sse.add_ps(Sse.mul_ps(a, b), c);
+                return add_ps(mul_ps(a, b), c);
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return Arm.Neon.vfmaq_f32(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -28,9 +32,13 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fmsub_ps(a, b, c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Sse2.IsSse2Supported)
             {
-                return Sse.sub_ps(Sse.mul_ps(a, b), c);
+                return sub_ps(mul_ps(a, b), c);
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return Arm.Neon.vfmsq_f32(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -42,9 +50,22 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fnmadd_ps(a, b, c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Sse2.IsSse2Supported)
             {
-                return Sse.sub_ps(c, Sse.mul_ps(a, b));
+                return sub_ps(c, mul_ps(a, b));
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                if (constexpr.IS_CONST(a))
+                {
+                    a = neg_ps(a);
+                }
+                else
+                {
+                    b = neg_ps(b);
+                }
+
+                return fmadd_ps(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -56,9 +77,22 @@ namespace MaxMath.Intrinsics
             {
                 return Fma.fnmsub_ps(a, b, c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Sse2.IsSse2Supported)
             {
-                return Sse.sub_ps(Sse.mul_ps(a, b), neg_ps(c));
+                return sub_ps(neg_ps(c), mul_ps(a, b));
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                if (constexpr.IS_CONST(a))
+                {
+                    a = neg_ps(a);
+                }
+                else
+                {
+                    b = neg_ps(b);
+                }
+
+                return fmsub_ps(a, b, c);
             }
             else throw new IllegalInstructionException();
         }
@@ -72,11 +106,11 @@ namespace MaxMath.Intrinsics
             }
             else if (Sse3.IsSse3Supported)
             {
-                return Sse3.addsub_ps(Sse.mul_ps(a, b), c);
+                return addsub_ps(mul_ps(a, b), c);
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.add_ps(Sse.mul_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
+                return fmadd_ps(a, b, xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }
             else throw new IllegalInstructionException();
         }
@@ -90,11 +124,11 @@ namespace MaxMath.Intrinsics
             }
             else if (Sse3.IsSse3Supported)
             {
-                return Sse3.addsub_ps(Sse.mul_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
+                return addsub_ps(mul_ps(a, b), xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }
-            else if (Sse.IsSseSupported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return Sse.sub_ps(Sse.mul_ps(a, b), Sse.xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
+                return fmsub_ps(a, b, xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }
             else throw new IllegalInstructionException();
         }
@@ -151,7 +185,7 @@ namespace MaxMath.Intrinsics
             }
             else if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_sub_ps(Avx.mm256_mul_ps(a, b), mm256_neg_ps(c));
+                return Avx.mm256_sub_ps(mm256_neg_ps(c), Avx.mm256_mul_ps(a, b));
             }
             else throw new IllegalInstructionException();
         }

@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -137,44 +134,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static byte4x4 operator * (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator / (byte4x4 left, byte4x4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                      Sse2.unpacklo_epi32(left.c2, left.c3));
-                byte16 divisor = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                     Sse2.unpacklo_epi32(right.c2, right.c3));
-
-                byte16 div = dividend / divisor;
-
-                return new byte4x4(div.v4_0, div.v4_4, div.v4_8, div.v4_12);
-            }
-            else
-            {
-                return new byte4x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
-            }
-        }
+        public static byte4x4 operator / (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator % (byte4x4 left, byte4x4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                      Sse2.unpacklo_epi32(left.c2, left.c3));
-                byte16 divisor = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                     Sse2.unpacklo_epi32(right.c2, right.c3));
-
-                byte16 rem = dividend % divisor;
-
-                return new byte4x4(rem.v4_0, rem.v4_4, rem.v4_8, rem.v4_12);
-            }
-            else
-            {
-                return new byte4x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
-            }
-        }
+        public static byte4x4 operator % (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,40 +147,10 @@ Assert.IsWithinArrayBounds(index, 4);
         public static byte4x4 operator * (byte left, byte4x4 right) => new byte4x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator / (byte4x4 left, byte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                          Sse2.unpacklo_epi32(left.c2, left.c3));
-                    byte16 div = dividend / right;
-
-                    return new byte4x4(div.v4_0, div.v4_4, div.v4_8, div.v4_12);
-                }
-            }
-            
-            return new byte4x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
-        }
+        public static byte4x4 operator / (byte4x4 left, byte right) => new byte4x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator % (byte4x4 left, byte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    byte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                          Sse2.unpacklo_epi32(left.c2, left.c3));
-                    byte16 rem = dividend % right;
-
-                    return new byte4x4(rem.v4_0, rem.v4_4, rem.v4_8, rem.v4_12);
-                }
-            }
-
-            return new byte4x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
-        }
+        public static byte4x4 operator % (byte4x4 left, byte right) => new byte4x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

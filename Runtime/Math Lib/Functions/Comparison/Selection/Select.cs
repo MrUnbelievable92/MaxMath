@@ -8,14 +8,14 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 select(UInt128 a, UInt128 b, bool c)
         {
             return new UInt128(math.select(a.lo64, b.lo64, c), math.select(a.hi64, b.hi64, c));
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 select(Int128 a, Int128 b, bool c)
         {
@@ -23,49 +23,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte select(byte a, byte b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, bool c)
         {
@@ -73,49 +73,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte select(sbyte a, sbyte b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 select(sbyte2 a, sbyte2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 select(sbyte3 a, sbyte3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 select(sbyte4 a, sbyte4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 select(sbyte8 a, sbyte8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, bool c)
         {
@@ -123,42 +123,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort select(ushort a, ushort b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, bool c)
         {
@@ -166,42 +166,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short select(short a, short b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 select(short3 a, short3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 select(short4 a, short4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, bool c)
         {
@@ -209,7 +209,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 select(int8 a, int8 b, bool c)
         {
@@ -217,28 +217,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 select(uint8 a, uint8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 select(long3 a, long3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 select(long4 a, long4 b, bool c)
         {
@@ -246,98 +246,98 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 select(ulong2 a, ulong2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 select(ulong3 a, ulong3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter select(quarter a, quarter b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 select(quarter2 a, quarter2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 select(quarter3 a, quarter3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 select(quarter4 a, quarter4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 select(quarter8 a, quarter8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half select(half a, half b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 select(half2 a, half2 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 select(half3 a, half3 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 select(half4 a, half4 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 select(half8 a, half8 b, bool c)
         {
             return c ? b : a;
         }
 
-        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true" />, <paramref name="a"/> otherwise.      </summary>
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool c)
         {
@@ -349,7 +349,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 2));
             }
@@ -363,7 +363,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 3));
             }
@@ -377,7 +377,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 4));
             }
@@ -391,7 +391,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 8));
             }
@@ -405,7 +405,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 16));
             }
@@ -477,7 +477,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 2));
             }
@@ -491,7 +491,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 3));
             }
@@ -505,7 +505,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 4));
             }
@@ -519,7 +519,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 8));
             }
@@ -584,7 +584,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 select(int2 a, int2 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -598,7 +598,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 select(int3 a, int3 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -612,7 +612,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 select(int4 a, int4 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
             }
@@ -670,9 +670,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, int c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Sse4_1.IsSse41Supported)
             {
-                return Xse.blendv_si128(a, b, Xse.broadcastmask_epi64(c));
+                return Xse.blendv_pd(a, b, Xse.broadcastmask_epi64(c, MaskType.SignBit));
+            }
+            else if (Architecture.IsSIMDSupported)
+            {
+                return Xse.blendv_si128(a, b, Xse.broadcastmask_epi64(c, MaskType.AllOnes));
             }
             else
             {
@@ -686,7 +690,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_blendv_si256(a, b, Xse.mm256_broadcastmask_epi64(c));
+                return Avx.mm256_blendv_pd(a, b, Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 3));
             }
             else
             {
@@ -700,7 +704,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_blendv_si256(a, b, Xse.mm256_broadcastmask_epi64(c));
+                return Avx.mm256_blendv_pd(a, b, Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 4));
             }
             else
             {
@@ -795,11 +799,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToDouble2(Sse4_1.blendv_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.SignBit)));
+                return RegisterConversion.ToDouble2(Xse.blendv_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.SignBit)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c)));
+                return RegisterConversion.ToDouble2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.AllOnes)));
             }
             else
             {
@@ -813,7 +817,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble3(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));;
+                return RegisterConversion.ToDouble3(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 3)));;
             }
             else
             {
@@ -827,7 +831,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble4(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit)));
+                return RegisterConversion.ToDouble4(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 4)));
             }
             else
             {
@@ -842,11 +846,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToFloat2(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Sse2.IsSse2Supported)
-            { 
-                return RegisterConversion.ToFloat2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
+            else if (Architecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToFloat2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -860,11 +864,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToFloat3(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
+                return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -878,11 +882,11 @@ namespace MaxMath
         {
             if (Sse4_1.IsSse41Supported)
             {
-                return RegisterConversion.ToFloat4(Sse4_1.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
+                return RegisterConversion.ToFloat4(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
+                return RegisterConversion.ToFloat4(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
             else
             {
@@ -905,11 +909,11 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, bool2 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -919,11 +923,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, bool3 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -933,11 +937,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, bool4 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -947,11 +951,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, bool8 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(c));
             }
@@ -961,11 +965,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, bool16 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(c));
             }
@@ -975,7 +979,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool32"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.byte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool32"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 select(byte32 a, byte32 b, bool32 c)
         {
@@ -990,42 +994,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 select(sbyte2 a, sbyte2 b, bool2 c)
         {
             return (sbyte2)select((byte2)a, (byte2)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 select(sbyte3 a, sbyte3 b, bool3 c)
         {
             return (sbyte3)select((byte3)a, (byte3)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 select(sbyte4 a, sbyte4 b, bool4 c)
         {
             return (sbyte4)select((byte4)a, (byte4)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 select(sbyte8 a, sbyte8 b, bool8 c)
         {
             return (sbyte8)select((byte8)a, (byte8)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 select(sbyte16 a, sbyte16 b, bool16 c)
         {
             return (sbyte16)select((byte16)a, (byte16)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool32"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.sbyte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool32"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 select(sbyte32 a, sbyte32 b, bool32 c)
         {
@@ -1033,11 +1037,11 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, bool2 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1047,11 +1051,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, bool3 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1061,11 +1065,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, bool4 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1075,11 +1079,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, bool8 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(c)));
             }
@@ -1089,7 +1093,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ushort16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 select(ushort16 a, ushort16 b, bool16 c)
         {
@@ -1104,35 +1108,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 select(short2 a, short2 b, bool2 c)
         {
             return (short2)select((ushort2)a, (ushort2)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 select(short3 a, short3 b, bool3 c)
         {
             return (short3)select((ushort3)a, (ushort3)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 select(short4 a, short4 b, bool4 c)
         {
             return (short4)select((ushort4)a, (ushort4)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 select(short8 a, short8 b, bool8 c)
         {
             return (short8)select((ushort8)a, (ushort8)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.short16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 select(short16 a, short16 b, bool16 c)
         {
@@ -1140,7 +1144,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.int8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.int8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 select(int8 a, int8 b, bool8 c)
         {
@@ -1155,7 +1159,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.uint8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.uint8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 select(uint8 a, uint8 b, bool8 c)
         {
@@ -1163,11 +1167,11 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, bool2 c)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi64(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1177,7 +1181,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 select(long3 a, long3 b, bool3 c)
         {
@@ -1191,7 +1195,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.long4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 select(long4 a, long4 b, bool4 c)
         {
@@ -1206,21 +1210,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 select(ulong2 a, ulong2 b, bool2 c)
         {
             return (ulong2)select((long2)a, (long2)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 select(ulong3 a, ulong3 b, bool3 c)
         {
             return (ulong3)select((long3)a, (long3)b, c);
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.ulong4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 select(ulong4 a, ulong4 b, bool4 c)
         {
@@ -1228,28 +1232,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 select(quarter2 a, quarter2 b, bool2 c)
         {
             return asquarter(select(asbyte(a), asbyte(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 select(quarter3 a, quarter3 b, bool3 c)
         {
             return asquarter(select(asbyte(a), asbyte(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 select(quarter4 a, quarter4 b, bool4 c)
         {
             return asquarter(select(asbyte(a), asbyte(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 select(quarter8 a, quarter8 b, bool8 c)
         {
@@ -1257,28 +1261,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="half2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="half2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 select(half2 a, half2 b, bool2 c)
         {
             return ashalf(select(asushort(a), asushort(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="half3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="half3"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool3"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 select(half3 a, half3 b, bool3 c)
         {
             return ashalf(select(asushort(a), asushort(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="half4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="half4"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool4"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 select(half4 a, half4 b, bool4 c)
         {
             return ashalf(select(asushort(a), asushort(b), c));
         }
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.half8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.half8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 select(half8 a, half8 b, bool8 c)
         {
@@ -1286,7 +1290,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.float8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true" />, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.float8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool8 c)
         {

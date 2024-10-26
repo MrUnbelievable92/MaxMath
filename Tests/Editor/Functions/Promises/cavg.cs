@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_cavg
+    public static class f_PROMISE_cavg
     {
         [Test]
         public static void _byte3()
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 byte3 b = rng.NextByte3(0, byte.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -27,15 +27,15 @@ namespace MaxMath.Tests
             {
                 byte4 b = rng.NextByte4(0, byte.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
 
                 b = maxmath.select(b, 1, b == 0);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NonZero));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NonZero));
             }
         }
 
-        
+
         [Test]
         public static void _ushort3()
         {
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
             {
                 ushort3 b = rng.NextUShort3(0, ushort.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -58,11 +58,11 @@ namespace MaxMath.Tests
             {
                 ushort4 b = rng.NextUShort4(0, ushort.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
 
                 b = maxmath.select(b, 1, b == 0);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NonZero));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NonZero));
             }
         }
 
@@ -75,7 +75,7 @@ namespace MaxMath.Tests
             {
                 ushort8 b = rng.NextUShort8(0, ushort.MaxValue / 8 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -88,10 +88,10 @@ namespace MaxMath.Tests
             {
                 ushort16 b = rng.NextUShort16(0, ushort.MaxValue / 16 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
-        
+
 
         [Test]
         public static void _uint2()
@@ -102,7 +102,7 @@ namespace MaxMath.Tests
             {
                 uint2 b = rng.NextUInt2(0, uint.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
             {
                 uint3 b = rng.NextUInt3(0, uint.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -128,7 +128,7 @@ namespace MaxMath.Tests
             {
                 uint4 b = rng.NextUInt4(0, uint.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -141,11 +141,11 @@ namespace MaxMath.Tests
             {
                 uint8 b = rng.NextUInt8(0, uint.MaxValue / 8 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
-        
+
         [Test]
         public static void _ulong2()
         {
@@ -155,7 +155,7 @@ namespace MaxMath.Tests
             {
                 ulong2 b = rng.NextULong2(0, ulong.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -168,7 +168,7 @@ namespace MaxMath.Tests
             {
                 ulong3 b = rng.NextULong3(0, ulong.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -181,11 +181,11 @@ namespace MaxMath.Tests
             {
                 ulong4 b = rng.NextULong4(0, ulong.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
-        
+
         [Test]
         public static void _sbyte2()
         {
@@ -195,7 +195,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 b = rng.NextSByte2(-sbyte.MaxValue / 2 - 1, sbyte.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -208,7 +208,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 b = rng.NextSByte3(-sbyte.MaxValue / 3 - 1, sbyte.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -221,7 +221,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 b = rng.NextSByte4(-sbyte.MaxValue / 4 - 1, sbyte.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -234,7 +234,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8(-sbyte.MaxValue / 8 - 1, sbyte.MaxValue / 8 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -247,7 +247,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16(-sbyte.MaxValue / 16 - 1, sbyte.MaxValue / 16 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -260,11 +260,11 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32(-sbyte.MaxValue / 32 - 1, sbyte.MaxValue / 32 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
-        
+
         [Test]
         public static void _short2()
         {
@@ -274,7 +274,7 @@ namespace MaxMath.Tests
             {
                 short2 b = rng.NextShort2(-short.MaxValue / 2 - 1, short.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -287,7 +287,7 @@ namespace MaxMath.Tests
             {
                 short3 b = rng.NextShort3(-short.MaxValue / 3 - 1, short.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -300,7 +300,7 @@ namespace MaxMath.Tests
             {
                 short4 b = rng.NextShort4(-short.MaxValue / 4 - 1, short.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -313,7 +313,7 @@ namespace MaxMath.Tests
             {
                 short8 b = rng.NextShort8(-short.MaxValue / 8 - 1, short.MaxValue / 8 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -326,7 +326,7 @@ namespace MaxMath.Tests
             {
                 short16 b = rng.NextShort16(-short.MaxValue / 16 - 1, short.MaxValue / 16 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -340,7 +340,7 @@ namespace MaxMath.Tests
             {
                 int2 b = rng.NextInt2(-int.MaxValue / 2 - 1, int.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -353,7 +353,7 @@ namespace MaxMath.Tests
             {
                 int3 b = rng.NextInt3(-int.MaxValue / 3 - 1, int.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -366,7 +366,7 @@ namespace MaxMath.Tests
             {
                 int4 b = rng.NextInt4(-int.MaxValue / 4 - 1, int.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -379,7 +379,7 @@ namespace MaxMath.Tests
             {
                 int8 b = rng.NextInt8(-int.MaxValue / 8 - 1, int.MaxValue / 8 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -393,7 +393,7 @@ namespace MaxMath.Tests
             {
                 long2 b = rng.NextLong2(-long.MaxValue / 2 - 1, long.MaxValue / 2 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -406,7 +406,7 @@ namespace MaxMath.Tests
             {
                 long3 b = rng.NextLong3(-long.MaxValue / 3 - 1, long.MaxValue / 3 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
 
@@ -419,7 +419,7 @@ namespace MaxMath.Tests
             {
                 long4 b = rng.NextLong4(-long.MaxValue / 4 - 1, long.MaxValue / 4 - 1);
 
-                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cavg(b), maxmath.cavg(b, Promise.NoOverflow));
             }
         }
     }

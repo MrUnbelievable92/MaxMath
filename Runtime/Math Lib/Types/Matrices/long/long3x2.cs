@@ -50,6 +50,19 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3x2(int3x2 input) => new long3x2((long3)input.c0, (long3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3x2(uint3x2 input) => new long3x2((long3)input.c0, (long3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int3x2(long3x2 input) => new int3x2((int3)input.c0, (int3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint3x2(long3x2 input) => new uint3x2((uint3)input.c0, (uint3)input.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long3x2(float3x2 input) => new long3x2((long3)input.c0, (long3)input.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,6 +104,25 @@ Assert.IsWithinArrayBounds(index, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3x2 operator % (long3x2 left, long3x2 right) => new long3x2 (left.c0 % right.c0, left.c1 % right.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (long3x2 left, uint3x2 right) => new long3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (long3x2 left, ushort3x2 right) => new long3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (long3x2 left, byte3x2 right) => new long3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (uint3x2 left, long3x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (ushort3x2 left, long3x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x2 operator * (byte3x2 left, long3x2 right) => right * left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -13,470 +13,599 @@ namespace MaxMath
         unsafe public static partial class Xse
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public static v128 gamma_ps(v128 a, byte elements = 4)
+			public static v128 gamma_ps(v128 a, byte elements = 4, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-				if (Sse2.IsSse2Supported)
+				if (Architecture.IsSIMDSupported)
                 {
-					v128 ZERO = Sse2.setzero_si128();
-					v128 ONE = Sse.set1_ps(1f);
-					v128 HALF = Sse.set1_ps(0.5f);
-					v128 PI = Sse.set1_ps(math.PI);
-					v128 ABS_MASK = Sse2.set1_epi32(0x7FFF_FFFF);
+					v128 ZERO = setzero_si128();
+					v128 ONE = set1_ps(1f);
+					v128 HALF = set1_ps(0.5f);
+					v128 PI = set1_ps(math.PI);
+					v128 ABS_MASK = set1_epi32(0x7FFF_FFFF);
 
-					v128 absX = Sse.and_ps(ABS_MASK, a);
-					v128 rcp = Sse.div_ps(ONE, a);
-					
-					v128 fmaddMask = Sse.cmplt_ps(a, Sse.set1_ps(8f));
-					v128 rcpfma = blendv_ps(Sse2.and_si128(ABS_MASK, rcp), absX, fmaddMask);
-					
-					v128 num = fmadd_ps(blendv_ps(Sse.set1_ps((float)F64_SNUM0), Sse.set1_ps((float)F64_SNUM12), fmaddMask), rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM1), Sse.set1_ps((float)F64_SNUM11), fmaddMask));
-					v128 den = Sse.add_ps(Sse.and_ps(fmaddMask, rcpfma), blendv_ps(Sse.set1_ps((float)F64_SDEN1), Sse.set1_ps((float)F64_SDEN11), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM2),  Sse.set1_ps((float)F64_SNUM10), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN2),  Sse.set1_ps((float)F64_SDEN10), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM3),  Sse.set1_ps((float)F64_SNUM9), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN3),  Sse.set1_ps((float)F64_SDEN9), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM4),  Sse.set1_ps((float)F64_SNUM8), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN4),  Sse.set1_ps((float)F64_SDEN8), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM5),  Sse.set1_ps((float)F64_SNUM7), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN5),  Sse.set1_ps((float)F64_SDEN7), fmaddMask));
-					num = fmadd_ps(num, rcpfma, Sse.set1_ps((float)F64_SNUM6));
-					den = fmadd_ps(den, rcpfma, Sse.set1_ps((float)F64_SDEN6));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM7),  Sse.set1_ps((float)F64_SNUM5), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN7),  Sse.set1_ps((float)F64_SDEN5), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM8),  Sse.set1_ps((float)F64_SNUM4), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN8),  Sse.set1_ps((float)F64_SDEN4), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM9),  Sse.set1_ps((float)F64_SNUM3), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN9),  Sse.set1_ps((float)F64_SDEN3), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM10), Sse.set1_ps((float)F64_SNUM2), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN10), Sse.set1_ps((float)F64_SDEN2), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM11), Sse.set1_ps((float)F64_SNUM1), fmaddMask));
-					den = fmadd_ps(den, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SDEN11), Sse.set1_ps((float)F64_SDEN1), fmaddMask));
-					num = fmadd_ps(num, rcpfma, blendv_ps(Sse.set1_ps((float)F64_SNUM12), Sse.set1_ps((float)F64_SNUM0), fmaddMask));
-					den = fmadd_ps(den, rcpfma, Sse.andnot_ps(fmaddMask, ONE));
+					v128 absX = and_ps(ABS_MASK, a);
+					v128 rcp = div_ps(ONE, a);
 
-					v128 y = Sse.add_ps(absX, Sse.set1_ps((float)GM_HALF));
-					v128 z = Sse.sub_ps(absX, HALF);
-					v128 r = Sse.mul_ps(Sse.div_ps(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToFloat4(y))));
-					
-					bool reflect;
-                    if		(elements == 2) reflect = (Sse.movemask_ps(a) & 0b0011) != 0;
-                    else if (elements == 3) reflect = (Sse.movemask_ps(a) & 0b0111) != 0;
-                    else					reflect = Sse.movemask_ps(a) != 0;
+					v128 fmaddMask = cmplt_ps(a, set1_ps(8f));
+					v128 rcpfma = blendv_si128(and_si128(ABS_MASK, rcp), absX, fmaddMask);
 
-					if (reflect) 
+					v128 num = fmadd_ps(blendv_ps(set1_ps((float)F64_SNUM0), set1_ps((float)F64_SNUM12), fmaddMask), rcpfma, blendv_ps(set1_ps((float)F64_SNUM1), set1_ps((float)F64_SNUM11), fmaddMask));
+					v128 den = add_ps(and_ps(fmaddMask, rcpfma), blendv_ps(set1_ps((float)F64_SDEN1), set1_ps((float)F64_SDEN11), fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM2),  set1_ps((float)F64_SNUM10), fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN2),  set1_ps((float)F64_SDEN10), fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM3),  set1_ps((float)F64_SNUM9),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN3),  set1_ps((float)F64_SDEN9),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM4),  set1_ps((float)F64_SNUM8),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN4),  set1_ps((float)F64_SDEN8),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM5),  set1_ps((float)F64_SNUM7),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN5),  set1_ps((float)F64_SDEN7),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, set1_ps((float)F64_SNUM6));
+					den = fmadd_ps(den, rcpfma, set1_ps((float)F64_SDEN6));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM7),  set1_ps((float)F64_SNUM5),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN7),  set1_ps((float)F64_SDEN5),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM8),  set1_ps((float)F64_SNUM4),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN8),  set1_ps((float)F64_SDEN4),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM9),  set1_ps((float)F64_SNUM3),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN9),  set1_ps((float)F64_SDEN3),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM10), set1_ps((float)F64_SNUM2),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN10), set1_ps((float)F64_SDEN2),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM11), set1_ps((float)F64_SNUM1),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, blendv_si128(set1_ps((float)F64_SDEN11), set1_ps((float)F64_SDEN1),  fmaddMask));
+					num = fmadd_ps(num, rcpfma, blendv_si128(set1_ps((float)F64_SNUM12), set1_ps((float)F64_SNUM0),  fmaddMask));
+					den = fmadd_ps(den, rcpfma, andnot_ps(fmaddMask, ONE));
+
+					v128 y = add_ps(absX, set1_ps((float)GM_HALF));
+					v128 z = sub_ps(absX, HALF);
+					v128 r = mul_ps(div_ps(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToFloat4(y))));
+					v128 xNegative = default(v128);
+
+					if (!promiseGEzero)
 					{
-					    v128 sinpi = Sse.mul_ps(absX, HALF);
-						v128 floorsinpi;
-						if (Sse4_1.IsSse41Supported)
-						{
-							floorsinpi = Sse4_1.floor_ps(sinpi);
-						}
-						else
-						{
-							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(sinpi)));
-						}
-					    sinpi = Sse.sub_ps(sinpi, floorsinpi);
-					    sinpi = Sse.add_ps(sinpi, sinpi);
-					
-					    v128 n = Sse2.cvttps_epi32(sinpi);
-					    n = Sse2.srli_epi32(Sse2.add_epi32(n, Sse2.set1_epi32(1 << 2)), 3);
-						v128 q1 = Sse2.cmpeq_epi32(n, Sse2.set1_epi32(1));
-						v128 q2 = Sse2.cmpeq_epi32(n, Sse2.set1_epi32(2));
-						v128 q3 = Sse2.cmpeq_epi32(n, Sse2.set1_epi32(3)); 
+						xNegative = cmplt_ps(a, setzero_ps());
 
-						sinpi = fnmadd_ps(Sse2.cvtepi32_ps(n), HALF, sinpi);
-						sinpi = fmadd_ps(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
-						sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToFloat4(sinpi)));
-						sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+						if (notallfalse_f128<float>(xNegative, elements))
+						{
+						    v128 sinpi = mul_ps(absX, HALF);
+							v128 floorsinpi = floor_ps(sinpi);
+						    sinpi = sub_ps(sinpi, floorsinpi);
+						    sinpi = add_ps(sinpi, sinpi);
 
-						r = Sse.div_ps(Sse.set1_ps(-math.PI), Sse.mul_ps(sinpi, Sse.mul_ps(absX, r)));
-						z = ternarylogic_si128(ABS_MASK, a, z, TernaryOperation.OxA6);
+						    v128 n = cvttps_epi32(mul_ps(sinpi, set1_ps(4f)));
+						    n = srli_epi32(inc_epi32(n), 1);
+							v128 q1 = cmpeq_epi32(n, set1_epi32(1));
+							v128 q2 = cmpeq_epi32(n, set1_epi32(2));
+							v128 q3 = cmpeq_epi32(n, set1_epi32(3));
+
+							sinpi = fnmadd_ps(cvtepi32_ps(n), HALF, sinpi);
+							sinpi = fmadd_ps(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
+							sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
+							sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToFloat4(sinpi)));
+							sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+
+							r = div_ps(set1_ps(-math.PI), mul_ps(sinpi, mul_ps(absX, r)));
+							z = ternarylogic_si128(ABS_MASK, xNegative, z, TernaryOperation.OxA6);
+						}
 					}
 
-					v128 result = Sse.mul_ps(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToFloat4(y), RegisterConversion.ToFloat4(z))));
-					
+					v128 result = mul_ps(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToFloat4(y), RegisterConversion.ToFloat4(z))));
+
 					// the following is 100% free, ILP
-					v128 negative;
-					v128 floorX;
-					v128 floorHalfX;
-                    if (Sse4_1.IsSse41Supported)
-                    {
-						floorX = Sse4_1.floor_ps(a);
-						floorHalfX = Sse4_1.floor_ps(Sse.mul_ps(a, HALF));
-						negative = Sse.andnot_ps(ABS_MASK, a);
-                    }
-					else
-					{
-						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(a)));
-						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToFloat4(HALF) * RegisterConversion.ToFloat4(a)));
-						negative = Sse2.srai_epi32(a, 31);
-					}
-					
-
-					v128 mask0 = Sse2.cmpgt_epi32(absX, Sse2.set1_epi32(0x7F80_0000));
-					v128 result0 = Sse.add_ps(a, Sse.set1_ps(float.PositiveInfinity));
-
-					v128 mask1 = ternarylogic_si128(Sse.cmpeq_ps(a, floorX), Sse.cmpeq_ps(a, ZERO), negative, TernaryOperation.OxEO);
-					v128 result1 = Sse.set1_ps(float.NaN);
-					
-					v128 mask2 = Sse2.cmpgt_epi32(absX, Sse2.set1_epi32(0x420C_0000));
-					v128 result2_1 = Sse.mul_ps(Sse.set1_ps(float.MaxValue), a);
-					v128 result2_2 = Sse.andnot_ps(ABS_MASK, Sse.cmpneq_ps(floorX, floorHalfX));
-					v128 result2 = blendv_ps(result2_1, result2_2, negative);
-					
-					v128 mask3 = Sse2.cmpgt_epi32(Sse2.set1_epi32((0x7F - 54) << 23), absX);
 					v128 result3 = rcp;
+					v128 floorX = floor_ps(a);
+					v128 floorHalfX = floor_ps(mul_ps(a, HALF));
 
-					result3 = blendv_ps(result3, result2, mask2);
-					result3 = blendv_ps(result3, result1, mask1);
-					result3 = blendv_ps(result3, result0, mask0);
-					mask3 = Sse2.or_si128(mask3, ternarylogic_si128(mask0, mask1, mask2, TernaryOperation.OxFE));
+					v128 mask0 = default(v128);
+					if (!promiseFinite)
+					{
+						mask0 = cmpgt_epi32(absX, set1_epi32(0x7F80_0000 - 1));
+						v128 result0 = add_ps(a, set1_ps(float.PositiveInfinity));
 
-					return blendv_ps(result, result3, mask3);
+						result3 = blendv_si128(result3, result0, mask0);
+					}
+
+					v128 mask1 = and_ps(cmpeq_ps(a, floorX), cmple_ps(a, ZERO));
+					v128 result1 = set1_ps(float.NaN);
+					result3 = blendv_si128(result3, result1, mask1);
+
+					v128 mask2 = cmpgt_epi32(absX, set1_epi32(0x420C_0000 - 1));
+					v128 result2 = mul_ps(set1_ps(float.MaxValue), a);
+					if (!promiseGEzero)
+					{
+						v128 result2_2 = andnot_ps(ABS_MASK, cmpneq_ps(floorX, floorHalfX));
+						result2 = blendv_si128(result2, result2_2, xNegative);
+					}
+					result3 = blendv_si128(result3, result2, mask2);
+
+					v128 mask3 = cmpgt_epi32(set1_epi32((0x7F - 54) << 23), absX);
+					mask3 = ternarylogic_si128(mask1, mask2, mask3, TernaryOperation.OxFE);
+					if (!promiseFinite)
+					{
+						mask3 = or_si128(mask0, mask3);
+					}
+
+					return blendv_si128(result, result3, mask3);
                 }
 				else throw new IllegalInstructionException();
 			}
-			
+
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public static v256 mm256_gamma_ps(v256 a)
+			public static v256 mm256_gamma_ps(v256 a, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-			    if (Avx2.IsAvx2Supported)
+			    if (Avx.IsAvxSupported)
                 {
 					v256 ZERO = Avx.mm256_setzero_si256();
-					v256 ONE = Avx.mm256_set1_ps(1f);
-					v256 HALF = Avx.mm256_set1_ps(0.5f);
-					v256 PI = Avx.mm256_set1_ps(math.PI);
-					v256 ABS_MASK = Avx.mm256_set1_epi32(0x7FFF_FFFF);
+					v256 ONE = mm256_set1_ps(1f);
+					v256 HALF = mm256_set1_ps(0.5f);
+					v256 PI = mm256_set1_ps(math.PI);
+					v256 ABS_MASK = mm256_set1_epi32(0x7FFF_FFFF);
 
 					v256 absX = Avx.mm256_and_ps(ABS_MASK, a);
 					v256 rcp = Avx.mm256_div_ps(ONE, a);
-					
-					v256 fmaddMask = Avx.mm256_cmp_ps(a, Avx.mm256_set1_ps(8f), (int)Avx.CMP.LT_OQ);
-					v256 rcpfma = Avx.mm256_blendv_ps(Avx2.mm256_and_si256(ABS_MASK, rcp), absX, fmaddMask);
-					
-					v256 num = mm256_fmadd_ps(Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM0), Avx.mm256_set1_ps((float)F64_SNUM12), fmaddMask), rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM1), Avx.mm256_set1_ps((float)F64_SNUM11), fmaddMask));
-					v256 den = Avx.mm256_add_ps(Avx.mm256_and_ps(fmaddMask, rcpfma), Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN1), Avx.mm256_set1_ps((float)F64_SDEN11), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM2),  Avx.mm256_set1_ps((float)F64_SNUM10), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN2),  Avx.mm256_set1_ps((float)F64_SDEN10), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM3),  Avx.mm256_set1_ps((float)F64_SNUM9), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN3),  Avx.mm256_set1_ps((float)F64_SDEN9), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM4),  Avx.mm256_set1_ps((float)F64_SNUM8), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN4),  Avx.mm256_set1_ps((float)F64_SDEN8), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM5),  Avx.mm256_set1_ps((float)F64_SNUM7), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN5),  Avx.mm256_set1_ps((float)F64_SDEN7), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_set1_ps((float)F64_SNUM6));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_set1_ps((float)F64_SDEN6));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM7),  Avx.mm256_set1_ps((float)F64_SNUM5), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN7),  Avx.mm256_set1_ps((float)F64_SDEN5), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM8),  Avx.mm256_set1_ps((float)F64_SNUM4), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN8),  Avx.mm256_set1_ps((float)F64_SDEN4), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM9),  Avx.mm256_set1_ps((float)F64_SNUM3), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN9),  Avx.mm256_set1_ps((float)F64_SDEN3), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM10), Avx.mm256_set1_ps((float)F64_SNUM2), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN10), Avx.mm256_set1_ps((float)F64_SDEN2), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM11), Avx.mm256_set1_ps((float)F64_SNUM1), fmaddMask));
-					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SDEN11), Avx.mm256_set1_ps((float)F64_SDEN1), fmaddMask));
-					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(Avx.mm256_set1_ps((float)F64_SNUM12), Avx.mm256_set1_ps((float)F64_SNUM0), fmaddMask));
+
+					v256 fmaddMask = mm256_cmplt_ps(a, mm256_set1_ps(8f));
+					v256 rcpfma = Avx.mm256_blendv_ps(Avx.mm256_and_ps(ABS_MASK, rcp), absX, fmaddMask);
+
+					v256 num = mm256_fmadd_ps(Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM0), mm256_set1_ps((float)F64_SNUM12), fmaddMask), rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM1), mm256_set1_ps((float)F64_SNUM11), fmaddMask));
+					v256 den = Avx.mm256_add_ps(Avx.mm256_and_ps(fmaddMask, rcpfma), Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN1), mm256_set1_ps((float)F64_SDEN11), fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM2),  mm256_set1_ps((float)F64_SNUM10), fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN2),  mm256_set1_ps((float)F64_SDEN10), fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM3),  mm256_set1_ps((float)F64_SNUM9),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN3),  mm256_set1_ps((float)F64_SDEN9),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM4),  mm256_set1_ps((float)F64_SNUM8),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN4),  mm256_set1_ps((float)F64_SDEN8),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM5),  mm256_set1_ps((float)F64_SNUM7),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN5),  mm256_set1_ps((float)F64_SDEN7),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, mm256_set1_ps((float)F64_SNUM6));
+					den = mm256_fmadd_ps(den, rcpfma, mm256_set1_ps((float)F64_SDEN6));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM7),  mm256_set1_ps((float)F64_SNUM5),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN7),  mm256_set1_ps((float)F64_SDEN5),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM8),  mm256_set1_ps((float)F64_SNUM4),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN8),  mm256_set1_ps((float)F64_SDEN4),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM9),  mm256_set1_ps((float)F64_SNUM3),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN9),  mm256_set1_ps((float)F64_SDEN3),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM10), mm256_set1_ps((float)F64_SNUM2),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN10), mm256_set1_ps((float)F64_SDEN2),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM11), mm256_set1_ps((float)F64_SNUM1),  fmaddMask));
+					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SDEN11), mm256_set1_ps((float)F64_SDEN1),  fmaddMask));
+					num = mm256_fmadd_ps(num, rcpfma, Avx.mm256_blendv_ps(mm256_set1_ps((float)F64_SNUM12), mm256_set1_ps((float)F64_SNUM0),  fmaddMask));
 					den = mm256_fmadd_ps(den, rcpfma, Avx.mm256_andnot_ps(fmaddMask, ONE));
 
-					v256 y = Avx.mm256_add_ps(absX, Avx.mm256_set1_ps((float)GM_HALF));
+					v256 y = Avx.mm256_add_ps(absX, mm256_set1_ps((float)GM_HALF));
 					v256 z = Avx.mm256_sub_ps(absX, HALF);
 					v256 r = Avx.mm256_mul_ps(Avx.mm256_div_ps(num, den), maxmath.exp(mm256_neg_ps(y)));
-					
-					if (Avx.mm256_movemask_ps(a) != 0) 
+					v256 xNegative = default(v256);
+
+					if (!promiseGEzero)
 					{
-					    v256 sinpi = Avx.mm256_mul_ps(absX, HALF);
-						v256 floorsinpi = Avx.mm256_floor_ps(sinpi);
-					    sinpi = Avx.mm256_sub_ps(sinpi, floorsinpi);
-					    sinpi = Avx.mm256_add_ps(sinpi, sinpi);
-					
-					    v256 n = Avx.mm256_cvttps_epi32(sinpi);
-					    n = Avx2.mm256_srli_epi32(Avx2.mm256_add_epi32(n, Avx.mm256_set1_epi32(1 << 2)), 3);
-						v256 q1 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi32(1));
-						v256 q2 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi32(2));
-						v256 q3 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi32(3)); 
+						xNegative = mm256_cmplt_ps(a, Avx.mm256_setzero_ps());
 
-						sinpi = mm256_fnmadd_ps(Avx.mm256_cvtepi32_ps(n), HALF, sinpi);
-						sinpi = mm256_fmadd_ps(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
-						sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = maxmath.sin(sinpi);
-						sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+						if (mm256_notallfalse_f256<float>(xNegative))
+						{
+						    v256 sinpi = Avx.mm256_mul_ps(absX, HALF);
+							v256 floorsinpi = Avx.mm256_floor_ps(sinpi);
+						    sinpi = Avx.mm256_sub_ps(sinpi, floorsinpi);
+						    sinpi = Avx.mm256_add_ps(sinpi, sinpi);
 
-						r = Avx.mm256_div_ps(Avx.mm256_set1_ps(-math.PI), Avx.mm256_mul_ps(sinpi, Avx.mm256_mul_ps(absX, r)));
-						z = mm256_ternarylogic_si256(ABS_MASK, a, z, TernaryOperation.OxA6);
+						    v256 n = Avx.mm256_cvttps_epi32(Avx.mm256_mul_ps(sinpi, Avx.mm256_set1_ps(4f)));
+							v256 q1;
+							v256 q2;
+							v256 q3;
+							if (Avx2.IsAvx2Supported)
+							{
+								n = Avx2.mm256_srli_epi32(mm256_inc_epi32(n), 1);
+							    q1 = Avx2.mm256_cmpeq_epi32(n, mm256_set1_epi32(1));
+							    q2 = Avx2.mm256_cmpeq_epi32(n, mm256_set1_epi32(2));
+							    q3 = Avx2.mm256_cmpeq_epi32(n, mm256_set1_epi32(3));
+							}
+							else
+							{
+								v128 nLo = Avx.mm256_castsi256_si128(n);
+								v128 nHi = Avx.mm256_extractf128_si256(n, 1);
+
+								nLo = srli_epi32(inc_epi32(nLo), 1);
+								nHi = srli_epi32(inc_epi32(nHi), 1);
+
+								v128 q1Lo = cmpeq_epi32(nLo, set1_epi32(1));
+								v128 q1Hi = cmpeq_epi32(nHi, set1_epi32(1));
+								v128 q2Lo = cmpeq_epi32(nLo, set1_epi32(2));
+								v128 q2Hi = cmpeq_epi32(nHi, set1_epi32(2));
+								v128 q3Lo = cmpeq_epi32(nLo, set1_epi32(3));
+								v128 q3Hi = cmpeq_epi32(nHi, set1_epi32(3));
+
+							    q1 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(q1Lo), q1Hi, 1);
+							    q2 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(q2Lo), q2Hi, 1);
+							    q3 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(q3Lo), q3Hi, 1);
+							}
+
+							sinpi = mm256_fnmadd_ps(Avx.mm256_cvtepi32_ps(n), HALF, sinpi);
+							sinpi = mm256_fmadd_ps(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
+							sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
+							sinpi = maxmath.sin(sinpi);
+							sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+
+							r = Avx.mm256_div_ps(mm256_set1_ps(-math.PI), Avx.mm256_mul_ps(sinpi, Avx.mm256_mul_ps(absX, r)));
+							z = mm256_ternarylogic_si256(ABS_MASK, xNegative, z, TernaryOperation.OxA6);
+						}
 					}
 
 					v256 result = Avx.mm256_mul_ps(r, maxmath.pow(y, z));
-					
+
 					// the following is 100% free, ILP
-					v256 negative = Avx.mm256_andnot_ps(ABS_MASK, a);
+					v256 INFINITY = mm256_set1_ps(float.PositiveInfinity);
+
+					v256 result3 = rcp;
 					v256 floorX = Avx.mm256_floor_ps(a);
 					v256 floorHalfX = Avx.mm256_floor_ps(Avx.mm256_mul_ps(a, HALF));
 
-					v256 mask0 = Avx2.mm256_cmpgt_epi32(absX, Avx.mm256_set1_epi32(0x7F80_0000));
-					v256 result0 = Avx.mm256_add_ps(a, Avx.mm256_set1_ps(float.PositiveInfinity));
+					v256 mask0 = default(v256);
+					if (!promiseFinite)
+					{
+						v256 result0 = Avx.mm256_add_ps(a, INFINITY);
 
-					v256 mask1 = mm256_ternarylogic_si256(Avx.mm256_cmp_ps(a, floorX, (int)Avx.CMP.EQ_OQ), Avx.mm256_cmp_ps(a, ZERO, (int)Avx.CMP.EQ_OQ), negative, TernaryOperation.OxEO);
-					v256 result1 = Avx.mm256_set1_ps(float.NaN);
-					
-					v256 mask2 = Avx2.mm256_cmpgt_epi32(absX, Avx.mm256_set1_epi32(0x420C_0000));
-					v256 result2_1 = Avx.mm256_mul_ps(Avx.mm256_set1_ps(float.MaxValue), a);
-					v256 result2_2 = Avx.mm256_andnot_ps(ABS_MASK, Avx.mm256_cmp_ps(floorX, floorHalfX, (int)Avx.CMP.NEQ_OQ));
-					v256 result2 = Avx.mm256_blendv_ps(result2_1, result2_2, negative);
-					
-					v256 mask3 = Avx2.mm256_cmpgt_epi32(Avx.mm256_set1_epi32((0x7F - 54) << 23), absX);
-					v256 result3 = rcp;
+						if (Avx2.IsAvx2Supported)
+						{
+							mask0 = Avx2.mm256_cmpgt_epi32(absX, mm256_set1_epi32(0x7F80_0000 - 1));
+						}
+						else
+						{
+							mask0 = Avx.mm256_or_ps(mm256_cmpunord_ps(a, a), mm256_cmpeq_ps(absX, INFINITY));
+						}
+
+						result3 = Avx.mm256_blendv_ps(result3, result0, mask0);
+					}
+
+					v256 result1 = mm256_set1_ps(float.NaN);
+					v256 mask1 = Avx.mm256_and_ps(mm256_cmpeq_ps(a, floorX), mm256_cmple_ps(a, ZERO));
+					result3 = Avx.mm256_blendv_ps(result3, result1, mask1);
+
+					v256 mask2;
+					v256 mask3;
+					v256 result2 = Avx.mm256_mul_ps(mm256_set1_ps(float.MaxValue), a);
+					if (Avx2.IsAvx2Supported)
+					{
+						mask2 = Avx2.mm256_cmpgt_epi32(absX, mm256_set1_epi32(0x420C_0000 - 1));
+						mask3 = Avx2.mm256_cmpgt_epi32(mm256_set1_epi32((0x7F - 54) << 23), absX);
+					}
+					else
+					{
+						mask2 = mm256_cmpge_ps(absX, mm256_set1_epi32(0x420C_0000));
+						mask3 = mm256_cmpgt_ps(mm256_set1_epi32((0x7F - 54) << 23), absX);
+					}
+
+					if (!promiseGEzero)
+					{
+						v256 result2_2 = Avx.mm256_andnot_ps(ABS_MASK, mm256_cmpneq_ps(floorX, floorHalfX));
+						result2 = Avx.mm256_blendv_ps(result2, result2_2, xNegative);
+					}
 
 					result3 = Avx.mm256_blendv_ps(result3, result2, mask2);
-					result3 = Avx.mm256_blendv_ps(result3, result1, mask1);
-					result3 = Avx.mm256_blendv_ps(result3, result0, mask0);
-					mask3 = Avx2.mm256_or_si256(mask3, mm256_ternarylogic_si256(mask0, mask1, mask2, TernaryOperation.OxFE));
+					mask3 = mm256_ternarylogic_si256(mask1, mask2, mask3, TernaryOperation.OxFE);
+					if (!promiseFinite)
+					{
+						mask3 = Avx.mm256_or_ps(mask0, mask3);
+					}
 
 					return Avx.mm256_blendv_ps(result, result3, mask3);
                 }
 				else throw new IllegalInstructionException();
 			}
-			
-			
+
+
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public static v128 gamma_pd(v128 a)
+			public static v128 gamma_pd(v128 a, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-					v128 ZERO = Sse2.setzero_si128();
-					v128 ONE = Sse2.set1_pd(1d);
-					v128 HALF = Sse2.set1_pd(0.5d);
-					v128 PI = Sse2.set1_pd(math.PI_DBL);
-					v128 ABS_MASK = Sse2.set1_epi64x(0x7FFF_FFFF_FFFF_FFFFL);
+					v128 ZERO = setzero_si128();
+					v128 ONE = set1_pd(1d);
+					v128 HALF = set1_pd(0.5d);
+					v128 PI = set1_pd(math.PI_DBL);
+					v128 ABS_MASK = set1_epi64x(0x7FFF_FFFF_FFFF_FFFFL);
 
-					v128 absX = Sse2.and_pd(ABS_MASK, a);
-					v128 rcp = Sse2.div_pd(ONE, a);
-					
-					v128 fmaddMask = Sse2.cmplt_pd(a, Sse2.set1_pd(8d));
-					v128 rcpfma = blendv_pd(Sse2.and_si128(ABS_MASK, rcp), absX, fmaddMask);
-					
-					v128 num = fmadd_pd(blendv_pd(Sse2.set1_pd(F64_SNUM0), Sse2.set1_pd(F64_SNUM12), fmaddMask), rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM1), Sse2.set1_pd(F64_SNUM11), fmaddMask));
-					v128 den = Sse2.add_pd(Sse2.and_pd(fmaddMask, rcpfma), blendv_pd(Sse2.set1_pd(F64_SDEN1), Sse2.set1_pd(F64_SDEN11), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM2),  Sse2.set1_pd(F64_SNUM10), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN2),  Sse2.set1_pd(F64_SDEN10), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM3),  Sse2.set1_pd(F64_SNUM9), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN3),  Sse2.set1_pd(F64_SDEN9), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM4),  Sse2.set1_pd(F64_SNUM8), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN4),  Sse2.set1_pd(F64_SDEN8), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM5),  Sse2.set1_pd(F64_SNUM7), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN5),  Sse2.set1_pd(F64_SDEN7), fmaddMask));
-					num = fmadd_pd(num, rcpfma, Sse2.set1_pd(F64_SNUM6));
-					den = fmadd_pd(den, rcpfma, Sse2.set1_pd(F64_SDEN6));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM7),  Sse2.set1_pd(F64_SNUM5), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN7),  Sse2.set1_pd(F64_SDEN5), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM8),  Sse2.set1_pd(F64_SNUM4), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN8),  Sse2.set1_pd(F64_SDEN4), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM9),  Sse2.set1_pd(F64_SNUM3), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN9),  Sse2.set1_pd(F64_SDEN3), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM10), Sse2.set1_pd(F64_SNUM2), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN10), Sse2.set1_pd(F64_SDEN2), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM11), Sse2.set1_pd(F64_SNUM1), fmaddMask));
-					den = fmadd_pd(den, rcpfma, blendv_pd(Sse2.set1_pd(F64_SDEN11), Sse2.set1_pd(F64_SDEN1), fmaddMask));
-					num = fmadd_pd(num, rcpfma, blendv_pd(Sse2.set1_pd(F64_SNUM12), Sse2.set1_pd(F64_SNUM0), fmaddMask));
-					den = fmadd_pd(den, rcpfma, Sse2.andnot_pd(fmaddMask, ONE));
+					v128 absX = and_pd(ABS_MASK, a);
+					v128 rcp = div_pd(ONE, a);
 
-					v128 y = Sse2.add_pd(absX, Sse2.set1_pd(GM_HALF));
-					v128 z = Sse2.sub_pd(absX, HALF);
-					v128 r = Sse2.mul_pd(Sse2.div_pd(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToDouble2(y))));
-					
-					if (Sse2.movemask_pd(a) != 0) 
+					v128 fmaddMask = cmplt_pd(a, set1_pd(8d));
+					v128 rcpfma = blendv_si128(and_si128(ABS_MASK, rcp), absX, fmaddMask);
+
+					v128 num = fmadd_pd(blendv_pd(set1_pd(F64_SNUM0), set1_pd(F64_SNUM12), fmaddMask), rcpfma, blendv_pd(set1_pd(F64_SNUM1), set1_pd(F64_SNUM11), fmaddMask));
+					v128 den = add_pd(and_pd(fmaddMask, rcpfma), blendv_pd(set1_pd(F64_SDEN1), set1_pd(F64_SDEN11), fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM2),  set1_pd(F64_SNUM10), fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN2),  set1_pd(F64_SDEN10), fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM3),  set1_pd(F64_SNUM9),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN3),  set1_pd(F64_SDEN9),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM4),  set1_pd(F64_SNUM8),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN4),  set1_pd(F64_SDEN8),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM5),  set1_pd(F64_SNUM7),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN5),  set1_pd(F64_SDEN7),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, set1_pd(F64_SNUM6));
+					den = fmadd_pd(den, rcpfma, set1_pd(F64_SDEN6));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM7),  set1_pd(F64_SNUM5),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN7),  set1_pd(F64_SDEN5),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM8),  set1_pd(F64_SNUM4),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN8),  set1_pd(F64_SDEN4),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM9),  set1_pd(F64_SNUM3),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN9),  set1_pd(F64_SDEN3),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM10), set1_pd(F64_SNUM2),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN10), set1_pd(F64_SDEN2),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM11), set1_pd(F64_SNUM1),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, blendv_si128(set1_pd(F64_SDEN11), set1_pd(F64_SDEN1),  fmaddMask));
+					num = fmadd_pd(num, rcpfma, blendv_si128(set1_pd(F64_SNUM12), set1_pd(F64_SNUM0),  fmaddMask));
+					den = fmadd_pd(den, rcpfma, andnot_pd(fmaddMask, ONE));
+
+					v128 y = add_pd(absX, set1_pd(GM_HALF));
+					v128 z = sub_pd(absX, HALF);
+					v128 r = mul_pd(div_pd(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToDouble2(y))));
+					v128 xNegative = default(v128);
+
+					if (!promiseGEzero)
 					{
-					    v128 sinpi = Sse2.mul_pd(absX, HALF);
-						v128 floorsinpi;
-						if (Sse4_1.IsSse41Supported)
-						{
-							floorsinpi = Sse4_1.floor_pd(sinpi);
-						}
-						else
-						{
-							floorsinpi = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(sinpi)));
-						}
-					    sinpi = Sse2.sub_pd(sinpi, floorsinpi);
-					    sinpi = Sse2.add_pd(sinpi, sinpi);
-					
-					    v128 n = usfcvttpd_epu64(sinpi);
-					    n = Sse2.srli_epi64(Sse2.add_epi64(n, Sse2.set1_epi64x(1 << 2)), 3);
-						v128 q1 = Sse2.cmpeq_epi32(n, Sse2.set1_epi64x(1));
-						v128 q2 = Sse2.cmpeq_epi32(n, Sse2.set1_epi64x(2));
-						v128 q3 = Sse2.cmpeq_epi32(n, Sse2.set1_epi64x(3)); 
-						if (Sse4_1.IsSse41Supported)
-						{
-							;
-						}
-						else
-						{
-							q1 = Sse2.shuffle_epi32(q1, Sse.SHUFFLE(2, 2, 0, 0));
-							q2 = Sse2.shuffle_epi32(q2, Sse.SHUFFLE(2, 2, 0, 0));
-							q3 = Sse2.shuffle_epi32(q3, Sse.SHUFFLE(2, 2, 0, 0));
-						}
+						xNegative = cmplt_pd(a, setzero_ps());
 
-						sinpi = fnmadd_pd(usfcvtepu64_pd(n), HALF, sinpi);
-						sinpi = fmadd_pd(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
-						sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToDouble2(sinpi)));
-						sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+						if (notallfalse_f128<double>(xNegative))
+						{
+						    v128 sinpi = mul_pd(absX, HALF);
+							v128 floorsinpi = floor_pd(sinpi);
+						    sinpi = sub_pd(sinpi, floorsinpi);
+						    sinpi = add_pd(sinpi, sinpi);
 
-						r = Sse2.div_pd(Sse2.set1_pd(-math.PI_DBL), Sse2.mul_pd(sinpi, Sse2.mul_pd(absX, r)));
-						z = ternarylogic_si128(ABS_MASK, a, z, TernaryOperation.OxA6);
+						    v128 n = cvttpd_epu64(mul_pd(sinpi, set1_pd(4d)));
+						    n = srli_epi64(inc_epi64(n), 1);
+							v128 q1;
+							v128 q2;
+							v128 q3;
+							if (Architecture.IsCMP64Supported)
+							{
+								q1 = cmpeq_epi64(n, set1_epi64x(1));
+								q2 = cmpeq_epi64(n, set1_epi64x(2));
+								q3 = cmpeq_epi64(n, set1_epi64x(3));
+							}
+							else
+							{
+								q1 = shuffle_epi32(cmpeq_epi32(n, set1_epi64x(1)), Sse.SHUFFLE(2, 2, 0, 0));
+								q2 = shuffle_epi32(cmpeq_epi32(n, set1_epi64x(2)), Sse.SHUFFLE(2, 2, 0, 0));
+								q3 = shuffle_epi32(cmpeq_epi32(n, set1_epi64x(3)), Sse.SHUFFLE(2, 2, 0, 0));
+							}
+
+							sinpi = fnmadd_pd(usfcvtepu64_pd(n), HALF, sinpi);
+							sinpi = fmadd_pd(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
+							sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
+							sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToDouble2(sinpi)));
+							sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+
+							r = div_pd(set1_pd(-math.PI_DBL), mul_pd(sinpi, mul_pd(absX, r)));
+							z = ternarylogic_si128(ABS_MASK, xNegative, z, TernaryOperation.OxA6);
+						}
 					}
 
-					v128 result = Sse2.mul_pd(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToDouble2(y), RegisterConversion.ToDouble2(z))));
-					
-					v128 negative = Sse2.andnot_pd(ABS_MASK, a);
-					v128 floorX;
-					v128 floorHalfX;
-                    if (Sse4_1.IsSse41Supported)
-                    {
-						floorX = Sse4_1.floor_pd(a);
-						floorHalfX = Sse4_1.floor_pd(Sse2.mul_pd(a, HALF));
-                    }
-					else
-					{
-						floorX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(a)));
-						floorHalfX = RegisterConversion.ToV128(math.floor(RegisterConversion.ToDouble2(HALF) * RegisterConversion.ToDouble2(a)));
-						negative = srai_epi64(negative, 63);
-					}
-					
+					v128 result = mul_pd(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToDouble2(y), RegisterConversion.ToDouble2(z))));
 
-					v128 mask0 = Sse2.cmpgt_epi32(absX, Sse2.set1_epi64x(0x7FEF_FFFF_FFFF_FFFFL));
-					v128 result0 = Sse2.add_pd(a, Sse2.set1_pd(double.PositiveInfinity));
-
-					v128 mask1 = ternarylogic_si128(Sse2.cmpeq_pd(a, floorX), Sse2.cmpeq_pd(a, ZERO), negative, TernaryOperation.OxEO);
-					v128 result1 = Sse2.set1_pd(double.NaN);
-					
-					v128 mask2 = Sse2.cmpgt_epi32(absX, Sse2.set1_epi64x(0x4066_FFFF_FFFF_FFFF));
-					v128 result2_1 = Sse2.mul_pd(Sse2.set1_pd(double.MaxValue), a);
-					v128 result2_2 = Sse2.andnot_si128(ABS_MASK, Sse2.cmpneq_pd(floorX, floorHalfX));
-					v128 result2 = blendv_pd(result2_1, result2_2, negative);
-					
-					v128 mask3 = Sse2.cmpgt_epi32(Sse2.set1_epi64x((long)(0x3FF - 54) << 52), absX);
 					v128 result3 = rcp;
+					v128 floorX = floor_pd(a);
+					v128 floorHalfX = floor_pd(mul_pd(a, HALF));
 
+					v128 mask0   = default(v128);
+					if (!promiseFinite)
+					{
+						mask0 = cmpgt_epi32(absX, set1_epi64x(0x7FF0_0000_0000_0000 - 1));
+						v128 result0 = add_pd(a, set1_pd(double.PositiveInfinity));
+
+						if (Sse4_1.IsSse41Supported)
+						{
+							result3 = blendv_pd(result3, result0, mask0);
+						}
+						else
+						{
+							mask0 = shuffle_epi32(mask0, Sse.SHUFFLE(3, 3, 1, 1));
+							result3 = blendv_si128(result3, result0, mask0);
+						}
+					}
+
+					v128 mask1 = and_pd(cmpeq_pd(a, floorX), cmple_pd(a, ZERO));
+					v128 result1 = set1_pd(double.NaN);
+					if (Sse4_1.IsSse41Supported)
+					{
+						result3 = blendv_pd(result3, result1, mask1);
+					}
+					else
+					{
+						mask1 = shuffle_epi32(mask1, Sse.SHUFFLE(3, 3, 1, 1));
+						result3 = blendv_si128(result3, result1, mask1);
+					}
+
+					v128 mask2 = cmpgt_epi32(absX, set1_epi64x(0x4067_0000_0000_0000 - 1));
+					v128 result2 = mul_pd(set1_pd(double.MaxValue), a);
+					if (!promiseGEzero)
+					{
+						v128 result2_2 = andnot_si128(ABS_MASK, cmpneq_pd(floorX, floorHalfX));
+						result2 = blendv_si128(result2, result2_2, xNegative);
+					}
+					if (Sse4_1.IsSse41Supported)
+					{
+						result3 = blendv_pd(result3, result2, mask2);
+					}
+					else
+					{
+						mask2 = shuffle_epi32(mask2, Sse.SHUFFLE(3, 3, 1, 1));
+						result3 = blendv_si128(result3, result2, mask2);
+					}
+
+					v128 mask3 = cmpgt_epi32(set1_epi64x((0x3FF - 54) << 52), absX);
+					if (Sse4_1.IsSse41Supported)
+					{
+						;
+					}
+					else
+					{
+						mask3 = shuffle_epi32(mask3, Sse.SHUFFLE(3, 3, 1, 1));
+					}
+					mask3 = ternarylogic_si128(mask1, mask2, mask3, TernaryOperation.OxFE);
+					if (!promiseFinite)
+					{
+						mask3 = or_si128(mask0, mask3);
+					}
+					
                     if (Sse4_1.IsSse41Supported)
                     {
-						;
+						return blendv_pd(result, result3, mask3);
                     }
 					else
 					{
-						mask0 = Sse2.shuffle_epi32(mask0, Sse.SHUFFLE(3, 3, 1, 1));
-						mask1 = Sse2.shuffle_epi32(mask1, Sse.SHUFFLE(3, 3, 1, 1));
-						mask2 = Sse2.shuffle_epi32(mask2, Sse.SHUFFLE(3, 3, 1, 1));
-						mask3 = Sse2.shuffle_epi32(mask3, Sse.SHUFFLE(3, 3, 1, 1));
+						return blendv_si128(result, result3, mask3);
 					}
-
-					result3 = blendv_pd(result3, result2, mask2);
-					result3 = blendv_pd(result3, result1, mask1);
-					result3 = blendv_pd(result3, result0, mask0);
-					mask3 = Sse2.or_si128(mask3, ternarylogic_si128(mask0, mask1, mask2, TernaryOperation.OxFE));
-
-					return blendv_pd(result, result3, mask3);
                 }
 				else throw new IllegalInstructionException();
 			}
-			
+
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			public static v256 mm256_gamma_pd(v256 a, byte elements = 4)
+			public static v256 mm256_gamma_pd(v256 a, byte elements = 4, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-			    if (Avx2.IsAvx2Supported)
+			    if (Avx.IsAvxSupported)
                 {
 					v256 ZERO = Avx.mm256_setzero_si256();
-					v256 ONE = Avx.mm256_set1_pd(1d);
-					v256 HALF = Avx.mm256_set1_pd(0.5d);
-					v256 PI = Avx.mm256_set1_pd(math.PI_DBL);
-					v256 ABS_MASK = Avx.mm256_set1_epi64x(0x7FFF_FFFF_FFFF_FFFFL);
+					v256 ONE = mm256_set1_pd(1d);
+					v256 HALF = mm256_set1_pd(0.5d);
+					v256 PI = mm256_set1_pd(math.PI_DBL);
+					v256 ABS_MASK = mm256_set1_epi64x(0x7FFF_FFFF_FFFF_FFFFL);
 
 					v256 absX = Avx.mm256_and_pd(ABS_MASK, a);
 					v256 rcp = Avx.mm256_div_pd(ONE, a);
-					
-					v256 fmaddMask = Avx.mm256_cmp_pd(a, Avx.mm256_set1_pd(8d), (int)Avx.CMP.LT_OQ);
-					v256 rcpfma = Avx.mm256_blendv_pd(Avx2.mm256_and_si256(ABS_MASK, rcp), absX, fmaddMask);
-					
-					v256 num = mm256_fmadd_pd(Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM0), Avx.mm256_set1_pd(F64_SNUM12), fmaddMask), rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM1), Avx.mm256_set1_pd(F64_SNUM11), fmaddMask));
-					v256 den = Avx.mm256_add_pd(Avx.mm256_and_pd(fmaddMask, rcpfma), Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN1), Avx.mm256_set1_pd(F64_SDEN11), fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM2),  Avx.mm256_set1_pd(F64_SNUM10), fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN2),  Avx.mm256_set1_pd(F64_SDEN10), fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM3),  Avx.mm256_set1_pd(F64_SNUM9),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN3),  Avx.mm256_set1_pd(F64_SDEN9),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM4),  Avx.mm256_set1_pd(F64_SNUM8),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN4),  Avx.mm256_set1_pd(F64_SDEN8),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM5),  Avx.mm256_set1_pd(F64_SNUM7),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN5),  Avx.mm256_set1_pd(F64_SDEN7),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_set1_pd(F64_SNUM6));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_set1_pd(F64_SDEN6));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM7),  Avx.mm256_set1_pd(F64_SNUM5),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN7),  Avx.mm256_set1_pd(F64_SDEN5),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM8),  Avx.mm256_set1_pd(F64_SNUM4),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN8),  Avx.mm256_set1_pd(F64_SDEN4),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM9),  Avx.mm256_set1_pd(F64_SNUM3),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN9),  Avx.mm256_set1_pd(F64_SDEN3),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM10), Avx.mm256_set1_pd(F64_SNUM2),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN10), Avx.mm256_set1_pd(F64_SDEN2),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM11), Avx.mm256_set1_pd(F64_SNUM1),  fmaddMask));
-					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SDEN11), Avx.mm256_set1_pd(F64_SDEN1),  fmaddMask));
-					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(Avx.mm256_set1_pd(F64_SNUM12), Avx.mm256_set1_pd(F64_SNUM0),  fmaddMask));
+
+					v256 fmaddMask = mm256_cmplt_pd(a, mm256_set1_pd(8d));
+					v256 rcpfma = Avx.mm256_blendv_pd(Avx.mm256_and_pd(ABS_MASK, rcp), absX, fmaddMask);
+
+					v256 num = mm256_fmadd_pd(Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM0), mm256_set1_pd(F64_SNUM12), fmaddMask), rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM1), mm256_set1_pd(F64_SNUM11), fmaddMask));
+					v256 den = Avx.mm256_add_pd(Avx.mm256_and_pd(fmaddMask, rcpfma), Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN1), mm256_set1_pd(F64_SDEN11), fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM2),  mm256_set1_pd(F64_SNUM10), fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN2),  mm256_set1_pd(F64_SDEN10), fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM3),  mm256_set1_pd(F64_SNUM9),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN3),  mm256_set1_pd(F64_SDEN9),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM4),  mm256_set1_pd(F64_SNUM8),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN4),  mm256_set1_pd(F64_SDEN8),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM5),  mm256_set1_pd(F64_SNUM7),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN5),  mm256_set1_pd(F64_SDEN7),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, mm256_set1_pd(F64_SNUM6));
+					den = mm256_fmadd_pd(den, rcpfma, mm256_set1_pd(F64_SDEN6));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM7),  mm256_set1_pd(F64_SNUM5),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN7),  mm256_set1_pd(F64_SDEN5),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM8),  mm256_set1_pd(F64_SNUM4),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN8),  mm256_set1_pd(F64_SDEN4),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM9),  mm256_set1_pd(F64_SNUM3),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN9),  mm256_set1_pd(F64_SDEN3),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM10), mm256_set1_pd(F64_SNUM2),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN10), mm256_set1_pd(F64_SDEN2),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM11), mm256_set1_pd(F64_SNUM1),  fmaddMask));
+					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SDEN11), mm256_set1_pd(F64_SDEN1),  fmaddMask));
+					num = mm256_fmadd_pd(num, rcpfma, Avx.mm256_blendv_pd(mm256_set1_pd(F64_SNUM12), mm256_set1_pd(F64_SNUM0),  fmaddMask));
 					den = mm256_fmadd_pd(den, rcpfma, Avx.mm256_andnot_pd(fmaddMask, ONE));
 
-					v256 y = Avx.mm256_add_pd(absX, Avx.mm256_set1_pd(GM_HALF));
+					v256 y = Avx.mm256_add_pd(absX, mm256_set1_pd(GM_HALF));
 					v256 z = Avx.mm256_sub_pd(absX, HALF);
 					v256 r = Avx.mm256_mul_pd(Avx.mm256_div_pd(num, den), RegisterConversion.ToV256(math.exp(-RegisterConversion.ToDouble4(y))));
-					
-					bool reflect;
-                    if (elements == 3) reflect = (Avx.mm256_movemask_pd(a) & 0b0111) != 0;
-                    else			   reflect = Avx.mm256_movemask_pd(a) != 0;
+					v256 xNegative = default(v256);
 
-					if (reflect) 
+					if (!promiseGEzero)
 					{
-					    v256 sinpi = Avx.mm256_mul_pd(absX, HALF);
-						v256 floorsinpi = Avx.mm256_floor_pd(sinpi);
-					    sinpi = Avx.mm256_sub_pd(sinpi, floorsinpi);
-					    sinpi = Avx.mm256_add_pd(sinpi, sinpi);
-					
-					    v256 n = mm256_usfcvttpd_epu64(sinpi);
-					    n = Avx2.mm256_srli_epi64(Avx2.mm256_add_epi64(n, Avx.mm256_set1_epi64x(1 << 2)), 3);
-						v256 q1 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi64x(1));
-						v256 q2 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi64x(2));
-						v256 q3 = Avx2.mm256_cmpeq_epi32(n, Avx.mm256_set1_epi64x(3)); 
+						xNegative = mm256_cmplt_pd(a, Avx.mm256_setzero_pd());
 
-						sinpi = mm256_fnmadd_pd(mm256_usfcvtepu64_pd(n), HALF, sinpi);
-						sinpi = mm256_fmadd_pd(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
-						sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-						sinpi = RegisterConversion.ToV256(math.sin(RegisterConversion.ToDouble4(sinpi)));
-						sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+						if (mm256_notallfalse_f256<double>(xNegative, elements))
+						{
+						    v256 sinpi = Avx.mm256_mul_pd(absX, HALF);
+							v256 floorsinpi = Avx.mm256_floor_pd(sinpi);
+						    sinpi = Avx.mm256_sub_pd(sinpi, floorsinpi);
+						    sinpi = Avx.mm256_add_pd(sinpi, sinpi);
 
-						r = Avx.mm256_div_pd(Avx.mm256_set1_pd(-math.PI_DBL), Avx.mm256_mul_pd(sinpi, Avx.mm256_mul_pd(absX, r)));
-						z = mm256_ternarylogic_si256(ABS_MASK, a, z, TernaryOperation.OxA6);
+							v256 q1;
+							v256 q2;
+							v256 q3;
+							if (Avx2.IsAvx2Supported)
+							{
+								v256 n = mm256_cvttpd_epu64(Avx.mm256_mul_pd(sinpi, Avx.mm256_set1_pd(4d)), elements);
+								n = Avx2.mm256_srli_epi64(mm256_inc_epi64(n), 1);
+								q1 = Avx2.mm256_cmpeq_epi64(n, mm256_set1_epi64x(1));
+								q2 = Avx2.mm256_cmpeq_epi64(n, mm256_set1_epi64x(2));
+								q3 = Avx2.mm256_cmpeq_epi64(n, mm256_set1_epi64x(3));
+
+								sinpi = mm256_fnmadd_pd(mm256_usfcvtepu64_pd(n), HALF, sinpi);
+							}
+							else
+							{
+								v128 n = Avx.mm256_cvttpd_epi32(Avx.mm256_mul_pd(sinpi, Avx.mm256_set1_pd(4d)));
+								n = srli_epi32(add_epi32(n, set1_epi32(1 << 2)), 3);
+								v128 q1_128 = cmpeq_epi32(n, set1_epi32(1));
+								v128 q2_128 = cmpeq_epi32(n, set1_epi32(2));
+								v128 q3_128 = cmpeq_epi32(n, set1_epi32(3));
+								q1 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(shuffle_epi32(q1_128, Sse.SHUFFLE(1, 1, 0, 0))), shuffle_epi32(q1_128, Sse.SHUFFLE(3, 3, 2, 2)), 1);
+								q2 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(shuffle_epi32(q2_128, Sse.SHUFFLE(1, 1, 0, 0))), shuffle_epi32(q2_128, Sse.SHUFFLE(3, 3, 2, 2)), 1);
+								q3 = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(shuffle_epi32(q3_128, Sse.SHUFFLE(1, 1, 0, 0))), shuffle_epi32(q3_128, Sse.SHUFFLE(3, 3, 2, 2)), 1);
+
+								sinpi = mm256_fnmadd_pd(Avx.mm256_cvtepi32_pd(n), HALF, sinpi);
+							}
+
+							sinpi = mm256_fmadd_pd(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
+							sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
+							sinpi = RegisterConversion.ToV256(math.sin(RegisterConversion.ToDouble4(sinpi)));
+							sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
+
+							r = Avx.mm256_div_pd(mm256_set1_pd(-math.PI_DBL), Avx.mm256_mul_pd(sinpi, Avx.mm256_mul_pd(absX, r)));
+							z = mm256_ternarylogic_si256(ABS_MASK, xNegative, z, TernaryOperation.OxA6);
+						}
 					}
 
 					v256 result = Avx.mm256_mul_pd(r, RegisterConversion.ToV256(math.pow(RegisterConversion.ToDouble4(y), RegisterConversion.ToDouble4(z))));
-					
-					v256 negative = Avx.mm256_andnot_pd(ABS_MASK, a);
+
+					v256 INFINITY = mm256_set1_pd(double.PositiveInfinity);
+
+					v256 result3 = rcp;
 					v256 floorX = Avx.mm256_floor_pd(a);
 					v256 floorHalfX = Avx.mm256_floor_pd(Avx.mm256_mul_pd(a, HALF));
 
-					v256 mask0 = Avx2.mm256_cmpgt_epi32(absX, Avx.mm256_set1_epi64x(0x7FEF_FFFF_FFFF_FFFFL));
-					v256 result0 = Avx.mm256_add_pd(a, Avx.mm256_set1_pd(double.PositiveInfinity));
+					v256 mask0   = default(v256);
+					if (!promiseFinite)
+					{
+						v256 result0 = Avx.mm256_add_pd(a, INFINITY);
 
-					v256 mask1 = mm256_ternarylogic_si256(Avx.mm256_cmp_pd(a, floorX, (int)Avx.CMP.EQ_OQ), Avx.mm256_cmp_pd(a, ZERO, (int)Avx.CMP.EQ_OQ), negative, TernaryOperation.OxEO);
-					v256 result1 = Avx.mm256_set1_pd(double.NaN);
-					
-					v256 mask2 = Avx2.mm256_cmpgt_epi32(absX, Avx.mm256_set1_epi64x(0x4066_FFFF_FFFF_FFFF));
-					v256 result2_1 = Avx.mm256_mul_pd(Avx.mm256_set1_pd(double.MaxValue), a);
-					v256 result2_2 = Avx2.mm256_andnot_si256(ABS_MASK, Avx.mm256_cmp_pd(floorX, floorHalfX, (int)Avx.CMP.NEQ_OQ));
-					v256 result2 = Avx.mm256_blendv_pd(result2_1, result2_2, negative);
-					
-					v256 mask3 = Avx2.mm256_cmpgt_epi32(Avx.mm256_set1_epi64x((long)(0x3FF - 54) << 52), absX);
-					v256 result3 = rcp;
+						if (Avx2.IsAvx2Supported)
+						{
+							mask0 = Avx2.mm256_cmpgt_epi32(absX, mm256_set1_epi64x(0x7FF0_0000_0000_0000 - 1));
+						}
+						else
+						{
+							mask0 = Avx.mm256_or_pd(mm256_cmpunord_pd(a, a), mm256_cmpeq_pd(absX, INFINITY));
+						}
 
-					result3 = Avx.mm256_blendv_pd(result3, result2, mask2);
+						result3 = Avx.mm256_blendv_pd(result3, result0, mask0);
+					}
+
+					v256 mask1 = Avx.mm256_and_pd(mm256_cmpeq_pd(a, floorX), mm256_cmple_pd(a, ZERO));
+					v256 result1 = mm256_set1_pd(double.NaN);
 					result3 = Avx.mm256_blendv_pd(result3, result1, mask1);
-					result3 = Avx.mm256_blendv_pd(result3, result0, mask0);
-					mask3 = Avx2.mm256_or_si256(mask3, mm256_ternarylogic_si256(mask0, mask1, mask2, TernaryOperation.OxFE));
+
+					v256 mask2;
+					v256 mask3;
+					if (Avx2.IsAvx2Supported)
+					{
+						mask2 = Avx2.mm256_cmpgt_epi32(absX, mm256_set1_epi64x(0x4067_0000_0000_0000 - 1));
+						mask3 = Avx2.mm256_cmpgt_epi32(mm256_set1_epi64x((0x3FF - 54) << 52), absX);
+					}
+					else
+					{
+						mask2 = mm256_cmpge_pd(absX, mm256_set1_epi64x(0x4067_0000_0000_0000));
+						mask3 = mm256_cmpgt_pd(mm256_set1_epi64x((0x3FF - 54) << 52), absX);
+					}
+					v256 result2 = Avx.mm256_mul_pd(mm256_set1_pd(double.MaxValue), a);
+					if (!promiseGEzero)
+					{
+						v256 result2_2 = Avx.mm256_andnot_pd(ABS_MASK, mm256_cmpneq_pd(floorX, floorHalfX));
+						result2 = Avx.mm256_blendv_pd(result2, result2_2, xNegative);
+					}
+					result3 = Avx.mm256_blendv_pd(result3, result2, mask2);
+
+					mask3 = mm256_ternarylogic_si256(mask1, mask2, mask3, TernaryOperation.OxFE);
+					if (!promiseFinite)
+					{
+						mask3 = Avx.mm256_or_pd(mask0, mask3);
+					}
 
 					return Avx.mm256_blendv_pd(result, result3, mask3);
                 }
@@ -484,32 +613,41 @@ namespace MaxMath
 			}
 		}
 	}
-	
+
 
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the value of the gamma function Γ(x + 1) = x! for <paramref name="x"/>.       </summary>
+        /// <summary>       Returns the value of the gamma function Γ(x + 1) = x! for <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, <see cref="float.NegativeInfinity"/> and <see cref="float.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float gamma(float x)
+        public static float gamma(float x, Promise promises = Promise.Nothing)
         {
 			uint u = *(uint*)&x;
 			uint ix = u & 0x7FFF_FFFFu;
 			uint sign = andnot(u, 0x7FFF_FFFFu);
-			
+
 			float absX = math.abs(x);
 			float rcp = math.rcp(absX);
 
-			if (ix >= 0x7F80_0000)
+			if (!promises.Promises(Promise.Unsafe0))
 			{
-			    return x + float.PositiveInfinity;
+				if (ix >= 0x7F80_0000)
+				{
+				    return x + float.PositiveInfinity;
+				}
 			}
-			if (x == math.floor(x) && (sign != 0 | x == 0d)) 
+
+			if (x == math.floor(x) && (sign != 0 | x == 0d))
 			{
 				return float.NaN;
 			}
-			if (ix >= 0x420C_0000) 
+			if (ix >= 0x420C_0000)
 			{
-				if (sign != 0) 
+				if (sign != 0)
 				{
 					return negate(0f, math.floor(x) * 0.5f != math.floor(x * 0.5f));
 				}
@@ -520,7 +658,7 @@ namespace MaxMath
 			{
 			    return rcp;
 			}
-			
+
 			float num;
 			float den;
 			float absrcp = math.abs(rcp);
@@ -578,110 +716,141 @@ namespace MaxMath
 			    num = math.mad(num, absrcp, (float)F64_SNUM12);
 			    den = math.mad(den, absrcp, 1f);
 			}
-			
+
 			float y = absX + (float)GM_HALF;
 			float z = absX - 0.5f;
 			float r = (num / den) * math.exp(-y);
-			
-			if (x < 0) 
+
+			if (!promises.Promises(Promise.ZeroOrGreater))
 			{
-			    float sinpi = absX * 0.5f;
-			    sinpi = sinpi - math.floor(sinpi);
-				sinpi += sinpi;
+				if (x < 0)
+				{
+				    float sinpi = absX * 0.5f;
+				    sinpi -= math.floor(sinpi);
+					sinpi += sinpi;
 
-			    int n = 4 * (int)sinpi;
-			    n = (n + 1) >> 1;
-			    sinpi -= n * 0.5f;
-			    sinpi *= math.PI;
+				    int n = ((int)(sinpi * 4) + 1) >> 1;
+				    sinpi -= n * 0.5f;
+				    sinpi *= math.PI;
 
-				sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI : 0f), n == 2)), n == 3);
+					sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI : 0f), n == 2)), n == 3);
 
-			    r = -math.PI / (sinpi * (absX * r));
-			    z = -z;
+				    r = -math.PI / (sinpi * (absX * r));
+				    z = -z;
+				}
 			}
 
 			return r * pow(y, z);
         }
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, <see cref="float.NegativeInfinity"/> and <see cref="float.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float2 gamma(float2 x)
+		public static float2 gamma(float2 x, Promise promises = Promise.Nothing)
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat2(Xse.gamma_ps(RegisterConversion.ToV128(x), 2));
+				return RegisterConversion.ToFloat2(Xse.gamma_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new float2(gamma(x.x), gamma(x.y));
+				return new float2(gamma(x.x, promises), gamma(x.y, promises));
 			}
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, <see cref="float.NegativeInfinity"/> and <see cref="float.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float3 gamma(float3 x)
+		public static float3 gamma(float3 x, Promise promises = Promise.Nothing)
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat3(Xse.gamma_ps(RegisterConversion.ToV128(x), 3));
+				return RegisterConversion.ToFloat3(Xse.gamma_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new float3(gamma(x.x), gamma(x.y), gamma(x.z));
+				return new float3(gamma(x.x, promises), gamma(x.y, promises), gamma(x.z, promises));
 			}
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, <see cref="float.NegativeInfinity"/> and <see cref="float.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float4 gamma(float4 x)
+		public static float4 gamma(float4 x, Promise promises = Promise.Nothing)
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat4(Xse.gamma_ps(RegisterConversion.ToV128(x), 4));
+				return RegisterConversion.ToFloat4(Xse.gamma_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new float4(gamma(x.x), gamma(x.y), gamma(x.z), gamma(x.w));
+				return new float4(gamma(x.x, promises), gamma(x.y, promises), gamma(x.z, promises), gamma(x.w, promises));
 			}
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, <see cref="float.NegativeInfinity"/> and <see cref="float.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float8 gamma(float8 x)
+		public static float8 gamma(float8 x, Promise promises = Promise.Nothing)
 		{
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-				return Xse.mm256_gamma_ps(x);
+				return Xse.mm256_gamma_ps(x, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
-				return new float8(gamma(x.v4_0), gamma(x.v4_4));
+				return new float8(gamma(x.v4_0, promises), gamma(x.v4_4, promises));
 			}
 		}
-		
-		
-		/// <summary>       Returns the value of the gamma function Γ(x + 1) = x! for <paramref name="x"/>.       </summary>
+
+
+		/// <summary>       Returns the value of the gamma function Γ(x + 1) = x! for <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, <see cref="double.NegativeInfinity"/> and <see cref="double.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double gamma(double x)
+		public static double gamma(double x, Promise promises = Promise.Nothing)
 		{
 			ulong u = *(ulong*)&x;
 			ulong ix = u & 0x7FFF_FFFF_FFFF_FFFFul;
 			ulong sign = andnot(u, 0x7FFF_FFFF_FFFF_FFFFul);
-			
+
 			double absX = math.abs(x);
 			double rcp = math.rcp(absX);
-			
-			if (ix >= 0x7FF0_0000_0000_0000)
+
+			if (!promises.Promises(Promise.Unsafe0))
 			{
-			    return x + double.PositiveInfinity;
+				if (ix >= 0x7FF0_0000_0000_0000)
+				{
+				    return x + double.PositiveInfinity;
+				}
 			}
-			if (x == math.floor(x) && (sign != 0 | x == 0d)) 
+
+			if (x == math.floor(x) && (sign != 0 | x == 0d))
 			{
 				return double.NaN;
 			}
-			if (ix >= 0x4067_0000_0000_0000) 
+			if (ix >= 0x4067_0000_0000_0000)
 			{
-				if (sign != 0) 
+				if (sign != 0)
 				{
 					return negate(0d, math.floor(x) * 0.5d != math.floor(x * 0.5d));
 				}
@@ -692,7 +861,7 @@ namespace MaxMath
 			{
 			    return rcp;
 			}
-			
+
 			double num;
 			double den;
 			double absrcp = math.abs(rcp);
@@ -750,70 +919,87 @@ namespace MaxMath
 			    num = math.mad(num, absrcp, F64_SNUM12);
 			    den = math.mad(den, absrcp, 1d);
 			}
-			
+
 			double y = absX + GM_HALF;
 			double z = absX - 0.5d;
 			double r = (num / den) * math.exp(-y);
-			
-			if (x < 0) 
+
+			if (!promises.Promises(Promise.ZeroOrGreater))
 			{
-			    double sinpi = absX * 0.5d;
-			    sinpi = sinpi - math.floor(sinpi);
-				sinpi += sinpi;
+				if (x < 0)
+				{
+				    double sinpi = absX * 0.5d;
+				    sinpi -= math.floor(sinpi);
+					sinpi += sinpi;
 
-			    int n = 4 * (int)sinpi;
-			    n = (n + 1) >> 1;
-			    sinpi -= n * 0.5d;
-			    sinpi *= math.PI_DBL;
+				    int n = ((int)(sinpi * 4) + 1) >> 1;
+				    sinpi -= n * 0.5d;
+				    sinpi *= math.PI_DBL;
 
-				sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI_DBL : 0d), n == 2)), n == 3);
+					sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI_DBL : 0d), n == 2)), n == 3);
 
-			    r = -math.PI_DBL / (sinpi * (absX * r));
-			    z = -z;
+				    r = -math.PI_DBL / (sinpi * (absX * r));
+				    z = -z;
+				}
 			}
 
 			return r * pow(y, z);
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, <see cref="double.NegativeInfinity"/> and <see cref="double.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double2 gamma(double2 x)
+		public static double2 gamma(double2 x, Promise promises = Promise.Nothing)
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToDouble2(Xse.gamma_pd(RegisterConversion.ToV128(x)));
+				return RegisterConversion.ToDouble2(Xse.gamma_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new double2(gamma(x.x), gamma(x.y));
+				return new double2(gamma(x.x, promises), gamma(x.y, promises));
 			}
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, <see cref="double.NegativeInfinity"/> and <see cref="double.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double3 gamma(double3 x)
+		public static double3 gamma(double3 x, Promise promises = Promise.Nothing)
 		{
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble3(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 3));
+				return RegisterConversion.ToDouble3(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new double3(gamma(x.xy), gamma(x.z));
+				return new double3(gamma(x.xy, promises), gamma(x.z, promises));
 			}
 		}
-		
-        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.       </summary>
+
+        /// <summary>       Returns the componentwise value of the gamma function Γ(x + 1) = x! for each <paramref name="x"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.                                       </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, <see cref="double.NegativeInfinity"/> and <see cref="double.NaN"/>.     </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double4 gamma(double4 x)
+		public static double4 gamma(double4 x, Promise promises = Promise.Nothing)
 		{
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble4(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 4));
+				return RegisterConversion.ToDouble4(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
 			else
 			{
-				return new double4(gamma(x.xy), gamma(x.zw));
+				return new double4(gamma(x.xy, promises), gamma(x.zw, promises));
 			}
 		}
 	}

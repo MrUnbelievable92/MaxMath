@@ -14,14 +14,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 divs_epi32(v128 a, v128 b, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     v128 ALL_ONES = setall_si128();
-                    v128 MIN_VALUE = Sse2.slli_epi32(ALL_ONES, 31);
-                    
-                    v128 overflow = Sse2.and_si128(Sse2.cmpeq_epi32(a, MIN_VALUE), Sse2.cmpeq_epi32(b, ALL_ONES));
+                    v128 MIN_VALUE = slli_epi32(ALL_ONES, 31);
 
-                    return Sse2.add_epi32(div_epi32(a, b, elements), overflow);
+                    v128 overflow = and_si128(cmpeq_epi32(a, MIN_VALUE), cmpeq_epi32(b, ALL_ONES));
+
+                    return add_epi32(div_epi32(a, b, elements), overflow);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -33,7 +33,7 @@ namespace MaxMath
                 {
                     v256 ALL_ONES = mm256_setall_si256();
                     v256 MIN_VALUE = Avx2.mm256_slli_epi32(ALL_ONES, 31);
-                    
+
                     v256 overflow = Avx2.mm256_and_si256(Avx2.mm256_cmpeq_epi32(a, MIN_VALUE), Avx2.mm256_cmpeq_epi32(b, ALL_ONES));
 
                     return Avx2.mm256_add_epi32(mm256_div_epi32(a, b), overflow);
@@ -56,10 +56,10 @@ namespace MaxMath
                 {
                     v256 ALL_ONES = mm256_setall_si256();
                     v256 MIN_VALUE = Avx2.mm256_slli_epi64(ALL_ONES, 63);
-                    
+
                     v256 overflow = Avx2.mm256_and_si256(Avx2.mm256_cmpeq_epi64(a, MIN_VALUE), Avx2.mm256_cmpeq_epi64(b, ALL_ONES));
 
-                    return Avx2.mm256_add_epi64(mm256_div_epi64(a, b, /*MUST BE 4!!! overflow causes hardware exception*/ 4), overflow);
+                    return Avx2.mm256_add_epi64(mm256_div_epi64(a, b, elements: elements), overflow);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -88,10 +88,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 divsaturated(sbyte2 x, sbyte2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 2);
-            } 
+            }
             else
             {
                 return new sbyte2(divsaturated(x.x, y.x),
@@ -103,10 +103,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 divsaturated(sbyte3 x, sbyte3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 3);
-            } 
+            }
             else
             {
                 return new sbyte3(divsaturated(x.x, y.x),
@@ -119,7 +119,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 divsaturated(sbyte4 x, sbyte4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 4);
             }
@@ -136,10 +136,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 divsaturated(sbyte8 x, sbyte8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 8);
-            } 
+            }
             else
             {
                 return new sbyte8(divsaturated(x.x0, y.x0),
@@ -157,7 +157,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 divsaturated(sbyte16 x, sbyte16 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 16);
             }
@@ -189,7 +189,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_div_epi8(x, y, saturated: true);
-            } 
+            }
             else
             {
                 return new sbyte32(divsaturated(x.v16_0, y.v16_0),
@@ -209,10 +209,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 divsaturated(short2 x, short2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 2);
-            } 
+            }
             else
             {
                 return new short2(divsaturated(x.x, y.x),
@@ -224,10 +224,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 divsaturated(short3 x, short3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 3);
-            } 
+            }
             else
             {
                 return new short3(divsaturated(x.x, y.x),
@@ -240,7 +240,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 divsaturated(short4 x, short4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 4);
             }
@@ -257,7 +257,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 divsaturated(short8 x, short8 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 8);
             }
@@ -281,7 +281,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_div_epi16(x, y, saturated: true);
-            } 
+            }
             else
             {
                 return new short16(divsaturated(x.v8_0, y.v8_0),
@@ -301,10 +301,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 divsaturated(int2 x, int2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
-            } 
+            }
             else
             {
                 return new int2(divsaturated(x.x, y.x),
@@ -316,7 +316,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 divsaturated(int3 x, int3 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -332,7 +332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 divsaturated(int4 x, int4 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -352,7 +352,7 @@ namespace MaxMath
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_divs_epi32(x, y);
-            } 
+            }
             else
             {
                 return new int8(divsaturated(x.v4_0, y.v4_0),
@@ -372,7 +372,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divsaturated(long2 x, long2 y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.divs_epi64(x, y);
             }

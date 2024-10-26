@@ -1,5 +1,0 @@
-﻿Complex
-
-quadruple precision float IEEE 754
-
-fixed

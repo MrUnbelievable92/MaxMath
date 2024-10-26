@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class last
+    unsafe public static class f_last
     {
         public const int NUM_TESTS = 8;
         private const uint RNG_SEED = 1747u;
@@ -89,7 +89,7 @@ namespace MaxMath.Tests
         {
             bool result = true;
 
-            
+
             Random64 rng = new Random64(RNG_SEED);
 
             for (int i = 0; i < NUM_TESTS; i++)
