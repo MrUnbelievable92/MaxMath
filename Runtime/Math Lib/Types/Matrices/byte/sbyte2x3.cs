@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -129,66 +126,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static sbyte2x3 operator * (sbyte2x3 left, sbyte2x3 right) => new sbyte2x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x3 operator / (sbyte2x3 left, sbyte2x3 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-#if DEBUG
-                sbyte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                        Sse2.unpacklo_epi16(left.c2, new sbyte2(1)));
-                sbyte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
-                                                        Sse2.unpacklo_epi16(right.c2, new sbyte2(1)));
-
-                sbyte8 div = packed_LHS / packed_RHS;
-
-                return new sbyte2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                sbyte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                        left.c2);
-                sbyte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
-                                                        right.c2);
-
-                sbyte8 div = packed_LHS / packed_RHS;
-
-                return new sbyte2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
-            }
-            else
-            {
-                return new sbyte2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
-            }
-        }
+        public static sbyte2x3 operator / (sbyte2x3 left, sbyte2x3 right) => new sbyte2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x3 operator % (sbyte2x3 left, sbyte2x3 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-#if DEBUG
-                sbyte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                        Sse2.unpacklo_epi16(left.c2, new sbyte2(1)));
-                sbyte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
-                                                        Sse2.unpacklo_epi16(right.c2, new sbyte2(1)));
-
-                sbyte8 rem = packed_LHS % packed_RHS;
-
-                return new sbyte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#else
-                sbyte8 packed_LHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                        left.c2);
-                sbyte8 packed_RHS = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(right.c0, right.c1),
-                                                        right.c2);
-
-                sbyte8 rem = packed_LHS % packed_RHS;
-
-                return new sbyte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#endif
-            }
-            else
-            {
-                return new sbyte2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
-            }
-        }
+        public static sbyte2x3 operator % (sbyte2x3 left, sbyte2x3 right) => new sbyte2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -198,60 +139,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static sbyte2x3 operator * (sbyte left, sbyte2x3 right) => new sbyte2x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x3 operator / (sbyte2x3 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-#if DEBUG
-                    sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                       Sse2.unpacklo_epi16(left.c2, new sbyte2(1)));
-
-                    sbyte8 div = packed / right;
-
-                    return new sbyte2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                    sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                       left.c2);
-
-                    sbyte8 div = packed / right;
-
-                    return new sbyte2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
-                }
-            }
-            
-            return new sbyte2x3(left.c0 / right, left.c1 / right, left.c2 / right);
-        }
+        public static sbyte2x3 operator / (sbyte2x3 left, sbyte right) => new sbyte2x3(left.c0 / right, left.c1 / right, left.c2 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x3 operator % (sbyte2x3 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-#if DEBUG
-                    sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                       Sse2.unpacklo_epi16(left.c2, new sbyte2(1)));
-
-                    sbyte8 rem = packed % right;
-
-                    return new sbyte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#else
-                    sbyte8 packed = Sse2.unpacklo_epi32(Sse2.unpacklo_epi16(left.c0, left.c1),
-                                                       left.c2);
-
-                    sbyte8 rem = packed % right;
-
-                    return new sbyte2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#endif
-                }
-            }
-            
-            return new sbyte2x3(left.c0 % right, left.c1 % right, left.c2 % right);
-        }
+        public static sbyte2x3 operator % (sbyte2x3 left, sbyte right) => new sbyte2x3(left.c0 % right, left.c1 % right, left.c2 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_intcbrt
+    public static class f_PROMISE_intcbrt
     {
         [Test]
         public static void _sbyte()
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 sbyte b = rng.NextSByte(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 b = rng.NextSByte2(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 b = rng.NextSByte3(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 b = rng.NextSByte4(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
@@ -92,11 +92,11 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32(0, sbyte.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
             }
         }
 
-        
+
         [Test]
         public static void _short()
         {
@@ -105,13 +105,13 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short b = rng.NextShort(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
@@ -123,13 +123,13 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short2 b = rng.NextShort2(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort2(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
@@ -141,13 +141,13 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short3 b = rng.NextShort3(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort3(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
@@ -159,13 +159,13 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short4 b = rng.NextShort4(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort4(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
@@ -177,13 +177,13 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short8 b = rng.NextShort8(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort8(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort8(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
@@ -195,17 +195,17 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short16 b = rng.NextShort16(0, short.MaxValue);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextShort16(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextShort16(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
             }
         }
 
-        
+
         [Test]
         public static void _ushort()
         {
@@ -214,7 +214,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort b = rng.NextUShort(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
@@ -226,7 +226,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort2 b = rng.NextUShort2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
@@ -238,7 +238,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort3 b = rng.NextUShort3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort4 b = rng.NextUShort4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
@@ -262,7 +262,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort8 b = rng.NextUShort8(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
@@ -274,11 +274,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ushort16 b = rng.NextUShort16(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
             }
         }
 
-        
+
         [Test]
         public static void _int()
         {
@@ -288,19 +288,19 @@ namespace MaxMath.Tests
             {
                 int b = rng.NextInt(0, int.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -313,19 +313,19 @@ namespace MaxMath.Tests
             {
                 int2 b = rng.NextInt2(0, int.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt2(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt2(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt2(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -338,19 +338,19 @@ namespace MaxMath.Tests
             {
                 int3 b = rng.NextInt3(0, int.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt3(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt3(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt3(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -363,19 +363,19 @@ namespace MaxMath.Tests
             {
                 int4 b = rng.NextInt4(0, int.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt4(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt4(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt4(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -388,23 +388,23 @@ namespace MaxMath.Tests
             {
                 int8 b = rng.NextInt8(0, int.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt8(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt8(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt8(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt8(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
-        
+
         [Test]
         public static void _uint()
         {
@@ -414,13 +414,13 @@ namespace MaxMath.Tests
             {
                 uint b = rng.NextUInt(0, uint.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -433,13 +433,13 @@ namespace MaxMath.Tests
             {
                 uint2 b = rng.NextUInt2(0, uint.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt2(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -452,13 +452,13 @@ namespace MaxMath.Tests
             {
                 uint3 b = rng.NextUInt3(0, uint.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt3(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -471,13 +471,13 @@ namespace MaxMath.Tests
             {
                 uint4 b = rng.NextUInt4(0, uint.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt4(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
@@ -490,17 +490,17 @@ namespace MaxMath.Tests
             {
                 uint8 b = rng.NextUInt8(0, uint.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt8(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt8(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
             }
         }
 
-        
+
         [Test]
         public static void _long()
         {
@@ -510,25 +510,25 @@ namespace MaxMath.Tests
             {
                 long b = rng.NextLong(0, long.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextLong(-uint.MaxValue, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextLong(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextLong(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextLong(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextLong(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe2));
 
                 b = rng.NextLong(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
             }
         }
 
@@ -541,31 +541,31 @@ namespace MaxMath.Tests
             {
                 long2 b = rng.NextLong2(0, long.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextLong2(-(1L << 40), (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextLong2(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextLong2(-uint.MaxValue, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextLong2(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextLong2(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe2));
 
                 b = rng.NextLong2(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextLong2(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe3));
 
                 b = rng.NextLong2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
@@ -577,32 +577,32 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 long3 b = rng.NextLong3(0, long.MaxValue);
-            
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextLong3(-(1L << 40), (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextLong3(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextLong3(-uint.MaxValue, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextLong3(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextLong3(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe2));
 
                 b = rng.NextLong3(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextLong3(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe3));
 
                 b = rng.NextLong3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
@@ -614,35 +614,35 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 long4 b = rng.NextLong4(0, long.MaxValue);
-                
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextLong4(-(1L << 40), (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextLong4(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextLong4(-uint.MaxValue, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextLong4(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextLong4(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe2));
 
                 b = rng.NextLong4(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextLong4(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe3));
 
                 b = rng.NextLong4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
-        
+
         [Test]
         public static void _ulong()
         {
@@ -652,16 +652,16 @@ namespace MaxMath.Tests
             {
                 ulong b = rng.NextULong(0, ulong.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextULong(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextULong(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextULong(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
             }
         }
 
@@ -674,19 +674,19 @@ namespace MaxMath.Tests
             {
                 ulong2 b = rng.NextULong2(0, ulong.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextULong2(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextULong2(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextULong2(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextULong2(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
@@ -699,19 +699,19 @@ namespace MaxMath.Tests
             {
                 ulong3 b = rng.NextULong3(0, ulong.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextULong3(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextULong3(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextULong3(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextULong3(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
@@ -723,26 +723,26 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 ulong4 b = rng.NextULong4(0, ulong.MaxValue);
-                
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextULong4(0, (1L << 40) + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextULong4(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextULong4(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextULong4(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
-        
+
         [Test]
-        public static void _int128()
+        public static void _Int128()
         {
             Random128 rng = Random128.New;
 
@@ -750,37 +750,37 @@ namespace MaxMath.Tests
             {
                 Int128 b = rng.NextInt128(0, Int128.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextInt128(-(Int128)ulong.MaxValue, ulong.MaxValue + (Int128)1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe0));
 
                 b = rng.NextInt128(0, ulong.MaxValue + (Int128)1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextInt128(-uint.MaxValue, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe1));
 
                 b = rng.NextInt128(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextInt128(-ushort.MaxValue, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe2));
 
                 b = rng.NextInt128(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextInt128(-byte.MaxValue, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.Unsafe3));
 
                 b = rng.NextInt128(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
 
-        
+
         [Test]
-        public static void _uint128()
+        public static void _UInt128()
         {
             Random128 rng = Random128.New;
 
@@ -788,19 +788,19 @@ namespace MaxMath.Tests
             {
                 UInt128 b = rng.NextUInt128(0, UInt128.MaxValue);
 
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater));
 
                 b = rng.NextUInt128(0, ulong.MaxValue + (UInt128)1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe0));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe0));
 
                 b = rng.NextUInt128(0, uint.MaxValue + 1L);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe1));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe1));
 
                 b = rng.NextUInt128(0, ushort.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe2));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe2));
 
                 b = rng.NextUInt128(0, byte.MaxValue + 1);
-                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, maxmath.Promise.ZeroOrGreater | maxmath.Promise.Unsafe3));
+                Assert.AreEqual(maxmath.intcbrt(b), maxmath.intcbrt(b, Promise.ZeroOrGreater | Promise.Unsafe3));
             }
         }
     }

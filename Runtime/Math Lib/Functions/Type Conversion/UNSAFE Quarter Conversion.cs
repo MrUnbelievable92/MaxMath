@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -7,67 +8,82 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Converts a <see cref="byte"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+        /// <summary>       Converts a <see cref="byte"/> to its <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(byte x, Promise promise = Promise.NoOverflow)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(byte2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2); 
+                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(byte3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3); 
+                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(byte4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4); 
+                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(byte8 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 8); 
+                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 8);
             }
             else
             {
@@ -75,68 +91,83 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="ushort"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts a <see cref="ushort"/> to its <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(ushort x, Promise promise = Promise.NoOverflow)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(ushort2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2); 
+                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(ushort3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3); 
+                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(ushort4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4);
+                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(ushort8 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 8); 
+                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 8);
             }
             else
             {
@@ -144,68 +175,82 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="uint"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts a <see cref="uint"/> to its <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(uint x, Promise promise = Promise.NoOverflow)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="uint2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(uint2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2); 
+                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="uint3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(uint3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3); 
+                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="uint4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(uint4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4); 
+                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(uint8 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepu32_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+                return Xse.mm256_cvtepu32_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -213,23 +258,29 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="ulong"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts a <see cref="ulong"/> to its <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(ulong x, Promise promise = Promise.NoOverflow)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+            return quarter.GetInteger(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(ulong2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow)); 
+                return Xse.cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -237,29 +288,35 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(ulong3 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3); 
+                return Xse.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.xy, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </remarks>
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(ulong4 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4); 
+                return Xse.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -267,12 +324,13 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts an <see cref="sbyte"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts an <see cref="sbyte"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(sbyte x, Promise promise = Promise.NoOverflow)
         {
@@ -285,72 +343,76 @@ namespace MaxMath
                 return quarter.SByteToQuarter(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(sbyte2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2); 
+                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(sbyte3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3); 
+                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(sbyte4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4); 
+                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(sbyte8 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8); 
+                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8);
             }
             else
             {
@@ -358,12 +420,13 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="short"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts a <see cref="short"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(short x, Promise promise = Promise.NoOverflow)
         {
@@ -376,72 +439,76 @@ namespace MaxMath
                 return quarter.ShortToQuarter(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(short2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2); 
+                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(short3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3); 
+                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(short4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
+                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(short8 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8); 
+                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8);
             }
             else
             {
@@ -449,12 +516,13 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts an <see cref="int"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts an <see cref="int"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(int x, Promise promise = Promise.NoOverflow)
         {
@@ -467,72 +535,76 @@ namespace MaxMath
                 return quarter.IntToQuarter(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="int2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="int2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(int2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2); 
+                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="int3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="int3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(int3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3); 
+                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="int4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="int4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(int4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4); 
+                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(int8 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepi32_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater)); 
+                return Xse.mm256_cvtepi32_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -540,12 +612,13 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="long"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts a <see cref="long"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(long x, Promise promise = Promise.NoOverflow)
         {
@@ -558,54 +631,57 @@ namespace MaxMath
                 return quarter.LongToQuarter(x, quarter.PositiveInfinity, promise.Promises(Promise.NoOverflow));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.long2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.long2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(long2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater)); 
+                return Xse.cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.long3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.long3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(long3 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3); 
+                return Xse.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.xy, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.long4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>        
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>                    
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.long4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(long4 x, Promise promise = Promise.NoOverflow)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return quarter.Vectorized.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4); 
+                return Xse.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
@@ -613,83 +689,88 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="half"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts a <see cref="half"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(half x, Promise promise = Promise.NoOverflow)
         {
             return toquarterunsafe((float)x, promise);
         }
-        
-        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(half2 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2); 
+                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
                 return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(half3 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3); 
+                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
                 return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(half4 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4); 
+                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
                 return new quarter4(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise), toquarterunsafe(x.w, promise));
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(half8 x, Promise promise = Promise.NoOverflow)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return quarter.Vectorized.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8); 
+                return Xse.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbsolute: promise.Promises(Promise.ZeroOrGreater), 8);
             }
             else
             {
@@ -697,12 +778,13 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Converts a <see cref="float"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts a <see cref="float"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(float x, Promise promise = Promise.NoOverflow)
         {
@@ -710,24 +792,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return quarter.FloatToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return quarter.FloatToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter)x;
-            }
         }
-        
-        /// <summary>       Converts each value in a <see cref="float2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="float2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(float2 x, Promise promise = Promise.NoOverflow)
         {
@@ -735,24 +813,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter2.FloatToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter2.FloatToQuarterInRange(x);
                 }
             }
-            else
-            {
-                return new quarter2(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise));
-            }
+                return (quarter2)x;
         }
-        
-        /// <summary>       Converts each value in a <see cref="float3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="float3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(float3 x, Promise promise = Promise.NoOverflow)
         {
@@ -760,24 +834,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter3.FloatToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter3.FloatToQuarterInRange(x);
                 }
             }
-            else
-            {
-                return new quarter3(toquarterunsafe(x.x, promise), toquarterunsafe(x.y, promise), toquarterunsafe(x.z, promise));
-            }
+                return (quarter3)x;
         }
-        
-        /// <summary>       Converts each value in a <see cref="float4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="float4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(float4 x, Promise promise = Promise.NoOverflow)
         {
@@ -785,24 +855,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter4.FloatToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter4.FloatToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter4)x;
-            }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 toquarterunsafe(float8 x, Promise promise = Promise.NoOverflow)
         {
@@ -810,25 +876,21 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter8.FloatToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter8.FloatToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter8)x;
-            }
         }
 
-        
-        /// <summary>       Converts a <see cref="double"/> to its <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts a <see cref="double"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(double x, Promise promise = Promise.NoOverflow)
         {
@@ -836,24 +898,21 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return quarter.DoubleToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return quarter.DoubleToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter)x;
-            }
+
         }
-        
-        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 toquarterunsafe(double2 x, Promise promise = Promise.NoOverflow)
         {
@@ -861,24 +920,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter2.DoubleToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter2.DoubleToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter2)x;
-            }
         }
-        
-        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 toquarterunsafe(double3 x, Promise promise = Promise.NoOverflow)
         {
@@ -886,24 +941,20 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter3.DoubleToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter3.DoubleToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter3)x;
-            }
         }
-        
-        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="quarter"/> representation.       </summary>
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>                    
-        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>                    
+
+        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0. The <see cref="Promise.ZeroOrGreater"/> flag has no effect if the <see cref="Promise.NoOverflow"/> flag is not set aswell.        </para>
         /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 toquarterunsafe(double4 x, Promise promise = Promise.NoOverflow)
         {
@@ -911,17 +962,12 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.ZeroOrGreater))
                 {
-                    return MaxMath.quarter4.DoubleToQuarterInRangeAbs(x);
                 }
                 else
                 {
-                    return MaxMath.quarter4.DoubleToQuarterInRange(x);
                 }
             }
-            else
-            {
                 return (quarter4)x;
-            }
         }
     }
 }

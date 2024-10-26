@@ -1,13 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
-using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
-using MaxMath.Intrinsics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -119,73 +114,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ushort2x3 operator * (ushort2x3 left, ushort2x3 right) => new ushort2x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x3 operator / (ushort2x3 left, ushort2x3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, Xse.setall_si128()));
-                ushort8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                         Sse2.unpacklo_epi32(right.c2, Xse.setall_si128()));
-
-                ushort8 div = packed_LHS / packed_RHS;
-
-                return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
-
-                ushort4 div = new ushort4(left.c0, left.c1) / new ushort4(right.c0, right.c1);
-
-                return new ushort2x3(div.xy, div.zw, left.c2 / right.c2);
-            }
-            else
-            {
-                return new ushort2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
-            }
-        }
+        public static ushort2x3 operator / (ushort2x3 left, ushort2x3 right) => new ushort2x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x3 operator % (ushort2x3 left, ushort2x3 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-#if DEBUG
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
-                ushort8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                         Sse2.unpacklo_epi32(right.c2, new ushort2(1)));
-
-                ushort8 rem = packed_LHS % packed_RHS;
-
-                return new ushort2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#else
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         left.c2);
-                ushort8 packed_RHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1),
-                                                         right.c2);
-
-                ushort8 rem = packed_LHS % packed_RHS;
-
-                return new ushort2x3(rem.v2_0, rem.v2_2, rem.v2_4);
-#endif
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                ushort8 packed_LHS = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
-
-                ushort4 rem = new ushort4(left.c0, left.c1) % new ushort4(right.c0, right.c1);
-
-                return new ushort2x3(rem.xy, rem.zw, left.c2 % right.c2);
-            }
-            else
-            {
-                return new ushort2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
-            }
-        }
+        public static ushort2x3 operator % (ushort2x3 left, ushort2x3 right) => new ushort2x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -195,80 +127,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ushort2x3 operator * (ushort left, ushort2x3 right) => new ushort2x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x3 operator / (ushort2x3 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-#if DEBUG
-                    ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
-
-                    ushort8 div = packed / right;
-
-                    return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                    ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         left.c2);
-
-                    ushort8 div = packed / right;
-
-                    return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
-                }
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    v128 divisor = (ushort4)right;
-                    ushort4 lo = new ushort4(left.c0, left.c1) / divisor;
-
-                    return new ushort2x3(lo.xy, lo.zw, left.c2 / divisor);
-                }
-            }
-
-            return new ushort2x3(left.c0 / right, left.c1 / right, left.c2 / right);
-        }
+        public static ushort2x3 operator / (ushort2x3 left, ushort right) => new ushort2x3(left.c0 / right, left.c1 / right, left.c2 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort2x3 operator % (ushort2x3 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-#if DEBUG
-                    ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         Sse2.unpacklo_epi32(left.c2, new ushort2(1)));
-
-                    ushort8 div = packed % right;
-
-                    return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#else
-                    ushort8 packed = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1),
-                                                         left.c2);
-
-                    ushort8 div = packed % right;
-
-                    return new ushort2x3(div.v2_0, div.v2_2, div.v2_4);
-#endif
-                }
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    v128 divisor = (ushort4)right;
-                    ushort4 lo = new ushort4(left.c0, left.c1) % divisor;
-
-                    return new ushort2x3(lo.xy, lo.zw, left.c2 % divisor);
-                }
-            }
-
-            return new ushort2x3(left.c0 % right, left.c1 % right, left.c2 % right);
-        }
+        public static ushort2x3 operator % (ushort2x3 left, ushort right) => new ushort2x3(left.c0 % right, left.c1 % right, left.c2 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

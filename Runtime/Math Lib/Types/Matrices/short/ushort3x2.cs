@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -114,47 +111,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort3x2 operator * (ushort3x2 left, ushort3x2 right) => new ushort3x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3x2 operator / (ushort3x2 left, ushort3x2 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
-                ushort8 divisor  = Sse2.unpacklo_epi64(right.c0, right.c1);
-#if DEBUG
-                divisor.x3 = 1;
-                divisor.x7 = 1;
-#endif
-                ushort8 div = dividend / divisor;
-
-                return new ushort3x2(div.v3_0, div.v3_4);
-            }
-            else
-            {
-                return new ushort3x2(left.c0 / right.c0, left.c1 / right.c1);
-            }
-        }
-            
+        public static ushort3x2 operator / (ushort3x2 left, ushort3x2 right) => new ushort3x2(left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3x2 operator % (ushort3x2 left, ushort3x2 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
-                ushort8 divisor  = Sse2.unpacklo_epi64(right.c0, right.c1);
-#if DEBUG
-                divisor.x3 = 1;
-                divisor.x7 = 1;
-#endif
-                ushort8 rem = dividend % divisor;
-
-                return new ushort3x2(rem.v3_0, rem.v3_4);
-            }
-            else
-            {
-                return new ushort3x2(left.c0 % right.c0, left.c1 % right.c1);
-            }
-        }
+        public static ushort3x2 operator % (ushort3x2 left, ushort3x2 right) => new ushort3x2(left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -164,40 +124,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static ushort3x2 operator * (ushort left, ushort3x2 right) => new ushort3x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3x2 operator / (ushort3x2 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
-
-                    ushort8 div = dividend / right;
-
-                    return new ushort3x2(div.v3_0, div.v3_4);
-                }
-            }
-
-            return new ushort3x2(left.c0 / right, left.c1 / right);
-        }
+        public static ushort3x2 operator / (ushort3x2 left, ushort right) => new ushort3x2(left.c0 / right, left.c1 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort3x2 operator % (ushort3x2 left, ushort right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    ushort8 dividend = Sse2.unpacklo_epi64(left.c0, left.c1);
-
-                    ushort8 rem = dividend % right;
-
-                    return new ushort3x2(rem.v3_0, rem.v3_4);
-                }
-            }
-
-            return new ushort3x2(left.c0 % right, left.c1 % right);
-        }
+        public static ushort3x2 operator % (ushort3x2 left, ushort right) => new ushort3x2(left.c0 % right, left.c1 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

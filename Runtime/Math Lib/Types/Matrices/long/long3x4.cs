@@ -55,6 +55,19 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long3x4(ulong3x4 input) => new long3x4((long3)input.c0, (long3)input.c1, (long3)input.c2, (long3)input.c3);
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3x4(int3x4 input) => new long3x4((long3)input.c0, (long3)input.c1, (long3)input.c2, (long3)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long3x4(uint3x4 input) => new long3x4((long3)input.c0, (long3)input.c1, (long3)input.c2, (long3)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int3x4(long3x4 input) => new int3x4((int3)input.c0, (int3)input.c1, (int3)input.c2, (int3)input.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint3x4(long3x4 input) => new uint3x4((uint3)input.c0, (uint3)input.c1, (uint3)input.c2, (uint3)input.c3);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -99,6 +112,25 @@ Assert.IsWithinArrayBounds(index, 4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3x4 operator % (long3x4 left, long3x4 right) => new long3x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (long3x4 left, uint3x4 right) => new long3x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (long3x4 left, ushort3x4 right) => new long3x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (long3x4 left, byte3x4 right) => new long3x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (uint3x4 left, long3x4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (ushort3x4 left, long3x4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3x4 operator * (byte3x4 left, long3x4 right) => right * left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

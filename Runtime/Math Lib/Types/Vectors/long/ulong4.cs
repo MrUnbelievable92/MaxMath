@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -12,7 +11,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] 
+    [Serializable]
 	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(ulong))]
 	[DebuggerTypeProxy(typeof(ulong4.DebuggerProxy))]
     unsafe public struct ulong4 : IEquatable<ulong4>, IFormattable
@@ -53,7 +52,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_epi64x((long)w, (long)z, (long)y, (long)x);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -72,15 +71,15 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong xyzw)
         {
             if (Avx.IsAvxSupported)
             {
-                this = Avx.mm256_set1_epi64x((long)xyzw);
+                this = Xse.mm256_set1_epi64x(xyzw);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -107,7 +106,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_m128i(new ulong2(z, w), xy);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -126,7 +125,7 @@ namespace MaxMath
                 };
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong x, ulong2 yz, ulong w)
         {
@@ -138,12 +137,12 @@ namespace MaxMath
 
                 this = shuf;
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                v128 lo = Sse2.shuffle_epi32(yz, Sse.SHUFFLE(1, 0, 1, 0));
+                v128 lo = Xse.shuffle_epi32(yz, Sse.SHUFFLE(1, 0, 1, 0));
                 lo.ULong0 = x;
 
-                v128 hi = Sse2.shuffle_epi32(yz, Sse.SHUFFLE(3, 2, 3, 2));
+                v128 hi = Xse.shuffle_epi32(yz, Sse.SHUFFLE(3, 2, 3, 2));
                 hi.ULong1 = w;
 
                 this = new ulong4
@@ -163,7 +162,7 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong x, ulong y, ulong2 zw)
         {
@@ -171,7 +170,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_m128i(zw, new ulong2(x, y));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -190,7 +189,7 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong2 xy, ulong2 zw)
         {
@@ -198,7 +197,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_m128i(zw, xy);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -217,7 +216,7 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong3 xyz, ulong w)
         {
@@ -225,7 +224,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_insert_epi64(xyz, (long)w, 3);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 this = new ulong4
                 {
@@ -244,7 +243,7 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4(ulong x, ulong3 yzw)
         {
@@ -252,9 +251,9 @@ namespace MaxMath
             {
                 this = Avx.mm256_insert_epi64(yzw.xxyz, (long)x, 0);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
-                v128 lo = Sse2.shuffle_epi32(yzw._xy, Sse.SHUFFLE(1, 0, 1, 0));
+                v128 lo = Xse.shuffle_epi32(yzw._xy, Sse.SHUFFLE(1, 0, 1, 0));
                 lo.ULong0 = x;
                 ulong2 hi = yzw.yz;
 
@@ -276,7 +275,7 @@ namespace MaxMath
             }
         }
 
-		
+
         #region Shuffle
         public readonly ulong4 xxxx
 		{
@@ -4333,8 +4332,8 @@ namespace MaxMath
 			}
 		}
         public          ulong3 xyz
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
 				if (Avx2.IsAvx2Supported)
@@ -5570,9 +5569,9 @@ namespace MaxMath
 			{
 				if (Avx.IsAvxSupported)
 				{
-					return Sse2.unpacklo_epi64(Avx.mm256_castsi256_si128(this), Avx.mm256_castsi256_si128(this));
+					return Xse.unpacklo_epi64(Avx.mm256_castsi256_si128(this), Avx.mm256_castsi256_si128(this));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._xy.xx;
 				}
@@ -5583,15 +5582,15 @@ namespace MaxMath
 			}
 		}
         public          ulong2 xy
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			readonly get
 			{
 				if (Avx.IsAvxSupported)
 				{
 					return Avx.mm256_castsi256_si128(this);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._xy;
 				}
@@ -5608,7 +5607,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_inserti128_si256(this, value, 0);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._xy = value;
 				}
@@ -5628,9 +5627,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 0)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.unpacklo_epi64(this._xy, this._zw);
+					return Xse.unpacklo_epi64(this._xy, this._zw);
 				}
 				else
 				{
@@ -5645,10 +5644,10 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.xxyy, 0b0011_0011);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
                     this._xy = Xse.blend_epi16(this._xy, value, 0b0000_1111);
-					this._zw = Sse2.unpackhi_epi64(value, this._zw);
+					this._zw = Xse.unpackhi_epi64(value, this._zw);
 				}
 				else
 				{
@@ -5666,7 +5665,7 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 0)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return Xse.blend_epi16(this._xy, this._zw, 0b1111_0000);
 				}
@@ -5683,7 +5682,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.xxyy, 0b1100_0011);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._xy = Xse.blend_epi16(this._xy, value, 0b0000_1111);
 					this._zw = Xse.blend_epi16(this._zw, value, 0b1111_0000);
@@ -5702,9 +5701,9 @@ namespace MaxMath
 			{
 				if (Avx.IsAvxSupported)
 				{
-					return Sse2.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shuffle_epi32(Avx.mm256_castsi256_si128(this), Sse.SHUFFLE(1, 0, 3, 2));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._xy.yx;
 				}
@@ -5721,7 +5720,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_inserti128_si256(this, value.yx, 0);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._xy = value.yx;
 				}
@@ -5739,9 +5738,9 @@ namespace MaxMath
 			{
 				if (Avx.IsAvxSupported)
 				{
-					return Sse2.unpackhi_epi64(Avx.mm256_castsi256_si128(this), Avx.mm256_castsi256_si128(this) );
+					return Xse.unpackhi_epi64(Avx.mm256_castsi256_si128(this), Avx.mm256_castsi256_si128(this) );
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._xy.yy;
 				}
@@ -5760,9 +5759,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 1)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b0000_1111), Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b0000_1111), Sse.SHUFFLE(1, 0, 3, 2));
 				}
 				else
 				{
@@ -5777,10 +5776,10 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.xxyy, 0b0011_1100);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					this._xy = Sse2.unpacklo_epi64(this._xy, value);
-					this._zw = Sse2.unpackhi_epi64(value, this._zw);
+					this._xy = Xse.unpacklo_epi64(this._xy, value);
+					this._zw = Xse.unpackhi_epi64(value, this._zw);
 				}
 				else
 				{
@@ -5798,9 +5797,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 1)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.unpackhi_epi64(this._xy, this._zw);
+					return Xse.unpackhi_epi64(this._xy, this._zw);
 				}
 				else
 				{
@@ -5815,9 +5814,9 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_unpacklo_epi64(this, value.xxyy);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					this._xy = Sse2.unpacklo_epi64(this._xy, value);
+					this._xy = Xse.unpacklo_epi64(this._xy, value);
 					this._zw = Xse.blend_epi16(this._zw, value, 0b1111_0000);
 				}
 				else
@@ -5836,9 +5835,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 2)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.unpacklo_epi64(this._zw, this._xy);
+					return Xse.unpacklo_epi64(this._zw, this._xy);
 				}
 				else
 				{
@@ -5853,9 +5852,9 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b0011_0011);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					this._xy = Sse2.unpackhi_epi64(value, this._xy);
+					this._xy = Xse.unpackhi_epi64(value, this._xy);
 					this._zw = Xse.blend_epi16(this._zw, value, 0b0000_1111);
 				}
 				else
@@ -5874,7 +5873,7 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 2)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return Xse.blend_epi16(this._xy, this._zw, 0b0000_1111);
 				}
@@ -5891,7 +5890,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b0011_1100);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._xy = Xse.blend_epi16(this._xy, value, 0b1111_0000);
 					this._zw = Xse.blend_epi16(this._zw, value, 0b0000_1111);
@@ -5912,7 +5911,7 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 2)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._zw.xx;
 				}
@@ -5931,7 +5930,7 @@ namespace MaxMath
 				{
 					return Avx2.mm256_extracti128_si256(this, 1);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return this._zw;
 				}
@@ -5948,7 +5947,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_inserti128_si256(this, value, 1);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._zw = value;
 				}
@@ -5968,9 +5967,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 0, 3)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b1111_0000), Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b1111_0000), Sse.SHUFFLE(1, 0, 3, 2));
 				}
 				else
 				{
@@ -5985,10 +5984,10 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b1100_0011);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					this._xy = Sse2.unpackhi_epi64(value, this._xy);
-					this._zw = Sse2.unpacklo_epi64(this._zw, value);
+					this._xy = Xse.unpackhi_epi64(value, this._xy);
+					this._zw = Xse.unpacklo_epi64(this._zw, value);
 				}
 				else
 				{
@@ -6006,9 +6005,9 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 1, 3)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
-					return Sse2.unpackhi_epi64(this._zw, this._xy);
+					return Xse.unpackhi_epi64(this._zw, this._xy);
 				}
 				else
 				{
@@ -6023,10 +6022,10 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_blend_epi32(this, value.yyxx, 0b1100_1100);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._xy = Xse.blend_epi16(this._xy, value, 0b1111_0000);
-					this._zw = Sse2.unpacklo_epi64(this._zw, value);
+					this._zw = Xse.unpacklo_epi64(this._zw, value);
 				}
 				else
 				{
@@ -6044,7 +6043,7 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 2, 3)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					return _zw.yx;
 				}
@@ -6061,7 +6060,7 @@ namespace MaxMath
 				{
 					this = Avx2.mm256_inserti128_si256(this, value.yx, 1);
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
 				{
 					this._zw = value.yx;
 				}
@@ -6081,7 +6080,7 @@ namespace MaxMath
 				{
 					return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(3, 3, 3, 3)));
 				}
-				else if (Sse2.IsSse2Supported)
+				else if (Architecture.IsSIMDSupported)
                 {
 					return _zw.yy;
                 }
@@ -6093,7 +6092,7 @@ namespace MaxMath
         }
         #endregion
 
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v256(ulong4 input) => new v256 { ULong0 = input.x, ULong1 = input.y, ULong2 = input.z, ULong3 = input.w };
 
@@ -6106,21 +6105,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong4(long4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return (v256)input;
-            }
-            else if (Sse2.IsSse2Supported)
-            {
-                return new ulong4((ulong2)input._xy, (ulong2)input._zw);
-            }
-            else
-            {
-                return *(ulong4*)&input;
-            }
-        }
+        public static explicit operator ulong4(long4 input) => *(ulong4*)&input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong4(uint4 input)
@@ -6129,7 +6114,7 @@ namespace MaxMath
             {
 				return Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return (ulong4)Cast.UInt4ToLong4(RegisterConversion.ToV128(input));
             }
@@ -6146,7 +6131,7 @@ namespace MaxMath
             {
 				return Avx2.mm256_cvtepi32_epi64(RegisterConversion.ToV128(input));
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return (ulong4)Cast.Int4ToLong4(RegisterConversion.ToV128(input));
             }
@@ -6157,10 +6142,30 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong4(half4 input) => (ulong4)(int4)(float4)input;
+        public static explicit operator ulong4(half4 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttph_epu64(RegisterConversion.ToV128(input), 4);
+            }
+            else
+            {
+                return new ulong4((ulong2)input.xy, (ulong2)input.zw);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong4(float4 input) => new ulong4((ulong2)input.xy, (ulong2)input.zw);
+        public static explicit operator ulong4(float4 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttps_epu64(RegisterConversion.ToV128(input), 4);
+            }
+            else
+            {
+                return new ulong4((ulong2)input.xy, (ulong2)input.zw);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong4(double4 input)
@@ -6206,7 +6211,17 @@ namespace MaxMath
         public static explicit operator half4(ulong4 input) => (half4)(float4)(ushort4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float4(ulong4 input) => new float4((float2)input._xy, (float2)input._zw);
+        public static implicit operator float4(ulong4 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.ToFloat4(Xse.mm256_cvtepu64_ps(input, 4));
+            }
+            else
+            {
+                return new float4((float2)input._xy, (float2)input._zw);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double4(ulong4 input)
@@ -6233,9 +6248,9 @@ Assert.IsWithinArrayBounds(index, 4);
                 {
                     return Xse.mm256_extract_epi64(this, (byte)index);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 2)
                         {
@@ -6247,12 +6262,10 @@ Assert.IsWithinArrayBounds(index, 4);
                         }
                     }
                 }
-
-                ulong4 onStack = this;
-
-                return *((ulong*)&onStack + index);
+				
+				return this.GetField<ulong4, ulong>(index);
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -6264,9 +6277,9 @@ Assert.IsWithinArrayBounds(index, 4);
 
                     return;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 2)
                         {
@@ -6280,14 +6293,12 @@ Assert.IsWithinArrayBounds(index, 4);
                         return;
                     }
                 }
-
-                ulong4 onStack = this;
-                *((ulong*)&onStack + index) = value;
-                this = onStack;
+				
+				this.SetField(value, index);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ulong4 operator + (ulong4 left, ulong4 right)
 		{
@@ -6300,7 +6311,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy + right._xy, left._zw + right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator - (ulong4 left, ulong4 right)
 		{
@@ -6313,7 +6324,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy - right._xy, left._zw - right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator * (ulong4 left, ulong4 right)
 		{
@@ -6326,27 +6337,83 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy * right._xy, left._zw * right._zw);
 			}
 		}
-    
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, uint4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong4(left.xy * right.xy, left.zw * right.zw);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (uint4 left, ulong4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, ushort4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong4(left.xy * right.xy, left.zw * right.zw);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ushort4 left, ulong4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, byte4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong4(left.xy * right.xy, left.zw * right.zw);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (byte4 left, ulong4 right) => right * left;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator / (ulong4 left, ulong4 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_div_epu64(left, right, 4);
+                return Xse.mm256_div_epu64(left, right, elements: 4);
             }
+			else if (Architecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(left.xy, right.xy, true), Xse.div_epu64(left.zw, right.zw, false));
+			}
             else
             {
                 return new ulong4(left.xy / right.xy, left.zw / right.zw);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator % (ulong4 left, ulong4 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_rem_epu64(left, right, 4);
+                return Xse.mm256_rem_epu64(left, right, elements: 4);
             }
+			else if (Architecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(left.xy, right.xy, true), Xse.rem_epu64(left.zw, right.zw, false));
+			}
             else
             {
                 return new ulong4(left.xy % right.xy, left.zw % right.zw);
@@ -6356,13 +6423,13 @@ Assert.IsWithinArrayBounds(index, 4);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ulong4 operator * (ulong left, ulong4 right) => right * left;
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator * (ulong4 left, ulong right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				if (Constant.IsConstantExpression(right))
+				if (constexpr.IS_CONST(right))
 				{
 					return new ulong4(left.x * right, left.y * right, left.z * right, left.w * right);
 				}
@@ -6376,36 +6443,50 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy * right, left._zw * right);
 			}
 		}
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator / (ulong4 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_div_epu64(left, right, 4);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constdiv_epu64(left, right, 4);
+                    }
+                    else
+                    {
+                        return new ulong4(Xse.constdiv_epu64(left.xy, right), Xse.constdiv_epu64(left.zw, right));
+                    }
                 }
             }
-                
+
             return left / (ulong4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator % (ulong4 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_rem_epu64(left, right, 4);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constrem_epu64(left, right, 4);
+                    }
+                    else
+                    {
+                        return new ulong4(Xse.constrem_epu64(left.xy, right), Xse.constrem_epu64(left.zw, right));
+                    }
                 }
             }
-                
+
             return left % (ulong4)right;
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator & (ulong4 left, ulong4 right)
 		{
@@ -6418,7 +6499,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy & right._xy, left._zw & right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator | (ulong4 left, ulong4 right)
 		{
@@ -6431,7 +6512,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy | right._xy, left._zw | right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator ^ (ulong4 left, ulong4 right)
 		{
@@ -6444,8 +6525,8 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(left._xy ^ right._xy, left._zw ^ right._zw);
 			}
 		}
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator ++ (ulong4 x)
 		{
@@ -6458,7 +6539,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(x._xy + 1, x._zw + 1);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator -- (ulong4 x)
 		{
@@ -6471,7 +6552,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(x._xy - 1, x._zw - 1);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator ~ (ulong4 x)
 		{
@@ -6484,8 +6565,8 @@ Assert.IsWithinArrayBounds(index, 4);
 				return new ulong4(~x._xy, ~x._zw);
 			}
 		}
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator << (ulong4 x, int n)
 		{
@@ -6518,85 +6599,73 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right)));
 			}
 			else
 			{
 				return new bool4(left._xy == right._xy, left._zw == right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator < (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right)));
 			}
 			else
 			{
 				return new bool4(left._xy < right._xy, left._zw < right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator > (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right)));
 			}
 			else
 			{
 				return new bool4(left._xy > right._xy, left._zw > right._zw);
 			}
 		}
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator != (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right)));
 			}
 			else
 			{
 				return new bool4(left._xy != right._xy, left._zw != right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator <= (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right)));
 			}
 			else
 			{
 				return new bool4(left._xy <= right._xy, left._zw <= right._zw);
 			}
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator >= (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				int results = RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right));
-
-				return *(bool4*)&results;
+				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right)));
 			}
 			else
 			{
@@ -6610,7 +6679,7 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return uint.MaxValue == (uint)Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi64(this, other));
+				return Xse.mm256_alltrue_epi256<ulong>(Avx2.mm256_cmpeq_epi64(this, other));
 			}
 			else
 			{
@@ -6633,7 +6702,7 @@ Assert.IsWithinArrayBounds(index, 4);
 				return (this._xy ^ this._zw).GetHashCode();
 			}
 		}
-    
+
 
         public override readonly string ToString() => $"ulong4({x}, {y}, {z}, {w})";
         public readonly string ToString(string format, IFormatProvider formatProvider) => $"ulong4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";

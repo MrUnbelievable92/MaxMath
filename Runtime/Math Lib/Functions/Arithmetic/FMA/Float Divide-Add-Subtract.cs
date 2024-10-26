@@ -9,15 +9,15 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" /> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 dadsub(float2 a, float2 b, float2 c, bool fast = false)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), 
-                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
-                                                     RegisterConversion.ToV128(c)));
+                return RegisterConversion.ToFloat2(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
+                                                   fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
+                                                   RegisterConversion.ToV128(c)));
             }
             else
             {
@@ -25,15 +25,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" />/<see langword="+" /> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 dadsub(float3 a, float3 b, float3 c, bool fast = false)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), 
-                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
-                                                     RegisterConversion.ToV128(c)));
+                return RegisterConversion.ToFloat3(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
+                                                   fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
+                                                   RegisterConversion.ToV128(c)));
             }
             else
             {
@@ -41,15 +41,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" />/<see langword="+" />/<see langword="-" /> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 dadsub(float4 a, float4 b, float4 c, bool fast = false)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), 
-                                                     fast ? Sse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
-                                                     RegisterConversion.ToV128(c)));
+                return RegisterConversion.ToFloat4(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
+                                                   fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
+                                                   RegisterConversion.ToV128(c)));
             }
             else
             {
@@ -57,7 +57,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" />/<see langword="+" />/<see langword="-" />/<see langword="+" />/<see langword="-" />/<see langword="+" />/<see langword="-" /> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 dadsub(float8 a, float8 b, float8 c, bool fast = false)
         {
@@ -71,15 +71,15 @@ namespace MaxMath
             }
         }
 
-        
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" /> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
+
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 dadsub(double2 a, double2 b, double2 c, bool fast = false)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.fmsubadd_pd(RegisterConversion.ToV128(a), 
-                                                      fast ? Xse.rcp_pd(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)), 
+                return RegisterConversion.ToDouble2(Xse.fmsubadd_pd(RegisterConversion.ToV128(a),
+                                                      fast ? Xse.rcp_pd(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
                                                       RegisterConversion.ToV128(c)));
             }
             else
@@ -88,7 +88,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" />/<see langword="+" /> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 dadsub(double3 a, double3 b, double3 c, bool fast = false)
         {
@@ -113,11 +113,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/" /> <paramref name="b"/> <see langword="+" />/<see langword="-" />/<see langword="+" />/<see langword="-" /> <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 dadsub(double4 a, double4 b, double4 c, bool fast = false)
         {
-            if (Sse.IsSseSupported)
+            if (Sse2.IsSse2Supported)
             {
                 v256 divisor;
 

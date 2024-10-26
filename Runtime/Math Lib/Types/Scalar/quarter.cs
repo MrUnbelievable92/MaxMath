@@ -1,12 +1,10 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
-using static Unity.Burst.Intrinsics.X86;
 using static Unity.Mathematics.math;
 using static MaxMath.maxmath;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -14,45 +12,36 @@ using static MaxMath.LUT.FLOATING_POINT;
 namespace MaxMath
 {
     /// <summary>       An 8-bit 1.3.4.-3 IEEE 754 floating point number, often called a "mini-float".       </summary>
-    [Serializable] 
-    [DebuggerTypeProxy(typeof(quarter.DebuggerProxy))]
+    [Serializable]
     unsafe public readonly partial struct quarter : IEquatable<quarter>, IComparable<quarter>, IComparable, IFormattable, IConvertible
     {
-        internal sealed class DebuggerProxy
-        {
-            public quarter value;
-
-            public DebuggerProxy(quarter v)
-            {
-                value = v;
-            }
-        }
-
-
         internal quarter(byte value)
         {
             this.value = value;
         }
 
-        
+
         // Change the number of exponent bits ("->3<- + (SIGN_BIT ? 0 : 1)")
         // And everything will fall into place correctly
-        // is what I'd LIKE to say; q -> f works, f -> q does not 
-        internal const bool IEEE_754_STANDARD = true;                                                                            //standard: true
-        internal const bool SIGN_BIT = IEEE_754_STANDARD || true;                                                                //standard: true
-        internal const int BITS = 8 * sizeof(byte);                                                                              //standard: 8
-        internal const int SET_SIGN_BIT = (SIGN_BIT ? 1 : 0) << (BITS - 1);                                                      //standard: 0b1000_0000
-        internal const int EXPONENT_BITS = 3 + (SIGN_BIT ? 0 : 1);                                                               //standard: 3
-        internal const int MANTISSA_BITS = BITS - EXPONENT_BITS - (SIGN_BIT ? 1 : 0);                                            //standard: 4
-        internal const int EXPONENT_BIAS = -(((1 << BITS) - 1) >> (BITS - (EXPONENT_BITS - 1)));                                 //standard: -3
-        internal const int MAX_EXPONENT = EXPONENT_BIAS + ((1 << EXPONENT_BITS) - 1) - (IEEE_754_STANDARD ? 1 : 0);              //standard: 3
-        internal const int SIGNALING_EXPONENT = (MAX_EXPONENT - EXPONENT_BIAS + (IEEE_754_STANDARD ? 1 : 0)) << MANTISSA_BITS;   //standard: 0b0111_0000                     
-        
-        internal const int F32_SHL_LOSE_SIGN       = (F32_BITS - (MANTISSA_BITS + EXPONENT_BITS));
+        // is what I'd LIKE to say; q -> f works, f -> q does not
+
+        internal const bool IEEE_754_STANDARD = true;                                                                                     //standard: true
+        internal const bool SIGN_BIT = IEEE_754_STANDARD || true;                                                                         //standard: true
+        internal const bool SIGNALING_NAN = false;                                                                                        //standard: false
+        internal const int BITS = 8 * sizeof(byte);                                                                                       //standard: 8
+        internal const int SET_SIGN_BIT = (SIGN_BIT ? 1 : 0) << (BITS - 1);                                                               //standard: 0b1000_0000
+        internal const int EXPONENT_BITS = 3 + (SIGN_BIT ? 0 : 1);                                                                        //standard: 3
+        internal const int MANTISSA_BITS = BITS - EXPONENT_BITS - (SIGN_BIT ? 1 : 0);                                                     //standard: 4
+        internal const int EXPONENT_BIAS = -((1 << (EXPONENT_BITS - 1)) - 1);                                                             //standard: -3
+        internal const int MAX_UNBIASED_EXPONENT = -EXPONENT_BIAS;                                                                        //standard: 3
+        internal const int MIN_UNBIASED_EXPONENT = EXPONENT_BIAS + 1;                                                                     //standard: -2
+        internal const int SIGNALING_EXPONENT = (MAX_UNBIASED_EXPONENT - EXPONENT_BIAS + (IEEE_754_STANDARD ? 1 : 0)) << MANTISSA_BITS;   //standard: 0b0111_0000
+
+        internal const int F32_SHL_LOSE_SIGN       = F32_BITS - (MANTISSA_BITS + EXPONENT_BITS);
         internal const int F32_SHR_PLACE_MANTISSA  = MANTISSA_BITS + ((1 + F32_EXPONENT_BITS) - (MANTISSA_BITS + EXPONENT_BITS));
         internal const int F32_MAGIC               = (((1 << F32_EXPONENT_BITS) - 1) - (1 + EXPONENT_BITS)) << F32_MANTISSA_BITS;
 
-        internal const int  F64_SHL_LOSE_SIGN      = (F64_BITS - (MANTISSA_BITS + EXPONENT_BITS));
+        internal const int  F64_SHL_LOSE_SIGN      = F64_BITS - (MANTISSA_BITS + EXPONENT_BITS);
         internal const int  F64_SHR_PLACE_MANTISSA = MANTISSA_BITS + ((1 + F64_EXPONENT_BITS) - (MANTISSA_BITS + EXPONENT_BITS));
         internal const long F64_MAGIC              = (((1L << F64_EXPONENT_BITS) - 1) - (1 + EXPONENT_BITS)) << F64_MANTISSA_BITS;
 
@@ -64,198 +53,154 @@ namespace MaxMath
         /// <summary>       0.015625 as a <see cref="float"/>.      </summary>
         public static quarter Epsilon => new quarter(1);
 
-        /// <summary>       -15.5 as a <see cref="float"/>.      </summary>
-        public static quarter MinValue => new quarter(SET_SIGN_BIT | (SIGNALING_EXPONENT - 1));
-
         /// <summary>       15.5 as a <see cref="float"/>.      </summary>
         public static quarter MaxValue => new quarter(SIGNALING_EXPONENT - 1);
 
+        /// <summary>       -15.5 as a <see cref="float"/>.      </summary>
+        public static quarter MinValue => -MaxValue;
         public static quarter Zero => new quarter(0);
         public static quarter NaN => new quarter(SIGNALING_EXPONENT | 1);
-        public static quarter NegativeInfinity => new quarter(SET_SIGN_BIT | SIGNALING_EXPONENT);
         public static quarter PositiveInfinity => new quarter(SIGNALING_EXPONENT);
+        public static quarter NegativeInfinity => -PositiveInfinity;
         #endregion
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsZero(quarter q)
-        {
-            return (q.value & ~SET_SIGN_BIT) == 0;
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsNotZero(quarter q)
-        {
-            return (q.value & ~SET_SIGN_BIT) != 0;
-        }
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //private static bool IsSubnormal(quarter q)
-        //{
-        //    return (q.value & (SIGNALING_EXPONENT | SIGN_BIT_MASK)) == 0u;
-        //}
-
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool IsNegativeInfinity(quarter q)
-        //{
-        //    return q.value == NegativeInfinity.value;
-        //}
-        //
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static bool IsPositiveInfinity(quarter q)
-        //{
-        //    return q.value == PositiveInfinity.value;
-        //}
-        //
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static float Truncate(quarter q)
-        //{
-        //    return trunc((float)q);
-        //}
-        //
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static float Floor(quarter q)
-        //{
-        //    return floor((float)q);
-        //}
-        //
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static float Ceiling(quarter q)
-        //{
-        //    return ceil((float)q);
-        //}
-        //
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static float Round(quarter q)
-        //{
-        //    return round((float)q);
-        //}
-
-        #region TYPE_CONVERISON
+        #region TYPE_CONVERSION
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(half h)
         {
-            return (quarter)(float)h;
+            const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + EXPONENT_BIAS;
+
+            int sign = (h.value >> 15) << (BITS - 1);
+            uint exp = (uint)h.value & F16_SIGNALING_EXPONENT;
+            uint frac = (uint)h.value & bitmask32((uint)F16_MANTISSA_BITS);
+            
+            bool denormalF8 = exp <= EXPONENT_OFFSET << F16_MANTISSA_BITS;
+            bool overflow = abs(h).value >= ((bitmask32(MANTISSA_BITS + 1) << (F16_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F16_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32(F16_EXPONENT_BITS)) << F16_MANTISSA_BITS));
+            bool noUnderflow = exp >= (MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F16_EXPONENT_BIAS) << F16_MANTISSA_BITS;
+
+            exp -= EXPONENT_OFFSET << F16_MANTISSA_BITS;
+            byte frac8;
+            if (Hint.Unlikely(denormalF8))
+            {
+                int bitIndex = MANTISSA_BITS - 1 - abs((int)exp >> F16_MANTISSA_BITS);
+                frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
+                frac8 |= (byte)((frac & (uint)-tobyte(noUnderflow)) >> (F16_MANTISSA_BITS - bitIndex));
+                
+                return asquarter((byte)(sign | frac8));
+            }
+            else
+            {
+                if (overflow)
+                {
+                    return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(h))));
+                }
+                else
+                {
+                    frac8 = (byte)(frac >> (F16_MANTISSA_BITS - MANTISSA_BITS));
+
+                    byte round = tobyte((frac & bitmask32((uint)(F16_MANTISSA_BITS - MANTISSA_BITS))) != 0);
+                    frac8 += round;
+            
+                    return asquarter((byte)(sign | (byte)(exp >> (F16_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
+                }
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(float f)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return new quarter(Vectorized.cvtss_sq(RegisterConversion.ToV128(f)).Byte0);
+                return new quarter(Xse.cvtps_pq(RegisterConversion.ToV128(f)).Byte0);
             }
             else
             {
-                quarter q = FloatToQuarterInRangeAbs(f);
+                const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + EXPONENT_BIAS;
+
+                int sign = (asint(f) >> 31) << (BITS - 1);
+                uint exp = asuint(f) & F32_SIGNALING_EXPONENT;
+                uint frac = asuint(f) & bitmask32((uint)F32_MANTISSA_BITS);
                 
-                uint f32_exponent = asuint(f) & F32_SIGNALING_EXPONENT;
-                bool overflow = f32_exponent > ((-F32_EXPONENT_BIAS + MAX_EXPONENT) << F32_MANTISSA_BITS); 
-                bool notNaNInf = f32_exponent != F32_SIGNALING_EXPONENT; 
-                uint f8_sign = asuint(f) >> (F32_BITS - 1);
-                f8_sign ^= tobyte(!notNaNInf);
-                f8_sign <<= (BITS - 1);
-                if (overflow & notNaNInf)
+                bool denormalF8 = exp <= (uint)EXPONENT_OFFSET << F32_MANTISSA_BITS;
+                bool overflow = asuint(abs(f)) >= ((bitmask32((uint)MANTISSA_BITS + 1) << (F32_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F32_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32((uint)F32_EXPONENT_BITS)) << F32_MANTISSA_BITS));
+                bool noUnderflow = exp >= (uint)(MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F32_EXPONENT_BIAS) << F32_MANTISSA_BITS;
+
+                exp -= EXPONENT_OFFSET << F32_MANTISSA_BITS;
+                byte frac8;
+                if (Hint.Unlikely(denormalF8))
                 {
-                    q = PositiveInfinity;
+                    int bitIndex = MANTISSA_BITS - 1 - abs((int)exp >> F32_MANTISSA_BITS);
+                    frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
+                    frac8 |= (byte)((frac & (uint)-tobyte(noUnderflow)) >> (F32_MANTISSA_BITS - bitIndex));
+                    
+                    return asquarter((byte)(sign | frac8));
                 }
+                else
+                {
+                    if (overflow)
+                    {
+                        return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(f))));
+                    }
+                    else
+                    {
+                        frac8 = (byte)(frac >> (F32_MANTISSA_BITS - MANTISSA_BITS));
 
-                return new quarter((byte)(q.value ^ f8_sign));
+                        byte round = tobyte((frac & bitmask32((uint)(F32_MANTISSA_BITS - MANTISSA_BITS))) != 0);
+                        frac8 += round;
+                
+                        return asquarter((byte)(sign | (byte)(exp >> (F32_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
+                    }
+                }
             }
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter FloatToQuarterInRange(float f)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return new quarter(Vectorized.cvtss_sq(RegisterConversion.ToV128(f), promiseInRange: true).Byte0);
-            }
-            else
-            {
-                quarter q = FloatToQuarterInRangeAbs(f);
-                uint f8_sign = (asuint(f) >> (F32_BITS - 1)) << (BITS - 1);
-
-                return new quarter((byte)(q.value ^ f8_sign));
-            }
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter FloatToQuarterInRangeAbs(float f)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return new quarter(Vectorized.cvtss_sq(RegisterConversion.ToV128(f), promiseAbsoluteAndInRange: true).Byte0);
-            }
-            else
-            {
-                float inRange = f * (1f / asfloat(F32_MAGIC));
-                uint q = asuint(inRange) >> (F32_MANTISSA_BITS - (1 + EXPONENT_BITS));
-                q |= ((1 << (F32_MANTISSA_BITS - MANTISSA_BITS - 1)) & asuint(inRange)) >> (F32_MANTISSA_BITS - MANTISSA_BITS - 1);
-
-                return new quarter((byte)q);
-            }
-        }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(double d)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return new quarter(Vectorized.cvtsd_sq(RegisterConversion.ToV128(d)).Byte0);
+                return new quarter(Xse.cvtpd_pq(RegisterConversion.ToV128(d)).Byte0);
             }
             else
             {
-                quarter q = DoubleToQuarterInRangeAbs(d);
+                const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + EXPONENT_BIAS;
+
+                long sign = (aslong(d) >> 63) << (BITS - 1);
+                ulong exp = asulong(d) & F64_SIGNALING_EXPONENT;
+                ulong frac = asulong(d) & bitmask64((ulong)F64_MANTISSA_BITS);
                 
-                long f64_exponent = aslong(d) & F64_SIGNALING_EXPONENT;
-                bool overflow = f64_exponent > ((long)(-F64_EXPONENT_BIAS + MAX_EXPONENT) << F64_MANTISSA_BITS); 
-                bool notNaNInf = f64_exponent != F64_SIGNALING_EXPONENT; 
-                ulong f8_sign = asulong(d) >> (F64_BITS - 1);
-                f8_sign ^= tobyte(!notNaNInf);
-                f8_sign <<= (BITS - 1);
-                if (overflow & notNaNInf)
+                bool denormalF8 = exp <= (ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS;
+                bool overflow = asulong(abs(d)) >= ((bitmask64((ulong)MANTISSA_BITS + 1) << (F64_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F64_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask64((ulong)F64_EXPONENT_BITS)) << F64_MANTISSA_BITS));
+                bool noUnderflow = exp >= (ulong)(MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F64_EXPONENT_BIAS) << F64_MANTISSA_BITS;
+
+                exp -= EXPONENT_OFFSET << F64_MANTISSA_BITS;
+                byte frac8;
+                if (Hint.Unlikely(denormalF8))
                 {
-                    q = PositiveInfinity;
+                    int bitIndex = MANTISSA_BITS - 1 - (int)abs((long)exp >> F64_MANTISSA_BITS);
+                    frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
+                    frac8 |= (byte)((frac & (ulong)-tobyte(noUnderflow)) >> (F64_MANTISSA_BITS - bitIndex));
+                    
+                    return asquarter((byte)(sign | frac8));
                 }
+                else
+                {
+                    if (overflow)
+                    {
+                        return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(d))));
+                    }
+                    else
+                    {
+                        frac8 = (byte)(frac >> (F64_MANTISSA_BITS - MANTISSA_BITS));
 
-                return new quarter((byte)(q.value ^ f8_sign));
+                        byte round = tobyte((frac & bitmask64((ulong)(F64_MANTISSA_BITS - MANTISSA_BITS))) != 0);
+                        frac8 += round;
+                
+                        return asquarter((byte)(sign | (byte)(exp >> (F64_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
+                    }
+                }
             }
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter DoubleToQuarterInRange(double d)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return new quarter(Vectorized.cvtsd_sq(RegisterConversion.ToV128(d), promiseInRange: true).Byte0);
-            }
-            else
-            {
-                quarter q = DoubleToQuarterInRangeAbs(d);
-                ulong f8_sign = (asulong(d) >> (F64_BITS - 1)) << (BITS - 1);
-
-                return new quarter((byte)(q.value ^ f8_sign));
-            }
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter DoubleToQuarterInRangeAbs(double d)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return new quarter(Vectorized.cvtsd_sq(RegisterConversion.ToV128(d), promiseAbsoluteAndInRange: true).Byte0);
-            }
-            else
-            {
-                double inRange = d * (1d / asdouble(F64_MAGIC));
-                ulong q = asulong(inRange) >> (F64_MANTISSA_BITS - (1 + EXPONENT_BITS));
-                q |= ((1L << (F64_MANTISSA_BITS - MANTISSA_BITS - 1)) & asulong(inRange)) >> (F64_MANTISSA_BITS - MANTISSA_BITS - 1);
-
-                return new quarter((byte)q);
-            }
-        }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(decimal d)
@@ -268,7 +213,7 @@ namespace MaxMath
         [SkipLocalsInit]
         internal static quarter GetInteger(ulong i, quarter overflowValue, bool promiseInRange = false)
         {
-            if (promiseInRange || Xse.constexpr.IS_TRUE(i < 16ul))
+            if (promiseInRange || constexpr.IS_TRUE(i < 16ul))
             {
                 quarter* possibleValues = stackalloc quarter[] { (quarter)0f, (quarter)1f, (quarter)2f, (quarter)3f, (quarter)4f, (quarter)5f, (quarter)6f, (quarter)7f, (quarter)8f, (quarter)9f, (quarter)10f, (quarter)11f, (quarter)12f, (quarter)13f, (quarter)14f, (quarter)15f };
 
@@ -282,7 +227,7 @@ namespace MaxMath
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter ByteToQuarter(byte value, quarter overflowValue)
         {
@@ -294,7 +239,7 @@ namespace MaxMath
         {
             return ByteToQuarter(b, PositiveInfinity);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter UShortToQuarter(ushort value, quarter overflowValue)
         {
@@ -306,7 +251,7 @@ namespace MaxMath
         {
             return UShortToQuarter(us, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter UIntToQuarter(uint value, quarter overflowValue)
@@ -319,7 +264,7 @@ namespace MaxMath
         {
             return UIntToQuarter(ui, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter ULongToQuarter(ulong value, quarter overflowValue)
@@ -332,7 +277,7 @@ namespace MaxMath
         {
             return ULongToQuarter(ul, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter UInt128ToQuarter(UInt128 value, quarter overflowValue)
@@ -345,19 +290,19 @@ namespace MaxMath
         {
             return UInt128ToQuarter(ull, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter SByteToQuarter(sbyte value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
         {
-            if (promiseAbs || Xse.constexpr.IS_TRUE(value >= 0))
+            if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
                 return ByteToQuarter((byte)value, overflowValue);
             }
             else
             {
                 quarter absQ = GetInteger((byte)abs(value), overflowValue, promiseInRange);
-            
+
                 return new quarter((byte)((value & 0b1000_0000) | absQ.value));
             }
         }
@@ -367,19 +312,19 @@ namespace MaxMath
         {
             return SByteToQuarter(sb, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter ShortToQuarter(short value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
         {
-            if (promiseAbs || Xse.constexpr.IS_TRUE(value >= 0))
+            if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
                 return UShortToQuarter((ushort)value, overflowValue);
             }
             else
             {
                 quarter absQ = GetInteger((ushort)abs(value), overflowValue, promiseNoOverflow);
-            
+
                 return new quarter((byte)(((value >> 8) & 0b1000_0000) | absQ.value));
             }
         }
@@ -389,19 +334,19 @@ namespace MaxMath
         {
             return ShortToQuarter(s, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter IntToQuarter(int value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
         {
-            if (promiseAbs || Xse.constexpr.IS_TRUE(value >= 0))
+            if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
                 return UIntToQuarter((uint)value, overflowValue);
             }
             else
             {
                 quarter absQ = GetInteger((uint)abs(value), overflowValue, promiseNoOverflow);
-            
+
                 return new quarter((byte)(((value >> 24) & 0b1000_0000) | absQ.value));
             }
         }
@@ -411,19 +356,19 @@ namespace MaxMath
         {
             return IntToQuarter(i, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter LongToQuarter(long value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
         {
-            if (promiseAbs || Xse.constexpr.IS_TRUE(value >= 0))
+            if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
                 return ULongToQuarter((uint)value, overflowValue);
             }
             else
             {
                 quarter absQ = GetInteger((ulong)abs(value), overflowValue, promiseNoOverflow);
-            
+
                 return new quarter((byte)(((value >> 56) & 0b1000_0000) | absQ.value));
             }
         }
@@ -433,24 +378,24 @@ namespace MaxMath
         {
             return LongToQuarter(l, PositiveInfinity);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter Int128ToQuarter(Int128 value, quarter overflowValue)
         {
-            if (Xse.constexpr.IS_TRUE(value >= 0))
+            if (constexpr.IS_TRUE(value >= 0))
             {
                 return ULongToQuarter((uint)value, overflowValue);
             }
             else
             {
                 bool overflowHi64 = value.hi64 + 1 > 1; // any other value than -1 or 0
-                
-                return overflowHi64 ? new quarter((byte)(overflowValue.value | (value.hi64 >> 56) & SET_SIGN_BIT)) 
-                                    : LongToQuarter((long)value.lo64, overflowValue); 
+
+                return overflowHi64 ? new quarter((byte)(overflowValue.value | (value.hi64 >> 56) & 0b1000_0000))
+                                    : LongToQuarter((long)value.lo64, overflowValue);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(Int128 ll)
         {
@@ -461,15 +406,49 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half(quarter q)
         {
-            return (half)(float)q; // No hardware implemented half multiplication, could do it by adding exponents and multiplying significands with carry but... no
+            const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + EXPONENT_BIAS;
+            FloatingPointPromise<quarter> promise = new FloatingPointPromise<quarter>(q);
+
+            uint sign = (uint)(q.value >> 7) << 15;
+            uint exp = (uint)q.value & SIGNALING_EXPONENT;
+            uint frac = (uint)q.value & bitmask32((uint)MANTISSA_BITS);
+            
+            if (Hint.Unlikely(exp == 0))
+            {
+                if (promise.NotSubnormal)
+                {
+                    exp = 0;
+                }
+                else
+                {
+                    byte16 shiftDistBase = new byte16(8, 7, 6, 6, 5, 5, 5, 5,    4, 4, 4, 4, 4, 4, 4, 4) - EXPONENT_BITS;
+
+                    exp = Hint.Likely(promise.NonZero || frac != 0) ? (EXPONENT_OFFSET - (uint)shiftDistBase[(int)frac]) << F16_MANTISSA_BITS: 0u;
+                    frac <<= shiftDistBase[(int)frac];
+                }
+            }
+            else
+            {
+                if (!(promise.NotNaN 
+                   && promise.NotInf)
+                 && Hint.Unlikely(exp == bitmask32((uint)EXPONENT_BITS) << MANTISSA_BITS))
+                {
+                    return ashalf((ushort)((promise.NotNaN ? 0ul : tobyte(frac != 0)) | sign | F16_SIGNALING_EXPONENT));
+                }
+                
+                exp += EXPONENT_OFFSET << MANTISSA_BITS;
+                exp <<= F16_MANTISSA_BITS - MANTISSA_BITS;
+            }
+
+            return ashalf((ushort)(sign | (exp + (frac << (F16_MANTISSA_BITS - MANTISSA_BITS)))));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_ss(Sse2.cvtsi32_si128(q.value)).Float0;
+                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value)).Float0;
             }
             else
             {
@@ -483,13 +462,13 @@ namespace MaxMath
                 return asfloat(sign | f64) * asfloat(nanInf ? f64 : F32_MAGIC);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float QuarterToFloatInRange(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_ss(Sse2.cvtsi32_si128(q.value), true, false).Float0;
+                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value), true, false).Float0;
             }
             else
             {
@@ -499,13 +478,13 @@ namespace MaxMath
                 return asfloat(F32_MAGIC) * asfloat(sign | fusedExponentMantissa);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float QuarterToFloatInRangeAbs(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_ss(Sse2.cvtsi32_si128(q.value), true, true).Float0;
+                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value), true, true).Float0;
             }
             else
             {
@@ -519,9 +498,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_sd(Sse2.cvtsi32_si128(q.value), false, false).Double0;
+                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), false, false).Double0;
             }
             else
             {
@@ -535,13 +514,13 @@ namespace MaxMath
                 return asdouble(sign | f64) * asdouble(nanInf ? f64 : F64_MAGIC);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double QuarterToDoubleInRange(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_sd(Sse2.cvtsi32_si128(q.value), true, false).Double0;
+                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), true, false).Double0;
             }
             else
             {
@@ -551,13 +530,13 @@ namespace MaxMath
                 return asdouble(F64_MAGIC) * asdouble(sign | fusedExponentMantissa);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double QuarterToDoubleInRangeAbs(quarter q)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Vectorized.cvtsq_sd(Sse2.cvtsi32_si128(q.value), true, true).Double0;
+                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), true, true).Double0;
             }
             else
             {
@@ -567,7 +546,7 @@ namespace MaxMath
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator decimal(quarter q)
         {
@@ -578,62 +557,62 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte(quarter q)
         {
-            return (byte)(float)q;
+            return (byte)maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort(quarter q)
         {
-            return (ushort)(float)q;
+            return (ushort)maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint(quarter q)
         {
-            return (uint)(float)q;
+            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong(quarter q)
         {
-            return (ulong)(float)q;
+            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UInt128(quarter q)
         {
-            return (UInt128)(float)q;
+            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte(quarter q)
         {
-            return (sbyte)(float)q;
+            return (sbyte)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short(quarter q)
         {
-            return (short)(float)q;
+            return (short)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int(quarter q)
         {
-            return (int)(float)q;
+            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long(quarter q)
         {
-            return (int)(float)q;
+            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Int128(quarter q)
         {
-            return (int)(float)q;
+            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
 
@@ -702,6 +681,243 @@ namespace MaxMath
         #endregion
 
         #region ARITHMETIC
+        internal bool IsZero => (value & 0b0111_1111) == 0;
+        internal bool IsNotZero => (value & 0b0111_1111) != 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
+            neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
+
+            if (constexpr.IS_TRUE(this.IsZero))
+            {
+                return other.IsZero;
+            }
+            else if (constexpr.IS_TRUE(other.IsZero))
+            {
+                return IsZero;
+            }
+
+            bool value = this.value == other.value;
+
+            if (neitherNaN)
+            {
+                if (neitherZero)
+                {
+                    return value;
+                }
+                else
+                {
+                    bool zero = IsZero & other.IsZero;
+
+                    return zero | value;
+                }
+            }
+            else
+            {
+                bool nan = !isnan(this) & !isnan(other);
+
+                if (neitherZero)
+                {
+                    return nan & value;
+                }
+                else
+                {
+                    bool zero = IsZero & other.IsZero;
+
+                    return nan & (zero | value);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool IsNotEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
+            neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
+
+            if (constexpr.IS_TRUE(this.IsZero))
+            {
+                return other.IsNotZero;
+            }
+            else if (constexpr.IS_TRUE(other.IsZero))
+            {
+                return IsNotZero;
+            }
+
+            bool value = this.value != other.value;
+
+            if (neitherNaN)
+            {
+                if (neitherZero)
+                {
+                    return value;
+                }
+                else
+                {
+                    bool notBothZero = new quarter((byte)(this.value | other.value)).IsNotZero;
+
+                    return value & notBothZero;
+                }
+            }
+            else
+            {
+                bool nan = isnan(this) | isnan(other);
+
+                if (neitherZero)
+                {
+                    return nan | value;
+                }
+                else
+                {
+                    bool notBothZero = new quarter((byte)(this.value | other.value)).IsNotZero;
+
+                    return nan | (value & notBothZero);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool IsLessThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
+            neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
+
+            if (constexpr.IS_TRUE(other.IsZero))
+            {
+                bool negative = this.value > 0b0111_1111;
+                bool notZero = (this.value & 0b0111_1111) != 0;
+
+                if (neitherNaN)
+                {
+                    return notZero & negative;
+                }
+                else
+                {
+                    return !isnan(this) & (notZero & negative);
+                }
+            }
+            if (constexpr.IS_TRUE(this.IsZero))
+            {
+                bool positive = other.value < 0b1000_0000;
+                bool notZero = (other.value & 0b0111_1111) != 0;
+
+                if (neitherNaN)
+                {
+                    return positive & notZero;
+                }
+                else
+                {
+                    return !isnan(other) & (positive & notZero);
+                }
+            }
+
+
+            int signA = this.value >> 7;
+            int signB = other.value >> 7;
+
+            bool equalSigns = signA == signB;
+            bool differentValues = this.value != other.value;
+
+            bool ifEqualSigns = differentValues & (tobool(signA) ^ (other.value > this.value));
+            bool ifOppositeSigns = tobool(signA);
+
+            if (!neitherZero)
+            {
+                bool notBothZero = (byte)((this.value | other.value) << 1) != 0;
+
+                ifOppositeSigns &= notBothZero;
+            }
+
+            if (neitherNaN)
+            {
+                return equalSigns ? ifEqualSigns : ifOppositeSigns;
+            }
+            else
+            {
+                bool notNaN = !isnan(this) & !isnan(other);
+
+                return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool IsLessThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
+            neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
+
+            if (constexpr.IS_TRUE(other.IsZero))
+            {
+                bool intLEzero = 1 > (sbyte)this.value;
+
+                if (neitherNaN)
+                {
+                    return intLEzero;
+                }
+                else
+                {
+                    return !isnan(this) & intLEzero;
+                }
+            }
+            if (constexpr.IS_TRUE(this.IsZero))
+            {
+                bool uintGEzero = (sbyte)other.value > 0;
+                bool negativeZero = other.value == 0b1000_0000;
+
+                if (neitherNaN)
+                {
+                    return uintGEzero | negativeZero;
+                }
+                else
+                {
+                    return !isnan(other) & (uintGEzero | negativeZero);
+                }
+            }
+
+
+            int signA = this.value >> 7;
+            int signB = other.value >> 7;
+
+            bool equalSigns = signA == signB;
+            bool equalValues = this.value == other.value;
+
+            bool ifEqualSigns = equalValues | (tobool(signA) ^ (other.value > this.value));
+            bool ifOppositeSigns = tobool(signA);
+
+            if (!neitherZero)
+            {
+                bool bothZero = (byte)((this.value | other.value) << 1) == 0;
+
+                ifOppositeSigns |= bothZero;
+            }
+
+            if (neitherNaN)
+            {
+                return equalSigns ? ifEqualSigns : ifOppositeSigns;
+            }
+            else
+            {
+                bool notNaN = !isnan(this) & !isnan(other);
+
+                return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool IsGreaterThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            return other.IsLessThan(this, neitherNaN, neitherZero);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool IsGreaterThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        {
+            return other.IsLessThanOrEqualTo(this, neitherNaN, neitherZero);
+        }
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter operator + (quarter value)
         {
@@ -711,37 +927,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter operator - (quarter value)
         {
-            return new quarter((byte)(value.value ^ SET_SIGN_BIT));
+            return new quarter((byte)(value.value ^ 0b1000_0000));
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (quarter left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
-            {
-                return IsZero(right);
-            }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
-            {
-                return IsZero(left);
-            }
-
-            bool nan   = !isnan(left) & !isnan(right);
-            bool zero  = IsZero(left) & IsZero(right);
-            bool value = left.value == right.value;
-
-            return nan & (zero | value);
+            return left.IsEqualTo(right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (half left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left.IsZero()))
+            if (constexpr.IS_TRUE(left.IsZero()))
             {
-                return IsZero(right);
+                return right.IsZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left.IsZero();
             }
@@ -752,13 +955,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (quarter left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right.IsZero();
             }
-            else if (Xse.constexpr.IS_TRUE(right.IsZero()))
+            else if (constexpr.IS_TRUE(right.IsZero()))
             {
-                return IsZero(left);
+                return left.IsZero;
             }
 
             return (float)left == (float)right;
@@ -767,11 +970,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (float left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
-                return IsZero(right);
+                return right.IsZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left == 0f;
             }
@@ -782,13 +985,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (quarter left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right == 0f;
             }
-            else if (Xse.constexpr.IS_TRUE(right == 0f))
+            else if (constexpr.IS_TRUE(right == 0f))
             {
-                return IsZero(left);
+                return left.IsZero;
             }
 
             return (float)left == right;
@@ -797,11 +1000,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (double left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left == 0d))
+            if (constexpr.IS_TRUE(left == 0d))
             {
-                return IsZero(right);
+                return right.IsZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left == 0d;
             }
@@ -812,13 +1015,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (quarter left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right == 0d;
             }
-            else if (Xse.constexpr.IS_TRUE(right == 0d))
+            else if (constexpr.IS_TRUE(right == 0d))
             {
-                return IsZero(left);
+                return left.IsZero;
             }
 
             return (double)left == right;
@@ -828,30 +1031,17 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (quarter left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
-            {
-                return IsNotZero(right);
-            }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
-            {
-                return IsNotZero(left);
-            }
-
-            bool bothZero = IsZero(new quarter((byte)(left.value | right.value)));
-            bool value    = left.value != right.value;
-            bool nan      = isnan(left) | isnan(right);
-
-            return nan | !bothZero | value;
+            return left.IsNotEqualTo(right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (half left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left.IsNotZero()))
+            if (constexpr.IS_TRUE(left.IsZero()))
             {
-                return IsNotZero(right);
+                return right.IsNotZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left.IsNotZero();
             }
@@ -862,13 +1052,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (quarter left, half right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right.IsNotZero();
             }
-            else if (Xse.constexpr.IS_TRUE(right.IsNotZero()))
+            else if (constexpr.IS_TRUE(right.IsZero()))
             {
-                return IsNotZero(left);
+                return left.IsNotZero;
             }
 
             return (float)left != (float)right;
@@ -877,11 +1067,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (float left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left != 0f))
+            if (constexpr.IS_TRUE(left == 0f))
             {
-                return IsNotZero(right);
+                return right.IsNotZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left != 0f;
             }
@@ -892,13 +1082,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (quarter left, float right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right != 0f;
             }
-            else if (Xse.constexpr.IS_TRUE(right != 0f))
+            else if (constexpr.IS_TRUE(right == 0f))
             {
-                return IsNotZero(left);
+                return left.IsNotZero;
             }
 
             return (float)left != right;
@@ -907,11 +1097,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (double left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(left != 0d))
+            if (constexpr.IS_TRUE(left == 0d))
             {
-                return IsNotZero(right);
+                return right.IsNotZero;
             }
-            else if (Xse.constexpr.IS_TRUE(IsZero(right)))
+            else if (constexpr.IS_TRUE(right.IsZero))
             {
                 return left != 0d;
             }
@@ -922,13 +1112,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (quarter left, double right)
         {
-            if (Xse.constexpr.IS_TRUE(IsZero(left)))
+            if (constexpr.IS_TRUE(left.IsZero))
             {
                 return right != 0d;
             }
-            else if (Xse.constexpr.IS_TRUE(right != 0d))
+            else if (constexpr.IS_TRUE(right == 0d))
             {
-                return IsNotZero(left);
+                return left.IsNotZero;
             }
 
             return (double)left != right;
@@ -938,34 +1128,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (quarter left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(right.value == 0) || Xse.constexpr.IS_TRUE(right.value == 0b1000_0000))
-            {
-                bool negative = left.value > 0b0111_1111;
-                bool notZero = (left.value & 0b0111_1111) != 0;
-            
-                return !isnan(left) & (notZero & negative);
-            }
-            if (Xse.constexpr.IS_TRUE(left.value == 0) || Xse.constexpr.IS_TRUE(left.value == 0b1000_0000))
-            {
-                bool positive = right.value < 0b1000_0000;
-                bool notZero = (right.value & 0b0111_1111) != 0;
-
-                return !isnan(right) & (positive & notZero);
-            }
-
-
-            int signA = left.value >> 7;
-            int signB = right.value >> 7;
-
-            bool notNaN = !isnan(left) & !isnan(right);
-            bool equalSigns = signA == signB;
-            bool differentValues = left.value != right.value;
-            bool notBothZero = (byte)((left.value | right.value) << 1) != 0;
-
-            bool ifEqualSigns = differentValues & (tobool(signA) ^ (right.value > left.value));
-            bool ifOppositeSigns = notBothZero & tobool(signA);
-
-            return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
+            return left.IsLessThan(right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1030,33 +1193,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <= (quarter left, quarter right)
         {
-            if (Xse.constexpr.IS_TRUE(right.value == 0) || Xse.constexpr.IS_TRUE(right.value == 0b1000_0000))
-            {
-                bool intLEzero = 1 > (sbyte)left.value;
-            
-                return !isnan(left) & intLEzero;
-            }
-            if (Xse.constexpr.IS_TRUE(left.value == 0) || Xse.constexpr.IS_TRUE(left.value == 0b1000_0000))
-            {
-                bool uintGEzero = (sbyte)right.value > 0;
-                bool negativeZero = right.value == 0b1000_0000;
-            
-                return !isnan(right) & (uintGEzero | negativeZero);
-            }
-
-
-            int signA = left.value >> 7;
-            int signB = right.value >> 7;
-
-            bool notNaN = !isnan(left) & !isnan(right);
-            bool equalSigns = signA == signB;
-            bool equalValues = left.value == right.value;
-            bool bothZero = (byte)((left.value | right.value) << 1) == 0;
-
-            bool ifEqualSigns = equalValues | (tobool(signA) ^ (right.value > left.value));
-            bool ifOppositeSigns = bothZero | tobool(signA);
-
-            return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
+            return left.IsLessThanOrEqualTo(right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1353,17 +1490,17 @@ namespace MaxMath
         public bool TryParse(string s, out quarter result)
         {
             bool success = float.TryParse(s, out float cvt);
-        
+
             result = (quarter)cvt;
-        
+
             return success && cvt <= MaxValue && cvt >= MinValue;
         }
         public bool TryParse(string s, NumberStyles style, IFormatProvider provider, out quarter result)
         {
             bool success = float.TryParse(s, style, provider, out float cvt);
-        
+
             result = (quarter)cvt;
-        
+
             return success && cvt <= MaxValue && cvt >= MinValue;
         }
         #endregion
@@ -1423,7 +1560,7 @@ namespace MaxMath
         }
         public bool ToBoolean(IFormatProvider provider)
         {
-            return Convert.ToBoolean(IsNotZero(this), provider);
+            return Convert.ToBoolean(this.IsNotZero, provider);
         }
         public byte ToByte(IFormatProvider provider)
         {

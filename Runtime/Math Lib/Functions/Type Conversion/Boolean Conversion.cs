@@ -35,7 +35,7 @@ namespace MaxMath
 
             return *(byte*)&a;
         }
-        
+
         /// <summary>       Converts each value in a <see cref="bool2"/> to its integer representation as a <see cref="MaxMath.byte2"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tobytesafe(bool2 x)
@@ -61,7 +61,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tobytesafe(bool8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min((byte8)(v128)x, 1);
             }
@@ -75,7 +75,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesafe(bool16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min((byte16)(v128)x, 1);
             }
@@ -93,7 +93,7 @@ namespace MaxMath
             {
                 return min((byte32)(v256)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return min(new byte32((v128)x.v16_0, (v128)x.v16_16), 1);
             }
@@ -103,7 +103,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Converts a <see cref="bool"/> to its <see cref="sbyte"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte tosbytesafe(bool a)
@@ -138,7 +138,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 tosbytesafe(bool8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min((sbyte8)(v128)x, 1);
             }
@@ -152,7 +152,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tosbytesafe(bool16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min((sbyte16)(v128)x, 1);
             }
@@ -170,7 +170,7 @@ namespace MaxMath
             {
                 return min((sbyte32)(v256)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return min(new sbyte32((v128)x.v16_0, (v128)x.v16_16), 1);
             }
@@ -212,7 +212,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 toushortsafe(bool8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (ushort8)min((byte8)(v128)x, 1);
             }
@@ -230,7 +230,7 @@ namespace MaxMath
             {
                 return (ushort16)min((byte16)(v128)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new ushort16((ushort8)min((byte8)(v128)x.v8_0, 1), (ushort8)min((byte8)(v128)x.v8_8, 1));
             }
@@ -239,7 +239,7 @@ namespace MaxMath
                 return (ushort16)min(*(byte16*)&x, 1);
             }
         }
-        
+
 
         /// <summary>       Converts a <see cref="bool"/> to its <see cref="short"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -273,7 +273,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 toshortsafe(bool8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (short8)min((byte8)(v128)x, 1);
             }
@@ -291,7 +291,7 @@ namespace MaxMath
             {
                 return (short16)min((byte16)(v128)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new short16((short8)min((byte8)(v128)x.v8_0, 1), (short8)min((byte8)(v128)x.v8_8, 1));
             }
@@ -338,7 +338,7 @@ namespace MaxMath
             {
                 return (int8)min((byte8)(v128)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new int8((int4)min((byte4)(v128)x, 1), (int4)min(vshr((byte4)(v128)x, 4), 1));
             }
@@ -348,7 +348,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Converts a <see cref="bool"/> to its <see cref="uint"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touintsafe(bool a)
@@ -385,7 +385,7 @@ namespace MaxMath
             {
                 return (uint8)min((byte8)(v128)x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new uint8((uint4)min((byte4)(v128)x, 1), (uint4)min(vshr((byte4)(v128)x, 4), 1));
             }
@@ -394,7 +394,7 @@ namespace MaxMath
                 return (uint8)min(*(byte8*)&x, 1);
             }
         }
-        
+
 
         /// <summary>       Converts a <see cref="bool"/> to its <see cref="long"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -402,7 +402,7 @@ namespace MaxMath
         {
             return tobytesafe(a);
         }
-        
+
         /// <summary>       Converts each value in a <see cref="bool2"/> to its integer representation as a <see cref="MaxMath.long2"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tolongsafe(bool2 x)
@@ -424,14 +424,14 @@ namespace MaxMath
             return (long4)min(*(byte4*)&x, 1);
         }
 
-        
+
         /// <summary>       Converts a <see cref="bool"/> to its <see cref="ulong"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong toulongsafe(bool a)
         {
             return tobytesafe(a);
         }
-        
+
         /// <summary>       Converts each value in a <see cref="bool2"/> to its integer representation as a <see cref="MaxMath.ulong2"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongsafe(bool2 x)
@@ -596,7 +596,7 @@ namespace MaxMath
         {
             return a != 0;
         }
-        
+
         /// <summary>       Converts each value in a <see cref="MaxMath.byte2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(byte2 x)
@@ -606,7 +606,7 @@ namespace MaxMath
             return *(bool2*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(byte3 x)
         {
@@ -615,7 +615,7 @@ namespace MaxMath
             return *(bool3*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(byte4 x)
         {
@@ -624,11 +624,11 @@ namespace MaxMath
             return *(bool4*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(byte8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -640,11 +640,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(byte16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -656,7 +656,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 toboolsafe(byte32 x)
         {
@@ -664,7 +664,7 @@ namespace MaxMath
             {
                 return (v256)min(x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new bool32((v128)min(x.v16_0, 1), (v128)min(x.v16_16, 1));
             }
@@ -683,8 +683,8 @@ namespace MaxMath
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(sbyte2 x)
         {
@@ -692,8 +692,8 @@ namespace MaxMath
 
             return *(bool2*)&clamped;
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(sbyte3 x)
         {
@@ -701,8 +701,8 @@ namespace MaxMath
 
             return *(bool3*)&clamped;
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(sbyte4 x)
         {
@@ -710,12 +710,12 @@ namespace MaxMath
 
             return *(bool4*)&clamped;
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(sbyte8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -726,12 +726,12 @@ namespace MaxMath
                 return *(bool8*)&temp;
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(sbyte16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -742,8 +742,8 @@ namespace MaxMath
                 return *(bool16*)&temp;
             }
         }
-        
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 toboolsafe(sbyte32 x)
         {
@@ -751,7 +751,7 @@ namespace MaxMath
             {
                 return (v256)min(x, 1);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return new bool32((v128)min(x.v16_0, 1), (v128)min(x.v16_16, 1));
             }
@@ -763,15 +763,15 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Converts a <see cref="short"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool toboolsafe(short a)
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(short2 x)
         {
@@ -780,7 +780,7 @@ namespace MaxMath
             return *(bool2*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(short3 x)
         {
@@ -789,7 +789,7 @@ namespace MaxMath
             return *(bool3*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(short4 x)
         {
@@ -798,11 +798,11 @@ namespace MaxMath
             return *(bool4*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(short8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -814,11 +814,11 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.short16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(short16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte16)min(x, 1);
             }
@@ -837,8 +837,8 @@ namespace MaxMath
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(ushort2 x)
         {
@@ -846,8 +846,8 @@ namespace MaxMath
 
             return *(bool2*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(ushort3 x)
         {
@@ -855,8 +855,8 @@ namespace MaxMath
 
             return *(bool3*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a ushor4 vector to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a ushor4 vector to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(ushort4 x)
         {
@@ -864,12 +864,12 @@ namespace MaxMath
 
             return *(bool4*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(ushort8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -880,12 +880,12 @@ namespace MaxMath
                 return *(bool8*)&temp;
             }
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(ushort16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte16)min(x, 1);
             }
@@ -897,15 +897,15 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Converts an <see cref="int"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool toboolsafe(int a)
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in an <see cref="int2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in an <see cref="int2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(int2 x)
         {
@@ -914,7 +914,7 @@ namespace MaxMath
             return *(bool2*)&clamped;
         }
 
-        /// <summary>       Converts each value in an <see cref="int3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in an <see cref="int3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(int3 x)
         {
@@ -923,7 +923,7 @@ namespace MaxMath
             return *(bool3*)&clamped;
         }
 
-        /// <summary>       Converts each value in an <see cref="int4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in an <see cref="int4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(int4 x)
         {
@@ -932,11 +932,11 @@ namespace MaxMath
             return *(bool4*)&clamped;
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(int8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -955,8 +955,8 @@ namespace MaxMath
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="uint2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(uint2 x)
         {
@@ -964,8 +964,8 @@ namespace MaxMath
 
             return *(bool2*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="uint3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(uint3 x)
         {
@@ -973,8 +973,8 @@ namespace MaxMath
 
             return *(bool3*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="uint4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="uint4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(uint4 x)
         {
@@ -982,12 +982,12 @@ namespace MaxMath
 
             return *(bool4*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(uint8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -999,15 +999,15 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Converts a <see cref="long"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool toboolsafe(long a)
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(long2 x)
         {
@@ -1016,7 +1016,7 @@ namespace MaxMath
             return *(bool2*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(long3 x)
         {
@@ -1025,7 +1025,7 @@ namespace MaxMath
             return *(bool3*)&clamped;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(long4 x)
         {
@@ -1041,8 +1041,8 @@ namespace MaxMath
         {
             return a != 0;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(ulong2 x)
         {
@@ -1050,8 +1050,8 @@ namespace MaxMath
 
             return *(bool2*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(ulong3 x)
         {
@@ -1059,8 +1059,8 @@ namespace MaxMath
 
             return *(bool3*)&clamped;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(ulong4 x)
         {
@@ -1076,29 +1076,29 @@ namespace MaxMath
         {
             return a != (quarter)0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(quarter2 x)
         {
             return x != (quarter)0f;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(quarter3 x)
         {
             return x != (quarter)0f;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(quarter4 x)
         {
             return x != (quarter)0f;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(quarter8 x)
         {
@@ -1112,29 +1112,29 @@ namespace MaxMath
         {
             return (float)a != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="half2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="half2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(half2 x)
         {
             return (float2)x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="half3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="half3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(half3 x)
         {
             return (float3)x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="half4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="half4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(half4 x)
         {
             return (float4)x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(half8 x)
         {
@@ -1148,35 +1148,35 @@ namespace MaxMath
         {
             return a != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="float2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="float2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(float2 x)
         {
             return x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="float3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="float3"/> to its boolean representation as a <see cref="bool3"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(float3 x)
         {
             return x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="float4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="float4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(float4 x)
         {
             return x != 0f;
         }
-        
-        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(float8 x)
         {
             return x != 0f;
         }
-        
+
 
         /// <summary>       Converts a <see cref="double"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1184,26 +1184,26 @@ namespace MaxMath
         {
             return a != 0d;
         }
-        
-        /// <summary>       Converts each value in a <see cref="double2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="double2"/> to its boolean representation as a <see cref="bool2"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 toboolsafe(double2 x)
         {
-            return x != 0d; 
+            return x != 0d;
         }
-        
-        /// <summary>       Converts each value in a <see cref="double3"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="double3"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 toboolsafe(double3 x)
         {
             return x != 0d;
         }
-        
-        /// <summary>       Converts each value in a <see cref="double4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1]. 
+
+        /// <summary>       Converts each value in a <see cref="double4"/> to its boolean representation as a <see cref="bool4"/>. The underlying value is being clamped to the interval [0, 1].
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 toboolsafe(double4 x)
         {
-            return x != 1d; 
+            return x != 1d;
         }
     }
 }

@@ -15,31 +15,31 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    v128 BIT_ISOLATION_MASK = Sse2.set1_epi64x(unchecked((long)0x80_40_20_10_08_04_02_01));
+                    v128 BIT_ISOLATION_MASK = set1_epi64x(0x80_40_20_10_08_04_02_01);
 
-                    v128 broadcast = Sse2.cvtsi32_si128(m);
+                    v128 broadcast = cvtsi32_si128(m);
                     if (Ssse3.IsSsse3Supported)
                     {
-                        v128 SHUFFLE_MASK = (elements <= 8) ? Sse2.setzero_si128() : new v128(0x00_00_00_00_00_00_00_00, 0x01_01_01_01_01_01_01_01);
-                        
-                        broadcast = Ssse3.shuffle_epi8(broadcast, SHUFFLE_MASK);
+                        v128 SHUFFLE_MASK = (elements <= 8) ? setzero_si128() : new v128(0x00_00_00_00_00_00_00_00, 0x01_01_01_01_01_01_01_01);
+
+                        broadcast = shuffle_epi8(broadcast, SHUFFLE_MASK);
                     }
                     else
                     {
-                        broadcast = Sse2.unpacklo_epi8(broadcast, broadcast);
+                        broadcast = unpacklo_epi8(broadcast, broadcast);
 
                         if (elements > 2)
                         {
-                            broadcast = Sse2.unpacklo_epi8(broadcast, broadcast);
+                            broadcast = unpacklo_epi8(broadcast, broadcast);
 
                             if (elements > 4)
                             {
-                                broadcast = Sse2.unpacklo_epi8(broadcast, broadcast);
+                                broadcast = unpacklo_epi8(broadcast, broadcast);
                             }
                         }
                     }
 
-                    v128 ret = Sse2.cmpeq_epi8(BIT_ISOLATION_MASK, Sse2.and_si128(broadcast, BIT_ISOLATION_MASK));
+                    v128 ret = cmpeq_epi8(BIT_ISOLATION_MASK, and_si128(broadcast, BIT_ISOLATION_MASK));
 
                     if  (result == MaskType.One)
                     {
@@ -47,6 +47,20 @@ namespace MaxMath
                     }
 
                     return ret;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    v128 splitBytes = shuffle_epi8(cvtsi32_si128(m), new v128(0, 0, 0, 0, 0, 0, 0, 0,   1, 1, 1, 1, 1, 1, 1, 1));
+                    v128 shiftBoolsToSignBit = sllv_epi8(splitBytes, new v128(7, 6, 5, 4, 3, 2, 1, 0,   7, 6, 5, 4, 3, 2, 1, 0));
+                    
+                    switch (result)
+                    {
+                        case MaskType.SignBit: return shiftBoolsToSignBit;
+                        case MaskType.AllOnes: return srai_epi8(shiftBoolsToSignBit, 7);
+                        case MaskType.One:     return srli_epi8(shiftBoolsToSignBit, 7);
+                    
+                        default : throw new ArgumentOutOfRangeException();
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -56,13 +70,13 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 SHUFFLE_MASK = Avx.mm256_set_epi64x(0x03_03_03_03_03_03_03_03, 0x02_02_02_02_02_02_02_02, 0x01_01_01_01_01_01_01_01, 0x00_00_00_00_00_00_00_00); 
-                    v256 BIT_ISOLATION_MASK = Avx.mm256_set1_epi64x(unchecked((long)0x80_40_20_10_08_04_02_01)); 
-                    
-                    v256 broadcast = Avx2.mm256_shuffle_epi8(Avx.mm256_set1_epi32(m), SHUFFLE_MASK);
-                    v256 ret = Avx2.mm256_cmpeq_epi8(BIT_ISOLATION_MASK, Avx2.mm256_and_si256(broadcast, BIT_ISOLATION_MASK)); 
-                    
-                    return result == MaskType.One ? Avx2.mm256_abs_epi8(ret) : ret; 
+                    v256 SHUFFLE_MASK = Avx.mm256_set_epi64x(0x03_03_03_03_03_03_03_03, 0x02_02_02_02_02_02_02_02, 0x01_01_01_01_01_01_01_01, 0x00_00_00_00_00_00_00_00);
+                    v256 BIT_ISOLATION_MASK = mm256_set1_epi64x(0x80_40_20_10_08_04_02_01);
+
+                    v256 broadcast = Avx2.mm256_shuffle_epi8(mm256_set1_epi32(m), SHUFFLE_MASK);
+                    v256 ret = Avx2.mm256_cmpeq_epi8(BIT_ISOLATION_MASK, Avx2.mm256_and_si256(broadcast, BIT_ISOLATION_MASK));
+
+                    return result == MaskType.One ? mm256_abs_epi8(ret) : ret;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -78,26 +92,39 @@ namespace MaxMath
                     v128 broadcast;
                     if (Ssse3.IsSsse3Supported)
                     {
-                        broadcast = Ssse3.shuffle_epi8(Sse2.cvtsi32_si128(m), Sse2.setzero_si128());
+                        broadcast = shuffle_epi8(cvtsi32_si128(m), setzero_si128());
                     }
                     else
                     {
-                        broadcast = Sse2.shufflelo_epi16(Sse2.cvtsi32_si128(m), Sse.SHUFFLE(0, 0, 0, 0));
+                        broadcast = shufflelo_epi16(cvtsi32_si128(m), Sse.SHUFFLE(0, 0, 0, 0));
 
                         if (elements > 4)
                         {
-                            broadcast = Sse2.unpacklo_epi64(broadcast, broadcast);
+                            broadcast = unpacklo_epi64(broadcast, broadcast);
                         }
                     }
 
-                    v128 ret = Sse2.cmpeq_epi16(BIT_ISOLATION_MASK, Sse2.and_si128(broadcast, BIT_ISOLATION_MASK));
-                        
+                    v128 ret = cmpeq_epi16(BIT_ISOLATION_MASK, and_si128(broadcast, BIT_ISOLATION_MASK));
+
                     if  (result == MaskType.One)
                     {
-                        ret = Sse2.srli_epi16(ret, 15);
+                        ret = srli_epi16(ret, 15);
                     }
 
                     return ret;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    v128 shiftBoolsToSignBit = sllv_epi16(set1_epi16((short)m), new v128(15, 14, 13 , 12, 11, 10, 9, 8));
+                    
+                    switch (result)
+                    { 
+                        case MaskType.SignBit: return shiftBoolsToSignBit;
+                        case MaskType.AllOnes: return srai_epi16(shiftBoolsToSignBit, 15);
+                        case MaskType.One:     return srli_epi16(shiftBoolsToSignBit, 15);
+                    
+                        default : throw new ArgumentOutOfRangeException();
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -107,16 +134,17 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 broadcast = Avx.mm256_set1_epi32(m);
+                    v256 broadcast = mm256_set1_epi32(m);
 
                     v256 shiftBoolsToSignBit_Lo = Avx2.mm256_sllv_epi32(broadcast, new v256(31, 30, 29, 28,     23, 22, 21, 20));
                     v256 shiftBoolsToSignBit_Hi = Avx2.mm256_sllv_epi32(broadcast, new v256(27, 26, 25, 24,     19, 18, 17, 16));
-                                      
+
                     if (result == MaskType.One)
                     {
                         shiftBoolsToSignBit_Lo = Avx2.mm256_srli_epi32(shiftBoolsToSignBit_Lo, 31);
                         shiftBoolsToSignBit_Hi = Avx2.mm256_srli_epi32(shiftBoolsToSignBit_Hi, 31);
                     }
+                    else
                     {
                         shiftBoolsToSignBit_Lo = Avx2.mm256_srai_epi32(shiftBoolsToSignBit_Lo, 31);
                         shiftBoolsToSignBit_Hi = Avx2.mm256_srai_epi32(shiftBoolsToSignBit_Hi, 31);
@@ -131,17 +159,17 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 broadcastmask_epi32(int m, MaskType result = MaskType.AllOnes)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    if (Avx2.IsAvx2Supported)
+                    if (Architecture.IsVectorShiftSupported)
                     {
-                        v128 shiftBoolsToSignBit = Avx2.sllv_epi32(Sse2.set1_epi32(m), new v128(31, 30, 29, 28));
-                        
+                        v128 shiftBoolsToSignBit = sllv_epi32(set1_epi32(m), new v128(31, 30, 29, 28));
+
                         switch (result)
                         {
                             case MaskType.SignBit: return shiftBoolsToSignBit;
-                            case MaskType.AllOnes: return Sse2.srai_epi32(shiftBoolsToSignBit, 31);
-                            case MaskType.One:     return Sse2.srli_epi32(shiftBoolsToSignBit, 31);
+                            case MaskType.AllOnes: return srai_epi32(shiftBoolsToSignBit, 31);
+                            case MaskType.One:     return srli_epi32(shiftBoolsToSignBit, 31);
 
                             default : throw new ArgumentOutOfRangeException();
                         }
@@ -150,12 +178,12 @@ namespace MaxMath
                     {
                         v128 BIT_ISOLATION_MASK = new v128(1 << 0, 1 << 1, 1 << 2, 1 << 3);
 
-                        v128 isolated = Sse2.and_si128(Sse2.set1_epi32(m), BIT_ISOLATION_MASK);
-                        v128 ret = Sse2.cmpeq_epi32(BIT_ISOLATION_MASK, isolated);
-                        
+                        v128 isolated = and_si128(set1_epi32(m), BIT_ISOLATION_MASK);
+                        v128 ret = cmpeq_epi32(BIT_ISOLATION_MASK, isolated);
+
                         if  (result == MaskType.One)
                         {
-                            ret = Sse2.srli_epi32(ret, 31);
+                            ret = srli_epi32(ret, 31);
                         }
 
                         return ret;
@@ -171,7 +199,7 @@ namespace MaxMath
                 {
                     if (Avx2.IsAvx2Supported)
                     {
-                        v256 shiftBoolsToSignBit = Avx2.mm256_sllv_epi32(Avx.mm256_set1_epi32(m), new v256(31, 30, 29, 28, 27, 26, 25, 24));
+                        v256 shiftBoolsToSignBit = Avx2.mm256_sllv_epi32(mm256_set1_epi32(m), new v256(31, 30, 29, 28, 27, 26, 25, 24));
 
                         switch (result)
                         {
@@ -187,18 +215,18 @@ namespace MaxMath
                         v128 BIT_ISOLATION_MASK_LO = new v128(1 << 0, 1 << 1, 1 << 2, 1 << 3);
                         v128 BIT_ISOLATION_MASK_HI = new v128(1 << 4, 1 << 5, 1 << 6, 1 << 7);
 
-                        v128 isolated_lo = Sse2.and_si128(Sse2.set1_epi32(m), BIT_ISOLATION_MASK_LO);
-                        v128 isolated_hi = Sse2.and_si128(Sse2.set1_epi32(m), BIT_ISOLATION_MASK_HI);
-                        isolated_lo = Sse2.cmpeq_epi32(BIT_ISOLATION_MASK_LO, isolated_lo);
-                        isolated_hi = Sse2.cmpeq_epi32(BIT_ISOLATION_MASK_HI, isolated_hi);
+                        v128 isolated_lo = and_si128(set1_epi32(m), BIT_ISOLATION_MASK_LO);
+                        v128 isolated_hi = and_si128(set1_epi32(m), BIT_ISOLATION_MASK_HI);
+                        isolated_lo = cmpeq_epi32(BIT_ISOLATION_MASK_LO, isolated_lo);
+                        isolated_hi = cmpeq_epi32(BIT_ISOLATION_MASK_HI, isolated_hi);
 
                         v256 ret = Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(isolated_lo), isolated_hi, 1);
-                        
+
                         switch (result)
                         {
                             case MaskType.SignBit: return ret;
                             case MaskType.AllOnes: return ret;
-                            case MaskType.One:     return Avx.mm256_and_ps(Avx.mm256_set1_epi32(1), ret);
+                            case MaskType.One:     return Avx.mm256_and_ps(mm256_set1_epi32(1), ret);
 
                             default : throw new ArgumentOutOfRangeException();
                         }
@@ -211,31 +239,34 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 broadcastmask_epi64(int m, MaskType result = MaskType.AllOnes)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    if (Sse4_1.IsSse41Supported && result == MaskType.AllOnes)
+                    if (Sse4_1.IsSse41Supported)
                     {
-                        return Sse4_1.cvtepi32_epi64(broadcastmask_epi32(m, result));
+                        if (result == MaskType.AllOnes)
+                        {
+                            return cvtepi32_epi64(broadcastmask_epi32(m, result));
+                        }
                     }
 
                     v128 shiftBoolsToSignBit;
 
-                    if (Avx2.IsAvx2Supported)
+                    if (Architecture.IsVectorShiftSupported)
                     {
-                        v128 splat = Sse2.shuffle_epi32(Sse2.cvtsi32_si128(m), Sse.SHUFFLE(3, 0, 3, 0));
-                        shiftBoolsToSignBit = Avx2.sllv_epi64(splat, new long2(63, 62));
+                        v128 splat = shuffle_epi32(cvtsi32_si128(m), Sse.SHUFFLE(3, 0, 3, 0));
+                        shiftBoolsToSignBit = sllv_epi64(splat, new long2(63, 62));
                     }
                     else
                     {
-                        shiftBoolsToSignBit = Sse2.unpacklo_epi64(Sse2.cvtsi64x_si128((long)(uint)m << 63), 
-                                                                  Sse2.cvtsi64x_si128((long)(uint)m << 62));
+                        shiftBoolsToSignBit = unpacklo_epi64(cvtsi64x_si128((ulong)(uint)m << 63),
+                                                             cvtsi64x_si128((ulong)(uint)m << 62));
                     }
 
                     switch (result)
                     {
                         case MaskType.SignBit:  return shiftBoolsToSignBit;
                         case MaskType.AllOnes:  return srai_epi64(shiftBoolsToSignBit, 63);
-                        case MaskType.One:      return Sse2.srli_epi64(shiftBoolsToSignBit, 63);
+                        case MaskType.One:      return srli_epi64(shiftBoolsToSignBit, 63);
 
                         default: throw new ArgumentOutOfRangeException();
                     }
@@ -244,17 +275,17 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_broadcastmask_epi64(int m, MaskType result = MaskType.AllOnes)
+            public static v256 mm256_broadcastmask_epi64(int m, MaskType result = MaskType.AllOnes, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 splat = Avx2.mm256_broadcastq_epi64(Sse2.cvtsi32_si128(m));
+                    v256 splat = Avx2.mm256_broadcastq_epi64(Xse.cvtsi32_si128(m));
                     v256 shiftBoolsToSignBit = Avx2.mm256_sllv_epi64(splat, new v256(63, 62, 61, 60));
-                    
-                    switch (result) 
+
+                    switch (result)
                     {
                         case MaskType.SignBit:  return shiftBoolsToSignBit;
-                        case MaskType.AllOnes:  return mm256_srai_epi64(shiftBoolsToSignBit, 63); 
+                        case MaskType.AllOnes:  return mm256_srai_epi64(shiftBoolsToSignBit, 63, elements);
                         case MaskType.One:      return Avx2.mm256_srli_epi64(shiftBoolsToSignBit, 63);
 
                         default: throw new ArgumentOutOfRangeException();

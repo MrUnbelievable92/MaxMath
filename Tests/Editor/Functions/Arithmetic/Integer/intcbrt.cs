@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class intcbrt
+    unsafe public static class f_intcbrt
     {
         [Test]
-        public static void uint128()
+        public static void _UInt128()
         {
             Assert.AreEqual(1, maxmath.intcbrt((UInt128)1));
             Assert.AreEqual(2, maxmath.intcbrt((UInt128)8));
@@ -14,9 +14,9 @@ namespace MaxMath.Tests
             Assert.AreEqual(4, maxmath.intcbrt((UInt128)64));
             Assert.AreEqual(5, maxmath.intcbrt((UInt128)125));
         }
-        
+
         [Test]
-        public static void int128()
+        public static void _Int128()
         {
             Assert.AreEqual(1, maxmath.intcbrt((Int128)1));
             Assert.AreEqual(2, maxmath.intcbrt((Int128)8));
@@ -33,7 +33,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void byte1()
+        public static void _byte1()
         {
             for (int i = 0; i <= 255; i++)
             {
@@ -42,9 +42,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte2()
+        public static void _byte2()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -55,9 +55,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -68,9 +68,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -81,28 +81,28 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
                 byte8 x = rng.NextByte8();
 
-                Assert.AreEqual(new byte8((byte)maxmath.intcbrt(x.x0), 
-                                          (byte)maxmath.intcbrt(x.x1), 
-                                          (byte)maxmath.intcbrt(x.x2), 
+                Assert.AreEqual(new byte8((byte)maxmath.intcbrt(x.x0),
+                                          (byte)maxmath.intcbrt(x.x1),
+                                          (byte)maxmath.intcbrt(x.x2),
                                           (byte)maxmath.intcbrt(x.x3),
                                           (byte)maxmath.intcbrt(x.x4),
                                           (byte)maxmath.intcbrt(x.x5),
                                           (byte)maxmath.intcbrt(x.x6),
-                                          (byte)maxmath.intcbrt(x.x7)), 
+                                          (byte)maxmath.intcbrt(x.x7)),
                                 maxmath.intcbrt(x));
             }
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
             for (int i = 0; i <= 255; i++)
             {
@@ -111,9 +111,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void sbyte1()
+        public static void _sbyte1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((sbyte)1));
             Assert.AreEqual(2, maxmath.intcbrt((sbyte)8));
@@ -173,9 +173,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte2()
+        public static void _sbyte2()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -186,9 +186,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -199,9 +199,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -212,30 +212,30 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
                 sbyte8 x = rng.NextSByte8();
 
-                Assert.AreEqual(new sbyte8((sbyte)maxmath.intcbrt(x.x0), 
-                                           (sbyte)maxmath.intcbrt(x.x1), 
-                                           (sbyte)maxmath.intcbrt(x.x2), 
+                Assert.AreEqual(new sbyte8((sbyte)maxmath.intcbrt(x.x0),
+                                           (sbyte)maxmath.intcbrt(x.x1),
+                                           (sbyte)maxmath.intcbrt(x.x2),
                                            (sbyte)maxmath.intcbrt(x.x3),
                                            (sbyte)maxmath.intcbrt(x.x4),
                                            (sbyte)maxmath.intcbrt(x.x5),
                                            (sbyte)maxmath.intcbrt(x.x6),
-                                           (sbyte)maxmath.intcbrt(x.x7)), 
+                                           (sbyte)maxmath.intcbrt(x.x7)),
                                 maxmath.intcbrt(x));
             }
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -262,9 +262,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
-            Random8 rng = new Random8(135);
+            Random8 rng = Random8.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -305,9 +305,9 @@ namespace MaxMath.Tests
                                 maxmath.intcbrt(x));
             }
         }
-        
+
         [Test]
-        public static void ushort1()
+        public static void _ushort1()
         {
             for (int i = 0; i <= ushort.MaxValue; i++)
             {
@@ -316,9 +316,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort2()
+        public static void _ushort2()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -329,9 +329,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -342,9 +342,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -355,30 +355,30 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
                 ushort8 x = rng.NextUShort8();
 
-                Assert.AreEqual(new ushort8((ushort)maxmath.intcbrt(x.x0), 
-                                            (ushort)maxmath.intcbrt(x.x1), 
-                                            (ushort)maxmath.intcbrt(x.x2), 
+                Assert.AreEqual(new ushort8((ushort)maxmath.intcbrt(x.x0),
+                                            (ushort)maxmath.intcbrt(x.x1),
+                                            (ushort)maxmath.intcbrt(x.x2),
                                             (ushort)maxmath.intcbrt(x.x3),
                                             (ushort)maxmath.intcbrt(x.x4),
                                             (ushort)maxmath.intcbrt(x.x5),
                                             (ushort)maxmath.intcbrt(x.x6),
-                                            (ushort)maxmath.intcbrt(x.x7)), 
+                                            (ushort)maxmath.intcbrt(x.x7)),
                                 maxmath.intcbrt(x));
             }
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -404,9 +404,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void short1()
+        public static void _short1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((short)1));
             Assert.AreEqual(2, maxmath.intcbrt((short)8));
@@ -422,9 +422,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short2()
+        public static void _short2()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -435,9 +435,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -448,9 +448,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -461,30 +461,30 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
                 short8 x = rng.NextShort8();
 
-                Assert.AreEqual(new short8((short)maxmath.intcbrt(x.x0), 
-                                           (short)maxmath.intcbrt(x.x1), 
-                                           (short)maxmath.intcbrt(x.x2), 
+                Assert.AreEqual(new short8((short)maxmath.intcbrt(x.x0),
+                                           (short)maxmath.intcbrt(x.x1),
+                                           (short)maxmath.intcbrt(x.x2),
                                            (short)maxmath.intcbrt(x.x3),
                                            (short)maxmath.intcbrt(x.x4),
                                            (short)maxmath.intcbrt(x.x5),
                                            (short)maxmath.intcbrt(x.x6),
-                                           (short)maxmath.intcbrt(x.x7)), 
+                                           (short)maxmath.intcbrt(x.x7)),
                                 maxmath.intcbrt(x));
             }
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
-            Random16 rng = new Random16(135);
+            Random16 rng = Random16.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -510,9 +510,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void uint1()
+        public static void _uint1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((uint)1));
             Assert.AreEqual(2, maxmath.intcbrt((uint)8));
@@ -522,9 +522,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint2()
+        public static void _uint2()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -535,9 +535,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -548,9 +548,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -561,9 +561,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (uint i = 0; i < 64; i++)
             {
@@ -581,9 +581,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void int1()
+        public static void _int1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((int)1));
             Assert.AreEqual(2, maxmath.intcbrt((int)8));
@@ -599,9 +599,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int2()
+        public static void _int2()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -612,9 +612,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -625,9 +625,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -638,9 +638,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
-            Random32 rng = new Random32(135);
+            Random32 rng = Random32.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -660,7 +660,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ulong1()
+        public static void _ulong1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((ulong)1));
             Assert.AreEqual(2, maxmath.intcbrt((ulong)8));
@@ -670,9 +670,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong2()
+        public static void _ulong2()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -683,9 +683,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong3()
+        public static void _ulong3()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -696,9 +696,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong4()
+        public static void _ulong4()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (int i = 0; i < 64; i++)
             {
@@ -708,9 +708,9 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
         [Test]
-        public static void long1()
+        public static void _long1()
         {
             Assert.AreEqual(1, maxmath.intcbrt((long)1));
             Assert.AreEqual(2, maxmath.intcbrt((long)8));
@@ -726,9 +726,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long2()
+        public static void _long2()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {
@@ -739,9 +739,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long3()
+        public static void _long3()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {
@@ -752,9 +752,9 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long4()
+        public static void _long4()
         {
-            Random64 rng = new Random64(135);
+            Random64 rng = Random64.New;
 
             for (long i = 0; i < 64; i++)
             {

@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_cminmag
+    public static class f_PROMISE_cminmag
     {
         [Test]
         public static void _int2()
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 int2 l = rng.NextInt2(int.MinValue / 2, int.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, Promise.NoOverflow));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 int3 l = rng.NextInt3(int.MinValue / 2, int.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, Promise.NoOverflow));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 int4 l = rng.NextInt4(int.MinValue / 2, int.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, Promise.NoOverflow));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 int8 l = rng.NextInt8(int.MinValue / 2, int.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.cminmag(l), maxmath.cminmag(l, Promise.NoOverflow));
             }
         }
     }

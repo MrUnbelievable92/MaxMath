@@ -3,7 +3,6 @@ using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -11,25 +10,22 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool2"/> or -1 if none are <see langword="true" />.      </summary>
-        [return: AssumeRange(-1, 1)] 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="bool2"/> or -1 if none are <see langword="true"/>.      </summary>
+        [return: AssumeRange(-1, 1)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool2 x)
         {
-Assert.IsSafeBoolean(x.x);
-Assert.IsSafeBoolean(x.y);
+VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
 
             return 3 - (int)((uint)math.lzcnt((uint)*(ushort*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool3"/> or -1 if none are <see langword="true" />.      </summary>
-        [return: AssumeRange(-1, 2)] 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="bool3"/> or -1 if none are <see langword="true"/>.      </summary>
+        [return: AssumeRange(-1, 2)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool3 x)
         {
-Assert.IsSafeBoolean(x.x);
-Assert.IsSafeBoolean(x.y);
-Assert.IsSafeBoolean(x.z);
+VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
 
             int toInt = *(byte*)&x.z << 16;
             *(ushort*)&toInt = *(ushort*)&x;
@@ -37,34 +33,24 @@ Assert.IsSafeBoolean(x.z);
             return 3 - (int)((uint)math.lzcnt(toInt) / 8);
         }
 
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="bool4"/> or -1 if none are <see langword="true" />.      </summary>
-        [return: AssumeRange(-1, 3)] 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="bool4"/> or -1 if none are <see langword="true"/>.      </summary>
+        [return: AssumeRange(-1, 3)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool4 x)
         {
-Assert.IsSafeBoolean(x.x);
-Assert.IsSafeBoolean(x.y);
-Assert.IsSafeBoolean(x.z);
-Assert.IsSafeBoolean(x.w);
+VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
 
             return 3 - (int)((uint)math.lzcnt(*(int*)&x) / 8);
         }
 
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool8"/> or -1 if none are <see langword="true" />.      </summary>
-        [return: AssumeRange(-1, 7)] 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="MaxMath.bool8"/> or -1 if none are <see langword="true"/>.      </summary>
+        [return: AssumeRange(-1, 7)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool8 x)
         {
-Assert.IsSafeBoolean(x.x0);
-Assert.IsSafeBoolean(x.x1);
-Assert.IsSafeBoolean(x.x2);
-Assert.IsSafeBoolean(x.x3);
-Assert.IsSafeBoolean(x.x4);
-Assert.IsSafeBoolean(x.x5);
-Assert.IsSafeBoolean(x.x6);
-Assert.IsSafeBoolean(x.x7);
-
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
+            
+            if (Architecture.IsSIMDSupported)
             {
                 return 7 - (int)((uint)math.lzcnt(((v128)x).SLong0) / 8);
             }
@@ -74,31 +60,20 @@ Assert.IsSafeBoolean(x.x7);
             }
         }
 
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool16"/> or -1 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="MaxMath.bool16"/> or -1 if none are <see langword="true"/>.      </summary>
         [return: AssumeRange(-1, 15)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool16 x)
         {
-Assert.IsSafeBoolean(x.x0);
-Assert.IsSafeBoolean(x.x1);
-Assert.IsSafeBoolean(x.x2);
-Assert.IsSafeBoolean(x.x3);
-Assert.IsSafeBoolean(x.x4);
-Assert.IsSafeBoolean(x.x5);
-Assert.IsSafeBoolean(x.x6);
-Assert.IsSafeBoolean(x.x7);
-Assert.IsSafeBoolean(x.x8);
-Assert.IsSafeBoolean(x.x9);
-Assert.IsSafeBoolean(x.x10);
-Assert.IsSafeBoolean(x.x11);
-Assert.IsSafeBoolean(x.x12);
-Assert.IsSafeBoolean(x.x13);
-Assert.IsSafeBoolean(x.x14);
-Assert.IsSafeBoolean(x.x15);
+VectorAssert.IsNotGreater<byte16, byte>(tobyte(x), 1, 16);
 
             if (Sse2.IsSse2Supported)
             {
-                return 31 - math.lzcnt(Sse2.movemask_epi8(Xse.neg_epi8(x)));
+                return 31 - math.lzcnt(Xse.movemask_epi8(Xse.neg_epi8(x)));
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return 31 - (math.lzcnt(Xse.movemask_epi8x4(Xse.neg_epi8(x))) / 4);
             }
             else
             {
@@ -115,43 +90,12 @@ Assert.IsSafeBoolean(x.x15);
             }
         }
 
-        /// <summary>       Returns the index of the last <see langword="true" /> of a <see cref="MaxMath.bool32"/> or -1 if none are <see langword="true" />.      </summary>
+        /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="MaxMath.bool32"/> or -1 if none are <see langword="true"/>.      </summary>
         [return: AssumeRange(-1, 31)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int last(bool32 x)
         {
-Assert.IsSafeBoolean(x.x0);
-Assert.IsSafeBoolean(x.x1);
-Assert.IsSafeBoolean(x.x2);
-Assert.IsSafeBoolean(x.x3);
-Assert.IsSafeBoolean(x.x4);
-Assert.IsSafeBoolean(x.x5);
-Assert.IsSafeBoolean(x.x6);
-Assert.IsSafeBoolean(x.x7);
-Assert.IsSafeBoolean(x.x8);
-Assert.IsSafeBoolean(x.x9);
-Assert.IsSafeBoolean(x.x10);
-Assert.IsSafeBoolean(x.x11);
-Assert.IsSafeBoolean(x.x12);
-Assert.IsSafeBoolean(x.x13);
-Assert.IsSafeBoolean(x.x14);
-Assert.IsSafeBoolean(x.x15);
-Assert.IsSafeBoolean(x.x16);
-Assert.IsSafeBoolean(x.x17);
-Assert.IsSafeBoolean(x.x18);
-Assert.IsSafeBoolean(x.x19);
-Assert.IsSafeBoolean(x.x20);
-Assert.IsSafeBoolean(x.x21);
-Assert.IsSafeBoolean(x.x22);
-Assert.IsSafeBoolean(x.x23);
-Assert.IsSafeBoolean(x.x24);
-Assert.IsSafeBoolean(x.x25);
-Assert.IsSafeBoolean(x.x26);
-Assert.IsSafeBoolean(x.x27);
-Assert.IsSafeBoolean(x.x28);
-Assert.IsSafeBoolean(x.x29);
-Assert.IsSafeBoolean(x.x30);
-Assert.IsSafeBoolean(x.x31);
+VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
 
             if (Avx2.IsAvx2Supported)
             {
@@ -159,7 +103,7 @@ Assert.IsSafeBoolean(x.x31);
             }
             else if (Sse2.IsSse2Supported)
             {
-                return 31 - math.lzcnt(Sse2.movemask_epi8(Xse.neg_epi8(x.v16_0)) | (Sse2.movemask_epi8(Xse.neg_epi8(x.v16_16)) << 16));
+                return 31 - math.lzcnt(Xse.movemask_epi8(Xse.neg_epi8(x.v16_0)) | (Xse.movemask_epi8(Xse.neg_epi8(x.v16_16)) << 16));
             }
             else
             {

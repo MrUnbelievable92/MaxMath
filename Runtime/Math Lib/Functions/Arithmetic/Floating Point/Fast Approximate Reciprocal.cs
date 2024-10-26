@@ -26,9 +26,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 fastrcp(float4 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Sse.rcp_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat4(Xse.rcp_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -40,9 +40,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 fastrcp(float3 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Sse.rcp_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat3(Xse.rcp_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -54,9 +54,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 fastrcp(float2 x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Sse.rcp_ps(RegisterConversion.ToV128(x)));
+                return RegisterConversion.ToFloat2(Xse.rcp_ps(RegisterConversion.ToV128(x)));
             }
             else
             {
@@ -68,9 +68,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float fastrcp(float x)
         {
-            if (Sse.IsSseSupported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse.rcp_ss(RegisterConversion.ToV128(x)).Float0;
+                return Xse.rcp_ss(RegisterConversion.ToV128(x)).Float0;
             }
             else
             {
@@ -111,7 +111,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 fastrcp(double2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.rcp_pd(RegisterConversion.ToV128(x)));
             }
@@ -125,14 +125,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double fastrcp(double x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rcp_sd(RegisterConversion.ToV128(x)).Double0;
             }
             else
             {
                 ulong guess = Xse.MAGIC_RCP_PD - *(ulong*)&x;
-                
+
                 return *(double*)&guess * (2d - (*(double*)&guess * x));
             }
         }

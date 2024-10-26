@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class perm
+    unsafe public static class f_perm
     {
         [Test]
         public static void _ulong2()
@@ -94,7 +94,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(p.w, maxmath.perm(n.w, k.w));
             }
         }
-        
+
 
         [Test]
         public static void _uint2()
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(p.x7, maxmath.perm(n.x7, k.x7));
             }
         }
-        
+
 
         [Test]
         public static void _ushort2()
@@ -419,13 +419,13 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(p.x0,  n.x0);
                 Assert.AreEqual(p.x1,  (ushort)maxmath.perm((uint)n.x1,  (uint)k.x1));
-                Assert.AreEqual(p.x2,  n.x2);                    
+                Assert.AreEqual(p.x2,  n.x2);
                 Assert.AreEqual(p.x3,  (ushort)maxmath.perm((uint)n.x3,  (uint)k.x3));
-                Assert.AreEqual(p.x4,  n.x4);                    
+                Assert.AreEqual(p.x4,  n.x4);
                 Assert.AreEqual(p.x5,  (ushort)maxmath.perm((uint)n.x5,  (uint)k.x5));
-                Assert.AreEqual(p.x6,  n.x6);                    
+                Assert.AreEqual(p.x6,  n.x6);
                 Assert.AreEqual(p.x7,  (ushort)maxmath.perm((uint)n.x7,  (uint)k.x7));
-                Assert.AreEqual(p.x8,  n.x8);                    
+                Assert.AreEqual(p.x8,  n.x8);
                 Assert.AreEqual(p.x9,  (ushort)maxmath.perm((uint)n.x9,  (uint)k.x9));
                 Assert.AreEqual(p.x10, n.x10);
                 Assert.AreEqual(p.x11, (ushort)maxmath.perm((uint)n.x11, (uint)k.x11));
@@ -435,7 +435,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(p.x15, (ushort)maxmath.perm((uint)n.x15, (uint)k.x15));
             }
         }
-        
+
 
         [Test]
         public static void _byte2()
@@ -624,13 +624,13 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(p.x0,  n.x0);
                 Assert.AreEqual(p.x1,  (byte)maxmath.perm((uint)n.x1,  (uint)k.x1));
-                Assert.AreEqual(p.x2,  n.x2);                    
+                Assert.AreEqual(p.x2,  n.x2);
                 Assert.AreEqual(p.x3,  (byte)maxmath.perm((uint)n.x3,  (uint)k.x3));
-                Assert.AreEqual(p.x4,  n.x4);                    
+                Assert.AreEqual(p.x4,  n.x4);
                 Assert.AreEqual(p.x5,  (byte)maxmath.perm((uint)n.x5,  (uint)k.x5));
-                Assert.AreEqual(p.x6,  n.x6);                    
+                Assert.AreEqual(p.x6,  n.x6);
                 Assert.AreEqual(p.x7,  (byte)maxmath.perm((uint)n.x7,  (uint)k.x7));
-                Assert.AreEqual(p.x8,  n.x8);                    
+                Assert.AreEqual(p.x8,  n.x8);
                 Assert.AreEqual(p.x9,  (byte)maxmath.perm((uint)n.x9,  (uint)k.x9));
                 Assert.AreEqual(p.x10, n.x10);
                 Assert.AreEqual(p.x11, (byte)maxmath.perm((uint)n.x11, (uint)k.x11));
@@ -725,13 +725,13 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(p.x0,  n.x0);
                 Assert.AreEqual(p.x1,  (byte)maxmath.perm((uint)n.x1,  (uint)k.x1));
-                Assert.AreEqual(p.x2,  n.x2);                          
+                Assert.AreEqual(p.x2,  n.x2);
                 Assert.AreEqual(p.x3,  (byte)maxmath.perm((uint)n.x3,  (uint)k.x3));
-                Assert.AreEqual(p.x4,  n.x4);                          
+                Assert.AreEqual(p.x4,  n.x4);
                 Assert.AreEqual(p.x5,  (byte)maxmath.perm((uint)n.x5,  (uint)k.x5));
-                Assert.AreEqual(p.x6,  n.x6);                          
+                Assert.AreEqual(p.x6,  n.x6);
                 Assert.AreEqual(p.x7,  (byte)maxmath.perm((uint)n.x7,  (uint)k.x7));
-                Assert.AreEqual(p.x8,  n.x8);                          
+                Assert.AreEqual(p.x8,  n.x8);
                 Assert.AreEqual(p.x9,  (byte)maxmath.perm((uint)n.x9,  (uint)k.x9));
                 Assert.AreEqual(p.x10, n.x10);
                 Assert.AreEqual(p.x11, (byte)maxmath.perm((uint)n.x11, (uint)k.x11));

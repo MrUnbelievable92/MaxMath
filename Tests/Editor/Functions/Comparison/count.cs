@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class count
+    unsafe public static class f_count
     {
         public const int NUM_TESTS = 8;
         private const uint RNG_SEED = 1747u;

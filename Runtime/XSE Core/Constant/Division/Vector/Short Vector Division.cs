@@ -6,33 +6,38 @@ namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		public static v128 constdiv_epi16(v128 vector, v128 divisor, byte elements = 8)
 		{
-			internal static v128 div_epi16(v128 vector, v128 divisor, byte elements = 8)
-			{
-                if (Sse2.IsSse2Supported)
-                {
-					if (constexpr.ALL_SAME_EPI16(divisor, elements))
-					{
-						return div_epi16(vector, divisor.SShort0);
-					}
+            if (Architecture.IsSIMDSupported)
+		    {
+				if (constexpr.ALL_SAME_EPI16(divisor, elements))
+				{
+					return constdiv_epi16(vector, divisor.SShort0);
+				}
 
-					divisor = blendv_si128(divisor, Sse2.set1_epi16(1), Sse2.cmpeq_epi16(divisor, Sse2.setzero_si128()));
-					
-					return new v128((short)(vector.SShort0 / divisor.SShort0), (short)(vector.SShort1 / divisor.SShort1), (short)(vector.SShort2 / divisor.SShort2), (short)(vector.SShort3 / divisor.SShort3), (short)(vector.SShort4 / divisor.SShort4), (short)(vector.SShort5 / divisor.SShort5), (short)(vector.SShort6 / divisor.SShort6), (short)(vector.SShort7 / divisor.SShort7));
-                }
-				else throw new IllegalInstructionException();
-			}
+				switch (elements)
+				{
+					case  2: return (short2)vector / new Divider<short2>((short2)divisor);
+					case  3: return (short3)vector / new Divider<short3>((short3)divisor);
+					case  4: return (short4)vector / new Divider<short4>((short4)divisor);
+					default: return (short8)vector / new Divider<short8>((short8)divisor);
+				}
+		    }
+			else throw new IllegalInstructionException();
+		}
 
-			internal static v256 mm256_div_epi16(v256 vector, v256 divisor)
+		public static v256 mm256_constdiv_epi16(v256 vector, v256 divisor)
+		{
+			if (Avx2.IsAvx2Supported)
 			{
 				if (constexpr.ALL_SAME_EPI16(divisor))
 				{
-					return mm256_div_epi16(vector, divisor.SShort0);
+					return mm256_constdiv_epi16(vector, divisor.SShort0);
 				}
 
-				return new v256((short)(vector.SShort0 / divisor.SShort0), (short)(vector.SShort1 / divisor.SShort1), (short)(vector.SShort2 / divisor.SShort2), (short)(vector.SShort3 / divisor.SShort3), (short)(vector.SShort4 / divisor.SShort4), (short)(vector.SShort5 / divisor.SShort5), (short)(vector.SShort6 / divisor.SShort6), (short)(vector.SShort7 / divisor.SShort7), (short)(vector.SShort8 / divisor.SShort8), (short)(vector.SShort9 / divisor.SShort9), (short)(vector.SShort10 / divisor.SShort10), (short)(vector.SShort11 / divisor.SShort11), (short)(vector.SShort12 / divisor.SShort12), (short)(vector.SShort13 / divisor.SShort13), (short)(vector.SShort14 / divisor.SShort14), (short)(vector.SShort15 / divisor.SShort15));
+				return (short16)vector / new Divider<short16>((short16)divisor);
 			}
+			else throw new IllegalInstructionException();
 		}
 	}
 }

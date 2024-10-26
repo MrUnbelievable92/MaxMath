@@ -10,9 +10,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi8(a, setall_si128());
+                return sub_epi8(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -20,9 +20,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi8(a, setall_si128());
+                return subs_epi8(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -30,9 +30,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.adds_epu8(a, Sse2.set1_epi8(1));
+                return adds_epu8(a, set1_epi8(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -40,9 +40,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi16(a, setall_si128());
+                return sub_epi16(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -50,9 +50,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epi16(a, setall_si128());
+                return subs_epi16(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -60,9 +60,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.adds_epu16(a, Sse2.set1_epi16(1));
+                return adds_epu16(a, set1_epi16(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -70,9 +70,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi32(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi32(a, setall_si128());
+                return sub_epi32(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -80,15 +80,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi32(v128 a, byte elements = 4)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPI32(a, int.MaxValue, elements))
                 {
-                    return Sse2.sub_epi32(a, setall_si128());
+                    return sub_epi32(a, setall_si128());
                 }
                 else
                 {
-                    return subs_epi32(a, setall_si128(), elements);
+                    return sub_epi32(a, cmpgt_epi32(set1_epi32(int.MaxValue), a));
                 }
             }
             else throw new IllegalInstructionException();
@@ -97,15 +97,18 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu32(v128 a, byte elements = 4)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU32(a, uint.MaxValue, elements))
                 {
-                    return Sse2.sub_epi32(a, setall_si128());
+                    return sub_epi32(a, setall_si128());
                 }
                 else
                 {
-                    return adds_epu32(a, Sse2.set1_epi32(1));
+                    v128 ALL_ONES = setall_si128();
+                    v128 isMaxValue = cmpeq_epi32(a, ALL_ONES);
+
+                    return sub_epi32(a, andnot_si128(isMaxValue, ALL_ONES));
                 }
             }
             else throw new IllegalInstructionException();
@@ -114,9 +117,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi64(a, setall_si128());
+                return sub_epi64(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -124,15 +127,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPI64(a, long.MaxValue))
                 {
-                    return Sse2.sub_epi64(a, setall_si128());
+                    return sub_epi64(a, setall_si128());
                 }
                 else
                 {
-                    return subs_epi64(a, setall_si128());
+                    return sub_epi64(a, cmpgt_epi64(set1_epi64x(long.MaxValue), a));
                 }
             }
             else throw new IllegalInstructionException();
@@ -141,15 +144,18 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU64(a, ulong.MaxValue))
                 {
-                    return Sse2.sub_epi64(a, setall_si128());
+                    return sub_epi64(a, setall_si128());
                 }
                 else
                 {
-                    return adds_epu64(a, Sse2.set1_epi64x(1));
+                    v128 ALL_ONES = setall_si128();
+                    v128 isMaxValue = cmpeq_epi64(a, ALL_ONES);
+
+                    return sub_epi64(a, andnot_si128(isMaxValue, ALL_ONES));
                 }
             }
             else throw new IllegalInstructionException();
@@ -181,7 +187,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_adds_epu8(a, Avx.mm256_set1_epi8(1));
+                return Avx2.mm256_adds_epu8(a, mm256_set1_epi8(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -211,7 +217,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_adds_epu16(a, Avx.mm256_set1_epi16(1));
+                return Avx2.mm256_adds_epu16(a, mm256_set1_epi16(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -237,7 +243,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_subs_epi32(a, mm256_setall_si256());
+                    return Avx2.mm256_sub_epi32(a, Avx2.mm256_cmpgt_epi32(mm256_set1_epi32(int.MaxValue), a));
                 }
             }
             else throw new IllegalInstructionException();
@@ -254,7 +260,10 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_adds_epu32(a, Avx.mm256_set1_epi32(1));
+                    v256 ALL_ONES = mm256_setall_si256();
+                    v256 isMaxValue = Avx2.mm256_cmpeq_epi32(a, ALL_ONES);
+
+                    return Avx2.mm256_sub_epi32(a, Avx2.mm256_andnot_si256(isMaxValue, ALL_ONES));
                 }
             }
             else throw new IllegalInstructionException();
@@ -281,7 +290,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_subs_epi64(a, mm256_setall_si256());
+                    return Avx2.mm256_sub_epi64(a, Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(long.MaxValue), a));
                 }
             }
             else throw new IllegalInstructionException();
@@ -298,19 +307,22 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_adds_epu64(a, Avx.mm256_set1_epi64x(1), elements);
+                    v256 ALL_ONES = mm256_setall_si256();
+                    v256 isMaxValue = Avx2.mm256_cmpeq_epi64(a, ALL_ONES);
+
+                    return Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(isMaxValue, ALL_ONES));
                 }
             }
             else throw new IllegalInstructionException();
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi8(a, setall_si128());
+                return add_epi8(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -318,9 +330,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.adds_epi8(a, setall_si128());
+                return adds_epi8(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -328,9 +340,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu8(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu8(a, Sse2.set1_epi8(1));
+                return subs_epu8(a, set1_epi8(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -338,9 +350,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi16(a, setall_si128());
+                return add_epi16(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -348,9 +360,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.adds_epi16(a, setall_si128());
+                return adds_epi16(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -358,9 +370,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu16(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.subs_epu16(a, Sse2.set1_epi16(1));
+                return subs_epu16(a, set1_epi16(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -368,9 +380,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi32(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi32(a, setall_si128());
+                return add_epi32(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -378,15 +390,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi32(v128 a, byte elements = 4)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPI32(a, int.MinValue, elements))
                 {
-                    return Sse2.add_epi32(a, setall_si128());
+                    return add_epi32(a, setall_si128());
                 }
                 else
                 {
-                    return adds_epi32(a, setall_si128(), elements);
+                    return add_epi32(a, cmpgt_epi32(a, set1_epi32(int.MinValue)));
                 }
             }
             else throw new IllegalInstructionException();
@@ -395,15 +407,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu32(v128 a, byte elements = 4)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPU32(a, uint.MinValue, elements))
                 {
-                    return Sse2.add_epi32(a, setall_si128());
+                    return add_epi32(a, setall_si128());
                 }
                 else
                 {
-                    return subs_epu32(a, Sse2.set1_epi32(1));
+                    return add_epi32(a, not_si128(cmpeq_epi32(a, setzero_si128())));
                 }
             }
             else throw new IllegalInstructionException();
@@ -412,9 +424,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi64(a, setall_si128());
+                return add_epi64(a, setall_si128());
             }
             else throw new IllegalInstructionException();
         }
@@ -422,15 +434,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPI64(a, long.MinValue))
                 {
-                    return Sse2.add_epi64(a, setall_si128());
+                    return add_epi64(a, setall_si128());
                 }
                 else
                 {
-                    return adds_epi64(a, setall_si128());
+                    return add_epi64(a, cmpgt_epi64(a, set1_epi64x(long.MinValue)));
                 }
             }
             else throw new IllegalInstructionException();
@@ -439,15 +451,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu64(v128 a)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPU64(a, ulong.MinValue))
                 {
-                    return Sse2.add_epi64(a, setall_si128());
+                    return add_epi64(a, setall_si128());
                 }
                 else
                 {
-                    return subs_epu64(a, Sse2.set1_epi64x(1));
+                    return add_epi64(a, not_si128(cmpeq_epi64(a, setzero_si128())));
                 }
             }
             else throw new IllegalInstructionException();
@@ -479,7 +491,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_subs_epu8(a, Avx.mm256_set1_epi8(1));
+                return Avx2.mm256_subs_epu8(a, mm256_set1_epi8(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -509,7 +521,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_subs_epu16(a, Avx.mm256_set1_epi16(1));
+                return Avx2.mm256_subs_epu16(a, mm256_set1_epi16(1));
             }
             else throw new IllegalInstructionException();
         }
@@ -552,7 +564,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_subs_epu32(a, Avx.mm256_set1_epi32(1));
+                    return mm256_subs_epu32(a, mm256_set1_epi32(1));
                 }
             }
             else throw new IllegalInstructionException();
@@ -596,7 +608,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return mm256_subs_epu64(a, Avx.mm256_set1_epi64x(1), elements);
+                    return mm256_subs_epu64(a, mm256_set1_epi64x(1), elements);
                 }
             }
             else throw new IllegalInstructionException();

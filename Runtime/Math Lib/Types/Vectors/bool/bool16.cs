@@ -10,7 +10,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] 
+    [Serializable]
     [StructLayout(LayoutKind.Explicit, Size = 16 * sizeof(bool))]
     unsafe public struct bool16 : IEquatable<bool16>
     {
@@ -121,49 +121,49 @@ namespace MaxMath
         public bool8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v8_7); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v8_7 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         public bool8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v8_8); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v8_8 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-        public bool4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
-        public bool4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
+        public bool4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         public bool4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v4_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v4_12 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-        public bool3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
-        public bool3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
-        public bool3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_12 = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
+        public bool3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_12 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         public bool3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v3_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v3_13 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-        public bool2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
-        public bool2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }  
-        public bool2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_12 = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
-        public bool2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_13 = maxmath.tobyte(value); this = maxmath.tobool(temp); } } 
+        public bool2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_0 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_0  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_1 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_1  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_2 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_2  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_3 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_3  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_4 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_4  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_5 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_5  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_6 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_6  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_7 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_7  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_8 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_8  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_9 ); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_9  = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_10 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_11 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_12 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
+        public bool2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_13 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         public bool2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_14); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_14 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
 
@@ -197,9 +197,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 operator ! (bool16 val)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.andnot_si128(val, new byte16(1));
+                return Xse.andnot_si128(val, new byte16(1));
             }
             else
             {
@@ -215,33 +215,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 16);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return maxmath.tobool(Xse.extract_epi8(this, (byte)index));
                 }
                 else
                 {
-                    bool16 onStack = this;
-
-                    return *((bool*)&onStack + index);
+                    return this.GetField<bool16, bool>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 16);
-    
-                if (Sse2.IsSse2Supported)
+
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi8(this, *(byte*)&value, (byte)index);
                 }
                 else
                 {
-                    bool16 onStack = this;
-                    *((bool*)&onStack + index) = value;
-
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }

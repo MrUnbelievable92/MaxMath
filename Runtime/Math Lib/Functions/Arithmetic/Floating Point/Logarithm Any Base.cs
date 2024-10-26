@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -13,7 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float log(float x, float b)
         {
-            if (Constant.IsConstantExpression(b))
+            if (constexpr.IS_CONST(b))
             {
                 switch (b)
                 {
@@ -34,7 +34,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 log(float2 x, float2 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -55,7 +55,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 log(float3 x, float3 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -70,11 +70,11 @@ namespace MaxMath
             if (Avx.IsAvxSupported)
             {
                 float8 ln = log(Avx.mm256_set_m128(RegisterConversion.ToV128(b), RegisterConversion.ToV128(x)));
-                
+
                 v128 _x = Avx.mm256_castps256_ps128(ln);
                 v128 _b = Avx.mm256_extractf128_ps(ln, 1);
-            
-                return RegisterConversion.ToFloat3(Sse.div_ps(_x, _b)); 
+
+                return RegisterConversion.ToFloat3(Sse.div_ps(_x, _b));
             }
             else
             {
@@ -86,7 +86,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 log(float4 x, float4 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -99,7 +99,7 @@ namespace MaxMath
             }
 
             float8 ln = log(new float8(x, b));
-            
+
             return ln.v4_0 / ln.v4_4;
         }
 
@@ -107,7 +107,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 log(float8 x, float8 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x0)
                 {
@@ -127,7 +127,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double log(double x, double b)
         {
-            if (Constant.IsConstantExpression(b))
+            if (constexpr.IS_CONST(b))
             {
                 switch (b)
                 {
@@ -148,7 +148,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 log(double2 x, double2 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -169,7 +169,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 log(double3 x, double3 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -188,7 +188,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 log(double4 x, double4 b)
         {
-            if (Constant.IsConstantExpression(b) && all_eq(b))
+            if (constexpr.IS_TRUE(all_eq(b)))
             {
                 switch (b.x)
                 {
@@ -199,7 +199,7 @@ namespace MaxMath
                     default:         break;
                 }
             }
-            
+
             return math.log(x) / math.log(b);
         }
     }

@@ -51,6 +51,19 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long4x2(int4x2 input) => new long4x2((long4)input.c0, (long4)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator long4x2(uint4x2 input) => new long4x2((long4)input.c0, (long4)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int4x2(long4x2 input) => new int4x2((int4)input.c0, (int4)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint4x2(long4x2 input) => new uint4x2((uint4)input.c0, (uint4)input.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long4x2(float4x2 input) => new long4x2((long4)input.c0, (long4)input.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -92,6 +105,25 @@ Assert.IsWithinArrayBounds(index, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator % (long4x2 left, long4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (long4x2 left, uint4x2 right) => new long4x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (long4x2 left, ushort4x2 right) => new long4x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (long4x2 left, byte4x2 right) => new long4x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (uint4x2 left, long4x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (ushort4x2 left, long4x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator * (byte4x2 left, long4x2 right) => right * left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

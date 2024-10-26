@@ -3,409 +3,615 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class sign
+    unsafe public static class f_sign
     {
         [Test]
-        public static void Float8()
+        public static void _int128()
         {
-            bool result = true;
+            Assert.AreEqual((Int128)0, maxmath.sign((Int128)0));
 
-            for (int i = 0; i < Tests.__float8.NUM_TESTS; i++)
+            Random128 rng = Random128.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                float8 t = maxmath.sign(Tests.__float8.TestData_LHS[i]);
+                Int128 value = rng.NextInt128();
 
-                result &= t.x0 == math.sign(Tests.__float8.TestData_LHS[i].x0);
-                result &= t.x1 == math.sign(Tests.__float8.TestData_LHS[i].x1);
-                result &= t.x2 == math.sign(Tests.__float8.TestData_LHS[i].x2);
-                result &= t.x3 == math.sign(Tests.__float8.TestData_LHS[i].x3);
-                result &= t.x4 == math.sign(Tests.__float8.TestData_LHS[i].x4);
-                result &= t.x5 == math.sign(Tests.__float8.TestData_LHS[i].x5);
-                result &= t.x6 == math.sign(Tests.__float8.TestData_LHS[i].x6);
-                result &= t.x7 == math.sign(Tests.__float8.TestData_LHS[i].x7);
+                Assert.AreEqual((int)maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void SByte2()
+        public static void _sbyte()
         {
-            bool result = true;
+            Assert.AreEqual(0, maxmath.sign((sbyte)0));
 
-            for (int i = 0; i < Tests.__sbyte2.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte2 t = maxmath.sign(Tests.__sbyte2.TestData_LHS[i]);
+                sbyte value = rng.NextSByte();
 
-                result &= t.x == ((Tests.__sbyte2.TestData_LHS[i].x == 0) ? 0 : ((Tests.__sbyte2.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__sbyte2.TestData_LHS[i].y == 0) ? 0 : ((Tests.__sbyte2.TestData_LHS[i].y < 0) ? -1 : 1));
+                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte3()
+        public static void _sbyte2()
         {
-            bool result = true;
+            Assert.AreEqual((sbyte2)0, maxmath.sign((sbyte2)0));
 
-            for (int i = 0; i < Tests.__sbyte3.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte3 t = maxmath.sign(Tests.__sbyte3.TestData_LHS[i]);
+                sbyte2 value = rng.NextSByte2();
 
-                result &= t.x == ((Tests.__sbyte3.TestData_LHS[i].x == 0) ? 0 : ((Tests.__sbyte3.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__sbyte3.TestData_LHS[i].y == 0) ? 0 : ((Tests.__sbyte3.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__sbyte3.TestData_LHS[i].z == 0) ? 0 : ((Tests.__sbyte3.TestData_LHS[i].z < 0) ? -1 : 1));
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte4()
+        public static void _sbyte3()
         {
-            bool result = true;
-            Random32 x = new Random32(47);
+            Assert.AreEqual((sbyte3)0, maxmath.sign((sbyte3)0));
 
-            for (int i = 0; i < Tests.__sbyte4.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte4 t = maxmath.sign(Tests.__sbyte4.TestData_LHS[i]);
+                sbyte3 value = rng.NextSByte3();
 
-                result &= t.x == ((Tests.__sbyte4.TestData_LHS[i].x == 0) ? 0 : ((Tests.__sbyte4.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__sbyte4.TestData_LHS[i].y == 0) ? 0 : ((Tests.__sbyte4.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__sbyte4.TestData_LHS[i].z == 0) ? 0 : ((Tests.__sbyte4.TestData_LHS[i].z < 0) ? -1 : 1));
-                result &= t.w == ((Tests.__sbyte4.TestData_LHS[i].w == 0) ? 0 : ((Tests.__sbyte4.TestData_LHS[i].w < 0) ? -1 : 1));
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte8()
+        public static void _sbyte4()
         {
-            bool result = true;
+            Assert.AreEqual((sbyte4)0, maxmath.sign((sbyte4)0));
 
-            for (int i = 0; i < Tests.__sbyte8.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte8 t = maxmath.sign(Tests.__sbyte8.TestData_LHS[i]);
+                sbyte4 value = rng.NextSByte4();
 
-                result &= t.x0 == ((Tests.__sbyte8.TestData_LHS[i].x0 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x0 < 0) ? -1 : 1));
-                result &= t.x1 == ((Tests.__sbyte8.TestData_LHS[i].x1 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x1 < 0) ? -1 : 1));
-                result &= t.x2 == ((Tests.__sbyte8.TestData_LHS[i].x2 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x2 < 0) ? -1 : 1));
-                result &= t.x3 == ((Tests.__sbyte8.TestData_LHS[i].x3 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x3 < 0) ? -1 : 1));
-                result &= t.x4 == ((Tests.__sbyte8.TestData_LHS[i].x4 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x4 < 0) ? -1 : 1));
-                result &= t.x5 == ((Tests.__sbyte8.TestData_LHS[i].x5 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x5 < 0) ? -1 : 1));
-                result &= t.x6 == ((Tests.__sbyte8.TestData_LHS[i].x6 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x6 < 0) ? -1 : 1));
-                result &= t.x7 == ((Tests.__sbyte8.TestData_LHS[i].x7 == 0) ? 0 : ((Tests.__sbyte8.TestData_LHS[i].x7 < 0) ? -1 : 1));
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte16()
+        public static void _sbyte8()
         {
-            bool result = true;
+            Assert.AreEqual((sbyte8)0, maxmath.sign((sbyte8)0));
 
-            for (int i = 0; i < Tests.__sbyte16.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte16 t = maxmath.sign(Tests.__sbyte16.TestData_LHS[i]);
+                sbyte8 value = rng.NextSByte8();
 
-                result &= t.x0  == ((Tests.__sbyte16.TestData_LHS[i].x0  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x0  < 0) ? -1 : 1));
-                result &= t.x1  == ((Tests.__sbyte16.TestData_LHS[i].x1  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x1  < 0) ? -1 : 1));
-                result &= t.x2  == ((Tests.__sbyte16.TestData_LHS[i].x2  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x2  < 0) ? -1 : 1));
-                result &= t.x3  == ((Tests.__sbyte16.TestData_LHS[i].x3  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x3  < 0) ? -1 : 1));
-                result &= t.x4  == ((Tests.__sbyte16.TestData_LHS[i].x4  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x4  < 0) ? -1 : 1));
-                result &= t.x5  == ((Tests.__sbyte16.TestData_LHS[i].x5  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x5  < 0) ? -1 : 1));
-                result &= t.x6  == ((Tests.__sbyte16.TestData_LHS[i].x6  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x6  < 0) ? -1 : 1));
-                result &= t.x7  == ((Tests.__sbyte16.TestData_LHS[i].x7  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x7  < 0) ? -1 : 1));
-                result &= t.x8  == ((Tests.__sbyte16.TestData_LHS[i].x8  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x8  < 0) ? -1 : 1));
-                result &= t.x9  == ((Tests.__sbyte16.TestData_LHS[i].x9  == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x9  < 0) ? -1 : 1));
-                result &= t.x10 == ((Tests.__sbyte16.TestData_LHS[i].x10 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x10 < 0) ? -1 : 1));
-                result &= t.x11 == ((Tests.__sbyte16.TestData_LHS[i].x11 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x11 < 0) ? -1 : 1));
-                result &= t.x12 == ((Tests.__sbyte16.TestData_LHS[i].x12 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x12 < 0) ? -1 : 1));
-                result &= t.x13 == ((Tests.__sbyte16.TestData_LHS[i].x13 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x13 < 0) ? -1 : 1));
-                result &= t.x14 == ((Tests.__sbyte16.TestData_LHS[i].x14 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x14 < 0) ? -1 : 1));
-                result &= t.x15 == ((Tests.__sbyte16.TestData_LHS[i].x15 == 0) ? 0 : ((Tests.__sbyte16.TestData_LHS[i].x15 < 0) ? -1 : 1));
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void SByte32()
+        public static void _sbyte16()
         {
-            bool result = true;
+            Assert.AreEqual((sbyte16)0, maxmath.sign((sbyte16)0));
 
-            for (int i = 0; i < Tests.__sbyte32.NUM_TESTS; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                sbyte32 t = maxmath.sign(Tests.__sbyte32.TestData_LHS[i]);
+                sbyte16 value = rng.NextSByte16();
 
-                result &= t.x0  == ((Tests.__sbyte32.TestData_LHS[i].x0  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x0  < 0) ? -1 : 1));
-                result &= t.x1  == ((Tests.__sbyte32.TestData_LHS[i].x1  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x1  < 0) ? -1 : 1));
-                result &= t.x2  == ((Tests.__sbyte32.TestData_LHS[i].x2  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x2  < 0) ? -1 : 1));
-                result &= t.x3  == ((Tests.__sbyte32.TestData_LHS[i].x3  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x3  < 0) ? -1 : 1));
-                result &= t.x4  == ((Tests.__sbyte32.TestData_LHS[i].x4  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x4  < 0) ? -1 : 1));
-                result &= t.x5  == ((Tests.__sbyte32.TestData_LHS[i].x5  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x5  < 0) ? -1 : 1));
-                result &= t.x6  == ((Tests.__sbyte32.TestData_LHS[i].x6  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x6  < 0) ? -1 : 1));
-                result &= t.x7  == ((Tests.__sbyte32.TestData_LHS[i].x7  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x7  < 0) ? -1 : 1));
-                result &= t.x8  == ((Tests.__sbyte32.TestData_LHS[i].x8  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x8  < 0) ? -1 : 1));
-                result &= t.x9  == ((Tests.__sbyte32.TestData_LHS[i].x9  == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x9  < 0) ? -1 : 1));
-                result &= t.x10 == ((Tests.__sbyte32.TestData_LHS[i].x10 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x10 < 0) ? -1 : 1));
-                result &= t.x11 == ((Tests.__sbyte32.TestData_LHS[i].x11 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x11 < 0) ? -1 : 1));
-                result &= t.x12 == ((Tests.__sbyte32.TestData_LHS[i].x12 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x12 < 0) ? -1 : 1));
-                result &= t.x13 == ((Tests.__sbyte32.TestData_LHS[i].x13 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x13 < 0) ? -1 : 1));
-                result &= t.x14 == ((Tests.__sbyte32.TestData_LHS[i].x14 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x14 < 0) ? -1 : 1));
-                result &= t.x15 == ((Tests.__sbyte32.TestData_LHS[i].x15 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x15 < 0) ? -1 : 1));
-                result &= t.x16 == ((Tests.__sbyte32.TestData_LHS[i].x16 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x16 < 0) ? -1 : 1));
-                result &= t.x17 == ((Tests.__sbyte32.TestData_LHS[i].x17 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x17 < 0) ? -1 : 1));
-                result &= t.x18 == ((Tests.__sbyte32.TestData_LHS[i].x18 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x18 < 0) ? -1 : 1));
-                result &= t.x19 == ((Tests.__sbyte32.TestData_LHS[i].x19 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x19 < 0) ? -1 : 1));
-                result &= t.x20 == ((Tests.__sbyte32.TestData_LHS[i].x20 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x20 < 0) ? -1 : 1));
-                result &= t.x21 == ((Tests.__sbyte32.TestData_LHS[i].x21 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x21 < 0) ? -1 : 1));
-                result &= t.x22 == ((Tests.__sbyte32.TestData_LHS[i].x22 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x22 < 0) ? -1 : 1));
-                result &= t.x23 == ((Tests.__sbyte32.TestData_LHS[i].x23 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x23 < 0) ? -1 : 1));
-                result &= t.x24 == ((Tests.__sbyte32.TestData_LHS[i].x24 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x24 < 0) ? -1 : 1));
-                result &= t.x25 == ((Tests.__sbyte32.TestData_LHS[i].x25 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x25 < 0) ? -1 : 1));
-                result &= t.x26 == ((Tests.__sbyte32.TestData_LHS[i].x26 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x26 < 0) ? -1 : 1));
-                result &= t.x27 == ((Tests.__sbyte32.TestData_LHS[i].x27 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x27 < 0) ? -1 : 1));
-                result &= t.x28 == ((Tests.__sbyte32.TestData_LHS[i].x28 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x28 < 0) ? -1 : 1));
-                result &= t.x29 == ((Tests.__sbyte32.TestData_LHS[i].x29 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x29 < 0) ? -1 : 1));
-                result &= t.x30 == ((Tests.__sbyte32.TestData_LHS[i].x30 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x30 < 0) ? -1 : 1));
-                result &= t.x31 == ((Tests.__sbyte32.TestData_LHS[i].x31 == 0) ? 0 : ((Tests.__sbyte32.TestData_LHS[i].x31 < 0) ? -1 : 1));
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _sbyte32()
+        {
+            Assert.AreEqual((sbyte32)0, maxmath.sign((sbyte32)0));
+
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                sbyte32 value = rng.NextSByte32();
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
         }
 
 
         [Test]
-        public static void Short2()
+        public static void _short()
         {
-            bool result = true;
+            Assert.AreEqual(0, maxmath.sign((short)0));
 
-            for (int i = 0; i < Tests.__short2.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                short2 t = maxmath.sign(Tests.__short2.TestData_LHS[i]);
+                short value = rng.NextShort();
 
-                result &= t.x == ((Tests.__short2.TestData_LHS[i].x == 0) ? 0 : ((Tests.__short2.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__short2.TestData_LHS[i].y == 0) ? 0 : ((Tests.__short2.TestData_LHS[i].y < 0) ? -1 : 1));
+                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short3()
+        public static void _short2()
         {
-            bool result = true;
+            Assert.AreEqual((short2)0, maxmath.sign((short2)0));
 
-            for (int i = 0; i < Tests.__short3.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                short3 t = maxmath.sign(Tests.__short3.TestData_LHS[i]);
+                short2 value = rng.NextShort2();
 
-                result &= t.x == ((Tests.__short3.TestData_LHS[i].x == 0) ? 0 : ((Tests.__short3.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__short3.TestData_LHS[i].y == 0) ? 0 : ((Tests.__short3.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__short3.TestData_LHS[i].z == 0) ? 0 : ((Tests.__short3.TestData_LHS[i].z < 0) ? -1 : 1));
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short4()
+        public static void _short3()
         {
-            bool result = true;
+            Assert.AreEqual((short3)0, maxmath.sign((short3)0));
 
-            for (int i = 0; i < Tests.__short4.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                short4 t = maxmath.sign(Tests.__short4.TestData_LHS[i]);
+                short3 value = rng.NextShort3();
 
-                result &= t.x == ((Tests.__short4.TestData_LHS[i].x == 0) ? 0 : ((Tests.__short4.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__short4.TestData_LHS[i].y == 0) ? 0 : ((Tests.__short4.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__short4.TestData_LHS[i].z == 0) ? 0 : ((Tests.__short4.TestData_LHS[i].z < 0) ? -1 : 1));
-                result &= t.w == ((Tests.__short4.TestData_LHS[i].w == 0) ? 0 : ((Tests.__short4.TestData_LHS[i].w < 0) ? -1 : 1));
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short8()
+        public static void _short4()
         {
-            bool result = true;
+            Assert.AreEqual((short4)0, maxmath.sign((short4)0));
 
-            for (int i = 0; i < Tests.__short8.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                short8 t = maxmath.sign(Tests.__short8.TestData_LHS[i]);
+                short4 value = rng.NextShort4();
 
-                result &= t.x0 == ((Tests.__short8.TestData_LHS[i].x0 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x0 < 0) ? -1 : 1));
-                result &= t.x1 == ((Tests.__short8.TestData_LHS[i].x1 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x1 < 0) ? -1 : 1));
-                result &= t.x2 == ((Tests.__short8.TestData_LHS[i].x2 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x2 < 0) ? -1 : 1));
-                result &= t.x3 == ((Tests.__short8.TestData_LHS[i].x3 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x3 < 0) ? -1 : 1));
-                result &= t.x4 == ((Tests.__short8.TestData_LHS[i].x4 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x4 < 0) ? -1 : 1));
-                result &= t.x5 == ((Tests.__short8.TestData_LHS[i].x5 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x5 < 0) ? -1 : 1));
-                result &= t.x6 == ((Tests.__short8.TestData_LHS[i].x6 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x6 < 0) ? -1 : 1));
-                result &= t.x7 == ((Tests.__short8.TestData_LHS[i].x7 == 0) ? 0 : ((Tests.__short8.TestData_LHS[i].x7 < 0) ? -1 : 1));
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Short16()
+        public static void _short8()
         {
-            bool result = true;
+            Assert.AreEqual((short8)0, maxmath.sign((short8)0));
 
-            for (int i = 0; i < Tests.__short16.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                short16 t = maxmath.sign(Tests.__short16.TestData_LHS[i]);
+                short8 value = rng.NextShort8();
 
-                result &= t.x0  == ((Tests.__short16.TestData_LHS[i].x0  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x0  < 0) ? -1 : 1));
-                result &= t.x1  == ((Tests.__short16.TestData_LHS[i].x1  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x1  < 0) ? -1 : 1));
-                result &= t.x2  == ((Tests.__short16.TestData_LHS[i].x2  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x2  < 0) ? -1 : 1));
-                result &= t.x3  == ((Tests.__short16.TestData_LHS[i].x3  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x3  < 0) ? -1 : 1));
-                result &= t.x4  == ((Tests.__short16.TestData_LHS[i].x4  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x4  < 0) ? -1 : 1));
-                result &= t.x5  == ((Tests.__short16.TestData_LHS[i].x5  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x5  < 0) ? -1 : 1));
-                result &= t.x6  == ((Tests.__short16.TestData_LHS[i].x6  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x6  < 0) ? -1 : 1));
-                result &= t.x7  == ((Tests.__short16.TestData_LHS[i].x7  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x7  < 0) ? -1 : 1));
-                result &= t.x8  == ((Tests.__short16.TestData_LHS[i].x8  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x8  < 0) ? -1 : 1));
-                result &= t.x9  == ((Tests.__short16.TestData_LHS[i].x9  == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x9  < 0) ? -1 : 1));
-                result &= t.x10 == ((Tests.__short16.TestData_LHS[i].x10 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x10 < 0) ? -1 : 1));
-                result &= t.x11 == ((Tests.__short16.TestData_LHS[i].x11 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x11 < 0) ? -1 : 1));
-                result &= t.x12 == ((Tests.__short16.TestData_LHS[i].x12 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x12 < 0) ? -1 : 1));
-                result &= t.x13 == ((Tests.__short16.TestData_LHS[i].x13 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x13 < 0) ? -1 : 1));
-                result &= t.x14 == ((Tests.__short16.TestData_LHS[i].x14 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x14 < 0) ? -1 : 1));
-                result &= t.x15 == ((Tests.__short16.TestData_LHS[i].x15 == 0) ? 0 : ((Tests.__short16.TestData_LHS[i].x15 < 0) ? -1 : 1));
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
-        }
-
-
-        [Test]
-        public static void Int2()
-        {
-            bool result = true;
-
-            for (int i = 0; i < Tests.__int2.NUM_TESTS; i++)
-            {
-                int2 t = maxmath.sign(Tests.__int2.TestData_LHS[i]);
-
-                result &= t.x == ((Tests.__int2.TestData_LHS[i].x == 0) ? 0 : ((Tests.__int2.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__int2.TestData_LHS[i].y == 0) ? 0 : ((Tests.__int2.TestData_LHS[i].y < 0) ? -1 : 1));
-            }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Int3()
+        public static void _short16()
         {
-            bool result = true;
+            Assert.AreEqual((short16)0, maxmath.sign((short16)0));
 
-            for (int i = 0; i < Tests.__int3.NUM_TESTS; i++)
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                int3 t = maxmath.sign(Tests.__int3.TestData_LHS[i]);
+                short16 value = rng.NextShort16();
 
-                result &= t.x == ((Tests.__int3.TestData_LHS[i].x == 0) ? 0 : ((Tests.__int3.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__int3.TestData_LHS[i].y == 0) ? 0 : ((Tests.__int3.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__int3.TestData_LHS[i].z == 0) ? 0 : ((Tests.__int3.TestData_LHS[i].z < 0) ? -1 : 1));
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void Int4()
-        {
-            bool result = true;
-
-            for (int i = 0; i < Tests.__int4.NUM_TESTS; i++)
-            {
-                int4 t = maxmath.sign(Tests.__int4.TestData_LHS[i]);
-
-                result &= t.x == ((Tests.__int4.TestData_LHS[i].x == 0) ? 0 : ((Tests.__int4.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__int4.TestData_LHS[i].y == 0) ? 0 : ((Tests.__int4.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__int4.TestData_LHS[i].z == 0) ? 0 : ((Tests.__int4.TestData_LHS[i].z < 0) ? -1 : 1));
-                result &= t.w == ((Tests.__int4.TestData_LHS[i].w == 0) ? 0 : ((Tests.__int4.TestData_LHS[i].w < 0) ? -1 : 1));
-            }
-
-            Assert.AreEqual(true, result);
-        }
-
-        [Test]
-        public static void Int8()
-        {
-            bool result = true;
-
-            for (int i = 0; i < Tests.__int8.NUM_TESTS; i++)
-            {
-                int8 t = maxmath.sign(Tests.__int8.TestData_LHS[i]);
-
-                result &= t.x0 == ((Tests.__int8.TestData_LHS[i].x0 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x0 < 0) ? -1 : 1));
-                result &= t.x1 == ((Tests.__int8.TestData_LHS[i].x1 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x1 < 0) ? -1 : 1));
-                result &= t.x2 == ((Tests.__int8.TestData_LHS[i].x2 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x2 < 0) ? -1 : 1));
-                result &= t.x3 == ((Tests.__int8.TestData_LHS[i].x3 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x3 < 0) ? -1 : 1));
-                result &= t.x4 == ((Tests.__int8.TestData_LHS[i].x4 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x4 < 0) ? -1 : 1));
-                result &= t.x5 == ((Tests.__int8.TestData_LHS[i].x5 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x5 < 0) ? -1 : 1));
-                result &= t.x6 == ((Tests.__int8.TestData_LHS[i].x6 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x6 < 0) ? -1 : 1));
-                result &= t.x7 == ((Tests.__int8.TestData_LHS[i].x7 == 0) ? 0 : ((Tests.__int8.TestData_LHS[i].x7 < 0) ? -1 : 1));
-            }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void Long2()
+        public static void _int()
         {
-            bool result = true;
+            Assert.AreEqual(0, maxmath.sign((int)0));
 
-            for (int i = 0; i < Tests.__long2.NUM_TESTS; i++)
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                long2 t = maxmath.sign(Tests.__long2.TestData_LHS[i]);
+                int value = rng.NextInt();
 
-                result &= t.x == ((Tests.__long2.TestData_LHS[i].x == 0) ? 0 : ((Tests.__long2.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__long2.TestData_LHS[i].y == 0) ? 0 : ((Tests.__long2.TestData_LHS[i].y < 0) ? -1 : 1));
+                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Long3()
+        public static void _int2()
         {
-            bool result = true;
+            Assert.AreEqual((int2)0, maxmath.sign((int2)0));
 
-            for (long i = 0; i < Tests.__long3.NUM_TESTS; i++)
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                long3 t = maxmath.sign(Tests.__long3.TestData_LHS[i]);
+                int2 value = rng.NextInt2();
 
-                result &= t.x == ((Tests.__long3.TestData_LHS[i].x == 0) ? 0 : ((Tests.__long3.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__long3.TestData_LHS[i].y == 0) ? 0 : ((Tests.__long3.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__long3.TestData_LHS[i].z == 0) ? 0 : ((Tests.__long3.TestData_LHS[i].z < 0) ? -1 : 1));
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void Long4()
+        public static void _int3()
         {
-            bool result = true;
+            Assert.AreEqual((int3)0, maxmath.sign((int3)0));
 
-            for (long i = 0; i < Tests.__long4.NUM_TESTS; i++)
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
             {
-                long4 t = maxmath.sign(Tests.__long4.TestData_LHS[i]);
+                int3 value = rng.NextInt3();
 
-                result &= t.x == ((Tests.__long4.TestData_LHS[i].x == 0) ? 0 : ((Tests.__long4.TestData_LHS[i].x < 0) ? -1 : 1));
-                result &= t.y == ((Tests.__long4.TestData_LHS[i].y == 0) ? 0 : ((Tests.__long4.TestData_LHS[i].y < 0) ? -1 : 1));
-                result &= t.z == ((Tests.__long4.TestData_LHS[i].z == 0) ? 0 : ((Tests.__long4.TestData_LHS[i].z < 0) ? -1 : 1));
-                result &= t.w == ((Tests.__long4.TestData_LHS[i].w == 0) ? 0 : ((Tests.__long4.TestData_LHS[i].w < 0) ? -1 : 1));
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
             }
+        }
 
-            Assert.AreEqual(true, result);
+        [Test]
+        public static void _int4()
+        {
+            Assert.AreEqual((int4)0, maxmath.sign((int4)0));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                int4 value = rng.NextInt4();
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
+        }
+
+        [Test]
+        public static void _int8()
+        {
+            Assert.AreEqual((int8)0, maxmath.sign((int8)0));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                int8 value = rng.NextInt8();
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _long()
+        {
+            Assert.AreEqual(0, maxmath.sign((long)0));
+
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                long value = rng.NextLong();
+
+                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+            }
+        }
+
+        [Test]
+        public static void _long2()
+        {
+            Assert.AreEqual((long2)0, maxmath.sign((long2)0));
+
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                long2 value = rng.NextLong2();
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
+        }
+
+        [Test]
+        public static void _long3()
+        {
+            Assert.AreEqual((long3)0, maxmath.sign((long3)0));
+
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                long3 value = rng.NextLong3();
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
+        }
+
+        [Test]
+        public static void _long4()
+        {
+            Assert.AreEqual((long4)0, maxmath.sign((long4)0));
+
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                long4 value = rng.NextLong4();
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _quarter()
+        {
+            Assert.AreEqual(0f, (float)maxmath.sign((quarter)0));
+            Assert.AreEqual(0f, (float)maxmath.sign(maxmath.asquarter((byte)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter value = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                Assert.AreEqual((float)maxmath.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
+            }
+        }
+
+        [Test]
+        public static void _quarter2()
+        {
+            Assert.AreEqual((float2)0f, (float2)maxmath.sign((quarter2)0));
+            Assert.AreEqual((float2)0f, (float2)maxmath.sign(maxmath.asquarter((byte2)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter2 value = (quarter2)rng.NextFloat2(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter3()
+        {
+            Assert.AreEqual((float3)0f, (float3)maxmath.sign((quarter3)0));
+            Assert.AreEqual((float3)0f, (float3)maxmath.sign(maxmath.asquarter((byte3)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter3 value = (quarter3)rng.NextFloat3(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter4()
+        {
+            Assert.AreEqual((float4)0f, (float4)maxmath.sign((quarter4)0));
+            Assert.AreEqual((float4)0f, (float4)maxmath.sign(maxmath.asquarter((byte4)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter4 value = (quarter4)rng.NextFloat4(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter8()
+        {
+            Assert.AreEqual((float8)0f, (float8)maxmath.sign((quarter8)0));
+            Assert.AreEqual((float8)0f, (float8)maxmath.sign(maxmath.asquarter((byte8)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter8 value = (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _half()
+        {
+            Assert.AreEqual(0f, (float)maxmath.sign((half)0));
+            Assert.AreEqual(0f, (float)maxmath.sign(maxmath.ashalf((ushort)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half value = (half)rng.NextFloat(half.MinValue, half.MaxValue);
+
+                Assert.AreEqual((float)maxmath.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
+            }
+        }
+
+        [Test]
+        public static void _half2()
+        {
+            Assert.AreEqual((float2)0f, (float2)maxmath.sign((half2)0));
+            Assert.AreEqual((float2)0f, (float2)maxmath.sign(maxmath.ashalf((ushort2)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half2 value = (half2)rng.NextFloat2(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _half3()
+        {
+            Assert.AreEqual((float3)0f, (float3)maxmath.sign((half3)0));
+            Assert.AreEqual((float3)0f, (float3)maxmath.sign(maxmath.ashalf((ushort3)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half3 value = (half3)rng.NextFloat3(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _half4()
+        {
+            Assert.AreEqual((float4)0f, (float4)maxmath.sign((half4)0));
+            Assert.AreEqual((float4)0f, (float4)maxmath.sign(maxmath.ashalf((ushort4)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half4 value = (half4)rng.NextFloat4(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _half8()
+        {
+            Assert.AreEqual((float8)0f, (float8)maxmath.sign((half8)0));
+            Assert.AreEqual((float8)0f, (float8)maxmath.sign(maxmath.ashalf((ushort8)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half8 value = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _float8()
+        {
+            Assert.AreEqual((float8)0f, maxmath.sign((float8)0));
+            Assert.AreEqual((float8)0f, maxmath.sign(maxmath.asfloat((int8)1 << 31)));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                float8 value = rng.NextFloat8();
+
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
         }
     }
 }

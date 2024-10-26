@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using Unity.Mathematics;
@@ -15,47 +14,47 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bts_epi8(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 16)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 7, elements))
                     {
                         v128 ret = result == MaskType.One ? srli_epi8(a, 7) : srai_epi8(a, 7);
-                        a = Sse2.or_si128(a, Sse2.set1_epi8(unchecked((sbyte)(1 << 7))));
-                        
+                        a = or_si128(a, set1_epi8(1 << 7));
+
                         return ret;
                     }
 
-                    // const (all ones) -> 1 instruction with pow2 table 
-                    v128 powsOf2 = sllv_epi8(Sse2.set1_epi8(1), b, elements);
-                    
-                    v128 mask = Sse2.cmpeq_epi8(powsOf2, Sse2.and_si128(powsOf2, a));
-                    a = Sse2.or_si128(a, powsOf2);
-                    
-                    return result == MaskType.One ? negmask_epi8(mask, elements) : mask; 
+                    // const (all ones) -> 1 instruction with pow2 table
+                    v128 powsOf2 = sllv_epi8(set1_epi8(1), b, inRange: true, elements: elements);
+
+                    v128 mask = cmpeq_epi8(powsOf2, and_si128(powsOf2, a));
+                    a = or_si128(a, powsOf2);
+
+                    return result == MaskType.One ? negmask_epi8(mask, elements) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_bts_epi8(ref v256 a, v256 b, MaskType result = MaskType.AllOnes)
             {
                 if (Avx2.IsAvx2Supported)
-                {                 
+                {
                     if (constexpr.ALL_EQ_EPI8(b, 7))
                     {
                         v256 ret = result == MaskType.One ? mm256_srli_epi8(a, 7) : mm256_srai_epi8(a, 7);
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi8(unchecked((byte)(1 << 7))));
-                        
+                        a = Avx2.mm256_or_si256(a, mm256_set1_epi8(1 << 7));
+
                         return ret;
                     }
- 
+
                     // const (all ones) -> 1 instruction with pow2 table
-                    v256 powsOf2 = mm256_sllv_epi8(Avx.mm256_set1_epi8(1), b);
+                    v256 powsOf2 = mm256_sllv_epi8(mm256_set1_epi8(1), b);
 
                     v256 mask = Avx2.mm256_cmpeq_epi8(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
                     a = Avx2.mm256_or_si256(a, powsOf2);
-                    
-                    return result == MaskType.One ? mm256_negmask_epi8(mask) : mask; 
+
+                    return result == MaskType.One ? mm256_negmask_epi8(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -64,21 +63,21 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bts_epi16(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 8)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 15, elements))
                     {
-                        v128 ret = result == MaskType.One ? Sse2.srli_epi16(a, 15) : Sse2.srai_epi16(a, 15);
-                        a = Sse2.or_si128(a, Sse2.set1_epi16(unchecked((short)(1 << 15))));
-                        
+                        v128 ret = result == MaskType.One ? srli_epi16(a, 15) : srai_epi16(a, 15);
+                        a = or_si128(a, set1_epi16(1 << 15));
+
                         return ret;
                     }
-                    
-                    v128 powsOf2 = sllv_epi16(Sse2.set1_epi16(1), b, elements);
-                    v128 mask = Sse2.cmpeq_epi16(powsOf2, Sse2.and_si128(powsOf2, a));
-                    a = Sse2.or_si128(a, powsOf2);;
-                    
-                    return result == MaskType.One ? negmask_epi16(mask, elements) : mask; 
+
+                    v128 powsOf2 = sllv_epi16(set1_epi16(1), b, inRange: true, elements: elements);
+                    v128 mask = cmpeq_epi16(powsOf2, and_si128(powsOf2, a));
+                    a = or_si128(a, powsOf2);;
+
+                    return result == MaskType.One ? negmask_epi16(mask, elements) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -91,39 +90,39 @@ namespace MaxMath
                     if (constexpr.ALL_EQ_EPI8(b, 15))
                     {
                         v256 ret = result == MaskType.One ? Avx2.mm256_srli_epi16(a, 15) : Avx2.mm256_srai_epi16(a, 15);
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi16(unchecked((short)(1 << 15))));
-                        
+                        a = Avx2.mm256_or_si256(a, mm256_set1_epi16(1 << 15));
+
                         return ret;
                     }
 
-                    v256 powsOf2 = mm256_sllv_epi16(Avx.mm256_set1_epi16(1), b);
+                    v256 powsOf2 = mm256_sllv_epi16(mm256_set1_epi16(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi16(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
                     a = Avx2.mm256_or_si256(a, powsOf2);;
-                    
-                    return result == MaskType.One ? mm256_negmask_epi16(mask) : mask; 
+
+                    return result == MaskType.One ? mm256_negmask_epi16(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
-            
-            
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bts_epi32(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 4)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 31, elements))
                     {
-                        v128 ret = result == MaskType.One ? Sse2.srli_epi32(a, 31) : Sse2.srai_epi32(a, 31);
-                        a = Sse2.or_si128(a, Sse2.set1_epi32(unchecked((int)(1 << 31))));
-                        
+                        v128 ret = result == MaskType.One ? srli_epi32(a, 31) : srai_epi32(a, 31);
+                        a = or_si128(a, set1_epi32(1 << 31));
+
                         return ret;
                     }
-                    
-                    v128 powsOf2 = sllv_epi32(Sse2.set1_epi32(1), b, elements);
-                    v128 mask = Sse2.cmpeq_epi32(powsOf2, Sse2.and_si128(powsOf2, a));
-                    a = Sse2.or_si128(a, powsOf2);;
-                    
-                    return result == MaskType.One ? negmask_epi32(mask, elements) : mask; 
+
+                    v128 powsOf2 = sllv_epi32(set1_epi32(1), b, inRange: true, elements: elements);
+                    v128 mask = cmpeq_epi32(powsOf2, and_si128(powsOf2, a));
+                    a = or_si128(a, powsOf2);;
+
+                    return result == MaskType.One ? negmask_epi32(mask, elements) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -136,16 +135,16 @@ namespace MaxMath
                     if (constexpr.ALL_EQ_EPI8(b, 31))
                     {
                         v256 ret = result == MaskType.One ? Avx2.mm256_srli_epi32(a, 31) : Avx2.mm256_srai_epi32(a, 31);
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi32(unchecked((int)(1 << 31))));
-                        
+                        a = Avx2.mm256_or_si256(a, mm256_set1_epi32(1 << 31));
+
                         return ret;
                     }
-                    
-                    v256 powsOf2 = Avx2.mm256_sllv_epi32(Avx.mm256_set1_epi32(1), b);
+
+                    v256 powsOf2 = Avx2.mm256_sllv_epi32(mm256_set1_epi32(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi32(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
                     a = Avx2.mm256_or_si256(a, powsOf2);;
-                    
-                    return result == MaskType.One ? mm256_negmask_epi32(mask) : mask; 
+
+                    return result == MaskType.One ? mm256_negmask_epi32(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -154,21 +153,21 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bts_epi64(ref v128 a, v128 b, MaskType result = MaskType.AllOnes)
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI64(b, 63))
                     {
-                        v128 ret = result == MaskType.One ? Sse2.srli_epi64(a, 63) : srai_epi64(a, 63);
-                        a = Sse2.or_si128(a, Sse2.set1_epi64x(unchecked((long)(1ul << 63))));
-                        
+                        v128 ret = result == MaskType.One ? srli_epi64(a, 63) : srai_epi64(a, 63);
+                        a = or_si128(a, set1_epi64x(1ul << 63));
+
                         return ret;
                     }
-                    
-                    v128 powsOf2 = sllv_epi64(Sse2.set1_epi64x(1), b);
-                    v128 mask = cmpeq_epi64(powsOf2, Sse2.and_si128(powsOf2, a));
-                    a = Sse2.or_si128(a, powsOf2);;
-                    
-                    return result == MaskType.One ? negmask_epi64(mask) : mask; 
+
+                    v128 powsOf2 = sllv_epi64(set1_epi64x(1), b, inRange: true);
+                    v128 mask = cmpeq_epi64(powsOf2, and_si128(powsOf2, a));
+                    a = or_si128(a, powsOf2);;
+
+                    return result == MaskType.One ? negmask_epi64(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -180,17 +179,17 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_EQ_EPI64(b, 63, elements))
                     {
-                        v256 ret = result == MaskType.One ? Avx2.mm256_srli_epi64(a, 63) : mm256_srai_epi64(a, 63);
-                        a = Avx2.mm256_or_si256(a, Avx.mm256_set1_epi64x(unchecked((long)(1ul << 63))));
-                        
+                        v256 ret = result == MaskType.One ? Avx2.mm256_srli_epi64(a, 63) : mm256_srai_epi64(a, 63, elements);
+                        a = Avx2.mm256_or_si256(a, mm256_set1_epi64x(1ul << 63));
+
                         return ret;
                     }
-                    
-                    v256 powsOf2 = Avx2.mm256_sllv_epi64(Avx.mm256_set1_epi64x(1), b);
+
+                    v256 powsOf2 = Avx2.mm256_sllv_epi64(mm256_set1_epi64x(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi64(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
                     a = Avx2.mm256_or_si256(a, powsOf2);;
-                    
-                    return result == MaskType.One ? mm256_negmask_epi64(mask) : mask; 
+
+                    return result == MaskType.One ? mm256_negmask_epi64(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -204,14 +203,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref UInt128 x, ulong i)
         {
-            if (Constant.IsConstantExpression(i))
+            if (constexpr.IS_CONST(i))
             {
                 if (i >= 64)
                 {
                     ulong __ref = x.hi64;
                     bool result = testbitset(ref __ref, i - 64);
                     x = new UInt128(x.lo64, __ref);
-                    
+
                     return result;
                 }
                 else
@@ -219,7 +218,7 @@ namespace MaxMath
                     ulong __ref = x.lo64;
                     bool result = testbitset(ref __ref, i);
                     x = new UInt128(__ref, x.hi64);
-                    
+
                     return result;
                 }
             }
@@ -228,7 +227,7 @@ namespace MaxMath
                 return (x & ((UInt128)1 << (int)i)) != 0;
             }
         }
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref Int128 x, long i)
@@ -240,7 +239,7 @@ namespace MaxMath
             return result;
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref byte x, byte i)
@@ -251,12 +250,12 @@ namespace MaxMath
 
             return result;
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitset(ref byte2 x, byte2 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.bts_epi8(ref __ref, i, MaskType.One, 2));
@@ -269,12 +268,12 @@ namespace MaxMath
                 return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitset(ref byte3 x, byte3 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool3 result = RegisterConversion.ToBool3(Xse.bts_epi8(ref __ref, i, MaskType.One, 3));
@@ -287,12 +286,12 @@ namespace MaxMath
                 return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitset(ref byte4 x, byte4 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool4 result = RegisterConversion.ToBool4(Xse.bts_epi8(ref __ref, i, MaskType.One, 4));
@@ -305,12 +304,12 @@ namespace MaxMath
                 return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 testbitset(ref byte8 x, byte8 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool8 result = Xse.bts_epi8(ref __ref, i, MaskType.One, 8);
@@ -320,22 +319,22 @@ namespace MaxMath
             }
             else
             {
-                return new bool8(testbitset(ref x.x0, i.x0), 
-                                 testbitset(ref x.x1, i.x1), 
-                                 testbitset(ref x.x2, i.x2), 
-                                 testbitset(ref x.x3, i.x3), 
-                                 testbitset(ref x.x4, i.x4), 
-                                 testbitset(ref x.x5, i.x5), 
-                                 testbitset(ref x.x6, i.x6), 
+                return new bool8(testbitset(ref x.x0, i.x0),
+                                 testbitset(ref x.x1, i.x1),
+                                 testbitset(ref x.x2, i.x2),
+                                 testbitset(ref x.x3, i.x3),
+                                 testbitset(ref x.x4, i.x4),
+                                 testbitset(ref x.x5, i.x5),
+                                 testbitset(ref x.x6, i.x6),
                                  testbitset(ref x.x7, i.x7));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 testbitset(ref byte16 x, byte16 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool16 result = Xse.bts_epi8(ref __ref, i, MaskType.One, 16);
@@ -345,25 +344,25 @@ namespace MaxMath
             }
             else
             {
-                return new bool16(testbitset(ref x.x0,  x.x0), 
-                                  testbitset(ref x.x1,  x.x1), 
-                                  testbitset(ref x.x2,  x.x2), 
-                                  testbitset(ref x.x3,  x.x3), 
-                                  testbitset(ref x.x4,  x.x4), 
-                                  testbitset(ref x.x5,  x.x5), 
-                                  testbitset(ref x.x6,  x.x6), 
-                                  testbitset(ref x.x7,  x.x7), 
-                                  testbitset(ref x.x8,  x.x8), 
-                                  testbitset(ref x.x9,  x.x9), 
-                                  testbitset(ref x.x10, x.x10), 
-                                  testbitset(ref x.x11, x.x11), 
-                                  testbitset(ref x.x12, x.x12), 
-                                  testbitset(ref x.x13, x.x13), 
-                                  testbitset(ref x.x14, x.x14), 
+                return new bool16(testbitset(ref x.x0,  x.x0),
+                                  testbitset(ref x.x1,  x.x1),
+                                  testbitset(ref x.x2,  x.x2),
+                                  testbitset(ref x.x3,  x.x3),
+                                  testbitset(ref x.x4,  x.x4),
+                                  testbitset(ref x.x5,  x.x5),
+                                  testbitset(ref x.x6,  x.x6),
+                                  testbitset(ref x.x7,  x.x7),
+                                  testbitset(ref x.x8,  x.x8),
+                                  testbitset(ref x.x9,  x.x9),
+                                  testbitset(ref x.x10, x.x10),
+                                  testbitset(ref x.x11, x.x11),
+                                  testbitset(ref x.x12, x.x12),
+                                  testbitset(ref x.x13, x.x13),
+                                  testbitset(ref x.x14, x.x14),
                                   testbitset(ref x.x15, x.x15));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 testbitset(ref byte32 x, byte32 i)
@@ -387,7 +386,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref ushort x, ushort i)
@@ -398,12 +397,12 @@ namespace MaxMath
 
             return result;
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitset(ref ushort2 x, ushort2 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 2), 2));
@@ -416,12 +415,12 @@ namespace MaxMath
                 return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitset(ref ushort3 x, ushort3 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool3 result = RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 3), 3));
@@ -434,12 +433,12 @@ namespace MaxMath
                 return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitset(ref ushort4 x, ushort4 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool4 result = RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 4), 4));
@@ -452,12 +451,12 @@ namespace MaxMath
                 return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 testbitset(ref ushort8 x, ushort8 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool8 result = Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 8), 8);
@@ -467,17 +466,17 @@ namespace MaxMath
             }
             else
             {
-                return new bool8(testbitset(ref x.x0, i.x0), 
-                                 testbitset(ref x.x1, i.x1), 
-                                 testbitset(ref x.x2, i.x2), 
-                                 testbitset(ref x.x3, i.x3), 
-                                 testbitset(ref x.x4, i.x4), 
-                                 testbitset(ref x.x5, i.x5), 
-                                 testbitset(ref x.x6, i.x6), 
+                return new bool8(testbitset(ref x.x0, i.x0),
+                                 testbitset(ref x.x1, i.x1),
+                                 testbitset(ref x.x2, i.x2),
+                                 testbitset(ref x.x3, i.x3),
+                                 testbitset(ref x.x4, i.x4),
+                                 testbitset(ref x.x5, i.x5),
+                                 testbitset(ref x.x6, i.x6),
                                  testbitset(ref x.x7, i.x7));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 testbitset(ref ushort16 x, ushort16 i)
@@ -501,7 +500,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref uint x, uint i)
@@ -512,12 +511,12 @@ namespace MaxMath
 
             return result;
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitset(ref uint2 x, uint2 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 2), 2));
@@ -530,12 +529,12 @@ namespace MaxMath
                 return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitset(ref uint3 x, uint3 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool3 result = RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 3), 3));
@@ -548,12 +547,12 @@ namespace MaxMath
                 return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitset(ref uint4 x, uint4 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool4 result = RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 4), 4));
@@ -566,7 +565,7 @@ namespace MaxMath
                 return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 testbitset(ref uint8 x, uint8 i)
@@ -590,7 +589,7 @@ namespace MaxMath
             }
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref ulong x, ulong i)
@@ -601,12 +600,12 @@ namespace MaxMath
 
             return result;
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitset(ref ulong2 x, ulong2 i)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.bts_epi64(ref __ref, i, MaskType.One)));
@@ -619,7 +618,7 @@ namespace MaxMath
                 return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
-        
+
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitset(ref ulong3 x, ulong3 i)
@@ -635,7 +634,7 @@ namespace MaxMath
             else
             {
                 ulong2 __ref = x.xy;
-                bool3 result = new bool3(testbitset(ref __ref, i.xy), testbitset(ref x.z, i.z)); 
+                bool3 result = new bool3(testbitset(ref __ref, i.xy), testbitset(ref x.z, i.z));
                 x = new ulong3(__ref, x.z);
 
                 return result;
@@ -658,14 +657,14 @@ namespace MaxMath
             {
                 ulong2 __xy = x.xy;
                 ulong2 __zw = x.zw;
-                bool4 result = new bool4(testbitset(ref __xy, i.xy), testbitset(ref __zw, i.zw)); 
+                bool4 result = new bool4(testbitset(ref __xy, i.xy), testbitset(ref __zw, i.zw));
                 x = new ulong4(__xy, __zw);
 
                 return result;
             }
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref sbyte x, sbyte i)
@@ -743,7 +742,7 @@ namespace MaxMath
             return result;
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref short x, short i)
@@ -810,7 +809,7 @@ namespace MaxMath
             return result;
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref int x, int i)
@@ -866,7 +865,7 @@ namespace MaxMath
             return result;
         }
 
-        
+
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool testbitset(ref long x, long i)

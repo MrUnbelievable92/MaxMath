@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -131,46 +128,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static sbyte4x3 operator * (sbyte4x3 left, sbyte4x3 right) => new sbyte4x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x3 operator / (sbyte4x3 left, sbyte4x3 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
-                sbyte16 divisor  = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1), right.c2);
-
-#if DEBUG
-                divisor.v4_4 = 1;
-#endif
-                sbyte16 div = dividend / divisor;
-
-                return new sbyte4x3(div.v4_0, div.v4_4, div.v4_8);
-            }
-            else
-            {
-                return new sbyte4x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
-            }
-        }
+        public static sbyte4x3 operator / (sbyte4x3 left, sbyte4x3 right) => new sbyte4x3(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x3 operator % (sbyte4x3 left, sbyte4x3 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
-                sbyte16 divisor  = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(right.c0, right.c1), right.c2);
-
-#if DEBUG
-                divisor.v4_4 = 1;
-#endif
-                sbyte16 rem = dividend % divisor;
-
-                return new sbyte4x3(rem.v4_0, rem.v4_4, rem.v4_8);
-            }
-            else
-            {
-                return new sbyte4x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
-            }
-        }
+        public static sbyte4x3 operator % (sbyte4x3 left, sbyte4x3 right) => new sbyte4x3(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -180,40 +141,10 @@ Assert.IsWithinArrayBounds(index, 3);
         public static sbyte4x3 operator * (sbyte left, sbyte4x3 right) => new sbyte4x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x3 operator / (sbyte4x3 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
-
-                    sbyte16 div = dividend / right;
-
-                    return new sbyte4x3(div.v4_0, div.v4_4, div.v4_8);
-                }
-            }
-                
-            return new sbyte4x3(left.c0 / right, left.c1 / right, left.c2 / right); 
-        }
+        public static sbyte4x3 operator / (sbyte4x3 left, sbyte right) => new sbyte4x3(left.c0 / right, left.c1 / right, left.c2 / right); 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte4x3 operator % (sbyte4x3 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    sbyte16 dividend = Sse2.unpacklo_epi64(Sse2.unpacklo_epi32(left.c0, left.c1), left.c2);
-
-                    sbyte16 rem = dividend % right;
-
-                    return new sbyte4x3(rem.v4_0, rem.v4_4, rem.v4_8);
-                }
-            }
-                
-            return new sbyte4x3(left.c0 % right, left.c1 % right, left.c2 % right);
-        }
+        public static sbyte4x3 operator % (sbyte4x3 left, sbyte right) => new sbyte4x3(left.c0 % right, left.c1 % right, left.c2 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

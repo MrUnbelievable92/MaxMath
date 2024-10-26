@@ -1,37 +1,37 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
-		public static partial class constexpr
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v128 constdiv_epi64(v128 vector, long divisor)
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			private static long save_div(long x, long y)
-            {
-                if (y == -1 && x == long.MinValue)
-                {
-					return long.MinValue;
-                }
+            if (Architecture.IsSIMDSupported)
+			{
+				return (long2)vector / new Divider<long>(divisor);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static v256 mm256_constdiv_epi64(v256 vector, long divisor, byte elements = 4)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				if (elements == 4)
+				{
+					return (long4)vector / new Divider<long>(divisor);
+				}
 				else
-                {
-					return x / y;
-                }
-            }
-
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v128 div_epi64(v128 vector, long divisor)
-			{
-				return new v128(save_div(vector.SLong0, divisor), save_div(vector.SLong1, divisor));
+				{
+					return (long3)vector / new Divider<long>(divisor);
+				}
 			}
-			
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			internal static v256 mm256_div_epi64(v256 vector, long divisor, byte elements = 4)
-			{
-				return new v256(save_div(vector.SLong0, divisor), save_div(vector.SLong1, divisor), save_div(vector.SLong2, divisor), save_div(vector.SLong3, divisor));
-			}
+			else throw new IllegalInstructionException();
 		}
 	}
 }

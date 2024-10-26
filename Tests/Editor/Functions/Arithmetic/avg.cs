@@ -1,1147 +1,859 @@
 using NUnit.Framework;
+using System.Numerics;
 using Unity.Mathematics;
+
+using static MaxMath.maxmath;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class avg
+    unsafe public static class f_avg
     {
-        [Test]
-        public static void byte2()
-        {
-            for (int i = 0; i < Tests.__byte2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte2.TestData_LHS[i]),
-                                (1 + maxmath.csum(Tests.__byte2.TestData_LHS[i])) / 2);
-            }
-        }
-
-        [Test]
-        public static void byte3()
+        private static void TestByte(byte a, byte b, byte test)
         {
-            for (int i = 0; i < Tests.__byte3.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte3.TestData_LHS[i]),
-                                (2 + maxmath.csum(Tests.__byte3.TestData_LHS[i])) / 3);
-            }
+            Assert.AreEqual(test, (byte)((1 + a + b) / 2));
         }
 
-        [Test]
-        public static void byte4()
+        private static void TestUShort(ushort a, ushort b, ushort test)
         {
-            for (int i = 0; i < Tests.__byte4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte4.TestData_LHS[i]),
-                                (3u + maxmath.csum(Tests.__byte4.TestData_LHS[i])) / 4u);
-            }
+            Assert.AreEqual(test, (ushort)((1 + a + b) / 2));
         }
 
-        [Test]
-        public static void byte8()
+        private static void TestUInt(uint a, uint b, uint test)
         {
-            for (int i = 0; i < Tests.__byte8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte8.TestData_LHS[i]),
-                                (7 + maxmath.csum(Tests.__byte8.TestData_LHS[i])) / 8);
-            }
+            Assert.AreEqual(test, (uint)(((ulong)1 + a + b) / 2));
         }
 
-        [Test]
-        public static void byte16()
+        private static void TestULong(ulong a, ulong b, ulong test)
         {
-            for (int i = 0; i < Tests.__byte16.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte16.TestData_LHS[i]),
-                                (15 + maxmath.csum(Tests.__byte16.TestData_LHS[i])) / 16);
-            }
+            Assert.AreEqual(test, (ulong)(((UInt128)1 + a + b) / 2));
         }
 
-        [Test]
-        public static void byte32()
+        private static void TestUInt128(UInt128 a, UInt128 b, UInt128 test)
         {
-            for (int i = 0; i < Tests.__byte32.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__byte32.TestData_LHS[i]),
-                                (31 + maxmath.csum(Tests.__byte32.TestData_LHS[i])) / 32);
-            }
+            Assert.AreEqual(test, (UInt128)(((BigInteger)1 + a + b) / 2));
         }
-
 
-        [Test]
-        public static void ushort2()
+        private static void TestSByte(sbyte a, sbyte b, sbyte test)
         {
-            for (int i = 0; i < Tests.__ushort2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ushort2.TestData_LHS[i]),
-                                (1 + maxmath.csum(Tests.__ushort2.TestData_LHS[i])) / 2);
-            }
+            Assert.AreEqual(test, (sbyte)((((a + b) > 0 ? 1 : -1) + a + b) / 2));
         }
 
-        [Test]
-        public static void ushort3()
+        private static void TestShort(short a, short b, short test)
         {
-            for (int i = 0; i < Tests.__ushort3.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ushort3.TestData_LHS[i]),
-                                (2 + maxmath.csum(Tests.__ushort3.TestData_LHS[i])) / 3);
-            }
+            Assert.AreEqual(test, (short)((((a + b) > 0 ? 1 : -1) + a + b) / 2));
         }
 
-        [Test]
-        public static void ushort4()
+        private static void TestInt(int a, int b, int test)
         {
-            for (int i = 0; i < Tests.__ushort4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ushort4.TestData_LHS[i]),
-                                (3 + maxmath.csum(Tests.__ushort4.TestData_LHS[i])) / 4);
-            }
+            Assert.AreEqual(test, (int)(((((long)a + b) > 0 ? 1 : -1) + (long)a + b) / 2));
         }
 
-        [Test]
-        public static void ushort8()
+        private static void TestLong(long a, long b, long test)
         {
-            for (int i = 0; i < Tests.__ushort8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ushort8.TestData_LHS[i]),
-                                (7 + maxmath.csum(Tests.__ushort8.TestData_LHS[i])) / 8);
-            }
+            Assert.AreEqual(test, (long)(((((Int128)a + b) > 0 ? 1 : -1) + (Int128)a + b) / 2));
         }
 
-        [Test]
-        public static void ushort16()
+        private static void TestInt128(Int128 a, Int128 b, Int128 test)
         {
-            for (int i = 0; i < Tests.__ushort16.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ushort16.TestData_LHS[i]),
-                                (15 + maxmath.csum(Tests.__ushort16.TestData_LHS[i])) / 16);
-            }
+            Assert.AreEqual(test, (Int128)(((((BigInteger)a + b) > 0 ? 1 : -1) + (BigInteger)a + b) / 2));
         }
-
 
-        [Test]
-        public static void uint2()
-        {
-            for (int i = 0; i < Tests.__uint2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__uint2.TestData_LHS[i]),
-                                (1 + maxmath.csum((ulong2)Tests.__uint2.TestData_LHS[i])) / 2);
-            }
-        }
 
         [Test]
-        public static void uint3()
+        public static void _UInt128()
         {
-            for (int i = 0; i < Tests.__uint3.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__uint3.TestData_LHS[i]),
-                                (2 + maxmath.csum((ulong3)Tests.__uint3.TestData_LHS[i])) / 3);
-            }
-        }
+            Random128 rng = Random128.New;
 
-        [Test]
-        public static void uint4()
-        {
-            for (int i = 0; i < Tests.__uint4.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__uint4.TestData_LHS[i]),
-                                (3 + maxmath.csum((ulong4)Tests.__uint4.TestData_LHS[i])) / 4);
-            }
-        }
+                UInt128 a = rng.NextUInt128();
+                UInt128 b = rng.NextUInt128();
 
-        [Test]
-        public static void uint8()
-        {
-            for (int i = 0; i < Tests.__uint8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__uint8.TestData_LHS[i]),
-                                (7 + maxmath.csum((ulong4)Tests.__uint8.TestData_LHS[i].v4_0 + (ulong4)Tests.__uint8.TestData_LHS[i].v4_4)) / 8);
+                TestUInt128(a, b, avg(a, b));
             }
         }
 
 
         [Test]
-        public static void ulong2()
+        public static void _byte()
         {
-            for (int i = 0; i < Tests.__ulong2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ulong2.TestData_LHS[i]),
-                                (1 + (UInt128)Tests.__ulong2.TestData_LHS[i].x + Tests.__ulong2.TestData_LHS[i].y) / 2);
-            }
-        }
+            Random8 rng = Random8.New;
 
-        [Test]
-        public static void ulong3()
-        {
-            for (int i = 0; i < Tests.__ulong3.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__ulong3.TestData_LHS[i]),
-                                (2 + (UInt128)Tests.__ulong3.TestData_LHS[i].x + Tests.__ulong3.TestData_LHS[i].y + Tests.__ulong3.TestData_LHS[i].z) / 3);
-            }
-        }
+                byte a = rng.NextByte();
+                byte b = rng.NextByte();
 
-        [Test]
-        public static void ulong4()
-        {
-            for (int i = 0; i < Tests.__ulong4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__ulong4.TestData_LHS[i]),
-                                (3 + (UInt128)Tests.__ulong4.TestData_LHS[i].x + Tests.__ulong4.TestData_LHS[i].y + Tests.__ulong4.TestData_LHS[i].z + Tests.__ulong4.TestData_LHS[i].w) / 4);
+                TestByte(a, b, avg(a, b));
             }
         }
-
 
         [Test]
-        public static void byte2x2()
+        public static void _byte2()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte2 x = maxmath.avg(Tests.__byte2.TestData_LHS[i], Tests.__byte2.TestData_RHS[i]);
+                byte2 a = rng.NextByte2();
+                byte2 b = rng.NextByte2();
+                byte2 result = avg(a, b);
 
-                result &= x.x == (1 + Tests.__byte2.TestData_LHS[i].x + Tests.__byte2.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__byte2.TestData_LHS[i].y + Tests.__byte2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void byte3x2()
+        public static void _byte3()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte3 x = maxmath.avg(Tests.__byte3.TestData_LHS[i], Tests.__byte3.TestData_RHS[i]);
+                byte3 a = rng.NextByte3();
+                byte3 b = rng.NextByte3();
+                byte3 result = avg(a, b);
 
-                result &= x.x == (1 + Tests.__byte3.TestData_LHS[i].x + Tests.__byte3.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__byte3.TestData_LHS[i].y + Tests.__byte3.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + Tests.__byte3.TestData_LHS[i].z + Tests.__byte3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void byte4x2()
+        public static void _byte4()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte4 x = maxmath.avg(Tests.__byte4.TestData_LHS[i], Tests.__byte4.TestData_RHS[i]);
+                byte4 a = rng.NextByte4();
+                byte4 b = rng.NextByte4();
+                byte4 result = avg(a, b);
 
-                result &= x.x == (1 + Tests.__byte4.TestData_LHS[i].x + Tests.__byte4.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__byte4.TestData_LHS[i].y + Tests.__byte4.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + Tests.__byte4.TestData_LHS[i].z + Tests.__byte4.TestData_RHS[i].z) / 2;
-                result &= x.w == (1 + Tests.__byte4.TestData_LHS[i].w + Tests.__byte4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void byte8x2()
+        public static void _byte8()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte8 x = maxmath.avg(Tests.__byte8.TestData_LHS[i], Tests.__byte8.TestData_RHS[i]);
+                byte8 a = rng.NextByte8();
+                byte8 b = rng.NextByte8();
+                byte8 result = avg(a, b);
 
-                result &= x.x0 == (1 + Tests.__byte8.TestData_LHS[i].x0 + Tests.__byte8.TestData_RHS[i].x0) / 2;
-                result &= x.x1 == (1 + Tests.__byte8.TestData_LHS[i].x1 + Tests.__byte8.TestData_RHS[i].x1) / 2;
-                result &= x.x2 == (1 + Tests.__byte8.TestData_LHS[i].x2 + Tests.__byte8.TestData_RHS[i].x2) / 2;
-                result &= x.x3 == (1 + Tests.__byte8.TestData_LHS[i].x3 + Tests.__byte8.TestData_RHS[i].x3) / 2;
-                result &= x.x4 == (1 + Tests.__byte8.TestData_LHS[i].x4 + Tests.__byte8.TestData_RHS[i].x4) / 2;
-                result &= x.x5 == (1 + Tests.__byte8.TestData_LHS[i].x5 + Tests.__byte8.TestData_RHS[i].x5) / 2;
-                result &= x.x6 == (1 + Tests.__byte8.TestData_LHS[i].x6 + Tests.__byte8.TestData_RHS[i].x6) / 2;
-                result &= x.x7 == (1 + Tests.__byte8.TestData_LHS[i].x7 + Tests.__byte8.TestData_RHS[i].x7) / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void byte16x2()
+        public static void _byte16()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte16.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte16 x = maxmath.avg(Tests.__byte16.TestData_LHS[i], Tests.__byte16.TestData_RHS[i]);
+                byte16 a = rng.NextByte16();
+                byte16 b = rng.NextByte16();
+                byte16 result = avg(a, b);
 
-                result &= x.x0  == (1 + Tests.__byte16.TestData_LHS[i].x0  + Tests.__byte16.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (1 + Tests.__byte16.TestData_LHS[i].x1  + Tests.__byte16.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (1 + Tests.__byte16.TestData_LHS[i].x2  + Tests.__byte16.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (1 + Tests.__byte16.TestData_LHS[i].x3  + Tests.__byte16.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (1 + Tests.__byte16.TestData_LHS[i].x4  + Tests.__byte16.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (1 + Tests.__byte16.TestData_LHS[i].x5  + Tests.__byte16.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (1 + Tests.__byte16.TestData_LHS[i].x6  + Tests.__byte16.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (1 + Tests.__byte16.TestData_LHS[i].x7  + Tests.__byte16.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (1 + Tests.__byte16.TestData_LHS[i].x8  + Tests.__byte16.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (1 + Tests.__byte16.TestData_LHS[i].x9  + Tests.__byte16.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (1 + Tests.__byte16.TestData_LHS[i].x10 + Tests.__byte16.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (1 + Tests.__byte16.TestData_LHS[i].x11 + Tests.__byte16.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (1 + Tests.__byte16.TestData_LHS[i].x12 + Tests.__byte16.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (1 + Tests.__byte16.TestData_LHS[i].x13 + Tests.__byte16.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (1 + Tests.__byte16.TestData_LHS[i].x14 + Tests.__byte16.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (1 + Tests.__byte16.TestData_LHS[i].x15 + Tests.__byte16.TestData_RHS[i].x15) / 2;
+                for (int j = 0; j < 16; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void byte32x2()
+        public static void _byte32()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__byte32.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                byte32 x = maxmath.avg(Tests.__byte32.TestData_LHS[i], Tests.__byte32.TestData_RHS[i]);
+                byte32 a = rng.NextByte32();
+                byte32 b = rng.NextByte32();
+                byte32 result = avg(a, b);
 
-                result &= x.x0  == (1 + Tests.__byte32.TestData_LHS[i].x0  + Tests.__byte32.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (1 + Tests.__byte32.TestData_LHS[i].x1  + Tests.__byte32.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (1 + Tests.__byte32.TestData_LHS[i].x2  + Tests.__byte32.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (1 + Tests.__byte32.TestData_LHS[i].x3  + Tests.__byte32.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (1 + Tests.__byte32.TestData_LHS[i].x4  + Tests.__byte32.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (1 + Tests.__byte32.TestData_LHS[i].x5  + Tests.__byte32.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (1 + Tests.__byte32.TestData_LHS[i].x6  + Tests.__byte32.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (1 + Tests.__byte32.TestData_LHS[i].x7  + Tests.__byte32.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (1 + Tests.__byte32.TestData_LHS[i].x8  + Tests.__byte32.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (1 + Tests.__byte32.TestData_LHS[i].x9  + Tests.__byte32.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (1 + Tests.__byte32.TestData_LHS[i].x10 + Tests.__byte32.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (1 + Tests.__byte32.TestData_LHS[i].x11 + Tests.__byte32.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (1 + Tests.__byte32.TestData_LHS[i].x12 + Tests.__byte32.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (1 + Tests.__byte32.TestData_LHS[i].x13 + Tests.__byte32.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (1 + Tests.__byte32.TestData_LHS[i].x14 + Tests.__byte32.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (1 + Tests.__byte32.TestData_LHS[i].x15 + Tests.__byte32.TestData_RHS[i].x15) / 2;
-                result &= x.x16 == (1 + Tests.__byte32.TestData_LHS[i].x16 + Tests.__byte32.TestData_RHS[i].x16) / 2;
-                result &= x.x17 == (1 + Tests.__byte32.TestData_LHS[i].x17 + Tests.__byte32.TestData_RHS[i].x17) / 2;
-                result &= x.x18 == (1 + Tests.__byte32.TestData_LHS[i].x18 + Tests.__byte32.TestData_RHS[i].x18) / 2;
-                result &= x.x19 == (1 + Tests.__byte32.TestData_LHS[i].x19 + Tests.__byte32.TestData_RHS[i].x19) / 2;
-                result &= x.x20 == (1 + Tests.__byte32.TestData_LHS[i].x20 + Tests.__byte32.TestData_RHS[i].x20) / 2;
-                result &= x.x21 == (1 + Tests.__byte32.TestData_LHS[i].x21 + Tests.__byte32.TestData_RHS[i].x21) / 2;
-                result &= x.x22 == (1 + Tests.__byte32.TestData_LHS[i].x22 + Tests.__byte32.TestData_RHS[i].x22) / 2;
-                result &= x.x23 == (1 + Tests.__byte32.TestData_LHS[i].x23 + Tests.__byte32.TestData_RHS[i].x23) / 2;
-                result &= x.x24 == (1 + Tests.__byte32.TestData_LHS[i].x24 + Tests.__byte32.TestData_RHS[i].x24) / 2;
-                result &= x.x25 == (1 + Tests.__byte32.TestData_LHS[i].x25 + Tests.__byte32.TestData_RHS[i].x25) / 2;
-                result &= x.x26 == (1 + Tests.__byte32.TestData_LHS[i].x26 + Tests.__byte32.TestData_RHS[i].x26) / 2;
-                result &= x.x27 == (1 + Tests.__byte32.TestData_LHS[i].x27 + Tests.__byte32.TestData_RHS[i].x27) / 2;
-                result &= x.x28 == (1 + Tests.__byte32.TestData_LHS[i].x28 + Tests.__byte32.TestData_RHS[i].x28) / 2;
-                result &= x.x29 == (1 + Tests.__byte32.TestData_LHS[i].x29 + Tests.__byte32.TestData_RHS[i].x29) / 2;
-                result &= x.x30 == (1 + Tests.__byte32.TestData_LHS[i].x30 + Tests.__byte32.TestData_RHS[i].x30) / 2;
-                result &= x.x31 == (1 + Tests.__byte32.TestData_LHS[i].x31 + Tests.__byte32.TestData_RHS[i].x31) / 2;
+                for (int j = 0; j < 32; j++)
+                {
+                    TestByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
 
         [Test]
-        public static void ushort2x2()
+        public static void _ushort()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__ushort2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ushort2 x = maxmath.avg(Tests.__ushort2.TestData_LHS[i], Tests.__ushort2.TestData_RHS[i]);
+                ushort a = rng.NextUShort();
+                ushort b = rng.NextUShort();
 
-                result &= x.x == (1 + Tests.__ushort2.TestData_LHS[i].x + Tests.__ushort2.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__ushort2.TestData_LHS[i].y + Tests.__ushort2.TestData_RHS[i].y) / 2;
+                TestUShort(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void ushort3x2()
+        public static void _ushort2()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__ushort3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ushort3 x = maxmath.avg(Tests.__ushort3.TestData_LHS[i], Tests.__ushort3.TestData_RHS[i]);
+                ushort2 a = rng.NextUShort2();
+                ushort2 b = rng.NextUShort2();
+                ushort2 result = avg(a, b);
 
-                result &= x.x == (1 + Tests.__ushort3.TestData_LHS[i].x + Tests.__ushort3.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__ushort3.TestData_LHS[i].y + Tests.__ushort3.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + Tests.__ushort3.TestData_LHS[i].z + Tests.__ushort3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestUShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void ushort4x2()
+        public static void _ushort3()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__ushort4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ushort4 x = maxmath.avg(Tests.__ushort4.TestData_LHS[i], Tests.__ushort4.TestData_RHS[i]);
+                ushort3 a = rng.NextUShort3();
+                ushort3 b = rng.NextUShort3();
+                ushort3 result = avg(a, b);
 
-                result &= x.x == (1 + Tests.__ushort4.TestData_LHS[i].x + Tests.__ushort4.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + Tests.__ushort4.TestData_LHS[i].y + Tests.__ushort4.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + Tests.__ushort4.TestData_LHS[i].z + Tests.__ushort4.TestData_RHS[i].z) / 2;
-                result &= x.w == (1 + Tests.__ushort4.TestData_LHS[i].w + Tests.__ushort4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestUShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void ushort8x2()
+        public static void _ushort4()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__ushort8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ushort8 x = maxmath.avg(Tests.__ushort8.TestData_LHS[i], Tests.__ushort8.TestData_RHS[i]);
+                ushort4 a = rng.NextUShort4();
+                ushort4 b = rng.NextUShort4();
+                ushort4 result = avg(a, b);
 
-                result &= x.x0 == (1 + Tests.__ushort8.TestData_LHS[i].x0 + Tests.__ushort8.TestData_RHS[i].x0) / 2;
-                result &= x.x1 == (1 + Tests.__ushort8.TestData_LHS[i].x1 + Tests.__ushort8.TestData_RHS[i].x1) / 2;
-                result &= x.x2 == (1 + Tests.__ushort8.TestData_LHS[i].x2 + Tests.__ushort8.TestData_RHS[i].x2) / 2;
-                result &= x.x3 == (1 + Tests.__ushort8.TestData_LHS[i].x3 + Tests.__ushort8.TestData_RHS[i].x3) / 2;
-                result &= x.x4 == (1 + Tests.__ushort8.TestData_LHS[i].x4 + Tests.__ushort8.TestData_RHS[i].x4) / 2;
-                result &= x.x5 == (1 + Tests.__ushort8.TestData_LHS[i].x5 + Tests.__ushort8.TestData_RHS[i].x5) / 2;
-                result &= x.x6 == (1 + Tests.__ushort8.TestData_LHS[i].x6 + Tests.__ushort8.TestData_RHS[i].x6) / 2;
-                result &= x.x7 == (1 + Tests.__ushort8.TestData_LHS[i].x7 + Tests.__ushort8.TestData_RHS[i].x7) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestUShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void ushort16x2()
+        public static void _ushort8()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__ushort16.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ushort16 x = maxmath.avg(Tests.__ushort16.TestData_LHS[i], Tests.__ushort16.TestData_RHS[i]);
+                ushort8 a = rng.NextUShort8();
+                ushort8 b = rng.NextUShort8();
+                ushort8 result = avg(a, b);
 
-                result &= x.x0  == (1 + Tests.__ushort16.TestData_LHS[i].x0  + Tests.__ushort16.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (1 + Tests.__ushort16.TestData_LHS[i].x1  + Tests.__ushort16.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (1 + Tests.__ushort16.TestData_LHS[i].x2  + Tests.__ushort16.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (1 + Tests.__ushort16.TestData_LHS[i].x3  + Tests.__ushort16.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (1 + Tests.__ushort16.TestData_LHS[i].x4  + Tests.__ushort16.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (1 + Tests.__ushort16.TestData_LHS[i].x5  + Tests.__ushort16.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (1 + Tests.__ushort16.TestData_LHS[i].x6  + Tests.__ushort16.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (1 + Tests.__ushort16.TestData_LHS[i].x7  + Tests.__ushort16.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (1 + Tests.__ushort16.TestData_LHS[i].x8  + Tests.__ushort16.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (1 + Tests.__ushort16.TestData_LHS[i].x9  + Tests.__ushort16.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (1 + Tests.__ushort16.TestData_LHS[i].x10 + Tests.__ushort16.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (1 + Tests.__ushort16.TestData_LHS[i].x11 + Tests.__ushort16.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (1 + Tests.__ushort16.TestData_LHS[i].x12 + Tests.__ushort16.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (1 + Tests.__ushort16.TestData_LHS[i].x13 + Tests.__ushort16.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (1 + Tests.__ushort16.TestData_LHS[i].x14 + Tests.__ushort16.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (1 + Tests.__ushort16.TestData_LHS[i].x15 + Tests.__ushort16.TestData_RHS[i].x15) / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestUShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
-        
         [Test]
-        public static void uint2x2()
+        public static void _ushort16()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__uint2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                uint2 x = maxmath.avg(Tests.__uint2.TestData_LHS[i], Tests.__uint2.TestData_RHS[i]);
+                ushort16 a = rng.NextUShort16();
+                ushort16 b = rng.NextUShort16();
+                ushort16 result = avg(a, b);
 
-                result &= x.x == (1 + (ulong)Tests.__uint2.TestData_LHS[i].x + (ulong)Tests.__uint2.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (ulong)Tests.__uint2.TestData_LHS[i].y + (ulong)Tests.__uint2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 16; j++)
+                {
+                    TestUShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
+
 
         [Test]
-        public static void uint3x2()
+        public static void _uint()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__uint3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                uint3 x = maxmath.avg(Tests.__uint3.TestData_LHS[i], Tests.__uint3.TestData_RHS[i]);
+                uint a = rng.NextUInt();
+                uint b = rng.NextUInt();
 
-                result &= x.x == (1 + (ulong)Tests.__uint3.TestData_LHS[i].x + (ulong)Tests.__uint3.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (ulong)Tests.__uint3.TestData_LHS[i].y + (ulong)Tests.__uint3.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + (ulong)Tests.__uint3.TestData_LHS[i].z + (ulong)Tests.__uint3.TestData_RHS[i].z) / 2;
+                TestUInt(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void uint4x2()
+        public static void _uint2()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__uint4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                uint4 x = maxmath.avg(Tests.__uint4.TestData_LHS[i], Tests.__uint4.TestData_RHS[i]);
+                uint2 a = rng.NextUInt2();
+                uint2 b = rng.NextUInt2();
+                uint2 result = avg(a, b);
 
-                result &= x.x == (1 + (ulong)Tests.__uint4.TestData_LHS[i].x + (ulong)Tests.__uint4.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (ulong)Tests.__uint4.TestData_LHS[i].y + (ulong)Tests.__uint4.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + (ulong)Tests.__uint4.TestData_LHS[i].z + (ulong)Tests.__uint4.TestData_RHS[i].z) / 2;
-                result &= x.w == (1 + (ulong)Tests.__uint4.TestData_LHS[i].w + (ulong)Tests.__uint4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestUInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void uint8x2()
+        public static void _uint3()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__uint8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                uint8 x = maxmath.avg(Tests.__uint8.TestData_LHS[i], Tests.__uint8.TestData_RHS[i]);
+                uint3 a = rng.NextUInt3();
+                uint3 b = rng.NextUInt3();
+                uint3 result = avg(a, b);
 
-                result &= x.x0 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x0 + (ulong)Tests.__uint8.TestData_RHS[i].x0) / 2;
-                result &= x.x1 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x1 + (ulong)Tests.__uint8.TestData_RHS[i].x1) / 2;
-                result &= x.x2 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x2 + (ulong)Tests.__uint8.TestData_RHS[i].x2) / 2;
-                result &= x.x3 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x3 + (ulong)Tests.__uint8.TestData_RHS[i].x3) / 2;
-                result &= x.x4 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x4 + (ulong)Tests.__uint8.TestData_RHS[i].x4) / 2;
-                result &= x.x5 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x5 + (ulong)Tests.__uint8.TestData_RHS[i].x5) / 2;
-                result &= x.x6 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x6 + (ulong)Tests.__uint8.TestData_RHS[i].x6) / 2;
-                result &= x.x7 == (1 + (ulong)Tests.__uint8.TestData_LHS[i].x7 + (ulong)Tests.__uint8.TestData_RHS[i].x7) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestUInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
-
         [Test]
-        public static void ulong2x2()
+        public static void _uint4()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__ulong2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ulong2 x = maxmath.avg(Tests.__ulong2.TestData_LHS[i], Tests.__ulong2.TestData_RHS[i]);
+                uint4 a = rng.NextUInt4();
+                uint4 b = rng.NextUInt4();
+                uint4 result = avg(a, b);
 
-                result &= x.x == (1 + (UInt128)Tests.__ulong2.TestData_LHS[i].x + (UInt128)Tests.__ulong2.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (UInt128)Tests.__ulong2.TestData_LHS[i].y + (UInt128)Tests.__ulong2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestUInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void ulong3x2()
+        public static void _uint8()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__ulong3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ulong3 x = maxmath.avg(Tests.__ulong3.TestData_LHS[i], Tests.__ulong3.TestData_RHS[i]);
+                uint8 a = rng.NextUInt8();
+                uint8 b = rng.NextUInt8();
+                uint8 result = avg(a, b);
 
-                result &= x.x == (1 + (UInt128)Tests.__ulong3.TestData_LHS[i].x + (UInt128)Tests.__ulong3.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (UInt128)Tests.__ulong3.TestData_LHS[i].y + (UInt128)Tests.__ulong3.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + (UInt128)Tests.__ulong3.TestData_LHS[i].z + (UInt128)Tests.__ulong3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestUInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
+
         [Test]
-        public static void ulong4x2()
+        public static void _ulong()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
-            for (int i = 0; i < Tests.__ulong4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                ulong4 x = maxmath.avg(Tests.__ulong4.TestData_LHS[i], Tests.__ulong4.TestData_RHS[i]);
+                ulong a = rng.NextULong();
+                ulong b = rng.NextULong();
 
-                result &= x.x == (1 + (UInt128)Tests.__ulong4.TestData_LHS[i].x + (UInt128)Tests.__ulong4.TestData_RHS[i].x) / 2;
-                result &= x.y == (1 + (UInt128)Tests.__ulong4.TestData_LHS[i].y + (UInt128)Tests.__ulong4.TestData_RHS[i].y) / 2;
-                result &= x.z == (1 + (UInt128)Tests.__ulong4.TestData_LHS[i].z + (UInt128)Tests.__ulong4.TestData_RHS[i].z) / 2;
-                result &= x.w == (1 + (UInt128)Tests.__ulong4.TestData_LHS[i].w + (UInt128)Tests.__ulong4.TestData_RHS[i].w) / 2;
+                TestULong(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
 
-
         [Test]
-        public static void sbyte2()
+        public static void _ulong2()
         {
-            for (int i = 0; i < Tests.__sbyte2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte2.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte2.TestData_LHS[i]) > 0 ? 1 : -1) + maxmath.csum(Tests.__sbyte2.TestData_LHS[i])) / 2);
-            }
-        }
+            Random64 rng = Random64.New;
 
-        [Test]
-        public static void sbyte3()
-        {
-            for (int i = 0; i < Tests.__sbyte3.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte3.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte3.TestData_LHS[i]) > 0 ? 2 : -2) + maxmath.csum(Tests.__sbyte3.TestData_LHS[i])) / 3);
-            }
-        }
+                ulong2 a = rng.NextULong2();
+                ulong2 b = rng.NextULong2();
+                ulong2 result = avg(a, b);
 
-        [Test]
-        public static void sbyte4()
-        {
-            for (int i = 0; i < Tests.__sbyte4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte4.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte4.TestData_LHS[i]) > 0 ? 3 : -3) + maxmath.csum(Tests.__sbyte4.TestData_LHS[i])) / 4);
+                for (int j = 0; j < 2; j++)
+                {
+                    TestULong(a[j], b[j], result[j]);
+                }
             }
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _ulong3()
         {
-            for (int i = 0; i < Tests.__sbyte8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte8.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte8.TestData_LHS[i]) > 0 ? 7 : -7) + maxmath.csum(Tests.__sbyte8.TestData_LHS[i])) / 8);
-            }
-        }
+            Random64 rng = Random64.New;
 
-        [Test]
-        public static void sbyte16()
-        {
-            for (int i = 0; i < Tests.__sbyte16.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte16.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte16.TestData_LHS[i]) > 0 ? 15 : -15) + maxmath.csum(Tests.__sbyte16.TestData_LHS[i])) / 16);
-            }
-        }
+                ulong3 a = rng.NextULong3();
+                ulong3 b = rng.NextULong3();
+                ulong3 result = avg(a, b);
 
-        [Test]
-        public static void sbyte32()
-        {
-            for (int i = 0; i < Tests.__sbyte32.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__sbyte32.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__sbyte32.TestData_LHS[i]) > 0 ? 31 : -31) + maxmath.csum(Tests.__sbyte32.TestData_LHS[i])) / 32);
+                for (int j = 0; j < 3; j++)
+                {
+                    TestULong(a[j], b[j], result[j]);
+                }
             }
         }
 
-
         [Test]
-        public static void short2()
+        public static void _ulong4()
         {
-            for (int i = 0; i < Tests.__short2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__short2.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__short2.TestData_LHS[i]) > 0 ? 1 : -1) + maxmath.csum(Tests.__short2.TestData_LHS[i])) / 2);
-            }
-        }
+            Random64 rng = Random64.New;
 
-        [Test]
-        public static void short3()
-        {
-            for (int i = 0; i < Tests.__short3.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__short3.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__short3.TestData_LHS[i]) > 0 ? 2 : -2) + maxmath.csum(Tests.__short3.TestData_LHS[i])) / 3);
-            }
-        }
+                ulong4 a = rng.NextULong4();
+                ulong4 b = rng.NextULong4();
+                ulong4 result = avg(a, b);
 
-        [Test]
-        public static void short4()
-        {
-            for (int i = 0; i < Tests.__short4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__short4.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__short4.TestData_LHS[i]) > 0 ? 3 : -3) + maxmath.csum(Tests.__short4.TestData_LHS[i])) / 4);
+                for (int j = 0; j < 4; j++)
+                {
+                    TestULong(a[j], b[j], result[j]);
+                }
             }
         }
 
-        [Test]
-        public static void short8()
-        {
-            for (int i = 0; i < Tests.__short8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__short8.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__short8.TestData_LHS[i]) > 0 ? 7 : -7) + maxmath.csum(Tests.__short8.TestData_LHS[i])) / 8);
-            }
-        }
 
         [Test]
-        public static void short16()
+        public static void _Int128()
         {
-            for (int i = 0; i < Tests.__short16.TestData_LHS.Length; i++)
+            Random128 rng = Random128.New;
+
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__short16.TestData_LHS[i]),
-                                ((maxmath.csum(Tests.__short16.TestData_LHS[i]) > 0 ? 15 : -15) + maxmath.csum(Tests.__short16.TestData_LHS[i])) / 16);
+                Int128 a = rng.NextInt128();
+                Int128 b = rng.NextInt128();
+
+                TestInt128(a, b, avg(a, b));
             }
         }
 
 
         [Test]
-        public static void int2()
+        public static void _sbyte()
         {
-            for (int i = 0; i < Tests.__int2.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__int2.TestData_LHS[i]),
-                                (int)(((maxmath.csum((long2)Tests.__int2.TestData_LHS[i]) > 0 ? 1 : -1) + maxmath.csum((long2)Tests.__int2.TestData_LHS[i])) / 2));
-            }
-        }
+            Random8 rng = Random8.New;
 
-        [Test]
-        public static void int3()
-        {
-            for (int i = 0; i < Tests.__int3.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Assert.AreEqual(maxmath.cavg(Tests.__int3.TestData_LHS[i]),
-                                (int)(((maxmath.csum((long3)Tests.__int3.TestData_LHS[i]) > 0 ? 2 : -2) + maxmath.csum((long3)Tests.__int3.TestData_LHS[i])) / 3));
-            }
-        }
+                sbyte a = rng.NextSByte();
+                sbyte b = rng.NextSByte();
 
-        [Test]
-        public static void int4()
-        {
-            for (int i = 0; i < Tests.__int4.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual((int)maxmath.cavg(Tests.__int4.TestData_LHS[i]),
-                                (int)(((maxmath.csum((long4)Tests.__int4.TestData_LHS[i]) > 0 ? 3 : -3) + maxmath.csum((long4)Tests.__int4.TestData_LHS[i])) / 4));
+                TestSByte(a, b, avg(a, b));
             }
         }
 
         [Test]
-        public static void int8()
+        public static void _sbyte2()
         {
-            for (int i = 0; i < Tests.__int8.TestData_LHS.Length; i++)
-            {
-                Assert.AreEqual(maxmath.cavg(Tests.__int8.TestData_LHS[i]),
-                                ((maxmath.csum((long4)Tests.__int8.TestData_LHS[i].v4_0 + (long4)Tests.__int8.TestData_LHS[i].v4_4) > 0 ? 7 : -7) + maxmath.csum((long4)Tests.__int8.TestData_LHS[i].v4_0 + (long4)Tests.__int8.TestData_LHS[i].v4_4)) / 8);
-            }
-        }
+            Random8 rng = Random8.New;
 
-
-        [Test]
-        public static void long2()
-        {
-            for (int i = 0; i < Tests.__long2.TestData_LHS.Length; i++)
+            for (int i = 0; i < 32; i++)
             {
-                Int128 csum = Tests.__long2.TestData_LHS[i].x;
-                csum += Tests.__long2.TestData_LHS[i].y;
+                sbyte2 a = rng.NextSByte2();
+                sbyte2 b = rng.NextSByte2();
+                sbyte2 result = avg(a, b);
 
-                Assert.AreEqual(maxmath.cavg(Tests.__long2.TestData_LHS[i]),
-                                ((csum > 0 ? 1 : -1) + csum) / 2);
+                for (int j = 0; j < 2; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
         }
 
         [Test]
-        public static void long3()
+        public static void _sbyte3()
         {
-            for (int i = 0; i < Tests.__long3.TestData_LHS.Length; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 32; i++)
             {
-                Int128 csum = Tests.__long3.TestData_LHS[i].x;
-                csum += Tests.__long3.TestData_LHS[i].y;
-                csum += Tests.__long3.TestData_LHS[i].z;
+                sbyte3 a = rng.NextSByte3();
+                sbyte3 b = rng.NextSByte3();
+                sbyte3 result = avg(a, b);
 
-                Assert.AreEqual(maxmath.cavg(Tests.__long3.TestData_LHS[i]),
-                                ((csum > 0 ? 2 : -2) + csum) / 3);
+                for (int j = 0; j < 3; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
         }
 
         [Test]
-        public static void long4()
+        public static void _sbyte4()
         {
-            for (int i = 0; i < Tests.__long4.TestData_LHS.Length; i++)
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 32; i++)
             {
-                Int128 csum = Tests.__long4.TestData_LHS[i].x;
-                csum += Tests.__long4.TestData_LHS[i].y;
-                csum += Tests.__long4.TestData_LHS[i].z;
-                csum += Tests.__long4.TestData_LHS[i].w;
+                sbyte4 a = rng.NextSByte4();
+                sbyte4 b = rng.NextSByte4();
+                sbyte4 result = avg(a, b);
 
-                Assert.AreEqual(maxmath.cavg(Tests.__long4.TestData_LHS[i]),
-                                ((csum > 0 ? 3 : -3) + csum) / 4);
+                for (int j = 0; j < 4; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
         }
-
 
         [Test]
-        public static void sbyte2x2()
+        public static void _sbyte8()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__sbyte2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte2 x = maxmath.avg(Tests.__sbyte2.TestData_LHS[i], Tests.__sbyte2.TestData_RHS[i]);
+                sbyte8 a = rng.NextSByte8();
+                sbyte8 b = rng.NextSByte8();
+                sbyte8 result = avg(a, b);
 
-                result &= x.x  == (((Tests.__sbyte2.TestData_LHS[i].x  + Tests.__sbyte2.TestData_RHS[i].x)  > 0 ? 1 : -1) + Tests.__sbyte2.TestData_LHS[i].x  + Tests.__sbyte2.TestData_RHS[i].x)  / 2;
-                result &= x.y  == (((Tests.__sbyte2.TestData_LHS[i].y  + Tests.__sbyte2.TestData_RHS[i].y)  > 0 ? 1 : -1) + Tests.__sbyte2.TestData_LHS[i].y  + Tests.__sbyte2.TestData_RHS[i].y)  / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void sbyte3x2()
+        public static void _sbyte16()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__sbyte3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte3 x = maxmath.avg(Tests.__sbyte3.TestData_LHS[i], Tests.__sbyte3.TestData_RHS[i]);
+                sbyte16 a = rng.NextSByte16();
+                sbyte16 b = rng.NextSByte16();
+                sbyte16 result = avg(a, b);
 
-                result &= x.x  == (((Tests.__sbyte3.TestData_LHS[i].x  + Tests.__sbyte3.TestData_RHS[i].x)  > 0 ? 1 : -1) + Tests.__sbyte3.TestData_LHS[i].x  + Tests.__sbyte3.TestData_RHS[i].x)  / 2;
-                result &= x.y  == (((Tests.__sbyte3.TestData_LHS[i].y  + Tests.__sbyte3.TestData_RHS[i].y)  > 0 ? 1 : -1) + Tests.__sbyte3.TestData_LHS[i].y  + Tests.__sbyte3.TestData_RHS[i].y)  / 2;
-                result &= x.z  == (((Tests.__sbyte3.TestData_LHS[i].z  + Tests.__sbyte3.TestData_RHS[i].z)  > 0 ? 1 : -1) + Tests.__sbyte3.TestData_LHS[i].z  + Tests.__sbyte3.TestData_RHS[i].z)  / 2;
+                for (int j = 0; j < 16; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void sbyte4x2()
+        public static void _sbyte32()
         {
-            bool result = true;
+            Random8 rng = Random8.New;
 
-            for (int i = 0; i < Tests.__sbyte4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte4 x = maxmath.avg(Tests.__sbyte4.TestData_LHS[i], Tests.__sbyte4.TestData_RHS[i]);
+                sbyte32 a = rng.NextSByte32();
+                sbyte32 b = rng.NextSByte32();
+                sbyte32 result = avg(a, b);
 
-                result &= x.x  == (((Tests.__sbyte4.TestData_LHS[i].x  + Tests.__sbyte4.TestData_RHS[i].x)  > 0 ? 1 : -1) + Tests.__sbyte4.TestData_LHS[i].x  + Tests.__sbyte4.TestData_RHS[i].x)  / 2;
-                result &= x.y  == (((Tests.__sbyte4.TestData_LHS[i].y  + Tests.__sbyte4.TestData_RHS[i].y)  > 0 ? 1 : -1) + Tests.__sbyte4.TestData_LHS[i].y  + Tests.__sbyte4.TestData_RHS[i].y)  / 2;
-                result &= x.z  == (((Tests.__sbyte4.TestData_LHS[i].z  + Tests.__sbyte4.TestData_RHS[i].z)  > 0 ? 1 : -1) + Tests.__sbyte4.TestData_LHS[i].z  + Tests.__sbyte4.TestData_RHS[i].z)  / 2;
-                result &= x.w  == (((Tests.__sbyte4.TestData_LHS[i].w  + Tests.__sbyte4.TestData_RHS[i].w)  > 0 ? 1 : -1) + Tests.__sbyte4.TestData_LHS[i].w  + Tests.__sbyte4.TestData_RHS[i].w)  / 2;
+                for (int j = 0; j < 32; j++)
+                {
+                    TestSByte(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
+
         [Test]
-        public static void sbyte8x2()
+        public static void _short()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__sbyte8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte8 x = maxmath.avg(Tests.__sbyte8.TestData_LHS[i], Tests.__sbyte8.TestData_RHS[i]);
+                short a = rng.NextShort();
+                short b = rng.NextShort();
 
-                result &= x.x0  == (((Tests.__sbyte8.TestData_LHS[i].x0  + Tests.__sbyte8.TestData_RHS[i].x0)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x0  + Tests.__sbyte8.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (((Tests.__sbyte8.TestData_LHS[i].x1  + Tests.__sbyte8.TestData_RHS[i].x1)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x1  + Tests.__sbyte8.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (((Tests.__sbyte8.TestData_LHS[i].x2  + Tests.__sbyte8.TestData_RHS[i].x2)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x2  + Tests.__sbyte8.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (((Tests.__sbyte8.TestData_LHS[i].x3  + Tests.__sbyte8.TestData_RHS[i].x3)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x3  + Tests.__sbyte8.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (((Tests.__sbyte8.TestData_LHS[i].x4  + Tests.__sbyte8.TestData_RHS[i].x4)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x4  + Tests.__sbyte8.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (((Tests.__sbyte8.TestData_LHS[i].x5  + Tests.__sbyte8.TestData_RHS[i].x5)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x5  + Tests.__sbyte8.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (((Tests.__sbyte8.TestData_LHS[i].x6  + Tests.__sbyte8.TestData_RHS[i].x6)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x6  + Tests.__sbyte8.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (((Tests.__sbyte8.TestData_LHS[i].x7  + Tests.__sbyte8.TestData_RHS[i].x7)  > 0 ? 1 : -1) + Tests.__sbyte8.TestData_LHS[i].x7  + Tests.__sbyte8.TestData_RHS[i].x7)  / 2;
+                TestShort(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void sbyte16x2()
+        public static void _short2()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__sbyte16.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte16 x = maxmath.avg(Tests.__sbyte16.TestData_LHS[i], Tests.__sbyte16.TestData_RHS[i]);
+                short2 a = rng.NextShort2();
+                short2 b = rng.NextShort2();
+                short2 result = avg(a, b);
 
-                result &= x.x0  == (((Tests.__sbyte16.TestData_LHS[i].x0  + Tests.__sbyte16.TestData_RHS[i].x0)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x0  + Tests.__sbyte16.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (((Tests.__sbyte16.TestData_LHS[i].x1  + Tests.__sbyte16.TestData_RHS[i].x1)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x1  + Tests.__sbyte16.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (((Tests.__sbyte16.TestData_LHS[i].x2  + Tests.__sbyte16.TestData_RHS[i].x2)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x2  + Tests.__sbyte16.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (((Tests.__sbyte16.TestData_LHS[i].x3  + Tests.__sbyte16.TestData_RHS[i].x3)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x3  + Tests.__sbyte16.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (((Tests.__sbyte16.TestData_LHS[i].x4  + Tests.__sbyte16.TestData_RHS[i].x4)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x4  + Tests.__sbyte16.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (((Tests.__sbyte16.TestData_LHS[i].x5  + Tests.__sbyte16.TestData_RHS[i].x5)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x5  + Tests.__sbyte16.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (((Tests.__sbyte16.TestData_LHS[i].x6  + Tests.__sbyte16.TestData_RHS[i].x6)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x6  + Tests.__sbyte16.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (((Tests.__sbyte16.TestData_LHS[i].x7  + Tests.__sbyte16.TestData_RHS[i].x7)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x7  + Tests.__sbyte16.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (((Tests.__sbyte16.TestData_LHS[i].x8  + Tests.__sbyte16.TestData_RHS[i].x8)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x8  + Tests.__sbyte16.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (((Tests.__sbyte16.TestData_LHS[i].x9  + Tests.__sbyte16.TestData_RHS[i].x9)  > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x9  + Tests.__sbyte16.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (((Tests.__sbyte16.TestData_LHS[i].x10 + Tests.__sbyte16.TestData_RHS[i].x10) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x10 + Tests.__sbyte16.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (((Tests.__sbyte16.TestData_LHS[i].x11 + Tests.__sbyte16.TestData_RHS[i].x11) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x11 + Tests.__sbyte16.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (((Tests.__sbyte16.TestData_LHS[i].x12 + Tests.__sbyte16.TestData_RHS[i].x12) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x12 + Tests.__sbyte16.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (((Tests.__sbyte16.TestData_LHS[i].x13 + Tests.__sbyte16.TestData_RHS[i].x13) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x13 + Tests.__sbyte16.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (((Tests.__sbyte16.TestData_LHS[i].x14 + Tests.__sbyte16.TestData_RHS[i].x14) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x14 + Tests.__sbyte16.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (((Tests.__sbyte16.TestData_LHS[i].x15 + Tests.__sbyte16.TestData_RHS[i].x15) > 0 ? 1 : -1) + Tests.__sbyte16.TestData_LHS[i].x15 + Tests.__sbyte16.TestData_RHS[i].x15) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void sbyte32x2()
+        public static void _short3()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__sbyte32.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                sbyte32 x = maxmath.avg(Tests.__sbyte32.TestData_LHS[i], Tests.__sbyte32.TestData_RHS[i]);
+                short3 a = rng.NextShort3();
+                short3 b = rng.NextShort3();
+                short3 result = avg(a, b);
 
-                result &= x.x0  == (((Tests.__sbyte32.TestData_LHS[i].x0  + Tests.__sbyte32.TestData_RHS[i].x0)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x0  + Tests.__sbyte32.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (((Tests.__sbyte32.TestData_LHS[i].x1  + Tests.__sbyte32.TestData_RHS[i].x1)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x1  + Tests.__sbyte32.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (((Tests.__sbyte32.TestData_LHS[i].x2  + Tests.__sbyte32.TestData_RHS[i].x2)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x2  + Tests.__sbyte32.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (((Tests.__sbyte32.TestData_LHS[i].x3  + Tests.__sbyte32.TestData_RHS[i].x3)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x3  + Tests.__sbyte32.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (((Tests.__sbyte32.TestData_LHS[i].x4  + Tests.__sbyte32.TestData_RHS[i].x4)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x4  + Tests.__sbyte32.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (((Tests.__sbyte32.TestData_LHS[i].x5  + Tests.__sbyte32.TestData_RHS[i].x5)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x5  + Tests.__sbyte32.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (((Tests.__sbyte32.TestData_LHS[i].x6  + Tests.__sbyte32.TestData_RHS[i].x6)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x6  + Tests.__sbyte32.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (((Tests.__sbyte32.TestData_LHS[i].x7  + Tests.__sbyte32.TestData_RHS[i].x7)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x7  + Tests.__sbyte32.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (((Tests.__sbyte32.TestData_LHS[i].x8  + Tests.__sbyte32.TestData_RHS[i].x8)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x8  + Tests.__sbyte32.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (((Tests.__sbyte32.TestData_LHS[i].x9  + Tests.__sbyte32.TestData_RHS[i].x9)  > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x9  + Tests.__sbyte32.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (((Tests.__sbyte32.TestData_LHS[i].x10 + Tests.__sbyte32.TestData_RHS[i].x10) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x10 + Tests.__sbyte32.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (((Tests.__sbyte32.TestData_LHS[i].x11 + Tests.__sbyte32.TestData_RHS[i].x11) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x11 + Tests.__sbyte32.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (((Tests.__sbyte32.TestData_LHS[i].x12 + Tests.__sbyte32.TestData_RHS[i].x12) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x12 + Tests.__sbyte32.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (((Tests.__sbyte32.TestData_LHS[i].x13 + Tests.__sbyte32.TestData_RHS[i].x13) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x13 + Tests.__sbyte32.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (((Tests.__sbyte32.TestData_LHS[i].x14 + Tests.__sbyte32.TestData_RHS[i].x14) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x14 + Tests.__sbyte32.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (((Tests.__sbyte32.TestData_LHS[i].x15 + Tests.__sbyte32.TestData_RHS[i].x15) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x15 + Tests.__sbyte32.TestData_RHS[i].x15) / 2;
-                result &= x.x16 == (((Tests.__sbyte32.TestData_LHS[i].x16 + Tests.__sbyte32.TestData_RHS[i].x16) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x16 + Tests.__sbyte32.TestData_RHS[i].x16) / 2;
-                result &= x.x17 == (((Tests.__sbyte32.TestData_LHS[i].x17 + Tests.__sbyte32.TestData_RHS[i].x17) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x17 + Tests.__sbyte32.TestData_RHS[i].x17) / 2;
-                result &= x.x18 == (((Tests.__sbyte32.TestData_LHS[i].x18 + Tests.__sbyte32.TestData_RHS[i].x18) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x18 + Tests.__sbyte32.TestData_RHS[i].x18) / 2;
-                result &= x.x19 == (((Tests.__sbyte32.TestData_LHS[i].x19 + Tests.__sbyte32.TestData_RHS[i].x19) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x19 + Tests.__sbyte32.TestData_RHS[i].x19) / 2;
-                result &= x.x20 == (((Tests.__sbyte32.TestData_LHS[i].x20 + Tests.__sbyte32.TestData_RHS[i].x20) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x20 + Tests.__sbyte32.TestData_RHS[i].x20) / 2;
-                result &= x.x21 == (((Tests.__sbyte32.TestData_LHS[i].x21 + Tests.__sbyte32.TestData_RHS[i].x21) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x21 + Tests.__sbyte32.TestData_RHS[i].x21) / 2;
-                result &= x.x22 == (((Tests.__sbyte32.TestData_LHS[i].x22 + Tests.__sbyte32.TestData_RHS[i].x22) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x22 + Tests.__sbyte32.TestData_RHS[i].x22) / 2;
-                result &= x.x23 == (((Tests.__sbyte32.TestData_LHS[i].x23 + Tests.__sbyte32.TestData_RHS[i].x23) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x23 + Tests.__sbyte32.TestData_RHS[i].x23) / 2;
-                result &= x.x24 == (((Tests.__sbyte32.TestData_LHS[i].x24 + Tests.__sbyte32.TestData_RHS[i].x24) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x24 + Tests.__sbyte32.TestData_RHS[i].x24) / 2;
-                result &= x.x25 == (((Tests.__sbyte32.TestData_LHS[i].x25 + Tests.__sbyte32.TestData_RHS[i].x25) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x25 + Tests.__sbyte32.TestData_RHS[i].x25) / 2;
-                result &= x.x26 == (((Tests.__sbyte32.TestData_LHS[i].x26 + Tests.__sbyte32.TestData_RHS[i].x26) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x26 + Tests.__sbyte32.TestData_RHS[i].x26) / 2;
-                result &= x.x27 == (((Tests.__sbyte32.TestData_LHS[i].x27 + Tests.__sbyte32.TestData_RHS[i].x27) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x27 + Tests.__sbyte32.TestData_RHS[i].x27) / 2;
-                result &= x.x28 == (((Tests.__sbyte32.TestData_LHS[i].x28 + Tests.__sbyte32.TestData_RHS[i].x28) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x28 + Tests.__sbyte32.TestData_RHS[i].x28) / 2;
-                result &= x.x29 == (((Tests.__sbyte32.TestData_LHS[i].x29 + Tests.__sbyte32.TestData_RHS[i].x29) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x29 + Tests.__sbyte32.TestData_RHS[i].x29) / 2;
-                result &= x.x30 == (((Tests.__sbyte32.TestData_LHS[i].x30 + Tests.__sbyte32.TestData_RHS[i].x30) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x30 + Tests.__sbyte32.TestData_RHS[i].x30) / 2;
-                result &= x.x31 == (((Tests.__sbyte32.TestData_LHS[i].x31 + Tests.__sbyte32.TestData_RHS[i].x31) > 0 ? 1 : -1) + Tests.__sbyte32.TestData_LHS[i].x31 + Tests.__sbyte32.TestData_RHS[i].x31) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
-
 
         [Test]
-        public static void short2x2()
+        public static void _short4()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__short2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                short2 x = maxmath.avg(Tests.__short2.TestData_LHS[i], Tests.__short2.TestData_RHS[i]);
+                short4 a = rng.NextShort4();
+                short4 b = rng.NextShort4();
+                short4 result = avg(a, b);
 
-                result &= x.x == (((Tests.__short2.TestData_LHS[i].x + Tests.__short2.TestData_RHS[i].x) > 0 ? 1 : -1) + Tests.__short2.TestData_LHS[i].x + Tests.__short2.TestData_RHS[i].x) / 2;
-                result &= x.y == (((Tests.__short2.TestData_LHS[i].y + Tests.__short2.TestData_RHS[i].y) > 0 ? 1 : -1) + Tests.__short2.TestData_LHS[i].y + Tests.__short2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void short3x2()
+        public static void _short8()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__short3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                short3 x = maxmath.avg(Tests.__short3.TestData_LHS[i], Tests.__short3.TestData_RHS[i]);
+                short8 a = rng.NextShort8();
+                short8 b = rng.NextShort8();
+                short8 result = avg(a, b);
 
-                result &= x.x == (((Tests.__short3.TestData_LHS[i].x + Tests.__short3.TestData_RHS[i].x) > 0 ? 1 : -1) + Tests.__short3.TestData_LHS[i].x + Tests.__short3.TestData_RHS[i].x) / 2;
-                result &= x.y == (((Tests.__short3.TestData_LHS[i].y + Tests.__short3.TestData_RHS[i].y) > 0 ? 1 : -1) + Tests.__short3.TestData_LHS[i].y + Tests.__short3.TestData_RHS[i].y) / 2;
-                result &= x.z == (((Tests.__short3.TestData_LHS[i].z + Tests.__short3.TestData_RHS[i].z) > 0 ? 1 : -1) + Tests.__short3.TestData_LHS[i].z + Tests.__short3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void short4x2()
+        public static void _short16()
         {
-            bool result = true;
+            Random16 rng = Random16.New;
 
-            for (int i = 0; i < Tests.__short4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                short4 x = maxmath.avg(Tests.__short4.TestData_LHS[i], Tests.__short4.TestData_RHS[i]);
+                short16 a = rng.NextShort16();
+                short16 b = rng.NextShort16();
+                short16 result = avg(a, b);
 
-                result &= x.x == (((Tests.__short4.TestData_LHS[i].x + Tests.__short4.TestData_RHS[i].x) > 0 ? 1 : -1) + Tests.__short4.TestData_LHS[i].x + Tests.__short4.TestData_RHS[i].x) / 2;
-                result &= x.y == (((Tests.__short4.TestData_LHS[i].y + Tests.__short4.TestData_RHS[i].y) > 0 ? 1 : -1) + Tests.__short4.TestData_LHS[i].y + Tests.__short4.TestData_RHS[i].y) / 2;
-                result &= x.z == (((Tests.__short4.TestData_LHS[i].z + Tests.__short4.TestData_RHS[i].z) > 0 ? 1 : -1) + Tests.__short4.TestData_LHS[i].z + Tests.__short4.TestData_RHS[i].z) / 2;
-                result &= x.w == (((Tests.__short4.TestData_LHS[i].w + Tests.__short4.TestData_RHS[i].w) > 0 ? 1 : -1) + Tests.__short4.TestData_LHS[i].w + Tests.__short4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 16; j++)
+                {
+                    TestShort(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
+
         [Test]
-        public static void short8x2()
+        public static void _int()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__short8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                short8 x = maxmath.avg(Tests.__short8.TestData_LHS[i], Tests.__short8.TestData_RHS[i]);
+                int a = rng.NextInt();
+                int b = rng.NextInt();
 
-                result &= x.x0 == (((Tests.__short8.TestData_LHS[i].x0 + Tests.__short8.TestData_RHS[i].x0) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x0 + Tests.__short8.TestData_RHS[i].x0) / 2;
-                result &= x.x1 == (((Tests.__short8.TestData_LHS[i].x1 + Tests.__short8.TestData_RHS[i].x1) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x1 + Tests.__short8.TestData_RHS[i].x1) / 2;
-                result &= x.x2 == (((Tests.__short8.TestData_LHS[i].x2 + Tests.__short8.TestData_RHS[i].x2) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x2 + Tests.__short8.TestData_RHS[i].x2) / 2;
-                result &= x.x3 == (((Tests.__short8.TestData_LHS[i].x3 + Tests.__short8.TestData_RHS[i].x3) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x3 + Tests.__short8.TestData_RHS[i].x3) / 2;
-                result &= x.x4 == (((Tests.__short8.TestData_LHS[i].x4 + Tests.__short8.TestData_RHS[i].x4) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x4 + Tests.__short8.TestData_RHS[i].x4) / 2;
-                result &= x.x5 == (((Tests.__short8.TestData_LHS[i].x5 + Tests.__short8.TestData_RHS[i].x5) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x5 + Tests.__short8.TestData_RHS[i].x5) / 2;
-                result &= x.x6 == (((Tests.__short8.TestData_LHS[i].x6 + Tests.__short8.TestData_RHS[i].x6) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x6 + Tests.__short8.TestData_RHS[i].x6) / 2;
-                result &= x.x7 == (((Tests.__short8.TestData_LHS[i].x7 + Tests.__short8.TestData_RHS[i].x7) > 0 ? 1 : -1) + Tests.__short8.TestData_LHS[i].x7 + Tests.__short8.TestData_RHS[i].x7) / 2;
+                TestInt(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void short16x2()
+        public static void _int2()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__short16.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                short16 x = maxmath.avg(Tests.__short16.TestData_LHS[i], Tests.__short16.TestData_RHS[i]);
+                int2 a = rng.NextInt2();
+                int2 b = rng.NextInt2();
+                int2 result = avg(a, b);
 
-                result &= x.x0  == (((Tests.__short16.TestData_LHS[i].x0  + Tests.__short16.TestData_RHS[i].x0)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x0  + Tests.__short16.TestData_RHS[i].x0)  / 2;
-                result &= x.x1  == (((Tests.__short16.TestData_LHS[i].x1  + Tests.__short16.TestData_RHS[i].x1)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x1  + Tests.__short16.TestData_RHS[i].x1)  / 2;
-                result &= x.x2  == (((Tests.__short16.TestData_LHS[i].x2  + Tests.__short16.TestData_RHS[i].x2)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x2  + Tests.__short16.TestData_RHS[i].x2)  / 2;
-                result &= x.x3  == (((Tests.__short16.TestData_LHS[i].x3  + Tests.__short16.TestData_RHS[i].x3)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x3  + Tests.__short16.TestData_RHS[i].x3)  / 2;
-                result &= x.x4  == (((Tests.__short16.TestData_LHS[i].x4  + Tests.__short16.TestData_RHS[i].x4)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x4  + Tests.__short16.TestData_RHS[i].x4)  / 2;
-                result &= x.x5  == (((Tests.__short16.TestData_LHS[i].x5  + Tests.__short16.TestData_RHS[i].x5)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x5  + Tests.__short16.TestData_RHS[i].x5)  / 2;
-                result &= x.x6  == (((Tests.__short16.TestData_LHS[i].x6  + Tests.__short16.TestData_RHS[i].x6)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x6  + Tests.__short16.TestData_RHS[i].x6)  / 2;
-                result &= x.x7  == (((Tests.__short16.TestData_LHS[i].x7  + Tests.__short16.TestData_RHS[i].x7)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x7  + Tests.__short16.TestData_RHS[i].x7)  / 2;
-                result &= x.x8  == (((Tests.__short16.TestData_LHS[i].x8  + Tests.__short16.TestData_RHS[i].x8)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x8  + Tests.__short16.TestData_RHS[i].x8)  / 2;
-                result &= x.x9  == (((Tests.__short16.TestData_LHS[i].x9  + Tests.__short16.TestData_RHS[i].x9)  > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x9  + Tests.__short16.TestData_RHS[i].x9)  / 2;
-                result &= x.x10 == (((Tests.__short16.TestData_LHS[i].x10 + Tests.__short16.TestData_RHS[i].x10) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x10 + Tests.__short16.TestData_RHS[i].x10) / 2;
-                result &= x.x11 == (((Tests.__short16.TestData_LHS[i].x11 + Tests.__short16.TestData_RHS[i].x11) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x11 + Tests.__short16.TestData_RHS[i].x11) / 2;
-                result &= x.x12 == (((Tests.__short16.TestData_LHS[i].x12 + Tests.__short16.TestData_RHS[i].x12) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x12 + Tests.__short16.TestData_RHS[i].x12) / 2;
-                result &= x.x13 == (((Tests.__short16.TestData_LHS[i].x13 + Tests.__short16.TestData_RHS[i].x13) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x13 + Tests.__short16.TestData_RHS[i].x13) / 2;
-                result &= x.x14 == (((Tests.__short16.TestData_LHS[i].x14 + Tests.__short16.TestData_RHS[i].x14) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x14 + Tests.__short16.TestData_RHS[i].x14) / 2;
-                result &= x.x15 == (((Tests.__short16.TestData_LHS[i].x15 + Tests.__short16.TestData_RHS[i].x15) > 0 ? 1 : -1) + Tests.__short16.TestData_LHS[i].x15 + Tests.__short16.TestData_RHS[i].x15) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
-
 
         [Test]
-        public static void int2x2()
+        public static void _int3()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__int2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                int2 x = maxmath.avg(Tests.__int2.TestData_LHS[i], Tests.__int2.TestData_RHS[i]);
+                int3 a = rng.NextInt3();
+                int3 b = rng.NextInt3();
+                int3 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__int2.TestData_LHS[i].x, Tests.__int2.TestData_RHS[i].x) > 0 ? 1 : -1) + (long)Tests.__int2.TestData_LHS[i].x + (long)Tests.__int2.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__int2.TestData_LHS[i].y, Tests.__int2.TestData_RHS[i].y) > 0 ? 1 : -1) + (long)Tests.__int2.TestData_LHS[i].y + (long)Tests.__int2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void int3x2()
+        public static void _int4()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__int3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                int3 x = maxmath.avg(Tests.__int3.TestData_LHS[i], Tests.__int3.TestData_RHS[i]);
+                int4 a = rng.NextInt4();
+                int4 b = rng.NextInt4();
+                int4 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__int3.TestData_LHS[i].x, Tests.__int3.TestData_RHS[i].x) > 0 ? 1 : -1) + (long)Tests.__int3.TestData_LHS[i].x + (long)Tests.__int3.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__int3.TestData_LHS[i].y, Tests.__int3.TestData_RHS[i].y) > 0 ? 1 : -1) + (long)Tests.__int3.TestData_LHS[i].y + (long)Tests.__int3.TestData_RHS[i].y) / 2;
-                result &= x.z == ((maxmath.addsaturated(Tests.__int3.TestData_LHS[i].z, Tests.__int3.TestData_RHS[i].z) > 0 ? 1 : -1) + (long)Tests.__int3.TestData_LHS[i].z + (long)Tests.__int3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void int4x2()
+        public static void _int8()
         {
-            bool result = true;
+            Random32 rng = Random32.New;
 
-            for (int i = 0; i < Tests.__int4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                int4 x = maxmath.avg(Tests.__int4.TestData_LHS[i], Tests.__int4.TestData_RHS[i]);
+                int8 a = rng.NextInt8();
+                int8 b = rng.NextInt8();
+                int8 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__int4.TestData_LHS[i].x, Tests.__int4.TestData_RHS[i].x) > 0 ? 1 : -1) + (long)Tests.__int4.TestData_LHS[i].x + (long)Tests.__int4.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__int4.TestData_LHS[i].y, Tests.__int4.TestData_RHS[i].y) > 0 ? 1 : -1) + (long)Tests.__int4.TestData_LHS[i].y + (long)Tests.__int4.TestData_RHS[i].y) / 2;
-                result &= x.z == ((maxmath.addsaturated(Tests.__int4.TestData_LHS[i].z, Tests.__int4.TestData_RHS[i].z) > 0 ? 1 : -1) + (long)Tests.__int4.TestData_LHS[i].z + (long)Tests.__int4.TestData_RHS[i].z) / 2;
-                result &= x.w == ((maxmath.addsaturated(Tests.__int4.TestData_LHS[i].w, Tests.__int4.TestData_RHS[i].w) > 0 ? 1 : -1) + (long)Tests.__int4.TestData_LHS[i].w + (long)Tests.__int4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 8; j++)
+                {
+                    TestInt(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
+
         [Test]
-        public static void int8x2()
+        public static void _long()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
-            for (int i = 0; i < Tests.__int8.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                int8 x = maxmath.avg(Tests.__int8.TestData_LHS[i], Tests.__int8.TestData_RHS[i]);
+                long a = rng.NextLong();
+                long b = rng.NextLong();
 
-                result &= x.x0 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x0, Tests.__int8.TestData_RHS[i].x0) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x0 + (long)Tests.__int8.TestData_RHS[i].x0) / 2;
-                result &= x.x1 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x1, Tests.__int8.TestData_RHS[i].x1) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x1 + (long)Tests.__int8.TestData_RHS[i].x1) / 2;
-                result &= x.x2 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x2, Tests.__int8.TestData_RHS[i].x2) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x2 + (long)Tests.__int8.TestData_RHS[i].x2) / 2;
-                result &= x.x3 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x3, Tests.__int8.TestData_RHS[i].x3) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x3 + (long)Tests.__int8.TestData_RHS[i].x3) / 2;
-                result &= x.x4 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x4, Tests.__int8.TestData_RHS[i].x4) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x4 + (long)Tests.__int8.TestData_RHS[i].x4) / 2;
-                result &= x.x5 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x5, Tests.__int8.TestData_RHS[i].x5) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x5 + (long)Tests.__int8.TestData_RHS[i].x5) / 2;
-                result &= x.x6 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x6, Tests.__int8.TestData_RHS[i].x6) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x6 + (long)Tests.__int8.TestData_RHS[i].x6) / 2;
-                result &= x.x7 == ((maxmath.addsaturated(Tests.__int8.TestData_LHS[i].x7, Tests.__int8.TestData_RHS[i].x7) > 0 ? 1 : -1) + (long)Tests.__int8.TestData_LHS[i].x7 + (long)Tests.__int8.TestData_RHS[i].x7) / 2;
+                TestLong(a, b, avg(a, b));
             }
-
-            Assert.AreEqual(true, result);
         }
-
 
         [Test]
-        public static void long2x2()
+        public static void _long2()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
-            for (int i = 0; i < Tests.__long2.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                long2 x = maxmath.avg(Tests.__long2.TestData_LHS[i], Tests.__long2.TestData_RHS[i]);
+                long2 a = rng.NextLong2();
+                long2 b = rng.NextLong2();
+                long2 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__long2.TestData_LHS[i].x, Tests.__long2.TestData_RHS[i].x) > 0 ? 1 : -1) + (Int128)Tests.__long2.TestData_LHS[i].x + (Int128)Tests.__long2.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__long2.TestData_LHS[i].y, Tests.__long2.TestData_RHS[i].y) > 0 ? 1 : -1) + (Int128)Tests.__long2.TestData_LHS[i].y + (Int128)Tests.__long2.TestData_RHS[i].y) / 2;
+                for (int j = 0; j < 2; j++)
+                {
+                    TestLong(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void long3x2()
+        public static void _long3()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
-            for (int i = 0; i < Tests.__long3.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                long3 x = maxmath.avg(Tests.__long3.TestData_LHS[i], Tests.__long3.TestData_RHS[i]);
+                long3 a = rng.NextLong3();
+                long3 b = rng.NextLong3();
+                long3 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__long3.TestData_LHS[i].x, Tests.__long3.TestData_RHS[i].x) > 0 ? 1 : -1) + (Int128)Tests.__long3.TestData_LHS[i].x + (Int128)Tests.__long3.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__long3.TestData_LHS[i].y, Tests.__long3.TestData_RHS[i].y) > 0 ? 1 : -1) + (Int128)Tests.__long3.TestData_LHS[i].y + (Int128)Tests.__long3.TestData_RHS[i].y) / 2;
-                result &= x.z == ((maxmath.addsaturated(Tests.__long3.TestData_LHS[i].z, Tests.__long3.TestData_RHS[i].z) > 0 ? 1 : -1) + (Int128)Tests.__long3.TestData_LHS[i].z + (Int128)Tests.__long3.TestData_RHS[i].z) / 2;
+                for (int j = 0; j < 3; j++)
+                {
+                    TestLong(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
 
         [Test]
-        public static void long4x2()
+        public static void _long4()
         {
-            bool result = true;
+            Random64 rng = Random64.New;
 
-            for (int i = 0; i < Tests.__long4.NUM_TESTS; i++)
+            for (int i = 0; i < 32; i++)
             {
-                long4 x = maxmath.avg(Tests.__long4.TestData_LHS[i], Tests.__long4.TestData_RHS[i]);
+                long4 a = rng.NextLong4();
+                long4 b = rng.NextLong4();
+                long4 result = avg(a, b);
 
-                result &= x.x == ((maxmath.addsaturated(Tests.__long4.TestData_LHS[i].x, Tests.__long4.TestData_RHS[i].x) > 0 ? 1 : -1) + (Int128)Tests.__long4.TestData_LHS[i].x + (Int128)Tests.__long4.TestData_RHS[i].x) / 2;
-                result &= x.y == ((maxmath.addsaturated(Tests.__long4.TestData_LHS[i].y, Tests.__long4.TestData_RHS[i].y) > 0 ? 1 : -1) + (Int128)Tests.__long4.TestData_LHS[i].y + (Int128)Tests.__long4.TestData_RHS[i].y) / 2;
-                result &= x.z == ((maxmath.addsaturated(Tests.__long4.TestData_LHS[i].z, Tests.__long4.TestData_RHS[i].z) > 0 ? 1 : -1) + (Int128)Tests.__long4.TestData_LHS[i].z + (Int128)Tests.__long4.TestData_RHS[i].z) / 2;
-                result &= x.w == ((maxmath.addsaturated(Tests.__long4.TestData_LHS[i].w, Tests.__long4.TestData_RHS[i].w) > 0 ? 1 : -1) + (Int128)Tests.__long4.TestData_LHS[i].w + (Int128)Tests.__long4.TestData_RHS[i].w) / 2;
+                for (int j = 0; j < 4; j++)
+                {
+                    TestLong(a[j], b[j], result[j]);
+                }
             }
-
-            Assert.AreEqual(true, result);
         }
     }
 }

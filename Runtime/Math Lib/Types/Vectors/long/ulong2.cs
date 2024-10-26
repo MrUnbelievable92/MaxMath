@@ -4,17 +4,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable]  
-    [StructLayout(LayoutKind.Explicit, Size = 2 * sizeof(ulong))] 
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 2 * sizeof(ulong))]
     [DebuggerTypeProxy(typeof(ulong2.DebuggerProxy))]
     unsafe public struct ulong2 : IEquatable<ulong2>, IFormattable
     {
@@ -41,27 +39,27 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2(ulong x, ulong y)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
+            {
+                this = Xse.set_epi64x((long)y, (long)x);
+            }
+            else
             {
                 this.x = x;
                 this.y = y;
             }
-            else
-            {
-                this = Sse2.set_epi64x((long)y, (long)x);
-            }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2(ulong xy)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                this.x = this.y = xy;
+                this = Xse.set1_epi64x(xy);
             }
             else
             {
-                this = Sse2.set1_epi64x((long)xy);
+                this.x = this.y = xy;
             }
         }
 
@@ -76,7 +74,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_broadcastq_epi64(this);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     ulong2 _xx = xx;
 
@@ -97,7 +95,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yx, xx);
                 }
@@ -116,7 +114,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(this, xx);
                 }
@@ -135,7 +133,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(xx, yx);
                 }
@@ -154,7 +152,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 0, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(xx, this);
                 }
@@ -173,7 +171,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yy, xx);
                 }
@@ -192,7 +190,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     ulong2 _yx = yx;
 
@@ -213,7 +211,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yx, this);
                 }
@@ -232,7 +230,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(this, yx);
                 }
@@ -251,7 +249,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(this, this);
                 }
@@ -270,7 +268,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(xx, yy);
                 }
@@ -289,7 +287,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(0, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yy, yx);
                 }
@@ -308,7 +306,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yy, this);
                 }
@@ -327,7 +325,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(yx, yy);
                 }
@@ -346,7 +344,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong4(this, yy);
                 }
@@ -365,7 +363,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     ulong2 _yy = yy;
 
@@ -387,7 +385,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_broadcastq_epi64(this);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(xx, x);
                 }
@@ -406,7 +404,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 0, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(yx, x);
                 }
@@ -425,7 +423,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(1, 0, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(this, x);
                 }
@@ -444,7 +442,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 1, 0, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(xx, y);
                 }
@@ -463,7 +461,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 0, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(yy, x);
                 }
@@ -482,7 +480,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 1, 0, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(yx, y);
                 }
@@ -501,7 +499,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 1, 1, 0));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(this, y);
                 }
@@ -520,7 +518,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(this), Sse.SHUFFLE(3, 1, 1, 1));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return new ulong3(yy, y);
                 }
@@ -536,9 +534,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    return Sse2.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
+                    return Xse.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 1, 0));
                 }
                 else
                 {
@@ -551,9 +549,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    return Sse2.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2));
+                    return Xse.shuffle_epi32(this, Sse.SHUFFLE(1, 0, 3, 2));
                 }
                 else
                 {
@@ -571,9 +569,9 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    return Sse2.shuffle_epi32(this, Sse.SHUFFLE(3, 2, 3, 2));
+                    return Xse.shuffle_epi32(this, Sse.SHUFFLE(3, 2, 3, 2));
                 }
                 else
                 {
@@ -583,7 +581,7 @@ namespace MaxMath
         }
         #endregion
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(ulong2 input) => new v128 { ULong0 = input.x, ULong1 = input.y };
 
@@ -596,22 +594,12 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2(long2 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return (v128)input;
-            }
-            else
-            {
-                return *(ulong2*)&input;
-            }
-        }
+        public static explicit operator ulong2(long2 input) => *(ulong2*)&input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ulong2(uint2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepu32_epi64(RegisterConversion.ToV128(input));
             }
@@ -624,7 +612,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong2(int2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvtepi32_epi64(RegisterConversion.ToV128(input));
             }
@@ -635,15 +623,36 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2(half2 input) => (ulong2)(int2)(float2)input;
+        public static explicit operator ulong2(half2 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttph_epu64(RegisterConversion.ToV128(input));
+            }
+            else
+            {
+                return new ulong2(maxmath.BASE_cvtf16i32(input.x, signed: false, trunc: true),
+                                  maxmath.BASE_cvtf16i32(input.y, signed: false, trunc: true));
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2(float2 input) => new ulong2((ulong)input.x, (ulong)input.y);
+        public static explicit operator ulong2(float2 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.cvttps_epu64(RegisterConversion.ToV128(input));
+            }
+            else
+            {
+                return new ulong2((ulong)input.x, (ulong)input.y);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong2(double2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.cvttpd_epu64(RegisterConversion.ToV128(input));
             }
@@ -651,13 +660,13 @@ namespace MaxMath
             {
                 return new ulong2((ulong)input.x, (ulong)input.y);
             }
-        } 
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint2(ulong2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.cvtepi64_epi32(input));
             }
@@ -670,7 +679,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int2(ulong2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.cvtepi64_epi32(input));
             }
@@ -684,18 +693,30 @@ namespace MaxMath
         public static explicit operator half2(ulong2 input) => (half2)(float2)(uint2)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float2(ulong2 input) => new float2((float)input.x, (float)input.y);
+        public static implicit operator float2(ulong2 input)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToFloat2(Xse.cvtepu64_ps(input));
+            }
+            else
+            {
+                return new float2((float)input.x, (float)input.y);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double2(ulong2 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.cvtepu64_pd(input));
             }
-            
-            return new double2((double)input.x, (double)input.y);
-        } 
+            else
+            {
+                return new double2((double)input.x, (double)input.y);
+            }
+        }
 
 
         public ulong this[int index]
@@ -705,32 +726,28 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 2);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return Xse.extract_epi64(this, (byte)index);
                 }
                 else
                 {
-                    ulong2 onStack = this;
-                    
-                    return *((ulong*)&onStack + index);
+                    return this.GetField<ulong2, ulong>(index);
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 2);
 
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     this = Xse.insert_epi64(this, value, (byte)index);
                 }
                 else
                 {
-                    ulong2 onStack = this;
-                    *((ulong*)&onStack + index) = value;
-                    this = onStack;
+                    this.SetField(value, index);
                 }
             }
         }
@@ -739,33 +756,33 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator + (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.add_epi64(left, right);
+                return Xse.add_epi64(left, right);
             }
             else
             {
                 return new ulong2(left.x + right.x, left.y + right.y);
             }
         }
-            
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator - (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.sub_epi64(left, right);
+                return Xse.sub_epi64(left, right);
             }
             else
             {
                 return new ulong2(left.x - right.x, left.y - right.y);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator * (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mullo_epi64(left, right);
             }
@@ -776,9 +793,57 @@ Assert.IsWithinArrayBounds(index, 2);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (ulong2 left, uint2 right)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.mullo_epi64(left, (ulong2)right, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong2(left.x * right.x, left.y * right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (uint2 left, ulong2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (ulong2 left, ushort2 right)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.mullo_epi64(left, (ulong2)right, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong2(left.x * right.x, left.y * right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (ushort2 left, ulong2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (ulong2 left, byte2 right)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.mullo_epi64(left, (ulong2)right, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong2(left.x * right.x, left.y * right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 operator * (byte2 left, ulong2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator / (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epu64(left, right);
             }
@@ -787,11 +852,11 @@ Assert.IsWithinArrayBounds(index, 2);
                 return new ulong2(left.x / right.x, left.y / right.y);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator % (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rem_epu64(left, right);
             }
@@ -808,7 +873,7 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator * (ulong2 left, ulong right)
         {
-            if (Constant.IsConstantExpression(right))
+            if (constexpr.IS_CONST(right))
             {
                 return new ulong2(left.x * right, left.y * right);
             }
@@ -817,68 +882,68 @@ Assert.IsWithinArrayBounds(index, 2);
                 return left * (ulong2)right;
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator / (ulong2 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.div_epu64(left, right);
+                    return Xse.constdiv_epu64(left, right);
                 }
             }
-                
+
             return left / (ulong2)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator % (ulong2 left, ulong right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.rem_epu64(left, right);
+                    return Xse.constrem_epu64(left, right);
                 }
             }
-                
+
             return left % (ulong2)right;
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator & (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.and_si128(left, right);
+                return Xse.and_si128(left, right);
             }
             else
             {
                 return new ulong2((ulong)(left.x & right.x), (ulong)(left.y & right.y));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator | (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.or_si128(left, right);
+                return Xse.or_si128(left, right);
             }
             else
             {
                 return new ulong2((ulong)(left.x | right.x), (ulong)(left.y | right.y));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator ^ (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Sse2.xor_si128(left, right);
+                return Xse.xor_si128(left, right);
             }
             else
             {
@@ -890,7 +955,7 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator ++ (ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.inc_epi64(x);
             }
@@ -899,11 +964,11 @@ Assert.IsWithinArrayBounds(index, 2);
                 return new ulong2(x.x + 1, x.y + 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator -- (ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.dec_epi64(x);
             }
@@ -912,11 +977,11 @@ Assert.IsWithinArrayBounds(index, 2);
                 return new ulong2(x.x - 1, x.y - 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator ~ (ulong2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.not_si128(x);
             }
@@ -925,14 +990,14 @@ Assert.IsWithinArrayBounds(index, 2);
                 return new ulong2(~x.x, ~x.y);
             }
         }
-    
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator << (ulong2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.slli_epi64(x, n);
+                return Xse.slli_epi64(x, n, inRange: true);
             }
             else
             {
@@ -943,25 +1008,23 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 operator >> (ulong2 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.srli_epi64(x, n);
+                return Xse.srli_epi64(x, n, inRange: true);
             }
             else
             {
                 return new ulong2(x.x >> n, x.y >> n);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator == (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.cmpeq_epi64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpeq_epi64(left, right)));
             }
             else
             {
@@ -972,11 +1035,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator < (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.cmplt_epu64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmplt_epu64(left, right)));
             }
             else
             {
@@ -987,11 +1048,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator > (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsTrue64(Xse.cmpgt_epu64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpgt_epu64(left, right)));
             }
             else
             {
@@ -1003,11 +1062,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator != (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.cmpeq_epi64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsFalse64(Xse.cmpeq_epi64(left, right)));
             }
             else
             {
@@ -1018,11 +1075,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator <= (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.cmpgt_epu64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsFalse64(Xse.cmpgt_epu64(left, right)));
             }
             else
             {
@@ -1033,11 +1088,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator >= (ulong2 left, ulong2 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                int results = RegisterConversion.IsFalse64(Xse.cmplt_epu64(left, right));
-
-                return *(bool2*)&results;
+                return RegisterConversion.ToBool2(RegisterConversion.IsFalse64(Xse.cmplt_epu64(left, right)));
             }
             else
             {
@@ -1049,9 +1102,9 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(ulong2 other)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return bitmask32(16) == Sse2.movemask_epi8(Xse.cmpeq_epi64(this, other));
+                return Xse.alltrue_epi128<ulong>(Xse.cmpeq_epi64(this, other));
             }
             else
             {
@@ -1065,7 +1118,7 @@ Assert.IsWithinArrayBounds(index, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode()
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Hash.v128(this);
             }

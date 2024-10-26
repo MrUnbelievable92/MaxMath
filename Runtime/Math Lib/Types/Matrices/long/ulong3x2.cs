@@ -50,6 +50,19 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong3x2(int3x2 input) => new ulong3x2((ulong3)input.c0, (ulong3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong3x2(uint3x2 input) => new ulong3x2((ulong3)input.c0, (ulong3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int3x2(ulong3x2 input) => new int3x2((int3)input.c0, (int3)input.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator uint3x2(ulong3x2 input) => new uint3x2((uint3)input.c0, (uint3)input.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong3x2(float3x2 input) => new ulong3x2((ulong3)input.c0, (ulong3)input.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,6 +104,25 @@ Assert.IsWithinArrayBounds(index, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x2 operator % (ulong3x2 left, ulong3x2 right) => new ulong3x2 (left.c0 % right.c0, left.c1 % right.c1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (ulong3x2 left, uint3x2 right) => new ulong3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (ulong3x2 left, ushort3x2 right) => new ulong3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (ulong3x2 left, byte3x2 right) => new ulong3x2(left.c0 * right.c0, left.c1 * right.c1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (uint3x2 left, ulong3x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (ushort3x2 left, ulong3x2 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x2 operator * (byte3x2 left, ulong3x2 right) => right * left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

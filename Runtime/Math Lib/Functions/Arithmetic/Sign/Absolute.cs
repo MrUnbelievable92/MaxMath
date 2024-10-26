@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
+using Unity.Burst.CompilerServices;
 
 namespace MaxMath
 {
@@ -14,38 +15,65 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 abs_epi8(v128 a, byte elements = 16)
             {
-                if (constexpr.ALL_GE_EPI8(a, 0, elements))
-                {
-                    return a;
-                }
-    
                 if (Sse2.IsSse2Supported)
                 {
-                    if (Ssse3.IsSsse3Supported)
+                    v128 result;
+                    
+                    if (constexpr.ALL_GE_EPI8(a, 0, elements))
                     {
-                        return Ssse3.abs_epi8(a);
+                        result = a;
+                    }
+                    else if (Ssse3.IsSsse3Supported)
+                    {
+                        result = Ssse3.abs_epi8(a);
                     }
                     else
                     {
-                        v128 mask = Sse2.cmpgt_epi8(Sse2.setzero_si128(), a);
-
-                        return Sse2.xor_si128(mask, Sse2.add_epi8(a, mask));
+                        if (constexpr.ALL_LE_EPI8(a, 0, elements))
+                        {
+                            result = neg_epi8(a);
+                        }
+                        else
+                        {
+                            v128 sign = srai_epi8(a, 7);
+                            result = xor_si128(sign, add_epi8(a, sign));
+                        }
                     }
+
+                    if (constexpr.ALL_NEQ_EPI8(a, sbyte.MinValue, elements))
+                    {
+                        constexpr.ASSUME_GE_EPI8(result, 0, elements);
+                    }
+                    return result;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vabsq_s8(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_abs_epi8(v256 a, byte elements = 4)
+            public static v256 mm256_abs_epi8(v256 a)
             {
-                if (constexpr.ALL_GE_EPI8(a, 0))
-                {
-                    return a;
-                }
-    
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_abs_epi8(a);
+                    v256 result;
+                    
+                    if (constexpr.ALL_GE_EPI8(a, 0))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx2.mm256_abs_epi8(a);
+                    }
+                    
+                    if (constexpr.ALL_NEQ_EPI8(a, sbyte.MinValue))
+                    {
+                        constexpr.ASSUME_GE_EPI8(result, 0);
+                    }
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -54,36 +82,64 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 abs_epi16(v128 a, byte elements = 8)
             {
-                if (constexpr.ALL_GE_EPI16(a, 0, elements))
-                {
-                    return a;
-                }
-    
                 if (Sse2.IsSse2Supported)
                 {
-                    if (Ssse3.IsSsse3Supported)
+                    v128 result;
+                    
+                    if (constexpr.ALL_GE_EPI16(a, 0, elements))
                     {
-                        return Ssse3.abs_epi16(a);
+                        result = a;
+                    }
+                    else if (Ssse3.IsSsse3Supported)
+                    {
+                        result = Ssse3.abs_epi16(a);
                     }
                     else
                     {
-                        return Sse2.max_epi16(Xse.neg_epi16(a), a);
+                        if (constexpr.ALL_LE_EPI16(a, 0, elements))
+                        {
+                            result = neg_epi16(a);
+                        }
+                        else
+                        {
+                            result = max_epi16(neg_epi16(a), a);
+                        }
                     }
+                    
+                    if (constexpr.ALL_NEQ_EPI16(a, short.MinValue, elements))
+                    {
+                        constexpr.ASSUME_GE_EPI16(result, 0, elements);
+                    }
+                    return result;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vabsq_s16(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_abs_epi16(v256 a)
             {
-                if (constexpr.ALL_GE_EPI16(a, 0))
-                {
-                    return a;
-                }
-    
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_abs_epi16(a);
+                    v256 result;
+                    
+                    if (constexpr.ALL_GE_EPI16(a, 0))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx2.mm256_abs_epi16(a);
+                    }
+                    
+                    if (constexpr.ALL_NEQ_EPI16(a, short.MinValue))
+                    {
+                        constexpr.ASSUME_GE_EPI16(result, 0);
+                    }
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -92,38 +148,65 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 abs_epi32(v128 a, byte elements = 4)
             {
-                if (constexpr.ALL_GE_EPI32(a, 0, elements))
-                {
-                    return a;
-                }
-    
                 if (Sse2.IsSse2Supported)
                 {
-                    if (Ssse3.IsSsse3Supported)
+                    v128 result;
+                    
+                    if (constexpr.ALL_GE_EPI32(a, 0, elements))
                     {
-                        return Ssse3.abs_epi32(a);
+                        result = a;
+                    }
+                    else if (Ssse3.IsSsse3Supported)
+                    {
+                        result = Ssse3.abs_epi32(a);
                     }
                     else
                     {
-                        v128 mask = Sse2.cmpgt_epi32(Sse2.setzero_si128(), a);
-
-                        return Sse2.xor_si128(mask, Sse2.add_epi32(a, mask));
+                        if (constexpr.ALL_LE_EPI32(a, 0, elements))
+                        {
+                            result = neg_epi32(a);
+                        }
+                        else
+                        {
+                            v128 mask = srai_epi32(a, 31);
+                            result = xor_si128(mask, add_epi32(a, mask));
+                        }
                     }
+                    
+                    if (constexpr.ALL_NEQ_EPI32(a, int.MinValue, elements))
+                    {
+                        constexpr.ASSUME_GE_EPI32(result, 0, elements);
+                    }
+                    return result;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vabsq_s32(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_abs_epi32(v256 a)
             {
-                if (constexpr.ALL_GE_EPI32(a, 0))
-                {
-                    return a;
-                }
-    
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_abs_epi32(a);
+                    v256 result;
+                    
+                    if (constexpr.ALL_GE_EPI32(a, 0))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx2.mm256_abs_epi32(a);
+                    }
+                    
+                    if (constexpr.ALL_NEQ_EPI32(a, int.MinValue))
+                    {
+                        constexpr.ASSUME_GE_EPI32(result, 0);
+                    }
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -134,33 +217,67 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    if (constexpr.ALL_GE_EPI64(a, 0)) 
+                    v128 result;
+                    
+                    if (constexpr.ALL_GE_EPI64(a, 0))
                     {
-                        return a;
+                        result = a;
                     }
-                    else
+                    else if (constexpr.ALL_LE_EPI64(a, 0))
                     {
-                        v128 mask = Xse.srai_epi64(a, 63);
-    
-                        return Sse2.xor_si128(mask, Sse2.add_epi64(a, mask));
+                        result = neg_epi64(a);
                     }
+                    else 
+                    {
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            result = blendv_pd(a, neg_epi64(a), a);
+                        }
+                        else
+                        {
+                            v128 sign = srai_epi64(a, 63);
+                            result = xor_si128(sign, add_epi64(a, sign));
+                        }
+                    }
+                    
+                    if (constexpr.ALL_NEQ_EPI64(a, long.MinValue))
+                    {
+                        constexpr.ASSUME_GE_EPI64(result, 0);
+                    }
+                    return result;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vabsq_s64(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_abs_epi64(v256 a, byte elements = 4)
             {
-                if (constexpr.ALL_GE_EPI64(a, 0, elements))
-                {
-                    return a;
-                }
-    
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 mask = mm256_srai_epi64(a, 63);
+                    v256 result;
                     
-                    return Avx2.mm256_xor_si256(mask, Avx2.mm256_add_epi64(a, mask));
+                    if (constexpr.ALL_GE_EPI64(a, 0, elements))
+                    {
+                        result = a;
+                    }
+                    else if (constexpr.ALL_LE_EPI64(a, 0, elements))
+                    {
+                        result = mm256_neg_epi64(a);
+                    }
+                    else
+                    {
+                        result = Avx.mm256_blendv_pd(a, mm256_neg_epi64(a), a);
+                    }
+                    
+                    if (constexpr.ALL_NEQ_EPI64(a, long.MinValue, elements))
+                    {
+                        constexpr.ASSUME_GE_EPI64(result, 0, elements);
+                    }
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -169,29 +286,47 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 abs_ps(v128 a, byte elements = 4)
             {
-                if (constexpr.ALL_LE_EPU32(a, 1u << 31, elements))
+                if (Sse2.IsSse2Supported)
                 {
-                    return a;
+                    v128 result;
+                    
+                    if (constexpr.ALL_LT_EPU32(a, 1u << 31, elements))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Sse.and_ps(a, new v128(0x7FFF_FFFF));
+                    }
+
+                    constexpr.ASSUME_GE_PS(result, 0f, elements);
+                    return result;
                 }
-    
-                if (Sse.IsSseSupported)
+                else if (Arm.Neon.IsNeonSupported)
                 {
-                    return Sse.and_ps(a, new v128(0x7FFF_FFFF));
+                    return Arm.Neon.vabsq_f32(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_abs_ps(v256 a)
             {
-                if (constexpr.ALL_LE_EPU32(a, 1u << 31))
-                {
-                    return a;
-                }
-    
                 if (Avx.IsAvxSupported)
                 {
-                    return Avx.mm256_and_ps(a, new v256(0x7FFF_FFFF));
+                    v256 result;
+                    
+                    if (constexpr.ALL_LT_EPU32(a, 1u << 31))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx.mm256_and_ps(a, new v256(0x7FFF_FFFF));
+                    }
+
+                    constexpr.ASSUME_GE_PS(result, 0f);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -202,29 +337,45 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU64(a, 1ul << 63)) 
+                    v128 result;
+                    
+                    if (constexpr.ALL_LT_EPU64(a, 1ul << 63))
                     {
-                        return a;
+                        result = a;
                     }
                     else
                     {
-                        return Sse2.and_pd(a, new v128(0x7FFF_FFFF_FFFF_FFFF));
+                        result = and_pd(a, new v128(0x7FFF_FFFF_FFFF_FFFF));
                     }
+
+                    constexpr.ASSUME_GE_PD(result, 0d);
+                    return result;
+                }
+                else if (Arm.Neon.IsNeonSupported)
+                {
+                    return Arm.Neon.vabsq_f64(a);
                 }
                 else throw new IllegalInstructionException();
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_abs_pd(v256 a, byte elements = 4)
             {
-                if (constexpr.ALL_LE_EPU64(a, 1ul << 63, elements))
-                {
-                    return a;
-                }
-    
                 if (Avx.IsAvxSupported)
                 {
-                    return Avx.mm256_and_pd(a, new v256(0x7FFF_FFFF_FFFF_FFFF));
+                    v256 result;
+                    
+                    if (constexpr.ALL_LT_EPU64(a, 1ul << 63, elements))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx.mm256_and_pd(a, new v256(0x7FFF_FFFF_FFFF_FFFF));
+                    }
+
+                    constexpr.ASSUME_GE_PD(result, 0f);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -238,18 +389,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 abs(Int128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0))
+            if (constexpr.IS_TRUE(x >= 0))
             {
                 return x;
             }
             else
             {
-                ulong mask = (ulong)((long)x.hi64 >> 63);
-
-                ulong lo = x.lo64 ^ mask;
-                ulong hi = x.hi64 ^ mask;
-
-                return new Int128(lo, hi) - new Int128(mask, mask);
+                Int128 result = select(x, -x, (long)x.hi64 < 0);
+                if (constexpr.IS_TRUE(x != Int128.MinValue))
+                {
+                    constexpr.ASSUME(result > 0);
+                }
+                return result;
             }
         }
 
@@ -258,13 +409,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte abs(sbyte x)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0))
+            if (constexpr.IS_TRUE(x >= 0))
             {
                 return x;
             }
             else
             {
-                return (sbyte)(x < 0 ? -x : x);
+                sbyte result = (sbyte)(x < 0 ? -x : x);
+                if (constexpr.IS_TRUE(x != sbyte.MinValue))
+                {
+                    constexpr.ASSUME(result > 0);
+                }
+                return result;
             }
         }
 
@@ -272,7 +428,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 abs(sbyte2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi8(x, 2);
             }
@@ -286,7 +442,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 abs(sbyte3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi8(x, 3);
             }
@@ -300,7 +456,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 abs(sbyte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi8(x, 4);
             }
@@ -314,7 +470,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 abs(sbyte8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi8(x, 8);
             }
@@ -328,7 +484,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 abs(sbyte16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi8(x, 16);
             }
@@ -357,13 +513,18 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short abs(short x)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0))
+            if (constexpr.IS_TRUE(x >= 0))
             {
                 return x;
             }
             else
             {
-                return (short)(x < 0 ? -x : x);
+                short result = (short)(x < 0 ? -x : x);
+                if (constexpr.IS_TRUE(x != short.MinValue))
+                {
+                    constexpr.ASSUME(result > 0);
+                }
+                return result;
             }
         }
 
@@ -371,7 +532,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 abs(short2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi16(x, 2);
             }
@@ -385,7 +546,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 abs(short3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi16(x, 3);
             }
@@ -399,7 +560,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 abs(short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi16(x, 4);
             }
@@ -413,7 +574,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 abs(short8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi16(x, 8);
             }
@@ -457,7 +618,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 abs(long2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.abs_epi64(x);
             }
@@ -500,7 +661,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter abs(quarter x)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0f))
+            if (constexpr.IS_TRUE(x >= 0f))
             {
                 return x;
             }
@@ -514,7 +675,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 abs(quarter2 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float2)x >= 0f))) 
+            if (constexpr.IS_TRUE(math.all((float2)x >= 0f)))
             {
                 return x;
             }
@@ -528,7 +689,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 abs(quarter3 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float3)x >= 0f))) 
+            if (constexpr.IS_TRUE(math.all((float3)x >= 0f)))
             {
                 return x;
             }
@@ -537,12 +698,12 @@ namespace MaxMath
                 return asquarter(asbyte(x) & 0b0111_1111);
             }
         }
-        
+
         /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 abs(quarter4 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float4)x >= 0f))) 
+            if (constexpr.IS_TRUE(math.all((float4)x >= 0f)))
             {
                 return x;
             }
@@ -551,12 +712,12 @@ namespace MaxMath
                 return asquarter(asbyte(x) & 0b0111_1111);
             }
         }
-        
+
         /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 abs(quarter8 x)
         {
-            if (Xse.constexpr.IS_TRUE(all((float8)x >= 0f))) 
+            if (constexpr.IS_TRUE(all((float8)x >= 0f)))
             {
                 return x;
             }
@@ -571,7 +732,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half abs(half x)
         {
-            if (Xse.constexpr.IS_TRUE(x >= 0f))
+            if (constexpr.IS_TRUE(x >= 0f))
             {
                 return x;
             }
@@ -585,7 +746,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 abs(half2 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float2)x >= 0f))) 
+            if (constexpr.IS_TRUE(math.all((float2)x >= 0f)))
             {
                 return x;
             }
@@ -599,7 +760,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 abs(half3 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float3)x >= 0f))) 
+            if (constexpr.IS_TRUE(math.all((float3)x >= 0f)))
             {
                 return x;
             }
@@ -613,7 +774,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 abs(half4 x)
         {
-            if (Xse.constexpr.IS_TRUE(math.all((float4)x >= 0f)))
+            if (constexpr.IS_TRUE(math.all((float4)x >= 0f)))
             {
                 return x;
             }
@@ -627,7 +788,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 abs(half8 x)
         {
-            if (Xse.constexpr.IS_TRUE(all((float8)x >= 0f)))
+            if (constexpr.IS_TRUE(all((float8)x >= 0f)))
             {
                 return x;
             }

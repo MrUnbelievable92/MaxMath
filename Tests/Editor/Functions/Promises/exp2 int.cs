@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class PROMISE_exp2_int
+    public static class f_PROMISE_exp2_int
     {
         [Test]
-        public static void IntToFloat()
+        public static void _intToFloat()
         {
             Random32 rng = Random32.New;
 
@@ -14,12 +14,12 @@ namespace MaxMath.Tests
             {
                 int inRange = rng.NextInt(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Int2ToFloat2()
+        public static void _int2ToFloat2()
         {
             Random32 rng = Random32.New;
 
@@ -27,12 +27,12 @@ namespace MaxMath.Tests
             {
                 int2 inRange = rng.NextInt2(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Int3ToFloat3()
+        public static void _int3ToFloat3()
         {
             Random32 rng = Random32.New;
 
@@ -40,12 +40,12 @@ namespace MaxMath.Tests
             {
                 int3 inRange = rng.NextInt3(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Int4ToFloat4()
+        public static void _int4ToFloat4()
         {
             Random32 rng = Random32.New;
 
@@ -53,12 +53,12 @@ namespace MaxMath.Tests
             {
                 int4 inRange = rng.NextInt4(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Int8ToFloat8()
+        public static void _int8ToFloat8()
         {
             Random32 rng = Random32.New;
 
@@ -66,13 +66,13 @@ namespace MaxMath.Tests
             {
                 int8 inRange = rng.NextInt8(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
 
         [Test]
-        public static void UIntToFloat()
+        public static void _uintToFloat()
         {
             Random32 rng = Random32.New;
 
@@ -80,12 +80,12 @@ namespace MaxMath.Tests
             {
                 uint inRange = rng.NextUInt(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void UInt2ToFloat2()
+        public static void _uint2ToFloat2()
         {
             Random32 rng = Random32.New;
 
@@ -93,12 +93,12 @@ namespace MaxMath.Tests
             {
                 uint2 inRange = rng.NextUInt2(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void UInt3ToFloat3()
+        public static void _uint3ToFloat3()
         {
             Random32 rng = Random32.New;
 
@@ -106,12 +106,12 @@ namespace MaxMath.Tests
             {
                 uint3 inRange = rng.NextUInt3(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void UInt4ToFloat4()
+        public static void _uint4ToFloat4()
         {
             Random32 rng = Random32.New;
 
@@ -119,12 +119,12 @@ namespace MaxMath.Tests
             {
                 uint4 inRange = rng.NextUInt4(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void UInt8ToFloat8()
+        public static void _uint8ToFloat8()
         {
             Random32 rng = Random32.New;
 
@@ -132,13 +132,13 @@ namespace MaxMath.Tests
             {
                 uint8 inRange = rng.NextUInt8(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
 
         [Test]
-        public static void LongToDouble()
+        public static void _longToDouble()
         {
             Random64 rng = Random64.New;
 
@@ -146,12 +146,12 @@ namespace MaxMath.Tests
             {
                 long inRange = rng.NextLong(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Long2ToDouble2()
+        public static void _long2ToDouble2()
         {
             Random64 rng = Random64.New;
 
@@ -159,12 +159,12 @@ namespace MaxMath.Tests
             {
                 long2 inRange = rng.NextLong2(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Long3ToDouble3()
+        public static void _long3ToDouble3()
         {
             Random64 rng = Random64.New;
 
@@ -172,12 +172,12 @@ namespace MaxMath.Tests
             {
                 long3 inRange = rng.NextLong3(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void Long4ToDouble4()
+        public static void _long4ToDouble4()
         {
             Random64 rng = Random64.New;
 
@@ -185,13 +185,13 @@ namespace MaxMath.Tests
             {
                 long4 inRange = rng.NextLong4(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
 
         [Test]
-        public static void ULongToDouble()
+        public static void _ulongToDouble()
         {
             Random64 rng = Random64.New;
 
@@ -199,12 +199,12 @@ namespace MaxMath.Tests
             {
                 ulong inRange = rng.NextULong(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void ULong2ToDouble2()
+        public static void _ulong2ToDouble2()
         {
             Random64 rng = Random64.New;
 
@@ -212,12 +212,12 @@ namespace MaxMath.Tests
             {
                 ulong2 inRange = rng.NextULong2(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void ULong3ToDouble3()
+        public static void _ulong3ToDouble3()
         {
             Random64 rng = Random64.New;
 
@@ -225,12 +225,12 @@ namespace MaxMath.Tests
             {
                 ulong3 inRange = rng.NextULong3(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
 
         [Test]
-        public static void ULong4ToDouble4()
+        public static void _ulong4ToDouble4()
         {
             Random64 rng = Random64.New;
 
@@ -238,7 +238,7 @@ namespace MaxMath.Tests
             {
                 ulong4 inRange = rng.NextULong4(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, maxmath.Promise.NoOverflow));
+                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
             }
         }
     }

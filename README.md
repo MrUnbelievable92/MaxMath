@@ -1,13 +1,14 @@
-# MaxMath
-A C# SIMD math library for use with Unity only, supplementary to Unity.Mathematics using Unity.Burst. 
+#MaxMath
+MaxMath is the most powerful and extensive SIMD math library available to Unity developers. Built on top of Unity.Mathematics and utilizing Unity.Burst, it introduces the following key features:
 
-It adds (s)byte, (u)short and (u)long SIMD vectors and matrices to the ones already provided by Unity.Mathematics. 
-Almost all functions present in Unity.Mathematics have been transcribed to work with the new vector and matrix types in addition to many useful functions having been added.
-
-Note: 
-- [C Sharp Dev Tools](https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools) (conditionally compiled runtime checks) is required. Unit tests for this library are included in this repository.
-- This library utilizes Avx2 as often as possible. Optimized fallback procedures for Sse4 and Sse2 are included, aswell as a managed C# implementation. There are currently no plans for supporting ARM or other instruction sets in the future, although Burst/LLVM is generally good at vectorizing some of the code for them. 
-- The "float8" type does not support deterministic compilation across all platforms with Unity.Burst. Split up the vector into two "float4" vectors via the properties "myfloat8.v4_0" and "myfloat8.v4_4" to take advantage of deterministic compilation instead.
+- **Support For All Primitive Data Types:** MaxMath adds support for `(s)byte`, `(u)short`, and `(u)long` vectors and matrices. These data types come with specialized overloads for all functions in Unity.Mathematics. Additionally, specialized `Random8/16/32/64/128` types are available for efficient pseudo-random number generation.
+- **Wider Vectors With Full Hardware Support:** Vector types are expanded to 256 bits, enabling types like `byte32`, `short16`, `int8`, and `float8`. This allows you to leverage the full potential of SIMD computation.
+- **Many Additional Functions:** MaxMath includes a massive library of mathematical functions not found in Unity.Mathematics, with about five times as many highly optimized functions at your disposal. Each function is fully documented with XML annotations. A full list is provided further below.
+- **Exotic Data Types:** MaxMath introduces data types such as `(U)Int128` (scalar only), 128-bit `quadruple` precision floats (scalar only), and 8-bit `quarter` precision floats (in both scalar and vector forms). Additionally, `Divider<T>` offers highly optimized integer division operations, extending and outperforming specialized libraries like libdivide.
+- **Written Entirely With Hardware Intrinsics:** MaxMath guarantees optimal performance by utilizing specialized CPU instructions for both ARM and x86 ISAs, while abstracting these complexities away from the user entirely.
+- **Extends The Burst Compiler:** MaxMath integrates deeply with Unity.Burst and LLVM, leveraging `Unity.Burst.CompilerServices.Constant.IsConstantExpression<T>()` to include code typically only found in optimizing compilers. This functionality allows MaxMath to choose more optimized code paths at compile time, and users can influence this behavior via the optional `Promise` enum parameter available in many functions.
+- **Easy To Use:** MaxMath is just as easy to use as Unity.Mathematics. It supports features like `implicit` and `explicit` type conversions, making it seamless for you to use if you expect typical C# behavior of primitive types.
+- **Extensive Test Coverage:** MaxMath is backed by 250,000 lines of unit tests for its 400,000 lines of code, as well as `DEBUG` only runtime checks where appropriate, together ensuring it is _production ready_.
 
 
 # How To Use This Library

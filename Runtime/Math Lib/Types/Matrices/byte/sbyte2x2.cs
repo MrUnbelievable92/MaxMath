@@ -1,11 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -127,35 +124,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte2x2 operator * (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2(left.c0 * right.c0, left.c1 * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator / (sbyte2x2 left, sbyte2x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte4 fused = new sbyte4(left.c0, left.c1) / new sbyte4(right.c0, right.c1);
-
-                return new sbyte2x2(fused.xy, fused.zw);
-            }
-            else
-            {
-                return new sbyte2x2(left.c0 / right.c0, left.c1 / right.c1);
-            }
-        }
-            
+        public static sbyte2x2 operator / (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2(left.c0 / right.c0, left.c1 / right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator % (sbyte2x2 left, sbyte2x2 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                sbyte4 fused = new sbyte4(left.c0, left.c1) % new sbyte4(right.c0, right.c1);
-
-                return new sbyte2x2(fused.xy, fused.zw);
-            }
-            else
-            {
-                return new sbyte2x2(left.c0 % right.c0, left.c1 % right.c1);
-            }
-        }
+        public static sbyte2x2 operator % (sbyte2x2 left, sbyte2x2 right) => new sbyte2x2(left.c0 % right.c0, left.c1 % right.c1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,36 +137,10 @@ Assert.IsWithinArrayBounds(index, 2);
         public static sbyte2x2 operator * (sbyte left, sbyte2x2 right) => new sbyte2x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator / (sbyte2x2 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    sbyte4 fused = new sbyte4(left.c0, left.c1) / right;
-
-                    return new sbyte2x2(fused.xy, fused.zw);
-                }
-            }
-            
-            return new sbyte2x2(left.c0 / right, left.c1 / right);
-        }
+        public static sbyte2x2 operator / (sbyte2x2 left, sbyte right) => new sbyte2x2(left.c0 / right, left.c1 / right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte2x2 operator % (sbyte2x2 left, sbyte right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (Constant.IsConstantExpression(right))
-                {
-                    sbyte4 fused = new sbyte4(left.c0, left.c1) % right;
-
-                    return new sbyte2x2(fused.xy, fused.zw);
-                }
-            }
-
-            return new sbyte2x2(left.c0 % right, left.c1 % right);
-        }
+        public static sbyte2x2 operator % (sbyte2x2 left, sbyte right) => new sbyte2x2(left.c0 % right, left.c1 % right);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

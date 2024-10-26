@@ -14,7 +14,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 ceilpow2(UInt128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x <= 1ul << 63))
+            if (constexpr.IS_TRUE(x <= 1ul << 63))
             {
                 return math.ceilpow2(x.lo64);
             }
@@ -23,14 +23,14 @@ namespace MaxMath
             x |= x >> 1;
             x |= x >> 2;
             x |= x >> 4;
-
-            if (Sse2.IsSse2Supported)
+            
+            if (Architecture.IsSIMDSupported)
             {
                 v128 sse = new v128(x.lo64, x.hi64);
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 1));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 2));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 4));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 8));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse,  8 / 8));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 16 / 8));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 32 / 8));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 64 / 8));
                 x = new UInt128(sse.ULong0, sse.ULong1);
             }
             else
@@ -48,13 +48,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 ceilpow2(Int128 x)
         {
-            return (Int128)ceilpow2(x.intern);
+            return (Int128)ceilpow2(x.value);
         }
 
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, byte.MaxValue + 1ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint ceilpow2(byte x)
         {
             x -= 1;
@@ -140,7 +140,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, sbyte.MaxValue + 1L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ceilpow2(sbyte x)
         {
             return (int)ceilpow2((byte)x);
@@ -191,7 +191,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, ushort.MaxValue + 1ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint ceilpow2(ushort x)
         {
             x -= 1;
@@ -271,7 +271,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, short.MaxValue + 1L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ceilpow2(short x)
         {
             return (int)ceilpow2((ushort)x);
@@ -429,7 +429,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 floorpow2(UInt128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
+            if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return floorpow2(x.lo64);
             }
@@ -437,14 +437,14 @@ namespace MaxMath
             x |= x >> 1;
             x |= x >> 2;
             x |= x >> 4;
-
-            if (Sse2.IsSse2Supported)
+            
+            if (Architecture.IsSIMDSupported)
             {
                 v128 sse = new v128(x.lo64, x.hi64);
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 1));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 2));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 4));
-                sse = Sse2.or_si128(sse, Sse2.bsrli_si128(sse, 8));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 1));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 2));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 4));
+                sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 8));
                 x = new UInt128(sse.ULong0, sse.ULong1);
             }
             else
@@ -462,13 +462,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 floorpow2(Int128 x)
         {
-            return (Int128)floorpow2(x.intern);
+            return (Int128)floorpow2(x.value);
         }
 
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, (byte.MaxValue + 1ul) / 2ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte floorpow2(byte x)
         {
             x |= (byte)((uint)x >> 1);
@@ -547,7 +547,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, (sbyte.MaxValue + 1L) / 2L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte floorpow2(sbyte x)
         {
             return (sbyte)floorpow2((byte)x);
@@ -598,7 +598,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, (ushort.MaxValue + 1ul) / 2ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort floorpow2(ushort x)
         {
             x |= (ushort)((uint)x >> 1);
@@ -672,7 +672,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, (short.MaxValue + 1L) / 2L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short floorpow2(short x)
         {
             return (short)floorpow2((ushort)x);
@@ -716,12 +716,12 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, (int.MaxValue + 1L) / 2L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int floorpow2(int x)
         {
             return (int)floorpow2((uint)x);
         }
-        
+
         /// <summary>       Returns the result of a componentwise calculation of the floor power of two smaller than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 floorpow2(int2 x)
@@ -750,10 +750,10 @@ namespace MaxMath
             return (int8)floorpow2((uint8)x);
         }
 
-        
+
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, (uint.MaxValue + 1ul) / 2ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint floorpow2(uint x)
         {
             x |= x >> 1;
@@ -817,10 +817,10 @@ namespace MaxMath
             return x - (x >> 1);
         }
 
-        
+
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0L, 1L << 61)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long floorpow2(long x)
         {
             return (long)floorpow2((ulong)x);
@@ -850,7 +850,7 @@ namespace MaxMath
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [return: AssumeRange(0ul, 1ul << 62)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong floorpow2(ulong x)
         {
             x |= x >> 1;
@@ -862,7 +862,7 @@ namespace MaxMath
 
             return x - (x >> 1);
         }
-        
+
         /// <summary>       Returns the result of a componentwise calculation of the floor power of two smaller than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 floorpow2(ulong2 x)

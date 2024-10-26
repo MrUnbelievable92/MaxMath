@@ -3,10 +3,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    public static class msubadd
+    public static class f_msubadd
     {
         [Test]
-        public static void byte2()
+        public static void _byte2()
         {
             Random8 rng = Random8.New;
 
@@ -14,28 +14,28 @@ namespace MaxMath.Tests
             byte2 b = rng.NextByte2();
             byte2 c = rng.NextByte2();
             byte2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (byte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (byte)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
             Random8 rng = Random8.New;
-            
+
             byte3 a = rng.NextByte3();
             byte3 b = rng.NextByte3();
             byte3 c = rng.NextByte3();
             byte3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (byte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (byte)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (byte)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
             Random8 rng = Random8.New;
 
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
             byte4 b = rng.NextByte4();
             byte4 c = rng.NextByte4();
             byte4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (byte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (byte)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (byte)(a.z * b.z - c.z));
@@ -51,7 +51,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
             Random8 rng = Random8.New;
 
@@ -59,7 +59,7 @@ namespace MaxMath.Tests
             byte8 b = rng.NextByte8();
             byte8 c = rng.NextByte8();
             byte8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (byte)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (byte)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (byte)(a.x2 * b.x2 - c.x2));
@@ -71,7 +71,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
             Random8 rng = Random8.New;
 
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
             byte16 b = rng.NextByte16();
             byte16 c = rng.NextByte16();
             byte16 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (byte)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (byte)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (byte)(a.x2  * b.x2  - c.x2));
@@ -99,7 +99,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
             Random8 rng = Random8.New;
 
@@ -107,7 +107,7 @@ namespace MaxMath.Tests
             byte32 b = rng.NextByte32();
             byte32 c = rng.NextByte32();
             byte32 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (byte)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (byte)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (byte)(a.x2  * b.x2  - c.x2));
@@ -142,9 +142,9 @@ namespace MaxMath.Tests
             Assert.AreEqual(op.x31, (byte)(a.x31 * b.x31 + c.x31));
         }
 
-        
+
         [Test]
-        public static void sbyte2()
+        public static void _sbyte2()
         {
             Random8 rng = Random8.New;
 
@@ -152,13 +152,13 @@ namespace MaxMath.Tests
             sbyte2 b = rng.NextSByte2();
             sbyte2 c = rng.NextSByte2();
             sbyte2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (sbyte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (sbyte)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
             Random8 rng = Random8.New;
 
@@ -166,14 +166,14 @@ namespace MaxMath.Tests
             sbyte3 b = rng.NextSByte3();
             sbyte3 c = rng.NextSByte3();
             sbyte3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (sbyte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (sbyte)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (sbyte)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
             Random8 rng = Random8.New;
 
@@ -181,7 +181,7 @@ namespace MaxMath.Tests
             sbyte4 b = rng.NextSByte4();
             sbyte4 c = rng.NextSByte4();
             sbyte4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (sbyte)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (sbyte)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (sbyte)(a.z * b.z - c.z));
@@ -189,7 +189,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
             Random8 rng = Random8.New;
 
@@ -197,7 +197,7 @@ namespace MaxMath.Tests
             sbyte8 b = rng.NextSByte8();
             sbyte8 c = rng.NextSByte8();
             sbyte8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (sbyte)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (sbyte)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (sbyte)(a.x2 * b.x2 - c.x2));
@@ -209,7 +209,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
             Random8 rng = Random8.New;
 
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
             sbyte16 b = rng.NextSByte16();
             sbyte16 c = rng.NextSByte16();
             sbyte16 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (sbyte)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (sbyte)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (sbyte)(a.x2  * b.x2  - c.x2));
@@ -237,7 +237,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
             Random8 rng = Random8.New;
 
@@ -245,7 +245,7 @@ namespace MaxMath.Tests
             sbyte32 b = rng.NextSByte32();
             sbyte32 c = rng.NextSByte32();
             sbyte32 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (sbyte)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (sbyte)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (sbyte)(a.x2  * b.x2  - c.x2));
@@ -282,7 +282,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ushort2()
+        public static void _ushort2()
         {
             Random16 rng = Random16.New;
 
@@ -290,13 +290,13 @@ namespace MaxMath.Tests
             ushort2 b = rng.NextUShort2();
             ushort2 c = rng.NextUShort2();
             ushort2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ushort)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ushort)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
             Random16 rng = Random16.New;
 
@@ -304,14 +304,14 @@ namespace MaxMath.Tests
             ushort3 b = rng.NextUShort3();
             ushort3 c = rng.NextUShort3();
             ushort3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ushort)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ushort)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (ushort)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
             Random16 rng = Random16.New;
 
@@ -319,7 +319,7 @@ namespace MaxMath.Tests
             ushort4 b = rng.NextUShort4();
             ushort4 c = rng.NextUShort4();
             ushort4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ushort)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ushort)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (ushort)(a.z * b.z - c.z));
@@ -327,7 +327,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
             Random16 rng = Random16.New;
 
@@ -335,7 +335,7 @@ namespace MaxMath.Tests
             ushort8 b = rng.NextUShort8();
             ushort8 c = rng.NextUShort8();
             ushort8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (ushort)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (ushort)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (ushort)(a.x2 * b.x2 - c.x2));
@@ -347,7 +347,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
             Random16 rng = Random16.New;
 
@@ -355,7 +355,7 @@ namespace MaxMath.Tests
             ushort16 b = rng.NextUShort16();
             ushort16 c = rng.NextUShort16();
             ushort16 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (ushort)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (ushort)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (ushort)(a.x2  * b.x2  - c.x2));
@@ -376,7 +376,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void short2()
+        public static void _short2()
         {
             Random16 rng = Random16.New;
 
@@ -384,13 +384,13 @@ namespace MaxMath.Tests
             short2 b = rng.NextShort2();
             short2 c = rng.NextShort2();
             short2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (short)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (short)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
             Random16 rng = Random16.New;
 
@@ -398,14 +398,14 @@ namespace MaxMath.Tests
             short3 b = rng.NextShort3();
             short3 c = rng.NextShort3();
             short3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (short)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (short)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (short)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
             Random16 rng = Random16.New;
 
@@ -413,7 +413,7 @@ namespace MaxMath.Tests
             short4 b = rng.NextShort4();
             short4 c = rng.NextShort4();
             short4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (short)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (short)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (short)(a.z * b.z - c.z));
@@ -421,7 +421,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
             Random16 rng = Random16.New;
 
@@ -429,7 +429,7 @@ namespace MaxMath.Tests
             short8 b = rng.NextShort8();
             short8 c = rng.NextShort8();
             short8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (short)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (short)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (short)(a.x2 * b.x2 - c.x2));
@@ -441,7 +441,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
             Random16 rng = Random16.New;
 
@@ -449,7 +449,7 @@ namespace MaxMath.Tests
             short16 b = rng.NextShort16();
             short16 c = rng.NextShort16();
             short16 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0,  (short)(a.x0  * b.x0  - c.x0));
             Assert.AreEqual(op.x1,  (short)(a.x1  * b.x1  + c.x1));
             Assert.AreEqual(op.x2,  (short)(a.x2  * b.x2  - c.x2));
@@ -470,7 +470,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void uint2()
+        public static void _uint2()
         {
             Random32 rng = Random32.New;
 
@@ -478,13 +478,13 @@ namespace MaxMath.Tests
             uint2 b = rng.NextUInt2();
             uint2 c = rng.NextUInt2();
             uint2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (uint)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (uint)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
             Random32 rng = Random32.New;
 
@@ -492,14 +492,14 @@ namespace MaxMath.Tests
             uint3 b = rng.NextUInt3();
             uint3 c = rng.NextUInt3();
             uint3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (uint)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (uint)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (uint)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
             Random32 rng = Random32.New;
 
@@ -507,7 +507,7 @@ namespace MaxMath.Tests
             uint4 b = rng.NextUInt4();
             uint4 c = rng.NextUInt4();
             uint4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (uint)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (uint)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (uint)(a.z * b.z - c.z));
@@ -515,7 +515,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
             Random32 rng = Random32.New;
 
@@ -523,7 +523,7 @@ namespace MaxMath.Tests
             uint8 b = rng.NextUInt8();
             uint8 c = rng.NextUInt8();
             uint8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (uint)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (uint)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (uint)(a.x2 * b.x2 - c.x2));
@@ -536,7 +536,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int2()
+        public static void _int2()
         {
             Random32 rng = Random32.New;
 
@@ -544,13 +544,13 @@ namespace MaxMath.Tests
             int2 b = rng.NextInt2();
             int2 c = rng.NextInt2();
             int2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (int)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (int)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
             Random32 rng = Random32.New;
 
@@ -558,14 +558,14 @@ namespace MaxMath.Tests
             int3 b = rng.NextInt3();
             int3 c = rng.NextInt3();
             int3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (int)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (int)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (int)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
             Random32 rng = Random32.New;
 
@@ -573,7 +573,7 @@ namespace MaxMath.Tests
             int4 b = rng.NextInt4();
             int4 c = rng.NextInt4();
             int4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (int)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (int)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (int)(a.z * b.z - c.z));
@@ -581,7 +581,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
             Random32 rng = Random32.New;
 
@@ -589,7 +589,7 @@ namespace MaxMath.Tests
             int8 b = rng.NextInt8();
             int8 c = rng.NextInt8();
             int8 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x0, (int)(a.x0 * b.x0 - c.x0));
             Assert.AreEqual(op.x1, (int)(a.x1 * b.x1 + c.x1));
             Assert.AreEqual(op.x2, (int)(a.x2 * b.x2 - c.x2));
@@ -602,7 +602,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ulong2()
+        public static void _ulong2()
         {
             Random64 rng = Random64.New;
 
@@ -610,13 +610,13 @@ namespace MaxMath.Tests
             ulong2 b = rng.NextULong2();
             ulong2 c = rng.NextULong2();
             ulong2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ulong)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ulong)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void ulong3()
+        public static void _ulong3()
         {
             Random64 rng = Random64.New;
 
@@ -624,14 +624,14 @@ namespace MaxMath.Tests
             ulong3 b = rng.NextULong3();
             ulong3 c = rng.NextULong3();
             ulong3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ulong)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ulong)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (ulong)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void ulong4()
+        public static void _ulong4()
         {
             Random64 rng = Random64.New;
 
@@ -639,7 +639,7 @@ namespace MaxMath.Tests
             ulong4 b = rng.NextULong4();
             ulong4 c = rng.NextULong4();
             ulong4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (ulong)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (ulong)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (ulong)(a.z * b.z - c.z));
@@ -648,7 +648,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void long2()
+        public static void _long2()
         {
             Random64 rng = Random64.New;
 
@@ -656,13 +656,13 @@ namespace MaxMath.Tests
             long2 b = rng.NextLong2();
             long2 c = rng.NextLong2();
             long2 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (long)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (long)(a.y * b.y + c.y));
         }
 
         [Test]
-        public static void long3()
+        public static void _long3()
         {
             Random64 rng = Random64.New;
 
@@ -670,14 +670,14 @@ namespace MaxMath.Tests
             long3 b = rng.NextLong3();
             long3 c = rng.NextLong3();
             long3 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (long)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (long)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (long)(a.z * b.z - c.z));
         }
 
         [Test]
-        public static void long4()
+        public static void _long4()
         {
             Random64 rng = Random64.New;
 
@@ -685,7 +685,7 @@ namespace MaxMath.Tests
             long4 b = rng.NextLong4();
             long4 c = rng.NextLong4();
             long4 op = maxmath.msubadd(a, b, c);
-            
+
             Assert.AreEqual(op.x, (long)(a.x * b.x - c.x));
             Assert.AreEqual(op.y, (long)(a.y * b.y + c.y));
             Assert.AreEqual(op.z, (long)(a.z * b.z - c.z));

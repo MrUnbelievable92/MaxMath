@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -11,8 +10,8 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    [Serializable] 
-    [StructLayout(LayoutKind.Explicit, Size = 16 * sizeof(ushort))] 
+    [Serializable]
+    [StructLayout(LayoutKind.Explicit, Size = 16 * sizeof(ushort))]
     [DebuggerTypeProxy(typeof(ushort16.DebuggerProxy))]
     unsafe public struct ushort16 : IEquatable<ushort16>, IFormattable
     {
@@ -97,13 +96,13 @@ namespace MaxMath
                 };
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16(ushort x0x16)
         {
             if (Avx.IsAvxSupported)
             {
-                this = Avx.mm256_set1_epi16((short)x0x16);
+                this = Xse.mm256_set1_epi16(x0x16);
             }
             else
             {
@@ -132,9 +131,9 @@ namespace MaxMath
         {
             ushort8 lo;
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                lo = Xse.insert_epi16(Sse2.unpacklo_epi64(x0123, x456), x789.x, 7);
+                lo = Xse.insert_epi16(Xse.unpacklo_epi64(x0123, x456), x789.x, 7);
             }
             else
             {
@@ -185,10 +184,10 @@ namespace MaxMath
             ushort8 lo;
             ushort8 hi;
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                lo = Sse2.unpacklo_epi64(x0123, x4_5_6_7_8_9_10_11);
-                hi = Sse2.unpacklo_epi64(Sse2.bsrli_si128(x4_5_6_7_8_9_10_11, 4 * sizeof(short)), x12_13_14_15);
+                lo = Xse.unpacklo_epi64(x0123, x4_5_6_7_8_9_10_11);
+                hi = Xse.unpacklo_epi64(Xse.bsrli_si128(x4_5_6_7_8_9_10_11, 4 * sizeof(short)), x12_13_14_15);
             }
             else
             {
@@ -222,7 +221,7 @@ namespace MaxMath
             }
         }
 
-        
+
         #region Shuffle
         public ushort8 v8_0
         {
@@ -238,7 +237,7 @@ namespace MaxMath
                     return _v8_0;
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -259,36 +258,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 1 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 1 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, sizeof(ushort)), Sse2.bslli_si128(_v8_8, 7 * sizeof(ushort)), 0b1000_0000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, sizeof(ushort)), Xse.bslli_si128(_v8_8, 7 * sizeof(ushort)), 0b1000_0000);
                 }
                 else
                 {
                     return new ushort8(x1, x2, x3, x4, x5, x6, x7, x8);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, sizeof(ushort)), Sse2.bsrli_si128(value, 7 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, sizeof(ushort)), Xse.bsrli_si128(value, 7 * sizeof(ushort)));
                     v256 mask = new short16(0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, sizeof(ushort)), 0b1111_1110);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 7 * sizeof(ushort)), 0b0000_0001);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, sizeof(ushort)), 0b1111_1110);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 7 * sizeof(ushort)), 0b0000_0001);
                 }
                 else
                 {
@@ -310,35 +309,35 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 2 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 2 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 2 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 2 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 2 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 6 * sizeof(ushort)), 0b1100_0000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 2 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 6 * sizeof(ushort)), 0b1100_0000);
                 }
                 else
                 {
                     return new ushort8(x2, x3, x4, x5, x6, x7, x8, x9);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 2 * sizeof(ushort)), Sse2.bsrli_si128(value, 6 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 2 * sizeof(ushort)), Xse.bsrli_si128(value, 6 * sizeof(ushort)));
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0001_1110);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 2 * sizeof(ushort)), 0b1111_1100);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 6 * sizeof(ushort)), 0b0000_0011);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 2 * sizeof(ushort)), 0b1111_1100);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 6 * sizeof(ushort)), 0b0000_0011);
                 }
                 else
                 {
@@ -360,36 +359,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 3 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 3 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 3 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 5 * sizeof(ushort)), 0b1110_0000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 3 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 5 * sizeof(ushort)), 0b1110_0000);
                 }
                 else
                 {
                     return new ushort8(x3, x4, x5, x6, x7, x8, x9, x10);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 3 * sizeof(ushort)), Sse2.bsrli_si128(value, 5 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 3 * sizeof(ushort)), Xse.bsrli_si128(value, 5 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 3 * sizeof(ushort)), 0b1111_1000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 5 * sizeof(ushort)), 0b0000_0111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 3 * sizeof(ushort)), 0b1111_1000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 5 * sizeof(ushort)), 0b0000_0111);
                 }
                 else
                 {
@@ -413,33 +412,33 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 2, 1)));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 4 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 4 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 4 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 4 * sizeof(ushort)), 0b1111_0000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 4 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 4 * sizeof(ushort)), 0b1111_0000);
                 }
                 else
                 {
                     return new ushort8(x4, x5, x6, x7, x8, x9, x10, x11);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 4 * sizeof(ushort)), Sse2.bsrli_si128(value, 4 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 4 * sizeof(ushort)), Xse.bsrli_si128(value, 4 * sizeof(ushort)));
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0011_1100);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 4 * sizeof(ushort)), 0b1111_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 4 * sizeof(ushort)), 0b0000_1111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 4 * sizeof(ushort)), 0b1111_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 4 * sizeof(ushort)), 0b0000_1111);
                 }
                 else
                 {
@@ -461,36 +460,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 5 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 5 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 3 * sizeof(ushort)), 0b1111_1000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 5 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 3 * sizeof(ushort)), 0b1111_1000);
                 }
                 else
                 {
                     return new ushort8(x5, x6, x7, x8, x9, x10, x11, x12);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 5 * sizeof(ushort)), Sse2.bsrli_si128(value, 3 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 5 * sizeof(ushort)), Xse.bsrli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(ushort)), 0b1110_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(ushort)), 0b0001_1111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 5 * sizeof(ushort)), 0b1110_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 3 * sizeof(ushort)), 0b0001_1111);
                 }
                 else
                 {
@@ -512,35 +511,35 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b1111_1100);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b1111_1100);
                 }
                 else
                 {
                     return new ushort8(x6, x7, x8, x9, x10, x11, x12, x13);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 6 * sizeof(ushort)), Sse2.bsrli_si128(value, 2 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 6 * sizeof(ushort)), Xse.bsrli_si128(value, 2 * sizeof(ushort)));
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0111_1000);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(ushort)), 0b0011_1111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 2 * sizeof(ushort)), 0b0011_1111);
                 }
                 else
                 {
@@ -562,36 +561,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, sizeof(ushort)), 0b1111_1110);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(_v8_8, sizeof(ushort)), 0b1111_1110);
                 }
                 else
                 {
                     return new ushort8(x7, x8, x9, x10, x11, x12, x13, x14);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 7 * sizeof(ushort)), Sse2.bsrli_si128(value, sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 7 * sizeof(ushort)), Xse.bsrli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(ushort)),     0b0111_1111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, sizeof(ushort)),     0b0111_1111);
                 }
                 else
                 {
@@ -620,7 +619,7 @@ namespace MaxMath
                     return _v8_8;
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -634,13 +633,13 @@ namespace MaxMath
                 }
             }
         }
-        
+
         public ushort4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v4_0;
                 }
@@ -649,7 +648,7 @@ namespace MaxMath
                     return new ushort4(x0, x1, x2, x3);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -668,7 +667,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v4_1;
                 }
@@ -677,13 +676,13 @@ namespace MaxMath
                     return new ushort4(x1, x2, x3, x4);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -699,7 +698,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v4_2;
                 }
@@ -708,13 +707,13 @@ namespace MaxMath
                     return new ushort4(x2, x3, x4, x5);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 2 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 2 * sizeof(ushort)));
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0000_0110);
                 }
@@ -729,7 +728,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v4_3;
                 }
@@ -738,13 +737,13 @@ namespace MaxMath
                     return new ushort4(x3, x4, x5, x6);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 3 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -760,7 +759,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v4_4;
                 }
@@ -769,7 +768,7 @@ namespace MaxMath
                     return new ushort4(x4, x5, x6, x7);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -790,36 +789,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 5 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 5 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 5 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 3 * sizeof(ushort)), 0b1000);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 5 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 3 * sizeof(ushort)), 0b1000);
                 }
                 else
                 {
                     return new ushort4(x5, x6, x7, x8);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 5 * sizeof(ushort)), Sse2.bsrli_si128(value, 3 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 5 * sizeof(ushort)), Xse.bsrli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 5 * sizeof(ushort)), 0b1110_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 3 * sizeof(ushort)), 0b0000_0001);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 5 * sizeof(ushort)), 0b1110_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 3 * sizeof(ushort)), 0b0000_0001);
                 }
                 else
                 {
@@ -837,35 +836,35 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b1100);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b1100);
                 }
                 else
                 {
                     return new ushort4(x6, x7, x8, x9);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 6 * sizeof(ushort)), Sse2.bsrli_si128(value, 2 * sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 6 * sizeof(ushort)), Xse.bsrli_si128(value, 2 * sizeof(ushort)));
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0001_1000);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(ushort)), 0b0000_0011);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 2 * sizeof(ushort)), 0b0000_0011);
                 }
                 else
                 {
@@ -883,36 +882,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
                 }
                 else
                 {
                     return new ushort4(x7, x8, x9, x10);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    ushort16 blend = new ushort16(Sse2.bslli_si128(value, 7 * sizeof(ushort)), Sse2.bsrli_si128(value, sizeof(ushort)));
+                    ushort16 blend = new ushort16(Xse.bslli_si128(value, 7 * sizeof(ushort)), Xse.bsrli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(ushort)),     0b0000_0111);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, sizeof(ushort)),     0b0000_0111);
                 }
                 else
                 {
@@ -932,7 +931,7 @@ namespace MaxMath
                 {
                     return Avx2.mm256_extracti128_si256(this, 1);
                 }
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v4_0;
                 }
@@ -941,7 +940,7 @@ namespace MaxMath
                     return new ushort4(x8, x9, x10, x11);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -960,7 +959,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v4_1;
                 }
@@ -969,13 +968,13 @@ namespace MaxMath
                     return new ushort4(x9, x10, x11, x12);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, sizeof(ushort)), 1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -991,7 +990,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v4_2;
                 }
@@ -1000,13 +999,13 @@ namespace MaxMath
                     return new ushort4(x10, x11, x12, x13);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, 2 * sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, 2 * sizeof(ushort)), 1);
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0110_0000);
                 }
@@ -1021,7 +1020,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v4_3;
                 }
@@ -1030,13 +1029,13 @@ namespace MaxMath
                     return new ushort4(x11, x12, x13, x14);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, 3 * sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, 3 * sizeof(ushort)), 1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1056,7 +1055,7 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v4_4;
                 }
@@ -1065,7 +1064,7 @@ namespace MaxMath
                     return new ushort4(x12, x13, x14, x15);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1079,13 +1078,13 @@ namespace MaxMath
                 }
             }
         }
-        
+
         public ushort3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_0;
                 }
@@ -1094,7 +1093,7 @@ namespace MaxMath
                     return new ushort3(x0, x1, x2);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1116,7 +1115,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_1;
                 }
@@ -1125,13 +1124,13 @@ namespace MaxMath
                     return new ushort3(x1, x2, x3);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1147,7 +1146,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_2;
                 }
@@ -1156,13 +1155,13 @@ namespace MaxMath
                     return new ushort3(x2, x3, x4);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 2 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 2 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1178,7 +1177,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_3;
                 }
@@ -1187,13 +1186,13 @@ namespace MaxMath
                     return new ushort3(x3, x4, x5);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 3 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1209,7 +1208,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_4;
                 }
@@ -1218,13 +1217,13 @@ namespace MaxMath
                     return new ushort3(x4, x5, x6);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 4 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 4 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1240,7 +1239,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v3_5;
                 }
@@ -1249,13 +1248,13 @@ namespace MaxMath
                     return new ushort3(x5, x6, x7);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 5 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 5 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1273,36 +1272,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 6 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b0100);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 6 * sizeof(ushort)), Xse.bslli_si128(_v8_8, 2 * sizeof(ushort)), 0b0100);
                 }
                 else
                 {
                     return new ushort3(x6, x7, x8);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.bslli_si128(value, 6 * sizeof(ushort)), Sse2.bsrli_si128(value, 2 * sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.bslli_si128(value, 6 * sizeof(ushort)), Xse.bsrli_si128(value, 2 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, 2 * sizeof(ushort)), 0b0000_0001);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, 2 * sizeof(ushort)), 0b0000_0001);
                 }
                 else
                 {
@@ -1319,36 +1318,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
                 }
                 else
                 {
                     return new ushort3(x7, x8, x9);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.bslli_si128(value, 7 * sizeof(ushort)), Sse2.bsrli_si128(value, sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.bslli_si128(value, 7 * sizeof(ushort)), Xse.bsrli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value, sizeof(ushort)),     0b0000_0011);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value, sizeof(ushort)),     0b0000_0011);
                 }
                 else
                 {
@@ -1372,13 +1371,13 @@ namespace MaxMath
                     return v8_8.v3_0;
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), (v128)value);
+                    v256 blend = new ushort16(Xse.setzero_si128(), (v128)value);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1394,7 +1393,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v3_1;
                 }
@@ -1403,13 +1402,13 @@ namespace MaxMath
                     return new ushort3(x9, x10, x11);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
-            { 
+            {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), Sse2.bslli_si128(value, sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.setzero_si128(), Xse.bslli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1425,7 +1424,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v3_2;
                 }
@@ -1434,13 +1433,13 @@ namespace MaxMath
                     return new ushort3(x10, x11, x12);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), Sse2.bslli_si128(value, 2 * sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.setzero_si128(), Xse.bslli_si128(value, 2 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1456,7 +1455,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v3_3;
                 }
@@ -1465,13 +1464,13 @@ namespace MaxMath
                     return new ushort3(x11, x12, x13);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), Sse2.bslli_si128(value, 3 * sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.setzero_si128(), Xse.bslli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1496,13 +1495,13 @@ namespace MaxMath
                     return v8_8.v3_4;
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), Sse2.bslli_si128(value, 4 * sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.setzero_si128(), Xse.bslli_si128(value, 4 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1520,13 +1519,13 @@ namespace MaxMath
             {
                 return v8_8.v3_5;
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = new ushort16(Sse2.setzero_si128(), Sse2.bslli_si128(value, 5 * sizeof(ushort)));
+                    v256 blend = new ushort16(Xse.setzero_si128(), Xse.bslli_si128(value, 5 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1537,13 +1536,13 @@ namespace MaxMath
                 }
             }
         }
-        
+
         public ushort2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_0;
                 }
@@ -1552,7 +1551,7 @@ namespace MaxMath
                     return new ushort2(x0, x1);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1571,7 +1570,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_1;
                 }
@@ -1580,13 +1579,13 @@ namespace MaxMath
                     return new ushort2(x1, x2);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, sizeof(ushort)));
                     v256 mask = new short16(0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1602,7 +1601,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_2;
                 }
@@ -1611,7 +1610,7 @@ namespace MaxMath
                     return new ushort2(x2, x3);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1630,7 +1629,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_3;
                 }
@@ -1639,13 +1638,13 @@ namespace MaxMath
                     return new ushort2(x3, x4);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 3 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 3 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1661,7 +1660,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_4;
                 }
@@ -1670,7 +1669,7 @@ namespace MaxMath
                     return new ushort2(x4, x5);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1689,7 +1688,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_5;
                 }
@@ -1698,13 +1697,13 @@ namespace MaxMath
                     return new ushort2(x5, x6);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 5 * sizeof(ushort)));
+                    v256 blend = Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 5 * sizeof(ushort)));
                     v256 mask = new short16(0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1720,7 +1719,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_0.v2_6;
                 }
@@ -1729,7 +1728,7 @@ namespace MaxMath
                     return new ushort2(x6, x7);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1750,38 +1749,38 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Ssse3.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(ushort));
                 }
-                else if (Ssse3.IsSsse3Supported)
+                else if (Architecture.IsTableLookupSupported)
                 {
-                    return Ssse3.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
+                    return Xse.alignr_epi8(this._v8_0, this._v8_8, 7 * sizeof(ushort));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    return Xse.blend_epi16(Sse2.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Sse2.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
+                    return Xse.blend_epi16(Xse.bsrli_si128(_v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(_v8_8, sizeof(ushort)), 0b1110);
                 }
                 else
                 {
                     return new ushort2(x7, x8);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Sse2.bslli_si128(value, 7 * sizeof(ushort))),
-                                                             Sse2.bsrli_si128(value, sizeof(ushort)),
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Xse.bslli_si128(value, 7 * sizeof(ushort))),
+                                                             Xse.bsrli_si128(value, sizeof(ushort)),
                                                              1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    this._v8_0 = Xse.blend_epi16(this._v8_0, Sse2.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
-                    this._v8_8 = Xse.blend_epi16(this._v8_8, Sse2.bsrli_si128(value,     sizeof(ushort)), 0b0000_0001);
+                    this._v8_0 = Xse.blend_epi16(this._v8_0, Xse.bslli_si128(value, 7 * sizeof(ushort)), 0b1000_0000);
+                    this._v8_8 = Xse.blend_epi16(this._v8_8, Xse.bsrli_si128(value,     sizeof(ushort)), 0b0000_0001);
                 }
                 else
                 {
@@ -1804,7 +1803,7 @@ namespace MaxMath
                     return v8_8.v2_0;
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1823,7 +1822,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_1;
                 }
@@ -1832,13 +1831,13 @@ namespace MaxMath
                     return new ushort2(x9, x10);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, sizeof(ushort)), 1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1860,7 +1859,7 @@ namespace MaxMath
 
                     return *(ushort2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_2;
                 }
@@ -1869,7 +1868,7 @@ namespace MaxMath
                     return new ushort2(x10, x11);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1888,7 +1887,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_3;
                 }
@@ -1897,13 +1896,13 @@ namespace MaxMath
                     return new ushort2(x11, x12);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, 3 * sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, 3 * sizeof(ushort)), 1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1923,7 +1922,7 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_4;
                 }
@@ -1932,7 +1931,7 @@ namespace MaxMath
                     return new ushort2(x12, x13);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -1951,7 +1950,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_5;
                 }
@@ -1960,13 +1959,13 @@ namespace MaxMath
                     return new ushort2(x13, x14);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Sse2.bslli_si128(value, 5 * sizeof(ushort)), 1);
+                    v256 blend = Avx2.mm256_inserti128_si256(Avx.mm256_setzero_si256(), Xse.bslli_si128(value, 5 * sizeof(ushort)), 1);
                     v256 mask = new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0);
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
@@ -1988,7 +1987,7 @@ namespace MaxMath
 
                     return *(ushort2*)&temp;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
                     return v8_8.v2_6;
                 }
@@ -1997,7 +1996,7 @@ namespace MaxMath
                     return new ushort2(x14, x15);
                 }
             }
-        
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
@@ -2013,7 +2012,7 @@ namespace MaxMath
         }
         #endregion
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v256(ushort16 input) => new v256{ UShort0 = input.x0, UShort1 = input.x1, UShort2 = input.x2, UShort3 = input.x3, UShort4 = input.x4, UShort5 = input.x5, UShort6 = input.x6, UShort7 = input.x7, UShort8 = input.x8, UShort9 = input.x9, UShort10 = input.x10, UShort11 = input.x11, UShort12 = input.x12, UShort13 = input.x13, UShort14 = input.x14, UShort15 = input.x15 };
 
@@ -2026,21 +2025,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ushort16(short16 input)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return (v256)input;
-            }
-            else if (Sse.IsSseSupported)
-            {
-                return new ushort16((v128)input._v8_0, (v128)input._v8_8);
-            }
-            else
-            {
-                return *(ushort16*)&input;
-            }
-        }
+        public static explicit operator ushort16(short16 input) => *(ushort16*)&input;
 
 
         public ushort this[int index]
@@ -2054,9 +2039,9 @@ Assert.IsWithinArrayBounds(index, 16);
                 {
                     return Xse.mm256_extract_epi16(this, (byte)index);
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 8)
                         {
@@ -2068,26 +2053,24 @@ Assert.IsWithinArrayBounds(index, 16);
                         }
                     }
                 }
-
-                ushort16 onStack = this;
-
-                return *((ushort*)&onStack + index);
+                
+				return this.GetField<ushort16, ushort>(index);
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
 Assert.IsWithinArrayBounds(index, 16);
-                
+
                 if (Avx2.IsAvx2Supported)
                 {
                     this = Xse.mm256_insert_epi16(this, value, (byte)index);
 
                     return;
                 }
-                else if (Sse2.IsSse2Supported)
+                else if (Architecture.IsSIMDSupported)
                 {
-                    if (Constant.IsConstantExpression(index))
+                    if (constexpr.IS_CONST(index))
                     {
                         if (index < 8)
                         {
@@ -2101,14 +2084,12 @@ Assert.IsWithinArrayBounds(index, 16);
                         return;
                     }
                 }
-
-                ushort16 onStack = this;
-                *((ushort*)&onStack + index) = value;
-                this = onStack;
+                
+                this.SetField(value, index);
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator + (ushort16 left, ushort16 right)
         {
@@ -2121,7 +2102,7 @@ Assert.IsWithinArrayBounds(index, 16);
                 return new ushort16(left._v8_0 + right._v8_0, left._v8_8 + right._v8_8);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator - (ushort16 left, ushort16 right)
         {
@@ -2183,7 +2164,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
                     return new ushort16((ushort)(left.x0 * right), (ushort)(left.x1 * right), (ushort)(left.x2 * right), (ushort)(left.x3 * right), (ushort)(left.x4 * right), (ushort)(left.x5 * right), (ushort)(left.x6 * right), (ushort)(left.x7 * right), (ushort)(left.x8 * right), (ushort)(left.x9 * right), (ushort)(left.x10 * right), (ushort)(left.x11 * right), (ushort)(left.x12 * right), (ushort)(left.x13 * right), (ushort)(left.x14 * right), (ushort)(left.x15 * right));
                 }
@@ -2197,35 +2178,49 @@ Assert.IsWithinArrayBounds(index, 16);
                 return new ushort16(left._v8_0 * right, left._v8_8 * right);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator / (ushort16 left, ushort right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_div_epu16(left, right);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constdiv_epu16(left, right);
+                    }
+                    else
+                    {
+                        return new ushort16(Xse.constdiv_epu16(left.v8_0, right), Xse.constdiv_epu16(left.v8_8, right));
+                    }
                 }
             }
-                
+
             return left / (ushort16)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator % (ushort16 left, ushort right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.mm256_rem_epu16(left, right);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_constrem_epu16(left, right);
+                    }
+                    else
+                    {
+                        return new ushort16(Xse.constrem_epu16(left.v8_0, right), Xse.constrem_epu16(left.v8_8, right));
+                    }
                 }
             }
-                
+
             return left % (ushort16)right;
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator & (ushort16 left, ushort16 right)
@@ -2279,7 +2274,7 @@ Assert.IsWithinArrayBounds(index, 16);
                 return new ushort16(x._v8_0 + 1, x._v8_8 + 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator -- (ushort16 x)
         {
@@ -2292,7 +2287,7 @@ Assert.IsWithinArrayBounds(index, 16);
                 return new ushort16(x._v8_0 - 1, x._v8_8 - 1);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 operator ~ (ushort16 x)
         {
@@ -2419,7 +2414,7 @@ Assert.IsWithinArrayBounds(index, 16);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return uint.MaxValue == (uint)Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi32(this, other));
+                return Xse.mm256_alltrue_epi256<ushort>(Avx2.mm256_cmpeq_epi32(this, other));
             }
             else
             {
@@ -2428,8 +2423,8 @@ Assert.IsWithinArrayBounds(index, 16);
         }
 
         public override readonly bool Equals(object obj) => obj is ushort16 converted && this.Equals(converted);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode()
         {

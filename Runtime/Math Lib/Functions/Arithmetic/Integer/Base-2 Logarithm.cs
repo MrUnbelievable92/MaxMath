@@ -1,40 +1,130 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath
 {
+    namespace Intrinsics
+    {
+        unsafe public static partial class Xse
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 bsr_epi8(v128 a)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 result;
+                    
+                    if (Ssse3.IsSsse3Supported)
+                    {
+                        v128 SHUFFLE_MASK_LO = new v128(-1, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3);
+                        v128 SHUFFLE_MASK_HI = new v128(-1, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7);
+
+                        result = max_epi8(shuffle_epi8(SHUFFLE_MASK_LO, and_si128(NIBBLE_MASK, a)),
+                                          shuffle_epi8(SHUFFLE_MASK_HI, and_si128(NIBBLE_MASK, srli_epi16(a, 4))));
+                    }
+                    else
+                    {
+                        result = sub_epi8(set1_epi8(7), lzcnt_epi8(a));
+                    }
+
+                    constexpr.ASSUME_RANGE_EPI8(result, -1, 7);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_bsr_epi8(v256 a)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 SHUFFLE_MASK_LO = new v256(-1, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+                                                    -1, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3);
+                    v256 SHUFFLE_MASK_HI = new v256(-1, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7,
+                                                    -1, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7);
+
+                    v256 result = Avx2.mm256_max_epi8(Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_LO, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, a)),
+                                                      Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4))));
+                    
+                    constexpr.ASSUME_RANGE_EPI8(result, -1, 7);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 bsrp1_epi8(v128 a)
+            {
+                if (Architecture.IsSIMDSupported)
+                {
+                    v128 result;
+                    
+                    if (Ssse3.IsSsse3Supported)
+                    {
+                        v128 SHUFFLE_MASK_LO = new v128(0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4);
+                        v128 SHUFFLE_MASK_HI = new v128(0, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8);
+                    
+                        result = max_epu8(shuffle_epi8(SHUFFLE_MASK_LO, and_si128(NIBBLE_MASK, a)),
+                                          shuffle_epi8(SHUFFLE_MASK_HI, and_si128(NIBBLE_MASK, srli_epi16(a, 4))));
+                    }
+                    else
+                    {
+                        result = sub_epi8(set1_epi8(8), lzcnt_epi8(a));
+                    }
+
+                    constexpr.ASSUME_LE_EPU8(result, 8);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_bsrp1_epi8(v256 a)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 SHUFFLE_MASK_LO = new v256(0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4,
+                                                    0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4);
+                    v256 SHUFFLE_MASK_HI = new v256(0, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8,
+                                                    0, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8);
+
+                    v256 result = Avx2.mm256_max_epu8(Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_LO, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, a)),
+                                                      Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4))));
+                    
+                    constexpr.ASSUME_LE_EPU8(result, 8);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+        }
+    }
+
+
     unsafe public static partial class maxmath
     {
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int128 ceillog2(Int128 x)
+        public static UInt128 ceillog2(UInt128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
-            {
-                return ceillog2(x.lo64);
-            }
-
-            return 128 - lzcnt(x - 1);
+            return (uint)(128 - lzcnt(x - 1));
         }
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt128 ceillog2(UInt128 x)
+        public static Int128 ceillog2(Int128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
-            {
-                return ceillog2(x.lo64);
-            }
-
-            return (uint)(128 - lzcnt(x - 1));
+            return (Int128)ceillog2((UInt128)x);
         }
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0ul, 8ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte ceillog2(byte x)
         {
             return (byte)(8 - lzcnt((byte)(x - 1)));
@@ -44,48 +134,90 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 ceillog2(byte2 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return 8 - lzcnt(x - 1);
+            }
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 ceillog2(byte3 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return 8 - lzcnt(x - 1);
+            }
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 ceillog2(byte4 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return 8 - lzcnt(x - 1);
+            }
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 ceillog2(byte8 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return 8 - lzcnt(x - 1);
+            }
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 ceillog2(byte16 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return 8 - lzcnt(x - 1);
+            }
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 ceillog2(byte32 x)
         {
-            return 8 - lzcnt(x - 1);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_bsrp1_epi8(x - 1);
+            }
+            else
+            {
+                return new byte32(ceillog2(x.v16_0), ceillog2(x.v16_16));
+            }
         }
 
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0, 8)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte ceillog2(sbyte x)
         {
             return (sbyte)ceillog2((byte)x);
@@ -136,7 +268,7 @@ namespace MaxMath
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0ul, 16ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort ceillog2(ushort x)
         {
             return (ushort)(16 - lzcnt((ushort)(x - 1)));
@@ -180,7 +312,7 @@ namespace MaxMath
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0, 16)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short ceillog2(short x)
         {
             return (short)ceillog2((ushort)x);
@@ -226,7 +358,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 ceillog2(uint8 x)
         {
-            return 32 - lzcnt(x - 1);
+            return (uint8)(32 - lzcnt(x - 1));
         }
 
 
@@ -240,7 +372,7 @@ namespace MaxMath
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0ul, 64ul)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong ceillog2(ulong x)
         {
             return (ulong)(64 - math.lzcnt(x - 1));
@@ -270,7 +402,7 @@ namespace MaxMath
 
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [return: AssumeRange(0L, 64L)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]  
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long ceillog2(long x)
         {
             return (long)ceillog2((ulong)x);
@@ -302,7 +434,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 floorlog2(Int128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
+            if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return floorlog2(x.lo64);
             }
@@ -314,7 +446,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 floorlog2(UInt128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
+            if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return floorlog2(x.lo64);
             }
@@ -334,42 +466,84 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 floorlog2(byte2 x)
         {
-            return 7 - lzcnt(x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsr_epi8(x);
+            }
+            else
+            {
+                return 7 - lzcnt(x);
+            }
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 floorlog2(byte3 x)
         {
-            return 7 - lzcnt(x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsr_epi8(x);
+            }
+            else
+            {
+                return 7 - lzcnt(x);
+            }
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 floorlog2(byte4 x)
         {
-            return 7 - lzcnt(x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsr_epi8(x);
+            }
+            else
+            {
+                return 7 - lzcnt(x);
+            }
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 floorlog2(byte8 x)
         {
-            return 7 - lzcnt(x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsr_epi8(x);
+            }
+            else
+            {
+                return 7 - lzcnt(x);
+            }
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 floorlog2(byte16 x)
         {
-            return 7 - lzcnt(x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.bsr_epi8(x);
+            }
+            else
+            {
+                return 7 - lzcnt(x);
+            }
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 floorlog2(byte32 x)
         {
-            return 7 - lzcnt(x);
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_bsr_epi8(x);
+            }
+            else
+            {
+                return new byte32(floorlog2(x.v16_0), floorlog2(x.v16_16));
+            }
         }
 
 
@@ -513,7 +687,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 floorlog2(uint8 x)
         {
-            return 31 - lzcnt(x);
+            return (uint8)(31 - lzcnt(x));
         }
 
 
@@ -587,7 +761,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 intlog2(Int128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
+            if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return intlog2(x.lo64);
             }
@@ -599,7 +773,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 intlog2(UInt128 x)
         {
-            if (Xse.constexpr.IS_TRUE(x.hi64 == 0))
+            if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return intlog2(x.lo64);
             }

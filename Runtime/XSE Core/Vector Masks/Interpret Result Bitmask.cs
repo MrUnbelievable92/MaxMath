@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
@@ -8,19 +7,72 @@ namespace MaxMath.Intrinsics
     unsafe public static partial class Xse
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		internal static int truemsk<T>(int elements)
-			where T : unmanaged 
+		internal static long movemask_epi8x4(v128 a)
 		{
-			return (int)((1L << (sizeof(T) * elements)) - 1);
+			if (Arm.Neon.IsNeonSupported)
+			{
+				return Arm.Neon.vget_lane_s64(Arm.Neon.vshrn_n_u16(a, 4), 0);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static int truemsk32<T>(int elements)
+			where T : unmanaged
+		{
+			if (Architecture.IsSIMDSupported)
+			{
+				return (int)truemsk64<T>(elements);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static long truemsk64<T>(int elements)
+			where T : unmanaged
+		{
+			if (Sse2.IsSse2Supported)
+			{
+				return maxmath.bitmask64(sizeof(T) * elements);
+			}
+			else if (Arm.Neon.IsNeonSupported)
+			{
+				return maxmath.bitmask64(4 * sizeof(T) * elements);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static v128 truemsk128<T>(int elements)
+			where T : unmanaged
+		{
+			if (Sse2.IsSse2Supported)
+			{
+				return (UInt128.MaxValue >> (128 - (8 * sizeof(T) * elements))).Reinterpret<UInt128, v128>();
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		internal static v256 truemsk256<T>(int elements)
+			where T : unmanaged
+		{
+			if (Avx.IsAvxSupported)
+			{
+				return (__UInt256__.MaxValue >> (256 - (8 * sizeof(T) * elements))).Reinterpret<__UInt256__, v256>();
+			}
+			else throw new IllegalInstructionException();
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool alltrue_epi128<T>(v128 a, int elements)
-			where T : unmanaged 
+		public static bool alltrue_epi128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
 				switch(sizeof(T) * elements)
 				{
 					case 1: return a.Byte0	 == byte.MaxValue;
@@ -28,22 +80,26 @@ namespace MaxMath.Intrinsics
 					case 4: return a.UInt0	 == uint.MaxValue;
 					case 8: return a.ULong0	 == ulong.MaxValue;
 
-					case 3: return (a.UInt0  &			 0x00FF_FFFFu)	==			 0x00FF_FFFFu;
+					case 3: return (a.UInt0  &		     0x00FF_FFFFu ) == 	         0x00FF_FFFFu ;
 					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) == 0x0000_00FF_FFFF_FFFFul;
 					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) == 0x0000_FFFF_FFFF_FFFFul;
 					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) == 0x00FF_FFFF_FFFF_FFFFul;
 
 					default:
 					{
-						int allTrue = truemsk<T>(elements);
-						int cmp = Sse2.movemask_epi8(a);
-						
-						if (elements != sizeof(v128) / sizeof(T))
+						if (Sse2.IsSse2Supported)
 						{
-						    cmp &= allTrue;
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8(a) == truemsk32<T>(elements)
+								 : (movemask_epi8(a) & truemsk32<T>(elements)) == truemsk32<T>(elements);
 						}
-						
-						return allTrue == cmp;
+						else if (Arm.Neon.IsNeonSupported)
+						{
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8x4(a) == truemsk64<T>(elements)
+								 : (movemask_epi8x4(a) & truemsk64<T>(elements)) == truemsk64<T>(elements);
+						}
+						else throw new IllegalInstructionException();
 					}
 				}
             }
@@ -51,75 +107,118 @@ namespace MaxMath.Intrinsics
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_alltrue_epi256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool mm256_alltrue_epi256<T>(v256 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx2.IsAvx2Supported)
-            {
-				int allTrue = truemsk<T>(elements);
-				int cmp = Avx2.mm256_movemask_epi8(a);
-				
-				if (elements != sizeof(v256) / sizeof(T))
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
 				{
-				    cmp &= allTrue;
+					return alltrue_epi128<T>(Avx.mm256_castsi256_si128(a), elements);
 				}
-				
-				return allTrue == cmp;
-            }
-			else throw new IllegalInstructionException();
-		}
-		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool alltrue_f128<T>(v128 a, int elements)
-			where T : unmanaged 
-		{
-            if (Sse2.IsSse2Supported)
-            {
-                if (sizeof(T) == 4)
-                {
-                    switch (elements)
-                    {
-						case 2: return a.ULong0 == ulong.MaxValue;
-						case 3: return (Sse.movemask_ps(a) & 0b0111) == 0b1111;
-						default: return Sse.movemask_ps(a) == 0b1111;
-                    }
-                }
 				else
 				{
-					return Sse2.movemask_pd(a) == 0b0011;
+					if (Avx2.IsAvx2Supported)
+					{
+						return sizeof(T) * elements == sizeof(v256)
+							 ? Avx2.mm256_movemask_epi8(a) == truemsk32<T>(elements)
+							 : (Avx2.mm256_movemask_epi8(a) & truemsk32<T>(elements)) == truemsk32<T>(elements);
+					}
+					else
+					{
+						return mm256_alltrue_f256<T>(a, elements);
+					}
 				}
-            }
+			}
 			else throw new IllegalInstructionException();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_alltrue_f256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool alltrue_f128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx.IsAvxSupported)
+			if (Sse2.IsSse2Supported)
             {
-                if (sizeof(T) == 4)
-                {
-					return Avx.mm256_movemask_ps(a) == 0b1111_1111;
-                    
-                }
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
+				if (Sse2.IsSse2Supported)
+				{
+					if (elements * sizeof(T) <= sizeof(ulong)
+					 || sizeof(T) < sizeof(float))
+					{
+						return alltrue_epi128<T>(a, elements);
+					}
+					else
+					{
+						int cmp = sizeof(T) == sizeof(float) ? movemask_ps(a) : movemask_pd(a);
+
+						return sizeof(T) * elements == sizeof(v128)
+							 ? cmp == truemsk32<byte>(elements)
+							 : (cmp & truemsk32<byte>(elements)) == truemsk32<byte>(elements);
+					}
+				}
 				else
 				{
-					int mask = Avx.mm256_movemask_pd(a);
+					int cmp = Sse.movemask_ps(a);
 
-					return (elements == 3) ? ((mask & 0b0111) == 0b0111) : (mask == 0b1111);
+					return sizeof(T) * elements == sizeof(v128)
+						 ? cmp == (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))
+						 : (cmp & (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))) == (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements));
 				}
             }
+			else if (Arm.Neon.IsNeonSupported)
+			{
+				return alltrue_epi128<T>(a, elements);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool mm256_alltrue_f256<T>(v256 a, int elements = 0)
+			where T : unmanaged
+		{
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
+				{
+					return alltrue_f128<T>(Avx.mm256_castps256_ps128(a), elements);
+				}
+				else if (sizeof(T) < sizeof(float))
+				{
+					if (Avx2.IsAvx2Supported)
+					{
+						return mm256_alltrue_epi256<T>(a, elements);
+					}
+					else
+					{
+						return Avx.mm256_testc_si256(a, truemsk256<T>(elements)) == 1;
+					}
+				}
+				else
+				{
+					int cmp = sizeof(T) == sizeof(float) ? Avx.mm256_movemask_ps(a) : Avx.mm256_movemask_pd(a);
+
+					return sizeof(T) * elements == sizeof(v256)
+						 ? cmp == truemsk32<byte>(elements)
+						 : (cmp & truemsk32<byte>(elements)) == truemsk32<byte>(elements);
+				}
+			}
 			else throw new IllegalInstructionException();
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool notalltrue_epi128<T>(v128 a, int elements)
-			where T : unmanaged 
+		public static bool notalltrue_epi128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
 				switch(sizeof(T) * elements)
 				{
 					case 1: return a.Byte0	 != byte.MaxValue;
@@ -127,22 +226,26 @@ namespace MaxMath.Intrinsics
 					case 4: return a.UInt0	 != uint.MaxValue;
 					case 8: return a.ULong0	 != ulong.MaxValue;
 
-					case 3: return (a.UInt0  &			 0x00FF_FFFFu)	!=			 0x00FF_FFFFu;
+					case 3: return (a.UInt0  &		     0x00FF_FFFFu ) != 	         0x00FF_FFFFu ;
 					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) != 0x0000_00FF_FFFF_FFFFul;
 					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) != 0x0000_FFFF_FFFF_FFFFul;
 					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) != 0x00FF_FFFF_FFFF_FFFFul;
 
 					default:
 					{
-						int allTrue = truemsk<T>(elements);
-						int cmp = Sse2.movemask_epi8(a);
-						
-						if (elements != sizeof(v128) / sizeof(T))
+						if (Sse2.IsSse2Supported)
 						{
-						    cmp &= allTrue;
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8(a) != truemsk32<T>(elements)
+								 : (movemask_epi8(a) & truemsk32<T>(elements)) != truemsk32<T>(elements);
 						}
-						
-						return allTrue != cmp;
+						else if (Arm.Neon.IsNeonSupported)
+						{
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8x4(a) != truemsk64<T>(elements)
+								 : (movemask_epi8x4(a) & truemsk64<T>(elements)) != truemsk64<T>(elements);
+						}
+						else throw new IllegalInstructionException();
 					}
 				}
             }
@@ -150,75 +253,118 @@ namespace MaxMath.Intrinsics
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_notalltrue_epi256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool mm256_notalltrue_epi256<T>(v256 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx2.IsAvx2Supported)
-            {
-				int allTrue = truemsk<T>(elements);
-				int cmp = Avx2.mm256_movemask_epi8(a);
-				
-				if (elements != sizeof(v256) / sizeof(T))
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
 				{
-				    cmp &= allTrue;
+					return notalltrue_epi128<T>(Avx.mm256_castsi256_si128(a), elements);
 				}
-				
-				return allTrue != cmp;
-            }
-			else throw new IllegalInstructionException();
-		}
-		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool notalltrue_f128<T>(v128 a, int elements)
-			where T : unmanaged 
-		{
-            if (Sse2.IsSse2Supported)
-            {
-                if (sizeof(T) == 4)
-                {
-                    switch (elements)
-                    {
-						case 2: return a.ULong0 != ulong.MaxValue;
-						case 3: return (Sse.movemask_ps(a) & 0b0111) != 0b1111;
-						default: return Sse.movemask_ps(a) != 0b1111;
-                    }
-                }
 				else
 				{
-					return Sse2.movemask_pd(a) != 0b0011;
+					if (Avx2.IsAvx2Supported)
+					{
+						return sizeof(T) * elements == sizeof(v256)
+							 ? Avx2.mm256_movemask_epi8(a) != truemsk32<T>(elements)
+							 : (Avx2.mm256_movemask_epi8(a) & truemsk32<T>(elements)) != truemsk32<T>(elements);
+					}
+					else
+					{
+						return mm256_notalltrue_f256<T>(a, elements);
+					}
 				}
-            }
+			}
 			else throw new IllegalInstructionException();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_notalltrue_f256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool notalltrue_f128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx.IsAvxSupported)
+			if (Sse2.IsSse2Supported)
             {
-                if (sizeof(T) == 4)
-                {
-					return Avx.mm256_movemask_ps(a) != 0b1111_1111;
-                    
-                }
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
+				if (Sse2.IsSse2Supported)
+				{
+					if (elements * sizeof(T) <= sizeof(ulong)
+					 || sizeof(T) < sizeof(float))
+					{
+						return notalltrue_epi128<T>(a, elements);
+					}
+					else
+					{
+						int cmp = sizeof(T) == sizeof(float) ? movemask_ps(a) : movemask_pd(a);
+
+						return sizeof(T) * elements == sizeof(v128)
+							 ? cmp != truemsk32<byte>(elements)
+							 : (cmp & truemsk32<byte>(elements)) != truemsk32<byte>(elements);
+					}
+				}
 				else
 				{
-					int mask = Avx.mm256_movemask_pd(a);
+					int cmp = Sse.movemask_ps(a);
 
-					return (elements == 3) ? ((mask & 0b0111) != 0b0111) : (mask != 0b1111);
+					return sizeof(T) * elements == sizeof(v128)
+						 ? cmp != (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))
+						 : (cmp & (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))) != (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements));
 				}
             }
+			else if (Arm.Neon.IsNeonSupported)
+			{
+				return notalltrue_epi128<T>(a, elements);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool mm256_notalltrue_f256<T>(v256 a, int elements = 0)
+			where T : unmanaged
+		{
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
+				{
+					return notalltrue_f128<T>(Avx.mm256_castps256_ps128(a), elements);
+				}
+				else if (sizeof(T) < sizeof(float))
+				{
+					if (Avx2.IsAvx2Supported)
+					{
+						return mm256_notalltrue_epi256<T>(a, elements);
+					}
+					else
+					{
+						return Avx.mm256_testc_si256(a, truemsk256<T>(elements)) == 0;
+					}
+				}
+				else
+				{
+					int cmp = sizeof(T) != sizeof(float) ? Avx.mm256_movemask_ps(a) : Avx.mm256_movemask_pd(a);
+
+					return sizeof(T) * elements == sizeof(v256)
+						 ? cmp != truemsk32<byte>(elements)
+						 : (cmp & truemsk32<byte>(elements)) != truemsk32<byte>(elements);
+				}
+			}
 			else throw new IllegalInstructionException();
 		}
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool allfalse_epi128<T>(v128 a, int elements)
-			where T : unmanaged 
+		public static bool allfalse_epi128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
 				switch(sizeof(T) * elements)
 				{
 					case 1: return a.Byte0	 == 0;
@@ -226,21 +372,26 @@ namespace MaxMath.Intrinsics
 					case 4: return a.UInt0	 == 0;
 					case 8: return a.ULong0	 == 0;
 
-					case 3: return (a.UInt0  &			 0x00FF_FFFFu)	== 0;
-					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) == 0;
-					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) == 0;
-					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) == 0;
+					case 3: return (a.UInt0  &		     0x00FF_FFFFu ) == 0ul;
+					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) == 0ul;
+					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) == 0ul;
+					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) == 0ul;
 
 					default:
 					{
-						int cmp = Sse2.movemask_epi8(a);
-						
-						if (elements != sizeof(v128) / sizeof(T))
+						if (Sse2.IsSse2Supported)
 						{
-						    cmp &= truemsk<T>(elements);
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8(a) == 0
+								 : (movemask_epi8(a) & truemsk32<T>(elements)) == 0;
 						}
-						
-						return cmp == 0;
+						else if (Arm.Neon.IsNeonSupported)
+						{
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8x4(a) == 0
+								 : (movemask_epi8x4(a) & truemsk64<T>(elements)) == 0;
+						}
+						else throw new IllegalInstructionException();
 					}
 				}
             }
@@ -248,74 +399,118 @@ namespace MaxMath.Intrinsics
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_allfalse_epi256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool mm256_allfalse_epi256<T>(v256 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx2.IsAvx2Supported)
-            {
-				int cmp = Avx2.mm256_movemask_epi8(a);
-				
-				if (elements != sizeof(v256) / sizeof(T))
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
 				{
-				    cmp &= truemsk<T>(elements);
+					return allfalse_epi128<T>(Avx.mm256_castsi256_si128(a), elements);
 				}
-				
-				return cmp == 0;
-            }
-			else throw new IllegalInstructionException();
-		}
-		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool allfalse_f128<T>(v128 a, int elements)
-			where T : unmanaged 
-		{
-            if (Sse2.IsSse2Supported)
-            {
-                if (sizeof(T) == 4)
-                {
-                    switch (elements)
-                    {
-						case 2: return a.ULong0 == 0;
-						case 3: return (Sse.movemask_ps(a) & 0b0111) == 0;
-						default: return Sse.movemask_ps(a) == 0;
-                    }
-                }
 				else
 				{
-					return Sse2.movemask_pd(a) == 0;
+					if (Avx2.IsAvx2Supported)
+					{
+						return sizeof(T) * elements == sizeof(v256)
+							 ? Avx2.mm256_movemask_epi8(a) == 0
+							 : (Avx2.mm256_movemask_epi8(a) & truemsk32<T>(elements)) == 0;
+					}
+					else
+					{
+						return mm256_allfalse_f256<T>(a, elements);
+					}
 				}
-            }
+			}
 			else throw new IllegalInstructionException();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_allfalse_f256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool allfalse_f128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx.IsAvxSupported)
+			if (Sse2.IsSse2Supported)
             {
-                if (sizeof(T) == 4)
-                {
-					return Avx.mm256_movemask_ps(a) == 0;
-                    
-                }
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
+				if (Sse2.IsSse2Supported)
+				{
+					if (elements * sizeof(T) <= sizeof(ulong)
+					 || sizeof(T) < sizeof(float))
+					{
+						return allfalse_epi128<T>(a, elements);
+					}
+					else
+					{
+						int cmp = sizeof(T) == sizeof(float) ? movemask_ps(a) : movemask_pd(a);
+
+						return sizeof(T) * elements == sizeof(v128)
+							 ? cmp == 0
+							 : (cmp & truemsk32<byte>(elements)) == 0;
+					}
+				}
 				else
 				{
-					int mask = Avx.mm256_movemask_pd(a);
+					int cmp = Sse.movemask_ps(a);
 
-					return (elements == 3) ? ((mask & 0b0111) == 0) : (mask == 0);
+					return sizeof(T) * elements == sizeof(v128)
+						 ? cmp == 0
+						 : (cmp & (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))) == 0;
 				}
             }
+			else if (Arm.Neon.IsNeonSupported)
+			{
+				return allfalse_epi128<T>(a, elements);
+			}
 			else throw new IllegalInstructionException();
 		}
 
-		
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool notallfalse_epi128<T>(v128 a, int elements)
-			where T : unmanaged 
+		public static bool mm256_allfalse_f256<T>(v256 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Sse2.IsSse2Supported)
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
+				{
+					return allfalse_f128<T>(Avx.mm256_castps256_ps128(a), elements);
+				}
+				else if (sizeof(T) < sizeof(float))
+				{
+					if (Avx2.IsAvx2Supported)
+					{
+						return mm256_allfalse_epi256<T>(a, elements);
+					}
+					else
+					{
+						return Avx.mm256_testz_si256(a, elements * sizeof(T) == sizeof(v256) ? a : truemsk256<T>(elements)) == 1;
+					}
+				}
+				else
+				{
+					int cmp = sizeof(T) == sizeof(float) ? Avx.mm256_movemask_ps(a) : Avx.mm256_movemask_pd(a);
+
+					return sizeof(T) * elements == sizeof(v256)
+						 ? cmp == 0
+						 : (cmp & truemsk32<byte>(elements)) == 0;
+				}
+			}
+			else throw new IllegalInstructionException();
+		}
+
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool notallfalse_epi128<T>(v128 a, int elements = 0)
+			where T : unmanaged
+		{
+            if (Architecture.IsSIMDSupported)
             {
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
 				switch(sizeof(T) * elements)
 				{
 					case 1: return a.Byte0	 != 0;
@@ -323,21 +518,26 @@ namespace MaxMath.Intrinsics
 					case 4: return a.UInt0	 != 0;
 					case 8: return a.ULong0	 != 0;
 
-					case 3: return (a.UInt0  &			 0x00FF_FFFFu)	!= 0;
-					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) != 0;
-					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) != 0;
-					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) != 0;
+					case 3: return (a.UInt0  &		     0x00FF_FFFFu ) != 0ul;
+					case 5: return (a.ULong0 & 0x0000_00FF_FFFF_FFFFul) != 0ul;
+					case 6: return (a.ULong0 & 0x0000_FFFF_FFFF_FFFFul) != 0ul;
+					case 7: return (a.ULong0 & 0x00FF_FFFF_FFFF_FFFFul) != 0ul;
 
 					default:
 					{
-						int cmp = Sse2.movemask_epi8(a);
-						
-						if (elements != sizeof(v128) / sizeof(T))
+						if (Sse2.IsSse2Supported)
 						{
-						    cmp &= truemsk<T>(elements);
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8(a) != 0
+								 : (movemask_epi8(a) & truemsk32<T>(elements)) != 0;
 						}
-						
-						return cmp != 0;
+						else if (Arm.Neon.IsNeonSupported)
+						{
+							return sizeof(T) * elements == sizeof(v128)
+								 ? movemask_epi8x4(a) != 0
+								 : (movemask_epi8x4(a) & truemsk64<T>(elements)) != 0;
+						}
+						else throw new IllegalInstructionException();
 					}
 				}
             }
@@ -345,64 +545,106 @@ namespace MaxMath.Intrinsics
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_notallfalse_epi256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool mm256_notallfalse_epi256<T>(v256 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx2.IsAvx2Supported)
-            {
-				int cmp = Avx2.mm256_movemask_epi8(a);
-				
-				if (elements != sizeof(v256) / sizeof(T))
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
 				{
-				    cmp &= truemsk<T>(elements);
+					return notallfalse_epi128<T>(Avx.mm256_castsi256_si128(a), elements);
 				}
-				
-				return cmp != 0;
-            }
-			else throw new IllegalInstructionException();
-		}
-		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool notallfalse_f128<T>(v128 a, int elements)
-			where T : unmanaged 
-		{
-            if (Sse2.IsSse2Supported)
-            {
-                if (sizeof(T) == 4)
-                {
-                    switch (elements)
-                    {
-						case 2: return a.ULong0 != 0;
-						case 3: return (Sse.movemask_ps(a) & 0b0111) != 0;
-						default: return Sse.movemask_ps(a) != 0;
-                    }
-                }
 				else
 				{
-					return Sse2.movemask_pd(a) != 0;
+					if (Avx2.IsAvx2Supported)
+					{
+						return sizeof(T) * elements == sizeof(v256)
+							 ? Avx2.mm256_movemask_epi8(a) != 0
+							 : (Avx2.mm256_movemask_epi8(a) & truemsk32<T>(elements)) != 0;
+					}
+					else
+					{
+						return mm256_notallfalse_f256<T>(a, elements);
+					}
 				}
-            }
+			}
 			else throw new IllegalInstructionException();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool mm256_notallfalse_f256<T>(v256 a, int elements)
-			where T : unmanaged 
+		public static bool notallfalse_f128<T>(v128 a, int elements = 0)
+			where T : unmanaged
 		{
-            if (Avx.IsAvxSupported)
+			if (Sse2.IsSse2Supported)
             {
-                if (sizeof(T) == 4)
-                {
-					return Avx.mm256_movemask_ps(a) != 0;
-                    
-                }
+				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
+
+				if (Sse2.IsSse2Supported)
+				{
+					if (elements * sizeof(T) <= sizeof(ulong)
+					 || sizeof(T) < sizeof(float))
+					{
+						return notallfalse_epi128<T>(a, elements);
+					}
+					else
+					{
+						int cmp = sizeof(T) == sizeof(float) ? movemask_ps(a) : movemask_pd(a);
+
+						return sizeof(T) * elements == sizeof(v128)
+							 ? cmp != 0
+							 : (cmp & truemsk32<byte>(elements)) != 0;
+					}
+				}
 				else
 				{
-					int mask = Avx.mm256_movemask_pd(a);
+					int cmp = Sse.movemask_ps(a);
 
-					return (elements == 3) ? ((mask & 0b0111) != 0) : (mask != 0);
+					return sizeof(T) * elements == sizeof(v128)
+						 ? cmp != 0
+						 : (cmp & (sizeof(T) == sizeof(float) ? truemsk32<byte>(elements) : truemsk32<short>(elements))) != 0;
 				}
             }
+			else if (Arm.Neon.IsNeonSupported)
+			{
+				return notallfalse_epi128<T>(a, elements);
+			}
+			else throw new IllegalInstructionException();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool mm256_notallfalse_f256<T>(v256 a, int elements = 0)
+			where T : unmanaged
+		{
+			if (Avx.IsAvxSupported)
+			{
+				elements = elements != 0 ? elements : sizeof(v256) / sizeof(T);
+
+				if (sizeof(T) * elements <= sizeof(v128))
+				{
+					return notallfalse_f128<T>(Avx.mm256_castps256_ps128(a), elements);
+				}
+				else if (sizeof(T) < sizeof(float))
+				{
+					if (Avx2.IsAvx2Supported)
+					{
+						return mm256_notallfalse_epi256<T>(a, elements);
+					}
+					else
+					{
+						return Avx.mm256_testz_si256(a, elements * sizeof(T) == sizeof(v256) ? a : truemsk256<T>(elements)) == 1;
+					}
+				}
+				else
+				{
+					int cmp = sizeof(T) == sizeof(float) ? Avx.mm256_movemask_ps(a) : Avx.mm256_movemask_pd(a);
+
+					return sizeof(T) * elements == sizeof(v256)
+						 ? cmp != 0
+						 : (cmp & truemsk32<byte>(elements)) != 0;
+				}
+			}
 			else throw new IllegalInstructionException();
 		}
     }

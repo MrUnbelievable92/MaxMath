@@ -19,22 +19,22 @@ namespace MaxMath
 			internal const double F64_SNUM10 = 8071.6720023658162106380029022722506138218516325024d;
 			internal const double F64_SNUM11 = 210.82427775157934587250973392071336271166969580291d;
 			internal const double F64_SNUM12 = 2.5066282746310002701649081771338373386264310793408d;
-			
-			internal const double F64_SDEN0  = 0d; 
-			internal const double F64_SDEN1  = 39916800d; 
-			internal const double F64_SDEN2  = 120543840d; 
-			internal const double F64_SDEN3  = 150917976d; 
-			internal const double F64_SDEN4  = 105258076d; 
-			internal const double F64_SDEN5  = 45995730d; 
-			internal const double F64_SDEN6  = 13339535d; 
-			internal const double F64_SDEN7  = 2637558d; 
-			internal const double F64_SDEN8  = 357423d; 
-			internal const double F64_SDEN9  = 32670d; 
-			internal const double F64_SDEN10 = 1925d; 
-			internal const double F64_SDEN11 = 66d; 
+
+			internal const double F64_SDEN0  = 0d;
+			internal const double F64_SDEN1  = 39916800d;
+			internal const double F64_SDEN2  = 120543840d;
+			internal const double F64_SDEN3  = 150917976d;
+			internal const double F64_SDEN4  = 105258076d;
+			internal const double F64_SDEN5  = 45995730d;
+			internal const double F64_SDEN6  = 13339535d;
+			internal const double F64_SDEN7  = 2637558d;
+			internal const double F64_SDEN8  = 357423d;
+			internal const double F64_SDEN9  = 32670d;
+			internal const double F64_SDEN10 = 1925d;
+			internal const double F64_SDEN11 = 66d;
 			internal const double F64_SDEN12 = 1d;
 
-			
+
             internal const float a0  =  7.7215664089e-02f;
             internal const float a1  =  3.2246702909e-01f;
             internal const float a2  =  6.7352302372e-02f;

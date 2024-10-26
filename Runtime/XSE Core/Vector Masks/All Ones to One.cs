@@ -10,11 +10,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 negmask_epi8(v128 mask, byte elements = 16)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsAbs32Supported)
             {
                 return abs_epi8(mask, elements);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return neg_epi8(mask);
             }
@@ -24,11 +24,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 negmask_epi16(v128 mask, byte elements = 8)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsAbs32Supported)
             {
                 return abs_epi16(mask, elements);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return neg_epi16(mask);
             }
@@ -38,11 +38,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 negmask_epi32(v128 mask, byte elements = 4)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsAbs32Supported)
             {
                 return abs_epi32(mask, elements);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
             {
                 return neg_epi32(mask);
             }
@@ -52,7 +52,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 negmask_epi64(v128 mask)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsAbs64Supported)
+            {
+                return abs_epi64(mask);
+            }
+            else if (Architecture.IsSIMDSupported)
             {
                 return neg_epi64(mask);
             }

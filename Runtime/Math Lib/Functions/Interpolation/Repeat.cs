@@ -9,10 +9,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float repeat(float x, float length)
         {
-            return math.clamp(math.mad(math.floor(x / length), 
-                                       -length, 
-                                       x), 
-                              0f, 
+            return math.clamp(math.mad(math.floor(x / length),
+                                       -length,
+                                       x),
+                              0f,
                               length);
         }
 
@@ -53,10 +53,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 repeat(float8 x, float8 length)
         {
-            return clamp(mad(floor(x / length), 
-                             -length, 
-                             x), 
-                         0f, 
+            return clamp(mad(floor(x / length),
+                             -length,
+                             x),
+                         0f,
                          length);
         }
 

@@ -5,16 +5,13 @@ using System.Runtime.InteropServices;
 using MaxMath.Intrinsics;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
-using Unity.Burst.CompilerServices;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    [Serializable] 
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(short))]  
+    [Serializable]
+	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(short))]
 	[DebuggerTypeProxy(typeof(short4.DebuggerProxy))]
     unsafe public struct short4 : IEquatable<short4>, IFormattable
 	{
@@ -47,5867 +44,393 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short x, short y, short z, short w)
         {
-            if (Sse2.IsSse2Supported)
-			{
-                if (Constant.IsConstantExpression(x) && Constant.IsConstantExpression(y) && Constant.IsConstantExpression(z) && Constant.IsConstantExpression(w))
-                {
-                    this = Sse2.cvtsi64x_si128((long)bitfield(x, y, z, w));
-                }
-                else
-                {
-					this = Sse2.set_epi16(0, 0, 0, 0, w, z, y, x);
-                }
-			}
-			else
-            {
-				this = new short4
-				{
-					x = x,
-					y = y,
-					z = z,
-					w = w
-				};
-			}
+			this = (short4)new ushort4((ushort)x, (ushort)y, (ushort)z, (ushort)w);
 		}
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short xyzw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-                if (Constant.IsConstantExpression(xyzw))
-                {
-					this = Sse2.cvtsi64x_si128((long)bitfield(xyzw, xyzw, xyzw, xyzw));
-                }
-				else
-				{
-					this = Sse2.shufflelo_epi16(Sse2.cvtsi32_si128((ushort)xyzw), Sse.SHUFFLE(0, 0, 0, 0));
-				}
-			}
-			else
-			{
-				this = new short4
-				{
-					x = xyzw,
-					y = xyzw,
-					z = xyzw,
-					w = xyzw
-				};
-			}
+			this = (short4)new ushort4((ushort)xyzw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short2 xy, short z, short w)
         {
-            if (Sse2.IsSse2Supported)
-			{
-				this = Xse.insert_epi16(Xse.insert_epi16(xy, (ushort)z, 2), (ushort)w, 3);
-			}
-			else
-            {
-				this = new short4
-				{
-					x = xy.x,
-					y = xy.y,
-					z = z,
-					w = w
-				};
-			}
+			this = (short4)new ushort4((ushort2)xy, (ushort)z, (ushort)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short x, short2 yz, short w)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Xse.insert_epi16(Xse.insert_epi16(Sse2.bslli_si128(yz, sizeof(short)), (ushort)x, 0), (ushort)w, 3);
-			}
-			else
-			{
-				this = new short4
-				{
-					x = x,
-					y = yz.x,
-					z = yz.y,
-					w = w
-				};
-			}
+			this = (short4)new ushort4((ushort)x, (ushort2)yz, (ushort)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short x, short y, short2 zw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.unpacklo_epi32(new short2(x, y), zw);
-			}
-			else
-			{
-				this = new short4
-				{
-					x = x,
-					y = y,
-					z = zw.x,
-					w = zw.y,
-				};
-			}
+			this = (short4)new ushort4((ushort)x, (ushort)y, (ushort2)zw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short2 xy, short2 zw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Sse2.unpacklo_epi32(xy, zw);
-			}
-			else
-			{
-				this = new short4
-				{
-					x = xy.x,
-					y = xy.y,
-					z = zw.x,
-					w = zw.y
-				};
-			}
+			this = (short4)new ushort4((ushort2)xy, (ushort2)zw);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short3 xyz, short w)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Xse.insert_epi16(xyz, (ushort)w, 3);
-			}
-			else
-			{
-				this = new short4
-				{
-					x = xyz.x,
-					y = xyz.y,
-					z = xyz.z,
-					w = w
-				};
-			}
+			this = (short4)new ushort4((ushort3)xyz, (ushort)w);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4(short x, short3 yzw)
         {
-			if (Sse2.IsSse2Supported)
-			{
-				this = Xse.insert_epi16(Sse2.bslli_si128(yzw, sizeof(short)), (ushort)x, 0);
-			}
-			else
-			{
-				this = new short4
-				{
-					x = x,
-					y = yzw.x,
-					z = yzw.y,
-					w = yzw.z
-				};
-			}
+			this = (short4)new ushort4((ushort)x, (ushort3)yzw);
         }
 
 
         #region Shuffle
-        public readonly short4 xxxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, x, x);
-				}
-			}
-		}
-		public readonly short4 xxxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, x, y);
-				}
-			}
-		}
-		public readonly short4 xxxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, x, z);
-				}
-			}
-		}
-		public readonly short4 xxxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, x, w);
-				}
-			}
-		}
-		public readonly short4 xxyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, y, x);
-				}
-			}
-		}
-		public readonly short4 xxyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, y, y);
-				}
-			}
-		}
-		public readonly short4 xxyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, y, z);
-				}
-			}
-		}
-		public readonly short4 xxyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, y, w);
-				}
-			}
-		}
-		public readonly short4 xxzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, z, x);
-				}
-			}
-		}
-		public readonly short4 xxzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, z, y);
-				}
-			}
-		}
-		public readonly short4 xxzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, z, z);
-				}
-			}
-		}
-		public readonly short4 xxzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, z, w);
-				}
-			}
-		}
-		public readonly short4 xxwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, w, x);
-				}
-			}
-		}
-		public readonly short4 xxwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, w, y);
-				}
-			}
-		}
-		public readonly short4 xxwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, w, z);
-				}
-			}
-		}
-		public readonly short4 xxww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
-				}
-				else
-				{
-					return new short4(x, x, w, w);
-				}
-			}
-		}
-		public readonly short4 xyxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, x, x);
-				}
-			}
-		}
-		public readonly short4 xyxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, x, y);
-				}
-			}
-		}
-		public readonly short4 xyxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, x, z);
-				}
-			}
-		}
-		public readonly short4 xyxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, x, w);
-				}
-			}
-		}
-		public readonly short4 xyyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, y, x);
-				}
-			}
-		}
-		public readonly short4 xyyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, y, y);
-				}
-			}
-		}
-		public readonly short4 xyyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, y, z);
-				}
-			}
-		}
-		public readonly short4 xyyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, y, w);
-				}
-			}
-		}
-		public readonly short4 xyzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, z, x);
-				}
-			}
-		}
-		public readonly short4 xyzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, z, y);
-				}
-			}
-		}
-		public readonly short4 xyzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, z, z);
-				}
-			}
-		}
-		public readonly short4 xywx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, w, x);
-				}
-			}
-		}
-		public readonly short4 xywy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, w, y);
-				}
-			}
-		}
-		public			short4 xywz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, w, z);
-				}
-			}
+		public readonly short4 xxxx => (short4)((ushort4)this).xxxx;
+        public readonly short4 xxxy => (short4)((ushort4)this).xxxy;
+        public readonly short4 xxxz => (short4)((ushort4)this).xxxz;
+        public readonly short4 xxxw => (short4)((ushort4)this).xxxw;
+        public readonly short4 xxyx => (short4)((ushort4)this).xxyx;
+        public readonly short4 xxyy => (short4)((ushort4)this).xxyy;
+        public readonly short4 xxyz => (short4)((ushort4)this).xxyz;
+        public readonly short4 xxyw => (short4)((ushort4)this).xxyw;
+        public readonly short4 xxzx => (short4)((ushort4)this).xxzx;
+        public readonly short4 xxzy => (short4)((ushort4)this).xxzy;
+        public readonly short4 xxzz => (short4)((ushort4)this).xxzz;
+        public readonly short4 xxzw => (short4)((ushort4)this).xxzw;
+        public readonly short4 xxwx => (short4)((ushort4)this).xxwx;
+        public readonly short4 xxwy => (short4)((ushort4)this).xxwy;
+        public readonly short4 xxwz => (short4)((ushort4)this).xxwz;
+        public readonly short4 xxww => (short4)((ushort4)this).xxww;
+        public readonly short4 xyxx => (short4)((ushort4)this).xyxx;
+		public readonly short4 xyxy => (short4)((ushort4)this).xyxy;
+        public readonly short4 xyxz => (short4)((ushort4)this).xyxz;
+		public readonly short4 xyxw => (short4)((ushort4)this).xyxw;
+		public readonly short4 xyyx => (short4)((ushort4)this).xyyx;
+		public readonly short4 xyyy => (short4)((ushort4)this).xyyy;
+		public readonly short4 xyyz => (short4)((ushort4)this).xyyz;
+		public readonly short4 xyyw => (short4)((ushort4)this).xyyw;
+		public readonly short4 xyzx => (short4)((ushort4)this).xyzx;
+        public readonly short4 xyzy => (short4)((ushort4)this).xyzy;
+        public readonly short4 xyzz => (short4)((ushort4)this).xyzz;
+		public readonly short4 xywx => (short4)((ushort4)this).xywx;
+		public readonly short4 xywy => (short4)((ushort4)this).xywy;
+		public		    short4 xywz { readonly get => (short4)((ushort4)this).xywz;  set { ushort4 _this = (ushort4)this; _this.xywz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 xyww => (short4)((ushort4)this).xyww;
+		public readonly short4 xzxx => (short4)((ushort4)this).xzxx;
+        public readonly short4 xzxy => (short4)((ushort4)this).xzxy;
+        public readonly short4 xzxz => (short4)((ushort4)this).xzxz;
+		public readonly short4 xzxw => (short4)((ushort4)this).xzxw;
+		public readonly short4 xzyx => (short4)((ushort4)this).xzyx;
+        public readonly short4 xzyy => (short4)((ushort4)this).xzyy;
+        public readonly short4 xzyz => (short4)((ushort4)this).xzyz;
+		public			short4 xzyw { readonly get => (short4)((ushort4)this).xzyw;  set { ushort4 _this = (ushort4)this; _this.xzyw = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 xzzx => (short4)((ushort4)this).xzzx;
+        public readonly short4 xzzy => (short4)((ushort4)this).xzzy;
+        public readonly short4 xzzz => (short4)((ushort4)this).xzzz;
+		public readonly short4 xzzw => (short4)((ushort4)this).xzzw;
+		public readonly short4 xzwx => (short4)((ushort4)this).xzwx;
+		public			short4 xzwy { readonly get => (short4)((ushort4)this).xzwy;  set { ushort4 _this = (ushort4)this; _this.xzwy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 xzwz => (short4)((ushort4)this).xzwz;
+		public readonly short4 xzww => (short4)((ushort4)this).xzww;
+		public readonly short4 xwxx => (short4)((ushort4)this).xwxx;
+		public readonly short4 xwxy => (short4)((ushort4)this).xwxy;
+		public readonly short4 xwxz => (short4)((ushort4)this).xwxz;
+		public readonly short4 xwxw => (short4)((ushort4)this).xwxw;
+		public readonly short4 xwyx => (short4)((ushort4)this).xwyx;
+		public readonly short4 xwyy => (short4)((ushort4)this).xwyy;
+		public			short4 xwyz { readonly get => (short4)((ushort4)this).xwyz;  set { ushort4 _this = (ushort4)this; _this.xwyz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 xwyw => (short4)((ushort4)this).xwyw;
+		public readonly short4 xwzx => (short4)((ushort4)this).xwzx;
+		public			short4 xwzy { readonly get => (short4)((ushort4)this).xwzy;  set { ushort4 _this = (ushort4)this; _this.xwzy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 xwzz => (short4)((ushort4)this).xwzz;
+		public readonly short4 xwzw => (short4)((ushort4)this).xwzw;
+		public readonly short4 xwwx => (short4)((ushort4)this).xwwx;
+		public readonly short4 xwwy => (short4)((ushort4)this).xwwy;
+		public readonly short4 xwwz => (short4)((ushort4)this).xwwz;
+		public readonly short4 xwww => (short4)((ushort4)this).xwww;
+		public readonly short4 yxxx => (short4)((ushort4)this).yxxx;
+        public readonly short4 yxxy => (short4)((ushort4)this).yxxy;
+        public readonly short4 yxxz => (short4)((ushort4)this).yxxz;
+		public readonly short4 yxxw => (short4)((ushort4)this).yxxw;
+		public readonly short4 yxyx => (short4)((ushort4)this).yxyx;
+        public readonly short4 yxyy => (short4)((ushort4)this).yxyy;
+        public readonly short4 yxyz => (short4)((ushort4)this).yxyz;
+		public readonly short4 yxyw => (short4)((ushort4)this).yxyw;
+		public readonly short4 yxzx => (short4)((ushort4)this).yxzx;
+        public readonly short4 yxzy => (short4)((ushort4)this).yxzy;
+        public readonly short4 yxzz => (short4)((ushort4)this).yxzz;
+		public			short4 yxzw { readonly get => (short4)((ushort4)this).yxzw;  set { ushort4 _this = (ushort4)this; _this.yxzw = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 yxwx => (short4)((ushort4)this).yxwx;
+		public readonly short4 yxwy => (short4)((ushort4)this).yxwy;
+		public			short4 yxwz { readonly get => (short4)((ushort4)this).yxwz;  set { ushort4 _this = (ushort4)this; _this.yxwz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 yxww => (short4)((ushort4)this).yxww;
+		public readonly short4 yyxx => (short4)((ushort4)this).yyxx;
+        public readonly short4 yyxy => (short4)((ushort4)this).yyxy;
+        public readonly short4 yyxz => (short4)((ushort4)this).yyxz;
+		public readonly short4 yyxw => (short4)((ushort4)this).yyxw;
+		public readonly short4 yyyx => (short4)((ushort4)this).yyyx;
+        public readonly short4 yyyy => (short4)((ushort4)this).yyyy;
+        public readonly short4 yyyz => (short4)((ushort4)this).yyyz;
+		public readonly short4 yyyw => (short4)((ushort4)this).yyyw;
+		public readonly short4 yyzx => (short4)((ushort4)this).yyzx;
+        public readonly short4 yyzy => (short4)((ushort4)this).yyzy;
+        public readonly short4 yyzz => (short4)((ushort4)this).yyzz;
+		public readonly short4 yyzw => (short4)((ushort4)this).yyzw;
+		public readonly short4 yywx => (short4)((ushort4)this).yywx;
+		public readonly short4 yywy => (short4)((ushort4)this).yywy;
+		public readonly short4 yywz => (short4)((ushort4)this).yywz;
+		public readonly short4 yyww => (short4)((ushort4)this).yyww;
+		public readonly short4 yzxx => (short4)((ushort4)this).yzxx;
+        public readonly short4 yzxy => (short4)((ushort4)this).yzxy;
+        public readonly short4 yzxz => (short4)((ushort4)this).yzxz;
+		public			short4 yzxw { readonly get => (short4)((ushort4)this).yzxw;  set { ushort4 _this = (ushort4)this; _this.yzxw = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 yzyx => (short4)((ushort4)this).yzyx;
+        public readonly short4 yzyy => (short4)((ushort4)this).yzyy;
+        public readonly short4 yzyz => (short4)((ushort4)this).yzyz;
+		public readonly short4 yzyw => (short4)((ushort4)this).yzyw;
+		public readonly short4 yzzx => (short4)((ushort4)this).yzzx;
+        public readonly short4 yzzy => (short4)((ushort4)this).yzzy;
+        public readonly short4 yzzz => (short4)((ushort4)this).yzzz;
+		public readonly short4 yzzw => (short4)((ushort4)this).yzzw;
+		public			short4 yzwx { readonly get => (short4)((ushort4)this).yzwx;  set { ushort4 _this = (ushort4)this; _this.yzwx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 yzwy => (short4)((ushort4)this).yzwy;
+		public readonly short4 yzwz => (short4)((ushort4)this).yzwz;
+		public readonly short4 yzww => (short4)((ushort4)this).yzww;
+		public readonly short4 ywxx => (short4)((ushort4)this).ywxx;
+		public readonly short4 ywxy => (short4)((ushort4)this).ywxy;
+		public			short4 ywxz { readonly get => (short4)((ushort4)this).ywxz;  set { ushort4 _this = (ushort4)this; _this.ywxz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 ywxw => (short4)((ushort4)this).ywxw;
+		public readonly short4 ywyx => (short4)((ushort4)this).ywyx;
+		public readonly short4 ywyy => (short4)((ushort4)this).ywyy;
+		public readonly short4 ywyz => (short4)((ushort4)this).ywyz;
+		public readonly short4 ywyw => (short4)((ushort4)this).ywyw;
+		public			short4 ywzx { readonly get => (short4)((ushort4)this).ywzx;  set { ushort4 _this = (ushort4)this; _this.ywzx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 ywzy => (short4)((ushort4)this).ywzy;
+		public readonly short4 ywzz => (short4)((ushort4)this).ywzz;
+		public readonly short4 ywzw => (short4)((ushort4)this).ywzw;
+		public readonly short4 ywwx => (short4)((ushort4)this).ywwx;
+		public readonly short4 ywwy => (short4)((ushort4)this).ywwy;
+		public readonly short4 ywwz => (short4)((ushort4)this).ywwz;
+		public readonly short4 ywww => (short4)((ushort4)this).ywww;
+		public readonly short4 zxxx => (short4)((ushort4)this).zxxx;
+        public readonly short4 zxxy => (short4)((ushort4)this).zxxy;
+        public readonly short4 zxxz => (short4)((ushort4)this).zxxz;
+		public readonly short4 zxxw => (short4)((ushort4)this).zxxw;
+		public readonly short4 zxyx => (short4)((ushort4)this).zxyx;
+        public readonly short4 zxyy => (short4)((ushort4)this).zxyy;
+        public readonly short4 zxyz => (short4)((ushort4)this).zxyz;
+		public			short4 zxyw { readonly get => (short4)((ushort4)this).zxyw;  set { ushort4 _this = (ushort4)this; _this.zxyw = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zxzx => (short4)((ushort4)this).zxzx;
+        public readonly short4 zxzy => (short4)((ushort4)this).zxzy;
+        public readonly short4 zxzz => (short4)((ushort4)this).zxzz;
+		public readonly short4 zxzw => (short4)((ushort4)this).zxzw;
+		public readonly short4 zxwx => (short4)((ushort4)this).zxwx;
+		public			short4 zxwy { readonly get => (short4)((ushort4)this).zxwy;  set { ushort4 _this = (ushort4)this; _this.zxwy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zxwz => (short4)((ushort4)this).zxwz;
+		public readonly short4 zxww => (short4)((ushort4)this).zxww;
+		public readonly short4 zyxx => (short4)((ushort4)this).zyxx;
+        public readonly short4 zyxy => (short4)((ushort4)this).zyxy;
+        public readonly short4 zyxz => (short4)((ushort4)this).zyxz;
+		public			short4 zyxw { readonly get => (short4)((ushort4)this).zyxw;  set { ushort4 _this = (ushort4)this; _this.zyxw = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zyyx => (short4)((ushort4)this).zyyx;
+        public readonly short4 zyyy => (short4)((ushort4)this).zyyy;
+        public readonly short4 zyyz => (short4)((ushort4)this).zyyz;
+		public readonly short4 zyyw => (short4)((ushort4)this).zyyw;
+		public readonly short4 zyzx => (short4)((ushort4)this).zyzx;
+        public readonly short4 zyzy => (short4)((ushort4)this).zyzy;
+        public readonly short4 zyzz => (short4)((ushort4)this).zyzz;
+		public readonly short4 zyzw => (short4)((ushort4)this).zyzw;
+		public			short4 zywx { readonly get => (short4)((ushort4)this).zywx;  set { ushort4 _this = (ushort4)this; _this.zywx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zywy => (short4)((ushort4)this).zywy;
+		public readonly short4 zywz => (short4)((ushort4)this).zywz;
+		public readonly short4 zyww => (short4)((ushort4)this).zyww;
+		public readonly short4 zzxx => (short4)((ushort4)this).zzxx;
+        public readonly short4 zzxy => (short4)((ushort4)this).zzxy;
+        public readonly short4 zzxz => (short4)((ushort4)this).zzxz;
+		public readonly short4 zzxw => (short4)((ushort4)this).zzxw;
+		public readonly short4 zzyx => (short4)((ushort4)this).zzyx;
+        public readonly short4 zzyy => (short4)((ushort4)this).zzyy;
+        public readonly short4 zzyz => (short4)((ushort4)this).zzyz;
+		public readonly short4 zzyw => (short4)((ushort4)this).zzyw;
+		public readonly short4 zzzx => (short4)((ushort4)this).zzzx;
+        public readonly short4 zzzy => (short4)((ushort4)this).zzzy;
+        public readonly short4 zzzz => (short4)((ushort4)this).zzzz;
+		public readonly short4 zzzw => (short4)((ushort4)this).zzzw;
+		public readonly short4 zzwx => (short4)((ushort4)this).zzwx;
+		public readonly short4 zzwy => (short4)((ushort4)this).zzwy;
+		public readonly short4 zzwz => (short4)((ushort4)this).zzwz;
+		public readonly short4 zzww => (short4)((ushort4)this).zzww;
+		public readonly short4 zwxx => (short4)((ushort4)this).zwxx;
+		public			short4 zwxy { readonly get => (short4)((ushort4)this).zwxy;  set { ushort4 _this = (ushort4)this; _this.zwxy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zwxz => (short4)((ushort4)this).zwxz;
+		public readonly short4 zwxw => (short4)((ushort4)this).zwxw;
+		public			short4 zwyx { readonly get => (short4)((ushort4)this).zwyx;  set { ushort4 _this = (ushort4)this; _this.zwyx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 zwyy => (short4)((ushort4)this).zwyy;
+		public readonly short4 zwyz => (short4)((ushort4)this).zwyz;
+		public readonly short4 zwyw => (short4)((ushort4)this).zwyw;
+		public readonly short4 zwzx => (short4)((ushort4)this).zwzx;
+		public readonly short4 zwzy => (short4)((ushort4)this).zwzy;
+		public readonly short4 zwzz => (short4)((ushort4)this).zwzz;
+		public readonly short4 zwzw => (short4)((ushort4)this).zwzw;
+		public readonly short4 zwwx => (short4)((ushort4)this).zwwx;
+		public readonly short4 zwwy => (short4)((ushort4)this).zwwy;
+		public readonly short4 zwwz => (short4)((ushort4)this).zwwz;
+		public readonly short4 zwww => (short4)((ushort4)this).zwww;
+		public readonly short4 wxxx => (short4)((ushort4)this).wxxx;
+		public readonly short4 wxxy => (short4)((ushort4)this).wxxy;
+		public readonly short4 wxxz => (short4)((ushort4)this).wxxz;
+		public readonly short4 wxxw => (short4)((ushort4)this).wxxw;
+		public readonly short4 wxyx => (short4)((ushort4)this).wxyx;
+		public readonly short4 wxyy => (short4)((ushort4)this).wxyy;
+		public			short4 wxyz { readonly get => (short4)((ushort4)this).wxyz;  set { ushort4 _this = (ushort4)this; _this.wxyz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wxyw => (short4)((ushort4)this).wxyw;
+		public readonly short4 wxzx => (short4)((ushort4)this).wxzx;
+		public			short4 wxzy { readonly get => (short4)((ushort4)this).wxzy;  set { ushort4 _this = (ushort4)this; _this.wxzy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wxzz => (short4)((ushort4)this).wxzz;
+		public readonly short4 wxzw => (short4)((ushort4)this).wxzw;
+		public readonly short4 wxwx => (short4)((ushort4)this).wxwx;
+		public readonly short4 wxwy => (short4)((ushort4)this).wxwy;
+		public readonly short4 wxwz => (short4)((ushort4)this).wxwz;
+		public readonly short4 wxww => (short4)((ushort4)this).wxww;
+		public readonly short4 wyxx => (short4)((ushort4)this).wyxx;
+		public readonly short4 wyxy => (short4)((ushort4)this).wyxy;
+		public			short4 wyxz { readonly get => (short4)((ushort4)this).wyxz;  set { ushort4 _this = (ushort4)this; _this.wyxz = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wyxw => (short4)((ushort4)this).wyxw;
+		public readonly short4 wyyx => (short4)((ushort4)this).wyyx;
+		public readonly short4 wyyy => (short4)((ushort4)this).wyyy;
+		public readonly short4 wyyz => (short4)((ushort4)this).wyyz;
+		public readonly short4 wyyw => (short4)((ushort4)this).wyyw;
+		public			short4 wyzx { readonly get => (short4)((ushort4)this).wyzx;  set { ushort4 _this = (ushort4)this; _this.wyzx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wyzy => (short4)((ushort4)this).wyzy;
+		public readonly short4 wyzz => (short4)((ushort4)this).wyzz;
+		public readonly short4 wyzw => (short4)((ushort4)this).wyzw;
+		public readonly short4 wywx => (short4)((ushort4)this).wywx;
+		public readonly short4 wywy => (short4)((ushort4)this).wywy;
+		public readonly short4 wywz => (short4)((ushort4)this).wywz;
+		public readonly short4 wyww => (short4)((ushort4)this).wyww;
+		public readonly short4 wzxx => (short4)((ushort4)this).wzxx;
+		public			short4 wzxy { readonly get => (short4)((ushort4)this).wzxy;  set { ushort4 _this = (ushort4)this; _this.wzxy = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wzxz => (short4)((ushort4)this).wzxz;
+		public readonly short4 wzxw => (short4)((ushort4)this).wzxw;
+		public			short4 wzyx { readonly get => (short4)((ushort4)this).wzyx;  set { ushort4 _this = (ushort4)this; _this.wzyx = (ushort4)value; this = (short4)_this; } }
+		public readonly short4 wzyy => (short4)((ushort4)this).wzyy;
+		public readonly short4 wzyz => (short4)((ushort4)this).wzyz;
+		public readonly short4 wzyw => (short4)((ushort4)this).wzyw;
+		public readonly short4 wzzx => (short4)((ushort4)this).wzzx;
+		public readonly short4 wzzy => (short4)((ushort4)this).wzzy;
+		public readonly short4 wzzz => (short4)((ushort4)this).wzzz;
+		public readonly short4 wzzw => (short4)((ushort4)this).wzzw;
+		public readonly short4 wzwx => (short4)((ushort4)this).wzwx;
+		public readonly short4 wzwy => (short4)((ushort4)this).wzwy;
+		public readonly short4 wzwz => (short4)((ushort4)this).wzwz;
+		public readonly short4 wzww => (short4)((ushort4)this).wzww;
+		public readonly short4 wwxx => (short4)((ushort4)this).wwxx;
+		public readonly short4 wwxy => (short4)((ushort4)this).wwxy;
+		public readonly short4 wwxz => (short4)((ushort4)this).wwxz;
+		public readonly short4 wwxw => (short4)((ushort4)this).wwxw;
+		public readonly short4 wwyx => (short4)((ushort4)this).wwyx;
+		public readonly short4 wwyy => (short4)((ushort4)this).wwyy;
+		public readonly short4 wwyz => (short4)((ushort4)this).wwyz;
+		public readonly short4 wwyw => (short4)((ushort4)this).wwyw;
+		public readonly short4 wwzx => (short4)((ushort4)this).wwzx;
+		public readonly short4 wwzy => (short4)((ushort4)this).wwzy;
+		public readonly short4 wwzz => (short4)((ushort4)this).wwzz;
+		public readonly short4 wwzw => (short4)((ushort4)this).wwzw;
+		public readonly short4 wwwx => (short4)((ushort4)this).wwwx;
+		public readonly short4 wwwy => (short4)((ushort4)this).wwwy;
+		public readonly short4 wwwz => (short4)((ushort4)this).wwwz;
+		public readonly short4 wwww => (short4)((ushort4)this).wwww;
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xywz;
-			}
-		}
-		public readonly short4 xyww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
-				}
-				else
-				{
-					return new short4(x, y, w, w);
-				}
-			}
-		}
-		public readonly short4 xzxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, x, x);
-				}
-			}
-		}
-		public readonly short4 xzxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, x, y);
-				}
-			}
-		}
-		public readonly short4 xzxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, x, z);
-				}
-			}
-		}
-		public readonly short4 xzxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, x, w);
-				}
-			}
-		}
-		public readonly short4 xzyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, y, x);
-				}
-			}
-		}
-		public readonly short4 xzyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, y, y);
-				}
-			}
-		}
-		public readonly short4 xzyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, y, z);
-				}
-			}
-		}
-		public			short4 xzyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, y, w);
-				}
-			}
+		public readonly short3 xxx => (short3)((ushort4)this).xxx;
+        public readonly short3 xxy => (short3)((ushort4)this).xxy;
+        public readonly short3 xxz => (short3)((ushort4)this).xxz;
+		public readonly short3 xxw => (short3)((ushort4)this).xxw;
+		public readonly short3 xyx => (short3)((ushort4)this).xyx;
+        public readonly short3 xyy => (short3)((ushort4)this).xyy;
+		public			short3 xyz { readonly get => (short3)((ushort4)this).xyz;  set { ushort4 _this = (ushort4)this; _this.xyz = (ushort3)value; this = (short4)_this; } }
+		public			short3 xyw { readonly get => (short3)((ushort4)this).xyw;  set { ushort4 _this = (ushort4)this; _this.xyw = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 xzx => (short3)((ushort4)this).xzx;
+        public          short3 xzy { readonly get => (short3)((ushort4)this).xzy;  set { ushort4 _this = (ushort4)this; _this.xzy = (ushort3)value; this = (short4)_this; } }
+        public readonly short3 xzz => (short3)((ushort4)this).xzz;
+		public			short3 xzw { readonly get => (short3)((ushort4)this).xzw;  set { ushort4 _this = (ushort4)this; _this.xzw = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 xwx => (short3)((ushort4)this).xwx;
+		public			short3 xwy { readonly get => (short3)((ushort4)this).xwy;  set { ushort4 _this = (ushort4)this; _this.xwy = (ushort3)value; this = (short4)_this; } }
+		public			short3 xwz { readonly get => (short3)((ushort4)this).xwz;  set { ushort4 _this = (ushort4)this; _this.xwz = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 xww => (short3)((ushort4)this).xww;
+		public readonly short3 yxx => (short3)((ushort4)this).yxx;
+        public readonly short3 yxy => (short3)((ushort4)this).yxy;
+        public          short3 yxz { readonly get => (short3)((ushort4)this).yxz;  set { ushort4 _this = (ushort4)this; _this.yxz = (ushort3)value; this = (short4)_this; } }
+		public			short3 yxw { readonly get => (short3)((ushort4)this).yxw;  set { ushort4 _this = (ushort4)this; _this.yxw = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 yyx => (short3)((ushort4)this).yyx;
+        public readonly short3 yyy => (short3)((ushort4)this).yyy;
+        public readonly short3 yyz => (short3)((ushort4)this).yyz;
+		public readonly short3 yyw => (short3)((ushort4)this).yyw;
+		public          short3 yzx { readonly get => (short3)((ushort4)this).yzx;  set { ushort4 _this = (ushort4)this; _this.yzx = (ushort3)value; this = (short4)_this; } }
+        public readonly short3 yzy => (short3)((ushort4)this).yzy;
+        public readonly short3 yzz => (short3)((ushort4)this).yzz;
+		public			short3 yzw { readonly get => (short3)((ushort4)this).yzw;  set { ushort4 _this = (ushort4)this; _this.yzw = (ushort3)value; this = (short4)_this; } }
+		public			short3 ywx { readonly get => (short3)((ushort4)this).ywx;  set { ushort4 _this = (ushort4)this; _this.ywx = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 ywy => (short3)((ushort4)this).ywy;
+		public			short3 ywz { readonly get => (short3)((ushort4)this).ywz;  set { ushort4 _this = (ushort4)this; _this.ywz = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 yww => (short3)((ushort4)this).yww;
+		public readonly short3 zxx => (short3)((ushort4)this).zxx;
+        public          short3 zxy { readonly get => (short3)((ushort4)this).zxy;  set { ushort4 _this = (ushort4)this; _this.zxy = (ushort3)value; this = (short4)_this; } }
+        public readonly short3 zxz => (short3)((ushort4)this).zxz;
+		public          short3 zxw { readonly get => (short3)((ushort4)this).zxw;  set { ushort4 _this = (ushort4)this; _this.zxw = (ushort3)value; this = (short4)_this; } }
+		public          short3 zyx { readonly get => (short3)((ushort4)this).zyx;  set { ushort4 _this = (ushort4)this; _this.zyx = (ushort3)value; this = (short4)_this; } }
+        public readonly short3 zyy => (short3)((ushort4)this).zyy;
+        public readonly short3 zyz => (short3)((ushort4)this).zyz;
+		public          short3 zyw { readonly get => (short3)((ushort4)this).zyw;  set { ushort4 _this = (ushort4)this; _this.zyw = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 zzx => (short3)((ushort4)this).zzx;
+        public readonly short3 zzy => (short3)((ushort4)this).zzy;
+        public readonly short3 zzz => (short3)((ushort4)this).zzz;
+		public readonly short3 zzw => (short3)((ushort4)this).zzw;
+		public          short3 zwx { readonly get => (short3)((ushort4)this).zwx;  set { ushort4 _this = (ushort4)this; _this.zwx = (ushort3)value; this = (short4)_this; } }
+		public          short3 zwy { readonly get => (short3)((ushort4)this).zwy;  set { ushort4 _this = (ushort4)this; _this.zwy = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 zwz => (short3)((ushort4)this).zwz;
+		public readonly short3 zww => (short3)((ushort4)this).zww;
+		public readonly short3 wxx => (short3)((ushort4)this).wxx;
+		public          short3 wxy { readonly get => (short3)((ushort4)this).wxy;  set { ushort4 _this = (ushort4)this; _this.wxy = (ushort3)value; this = (short4)_this; } }
+		public          short3 wxz { readonly get => (short3)((ushort4)this).wxz;  set { ushort4 _this = (ushort4)this; _this.wxz = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 wxw => (short3)((ushort4)this).wxw;
+		public          short3 wyx { readonly get => (short3)((ushort4)this).wyx;  set { ushort4 _this = (ushort4)this; _this.wyx = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 wyy => (short3)((ushort4)this).wyy;
+		public          short3 wyz { readonly get => (short3)((ushort4)this).wyz;  set { ushort4 _this = (ushort4)this; _this.wyz = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 wyw => (short3)((ushort4)this).wyw;
+		public          short3 wzx { readonly get => (short3)((ushort4)this).wzx;  set { ushort4 _this = (ushort4)this; _this.wzx = (ushort3)value; this = (short4)_this; } }
+		public          short3 wzy { readonly get => (short3)((ushort4)this).wzy;  set { ushort4 _this = (ushort4)this; _this.wzy = (ushort3)value; this = (short4)_this; } }
+		public readonly short3 wzz => (short3)((ushort4)this).wzz;
+		public readonly short3 wzw => (short3)((ushort4)this).wzw;
+		public readonly short3 wwx => (short3)((ushort4)this).wwx;
+		public readonly short3 wwy => (short3)((ushort4)this).wwy;
+		public readonly short3 wwz => (short3)((ushort4)this).wwz;
+		public readonly short3 www => (short3)((ushort4)this).www;
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xzyw;
-			}
-		}
-		public readonly short4 xzzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, z, x);
-				}
-			}
-		}
-		public readonly short4 xzzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, z, y);
-				}
-			}
-		}
-		public readonly short4 xzzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, z, z);
-				}
-			}
-		}
-		public readonly short4 xzzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, z, w);
-				}
-			}
-		}
-		public readonly short4 xzwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 0)); ;
-				}
-				else
-				{
-					return new short4(x, z, w, x);
-				}
-			}
-		}
-		public			short4 xzwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xwyz;
-			}
-		}
-		public readonly short4 xzwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, w, z);
-				}
-			}
-		}
-		public readonly short4 xzww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
-				}
-				else
-				{
-					return new short4(x, z, w, w);
-				}
-			}
-		}
-		public readonly short4 xwxx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, x, x);
-				}
-			}
-		}
-		public readonly short4 xwxy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, x, y);
-				}
-			}
-		}
-		public readonly short4 xwxz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, x, z);
-				}
-			}
-		}
-		public readonly short4 xwxw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, x, w);
-				}
-			}
-		}
-		public readonly short4 xwyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, y, x);
-				}
-			}
-		}
-		public readonly short4 xwyy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, y, y);
-				}
-			}
-		}
-		public			short4 xwyz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xzwy;
-			}
-		}
-		public readonly short4 xwyw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, y, w);
-				}
-			}
-		}
-		public readonly short4 xwzx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, z, x);
-				}
-			}
-		}
-		public			short4 xwzy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.xwzy;
-			}
-		}
-		public readonly short4 xwzz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, z, z);
-				}
-			}
-		}
-		public readonly short4 xwzw
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, z, w);
-				}
-			}
-		}
-		public readonly short4 xwwx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, w, x);
-				}
-			}
-		}
-		public readonly short4 xwwy
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, w, y);
-				}
-			}
-		}
-		public readonly short4 xwwz
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, w, z);
-				}
-			}
-		}
-		public readonly short4 xwww
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
-				}
-				else
-				{
-					return new short4(x, w, w, w);
-				}
-			}
-		}
-		public readonly short4 yxxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, x, x);
-				}
-			}
-		}
-        public readonly short4 yxxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, x, y);
-				}
-			}
-		}
-        public readonly short4 yxxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, x, z);
-				}
-			}
-		}
-        public readonly short4 yxxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, x, w);
-				}
-			}
-		}
-        public readonly short4 yxyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, y, x);
-				}
-			}
-		}
-        public readonly short4 yxyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, y, y);
-				}
-			}
-		}
-        public readonly short4 yxyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, y, z);
-				}
-			}
-		}
-        public readonly short4 yxyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, y, w);
-				}
-			}
-		}
-        public readonly short4 yxzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, z, x);
-				}
-			}
-		}
-        public readonly short4 yxzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, z, y);
-				}
-			}
-		}
-        public readonly short4 yxzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, z, z);
-				}
-			}
-		}
-        public			short4 yxzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yxzw;
-			}
-		}
-        public readonly short4 yxwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, w, x);
-				}
-			}
-		}
-        public readonly short4 yxwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, w, y);
-				}
-			}
-		}
-        public			short4 yxwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yxwz;
-			}
-		}
-        public readonly short4 yxww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
-				}
-				else
-				{
-					return new short4(y, x, w, w);
-				}
-			}
-		}
-        public readonly short4 yyxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, x, x);
-				}
-			}
-		}
-        public readonly short4 yyxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, x, y);
-				}
-			}
-		}
-        public readonly short4 yyxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, x, z);
-				}
-			}
-		}
-        public readonly short4 yyxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, x, w);
-				}
-			}
-		}
-        public readonly short4 yyyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, y, x);
-				}
-			}
-		}
-        public readonly short4 yyyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, y, y);
-				}
-			}
-		}
-        public readonly short4 yyyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, y, z);
-				}
-			}
-		}
-        public readonly short4 yyyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, y, w);
-				}
-			}
-		}
-        public readonly short4 yyzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, z, x);
-				}
-			}
-		}
-        public readonly short4 yyzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, z, y);
-				}
-			}
-		}
-        public readonly short4 yyzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, z, z);
-				}
-			}
-		}
-        public readonly short4 yyzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, z, w);
-				}
-			}
-		}
-        public readonly short4 yywx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, w, x);
-				}
-			}
-		}
-        public readonly short4 yywy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, w, y);
-				}
-			}
-		}
-        public readonly short4 yywz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, w, z);
-				}
-			}
-		}
-        public readonly short4 yyww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
-				}
-				else
-				{
-					return new short4(y, y, w, w);
-				}
-			}
-		}
-        public readonly short4 yzxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, x, x);
-				}
-			}
-		}
-        public readonly short4 yzxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, x, y);
-				}
-			}
-		}
-        public readonly short4 yzxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, x, z);
-				}
-			}
-		}
-        public			short4 yzxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zxyw;
-			}
-		}
-        public readonly short4 yzyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, y, x);
-				}
-			}
-		}
-        public readonly short4 yzyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, y, y);
-				}
-			}
-		}
-        public readonly short4 yzyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, y, z);
-				}
-			}
-		}
-        public readonly short4 yzyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, y, w);
-				}
-			}
-		}
-        public readonly short4 yzzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, z, x);
-				}
-			}
-		}
-        public readonly short4 yzzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, z, y);
-				}
-			}
-		}
-        public readonly short4 yzzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, z, z);
-				}
-			}
-		}
-        public readonly short4 yzzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, z, w);
-				}
-			}
-		}
-        public			short4 yzwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 1)); ;
-				}
-				else
-				{
-					return new short4(y, z, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wxyz;
-			}
-		}
-        public readonly short4 yzwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, w, y);
-				}
-			}
-		}
-        public readonly short4 yzwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, w, z);
-				}
-			}
-		}
-        public readonly short4 yzww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
-				}
-				else
-				{
-					return new short4(y, z, w, w);
-				}
-			}
-		}
-        public readonly short4 ywxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, x, x);
-				}
-			}
-		}
-        public readonly short4 ywxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, x, y);
-				}
-			}
-		}
-        public			short4 ywxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zxwy;
-			}
-		}
-        public readonly short4 ywxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, x, w);
-				}
-			}
-		}
-        public readonly short4 ywyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, y, x);
-				}
-			}
-		}
-        public readonly short4 ywyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, y, y);
-				}
-			}
-		}
-        public readonly short4 ywyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, y, z);
-				}
-			}
-		}
-        public readonly short4 ywyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, y, w);
-				}
-			}
-		}
-        public			short4 ywzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wxzy;
-			}
-		}
-        public readonly short4 ywzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, z, y);
-				}
-			}
-		}
-        public readonly short4 ywzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, z, z);
-				}
-			}
-		}
-        public readonly short4 ywzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, z, w);
-				}
-			}
-		}
-        public readonly short4 ywwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, w, x);
-				}
-			}
-		}
-        public readonly short4 ywwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, w, y);
-				}
-			}
-		}
-        public readonly short4 ywwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, w, z);
-				}
-			}
-		}
-        public readonly short4 ywww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
-				}
-				else
-				{
-					return new short4(y, w, w, w);
-				}
-			}
-		}
-        public readonly short4 zxxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, x, x);
-				}
-			}
-		}
-        public readonly short4 zxxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, x, y);
-				}
-			}
-		}
-        public readonly short4 zxxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, x, z);
-				}
-			}
-		}
-        public readonly short4 zxxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, x, w);
-				}
-			}
-		}
-        public readonly short4 zxyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, y, x);
-				}
-			}
-		}
-        public readonly short4 zxyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, y, y);
-				}
-			}
-		}
-		public readonly short4 zxyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, y, z);
-				}
-			}
-		}
-        public			short4 zxyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yzxw;
-			}
-		}
-        public readonly short4 zxzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, z, x);
-				}
-			}
-		}
-        public readonly short4 zxzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, z, y);
-				}
-			}
-		}
-        public readonly short4 zxzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, z, z);
-				}
-			}
-		}
-        public readonly short4 zxzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, z, w);
-				}
-			}
-		}
-        public readonly short4 zxwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, w, x);
-				}
-			}
-		}
-        public			short4 zxwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.ywxz;
-			}
-		}
-        public readonly short4 zxwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, w, z);
-				}
-			}
-		}
-        public readonly short4 zxww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
-				}
-				else
-				{
-					return new short4(z, x, w, w);
-				}
-			}
-		}
-        public readonly short4 zyxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, x, x);
-				}
-			}
-		}
-        public readonly short4 zyxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, x, y);
-				}
-			}
-		}
-        public readonly short4 zyxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, x, z);
-				}
-			}
-		}
-        public			short4 zyxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zyxw;
-			}
-		}
-        public readonly short4 zyyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, y, x);
-				}
-			}
-		}
-        public readonly short4 zyyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, y, y);
-				}
-			}
-		}
-        public readonly short4 zyyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, y, z);
-				}
-			}
-		}
-        public readonly short4 zyyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, y, w);
-				}
-			}
-		}
-        public readonly short4 zyzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, z, x);
-				}
-			}
-		}
-        public readonly short4 zyzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, z, y);
-				}
-			}
-		}
-        public readonly short4 zyzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, z, z);
-				}
-			}
-		}
-        public readonly short4 zyzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, z, w);
-				}
-			}
-		}
-        public			short4 zywx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wyxz;
-			}
-		}
-        public readonly short4 zywy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, w, y);
-				}
-			}
-		}
-        public readonly short4 zywz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, w, z);
-				}
-			}
-		}
-        public readonly short4 zyww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
-				}
-				else
-				{
-					return new short4(z, y, w, w);
-				}
-			}
-		}
-        public readonly short4 zzxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, x, x);
-				}
-			}
-		}
-        public readonly short4 zzxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, x, y);
-				}
-			}
-		}
-        public readonly short4 zzxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, x, z);
-				}
-			}
-		}
-        public readonly short4 zzxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, x, w);
-				}
-			}
-		}
-        public readonly short4 zzyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, y, x);
-				}
-			}
-		}
-        public readonly short4 zzyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, y, y);
-				}
-			}
-		}
-        public readonly short4 zzyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, y, z);
-				}
-			}
-		}
-        public readonly short4 zzyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, y, w);
-				}
-			}
-		}
-        public readonly short4 zzzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, z, x);
-				}
-			}
-		}
-        public readonly short4 zzzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, z, y);
-				}
-			}
-		}
-        public readonly short4 zzzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, z, z);
-				}
-			}
-		}
-        public readonly short4 zzzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, z, w);
-				}
-			}
-		}
-        public readonly short4 zzwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 2)); ;
-				}
-				else
-				{
-					return new short4(z, z, w, x);
-				}
-			}
-		}
-        public readonly short4 zzwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, w, y);
-				}
-			}
-		}
-        public readonly short4 zzwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, w, z);
-				}
-			}
-		}
-        public readonly short4 zzww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
-				}
-				else
-				{
-					return new short4(z, z, w, w);
-				}
-			}
-		}
-        public readonly short4 zwxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, x, x);
-				}
-			}
-		}
-        public			short4 zwxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zwxy;
-			}
-		}
-        public readonly short4 zwxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, x, z);
-				}
-			}
-		}
-        public readonly short4 zwxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, x, w);
-				}
-			}
-		}
-        public			short4 zwyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wzxy;
-			}
-		}
-        public readonly short4 zwyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, y, y);
-				}
-			}
-		}
-        public readonly short4 zwyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, y, z);
-				}
-			}
-		}
-        public readonly short4 zwyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, y, w);
-				}
-			}
-		}
-        public readonly short4 zwzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, z, x);
-				}
-			}
-		}
-        public readonly short4 zwzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, z, y);
-				}
-			}
-		}
-        public readonly short4 zwzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, z, z);
-				}
-			}
-		}
-        public readonly short4 zwzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, z, w);
-				}
-			}
-		}
-        public readonly short4 zwwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, w, x);
-				}
-			}
-		}
-        public readonly short4 zwwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, w, y);
-				}
-			}
-		}
-        public readonly short4 zwwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, w, z);
-				}
-			}
-		}
-        public readonly short4 zwww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
-				}
-				else
-				{
-					return new short4(z, w, w, w);
-				}
-			}
-		}
-        public readonly short4 wxxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, x, x);
-				}
-			}
-		}
-        public readonly short4 wxxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, x, y);
-				}
-			}
-		}
-        public readonly short4 wxxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, x, z);
-				}
-			}
-		}
-        public readonly short4 wxxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, x, w);
-				}
-			}
-		}
-        public readonly short4 wxyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, y, x);
-				}
-			}
-		}
-        public readonly short4 wxyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, y, y);
-				}
-			}
-		}
-        public          short4 wxyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.yzwx;
-			}
-		}
-        public readonly short4 wxyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, y, w);
-				}
-			}
-		}
-        public readonly short4 wxzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, z, x);
-				}
-			}
-		}
-        public          short4 wxzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.ywzx;
-			}
-		}
-        public readonly short4 wxzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, z, z);
-				}
-			}
-		}
-        public readonly short4 wxzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, z, w);
-				}
-			}
-		}
-        public readonly short4 wxwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, w, x);
-				}
-			}
-		}
-        public readonly short4 wxwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, w, y);
-				}
-			}
-		}
-        public readonly short4 wxwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, w, z);
-				}
-			}
-		}
-        public readonly short4 wxww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
-				}
-				else
-				{
-					return new short4(w, x, w, w);
-				}
-			}
-		}
-        public readonly short4 wyxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, x, x);
-				}
-			}
-		}
-        public readonly short4 wyxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, x, y);
-				}
-			}
-		}
-        public          short4 wyxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zywx;
-			}
-		}
-        public readonly short4 wyxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, x, w);
-				}
-			}
-		}
-        public readonly short4 wyyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, y, x);
-				}
-			}
-		}
-        public readonly short4 wyyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, y, y);
-				}
-			}
-		}
-        public readonly short4 wyyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, y, z);
-				}
-			}
-		}
-        public readonly short4 wyyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, y, w);
-				}
-			}
-		}
-        public          short4 wyzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wyzx;
-			}
-		}
-        public readonly short4 wyzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, z, y);
-				}
-			}
-		}
-        public readonly short4 wyzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, z, z);
-				}
-			}
-		}
-        public readonly short4 wyzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, z, w);
-				}
-			}
-		}
-        public readonly short4 wywx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, w, x);
-				}
-			}
-		}
-        public readonly short4 wywy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, w, y);
-				}
-			}
-		}
-        public readonly short4 wywz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, w, z);
-				}
-			}
-		}
-        public readonly short4 wyww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
-				}
-				else
-				{
-					return new short4(w, y, w, w);
-				}
-			}
-		}
-        public readonly short4 wzxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, x, x);
-				}
-			}
-		}
-        public          short4 wzxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.zwyx;
-			}
-		}
-        public readonly short4 wzxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, x, z);
-				}
-			}
-		}
-        public readonly short4 wzxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, x, w);
-				}
-			}
-		}
-        public          short4 wzyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				this = value.wzyx;
-			}
-		}
-        public readonly short4 wzyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, y, y);
-				}
-			}
-		}
-        public readonly short4 wzyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, y, z);
-				}
-			}
-		}
-        public readonly short4 wzyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, y, w);
-				}
-			}
-		}
-        public readonly short4 wzzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, z, x);
-				}
-			}
-		}
-        public readonly short4 wzzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, z, y);
-				}
-			}
-		}
-        public readonly short4 wzzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, z, z);
-				}
-			}
-		}
-        public readonly short4 wzzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, z, w);
-				}
-			}
-		}
-        public readonly short4 wzwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 2, 3)); ;
-				}
-				else
-				{
-					return new short4(w, z, w, x);
-				}
-			}
-		}
-        public readonly short4 wzwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, w, y);
-				}
-			}
-		}
-        public readonly short4 wzwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, w, z);
-				}
-			}
-		}
-        public readonly short4 wzww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
-				}
-				else
-				{
-					return new short4(w, z, w, w);
-				}
-			}
-		}
-        public readonly short4 wwxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, x, x);
-				}
-			}
-		}
-        public readonly short4 wwxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 0, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, x, y);
-				}
-			}
-		}
-        public readonly short4 wwxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 0, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, x, z);
-				}
-			}
-		}
-        public readonly short4 wwxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, x, w);
-				}
-			}
-		}
-        public readonly short4 wwyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 1, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, y, x);
-				}
-			}
-		}
-        public readonly short4 wwyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 1, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, y, y);
-				}
-			}
-		}
-        public readonly short4 wwyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 1, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, y, z);
-				}
-			}
-		}
-        public readonly short4 wwyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, y, w);
-				}
-			}
-		}
-        public readonly short4 wwzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 2, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, z, x);
-				}
-			}
-		}
-        public readonly short4 wwzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 2, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, z, y);
-				}
-			}
-		}
-        public readonly short4 wwzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 2, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, z, z);
-				}
-			}
-		}
-        public readonly short4 wwzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, z, w);
-				}
-			}
-		}
-        public readonly short4 wwwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 3, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, w, x);
-				}
-			}
-		}
-        public readonly short4 wwwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(1, 3, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, w, y);
-				}
-			}
-		}
-        public readonly short4 wwwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(2, 3, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, w, z);
-				}
-			}
-		}
-        public readonly short4 wwww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
-				}
-				else
-				{
-					return new short4(w, w, w, w);
-				}
-			}
-		}
-
-        public readonly short3 xxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
-				}
-				else
-				{
-					return new short3(x, x, x);
-				}
-			}
-		}
-        public readonly short3 xxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 0));
-				}
-				else
-				{
-					return new short3(x, x, y);
-				}
-			}
-		}
-        public readonly short3 xxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 0));
-				}
-				else
-				{
-					return new short3(x, x, z);
-				}
-			}
-		}
-        public readonly short3 xxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 0));
-				}
-				else
-				{
-					return new short3(x, x, w);
-				}
-			}
-		}
-        public readonly short3 xyx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 0));
-				}
-				else
-				{
-					return new short3(x, y, x);
-				}
-			}
-		}
-        public readonly short3 xyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 0));
-				}
-				else
-				{
-					return new short3(x, y, y);
-				}
-			}
-		}
-        public          short3 xyz
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return (v128)this;
-				}
-				else
-				{
-					return new short3(x, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value, 0b0111);
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-        public          short3 xyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 0));
-				}
-				else
-				{
-					return new short3(x, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xyzz, 0b1011);
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public readonly short3 xzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 0));
-				}
-				else
-				{
-					return new short3(x, z, x);
-				}
-			}
-		}
-        public          short3 xzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 0));
-				}
-				else
-				{
-					return new short3(x, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xzyy, 0b0111);
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-        public readonly short3 xzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 0));
-				}
-				else
-				{
-					return new short3(x, z, z);
-				}
-			}
-		}
-        public          short3 xzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
-				}
-				else
-				{
-					return new short3(x, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyz, 0b1101);
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public readonly short3 xwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 0));
-				}
-				else
-				{
-					return new short3(x, w, x);
-				}
-			}
-		}
-        public          short3 xwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 0));
-				}
-				else
-				{
-					return new short3(x, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xzzy, 0b1011);
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-        public          short3 xwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 0));
-				}
-				else
-				{
-					return new short3(x, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxzy, 0b1101);
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-        public readonly short3 xww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
-				}
-				else
-				{
-					return new short3(x, w, w);
-				}
-			}
-		}
-        public readonly short3 yxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 1));
-				}
-				else
-				{
-					return new short3(y, x, x);
-				}
-			}
-		}
-        public readonly short3 yxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 1));
-				}
-				else
-				{
-					return new short3(y, x, y);
-				}
-			}
-		}
-        public          short3 yxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 1));
-				}
-				else
-				{
-					return new short3(y, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yxzz, 0b0111);
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-        public          short3 yxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
-				}
-				else
-				{
-					return new short3(y, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yxzz, 0b1011);
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public readonly short3 yyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 1));
-				}
-				else
-				{
-					return new short3(y, y, x);
-				}
-			}
-		}
-        public readonly short3 yyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 1));
-				}
-				else
-				{
-					return new short3(y, y, y);
-				}
-			}
-		}
-        public readonly short3 yyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 1));
-				}
-				else
-				{
-					return new short3(y, y, z);
-				}
-			}
-		}
-        public readonly short3 yyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
-				}
-				else
-				{
-					return new short3(y, y, w);
-				}
-			}
-		}
-        public          short3 yzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 1));
-				}
-				else
-				{
-					return new short3(y, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zxyy, 0b0111);
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-        public readonly short3 yzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 1));
-				}
-				else
-				{
-					return new short3(y, z, y);
-				}
-			}
-		}
-        public readonly short3 yzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 1));
-				}
-				else
-				{
-					return new short3(y, z, z);
-				}
-			}
-		}
-        public          short3 yzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 1));
-				}
-				else
-				{
-					return new short3(y, z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyz, 0b1110);
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public          short3 ywx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 1));
-				}
-				else
-				{
-					return new short3(y, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zxxy, 0b1011);
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-        public readonly short3 ywy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 1));
-				}
-				else
-				{
-					return new short3(y, w, y);
-				}
-			}
-		}
-        public          short3 ywz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 1));
-				}
-				else
-				{
-					return new short3(y, w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxzy, 0b1110);
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-        public readonly short3 yww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
-				}
-				else
-				{
-					return new short3(y, w, w);
-				}
-			}
-		}
-        public readonly short3 zxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 2));
-				}
-				else
-				{
-					return new short3(z, x, x);
-				}
-			}
-		}
-        public          short3 zxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 2));
-				}
-				else
-				{
-					return new short3(z, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yzxx, 0b0111);
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-        public readonly short3 zxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 2));
-				}
-				else
-				{
-					return new short3(z, x, z);
-				}
-			}
-		}
-        public          short3 zxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
-				}
-				else
-				{
-					return new short3(z, x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxz, 0b1101);
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public          short3 zyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 2));
-				}
-				else
-				{
-					return new short3(z, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zyxx, 0b0111);
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-        public readonly short3 zyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 2));
-				}
-				else
-				{
-					return new short3(z, y, y);
-				}
-			}
-		}
-        public readonly short3 zyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 2));
-				}
-				else
-				{
-					return new short3(z, y, z);
-				}
-			}
-		}
-        public          short3 zyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
-				}
-				else
-				{
-					return new short3(z, y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxz, 0b1110);
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-					this.w = value.z;
-				}
-			}
-		}
-        public readonly short3 zzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 2));
-				}
-				else
-				{
-					return new short3(z, z, x);
-				}
-			}
-		}
-        public readonly short3 zzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 2));
-				}
-				else
-				{
-					return new short3(z, z, y);
-				}
-			}
-		}
-        public readonly short3 zzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 2));
-				}
-				else
-				{
-					return new short3(z, z, z);
-				}
-			}
-		}
-        public readonly short3 zzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
-				}
-				else
-				{
-					return new short3(z, z, w);
-				}
-			}
-		}
-        public          short3 zwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 2));
-				}
-				else
-				{
-					return new short3(z, w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zzxy, 0b1101);
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-        public          short3 zwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 2));
-				}
-				else
-				{
-					return new short3(z, w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zzxy, 0b1110);
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-        public readonly short3 zwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 2));
-				}
-				else
-				{
-					return new short3(z, w, z);
-				}
-			}
-		}
-        public readonly short3 zww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 2));
-				}
-				else
-				{
-					return new short3(z, w, w);
-				}
-			}
-		}
-        public readonly short3 wxx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 0, 3));
-				}
-				else
-				{
-					return new short3(w, x, x);
-				}
-			}
-		}
-        public          short3 wxy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 0, 3));
-				}
-				else
-				{
-					return new short3(w, x, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yzzx, 0b1011);
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-					this.y = value.z;
-				}
-			}
-		}
-        public          short3 wxz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 0, 3));
-				}
-				else
-				{
-					return new short3(w, x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyzx, 0b1101);
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-					this.z = value.z;
-				}
-			}
-		}
-        public readonly short3 wxw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
-				}
-				else
-				{
-					return new short3(w, x, w);
-				}
-			}
-		}
-        public          short3 wyx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 1, 3));
-				}
-				else
-				{
-					return new short3(w, y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zyyx, 0b1011);
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-					this.x = value.z;
-				}
-			}
-		}
-        public readonly short3 wyy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 1, 3));
-				}
-				else
-				{
-					return new short3(w, y, y);
-				}
-			}
-        }
-        public          short3 wyz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 1, 3));
-				}
-				else
-				{
-					return new short3(w, y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyzx, 0b1110);
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-					this.z = value.z;
-				}
-			}
-        }
-        public readonly short3 wyw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
-				}
-				else
-				{
-					return new short3(w, y, w);
-				}
-			}
-        }
-        public          short3 wzx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 2, 3));
-				}
-				else
-				{
-					return new short3(w, z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zzyx, 0b1101);
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-					this.x = value.z;
-				}
-			}
-        }
-        public          short3 wzy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 2, 3));
-				}
-				else
-				{
-					return new short3(w, z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.zzyx, 0b1110);
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-					this.y = value.z;
-				}
-			}
-        }
-        public readonly short3 wzz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 2, 3));
-				}
-				else
-				{
-					return new short3(w, z, z);
-				}
-			}
-        }
-        public readonly short3 wzw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
-				}
-				else
-				{
-					return new short3(w, z, w);
-				}
-			}
-        }
-        public readonly short3 wwx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 0, 3, 3));
-				}
-				else
-				{
-					return new short3(w, w, x);
-				}
-			}
-        }
-        public readonly short3 wwy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 1, 3, 3));
-				}
-				else
-				{
-					return new short3(w, w, y);
-				}
-			}
-        }
-        public readonly short3 wwz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 2, 3, 3));
-				}
-				else
-				{
-					return new short3(w, w, z);
-				}
-			}
-        }
-        public readonly short3 www
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
-				}
-				else
-				{
-					return new short3(w, w, w);
-				}
-			}
-        }
-
-        public readonly short2 xx
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(0, 0, 0, 0));
-				}
-				else
-				{
-					return new short2(x, x);
-				}
-			}
-		}
-        public          short2 xy
-        { 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)] 
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return (v128)this;
-				}
-				else
-				{
-					return new short2(x, y);
-				}
-            }
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value, 0b0011);
-				}
-				else
-				{
-					this.x = value.x;
-					this.y = value.y;
-				}
-			}
-        }
-        public          short2 xz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 0));
-				}
-				else
-				{
-					return new short2(x, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyy, 0b0101);
-				}
-				else
-				{
-					this.x = value.x;
-					this.z = value.y;
-				}
-			}
-        }
-        public          short2 xw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 0));
-				}
-				else
-				{
-					return new short2(x, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyy, 0b1001);
-				}
-				else
-				{
-					this.x = value.x;
-					this.w = value.y;
-				}
-			}
-        }
-        public          short2 yx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 1));
-				}
-				else
-				{
-					return new short2(y, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yx, 0b0011);
-				}
-				else
-				{
-					this.y = value.x;
-					this.x = value.y;
-				}
-			}
-        }
-        public readonly short2 yy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 1));
-				}
-				else
-				{
-					return new short2(y, y);
-				}
-			}
-        }
-        public          short2 yz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.bsrli_si128(this, sizeof(short));
-				}
-				else
-				{
-					return new short2(y, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyy, 0b0110);
-				}
-				else
-				{
-					this.y = value.x;
-					this.z = value.y;
-				}
-			}
-        }
-        public          short2 yw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 1));
-				}
-				else
-				{
-					return new short2(y, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.xxyy, 0b1010);
-				}
-				else
-				{
-					this.y = value.x;
-					this.w = value.y;
-				}
-			}
-        }
-        public          short2 zx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 2));
-				}
-				else
-				{
-					return new short2(z, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxx, 0b0101);
-				}
-				else
-				{
-					this.z = value.x;
-					this.x = value.y;
-				}
-			}
-        }
-        public          short2 zy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 2));
-				}
-				else
-				{
-					return new short2(z, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxx, 0b0110);
-				}
-				else
-				{
-					this.z = value.x;
-					this.y = value.y;
-				}
-			}
-        }
-        public readonly short2 zz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 2));
-				}
-				else
-				{
-					return new short2(z, z);
-				}
-			}
-        }
-        public          short2 zw
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.bsrli_si128(this, 2 * sizeof(short));
-				}
-				else
-				{
-					return new short2(z, w);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Sse2.unpacklo_epi32(this, value);
-				}
-				else
-				{
-					this.z = value.x;
-					this.w = value.y;
-				}
-			}
-        }
-        public          short2 wx
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 0, 3));
-				}
-				else
-				{
-					return new short2(w, x);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxx, 0b1001);
-				}
-				else
-				{
-					this.w = value.x;
-					this.x = value.y;
-				}
-			}
-        }
-        public          short2 wy
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 1, 3));
-				}
-				else
-				{
-					return new short2(w, y);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yyxx, 0b1010);
-				}
-				else
-				{
-					this.w = value.x;
-					this.y = value.y;
-				}
-			}
-        }
-        public          short2 wz
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 2, 3));
-				}
-				else
-				{
-					return new short2(w, z);
-				}
-			}
-
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set
-			{
-				if (Sse2.IsSse2Supported)
-				{
-					this = Xse.blend_epi16(this, value.yxyx, 0b1100);
-				}
-				else
-				{
-					this.w = value.x;
-					this.z = value.y;
-				}
-			}
-        }
-        public readonly short2 ww
-        {
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get
-			{
-                if (Sse2.IsSse2Supported)
-				{
-					return Sse2.shufflelo_epi16(this, Sse.SHUFFLE(3, 3, 3, 3));
-				}
-				else
-                {
-					return new short2(w, w);
-                }
-			}
-        }
+		public readonly short2 xx => (short2)((ushort4)this).xx;
+        public          short2 xy { readonly get => (short2)((ushort4)this).xy;  set { ushort4 _this = (ushort4)this; _this.xy = (ushort2)value; this = (short4)_this; } }
+        public          short2 xz { readonly get => (short2)((ushort4)this).xz;  set { ushort4 _this = (ushort4)this; _this.xz = (ushort2)value; this = (short4)_this; } }
+		public          short2 xw { readonly get => (short2)((ushort4)this).xw;  set { ushort4 _this = (ushort4)this; _this.xw = (ushort2)value; this = (short4)_this; } }
+		public          short2 yx { readonly get => (short2)((ushort4)this).yx;  set { ushort4 _this = (ushort4)this; _this.yx = (ushort2)value; this = (short4)_this; } }
+        public readonly short2 yy => (short2)((ushort4)this).yy;
+        public          short2 yz { readonly get => (short2)((ushort4)this).yz;  set { ushort4 _this = (ushort4)this; _this.yz = (ushort2)value; this = (short4)_this; } }
+		public          short2 yw { readonly get => (short2)((ushort4)this).yw;  set { ushort4 _this = (ushort4)this; _this.yw = (ushort2)value; this = (short4)_this; } }
+		public          short2 zx { readonly get => (short2)((ushort4)this).zx;  set { ushort4 _this = (ushort4)this; _this.zx = (ushort2)value; this = (short4)_this; } }
+        public          short2 zy { readonly get => (short2)((ushort4)this).zy;  set { ushort4 _this = (ushort4)this; _this.zy = (ushort2)value; this = (short4)_this; } }
+        public readonly short2 zz => (short2)((ushort4)this).zz;
+		public          short2 zw { readonly get => (short2)((ushort4)this).zw;  set { ushort4 _this = (ushort4)this; _this.zw = (ushort2)value; this = (short4)_this; } }
+		public          short2 wx { readonly get => (short2)((ushort4)this).wx;  set { ushort4 _this = (ushort4)this; _this.wx = (ushort2)value; this = (short4)_this; } }
+		public          short2 wy { readonly get => (short2)((ushort4)this).wy;  set { ushort4 _this = (ushort4)this; _this.wy = (ushort2)value; this = (short4)_this; } }
+		public          short2 wz { readonly get => (short2)((ushort4)this).wz;  set { ushort4 _this = (ushort4)this; _this.wz = (ushort2)value; this = (short4)_this; } }
+		public readonly short2 ww => (short2)((ushort4)this).ww;
         #endregion
-		
-		
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator v128(short4 input)
         {
@@ -5919,14 +442,14 @@ namespace MaxMath
             }
             else
             {
-                v128* dummyPtr = &result;
+                result = default(v128);
             }
 
             result.SShort0 = input.x;
             result.SShort1 = input.y;
             result.SShort2 = input.z;
             result.SShort3 = input.w;
-            
+
             return result;
         }
 
@@ -5939,80 +462,35 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(ushort4 input)
+        public static explicit operator short4(ushort4 input) => *(short4*)&input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short4(int4 input) => (short4)(ushort4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short4(uint4 input) => (short4)(ushort4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short4(long4 input) => (short4)(ushort4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short4(ulong4 input) => (short4)(ushort4)input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short4(half4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return (v128)input;
+                return Xse.cvttph_epi16(RegisterConversion.ToV128(input), 4);
             }
             else
             {
-                return *(short4*)&input;
+                return new short4((short)maxmath.BASE_cvtf16i32(input.x, signed: true, trunc: true),
+                                  (short)maxmath.BASE_cvtf16i32(input.y, signed: true, trunc: true),
+                                  (short)maxmath.BASE_cvtf16i32(input.z, signed: true, trunc: true),
+                                  (short)maxmath.BASE_cvtf16i32(input.w, signed: true, trunc: true));
             }
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(int4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi32_epi16(RegisterConversion.ToV128(input), 4);
-			}
-			else
-            {
-                return new short4((short)input.x, (short)input.y, (short)input.z, (short)input.w);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(uint4 input)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.cvtepi32_epi16(RegisterConversion.ToV128(input), 4);
-			}
-			else
-            {
-                return new short4((short)input.x, (short)input.y, (short)input.z, (short)input.w);
-            }
-        }
-		 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(long4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_cvtepi64_epi16(input);
-            }
-            else if (Ssse3.IsSsse3Supported)
-            {
-                return new short4(Xse.cvtepi64_epi16(input._xy), Xse.cvtepi64_epi16(input._zw));
-            }
-            else
-            {
-                return new short4((short)input.x, (short)input.y, (short)input.z, (short)input.w);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(ulong4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_cvtepi64_epi16(input);
-            }
-            else if (Ssse3.IsSsse3Supported)
-            {
-                return new short4(Xse.cvtepi64_epi16(input._xy), Xse.cvtepi64_epi16(input._zw));
-            }
-            else
-            {
-                return new short4((short)input.x, (short)input.y, (short)input.z, (short)input.w);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short4(half4 input) => (short4)(float4)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short4(float4 input) => (short4)(int4)input;
@@ -6024,7 +502,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int4(short4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToInt4(Xse.cvtepi16_epi32(input));
             }
@@ -6037,7 +515,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint4(short4 input)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
 				return RegisterConversion.ToUInt4(Xse.cvtepi16_epi32(input));
             }
@@ -6054,7 +532,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi16_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new long4((long2)input.xy, (long2)input.zw);
             }
@@ -6071,7 +549,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi16_epi64(input);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (Architecture.IsSIMDSupported)
 			{
                 return new ulong4((ulong2)input.xy, (ulong2)input.zw);
             }
@@ -6087,7 +565,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float4(short4 input)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.cvtepi16_ps(input));
             }
@@ -6106,82 +584,32 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-Assert.IsWithinArrayBounds(index, 4);
-
-                if (Sse2.IsSse2Supported)
-                {
-                    return (short)Xse.extract_epi16(this, (byte)index);
-                }
-                else
-                {
-                    short4 onStack = this;
-
-                    return *((short*)&onStack + index);
-                }
+                return (short)((ushort4)this)[index];
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-Assert.IsWithinArrayBounds(index, 4);
+                ushort4 _this = (ushort4)this;
+                _this[index] = (ushort)value;
+                this = (short4)_this;
+            }
+        }
 
-                if (Sse2.IsSse2Supported)
-                {
-                    this = Xse.insert_epi16(this, (ushort)value, (byte)index);
-                }
-                else
-                {
-                    short4 onStack = this;
-                    *((short*)&onStack + index) = value;
-                    this = onStack;
-                }
-            }
-        }
-    
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator + (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.add_epi16(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x + right.x), (short)(left.y + right.y), (short)(left.z + right.z), (short)(left.w + right.w));
-            }
-        }
-    
+        public static short4 operator + (short4 left, short4 right) => (short4)((ushort4)left + (ushort4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator - (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.sub_epi16(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x - right.x), (short)(left.y - right.y), (short)(left.z - right.z), (short)(left.w - right.w));
-            }
-        }
-    
+        public static short4 operator - (short4 left, short4 right) => (short4)((ushort4)left - (ushort4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator * (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.mullo_epi16(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x * right.x), (short)(left.y * right.y), (short)(left.z * right.z), (short)(left.w * right.w));
-            }
-        }
-    
+        public static short4 operator * (short4 left, short4 right) => (short4)((ushort4)left * (ushort4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator / (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(left, right, false, 4);
             }
@@ -6194,7 +622,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator % (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.rem_epi16(left, right, 4);
             }
@@ -6211,9 +639,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator * (short4 left, short right)
         {
-			if (Sse2.IsSse2Supported)
+			if (Architecture.IsSIMDSupported)
 			{
-				if (Constant.IsConstantExpression(right))
+				if (constexpr.IS_CONST(right))
 				{
 					return (v128)((short8)((v128)left) * right);
 				}
@@ -6221,80 +649,50 @@ Assert.IsWithinArrayBounds(index, 4);
 
 			return left * (short4)right;
 		}
-		
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator / (short4 left, short right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.div_epi16(left, right, 4);
+                    return Xse.constdiv_epi16(left, right, 4);
                 }
             }
-                
+
             return left / (short4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator % (short4 left, short right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                if (Constant.IsConstantExpression(right))
+                if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constexpr.rem_epi16(left, right, 2);
+                    return Xse.constrem_epi16(left, right, 4);
                 }
             }
-                
+
             return left % (short4)right;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator & (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.and_si128(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x & right.x), (short)(left.y & right.y), (short)(left.z & right.z), (short)(left.w & right.w));
-            }
-        }
-    
+        public static short4 operator & (short4 left, short4 right) => (short4)((ushort4)left & (ushort4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator | (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.or_si128(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x | right.x), (short)(left.y | right.y), (short)(left.z | right.z), (short)(left.w | right.w));
-            }
-        }
-    
+        public static short4 operator | (short4 left, short4 right) => (short4)((ushort4)left | (ushort4)right);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator ^ (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Sse2.xor_si128(left, right);
-            }
-            else
-            {
-                return new short4((short)(left.x ^ right.x), (short)(left.y ^ right.y), (short)(left.z ^ right.z), (short)(left.w ^ right.w));
-            }
-        }
-    
-    
+        public static short4 operator ^ (short4 left, short4 right) => (short4)((ushort4)left ^ (ushort4)right);
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator - (short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.neg_epi16(x);
             }
@@ -6307,7 +705,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator ++ (short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.inc_epi16(x);
 			}
@@ -6316,11 +714,11 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new short4((short)(x.x + 1), (short)(x.y + 1), (short)(x.z + 1), (short)(x.w + 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator -- (short4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.dec_epi16(x);
 			}
@@ -6329,40 +727,20 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new short4((short)(x.x - 1), (short)(x.y - 1), (short)(x.z - 1), (short)(x.w - 1));
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator ~ (short4 x)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.not_si128(x);
-			}
-            else
-            {
-                return new short4((short)(~x.x), (short)(~x.y), (short)(~x.z), (short)(~x.w));
-            }
-        }
-    
-    
+        public static short4 operator ~ (short4 x) => (short4)~(ushort4)x;
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short4 operator << (short4 x, int n)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                return Xse.slli_epi16(x, n);
-            }
-            else
-            {
-                return new short4((short)(x.x << n), (short)(x.y << n), (short)(x.z << n), (short)(x.w << n));
-            }
-        }
+        public static short4 operator << (short4 x, int n) => (short4)((ushort4)x << n);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 operator >> (short4 x, int n)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                return Xse.srai_epi16(x, n);
+                return Xse.srai_epi16(x, n, inRange: true);
             }
             else
             {
@@ -6372,24 +750,12 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 results = RegisterConversion.IsTrue16(Sse2.cmpeq_epi16(left, right));
+        public static bool4 operator == (short4 left, short4 right) => (ushort4)left == (ushort4)right;
 
-				return *(bool4*)&results;
-            }
-            else
-            {
-                return new bool4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
-            }
-        }
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator < (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmplt_epi16(left, right));
 
@@ -6404,9 +770,9 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator > (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue16(Sse2.cmpgt_epi16(left, right));
+                v128 results = RegisterConversion.IsTrue16(Xse.cmpgt_epi16(left, right));
 
 				return *(bool4*)&results;
             }
@@ -6418,26 +784,14 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (short4 left, short4 right)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 results = RegisterConversion.IsFalse16(Sse2.cmpeq_epi16(left, right));
+        public static bool4 operator != (short4 left, short4 right) => (ushort4)left != (ushort4)right;
 
-				return *(bool4*)&results;
-            }
-            else
-            {
-                return new bool4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
-            }
-        }
-    
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator <= (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsFalse16(Sse2.cmpgt_epi16(left, right));
+                v128 results = RegisterConversion.IsFalse16(Xse.cmpgt_epi16(left, right));
 
 				return *(bool4*)&results;
             }
@@ -6450,7 +804,7 @@ Assert.IsWithinArrayBounds(index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 operator >= (short4 left, short4 right)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsFalse16(Xse.cmplt_epi16(left, right));
 
@@ -6463,36 +817,14 @@ Assert.IsWithinArrayBounds(index, 4);
         }
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(short4 other)
-		{
-			if (Sse2.IsSse2Supported)
-			{
-				return ulong.MaxValue == Sse2.cmpeq_epi16(this, other).ULong0;
-			}
-			else
-			{
-				return (this.x == other.x & this.y == other.y) & (this.z == other.z & this.w == other.w);
-			}
-		}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool Equals(short4 other) => ((ushort4)this).Equals((ushort4)other);
 
         public override readonly bool Equals(object obj) => obj is short4 converted && this.Equals(converted);
 
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
-		{
-			if (Sse2.IsSse2Supported)
-			{
-				return Hash.v64(this);
-			}
-			else
-			{
-				short4 temp = this;
-
-				return (*(ulong*)&temp).GetHashCode();
-			}
-		}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly int GetHashCode() => ((ushort4)this).GetHashCode();
 
 
         public override readonly string ToString() => $"short4({x}, {y}, {z}, {w})";

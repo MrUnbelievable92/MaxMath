@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
@@ -20,7 +21,7 @@ namespace MaxMath
                 case math.ShuffleComponent.RightX: return b.x;
                 case math.ShuffleComponent.RightY: return b.y;
 
-                default: throw new System.ArgumentException("Invalid shuffle component.");
+                default: throw new ArgumentException("Invalid shuffle component.");
             }
         }
 
@@ -36,7 +37,7 @@ namespace MaxMath
                 case math.ShuffleComponent.RightY: return b.y;
                 case math.ShuffleComponent.RightZ: return b.z;
 
-                default: throw new System.ArgumentException("Invalid shuffle component.");
+                default: throw new ArgumentException("Invalid shuffle component.");
             }
         }
 
@@ -54,7 +55,7 @@ namespace MaxMath
                 case math.ShuffleComponent.RightZ: return b.z;
                 case math.ShuffleComponent.RightW: return b.w;
 
-                default: throw new System.ArgumentException("Invalid shuffle component.");
+                default: throw new ArgumentException("Invalid shuffle component.");
             }
         }
 
@@ -63,14 +64,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte2 a, byte2 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
             }
             else
             {
@@ -82,7 +83,7 @@ Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -93,7 +94,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
             }
             else
             {
@@ -106,7 +107,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -121,7 +122,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
             }
             else
             {
@@ -135,7 +136,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -154,7 +155,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
             }
             else
             {
@@ -170,12 +171,12 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte3 a, byte3 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
             }
             else
             {
@@ -187,14 +188,14 @@ Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
 Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
             }
             else
             {
@@ -207,7 +208,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -216,7 +217,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
 Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
             }
             else
             {
@@ -230,7 +231,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -241,7 +242,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
 Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
             }
             else
             {
@@ -257,9 +258,9 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte4 a, byte4 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
             }
             else
             {
@@ -271,9 +272,9 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
             }
             else
             {
@@ -286,9 +287,9 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
             }
             else
             {
@@ -302,9 +303,9 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
+                return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
             }
             else
             {
@@ -500,7 +501,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
                 case math.ShuffleComponent.RightX: return b.x;
                 case math.ShuffleComponent.RightY: return b.y;
 
-                default: throw new System.ArgumentException("Invalid shuffle component.");
+                default: throw new ArgumentException("Invalid shuffle component.");
             }
         }
 
@@ -516,7 +517,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
                 case math.ShuffleComponent.RightY: return b.y;
                 case math.ShuffleComponent.RightZ: return b.z;
 
-                default: throw new System.ArgumentException("Invalid shuffle component.");
+                default: throw new ArgumentException("Invalid shuffle component.");
             }
         }
 
@@ -534,7 +535,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
                 case math.ShuffleComponent.RightZ: return b.z;
                 case math.ShuffleComponent.RightW: return b.w;
 
-                default: throw new System.ArgumentException("Invalid shuffle component");
+                default: throw new ArgumentException("Invalid shuffle component");
             }
         }
 
@@ -543,7 +544,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -551,11 +552,11 @@ Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, 0, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask).UShort0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask).UShort0;
             }
             else
             {
@@ -567,7 +568,7 @@ Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -579,11 +580,11 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -596,7 +597,7 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -612,11 +613,11 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -630,7 +631,7 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -650,11 +651,11 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightZ);
 Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, (byte)w);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -670,17 +671,17 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, 0, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask).UShort0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask).UShort0;
             }
             else
             {
@@ -692,7 +693,7 @@ Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -700,11 +701,11 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -717,7 +718,7 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -727,11 +728,11 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -745,7 +746,7 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -757,11 +758,11 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
 
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, (byte)w);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -777,14 +778,14 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, 0, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask).UShort0;
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask).UShort0;
             }
             else
             {
@@ -796,14 +797,14 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, 0, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -816,14 +817,14 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, 0);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {
@@ -837,14 +838,14 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Ssse3.IsSsse3Supported)
+            if (Architecture.IsTableLookupSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, (byte)w);
-                shuffleMask = Xse.slli_epi16(shuffleMask, 1);
-                byte8 newShuffleMask = Sse2.unpacklo_epi8(shuffleMask, shuffleMask);
+                shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
+                byte8 newShuffleMask = Xse.unpacklo_epi8(shuffleMask, shuffleMask);
                 newShuffleMask += new v128(0, 1, 0, 1, 0, 1, 0, 1,   0, 0, 0, 0, 0, 0, 0, 0);
 
-                return Ssse3.shuffle_epi8(Sse2.unpacklo_epi64(a, b), newShuffleMask);
+                return Xse.shuffle_epi8(Xse.unpacklo_epi64(a, b), newShuffleMask);
             }
             else
             {

@@ -3,8 +3,25 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class minmax
+    unsafe public static class f_minmax
     {
+        [Test]
+        public static void _byte()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                byte l = rng.NextByte();
+                byte r = rng.NextByte();
+
+                maxmath.minmax(l, r, out byte testmin, out byte testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
         [Test]
         public static void _byte2()
         {
@@ -55,7 +72,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _byte8()
         {
@@ -72,7 +89,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _byte16()
         {
@@ -89,7 +106,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _byte32()
         {
@@ -108,7 +125,24 @@ namespace MaxMath.Tests
         }
 
 
-        
+
+        [Test]
+        public static void _sbyte()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                sbyte l = rng.NextSByte();
+                sbyte r = rng.NextSByte();
+
+                maxmath.minmax(l, r, out sbyte testmin, out sbyte testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
         [Test]
         public static void _sbyte2()
         {
@@ -159,7 +193,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte8()
         {
@@ -176,7 +210,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte16()
         {
@@ -193,7 +227,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _sbyte32()
         {
@@ -211,6 +245,23 @@ namespace MaxMath.Tests
             }
         }
 
+
+        [Test]
+        public static void _ushort()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                ushort l = rng.NextUShort();
+                ushort r = rng.NextUShort();
+
+                maxmath.minmax(l, r, out ushort testmin, out ushort testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
 
         [Test]
         public static void _ushort2()
@@ -262,7 +313,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _ushort8()
         {
@@ -279,7 +330,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _ushort16()
         {
@@ -296,7 +347,24 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
+
+        [Test]
+        public static void _short()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                short l = rng.NextShort();
+                short r = rng.NextShort();
+
+                maxmath.minmax(l, r, out short testmin, out short testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
 
         [Test]
         public static void _short2()
@@ -348,7 +416,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _short8()
         {
@@ -365,7 +433,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _short16()
         {
@@ -383,6 +451,23 @@ namespace MaxMath.Tests
             }
         }
 
+
+        [Test]
+        public static void _uint()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                uint l = rng.NextUInt();
+                uint r = rng.NextUInt();
+
+                maxmath.minmax(l, r, out uint testmin, out uint testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
 
         [Test]
         public static void _uint2()
@@ -434,7 +519,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, math.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _uint8()
         {
@@ -451,7 +536,24 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
+
+        [Test]
+        public static void _int()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                int l = rng.NextInt();
+                int r = rng.NextInt();
+
+                maxmath.minmax(l, r, out int testmin, out int testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
 
         [Test]
         public static void _int2()
@@ -503,7 +605,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, math.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _int8()
         {
@@ -521,6 +623,23 @@ namespace MaxMath.Tests
             }
         }
 
+
+        [Test]
+        public static void _ulong()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 8; i++)
+            {
+                ulong l = rng.NextULong();
+                ulong r = rng.NextULong();
+
+                maxmath.minmax(l, r, out ulong testmin, out ulong testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
 
         [Test]
         public static void _ulong2()
@@ -572,7 +691,24 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
-        
+
+
+        [Test]
+        public static void _long()
+        {
+            Random64 rng = Random64.New;
+
+            for (long i = 0; i < 8; i++)
+            {
+                long l = rng.NextLong();
+                long r = rng.NextLong();
+
+                maxmath.minmax(l, r, out long testmin, out long testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
 
         [Test]
         public static void _long2()
@@ -625,13 +761,65 @@ namespace MaxMath.Tests
             }
         }
 
-        
+
+        [Test]
+        public static void _UInt128()
+        {
+            Random128 rng = Random128.New;
+
+            for (long i = 0; i < 8; i++)
+            {
+                UInt128 l = rng.NextUInt128();
+                UInt128 r = rng.NextUInt128();
+
+                maxmath.minmax(l, r, out UInt128 testmin, out UInt128 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _Int128()
+        {
+            Random128 rng = Random128.New;
+
+            for (long i = 0; i < 8; i++)
+            {
+                Int128 l = rng.NextInt128();
+                Int128 r = rng.NextInt128();
+
+                maxmath.minmax(l, r, out Int128 testmin, out Int128 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+
+        [Test]
+        public static void _float()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                float l = rng.NextFloat();
+                float r = rng.NextFloat();
+
+                maxmath.minmax(l, r, out float testmin, out float testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
+
         [Test]
         public static void _float2()
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float2 l = rng.NextFloat2();
                 float2 r = rng.NextFloat2();
@@ -648,7 +836,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float3 l = rng.NextFloat3();
                 float3 r = rng.NextFloat3();
@@ -665,7 +853,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float4 l = rng.NextFloat4();
                 float4 r = rng.NextFloat4();
@@ -676,13 +864,13 @@ namespace MaxMath.Tests
                 Assert.AreEqual(testmax, math.max(l, r));
             }
         }
-        
+
         [Test]
         public static void _float8()
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float8 l = rng.NextFloat8();
                 float8 r = rng.NextFloat8();
@@ -696,11 +884,28 @@ namespace MaxMath.Tests
 
 
         [Test]
+        public static void _double()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                double l = rng.NextDouble();
+                double r = rng.NextDouble();
+
+                maxmath.minmax(l, r, out double testmin, out double testmax);
+
+                Assert.AreEqual(testmin, math.min(l, r));
+                Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
+
+        [Test]
         public static void _double2()
         {
             Random64 rng = Random64.New;
 
-            for (double i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 double2 l = rng.NextDouble2();
                 double2 r = rng.NextDouble2();
@@ -717,7 +922,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (double i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 double3 l = rng.NextDouble3();
                 double3 r = rng.NextDouble3();
@@ -734,7 +939,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (double i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 double4 l = rng.NextDouble4();
                 double4 r = rng.NextDouble4();
@@ -743,6 +948,178 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(testmin, math.min(l, r));
                 Assert.AreEqual(testmax, math.max(l, r));
+            }
+        }
+
+
+        [Test]
+        public static void _quarter()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                quarter l = (quarter)rng.NextFloat();
+                quarter r = (quarter)rng.NextFloat();
+
+                maxmath.minmax(l, r, out quarter testmin, out quarter testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _quarter2()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                quarter2 l = (quarter2)rng.NextFloat2();
+                quarter2 r = (quarter2)rng.NextFloat2();
+
+                maxmath.minmax(l, r, out quarter2 testmin, out quarter2 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _quarter3()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                quarter3 l = (quarter3)rng.NextFloat3();
+                quarter3 r = (quarter3)rng.NextFloat3();
+
+                maxmath.minmax(l, r, out quarter3 testmin, out quarter3 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _quarter4()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                quarter4 l = (quarter4)rng.NextFloat4();
+                quarter4 r = (quarter4)rng.NextFloat4();
+
+                maxmath.minmax(l, r, out quarter4 testmin, out quarter4 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _quarter8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                quarter8 l = (quarter8)rng.NextFloat8();
+                quarter8 r = (quarter8)rng.NextFloat8();
+
+                maxmath.minmax(l, r, out quarter8 testmin, out quarter8 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+
+        [Test]
+        public static void _half()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                half l = (half)rng.NextFloat();
+                half r = (half)rng.NextFloat();
+
+                maxmath.minmax(l, r, out half testmin, out half testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _half2()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                half2 l = (half2)rng.NextFloat2();
+                half2 r = (half2)rng.NextFloat2();
+
+                maxmath.minmax(l, r, out half2 testmin, out half2 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _half3()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                half3 l = (half3)rng.NextFloat3();
+                half3 r = (half3)rng.NextFloat3();
+
+                maxmath.minmax(l, r, out half3 testmin, out half3 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _half4()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                half4 l = (half4)rng.NextFloat4();
+                half4 r = (half4)rng.NextFloat4();
+
+                maxmath.minmax(l, r, out half4 testmin, out half4 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _half8()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 8; i++)
+            {
+                half8 l = (half8)rng.NextFloat8();
+                half8 r = (half8)rng.NextFloat8();
+
+                maxmath.minmax(l, r, out half8 testmin, out half8 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
             }
         }
     }

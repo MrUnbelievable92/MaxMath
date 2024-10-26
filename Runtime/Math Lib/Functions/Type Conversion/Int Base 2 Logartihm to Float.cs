@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
+using MaxMath.Intrinsics;
 
 using static MaxMath.LUT.FLOATING_POINT;
 using static Unity.Burst.Intrinsics.X86;
@@ -9,23 +10,26 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </remarks>
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float exp2(int x, Promise noOverflow = Promise.Nothing)
         {
             if (!noOverflow.Promises(Promise.NoOverflow))
             {
-                if (Sse4_1.IsSse41Supported)
+                if (Architecture.IsMinMaxSupported)
                 {
-                    v128 MIN_EXPONENT = Sse2.cvtsi32_si128(nabs(F32_EXPONENT_BIAS)           << F32_MANTISSA_BITS);
-                    v128 MAX_EXPONENT = Sse2.cvtsi32_si128((math.abs(F32_EXPONENT_BIAS) + 1) << F32_MANTISSA_BITS);
-                    v128 BIAS         = Sse2.cvtsi32_si128(math.abs(F32_EXPONENT_BIAS)       << F32_MANTISSA_BITS);
+                    v128 MIN_EXPONENT = Xse.cvtsi32_si128(nabs(F32_EXPONENT_BIAS)           << F32_MANTISSA_BITS);
+                    v128 MAX_EXPONENT = Xse.cvtsi32_si128((math.abs(F32_EXPONENT_BIAS) + 1) << F32_MANTISSA_BITS);
+                    v128 BIAS         = Xse.cvtsi32_si128(math.abs(F32_EXPONENT_BIAS)       << F32_MANTISSA_BITS);
 
-                    v128 mov = Sse2.cvtsi32_si128(x << F32_MANTISSA_BITS);
-                    v128 clamped = Sse4_1.max_epi32(MIN_EXPONENT, Sse4_1.min_epi32(mov, MAX_EXPONENT));
+                    v128 mov = Xse.cvtsi32_si128(x << F32_MANTISSA_BITS);
+                    v128 clamped = Xse.max_epi32(MIN_EXPONENT, Xse.min_epi32(mov, MAX_EXPONENT));
 
-                    return Sse2.add_epi32(BIAS, clamped).Float0;
+                    return Xse.add_epi32(BIAS, clamped).Float0;
                 }
                 else
                 {
@@ -35,9 +39,12 @@ namespace MaxMath
 
             return math.asfloat((math.abs(F32_EXPONENT_BIAS) << F32_MANTISSA_BITS) + (x << F32_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 exp2(int2 x, Promise noOverflow = Promise.Nothing)
         {
@@ -48,9 +55,12 @@ namespace MaxMath
 
             return math.asfloat((math.abs(F32_EXPONENT_BIAS) << F32_MANTISSA_BITS) + (x << F32_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 exp2(int3 x, Promise noOverflow = Promise.Nothing)
         {
@@ -61,9 +71,12 @@ namespace MaxMath
 
             return math.asfloat((math.abs(F32_EXPONENT_BIAS) << F32_MANTISSA_BITS) + (x << F32_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 exp2(int4 x, Promise noOverflow = Promise.Nothing)
         {
@@ -74,9 +87,12 @@ namespace MaxMath
 
             return math.asfloat((math.abs(F32_EXPONENT_BIAS) << F32_MANTISSA_BITS) + (x << F32_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-127, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 exp2(int8 x, Promise noOverflow = Promise.Nothing)
         {
@@ -87,10 +103,13 @@ namespace MaxMath
 
             return asfloat((math.abs(F32_EXPONENT_BIAS) << F32_MANTISSA_BITS) + (x << F32_MANTISSA_BITS));
         }
-        
 
-        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </remarks>
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float exp2(uint x, Promise noOverflow = Promise.Nothing)
         {
@@ -101,9 +120,12 @@ namespace MaxMath
 
             return exp2((int)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 exp2(uint2 x, Promise noOverflow = Promise.Nothing)
         {
@@ -114,9 +136,12 @@ namespace MaxMath
 
             return exp2((int2)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 exp2(uint3 x, Promise noOverflow = Promise.Nothing)
         {
@@ -127,9 +152,12 @@ namespace MaxMath
 
             return exp2((int3)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 exp2(uint4 x, Promise noOverflow = Promise.Nothing)
         {
@@ -140,9 +168,12 @@ namespace MaxMath
 
             return exp2((int4)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 exp2(uint8 x, Promise noOverflow = Promise.Nothing)
         {
@@ -154,9 +185,12 @@ namespace MaxMath
             return exp2((int8)x, Promise.NoOverflow);
         }
 
-        
-        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </remarks>
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double exp2(long x, Promise noOverflow = Promise.Nothing)
         {
@@ -167,9 +201,12 @@ namespace MaxMath
 
             return math.asdouble(((long)math.abs(F64_EXPONENT_BIAS) << F64_MANTISSA_BITS) + (x << F64_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 exp2(long2 x, Promise noOverflow = Promise.Nothing)
         {
@@ -180,9 +217,12 @@ namespace MaxMath
 
             return asdouble(((long)math.abs(F64_EXPONENT_BIAS) << F64_MANTISSA_BITS) + (x << F64_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 exp2(long3 x, Promise noOverflow = Promise.Nothing)
         {
@@ -193,9 +233,12 @@ namespace MaxMath
 
             return asdouble(((long)math.abs(F64_EXPONENT_BIAS) << F64_MANTISSA_BITS) + (x << F64_MANTISSA_BITS));
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-1023, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 exp2(long4 x, Promise noOverflow = Promise.Nothing)
         {
@@ -206,10 +249,13 @@ namespace MaxMath
 
             return asdouble(((long)math.abs(F64_EXPONENT_BIAS) << F64_MANTISSA_BITS) + (x << F64_MANTISSA_BITS));
         }
-        
 
-        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </remarks>
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double exp2(ulong x, Promise noOverflow = Promise.Nothing)
         {
@@ -220,9 +266,12 @@ namespace MaxMath
 
             return exp2((long)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 exp2(ulong2 x, Promise noOverflow = Promise.Nothing)
         {
@@ -233,9 +282,12 @@ namespace MaxMath
 
             return exp2((long2)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 exp2(ulong3 x, Promise noOverflow = Promise.Nothing)
         {
@@ -246,9 +298,12 @@ namespace MaxMath
 
             return exp2((long3)x, Promise.NoOverflow);
         }
-        
-        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.    </summary>
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </remarks>
+
+        /// <summary>       Returns the componentwise base-2 exponential of <paramref name="x"/>.
+        /// <remarks>       
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 1024].       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 exp2(ulong4 x, Promise noOverflow = Promise.Nothing)
         {

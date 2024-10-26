@@ -4,10 +4,10 @@ using Unity.Mathematics;
 
 namespace MaxMath.Tests
 {
-    unsafe public static class SaturatedColumnSum
+    unsafe public static class f_csumsaturated
     {
         [Test]
-        public static void byte2()
+        public static void _byte2()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte3()
+        public static void _byte3()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte4()
+        public static void _byte4()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte8()
+        public static void _byte8()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -151,7 +151,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte16()
+        public static void _byte16()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -187,7 +187,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void byte32()
+        public static void _byte32()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ushort2()
+        public static void _ushort2()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -260,7 +260,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort3()
+        public static void _ushort3()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -296,7 +296,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort4()
+        public static void _ushort4()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -332,7 +332,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort8()
+        public static void _ushort8()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -368,7 +368,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ushort16()
+        public static void _ushort16()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -405,7 +405,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void uint2()
+        public static void _uint2()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -441,7 +441,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint3()
+        public static void _uint3()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -477,7 +477,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint4()
+        public static void _uint4()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -513,7 +513,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void uint8()
+        public static void _uint8()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -550,7 +550,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void ulong2()
+        public static void _ulong2()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -586,7 +586,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong3()
+        public static void _ulong3()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -622,7 +622,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void ulong4()
+        public static void _ulong4()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -659,7 +659,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void sbyte2()
+        public static void _sbyte2()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -685,7 +685,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte3()
+        public static void _sbyte3()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -711,7 +711,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte4()
+        public static void _sbyte4()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -737,7 +737,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte8()
+        public static void _sbyte8()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -763,7 +763,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte16()
+        public static void _sbyte16()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -789,7 +789,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void sbyte32()
+        public static void _sbyte32()
         {
             byte seed = (byte)System.Environment.TickCount;
             seed = seed == 0 ? (byte)1 : seed;
@@ -816,7 +816,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void short2()
+        public static void _short2()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -842,7 +842,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short3()
+        public static void _short3()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -868,7 +868,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short4()
+        public static void _short4()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -894,7 +894,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short8()
+        public static void _short8()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -920,7 +920,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void short16()
+        public static void _short16()
         {
             ushort seed = (ushort)System.Environment.TickCount;
             seed = seed == 0 ? (ushort)1 : seed;
@@ -947,7 +947,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void int2()
+        public static void _int2()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -973,7 +973,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int3()
+        public static void _int3()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -999,7 +999,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int4()
+        public static void _int4()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -1025,7 +1025,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void int8()
+        public static void _int8()
         {
             uint seed = (uint)System.Environment.TickCount;
             seed = seed == 0 ? (uint)1 : seed;
@@ -1052,7 +1052,7 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void long2()
+        public static void _long2()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -1088,7 +1088,7 @@ namespace MaxMath.Tests
         }
 
         [Test]
-        public static void long3()
+        public static void _long3()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -1118,13 +1118,13 @@ namespace MaxMath.Tests
                 {
                     stdSum += vec[j];
                 }
-                
+
                 Assert.AreEqual((BigInteger)sum, BigInteger.Min(long.MaxValue, BigInteger.Max(stdSum, long.MinValue)));
             }
         }
 
         [Test]
-        public static void long4()
+        public static void _long4()
         {
             ulong seed = (ulong)System.Environment.TickCount;
             seed = seed == 0 ? (ulong)1 : seed;
@@ -1140,7 +1140,7 @@ namespace MaxMath.Tests
                 {
                     stdSum += vec[j];
                 }
-                
+
                 Assert.AreEqual((BigInteger)sum, BigInteger.Min(long.MaxValue, BigInteger.Max(stdSum, long.MinValue)));
             }
 

@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath	
+    unsafe public static partial class maxmath
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool16 bool16(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15) => new bool16(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15);

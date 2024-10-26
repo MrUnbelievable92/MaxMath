@@ -2,16 +2,16 @@ using System.Runtime.CompilerServices;
 
 namespace MaxMath
 {
-    unsafe public partial struct UInt128
+    unsafe public readonly partial struct UInt128
     {
         internal static partial class __const
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static UInt128 shluint128(UInt128 value, int n) 
+            internal static UInt128 shluint128(UInt128 value, int n)
             {
                 switch (n)
                 {
-                    case 1:   return new UInt128(value.lo64 << 1,     (value.hi64 << 1)  | (value.lo64 >> (64 - 1)));
+                    case 1:   return value + value;
                     case 2:   return new UInt128(value.lo64 << 2,     (value.hi64 << 2)  | (value.lo64 >> (64 - 2)));
                     case 3:   return new UInt128(value.lo64 << 3,     (value.hi64 << 3)  | (value.lo64 >> (64 - 3)));
                     case 4:   return new UInt128(value.lo64 << 4,     (value.hi64 << 4)  | (value.lo64 >> (64 - 4)));
@@ -138,13 +138,13 @@ namespace MaxMath
                     case 125: return new UInt128(0,     value.lo64 << 61);
                     case 126: return new UInt128(0,     value.lo64 << 62);
                     case 127: return new UInt128(0,     value.lo64 << 63);
-    
+
                     default:  return value;
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static UInt128 shruint128(UInt128 value, int n) 
+            internal static UInt128 shruint128(UInt128 value, int n)
             {
                 switch (n)
                 {
@@ -275,13 +275,13 @@ namespace MaxMath
                     case 125: return new UInt128(value.hi64 >> 61,     0);
                     case 126: return new UInt128(value.hi64 >> 62,     0);
                     case 127: return new UInt128(value.hi64 >> 63,     0);
-    
+
                     default:  return value;
                 }
             }
-    
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static Int128 sarint128(Int128 value, int n) 
+            internal static Int128 sarint128(Int128 value, int n)
             {
                 switch (n)
                 {
@@ -412,7 +412,7 @@ namespace MaxMath
                     case 125: return new Int128((long)value.hi64 >> 61,     (long)value.hi64 >> 63);
                     case 126: return new Int128((long)value.hi64 >> 62,     (long)value.hi64 >> 63);
                     case 127: return new Int128((long)value.hi64 >> 63,     (long)value.hi64 >> 63);
-    
+
                     default:  return value;
                 }
             }

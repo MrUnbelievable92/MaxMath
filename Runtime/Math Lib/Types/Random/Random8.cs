@@ -5,6 +5,8 @@ using DevTools;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
+using static MaxMath.maxmath;
+using static Unity.Mathematics.math;
 
 namespace MaxMath
 {
@@ -22,15 +24,15 @@ namespace MaxMath
             NextState();
         }
 
-        
+
         /// <summary>       Returns a randomly seeded <see cref="Random8"/>.     </summary>
         public static Random8 New
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get 
+            get
             {
                 byte seed = (byte)Environment.TickCount;
-                seed += maxmath.tobyte(seed == 0);
+                seed += tobyte(seed == 0);
 
                 return new Random8(seed);
             }
@@ -215,10 +217,9 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2(sbyte2 min, sbyte2 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<sbyte2, sbyte>(max, min, 2);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte2(NextState(), NextState()), 2);
             }
@@ -232,11 +233,9 @@ Assert.IsNotSmaller(max.y, min.y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3(sbyte3 min, sbyte3 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<sbyte3, sbyte>(max, min, 3);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte3(NextState(), NextState(), NextState()), 3);
             }
@@ -250,12 +249,9 @@ Assert.IsNotSmaller(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4(sbyte4 min, sbyte4 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-Assert.IsNotSmaller(max.w, min.w);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<sbyte4, sbyte>(max, min, 4);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
             }
@@ -269,16 +265,9 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8(sbyte8 min, sbyte8 max)
         {
-Assert.IsNotSmaller(max.x0, min.x0);
-Assert.IsNotSmaller(max.x1, min.x1);
-Assert.IsNotSmaller(max.x2, min.x2);
-Assert.IsNotSmaller(max.x3, min.x3);
-Assert.IsNotSmaller(max.x4, min.x4);
-Assert.IsNotSmaller(max.x5, min.x5);
-Assert.IsNotSmaller(max.x6, min.x6);
-Assert.IsNotSmaller(max.x7, min.x7);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<sbyte8, sbyte>(max, min, 8);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
             }
@@ -292,24 +281,9 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16(sbyte16 min, sbyte16 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<sbyte16, sbyte>(max, min, 16);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
             }
@@ -323,39 +297,8 @@ Assert.IsNotSmaller(max.x15, min.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32(sbyte32 min, sbyte32 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
-Assert.IsNotSmaller(max.x16, min.x16);
-Assert.IsNotSmaller(max.x17, min.x17);
-Assert.IsNotSmaller(max.x18, min.x18);
-Assert.IsNotSmaller(max.x19, min.x19);
-Assert.IsNotSmaller(max.x20, min.x20);
-Assert.IsNotSmaller(max.x21, min.x21);
-Assert.IsNotSmaller(max.x22, min.x22);
-Assert.IsNotSmaller(max.x23, min.x23);
-Assert.IsNotSmaller(max.x24, min.x24);
-Assert.IsNotSmaller(max.x25, min.x25);
-Assert.IsNotSmaller(max.x26, min.x26);
-Assert.IsNotSmaller(max.x27, min.x27);
-Assert.IsNotSmaller(max.x28, min.x28);
-Assert.IsNotSmaller(max.x29, min.x29);
-Assert.IsNotSmaller(max.x30, min.x30);
-Assert.IsNotSmaller(max.x31, min.x31);
-            
+VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
+
             if (Avx2.IsAvx2Supported)
             {
                 return min + Xse.mm256_mulhi_epu8(max - min, new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
@@ -428,7 +371,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mulhi_epu8(max, new byte2(NextState(), NextState()), 2);
             }
@@ -442,7 +385,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mulhi_epu8(max, new byte3(NextState(), NextState(), NextState()), 3);
             }
@@ -456,7 +399,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mulhi_epu8(max, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
             }
@@ -470,7 +413,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mulhi_epu8(max, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
             }
@@ -484,7 +427,7 @@ Assert.IsNotSmaller(max.x31, min.x31);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 max)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return Xse.mulhi_epu8(max, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
             }
@@ -522,10 +465,9 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2(byte2 min, byte2 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<byte2, byte>(max, min, 2);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte2(NextState(), NextState()), 2);
             }
@@ -539,11 +481,9 @@ Assert.IsNotSmaller(max.y, min.y);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 min, byte3 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<byte3, byte>(max, min, 3);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte3(NextState(), NextState(), NextState()), 3);
             }
@@ -557,12 +497,9 @@ Assert.IsNotSmaller(max.z, min.z);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 min, byte4 max)
         {
-Assert.IsNotSmaller(max.x, min.x);
-Assert.IsNotSmaller(max.y, min.y);
-Assert.IsNotSmaller(max.z, min.z);
-Assert.IsNotSmaller(max.w, min.w);
-            
-            if (Sse2.IsSse2Supported)
+VectorAssert.IsNotSmaller<byte4, byte>(max, min, 4);
+
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
             }
@@ -576,16 +513,9 @@ Assert.IsNotSmaller(max.w, min.w);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 min, byte8 max)
         {
-Assert.IsNotSmaller(max.x0, min.x0);
-Assert.IsNotSmaller(max.x1, min.x1);
-Assert.IsNotSmaller(max.x2, min.x2);
-Assert.IsNotSmaller(max.x3, min.x3);
-Assert.IsNotSmaller(max.x4, min.x4);
-Assert.IsNotSmaller(max.x5, min.x5);
-Assert.IsNotSmaller(max.x6, min.x6);
-Assert.IsNotSmaller(max.x7, min.x7);
+VectorAssert.IsNotSmaller<byte8, byte>(max, min, 8);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
             }
@@ -599,24 +529,9 @@ Assert.IsNotSmaller(max.x7, min.x7);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 min, byte16 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
+VectorAssert.IsNotSmaller<byte16, byte>(max, min, 16);
 
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return min + Xse.mulhi_epu8(max - min, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
             }
@@ -630,38 +545,7 @@ Assert.IsNotSmaller(max.x15, min.x15);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 min, byte32 max)
         {
-Assert.IsNotSmaller(max.x0,  min.x0);
-Assert.IsNotSmaller(max.x1,  min.x1);
-Assert.IsNotSmaller(max.x2,  min.x2);
-Assert.IsNotSmaller(max.x3,  min.x3);
-Assert.IsNotSmaller(max.x4,  min.x4);
-Assert.IsNotSmaller(max.x5,  min.x5);
-Assert.IsNotSmaller(max.x6,  min.x6);
-Assert.IsNotSmaller(max.x7,  min.x7);
-Assert.IsNotSmaller(max.x8,  min.x8);
-Assert.IsNotSmaller(max.x9,  min.x9);
-Assert.IsNotSmaller(max.x10, min.x10);
-Assert.IsNotSmaller(max.x11, min.x11);
-Assert.IsNotSmaller(max.x12, min.x12);
-Assert.IsNotSmaller(max.x13, min.x13);
-Assert.IsNotSmaller(max.x14, min.x14);
-Assert.IsNotSmaller(max.x15, min.x15);
-Assert.IsNotSmaller(max.x16, min.x16);
-Assert.IsNotSmaller(max.x17, min.x17);
-Assert.IsNotSmaller(max.x18, min.x18);
-Assert.IsNotSmaller(max.x19, min.x19);
-Assert.IsNotSmaller(max.x20, min.x20);
-Assert.IsNotSmaller(max.x21, min.x21);
-Assert.IsNotSmaller(max.x22, min.x22);
-Assert.IsNotSmaller(max.x23, min.x23);
-Assert.IsNotSmaller(max.x24, min.x24);
-Assert.IsNotSmaller(max.x25, min.x25);
-Assert.IsNotSmaller(max.x26, min.x26);
-Assert.IsNotSmaller(max.x27, min.x27);
-Assert.IsNotSmaller(max.x28, min.x28);
-Assert.IsNotSmaller(max.x29, min.x29);
-Assert.IsNotSmaller(max.x30, min.x30);
-Assert.IsNotSmaller(max.x31, min.x31);
+VectorAssert.IsNotSmaller<byte32, byte>(max, min, 32);
 
             if (Avx2.IsAvx2Supported)
             {

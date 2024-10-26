@@ -12,29 +12,29 @@ namespace MaxMath.Intrinsics
         {
             get
             {
-                if (Sse2.IsSse2Supported)
+                if (Architecture.IsSIMDSupported)
                 {
-                    return Sse2.set1_epi16(unchecked((short)((1 << (F16_BITS - 1)) - 1)));
+                    return set1_epi16(maxmath.bitmask16(F16_BITS - 1));
                 }
                 else throw new IllegalInstructionException();
             }
         }
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpord_ph(v128 a, v128 b, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU16(a, 1 << 15, elements) && constexpr.ALL_LT_EPU16(b, 1 << 15, elements))
                 {
-                    return Sse2.and_si128(Sse2.cmpgt_epi16(Sse2.set1_epi16(F16_SIGNALING_EXPONENT + 1), a),
-                                          Sse2.cmpgt_epi16(Sse2.set1_epi16(F16_SIGNALING_EXPONENT + 1), b));
+                    return and_si128(cmpgt_epi16(set1_epi16(F16_SIGNALING_EXPONENT + 1), a),
+                                     cmpgt_epi16(set1_epi16(F16_SIGNALING_EXPONENT + 1), b));
                 }
                 else
                 {
-                    return Sse2.and_si128(Sse2.cmpgt_epi16(Sse2.set1_epi16(F16_SIGNALING_EXPONENT + 1), Sse2.and_si128(a, F16_ABS_MASK)),
-                                          Sse2.cmpgt_epi16(Sse2.set1_epi16(F16_SIGNALING_EXPONENT + 1), Sse2.and_si128(b, F16_ABS_MASK)));
+                    return and_si128(cmpgt_epi16(set1_epi16(F16_SIGNALING_EXPONENT + 1), and_si128(a, F16_ABS_MASK)),
+                                     cmpgt_epi16(set1_epi16(F16_SIGNALING_EXPONENT + 1), and_si128(b, F16_ABS_MASK)));
                 }
             }
             else throw new IllegalInstructionException();
@@ -43,17 +43,17 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpunord_ph(v128 a, v128 b, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU16(a, 1 << 15, elements) && constexpr.ALL_LT_EPU16(b, 1 << 15, elements))
                 {
-                    return Sse2.or_si128(Sse2.cmpgt_epi16(a, Sse2.set1_epi16(F16_SIGNALING_EXPONENT)),
-                                         Sse2.cmpgt_epi16(b, Sse2.set1_epi16(F16_SIGNALING_EXPONENT)));
+                    return or_si128(cmpgt_epi16(a, set1_epi16(F16_SIGNALING_EXPONENT)),
+                                    cmpgt_epi16(b, set1_epi16(F16_SIGNALING_EXPONENT)));
                 }
                 else
                 {
-                    return Sse2.or_si128(Sse2.cmpgt_epi16(Sse2.and_si128(a, F16_ABS_MASK), Sse2.set1_epi16(F16_SIGNALING_EXPONENT)),
-                                         Sse2.cmpgt_epi16(Sse2.and_si128(b, F16_ABS_MASK), Sse2.set1_epi16(F16_SIGNALING_EXPONENT)));
+                    return or_si128(cmpgt_epi16(and_si128(a, F16_ABS_MASK), set1_epi16(F16_SIGNALING_EXPONENT)),
+                                    cmpgt_epi16(and_si128(b, F16_ABS_MASK), set1_epi16(F16_SIGNALING_EXPONENT)));
                 }
             }
             else throw new IllegalInstructionException();
@@ -63,34 +63,34 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpeq_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(a, 0, elements) || constexpr.ALL_EQ_EPU16(a, 0x8000, elements))
                 {
                     if (promiseNeitherNaN)
                     {
-                        return Sse2.cmpeq_epi16(Sse2.slli_epi16(b, 1), Sse2.setzero_si128());
+                        return cmpeq_epi16(slli_epi16(b, 1), setzero_si128());
                     }
                     else
                     {
-                        return Sse2.andnot_si128(cmpunord_ph(b, b), Sse2.cmpeq_epi16(Sse2.slli_epi16(b, 1), Sse2.setzero_si128()));
+                        return andnot_si128(cmpunord_ph(b, b), cmpeq_epi16(slli_epi16(b, 1), setzero_si128()));
                     }
                 }
-                else if (Xse.constexpr.ALL_EQ_EPU16(b, 0, elements) || Xse.constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
+                else if (constexpr.ALL_EQ_EPU16(b, 0, elements) || constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
                 {
                     if (promiseNeitherNaN)
                     {
-                        return Sse2.cmpeq_epi16(Sse2.slli_epi16(a, 1), Sse2.setzero_si128());
+                        return cmpeq_epi16(slli_epi16(a, 1), setzero_si128());
                     }
                     else
                     {
-                        return Sse2.andnot_si128(cmpunord_ph(a, a), Sse2.cmpeq_epi16(Sse2.slli_epi16(a, 1), Sse2.setzero_si128()));
+                        return andnot_si128(cmpunord_ph(a, a), cmpeq_epi16(slli_epi16(a, 1), setzero_si128()));
                     }
-                } 
+                }
                 else
                 {
-                    v128 equalValues = Sse2.cmpeq_epi16(a, b);
-                    
+                    v128 equalValues = cmpeq_epi16(a, b);
+
                     if (promiseNeitherNaN)
                     {
                         if (promiseNeitherZero)
@@ -99,23 +99,23 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            v128 neitherZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                            
-                            return Sse2.or_si128(neitherZero, equalValues);
+                            v128 neitherZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+
+                            return or_si128(neitherZero, equalValues);
                         }
                     }
                     else
                     {
                         v128 eitherNaN = cmpunord_ph(a, b, elements);
-                    
+
                         if (promiseNeitherZero)
                         {
-                            return Sse2.andnot_si128(eitherNaN, equalValues);
+                            return andnot_si128(eitherNaN, equalValues);
                         }
                         else
                         {
-                            v128 neitherZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                    
+                            v128 neitherZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+
                             return ternarylogic_si128(eitherNaN, neitherZero, equalValues, TernaryOperation.OxOE);
                         }
                     }
@@ -123,38 +123,38 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpneq_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(a, 0, elements) || constexpr.ALL_EQ_EPU16(a, 0x8000, elements))
                 {
                     if (promiseNeitherNaN)
                     {
-                        return not_si128(Sse2.cmpeq_epi16(Sse2.slli_epi16(b, 1), Sse2.setzero_si128()));
+                        return not_si128(cmpeq_epi16(slli_epi16(b, 1), setzero_si128()));
                     }
                     else
                     {
-                        return Sse2.andnot_si128(Sse2.cmpeq_epi16(Sse2.slli_epi16(b, 1), Sse2.setzero_si128()), cmpord_ph(b, b));
+                        return andnot_si128(cmpeq_epi16(slli_epi16(b, 1), setzero_si128()), cmpord_ph(b, b));
                     }
                 }
-                else if (Xse.constexpr.ALL_EQ_EPU16(b, 0, elements) || Xse.constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
+                else if (constexpr.ALL_EQ_EPU16(b, 0, elements) || constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
                 {
                     if (promiseNeitherNaN)
                     {
-                        return not_si128(Sse2.cmpeq_epi16(Sse2.slli_epi16(a, 1), Sse2.setzero_si128()));
+                        return not_si128(cmpeq_epi16(slli_epi16(a, 1), setzero_si128()));
                     }
                     else
                     {
-                        return Sse2.andnot_si128(Sse2.cmpeq_epi16(Sse2.slli_epi16(a, 1), Sse2.setzero_si128()), cmpord_ph(a, a));
+                        return andnot_si128(cmpeq_epi16(slli_epi16(a, 1), setzero_si128()), cmpord_ph(a, a));
                     }
-                } 
+                }
                 else
                 {
-                    v128 equalValues = Sse2.cmpeq_epi16(a, b);
-                    
+                    v128 equalValues = cmpeq_epi16(a, b);
+
                     if (promiseNeitherNaN)
                     {
                         if (promiseNeitherZero)
@@ -163,23 +163,23 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            v128 bothZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                            
+                            v128 bothZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+
                             return nor_si128(bothZero, equalValues);
                         }
                     }
                     else
                     {
                         v128 eitherNaN = cmpunord_ph(a, b, elements);
-                    
+
                         if (promiseNeitherZero)
                         {
                             return ornot_si128(equalValues, eitherNaN);
                         }
                         else
                         {
-                            v128 bothZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                    
+                            v128 bothZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+
                             return ternarylogic_si128(eitherNaN, bothZero, equalValues, TernaryOperation.OxF1);
                         }
                     }
@@ -191,16 +191,16 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmplt_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(b, 0, elements) || constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
                 {
-                    v128 negative = Sse2.cmpgt_epi16(Sse2.setzero_si128(), a);
-                    v128 zero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(a, 1));
-                
+                    v128 negative = cmpgt_epi16(setzero_si128(), a);
+                    v128 zero = cmpeq_epi16(setzero_si128(), slli_epi16(a, 1));
+
                     if (promiseNeitherNaN)
                     {
-                        return Sse2.andnot_si128(zero, negative);
+                        return andnot_si128(zero, negative);
                     }
                     else
                     {
@@ -209,12 +209,12 @@ namespace MaxMath.Intrinsics
                 }
                 if (constexpr.ALL_EQ_EPU16(a, 0, elements) || constexpr.ALL_EQ_EPU16(a, 0x8000, elements))
                 {
-                    v128 positive = Sse2.cmpgt_epi16(b, Sse2.setzero_si128());
-                    v128 zero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(b, 1));
-                
+                    v128 positive = cmpgt_epi16(b, setzero_si128());
+                    v128 zero = cmpeq_epi16(setzero_si128(), slli_epi16(b, 1));
+
                     if (promiseNeitherNaN)
                     {
-                        return Sse2.andnot_si128(zero, positive);
+                        return andnot_si128(zero, positive);
                     }
                     else
                     {
@@ -223,11 +223,11 @@ namespace MaxMath.Intrinsics
                 }
 
 
-                v128 equalValues = Sse2.cmpeq_epi16(a, b);
-                
-                v128 signA = Sse2.srai_epi16(a, 15);
-                v128 signB = Sse2.srai_epi16(b, 15);
-                v128 equalSigns = Sse2.cmpeq_epi16(signA, signB);
+                v128 equalValues = cmpeq_epi16(a, b);
+
+                v128 signA = srai_epi16(a, 15);
+                v128 signB = srai_epi16(b, 15);
+                v128 equalSigns = cmpeq_epi16(signA, signB);
                 v128 ifEqualSigns;
                 //if (Avx512.IsAvx512Supported)
                 //{
@@ -237,7 +237,7 @@ namespace MaxMath.Intrinsics
                 //{
                       ifEqualSigns = ternarylogic_si128(equalValues, signA, cmpgt_epu16(b, a, elements), TernaryOperation.OxO6);
                 //}
-                
+
                 v128 orderedCmp;
                 if (promiseNeitherZero)
                 {
@@ -245,11 +245,11 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    v128 bothZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                    v128 ifOppositeSigns = Sse2.andnot_si128(bothZero, signA);
+                    v128 bothZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+                    v128 ifOppositeSigns = andnot_si128(bothZero, signA);
                     orderedCmp = blendv_si128(ifOppositeSigns, ifEqualSigns, equalSigns);
                 }
-                
+
                 if (promiseNeitherNaN)
                 {
                     return orderedCmp;
@@ -257,8 +257,8 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 eitherNaN = cmpunord_ph(a, b, elements);
-                
-                    return Sse2.andnot_si128(eitherNaN, orderedCmp);
+
+                    return andnot_si128(eitherNaN, orderedCmp);
                 }
             }
             else throw new IllegalInstructionException();
@@ -267,7 +267,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpgt_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmplt_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }
@@ -277,29 +277,29 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmple_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(b, 0, elements) || constexpr.ALL_EQ_EPU16(b, 0x8000, elements))
                 {
-                    v128 intLEzero = Sse2.cmpgt_epi16(Sse2.set1_epi16(1), a);
-                
+                    v128 intLEzero = cmpgt_epi16(set1_epi16(1), a);
+
                     if (promiseNeitherNaN)
                     {
                         return intLEzero;
                     }
                     else
                     {
-                        return Sse2.andnot_si128(cmpunord_ph(a, a), intLEzero);
+                        return andnot_si128(cmpunord_ph(a, a), intLEzero);
                     }
                 }
                 if (constexpr.ALL_EQ_EPU16(a, 0, elements) || constexpr.ALL_EQ_EPU16(a, 0x8000, elements))
                 {
-                    v128 uintGEzero = Sse2.cmpgt_epi16(b, Sse2.setzero_si128());
-                    v128 negativeZero = Sse2.cmpeq_epi16(b, Sse2.set1_epi16(unchecked((short)(1 << 15))));
-                
+                    v128 uintGEzero = cmpgt_epi16(b, setzero_si128());
+                    v128 negativeZero = cmpeq_epi16(b, set1_epi16(1 << 15));
+
                     if (promiseNeitherNaN)
                     {
-                        return Sse2.or_si128(uintGEzero, negativeZero);
+                        return or_si128(uintGEzero, negativeZero);
                     }
                     else
                     {
@@ -308,11 +308,11 @@ namespace MaxMath.Intrinsics
                 }
 
 
-                v128 equalValues = Sse2.cmpeq_epi16(a, b);
+                v128 equalValues = cmpeq_epi16(a, b);
 
-                v128 signA = Sse2.srai_epi16(a, 15);
-                v128 signB = Sse2.srai_epi16(b, 15);
-                v128 equalSigns = Sse2.cmpeq_epi16(signA, signB);
+                v128 signA = srai_epi16(a, 15);
+                v128 signB = srai_epi16(b, 15);
+                v128 equalSigns = cmpeq_epi16(signA, signB);
                 v128 ifEqualSigns;
                 //if (Avx512.IsAvx512Supported)
                 //{
@@ -330,8 +330,8 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    v128 bothZero = Sse2.cmpeq_epi16(Sse2.setzero_si128(), Sse2.slli_epi16(Sse2.or_si128(a, b), 1));
-                    v128 ifOppositeSigns = Sse2.or_si128(bothZero, signA);
+                    v128 bothZero = cmpeq_epi16(setzero_si128(), slli_epi16(or_si128(a, b), 1));
+                    v128 ifOppositeSigns = or_si128(bothZero, signA);
                     orderedCmp = blendv_si128(ifOppositeSigns, ifEqualSigns, equalSigns);
                 }
 
@@ -343,7 +343,7 @@ namespace MaxMath.Intrinsics
                 {
                     v128 eitherNaN = cmpunord_ph(a, b, elements);
 
-                    return Sse2.andnot_si128(eitherNaN, orderedCmp);
+                    return andnot_si128(eitherNaN, orderedCmp);
                 }
             }
             else throw new IllegalInstructionException();
@@ -352,7 +352,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpge_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmple_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }
@@ -363,7 +363,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpngt_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmple_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }
@@ -373,7 +373,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpnlt_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmpge_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }
@@ -383,7 +383,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpnge_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmplt_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }
@@ -393,7 +393,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cmpnle_ph(v128 a, v128 b, bool promiseNeitherNaN = false, bool promiseNeitherZero = false, byte elements = 8)
         {
-            if (Sse2.IsSse2Supported)
+            if (Architecture.IsSIMDSupported)
             {
                 return cmpgt_ph(b, a, promiseNeitherNaN, promiseNeitherZero, elements);
             }

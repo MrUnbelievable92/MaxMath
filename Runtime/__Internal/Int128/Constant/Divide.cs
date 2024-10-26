@@ -1,106 +1,188 @@
 using System.Runtime.CompilerServices;
+using MaxMath.Intrinsics;
+
+using static Unity.Mathematics.math;
+using static MaxMath.maxmath;
 
 namespace MaxMath
 {
-    unsafe public partial struct UInt128
+    unsafe public readonly partial struct UInt128
     {
         internal static partial class __const
         {
-            internal struct __magic128 
-            {
-                internal UInt128 mul;
-                internal bool add;
-                internal int shift;
-            }
-    
-    
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            internal static __magic128 getmagic_divuint128(UInt128 d) 
+            internal static UInt128 udiv(UInt128 left, UInt128 right)
             {
-                UInt128 nc, delta, q1, r1, q2, r2;
-                __magic128 magu = default;
-    
-                int p = 127;
-                nc = UInt128.MaxValue - ((UInt128)(-(Int128)d)) % d;
-                q1 = UInt128.Common.divuint128(((UInt128)1 << 127) , nc);
-                r1 = ((UInt128)1 << 127) - (q1 * nc);
-                q2 = UInt128.Common.divuint128((((UInt128)1 << 127) - 1) , d);
-                r2 = (((UInt128)1 << 127) - 1) - q2 * d;
-    
-                do 
+                if (constexpr.IS_CONST(right))
                 {
-                    p++;
-    
-                    if (r1 >= nc - r1) 
+                    Divider<UInt128> Divider = new Divider<UInt128>(right);
+
+                    if (constexpr.IS_CONST(Divider))
                     {
-                         q1 = (2 * q1) + 1;
-                         r1 = (2 * r1) - nc;
+                        return left / Divider;
                     }
-                    else 
-                    {
-                         q1 *= 2;
-                         r1 *= 2;
-                    }
-    
-                    if (r2 + 1 >= d - r2) 
-                    {
-                         if (q2 >= (((UInt128)1 << 127) - 1)) 
-                         {
-                             magu.add = true;
-                         }
-    
-                         q2 = (2 * q2) + 1;
-                         r2 = (2 * r2) + 1 - d;
-                    }
-                    else 
-                    {
-                         if (q2 >= ((UInt128)1 << 127)) 
-                         {
-                             magu.add = true;
-                         }
-    
-                         q2 *= 2;
-                         r2 = (2 * r2) + 1;
-                    }
-                    delta = d - 1 - r2;
-                } 
-                while (p < 256 && (q1 < delta || (q1 == delta && r1 == 0)));
-    
-                magu.mul = q2 + 1;
-                magu.shift = p - 128;
-    
-                return magu;
-            }
-    
-            internal static UInt128 divuint128(UInt128 left, UInt128 right)
-            {
-                if (right == 1) return left;
-                if (right == UInt128.MaxValue) return maxmath.touint128(left == UInt128.MaxValue);
-    
-    
-                __magic128 m = getmagic_divuint128(right);
-                Common.umul256(left, m.mul, out UInt128 hi, lo:false);
-    
-                if (m.add && m.shift > 0)
-                {
-                    UInt128 t = left - hi;
-                    t >>= 1;
-                    hi += t;
-                    hi >>= (m.shift - 1);
-                    
-                    return hi;
                 }
-                else 
-                {
-                    return hi >> m.shift; 
-                }
+
+                return asm128.__udiv128x128(left, right);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static UInt128 udiv(UInt128 left, ulong right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<UInt128> Divider = new Divider<UInt128>((UInt128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left / Divider;
+                    }
+                }
+
+                return asm128.__udiv128x64(left, right);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static UInt128 urem(UInt128 left, UInt128 right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<UInt128> Divider = new Divider<UInt128>(right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left % Divider;
+                    }
+                }
+
+                return asm128.__urem128x128(left, right);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static ulong urem(UInt128 left, ulong right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<UInt128> Divider = new Divider<UInt128>((UInt128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return (left % Divider).lo64;
+                    }
+                }
+
+                return asm128.__urem128x64(left, right);
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 idiv(Int128 left, Int128 right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>(right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left / Divider;
+                    }
+                }
+
+                return Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out _, (long)left.hi64, (long)right.hi64, (UInt128)abs(left) / (UInt128)abs(right), default(UInt128));
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 idiv(Int128 left, long right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>((Int128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left / Divider;
+                    }
+                }
+
+                return Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out _, (long)left.hi64, right, (UInt128)abs(left) / (ulong)abs(right), default(UInt128));
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 idiv(Int128 left, ulong right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>((Int128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left / Divider;
+                    }
+                }
+
+                return Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out _, (long)left.hi64, 0, (UInt128)abs(left) / right, default(UInt128));
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 irem(Int128 left, Int128 right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>(right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left % Divider;
+                    }
+                }
+
+                Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out Int128 result, (long)left.hi64, (long)right.hi64, default(UInt128), (UInt128)abs(left) % (UInt128)abs(right));
+
+                return result;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 irem(Int128 left, long right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>((Int128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left % Divider;
+                    }
+                }
+
+                Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out Int128 result, (long)left.hi64, right, default(UInt128), (UInt128)abs(left) % (ulong)abs(right));
+
+                return result;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal static Int128 irem(Int128 left, ulong right)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    Divider<Int128> Divider = new Divider<Int128>((Int128)right);
+
+                    if (constexpr.IS_CONST(Divider))
+                    {
+                        return left % Divider;
+                    }
+                }
+
+                Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out Int128 result, (long)left.hi64, 0, default(UInt128), (UInt128)abs(left) % right);
+
+                return result;
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static UInt128 divrem10(UInt128 x, out ulong rem)
             {
                 UInt128 mul = new UInt128(0xCCCC_CCCC_CCCC_CCCD, 0xCCCC_CCCC_CCCC_CCCC);
-                Common.umul256(x, mul, out UInt128 hi, lo: false);
-                UInt128 q = hi >> 3;
+                UInt128 q = __const.shruint128(__UInt256__.umul256(x, mul).hi128, 3);
 
                 UInt128 q10 = __const.shluint128(q, 3) + __const.shluint128(q, 1);
 

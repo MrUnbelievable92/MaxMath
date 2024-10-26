@@ -1,67 +1,359 @@
+using MaxMath.Intrinsics;
 using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        ////////////////////////////////////////////////////////////
-        ///               M A K E   P U B L I C                  ///
-        ////////////////////////////////////////////////////////////
-        /// <summary>       .      </summary>
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static UInt128 square(UInt128 x)
+        public static UInt128 square(UInt128 x)
         {
-            ulong lo = Common.umul128(x.lo64, x.lo64, out ulong hi);
-            hi += (x.lo64 * x.hi64) << 1;
+            UInt128 product = UInt128.umul128(x.lo64, x.lo64);
 
-            return new UInt128(lo, hi);
+            return new UInt128(product.lo64, product.hi64 + ((x.lo64 * x.hi64) << 1));
+        }
+        
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 square(Int128 x)
+        {
+            return (Int128)square((UInt128)x);
         }
 
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Int128 square(Int128 x)
-        {
-            ulong lo = Common.umul128(x.lo64, x.lo64, out ulong hi);
-            hi += (x.lo64 * x.hi64) << 1;
 
-            return new Int128(lo, hi);
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [return: AssumeRange(0u, byte.MaxValue * byte.MaxValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int square(byte x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte2 square(byte2 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi8(x, 2);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte3 square(byte3 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi8(x, 3);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 square(byte4 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi8(x, 4);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte8 square(byte8 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi8(x, 8);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 square(byte16 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi8(x);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 square(byte32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_square_epi8(x);
+            }
+            else
+            {
+                return new byte32(square(x.v16_0), square(x.v16_16));
+            }
         }
 
         
-        /// <summary>       .      </summary>
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static float8 square(float8 x) => x * x;
+        public static int square(sbyte x)
+        {
+            return square((byte)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte2 square(sbyte2 x)
+        {
+            return (sbyte2)square((byte2)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte3 square(sbyte3 x)
+        {
+            return (sbyte3)square((byte3)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte4 square(sbyte4 x)
+        {
+            return (sbyte4)square((byte4)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte8 square(sbyte8 x)
+        {
+            return (sbyte8)square((byte8)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 square(sbyte16 x)
+        {
+            return (sbyte16)square((byte16)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 square(sbyte32 x)
+        {
+            return (sbyte32)square((byte32)x);
+        }
+
+        
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [return: AssumeRange(0u, (uint)ushort.MaxValue * ushort.MaxValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int square(ushort x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort2 square(ushort2 x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort3 square(ushort3 x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort4 square(ushort4 x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort8 square(ushort8 x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 square(ushort16 x)
+        {
+            return x * x;
+        }
+
+        
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int square(short x)
+        {
+            return square((ushort)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short2 square(short2 x)
+        {
+            return (short2)square((ushort2)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3 square(short3 x)
+        {
+            return (short3)square((ushort3)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short4 square(short4 x)
+        {
+            return (short4)square((ushort4)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short8 square(short8 x)
+        {
+            return (short8)square((ushort8)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 square(short16 x)
+        {
+            return (short16)square((ushort16)x);
+        }
+
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 square(uint8 x)
+        {
+            return x * x;
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 square(int8 x)
+        {
+            return (int8)square((uint8)x);
+        }
+
+        
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong square(ulong x)
+        {
+            return x * x;
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 square(ulong2 x)
+        {
+            if (Architecture.IsSIMDSupported)
+            {
+                return Xse.square_epi64(x);
+            }
+            else
+            {
+                return x * x;
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 square(ulong3 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_square_epi64(x, 3);
+            }
+            else
+            {
+                return new ulong3(square(x.xy), square(x.z));
+            }
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 square(ulong4 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_square_epi64(x, 4);
+            }
+            else
+            {
+                return new ulong4(square(x.xy), square(x.zw));
+            }
+        }
+
+        
+        /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long square(long x)
+        {
+            return (long)square((ulong)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 square(long2 x)
+        {
+            return (long2)square((ulong2)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 square(long3 x)
+        {
+            return (long3)square((ulong3)x);
+        }
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 square(long4 x)
+        {
+            return (long4)square((ulong4)x);
+        }
         
 
-        ////////////////////////////////////////////////////////////
-        ///                    D E L E T E                       ///
-        ////////////////////////////////////////////////////////////
-        
-        /// <summary>       .      </summary>
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static float square(float x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.float2 square(Unity.Mathematics.float2 x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.float3 square(Unity.Mathematics.float3 x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.float4 square(Unity.Mathematics.float4 x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-
-        internal static double square(double x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.double2 square(Unity.Mathematics.double2 x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.double3 square(Unity.Mathematics.double3 x) => x * x;
-        /// <summary>       .      </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Unity.Mathematics.double4 square(Unity.Mathematics.double4 x) => x * x;
+        public static float8 square(float8 x)
+        {
+            return x * x;
+        }
     }
 }
