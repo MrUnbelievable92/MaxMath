@@ -139,7 +139,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
-        [return: AssumeRange(0L, sbyte.MaxValue + 1L)]
+        [return: AssumeRange(0L, (long)sbyte.MaxValue + 1L)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ceilpow2(sbyte x)
         {
@@ -546,7 +546,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
-        [return: AssumeRange(0L, (sbyte.MaxValue + 1L) / 2L)]
+        [return: AssumeRange(0L, ((long)sbyte.MaxValue + 1L) / 2L)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte floorpow2(sbyte x)
         {
