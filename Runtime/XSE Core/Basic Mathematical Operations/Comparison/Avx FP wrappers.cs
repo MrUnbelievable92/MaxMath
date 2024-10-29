@@ -62,7 +62,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_cmp_ps(a, b, (int)Avx.CMP.NEQ_OQ);
+                return Avx.mm256_cmp_ps(a, b, (int)Avx.CMP.NEQ_UQ);
             }
             else throw new IllegalInstructionException();
         }
@@ -183,7 +183,7 @@ namespace MaxMath.Intrinsics
         {
             if (Avx.IsAvxSupported)
             {
-                return Avx.mm256_cmp_pd(a, b, (int)Avx.CMP.NEQ_OQ);
+                return Avx.mm256_cmp_pd(a, b, (int)Avx.CMP.NEQ_UQ);
             }
             else throw new IllegalInstructionException();
         }
