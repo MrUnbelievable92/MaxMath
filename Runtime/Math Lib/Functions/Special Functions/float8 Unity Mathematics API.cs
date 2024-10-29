@@ -227,7 +227,7 @@ namespace MaxMath
             return length(y - x);
         }
 
-        /// <summary        Returns the distance between two <see cref="MaxMath.float8"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="MaxMath.float8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distancesq(float8 x, float8 y)
         {

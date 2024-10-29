@@ -218,7 +218,7 @@ namespace MaxMath
             return (sbyte2)t1mask((byte2)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte3"/ component> to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 t1mask(sbyte3 x)
         {

@@ -271,7 +271,7 @@ namespace MaxMath
             return (sbyte2)lzmask((byte2)x);
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.sbyte3"/ component> to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.sbyte3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 lzmask(sbyte3 x)
         {

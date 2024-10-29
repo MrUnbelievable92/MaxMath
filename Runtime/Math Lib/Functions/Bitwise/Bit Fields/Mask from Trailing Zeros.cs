@@ -218,7 +218,7 @@ namespace MaxMath
             return (sbyte2)tzmask((byte2)x);
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.sbyte3"/ component> to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.sbyte3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 tzmask(sbyte3 x)
         {
