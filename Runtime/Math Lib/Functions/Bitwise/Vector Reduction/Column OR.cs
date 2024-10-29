@@ -493,7 +493,7 @@ namespace MaxMath
             }
             else
             {
-                return cor(c.v4_0| c.v4_4);
+                return cor(c.v4_0 | c.v4_4);
             }
         }
 

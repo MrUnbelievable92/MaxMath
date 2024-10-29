@@ -278,7 +278,7 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touint(bool a)
         {
-            return (uint)toint(a);
+            return tobyte(a);
         }
 
         /// <summary>       Converts each value in a <see cref="bool2"/> to its integer representation as a <see cref="uint2"/>. The corresponding value is expected to be either 0 or 1.     </summary>

@@ -56,7 +56,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return ((toint(x.x0) | (tobyte(x.x1) << 1)) + ((tobyte(x.x2) << 2) | (tobyte(x.x3) << 3))) + (((tobyte(x.x4) << 4) | (tobyte(x.x5) << 5)) + ((tobyte(x.x6) << 6) | (tobyte(x.x7) << 7)));
+                return ((tobyte(x.x0) | (tobyte(x.x1) << 1)) + ((tobyte(x.x2) << 2) | (tobyte(x.x3) << 3))) + (((tobyte(x.x4) << 4) | (tobyte(x.x5) << 5)) + ((tobyte(x.x6) << 6) | (tobyte(x.x7) << 7)));
             }
         }
 
@@ -73,7 +73,7 @@ VectorAssert.IsNotGreater<byte16, byte>(tobyte(x), 1, 16);
             }
             else
             {
-                return (((toint(x.x0) | (tobyte(x.x1) << 1)) + ((tobyte(x.x2) << 2) | (tobyte(x.x3) << 3))) + (((tobyte(x.x4) << 4) | (tobyte(x.x5) << 5)) + ((tobyte(x.x6) << 6) | (tobyte(x.x7) << 7)))) + ((((tobyte(x.x8) << 8) | (tobyte(x.x9) << 9)) + ((tobyte(x.x10) << 10) | (tobyte(x.x11) << 11))) + (((tobyte(x.x12) << 12) | (tobyte(x.x13) << 13)) + ((tobyte(x.x14) << 14) | (tobyte(x.x15) << 15))));
+                return (((tobyte(x.x0) | (tobyte(x.x1) << 1)) + ((tobyte(x.x2) << 2) | (tobyte(x.x3) << 3))) + (((tobyte(x.x4) << 4) | (tobyte(x.x5) << 5)) + ((tobyte(x.x6) << 6) | (tobyte(x.x7) << 7)))) + ((((tobyte(x.x8) << 8) | (tobyte(x.x9) << 9)) + ((tobyte(x.x10) << 10) | (tobyte(x.x11) << 11))) + (((tobyte(x.x12) << 12) | (tobyte(x.x13) << 13)) + ((tobyte(x.x14) << 14) | (tobyte(x.x15) << 15))));
             }
         }
 
