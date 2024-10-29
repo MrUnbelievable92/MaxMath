@@ -62,7 +62,7 @@ namespace MaxMath.Tests
         {
             Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.rcbrt((float8)float.NaN))));
             Assert.AreEqual(maxmath.rcbrt((float8)0f), (float8)float.PositiveInfinity);
-            Assert.AreEqual(maxmath.asint(maxmath.rcbrt((float8)maxmath.asfloat(1 << 31))), maxmath.asint((float8)float.NegativeInfinity));
+            Assert.AreEqual(maxmath.asint(maxmath.rcbrt((float8)math.asfloat(1 << 31))), maxmath.asint((float8)float.NegativeInfinity));
 
             Assert.AreEqual(maxmath.rcbrt((float8)float.PositiveInfinity), (float8)0f);
             Assert.AreEqual(maxmath.asint(maxmath.rcbrt((float8)float.NegativeInfinity)), (int8)1 << 31);

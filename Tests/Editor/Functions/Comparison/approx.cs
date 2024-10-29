@@ -147,7 +147,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(maxmath.any(maxmath.approx((float8)float.PositiveInfinity, (float8)float.NegativeInfinity)));
             Assert.IsFalse(maxmath.any(maxmath.approx((float8)float.NegativeInfinity, (float8)float.PositiveInfinity)));
             Assert.IsFalse(maxmath.any(maxmath.approx((float8)(-1f), (float8)1f)));
-            Assert.IsTrue( maxmath.all(maxmath.approx((float8)maxmath.asfloat(1 << 31), (float8)0f)));
+            Assert.IsTrue( maxmath.all(maxmath.approx((float8)math.asfloat(1 << 31), (float8)0f)));
 
             for (int i = 0; i < 16; i++)
             {

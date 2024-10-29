@@ -75,7 +75,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinf(float8 x)
         {
-            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asint(x) << 1) == (asint(float.PositiveInfinity) << 1);
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asint(x) << 1) == (math.asint(float.PositiveInfinity) << 1);
         }
 
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> whether it is a NaN (not a number) floating point value.    </summary>
