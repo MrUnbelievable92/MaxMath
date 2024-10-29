@@ -246,6 +246,10 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 div(long3 dividend, long3 divisor) => dividend / divisor;
+        
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 div(long4 dividend, long4 divisor) => dividend / divisor;
 
 
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
@@ -482,5 +486,9 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 mod(long3 dividend, long3 divisor) => dividend % divisor;
+        
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 mod(long4 dividend, long4 divisor) => dividend % divisor;
     }
 }
