@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
@@ -7,6 +8,7 @@ namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
 	{
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constdiv_epu32(v128 vector, v128 divisor, byte elements = 4)
 		{
             if (Architecture.IsSIMDSupported)
@@ -26,6 +28,7 @@ namespace MaxMath.Intrinsics
 			else throw new IllegalInstructionException();
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v256 mm256_constdiv_epu32(v256 vector, v256 divisor)
 		{
 			if (Avx2.IsAvx2Supported)

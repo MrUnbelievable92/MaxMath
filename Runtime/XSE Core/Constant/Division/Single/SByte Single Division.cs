@@ -2072,6 +2072,7 @@ namespace MaxMath.Intrinsics
 			else throw new IllegalInstructionException();
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v256 mm256_constdiv_epi8(v256 vector, sbyte divisor)
 		{
 			if (Avx2.IsAvx2Supported)
