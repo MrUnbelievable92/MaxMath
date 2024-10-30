@@ -278,7 +278,7 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint touint(bool a)
         {
-            return (uint)toint(a);
+            return tobyte(a);
         }
 
         /// <summary>       Converts each value in a <see cref="bool2"/> to its integer representation as a <see cref="uint2"/>. The corresponding value is expected to be either 0 or 1.     </summary>
@@ -562,7 +562,7 @@ VectorAssert.IsNotGreater<byte2, byte>(x, 1, 2);
             return *(bool2*)&x;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(byte3 x)
         {
@@ -571,7 +571,7 @@ VectorAssert.IsNotGreater<byte3, byte>(x, 1, 3);
             return *(bool3*)&x;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(byte4 x)
         {
@@ -580,7 +580,7 @@ VectorAssert.IsNotGreater<byte4, byte>(x, 1, 4);
             return *(bool4*)&x;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(byte8 x)
         {
@@ -596,7 +596,7 @@ VectorAssert.IsNotGreater<byte8, byte>(x, 1, 8);
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 tobool(byte16 x)
         {
@@ -612,7 +612,7 @@ VectorAssert.IsNotGreater<byte16, byte>(x, 1, 16);
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.byte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The corresponding value is expected to be either 0 or 1.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 tobool(byte32 x)
         {
@@ -640,42 +640,42 @@ VectorAssert.IsNotGreater<byte32, byte>(x, 1, 32);
             return tobool((byte)a);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(sbyte2 x)
         {
             return tobool((byte2)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(sbyte3 x)
         {
             return tobool((byte3)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(sbyte4 x)
         {
             return tobool((byte4)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(sbyte8 x)
         {
             return tobool((byte8)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 tobool(sbyte16 x)
         {
             return tobool((byte16)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 tobool(sbyte32 x)
         {
@@ -690,35 +690,35 @@ VectorAssert.IsNotGreater<byte32, byte>(x, 1, 32);
             return tobool((ushort)a);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(short2 x)
         {
             return tobool((ushort2)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(short3 x)
         {
             return tobool((ushort3)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(short4 x)
         {
             return tobool((ushort4)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(short8 x)
         {
             return tobool((ushort8)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.short16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 tobool(short16 x)
         {
@@ -734,7 +734,8 @@ Assert.IsBetween((byte)a, 0, 1);
 
             return *(bool*)&a;
         }
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(ushort2 x)
         {
@@ -750,7 +751,7 @@ VectorAssert.IsNotGreater<ushort2, ushort>(x, 1, 2);
             return tobool((byte2)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(ushort3 x)
         {
@@ -764,7 +765,7 @@ VectorAssert.IsNotGreater<ushort3, ushort>(x, 1, 3);
             return tobool((byte3)x);
         }
 
-        /// <summary>       Converts each value in a ushor4 vector to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a ushor4 vector to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(ushort4 x)
         {
@@ -778,7 +779,7 @@ VectorAssert.IsNotGreater<ushort4, ushort>(x, 1, 4);
             return tobool((byte4)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(ushort8 x)
         {
@@ -792,7 +793,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(x, 1, 8);
             return tobool((byte8)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ushort16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 tobool(ushort16 x)
         {
@@ -814,28 +815,28 @@ VectorAssert.IsNotGreater<ushort16, ushort>(x, 1, 16);
             return tobool((uint)a);
         }
 
-        /// <summary>       Converts each value in an <see cref="int2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="int2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(int2 x)
         {
             return tobool((uint2)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="int3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="int3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(int3 x)
         {
             return tobool((uint3)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="int4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="int4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(int4 x)
         {
             return tobool((uint4)x);
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(int8 x)
         {
@@ -852,7 +853,7 @@ Assert.IsBetween((byte)a, 0, 1);
             return *(bool*)&a;
         }
 
-        /// <summary>       Converts each value in a <see cref="uint2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="uint2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(uint2 x)
         {
@@ -874,7 +875,7 @@ VectorAssert.IsNotGreater<uint2, uint>(x, 1, 2);
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="uint3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="uint3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(uint3 x)
         {
@@ -897,7 +898,7 @@ VectorAssert.IsNotGreater<uint3, uint>(x, 1, 3);
         }
 
 
-        /// <summary>       Converts each value in a <see cref="uint4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="uint4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(uint4 x)
         {
@@ -919,7 +920,7 @@ VectorAssert.IsNotGreater<uint4, uint>(x, 1, 4);
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(uint8 x)
         {
@@ -938,21 +939,21 @@ Assert.IsBetween((sbyte)a, 0, 1);
             return *(bool*)&a;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(long2 x)
         {
             return tobool((byte2)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(long3 x)
         {
             return tobool((byte3)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(long4 x)
         {
@@ -969,21 +970,21 @@ Assert.IsBetween((byte)a, 0, 1);
             return *(bool*)&a;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(ulong2 x)
         {
             return tobool((byte2)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(ulong3 x)
         {
             return tobool((byte3)x);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(ulong4 x)
         {
@@ -1000,7 +1001,7 @@ Assert.IsTrue(a.value == ((quarter)1f).value || a.value == 0 || a.value == 1 << 
             return a.value == ((quarter)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(quarter2 x)
         {
@@ -1010,7 +1011,7 @@ Assert.IsTrue(x.y == (quarter)0f || x.y == (quarter)1f);
             return asbyte(x) == ((quarter)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(quarter3 x)
         {
@@ -1021,7 +1022,7 @@ Assert.IsTrue(x.z == (quarter)0f || x.z == (quarter)1f);
             return asbyte(x) == ((quarter)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(quarter4 x)
         {
@@ -1033,7 +1034,7 @@ Assert.IsTrue(x.w == (quarter)0f || x.w == (quarter)1f);
             return asbyte(x) == ((quarter)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(quarter8 x)
         {
@@ -1059,7 +1060,7 @@ Assert.IsTrue(a.value == ((half)1f).value || a.value == 0 || a.value == 1 << 15)
             return a.value == ((half)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="half2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="half2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(half2 x)
         {
@@ -1069,7 +1070,7 @@ Assert.IsTrue(x.y == 0f || x.y == (half)1f);
             return asushort(x) == ((half)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="half3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="half3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(half3 x)
         {
@@ -1080,7 +1081,7 @@ Assert.IsTrue(x.z == 0f || x.z == (half)1f);
             return asushort(x) == ((half)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="half4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="half4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(half4 x)
         {
@@ -1092,7 +1093,7 @@ Assert.IsTrue(x.w == 0f || x.w == (half)1f);
             return asushort(x) == ((half)1f).value;
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(half8 x)
         {
@@ -1118,7 +1119,7 @@ Assert.IsTrue(a == 1f || a == 0f);
             return math.asint(a) == math.asint(1f);
         }
 
-        /// <summary> Converts each value in a <see cref="float2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary> Converts each value in a <see cref="float2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(float2 x)
         {
@@ -1128,7 +1129,7 @@ Assert.IsTrue(x.y == 0f || x.y == 1f);
             return math.asint(x) == math.asint(1f);
         }
 
-        /// <summary>       Converts each value in a <see cref="float3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="float3"/> to its boolean representation as a <see cref="bool3"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(float3 x)
         {
@@ -1139,7 +1140,7 @@ Assert.IsTrue(x.z == 0f || x.z == 1f);
             return math.asint(x) == math.asint(1f);
         }
 
-        /// <summary>       Converts each value in a <see cref="float4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="float4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(float4 x)
         {
@@ -1151,7 +1152,7 @@ Assert.IsTrue(x.w == 0f || x.w == 1f);
             return math.asint(x) == math.asint(1f);
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 tobool(float8 x)
         {
@@ -1177,7 +1178,7 @@ Assert.IsTrue(a == 1d || a == 0d);
             return math.aslong(a) == math.aslong(1d);
         }
 
-        /// <summary>       Converts each value in a <see cref="double2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="double2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(double2 x)
         {
@@ -1187,7 +1188,7 @@ Assert.IsTrue(x.y == 0d || x.y == 1d);
             return aslong(x) == math.aslong(1d);
         }
 
-        /// <summary>       Converts each value in a <see cref="double3"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="double3"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 tobool(double3 x)
         {
@@ -1198,7 +1199,7 @@ Assert.IsTrue(x.z == 0d || x.z == 1d);
             return aslong(x) == math.aslong(1d);
         }
 
-        /// <summary>       Converts each value in a <see cref="double4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.
+        /// <summary>       Converts each value in a <see cref="double4"/> to its boolean representation as a <see cref="bool4"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 tobool(double4 x)
         {

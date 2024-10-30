@@ -99,7 +99,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the result of a multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte"/>s.    </summary>
-        [return: AssumeRange((long)sbyte.MinValue * sbyte.MaxValue - sbyte.MinValue, (long)sbyte.MinValue * sbyte.MinValue - sbyte.MaxValue)]
+        [return: AssumeRange((long)sbyte.MinValue * (long)sbyte.MaxValue - (long)sbyte.MinValue, (long)sbyte.MinValue * (long)sbyte.MinValue - (long)sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int msub(sbyte a, sbyte b, sbyte c)
         {

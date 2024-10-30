@@ -17,7 +17,14 @@ namespace MaxMath
         {
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
 
-            return (uint)math.countbits((uint)(*(ushort*)&x));
+            if (Architecture.IsSIMDSupported)
+            {
+                return (uint)math.countbits((uint)RegisterConversion.ToV128(x).UShort0);
+            }
+            else
+            {
+                return (uint)math.countbits((uint)(*(ushort*)&x));
+            }
         }
 
         /// <summary>       Returns the number of <see langword="true"/> values in a <see cref="bool3"/>.       </summary>
@@ -40,7 +47,14 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
         {
 VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
 
-            return (uint)math.countbits(*(int*)&x);
+            if (Architecture.IsSIMDSupported)
+            {
+                return (uint)math.countbits(RegisterConversion.ToV128(x).UInt0);
+            }
+            else
+            {
+                return (uint)math.countbits(*(uint*)&x);
+            }
         }
 
         /// <summary>       Returns the number of <see langword="true"/> values in a <see cref="MaxMath.bool8"/>.       </summary>
@@ -56,7 +70,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return (uint)math.countbits(*(long*)&x);
+                return (uint)math.countbits(*(ulong*)&x);
             }
         }
 

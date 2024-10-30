@@ -2,8 +2,6 @@ using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
-using static Unity.Burst.Intrinsics.X86;
-
 namespace MaxMath
 {
     unsafe public static partial class maxmath
@@ -194,7 +192,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
+                return RegisterConversion.ToInt2(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
             else
             {
@@ -208,7 +206,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
+                return RegisterConversion.ToInt3(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
             else
             {
@@ -222,7 +220,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
+                return RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
             else
             {
@@ -246,63 +244,67 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 div(long3 dividend, long3 divisor) => dividend / divisor;
+        
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 div(long4 dividend, long4 divisor) => dividend / divisor;
 
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint mod(byte dividend, byte divisor) => (uint)dividend % (uint)divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 mod(byte2 dividend, byte2 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 mod(byte3 dividend, byte3 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 mod(byte4 dividend, byte4 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 mod(byte8 dividend, byte8 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 mod(byte16 dividend, byte16 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 mod(byte32 dividend, byte32 divisor) => dividend % divisor;
 
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint mod(ushort dividend, ushort divisor) => (uint)dividend % (uint)divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 mod(ushort2 dividend, ushort2 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 mod(ushort3 dividend, ushort3 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 mod(ushort4 dividend, ushort4 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 mod(ushort8 dividend, ushort8 divisor) => dividend % divisor;
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 mod(ushort16 dividend, ushort16 divisor) => dividend % divisor;
 
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint mod(uint dividend, uint divisor) => dividend % divisor;
 
@@ -348,7 +350,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 mod(uint8 dividend, uint8 divisor) => dividend % divisor;
 
@@ -430,7 +432,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
+                return RegisterConversion.ToInt2(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
             else
             {
@@ -444,7 +446,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
+                return RegisterConversion.ToInt3(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
             else
             {
@@ -458,7 +460,7 @@ namespace MaxMath
         {
             if (Architecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
+                return RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
             else
             {
@@ -466,7 +468,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      <%summary>
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 mod(int8 dividend, int8 divisor) => dividend % divisor;
 
@@ -482,5 +484,9 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 mod(long3 dividend, long3 divisor) => dividend % divisor;
+        
+        /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 mod(long4 dividend, long4 divisor) => dividend % divisor;
     }
 }
