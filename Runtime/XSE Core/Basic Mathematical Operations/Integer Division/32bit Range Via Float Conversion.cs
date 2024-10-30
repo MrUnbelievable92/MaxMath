@@ -330,10 +330,10 @@ VectorAssert.AreNotEqual<int8, int>(b, 0, 8);
                     return DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(Avx.mm256_cvtepi32_ps(a), Avx.mm256_cvtepi32_ps(b));
                 }
 
-                v256 a64Lo = mm256_cvt2x2epi32_pd(a, out v256 a64Hi);
-                v256 b64Lo = mm256_cvt2x2epi32_pd(b, out v256 b64Hi);
-                
-                return Avx.mm256_set_m128i(Avx.mm256_cvttpd_epi32(Avx.mm256_div_pd(a64Hi, b64Hi)), Avx.mm256_cvttpd_epi32(Avx.mm256_div_pd(a64Lo, b64Lo)));
+                v256 a64Lo = mm256_cvt2x2epi32_epi64(a, out v256 a64Hi);
+                v256 b64Lo = mm256_cvt2x2epi32_epi64(b, out v256 b64Hi);
+
+                return mm256_cvtt2x2pd_epi32(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a64Lo), mm256_usfcvtepi64_pd(b64Lo)), Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a64Hi), mm256_usfcvtepi64_pd(b64Hi)));
             }
             else throw new IllegalInstructionException();
         }
