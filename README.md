@@ -169,3 +169,9 @@ For these reasons I usually don't distribute DLLs.
 
 - Locate the library's "package.json" file
 - DONE! 
+
+# Donations
+
+If this repository has been valuable to your projects and you'd like to support my work, consider making a donation.
+
+[![donate](https://github.com/MrUnbelievable92/MaxMath/blob/master/donate_bitcoin.png)](https://raw.githubusercontent.com/MrUnbelievable92/MaxMath/master/bitcoin_address.txt)
