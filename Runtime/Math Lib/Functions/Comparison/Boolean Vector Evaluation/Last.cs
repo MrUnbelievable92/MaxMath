@@ -17,7 +17,14 @@ namespace MaxMath
         {
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
 
-            return 3 - (int)((uint)math.lzcnt((uint)*(ushort*)&x) / 8);
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return 3 - (int)((uint)math.lzcnt((uint)RegisterConversion.ToV128(x).UShort0) / 8);
+            }
+            else
+            {
+                return 3 - (int)((uint)math.lzcnt((uint)*(ushort*)&x) / 8);
+            }
         }
 
         /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="bool3"/> or -1 if none are <see langword="true"/>.      </summary>
@@ -40,7 +47,14 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
         {
 VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
 
-            return 3 - (int)((uint)math.lzcnt(*(int*)&x) / 8);
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return 3 - (int)((uint)math.lzcnt(RegisterConversion.ToV128(x).UInt0) / 8);
+            }
+            else
+            {
+                return 3 - (int)((uint)math.lzcnt(*(uint*)&x) / 8);
+            }
         }
 
         /// <summary>       Returns the index of the last <see langword="true"/> of a <see cref="MaxMath.bool8"/> or -1 if none are <see langword="true"/>.      </summary>
@@ -52,11 +66,11 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return 7 - (int)((uint)math.lzcnt(((v128)x).SLong0) / 8);
+                return 7 - (int)((uint)math.lzcnt(((v128)x).ULong0) / 8);
             }
             else
             {
-                return 7 - (int)((uint)math.lzcnt(*(long*)&x) / 8);
+                return 7 - (int)((uint)math.lzcnt(*(ulong*)&x) / 8);
             }
         }
 
