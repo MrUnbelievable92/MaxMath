@@ -1,5 +1,5 @@
 {
-  "name": "maxmath",
+  "name": "com.mrunbelievable.maxmath",
   "displayName": "MaxMath",
   "version": "2.9.9",
   "unity": "2021.3",
@@ -8,7 +8,7 @@
     "Unity"
   ],
    "dependencies": {
-    "csharpdevtools": "1.0.10": "https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools.git",
+    "com.mrunbelievable.csharpdevtools": "1.0.10": "https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools.git",
     "com.unity.burst": "1.8.26",
     "com.unity.mathematics": "1.3.1"
   },
