@@ -16,8 +16,8 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: Guid("d3cc711d-084c-435c-8c84-7d624992dc10")]
 
-[assembly: AssemblyVersion("2.9.9")]
-[assembly: AssemblyFileVersion("2.9.9")]
+[assembly: AssemblyVersion("2.9.99")]
+[assembly: AssemblyFileVersion("2.9.99")]
 [assembly: AssemblyInformationalVersion("2.9.9 Release")]
 
 // Style
