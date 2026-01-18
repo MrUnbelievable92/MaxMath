@@ -1,7 +1,7 @@
-#MaxMath
+# MaxMath
 MaxMath is the most powerful and extensive SIMD math library available to Unity developers. Built on top of Unity.Mathematics and utilizing Unity.Burst, it introduces the following key features:
 
-- **Support For All Primitive Data Types:** MaxMath adds support for `(s)byte`, `(u)short`, and `(u)long` vectors and matrices. These data types come with specialized overloads for all functions in Unity.Mathematics. Additionally, specialized `Random8/16/32/64/128` types are available for efficient pseudo-random number generation.
+- **Support For All Primitive Data Types:** MaxMath adds support for `(s)byte`, `(u)short`, and `(u)long` vectors and matrices. These data types come with optimized overloads for all functions in Unity.Mathematics. Additionally, specialized `Random8/16/32/64/128` types are available for efficient pseudo-random number generation.
 - **Wider Vectors With Full Hardware Support:** Vector types are expanded to 256 bits, enabling types like `byte32`, `short16`, `int8`, and `float8`. This allows you to leverage the full potential of SIMD computation.
 - **Many Additional Functions:** MaxMath includes a massive library of mathematical functions not found in Unity.Mathematics, with about five times as many highly optimized functions at your disposal. Each function is fully documented with XML annotations. A full list is provided further below.
 - **Exotic Data Types:** MaxMath introduces data types such as `(U)Int128` (scalar only), 128-bit `quadruple` precision floats (scalar only), and 8-bit `quarter` precision floats (in both scalar and vector forms). Additionally, `Divider<T>` offers highly optimized integer division operations, extending and outperforming specialized libraries like libdivide.
@@ -169,3 +169,10 @@ For these reasons I usually don't distribute DLLs.
 
 - Locate the library's "package.json" file
 - DONE! 
+
+# Donations
+
+If this repository has been valuable to your projects and you'd like to support my work, consider making a donation.
+
+[![donateBTC](https://github.com/MrUnbelievable92/MaxMath/blob/master/donate_bitcoin.png)](https://raw.githubusercontent.com/MrUnbelievable92/MaxMath/master/bitcoin_address.txt)
+[![donatePP](https://github.com/MrUnbelievable92/MaxMath/blob/master/donate_paypal.png)](https://www.paypal.com/donate/?hosted_button_id=MARSK3E7WZP9C)
