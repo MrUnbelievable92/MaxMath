@@ -10,10 +10,10 @@ namespace MaxMath.Tests
             Name = name;
             Signature = signature;
         }
-        
+
         internal string Name;
         internal FunctionSignature Signature;
-        
+
         public static implicit operator Function(MethodInfo m)
         {
             string name = m.Name;

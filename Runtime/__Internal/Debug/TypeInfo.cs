@@ -58,7 +58,7 @@ namespace MaxMath
                     }
                     default:
                     {
-                        return 'x' + element.ToString(); 
+                        return 'x' + element.ToString();
                     }
                 }
             }
@@ -103,7 +103,7 @@ namespace MaxMath
             }
 
             string type = string.Empty;
-            
+
             if (_dataType == NumericDataType.Boolean)
             {
                 type = "bool";
@@ -149,26 +149,27 @@ namespace MaxMath
         }
 
 
-        public static TypeInfo[] AllScalarTypes => new TypeInfo[]
+        unsafe public static TypeInfo[] AllScalarTypes => new TypeInfo[]
         {
-            new TypeInfo(sizeof(bool),          1, columnCount: 1, Signedness.Unsigned, NumericDataType.Boolean),
+            new TypeInfo(sizeof(bool),              1, columnCount: 1, Signedness.Unsigned, NumericDataType.Boolean),
 
-            new TypeInfo(sizeof(byte),          1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
-            new TypeInfo(sizeof(ushort),        1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
-            new TypeInfo(sizeof(uint),          1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
-            new TypeInfo(sizeof(ulong),         1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
-            new TypeInfo((byte)sizeof(UInt128), 1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
+            new TypeInfo(sizeof(byte),              1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
+            new TypeInfo(sizeof(ushort),            1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
+            new TypeInfo(sizeof(uint),              1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
+            new TypeInfo(sizeof(ulong),             1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
+            new TypeInfo((byte)sizeof(UInt128),     1, columnCount: 1, Signedness.Unsigned, NumericDataType.Integer),
 
-            new TypeInfo(sizeof(sbyte),         1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
-            new TypeInfo(sizeof(short),         1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
-            new TypeInfo(sizeof(int),           1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
-            new TypeInfo(sizeof(long),          1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
-            new TypeInfo((byte)sizeof(Int128),  1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
+            new TypeInfo(sizeof(sbyte),             1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
+            new TypeInfo(sizeof(short),             1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
+            new TypeInfo(sizeof(int),               1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
+            new TypeInfo(sizeof(long),              1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
+            new TypeInfo((byte)sizeof(Int128),      1, columnCount: 1, Signedness.Signed, NumericDataType.Integer),
 
-            new TypeInfo((byte)sizeof(quarter), 1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
-            new TypeInfo((byte)sizeof(half),    1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
-            new TypeInfo(sizeof(float),         1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
-            new TypeInfo(sizeof(double),        1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint)
+            new TypeInfo((byte)sizeof(quarter),     1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
+            new TypeInfo((byte)sizeof(half),        1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
+            new TypeInfo(sizeof(float),             1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
+            new TypeInfo(sizeof(double),            1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
+            new TypeInfo((byte)sizeof(quadruple),   1, columnCount: 1, Signedness.Signed, NumericDataType.FloatingPoint),
         };
 
         public static TypeInfo[] AllVectorTypes
@@ -182,14 +183,14 @@ namespace MaxMath
                 foreach (TypeInfo type in AllScalarTypes)
                 {
                     if (type._elementSize > 8) continue;
-                    
+
                     int i = 2;
                     while (i <= 4)
                     {
                         types.Add(new TypeInfo(type._elementSize, (byte)i, columnCount: 1, type._sign, type._dataType));
                         i++;
                     }
-                    
+
                     i = 8;
                     while (i * type._elementSize <= MAX_VECTOR_LENGTH_BYTES)
                     {
@@ -216,12 +217,12 @@ namespace MaxMath
                 foreach (TypeInfo type in AllVectorTypes)
                 {
                     if (type._dataType == NumericDataType.FloatingPoint
-                     && (type._elementSize == sizeof(quarter) 
+                     && (type._elementSize == sizeof(quarter)
                       || type._elementSize == sizeof(half)))
                     {
                         continue;
                     }
-                    
+
                     if (type._elementSize > 8) continue;
                     if (type._elementCount > 4) continue;
 

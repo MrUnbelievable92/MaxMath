@@ -3,9 +3,11 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using MaxMath.Intrinsics;
 
 using static Unity.Mathematics.math;
+using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.maxmath;
 using static MaxMath.LUT.FLOATING_POINT;
 
@@ -15,12 +17,6 @@ namespace MaxMath
     [Serializable]
     unsafe public readonly partial struct quarter : IEquatable<quarter>, IComparable<quarter>, IComparable, IFormattable, IConvertible
     {
-        internal quarter(byte value)
-        {
-            this.value = value;
-        }
-
-
         // Change the number of exponent bits ("->3<- + (SIGN_BIT ? 0 : 1)")
         // And everything will fall into place correctly
         // is what I'd LIKE to say; q -> f works, f -> q does not
@@ -39,11 +35,13 @@ namespace MaxMath
 
         internal const int F32_SHL_LOSE_SIGN       = F32_BITS - (MANTISSA_BITS + EXPONENT_BITS);
         internal const int F32_SHR_PLACE_MANTISSA  = MANTISSA_BITS + ((1 + F32_EXPONENT_BITS) - (MANTISSA_BITS + EXPONENT_BITS));
-        internal const int F32_MAGIC               = (((1 << F32_EXPONENT_BITS) - 1) - (1 + EXPONENT_BITS)) << F32_MANTISSA_BITS;
+        internal const int F32_MAGIC               = (((1 << F32_EXPONENT_BITS) - 1) - (1 + -EXPONENT_BIAS)) << F32_MANTISSA_BITS;
+        internal const uint DEPOSIT_MASK_32 = (1u << (F32_BITS - 1)) | (((1u << (BITS - 1)) - 1) << (F32_BITS - BITS - (F32_EXPONENT_BITS - EXPONENT_BITS)));
 
         internal const int  F64_SHL_LOSE_SIGN      = F64_BITS - (MANTISSA_BITS + EXPONENT_BITS);
         internal const int  F64_SHR_PLACE_MANTISSA = MANTISSA_BITS + ((1 + F64_EXPONENT_BITS) - (MANTISSA_BITS + EXPONENT_BITS));
-        internal const long F64_MAGIC              = (((1L << F64_EXPONENT_BITS) - 1) - (1 + EXPONENT_BITS)) << F64_MANTISSA_BITS;
+        internal const long F64_MAGIC              = (((1L << F64_EXPONENT_BITS) - 1) - (1 + -EXPONENT_BIAS)) << F64_MANTISSA_BITS;
+        internal const ulong DEPOSIT_MASK_64       = (1ul << (F64_BITS - 1)) | (((1ul << (BITS - 1)) - 1) << (F64_BITS - BITS - (F64_EXPONENT_BITS - EXPONENT_BITS)));
 
 
         public readonly byte value;
@@ -51,41 +49,48 @@ namespace MaxMath
 
         #region CONSTANTS
         /// <summary>       0.015625 as a <see cref="float"/>.      </summary>
-        public static quarter Epsilon => new quarter(1);
+        public static quarter Epsilon => asquarter((byte)1);
 
         /// <summary>       15.5 as a <see cref="float"/>.      </summary>
-        public static quarter MaxValue => new quarter(SIGNALING_EXPONENT - 1);
+        public static quarter MaxValue => asquarter((byte)(SIGNALING_EXPONENT - 1));
 
         /// <summary>       -15.5 as a <see cref="float"/>.      </summary>
         public static quarter MinValue => -MaxValue;
-        public static quarter Zero => new quarter(0);
-        public static quarter NaN => new quarter(SIGNALING_EXPONENT | 1);
-        public static quarter PositiveInfinity => new quarter(SIGNALING_EXPONENT);
+        public static quarter Zero => asquarter((byte)0);
+        public static quarter NaN => asquarter((byte)(SIGNALING_EXPONENT | 1));
+        public static quarter PositiveInfinity => asquarter((byte)SIGNALING_EXPONENT);
         public static quarter NegativeInfinity => -PositiveInfinity;
         #endregion
 
         #region TYPE_CONVERSION
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator quarter(half h)
+        internal static quarter FromHalf(half h, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
+            FloatingPointPromise<half> promise = new FloatingPointPromise<half>(h);
+            promiseInRange |= promise.NotInf && promise.NotNaN && (promise.MinPossible >= MinValue && promise.MaxPossible <= MaxValue);
+            promiseAbs |= promise.ZeroOrGreater;
+            
             const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + EXPONENT_BIAS;
 
-            int sign = (h.value >> 15) << (BITS - 1);
-            uint exp = (uint)h.value & F16_SIGNALING_EXPONENT;
-            uint frac = (uint)h.value & bitmask32((uint)F16_MANTISSA_BITS);
+            int sign = promiseAbs ? 0 : (asushort(h) >> (F16_BITS - 1)) << (BITS - 1);
+            uint exp = (uint)asushort(h) & F16_SIGNALING_EXPONENT;
+            uint frac = (uint)asushort(h) & bitmask32((uint)F16_MANTISSA_BITS);
             
-            bool denormalF8 = exp <= EXPONENT_OFFSET << F16_MANTISSA_BITS;
-            bool overflow = abs(h).value >= ((bitmask32(MANTISSA_BITS + 1) << (F16_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F16_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32(F16_EXPONENT_BITS)) << F16_MANTISSA_BITS));
-            bool noUnderflow = exp >= (MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F16_EXPONENT_BIAS) << F16_MANTISSA_BITS;
+            bool denormalF8 = !promiseNotSubnormal && exp <= (uint)EXPONENT_OFFSET << F16_MANTISSA_BITS;
+            bool overflow = !promiseInRange && asushort(abs(h)) >= ((bitmask32((uint)MANTISSA_BITS + 1) << (F16_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F16_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32((uint)F16_EXPONENT_BITS)) << F16_MANTISSA_BITS));
+            bool noUnderflow = exp >= (EXPONENT_OFFSET - MANTISSA_BITS) << F16_MANTISSA_BITS;
 
             exp -= EXPONENT_OFFSET << F16_MANTISSA_BITS;
             byte frac8;
             if (Hint.Unlikely(denormalF8))
             {
-                int bitIndex = MANTISSA_BITS - 1 - abs((int)exp >> F16_MANTISSA_BITS);
+                int bitIndex = MANTISSA_BITS - 1 - (int)abs((int)exp >> F16_MANTISSA_BITS);
                 frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
-                frac8 |= (byte)((frac & (uint)-tobyte(noUnderflow)) >> (F16_MANTISSA_BITS - bitIndex));
+                frac8 |= (byte)((frac & (uint)-(int)tobyte(noUnderflow)) >> (F16_MANTISSA_BITS - bitIndex));
                 
+                uint round = ((uint)bitIndex >> 31) | tobyte((asushort(h) & (1 << (F16_MANTISSA_BITS - 1 - bitIndex))) != 0);
+                frac8 += (byte)(round & (uint)-(int)tobyte(noUnderflow));
+
                 return asquarter((byte)(sign | frac8));
             }
             else
@@ -97,11 +102,104 @@ namespace MaxMath
                 else
                 {
                     frac8 = (byte)(frac >> (F16_MANTISSA_BITS - MANTISSA_BITS));
+                    frac8 |= (byte)(exp >> (F16_MANTISSA_BITS - MANTISSA_BITS));
 
-                    byte round = tobyte((frac & bitmask32((uint)(F16_MANTISSA_BITS - MANTISSA_BITS))) != 0);
-                    frac8 += round;
+                    byte round = tobyte((asushort(h) & bitmask32((uint)(F16_MANTISSA_BITS - MANTISSA_BITS))) > (1 << (F16_MANTISSA_BITS - MANTISSA_BITS - 1)));
+                    frac8 += (byte)(sign | round);
+
+                    return asquarter(frac8);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter(half h)
+        {
+            return FromHalf(h);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter FromFloat(float f, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
+        {
+            FloatingPointPromise<float> promise = new FloatingPointPromise<float>(f);
+            promiseInRange |= promise.NotInf && promise.NotNaN && (promise.MinPossible >= MinValue && promise.MaxPossible <= MaxValue);
+            promiseAbs |= promise.ZeroOrGreater;
             
-                    return asquarter((byte)(sign | (byte)(exp >> (F16_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
+            const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + EXPONENT_BIAS;
+
+            uint exp = asuint(f) & F32_SIGNALING_EXPONENT;
+            bool noUnderflow = exp >= (EXPONENT_OFFSET - MANTISSA_BITS) << F32_MANTISSA_BITS;
+            bool denormalF8 = !promiseNotSubnormal && exp <= (uint)EXPONENT_OFFSET << F32_MANTISSA_BITS;
+
+            if (promiseInRange && promiseNotSubnormal)
+            {
+                float inRange = f * (1f / asfloat(F32_MAGIC));
+            
+                uint result;
+                if (promiseAbs)
+                {
+                    uint q = asuint(inRange) >> (F32_MANTISSA_BITS - MANTISSA_BITS);
+            
+                    result = q;
+                }
+                else
+                {
+                    if (Bmi2.IsBmi2Supported)
+                    {
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            result = bits_extractparallel(asuint(inRange), DEPOSIT_MASK_32);
+                            goto ROUND;
+                        }
+                    }
+
+                    uint q = asuint(inRange) >> (F32_MANTISSA_BITS - MANTISSA_BITS);
+                    uint f8_sign = asuint(f) >> (F32_BITS - 1);
+            
+                    f8_sign <<= (BITS - 1);
+            
+                    result = q ^ f8_sign;
+                }
+                
+            ROUND:
+                byte round = tobyte((asuint(f) & bitmask32((uint)(F32_MANTISSA_BITS - MANTISSA_BITS))) > (1 << (F32_MANTISSA_BITS - MANTISSA_BITS - 1)));
+                result += round;
+                return asquarter((byte)result);
+            }
+
+            int sign = promiseAbs ? 0 : (asint(f) >> (F32_BITS - 1)) << (BITS - 1);
+            uint frac = asuint(f) & bitmask32((uint)F32_MANTISSA_BITS);
+
+            bool overflow = !promiseInRange && asuint(abs(f)) >= ((bitmask32((uint)MANTISSA_BITS + 1) << (F32_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F32_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32((uint)F32_EXPONENT_BITS)) << F32_MANTISSA_BITS));
+
+            exp -= EXPONENT_OFFSET << F32_MANTISSA_BITS;
+            byte frac8;
+            if (Hint.Unlikely(denormalF8))
+            {
+                int bitIndex = MANTISSA_BITS - 1 - (int)abs((int)exp >> F32_MANTISSA_BITS);
+                frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
+                frac8 |= (byte)((frac & (uint)-(int)tobyte(noUnderflow)) >> (F32_MANTISSA_BITS - bitIndex));
+                
+                uint round = ((uint)bitIndex >> 31) | tobyte((asuint(f) & (1 << (F32_MANTISSA_BITS - 1 - bitIndex))) != 0);
+                frac8 += (byte)(round & (uint)-(int)tobyte(noUnderflow));
+
+                return asquarter((byte)(sign | frac8));
+            }
+            else
+            {
+                if (overflow)
+                {
+                    return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(f))));
+                }
+                else
+                {
+                    frac8 = (byte)(frac >> (F32_MANTISSA_BITS - MANTISSA_BITS));
+                    frac8 |= (byte)(exp >> (F32_MANTISSA_BITS - MANTISSA_BITS));
+
+                    byte round = tobyte((asuint(f) & bitmask32((uint)(F32_MANTISSA_BITS - MANTISSA_BITS))) > (1 << (F32_MANTISSA_BITS - MANTISSA_BITS - 1)));
+                    frac8 += (byte)(sign | round);
+
+                    return asquarter(frac8);
                 }
             }
         }
@@ -109,47 +207,91 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(float f)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                return new quarter(Xse.cvtps_pq(RegisterConversion.ToV128(f)).Byte0);
-            }
-            else
-            {
-                const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + EXPONENT_BIAS;
+            return FromFloat(f);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quarter FromDouble(double d, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
+        {
+            FloatingPointPromise<double> promise = new FloatingPointPromise<double>(d);
+            promiseInRange |= promise.NotInf && promise.NotNaN && (promise.MinPossible >= MinValue && promise.MaxPossible <= MaxValue);
+            promiseAbs |= promise.ZeroOrGreater;
 
-                int sign = (asint(f) >> 31) << (BITS - 1);
-                uint exp = asuint(f) & F32_SIGNALING_EXPONENT;
-                uint frac = asuint(f) & bitmask32((uint)F32_MANTISSA_BITS);
-                
-                bool denormalF8 = exp <= (uint)EXPONENT_OFFSET << F32_MANTISSA_BITS;
-                bool overflow = asuint(abs(f)) >= ((bitmask32((uint)MANTISSA_BITS + 1) << (F32_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F32_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask32((uint)F32_EXPONENT_BITS)) << F32_MANTISSA_BITS));
-                bool noUnderflow = exp >= (uint)(MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F32_EXPONENT_BIAS) << F32_MANTISSA_BITS;
+            const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + EXPONENT_BIAS;
+            
+            ulong exp = asulong(d) & F64_SIGNALING_EXPONENT;
+            bool noUnderflow = exp >= (ulong)(EXPONENT_OFFSET - MANTISSA_BITS) << F64_MANTISSA_BITS;
+            
+            if (promiseInRange && promiseNotSubnormal)
+            {
+                double inRange = d * (1d / asdouble(F64_MAGIC));
 
-                exp -= EXPONENT_OFFSET << F32_MANTISSA_BITS;
-                byte frac8;
-                if (Hint.Unlikely(denormalF8))
+                ulong result;
+                if (promiseAbs)
                 {
-                    int bitIndex = MANTISSA_BITS - 1 - abs((int)exp >> F32_MANTISSA_BITS);
-                    frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
-                    frac8 |= (byte)((frac & (uint)-tobyte(noUnderflow)) >> (F32_MANTISSA_BITS - bitIndex));
-                    
-                    return asquarter((byte)(sign | frac8));
+                    ulong q = asulong(inRange) >> (F64_MANTISSA_BITS - MANTISSA_BITS);
+            
+                    result = q;
                 }
                 else
                 {
-                    if (overflow)
+                    if (Bmi2.IsBmi2Supported)
                     {
-                        return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(f))));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            result = bits_extractparallel(asulong(inRange), DEPOSIT_MASK_64);
+                            goto ROUND;
+                        }
                     }
-                    else
-                    {
-                        frac8 = (byte)(frac >> (F32_MANTISSA_BITS - MANTISSA_BITS));
 
-                        byte round = tobyte((frac & bitmask32((uint)(F32_MANTISSA_BITS - MANTISSA_BITS))) != 0);
-                        frac8 += round;
+                    ulong q = asulong(inRange) >> (F64_MANTISSA_BITS - MANTISSA_BITS);
+                    ulong f8_sign = asulong(d) >> (F64_BITS - 1);
+                    
+                    f8_sign <<= (BITS - 1);
+                    
+                    result = q ^ f8_sign;
+                }
                 
-                        return asquarter((byte)(sign | (byte)(exp >> (F32_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
-                    }
+            ROUND:
+                byte round = tobyte((asulong(d) & bitmask64((ulong)(F64_MANTISSA_BITS - MANTISSA_BITS))) > (1ul << (F64_MANTISSA_BITS - MANTISSA_BITS - 1)));
+                result += round;
+                return asquarter((byte)result);
+            }
+
+            long sign = promiseAbs ? 0 : (aslong(d) >> (F64_BITS - 1)) << (BITS - 1);
+            ulong frac = asulong(d) & bitmask64((ulong)F64_MANTISSA_BITS);
+            
+            bool denormalF8 = !promiseNotSubnormal && exp <= (ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS;
+            bool overflow = !promiseInRange && asulong(abs(d)) >= ((bitmask64((ulong)MANTISSA_BITS + 1) << (F64_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F64_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask64((ulong)F64_EXPONENT_BITS)) << F64_MANTISSA_BITS));
+            
+            exp -= EXPONENT_OFFSET << F64_MANTISSA_BITS;
+            byte frac8;
+            if (Hint.Unlikely(denormalF8))
+            {
+                int bitIndex = MANTISSA_BITS - 1 - (int)abs((long)exp >> F64_MANTISSA_BITS);
+                frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
+                frac8 |= (byte)((frac & (ulong)-(long)tobyte(noUnderflow)) >> (F64_MANTISSA_BITS - bitIndex));
+                
+                ulong round = ((ulong)bitIndex >> 63) | tobyte((asulong(d) & (1ul << (F64_MANTISSA_BITS - 1 - bitIndex))) != 0);
+                frac8 += (byte)(round & (ulong)-(long)tobyte(noUnderflow));
+
+                return asquarter((byte)(sign | frac8));
+            }
+            else
+            {
+                if (overflow)
+                {
+                    return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(d))));
+                }
+                else
+                {
+                    frac8 = (byte)(frac >> (F64_MANTISSA_BITS - MANTISSA_BITS));
+                    frac8 |= (byte)(exp >> (F64_MANTISSA_BITS - MANTISSA_BITS));
+
+                    byte round = tobyte((asulong(d) & bitmask64((ulong)(F64_MANTISSA_BITS - MANTISSA_BITS))) > (1ul << (F64_MANTISSA_BITS - MANTISSA_BITS - 1)));
+                    frac8 += (byte)(sign | round);
+
+                    return asquarter(frac8);
                 }
             }
         }
@@ -157,55 +299,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(double d)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                return new quarter(Xse.cvtpd_pq(RegisterConversion.ToV128(d)).Byte0);
-            }
-            else
-            {
-                const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + EXPONENT_BIAS;
-
-                long sign = (aslong(d) >> 63) << (BITS - 1);
-                ulong exp = asulong(d) & F64_SIGNALING_EXPONENT;
-                ulong frac = asulong(d) & bitmask64((ulong)F64_MANTISSA_BITS);
-                
-                bool denormalF8 = exp <= (ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS;
-                bool overflow = asulong(abs(d)) >= ((bitmask64((ulong)MANTISSA_BITS + 1) << (F64_MANTISSA_BITS - (MANTISSA_BITS + 1))) | (((-F64_EXPONENT_BIAS + MAX_UNBIASED_EXPONENT) & bitmask64((ulong)F64_EXPONENT_BITS)) << F64_MANTISSA_BITS));
-                bool noUnderflow = exp >= (ulong)(MIN_UNBIASED_EXPONENT - MANTISSA_BITS - 1 - F64_EXPONENT_BIAS) << F64_MANTISSA_BITS;
-
-                exp -= EXPONENT_OFFSET << F64_MANTISSA_BITS;
-                byte frac8;
-                if (Hint.Unlikely(denormalF8))
-                {
-                    int bitIndex = MANTISSA_BITS - 1 - (int)abs((long)exp >> F64_MANTISSA_BITS);
-                    frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
-                    frac8 |= (byte)((frac & (ulong)-tobyte(noUnderflow)) >> (F64_MANTISSA_BITS - bitIndex));
-                    
-                    return asquarter((byte)(sign | frac8));
-                }
-                else
-                {
-                    if (overflow)
-                    {
-                        return asquarter((byte)(sign | SIGNALING_EXPONENT | tobyte(isnan(d))));
-                    }
-                    else
-                    {
-                        frac8 = (byte)(frac >> (F64_MANTISSA_BITS - MANTISSA_BITS));
-
-                        byte round = tobyte((frac & bitmask64((ulong)(F64_MANTISSA_BITS - MANTISSA_BITS))) != 0);
-                        frac8 += round;
-                
-                        return asquarter((byte)(sign | (byte)(exp >> (F64_MANTISSA_BITS - MANTISSA_BITS)) | frac8));
-                    }
-                }
-            }
+            return FromDouble(d);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(decimal d)
         {
-            return (quarter)(float)d;
+            return (quarter)(double)d;
         }
 
 
@@ -229,7 +329,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter ByteToQuarter(byte value, quarter overflowValue)
+        internal static quarter FromByte(byte value, quarter overflowValue)
         {
             return GetInteger(value, overflowValue);
         }
@@ -237,11 +337,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(byte b)
         {
-            return ByteToQuarter(b, PositiveInfinity);
+            return FromByte(b, PositiveInfinity);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter UShortToQuarter(ushort value, quarter overflowValue)
+        internal static quarter FromUShort(ushort value, quarter overflowValue)
         {
             return GetInteger(value, overflowValue);
         }
@@ -249,12 +349,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(ushort us)
         {
-            return UShortToQuarter(us, PositiveInfinity);
+            return FromUShort(us, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter UIntToQuarter(uint value, quarter overflowValue)
+        internal static quarter FromUInt(uint value, quarter overflowValue)
         {
             return GetInteger(value, overflowValue);
         }
@@ -262,12 +362,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(uint ui)
         {
-            return UIntToQuarter(ui, PositiveInfinity);
+            return FromUInt(ui, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter ULongToQuarter(ulong value, quarter overflowValue)
+        internal static quarter FromULong(ulong value, quarter overflowValue)
         {
             return GetInteger(value, overflowValue);
         }
@@ -275,12 +375,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(ulong ul)
         {
-            return ULongToQuarter(ul, PositiveInfinity);
+            return FromULong(ul, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter UInt128ToQuarter(UInt128 value, quarter overflowValue)
+        internal static quarter FromUInt128(UInt128 value, quarter overflowValue)
         {
             return value.hi64 != 0 ? overflowValue : GetInteger(value.lo64, overflowValue);
         }
@@ -288,131 +388,139 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(UInt128 ull)
         {
-            return UInt128ToQuarter(ull, PositiveInfinity);
+            return FromUInt128(ull, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter SByteToQuarter(sbyte value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
+        internal static quarter FromSByte(sbyte value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
         {
             if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
-                return ByteToQuarter((byte)value, overflowValue);
+                return FromByte((byte)value, overflowValue);
             }
             else
             {
                 quarter absQ = GetInteger((byte)abs(value), overflowValue, promiseInRange);
 
-                return new quarter((byte)((value & 0b1000_0000) | absQ.value));
+                return asquarter((byte)((value & 0b1000_0000) | absQ.value));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(sbyte sb)
         {
-            return SByteToQuarter(sb, PositiveInfinity);
+            return FromSByte(sb, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter ShortToQuarter(short value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
+        internal static quarter FromShort(short value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
         {
             if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
-                return UShortToQuarter((ushort)value, overflowValue);
+                return FromUShort((ushort)value, overflowValue);
             }
             else
             {
-                quarter absQ = GetInteger((ushort)abs(value), overflowValue, promiseNoOverflow);
+                quarter absQ = GetInteger((ushort)abs(value), overflowValue, promiseInRange);
 
-                return new quarter((byte)(((value >> 8) & 0b1000_0000) | absQ.value));
+                return asquarter((byte)(((value >> 8) & 0b1000_0000) | absQ.value));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(short s)
         {
-            return ShortToQuarter(s, PositiveInfinity);
+            return FromShort(s, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter IntToQuarter(int value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
+        internal static quarter FromInt(int value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
         {
             if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
-                return UIntToQuarter((uint)value, overflowValue);
+                return FromUInt((uint)value, overflowValue);
             }
             else
             {
-                quarter absQ = GetInteger((uint)abs(value), overflowValue, promiseNoOverflow);
+                quarter absQ = GetInteger((uint)abs(value), overflowValue, promiseInRange);
 
-                return new quarter((byte)(((value >> 24) & 0b1000_0000) | absQ.value));
+                return asquarter((byte)(((value >> 24) & 0b1000_0000) | absQ.value));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(int i)
         {
-            return IntToQuarter(i, PositiveInfinity);
+            return FromInt(i, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter LongToQuarter(long value, quarter overflowValue, bool promiseNoOverflow = false, bool promiseAbs = false)
+        internal static quarter FromLong(long value, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false)
         {
             if (promiseAbs || constexpr.IS_TRUE(value >= 0))
             {
-                return ULongToQuarter((uint)value, overflowValue);
+                return FromULong((uint)value, overflowValue);
             }
             else
             {
-                quarter absQ = GetInteger((ulong)abs(value), overflowValue, promiseNoOverflow);
+                quarter absQ = GetInteger((ulong)abs(value), overflowValue, promiseInRange);
 
-                return new quarter((byte)(((value >> 56) & 0b1000_0000) | absQ.value));
+                return asquarter((byte)(((value >> 56) & 0b1000_0000) | absQ.value));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(long l)
         {
-            return LongToQuarter(l, PositiveInfinity);
+            return FromLong(l, PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quarter Int128ToQuarter(Int128 value, quarter overflowValue)
+        internal static quarter FromInt128(Int128 value, quarter overflowValue)
         {
             if (constexpr.IS_TRUE(value >= 0))
             {
-                return ULongToQuarter((uint)value, overflowValue);
+                return FromUInt128((UInt128)value, overflowValue);
             }
             else
             {
                 bool overflowHi64 = value.hi64 + 1 > 1; // any other value than -1 or 0
 
-                return overflowHi64 ? new quarter((byte)(overflowValue.value | (value.hi64 >> 56) & 0b1000_0000))
-                                    : LongToQuarter((long)value.lo64, overflowValue);
+                return overflowHi64 ? asquarter((byte)(overflowValue.value | (value.hi64 >> 56) & 0b1000_0000))
+                                    : FromLong((long)value.lo64, overflowValue);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(Int128 ll)
         {
-            return Int128ToQuarter(ll, quarter.PositiveInfinity);
+            return FromInt128(ll, quarter.PositiveInfinity);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half(quarter q)
         {
+            return ToHalf(q, false, false);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static half ToHalf(quarter q, bool inRange = false, bool abs = false)
+        {
             const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + EXPONENT_BIAS;
             FloatingPointPromise<quarter> promise = new FloatingPointPromise<quarter>(q);
+            inRange |= promise.NotNaN && promise.NotInf;
+            abs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? promise.Positive : promise.ZeroOrGreater;
 
-            uint sign = (uint)(q.value >> 7) << 15;
+            uint sign = abs ? 0 : (uint)(q.value >> 7) << 15;
             uint exp = (uint)q.value & SIGNALING_EXPONENT;
             uint frac = (uint)q.value & bitmask32((uint)MANTISSA_BITS);
-            
+
             if (Hint.Unlikely(exp == 0))
             {
                 if (promise.NotSubnormal)
@@ -429,13 +537,12 @@ namespace MaxMath
             }
             else
             {
-                if (!(promise.NotNaN 
-                   && promise.NotInf)
+                if (!inRange
                  && Hint.Unlikely(exp == bitmask32((uint)EXPONENT_BITS) << MANTISSA_BITS))
                 {
                     return ashalf((ushort)((promise.NotNaN ? 0ul : tobyte(frac != 0)) | sign | F16_SIGNALING_EXPONENT));
                 }
-                
+
                 exp += EXPONENT_OFFSET << MANTISSA_BITS;
                 exp <<= F16_MANTISSA_BITS - MANTISSA_BITS;
             }
@@ -446,104 +553,119 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float(quarter q)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value)).Float0;
-            }
-            else
-            {
-                uint fusedExponentMantissa = ((uint)q.value << F32_SHL_LOSE_SIGN) >> F32_SHR_PLACE_MANTISSA;
-                uint sign = ((uint)q.value >> (BITS - 1)) << (F32_BITS - 1);
-
-                bool nanInf = (q.value & SIGNALING_EXPONENT) == SIGNALING_EXPONENT;
-                uint ifNanInf = asuint(float.PositiveInfinity) & (uint)(-tobyte(nanInf));
-                uint f64 = fusedExponentMantissa | ifNanInf;
-
-                return asfloat(sign | f64) * asfloat(nanInf ? f64 : F32_MAGIC);
-            }
+            return ToFloat(q, false, false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static float QuarterToFloatInRange(quarter q)
+        internal static float ToFloat(quarter q, bool inRange = false, bool abs = false)
         {
-            if (Architecture.IsSIMDSupported)
+            FloatingPointPromise<quarter> promise = new FloatingPointPromise<quarter>(q);
+            inRange |= promise.NotNaN && promise.NotInf;
+            abs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? promise.Positive : promise.ZeroOrGreater;
+            
+            float f;
+            uint fusedExponentMantissa;
+
+            if (abs)
             {
-                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value), true, false).Float0;
+                fusedExponentMantissa = (uint)q.value << (F32_SHL_LOSE_SIGN - F32_SHR_PLACE_MANTISSA);
+
+                f = asfloat(F32_MAGIC) * asfloat(fusedExponentMantissa);
             }
             else
             {
-                uint fusedExponentMantissa = ((uint)q.value << F32_SHL_LOSE_SIGN) >> F32_SHR_PLACE_MANTISSA;
-                uint sign = ((uint)q.value >> (BITS - 1)) << (F32_BITS - 1);
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                {
+                    if (Bmi2.IsBmi2Supported)
+                    {
+                        uint aligned = bits_depositparallel(q.value, DEPOSIT_MASK_32);
+                        f = asfloat(F32_MAGIC) * asfloat(aligned);
 
-                return asfloat(F32_MAGIC) * asfloat(sign | fusedExponentMantissa);
+                        goto NAN_INF_CHECK;
+                    }
+                }
+                
+                fusedExponentMantissa = ((uint)q.value << F32_SHL_LOSE_SIGN) >> F32_SHR_PLACE_MANTISSA;
+                f = asfloat((sbyte)q.value < 0 ? F32_MAGIC ^ (1 << (F32_BITS - 1)) : F32_MAGIC) * asfloat(fusedExponentMantissa);
             }
-        }
+            
+        NAN_INF_CHECK:
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static float QuarterToFloatInRangeAbs(quarter q)
-        {
-            if (Architecture.IsSIMDSupported)
+            if (!inRange)
             {
-                return Xse.cvtsq_ss(Xse.cvtsi32_si128(q.value), true, true).Float0;
+                if (Hint.Unlikely((q.value & SIGNALING_EXPONENT) == SIGNALING_EXPONENT))
+                {
+                    if (Sse2.IsSse2Supported)
+                    {
+                        f = Sse.or_ps(Sse.set_ss(f), Sse2.cvtsi32_si128(F32_SIGNALING_EXPONENT)).Float0;
+                    }
+                    else
+                    {
+                        f = asfloat(asuint(f) | F32_SIGNALING_EXPONENT);
+                    }
+                }
             }
-            else
-            {
-                uint fusedExponentMantissa = (uint)q.value << (F32_SHL_LOSE_SIGN - F32_SHR_PLACE_MANTISSA);
-
-                return asfloat(F32_MAGIC) * asfloat(fusedExponentMantissa);
-            }
+            
+            return f;
         }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double(quarter q)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), false, false).Double0;
-            }
-            else
-            {
-                ulong fusedExponentMantissa = ((ulong)q.value << F64_SHL_LOSE_SIGN) >> F64_SHR_PLACE_MANTISSA;
-                ulong sign = ((ulong)q.value >> (BITS - 1)) << (F64_BITS - 1);
-
-                bool nanInf = (q.value & SIGNALING_EXPONENT) == SIGNALING_EXPONENT;
-                ulong ifNanInf = asulong(double.PositiveInfinity) & (ulong)(-tobyte(nanInf));
-                ulong f64 = fusedExponentMantissa | ifNanInf;
-
-                return asdouble(sign | f64) * asdouble(nanInf ? f64 : F64_MAGIC);
-            }
+            return ToDouble(q, false, false);
         }
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double QuarterToDoubleInRange(quarter q)
+        internal static double ToDouble(quarter q, bool inRange = false, bool abs = false)
         {
-            if (Architecture.IsSIMDSupported)
+            FloatingPointPromise<quarter> promise = new FloatingPointPromise<quarter>(q);
+            inRange |= promise.NotNaN && promise.NotInf;
+            abs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? promise.Positive : promise.ZeroOrGreater;
+            
+            double d;
+            ulong fusedExponentMantissa;
+
+            if (abs)
             {
-                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), true, false).Double0;
+                fusedExponentMantissa = (ulong)q.value << (F64_SHL_LOSE_SIGN - F64_SHR_PLACE_MANTISSA);
+
+                d = asdouble(F64_MAGIC) * asdouble(fusedExponentMantissa);
             }
             else
             {
-                ulong fusedExponentMantissa = ((ulong)q.value << F64_SHL_LOSE_SIGN) >> F64_SHR_PLACE_MANTISSA;
-                ulong sign = ((ulong)q.value >> (BITS - 1)) << (F64_BITS - 1);
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                {
+                    if (Bmi2.IsBmi2Supported)
+                    {
+                        ulong aligned = bits_depositparallel(q.value, DEPOSIT_MASK_64);
+                        d = asdouble(F64_MAGIC) * asdouble(aligned);
 
-                return asdouble(F64_MAGIC) * asdouble(sign | fusedExponentMantissa);
+                        goto NAN_INF_CHECK;
+                    }
+                }
+                
+                fusedExponentMantissa = ((ulong)q.value << F64_SHL_LOSE_SIGN) >> F64_SHR_PLACE_MANTISSA;
+                d = asdouble((sbyte)q.value < 0 ? F64_MAGIC ^ (1ul << (F64_BITS - 1)) : F64_MAGIC) * asdouble(fusedExponentMantissa);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double QuarterToDoubleInRangeAbs(quarter q)
-        {
-            if (Architecture.IsSIMDSupported)
+            
+        NAN_INF_CHECK:
+            
+            if (!inRange)
             {
-                return Xse.cvtsq_sd(Xse.cvtsi32_si128(q.value), true, true).Double0;
+                if (Hint.Unlikely((q.value & SIGNALING_EXPONENT) == SIGNALING_EXPONENT))
+                {
+                    if (Sse2.IsSse2Supported)
+                    {
+                        d = Sse2.or_pd(Sse2.set_sd(d), Sse2.cvtsi64x_si128(F64_SIGNALING_EXPONENT)).Double0;
+                    }
+                    else
+                    {
+                        d = asdouble(asulong(d) | F64_SIGNALING_EXPONENT);
+                    }
+                }
             }
-            else
-            {
-                ulong fusedExponentMantissa = (ulong)q.value << (F64_SHL_LOSE_SIGN - F64_SHR_PLACE_MANTISSA);
-
-                return asdouble(F64_MAGIC) * asdouble(fusedExponentMantissa);
-            }
+            
+            return d;
         }
 
 
@@ -756,7 +878,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    bool notBothZero = new quarter((byte)(this.value | other.value)).IsNotZero;
+                    bool notBothZero = asquarter((byte)(this.value | other.value)).IsNotZero;
 
                     return value & notBothZero;
                 }
@@ -771,7 +893,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    bool notBothZero = new quarter((byte)(this.value | other.value)).IsNotZero;
+                    bool notBothZero = asquarter((byte)(this.value | other.value)).IsNotZero;
 
                     return nan | (value & notBothZero);
                 }
@@ -927,7 +1049,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter operator - (quarter value)
         {
-            return new quarter((byte)(value.value ^ 0b1000_0000));
+            return asquarter((byte)(value.value ^ 0b1000_0000));
         }
 
 

@@ -5,7 +5,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>        Returns a <see cref="bool"/> indicating for a <see cref="quarter"/> whether it is an infinite floating point value.     </summary>
+        /// <summary>        Returns a <see cref="bool"/> indicating for a <see cref="MaxMath.quarter"/> whether it is an infinite floating point value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinf(quarter q)
         {
@@ -13,7 +13,7 @@ namespace MaxMath
                 && (q.value & 0b0111_1111) == 0b0111_0000;
         }
 
-        /// <summary>        Returns a <see cref="bool"/> indicating for a <see cref="quarter"/> whether it is a finite floating point value.     </summary>
+        /// <summary>        Returns a <see cref="bool"/> indicating for a <see cref="MaxMath.quarter"/> whether it is a finite floating point value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isfinite(quarter q)
         {
@@ -21,7 +21,7 @@ namespace MaxMath
                 || (q.value & 0b0111_1111) < 0b0111_0000;
         }
 
-        ///<summary>        Returns a <see cref="bool"/> indicating for a <see cref="quarter"/> whether it is a NaN (not a number) floating point value.    </summary>
+        ///<summary>        Returns a <see cref="bool"/> indicating for a <see cref="MaxMath.quarter"/> whether it is a NaN (not a number) floating point value.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnan(quarter q)
         {
@@ -113,6 +113,50 @@ namespace MaxMath
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.quarter8"/> whether it is a NaN (not a number) floating point value.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isnan(quarter8 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asbyte(q) & 0b0111_1111) > 0b0111_0000;
+        }
+
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.quarter16"/> whether it is an infinite floating point value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isinf(quarter16 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asbyte(q) & 0b0111_1111) == 0b0111_0000;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.quarter16"/> whether it is a finite floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isfinite(quarter16 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? true : (asbyte(q) & 0b0111_1111) < 0b0111_0000;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.quarter16"/> whether it is a NaN (not a number) floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isnan(quarter16 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asbyte(q) & 0b0111_1111) > 0b0111_0000;
+        }
+
+
+        ///<summary>        Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.quarter32"/> whether it is an infinite floating point value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 isinf(quarter32 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asbyte(q) & 0b0111_1111) == 0b0111_0000;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.quarter32"/> whether it is a finite floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 isfinite(quarter32 q)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? true : (asbyte(q) & 0b0111_1111) < 0b0111_0000;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.quarter32"/> whether it is a NaN (not a number) floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 isnan(quarter32 q)
         {
             return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asbyte(q) & 0b0111_1111) > 0b0111_0000;
         }
@@ -226,6 +270,28 @@ namespace MaxMath
         ///<summary>        Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.half8"/> whether it is a NaN (not a number) floating point value.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isnan(half8 h)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asushort(h) & 0x7FFF) > 0x7C00;
+        }
+
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.half16"/> whether it is an infinite floating point value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isinf(half16 h)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? false : (asushort(h) & 0x7FFF) == 0x7C00;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.half16"/> whether it is a finite floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isfinite(half16 h)
+        {
+            return COMPILATION_OPTIONS.FLOAT_NO_INF ? true : (asushort(h) & 0x7FFF) < 0x7C00;
+        }
+
+        ///<summary>        Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.half16"/> whether it is a NaN (not a number) floating point value.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isnan(half16 h)
         {
             return COMPILATION_OPTIONS.FLOAT_NO_NAN ? false : (asushort(h) & 0x7FFF) > 0x7C00;
         }

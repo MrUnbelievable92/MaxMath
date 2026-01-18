@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -215,20 +216,48 @@ namespace MaxMath
         public short2 v2_14 { readonly get => (short2)((ushort16)this).v2_14;   set { ushort16 _this = (ushort16)this; _this.v2_14 = (ushort2)value; this = (short16)_this; } }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(short16 input) => new v256{ SShort0 = input.x0, SShort1 = input.x1, SShort2 = input.x2, SShort3 = input.x3, SShort4 = input.x4, SShort5 = input.x5, SShort6 = input.x6, SShort7 = input.x7, SShort8 = input.x8, SShort9 = input.x9, SShort10 = input.x10, SShort11 = input.x11, SShort12 = input.x12, SShort13 = input.x13, SShort14 = input.x14, SShort15 = input.x15 };
-
+        public static implicit operator v256(short16 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short16(v256 input) => new short16{ x0 = input.SShort0, x1 = input.SShort1, x2 = input.SShort2, x3 = input.SShort3, x4 = input.SShort4, x5 = input.SShort5, x6 = input.SShort6, x7 = input.SShort7, x8 = input.SShort8, x9 = input.SShort9, x10 = input.SShort10, x11 = input.SShort11, x12 = input.SShort12, x13 = input.SShort13, x14 = input.SShort14, x15 = input.SShort15 };
+        public static implicit operator short16(v256 input) => RegisterConversion.ToAbstraction256<short16>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short16(short input) => new short16(input);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short16(half16 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvttph_epi16(input);
+            }
+            else
+            {
+                return new short16((short8)input.v8_0, (short8)input.v8_8);
+            }
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short16(ushort16 input) => *(short16*)&input;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator half16(short16 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvtepi16_ph(input);
+            }
+            else
+            {
+                return new half16((half8)input.v8_0, (half8)input.v8_8);
+            }
+        }
 
 
         public short this[int index]
@@ -311,7 +340,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 operator / (short16 left, short right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -332,7 +361,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 operator % (short16 left, short right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {

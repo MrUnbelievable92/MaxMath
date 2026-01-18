@@ -15,11 +15,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epu8(v128 a, v128 b, bool promiseNoOverflow = false, bool promiseSpecialRange = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements == 3)
                     {
-                        if (Architecture.IsInsertExtractSupported)
+                        if (BurstArchitecture.IsInsertExtractSupported)
                         {
                             if (constexpr.IS_CONST(a))
                             {
@@ -81,7 +81,7 @@ namespace MaxMath
                     {
                         result = vsum_epu32(madd_epi16(cvtepu8_epi16(a), cvtepu8_epi16(b)), true, (byte)((elements + 1) >> 1));
                     }
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, elements * (uint)byte.MaxValue * (uint)byte.MaxValue);
                     return result;
                 }
@@ -91,7 +91,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epu16(v128 a, v128 b, bool promiseNoOverflow = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, (ushort)short.MaxValue, elements) && constexpr.ALL_LE_EPU16(b, (ushort)short.MaxValue, elements))
                     {
@@ -128,7 +128,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epu32(v128 a, v128 b, bool promiseNoOverflow = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promiseNoOverflow)
                     {
@@ -165,7 +165,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epu64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return vsum_epi64(mullo_epi64(a, b));
                 }
@@ -269,11 +269,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epi8(v128 a, v128 b, bool promiseNoOverflow = false, bool promiseSpecialRange = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements == 3)
                     {
-                        if (Architecture.IsInsertExtractSupported)
+                        if (BurstArchitecture.IsInsertExtractSupported)
                         {
                             if (constexpr.IS_CONST(a))
                             {
@@ -361,7 +361,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epi16(v128 a, v128 b, bool promiseNoOverflow = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements == 3)
                     {
@@ -388,7 +388,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epi32(v128 a, v128 b, bool promiseNoOverflow = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promiseNoOverflow)
                     {
@@ -404,7 +404,7 @@ namespace MaxMath
                         {
                             v128 aLo = cvt2x2epi32_epi64(a, out v128 aHi);
                             v128 bLo = cvt2x2epi32_epi64(b, out v128 bHi);
-                            
+
                             aLo = mul_epi32(aLo, aHi);
                             bLo = mul_epi32(bLo, bHi);
 
@@ -425,7 +425,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 dp_epi64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return vsum_epi64(mullo_epi64(a, b));
                 }
@@ -540,14 +540,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 2ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte2 a, byte2 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -564,14 +564,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 3ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte3 a, byte3 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -588,14 +588,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 4ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte4 a, byte4 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -612,14 +612,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 8ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte8 a, byte8 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -636,14 +636,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 16ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(byte16 a, byte16 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -660,7 +660,7 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte32"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 32ul * 255ul * 255ul)]
@@ -692,14 +692,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-2 * 128 * 127, 2 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(sbyte2 a, sbyte2 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -716,14 +716,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-3 * 128 * 127, 3 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(sbyte3 a, sbyte3 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -740,14 +740,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-4 * 128 * 127, 4 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(sbyte4 a, sbyte4 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -764,14 +764,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-8 * 128 * 127, 8 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(sbyte8 a, sbyte8 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -788,14 +788,14 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-16 * 128 * 127, 16 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(sbyte16 a, sbyte16 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 bool noOverflow = promises.Promises(Promise.NoOverflow);
                 bool specialRange = promises.Promises(Promise.Unsafe0);
@@ -812,7 +812,7 @@ namespace MaxMath
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte32"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>     
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-32 * 128 * 127, 32 * 128 * 128)]
@@ -842,15 +842,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short2"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(2 * -32768 * 32767, int.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short2 a, short2 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -868,14 +868,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short3"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short3 a, short3 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -893,14 +893,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short4"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short4 a, short4 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -918,14 +918,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short8"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(short8 a, short8 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -943,8 +943,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short16"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -975,14 +975,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort2"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(ushort2 a, ushort2 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1000,14 +1000,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort3"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(ushort3 a, ushort3 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1025,14 +1025,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort4"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(ushort4 a, ushort4 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1050,14 +1050,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort8"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(ushort8 a, ushort8 b, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1075,8 +1075,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort16"/>s.
-        /// <remarks>       
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>     
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

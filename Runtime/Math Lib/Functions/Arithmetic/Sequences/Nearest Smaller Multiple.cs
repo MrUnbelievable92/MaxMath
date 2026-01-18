@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epu8(v128 a, v128 b, byte elements = 16, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU8(b, elements))
                     {
@@ -23,37 +23,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        if (Arm.Neon.IsNeonSupported)
-                        {
-                            return mullo_epi8(b, div_epu8(a, b, elements));
-                        }
-                        else if (elements > 8)
-                        {
-                            return mullo_epi8(b, div_epu8(a, b, elements));
-                        }
-                        else
-                        {
-                            v128 b16 = cvtepu8_epi16(b);
-                            v128 shorts;
-
-                            if (elements > 4)
-                            {
-                                v128 a16 = cvtepu8_epi16(a);
-                                v128 leftLo  = cvt2x2epu16_ps(a16, out v128 leftHi);
-                                v128 rightLo = cvt2x2epu16_ps(b16, out v128 rightHi);
-                                v128 intsLo = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftLo, rightLo);
-                                v128 intsHi = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftHi, rightHi);
-
-                                shorts = packs_epi32(intsLo, intsHi);
-                            }
-                            else
-                            {
-                                v128 ints = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(cvtepu8_ps(a), cvtepu16_ps(b16));
-                                shorts = packs_epi32(ints, ints);
-                            }
-
-                            return cvtepi16_epi8(mullo_epi16(b16, shorts), elements);
-                        }
+                        return divmullo_epu8(a, b, b, out _, noOverflow: true, elements);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -62,7 +32,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epu16(v128 a, v128 b, byte elements = 8, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU16(b, elements))
                     {
@@ -79,7 +49,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epu32(v128 a, v128 b, byte elements = 4, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU32(b, elements))
                     {
@@ -96,7 +66,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epu64(v128 a, v128 b, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU64(b))
                     {
@@ -114,7 +84,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epi8(v128 a, v128 b, byte elements = 16, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU8(b, elements))
                     {
@@ -127,38 +97,7 @@ namespace MaxMath
                             a = sub_epi8(a, and_si128(dec_epi8(b), srai_epi8(a, 7)));
                         }
 
-                        
-                        if (Arm.Neon.IsNeonSupported)
-                        {
-                            return mullo_epi8(b, div_epi8(a, b, elements: elements));
-                        }
-                        else if (elements > 8)
-                        {
-                            return mullo_epi8(b, div_epi8(a, b, elements: elements));
-                        }
-                        else
-                        {
-                            v128 b16 = cvtepi8_epi16(b);
-                            v128 shorts;
-
-                            if (elements > 4)
-                            {
-                                v128 a16 = cvtepi8_epi16(a);
-                                v128 leftLo  = cvt2x2epi16_ps(a16, out v128 leftHi);
-                                v128 rightLo = cvt2x2epi16_ps(b16, out v128 rightHi);
-                                v128 intsLo = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftLo, rightLo);
-                                v128 intsHi = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftHi, rightHi);
-
-                                shorts = packs_epi32(intsLo, intsHi);
-                            }
-                            else
-                            {
-                                v128 ints = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(cvtepi8_ps(a), cvtepi16_ps(b16));
-                                shorts = packs_epi32(ints, ints);
-                            }
-
-                            return cvtepi16_epi8(mullo_epi16(b16, shorts), elements);
-                        }
+                        return divmullo_epi8(a, b, b, out _, noOverflow: true, saturated: false, elements);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -167,7 +106,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epi16(v128 a, v128 b, byte elements = 8, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU16(b, elements))
                     {
@@ -189,7 +128,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epi32(v128 a, v128 b, byte elements = 4, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU32(b, elements))
                     {
@@ -211,7 +150,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_epi64(v128 a, v128 b, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (pow2 || constexpr.ALL_POW2_EPU64(b))
                     {
@@ -242,7 +181,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        return mm256_mullo_epi8(b, mm256_div_epu8(a, b));
+                        return mm256_divmullo_epu8(a, b, b, out _, noOverflow: true);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -316,7 +255,7 @@ namespace MaxMath
                             a = Avx2.mm256_sub_epi8(a, Avx2.mm256_and_si256(mm256_dec_epi8(b), mm256_srai_epi8(a, 7)));
                         }
 
-                        return mm256_mullo_epi8(b, mm256_div_epi8(a, b));
+                        return mm256_divmullo_epi8(a, b, b, out _, noOverflow: true);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -392,7 +331,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_ps(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return mul_ps(b, floor_ps(div_ps(a, b), elements));
                 }
@@ -413,7 +352,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 floormult_pd(v128 a, v128 b, byte elements = 2)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return mul_pd(b, floor_pd(div_pd(a, b), elements));
                 }
@@ -504,7 +443,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 floormultiple(ulong2 x, ulong2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu64(x, n, promises.Promises(Promise.Unsafe0));
             }
@@ -584,7 +523,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 floormultiple(long2 x, ulong2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi64(x, n, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -659,7 +598,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 floormultiple(uint2 x, uint2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.floormult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2, promises.Promises(Promise.Unsafe0)));
             }
@@ -677,7 +616,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 floormultiple(uint3 x, uint3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.floormult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3, promises.Promises(Promise.Unsafe0)));
             }
@@ -695,7 +634,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 floormultiple(uint4 x, uint4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.floormult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4, promises.Promises(Promise.Unsafe0)));
             }
@@ -757,7 +696,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 floormultiple(int2 x, uint2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.floormult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -776,7 +715,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 floormultiple(int3 x, uint3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.floormult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -795,7 +734,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 floormultiple(int4 x, uint4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.floormult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -844,7 +783,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 floormultiple(ushort2 x, ushort2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu16(x, n, 2, promises.Promises(Promise.Unsafe0));
             }
@@ -862,7 +801,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 floormultiple(ushort3 x, ushort3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu16(x, n, 3, promises.Promises(Promise.Unsafe0));
             }
@@ -880,7 +819,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 floormultiple(ushort4 x, ushort4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu16(x, n, 4, promises.Promises(Promise.Unsafe0));
             }
@@ -898,7 +837,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 floormultiple(ushort8 x, ushort8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu16(x, n, 8, promises.Promises(Promise.Unsafe0));
             }
@@ -955,7 +894,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 floormultiple(short2 x, ushort2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi16(x, n, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -974,7 +913,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 floormultiple(short3 x, ushort3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi16(x, n, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -993,7 +932,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 floormultiple(short4 x, ushort4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi16(x, n, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1012,7 +951,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 floormultiple(short8 x, ushort8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi16(x, n, 8, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1068,7 +1007,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 floormultiple(byte2 x, byte2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu8(x, n, 2, promises.Promises(Promise.Unsafe0));
             }
@@ -1086,7 +1025,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 floormultiple(byte3 x, byte3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu8(x, n, 3, promises.Promises(Promise.Unsafe0));
             }
@@ -1104,7 +1043,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 floormultiple(byte4 x, byte4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu8(x, n, 4, promises.Promises(Promise.Unsafe0));
             }
@@ -1122,7 +1061,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 floormultiple(byte8 x, byte8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu8(x, n, 8, promises.Promises(Promise.Unsafe0));
             }
@@ -1147,7 +1086,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 floormultiple(byte16 x, byte16 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epu8(x, n, 16, promises.Promises(Promise.Unsafe0));
             }
@@ -1212,7 +1151,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 floormultiple(sbyte2 x, byte2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi8(x, n, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1231,7 +1170,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 floormultiple(sbyte3 x, byte3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi8(x, n, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1250,7 +1189,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 floormultiple(sbyte4 x, byte4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi8(x, n, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1269,7 +1208,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 floormultiple(sbyte8 x, byte8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi8(x, n, 8, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1295,7 +1234,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 floormultiple(sbyte16 x, byte16 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.floormult_epi8(x, n, 16, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1355,7 +1294,7 @@ Assert.IsGreater(m, 0f);
         {
 VectorAssert.IsGreater<float2, float>(m, 0f, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.floormult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
             }
@@ -1371,7 +1310,7 @@ VectorAssert.IsGreater<float2, float>(m, 0f, 2);
         {
 VectorAssert.IsGreater<float3, float>(m, 0f, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.floormult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 3));
             }
@@ -1387,7 +1326,7 @@ VectorAssert.IsGreater<float3, float>(m, 0f, 3);
         {
 VectorAssert.IsGreater<float4, float>(m, 0f, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.floormult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 4));
             }
@@ -1429,7 +1368,7 @@ Assert.IsGreater(m, 0d);
         {
 VectorAssert.IsGreater<double2, double>(m, 0d, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.floormult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
             }
@@ -1460,7 +1399,7 @@ VectorAssert.IsGreater<double3, double>(m, 0d, 3);
         public static double4 floormultiple(double4 x, double4 m)
         {
 VectorAssert.IsGreater<double4, double>(m, 0d, 4);
-            
+
             if (Avx.IsAvxSupported)
             {
                 return RegisterConversion.ToDouble4(Xse.mm256_floormult_ps(RegisterConversion.ToV256(x), RegisterConversion.ToV256(m)));

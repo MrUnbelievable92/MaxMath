@@ -6,6 +6,7 @@ using Unity.Burst;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
+using DevTools;
 
 using static Unity.Mathematics.math;
 using static MaxMath.maxmath;
@@ -29,7 +30,7 @@ namespace MaxMath
         internal const int MAX_UNBIASED_EXPONENT = -EXPONENT_BIAS;                                                                                       //standard: 16383
         internal const int MIN_UNBIASED_EXPONENT = EXPONENT_BIAS + 1;                                                                                    //standard: -16382
         internal static UInt128 SIGNALING_EXPONENT => (UInt128)(MAX_UNBIASED_EXPONENT - EXPONENT_BIAS + (IEEE_754_STANDARD ? 1 : 0)) << MANTISSA_BITS;   //standard: 0x7FFF << 112
-        
+
         internal const int F8_EXPONENT_OFFSET = -EXPONENT_BIAS + quarter.EXPONENT_BIAS;
         internal const int F16_EXPONENT_OFFSET = -EXPONENT_BIAS + F16_EXPONENT_BIAS;
         internal const int F32_EXPONENT_OFFSET = -EXPONENT_BIAS + F32_EXPONENT_BIAS;
@@ -49,32 +50,32 @@ namespace MaxMath
 
         public readonly UInt128 value;
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal quadruple(UInt128 bits)
         {
             value = bits;
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal quadruple(ulong lo64, ulong hi64)
         {
             value = new UInt128(lo64, hi64);
         }
-    
+
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool NoZeroSignBitConst(quadruple.ConstChecked x)
         {
-            return x.Promise.NoSignedZero ? x.Promise.ZeroOrGreater 
+            return x.Promise.NoSignedZero ? x.Promise.ZeroOrGreater
                                           : x.Promise.Positive;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool EqualSignBitsLo(quadruple.ConstChecked x, quadruple.ConstChecked y)
         {
-            return (NoZeroSignBitConst(x) && NoZeroSignBitConst(y)) 
+            return (NoZeroSignBitConst(x) && NoZeroSignBitConst(y))
                 || (x.Promise.Negative && y.Promise.Negative)
                 || (SignBitLo(x) == SignBitLo(y));
         }
@@ -90,34 +91,34 @@ namespace MaxMath
         {
             return NoZeroSignBitConst(x) ? 0ul : (x.Promise.Negative ? 1ul : (x.Value.value.hi64 & (1ul << 63)));
         }
-        
-        
-    
-   
+
+
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quarter ZeroQuarter(ulong sign) => COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? asquarter((byte)(sign >> (BITS - quarter.BITS))) : asquarter((byte)0);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static half ZeroHalf(ulong sign) => COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? ashalf((ushort)(sign >> (BITS - F16_BITS))) : ashalf((ushort)0);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static float ZeroFloat(ulong sign) => COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? asfloat((uint)(sign >> (BITS - F32_BITS))) : 0f;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double ZeroDouble(ulong sign) => COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? asdouble(sign) : 0d;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple ZeroQuadruple(ulong sign) => asquadruple(new UInt128(0, COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? sign : 0));
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked Add(quadruple.ConstChecked left, quadruple.ConstChecked right, bool sameSign = false)
         {
-            if (sameSign || EqualSignBitsLo(left, right)) 
+            if (sameSign || EqualSignBitsLo(left, right))
             {
                 return softfloat_addMagsF128(left, right);
-            } 
-            else 
+            }
+            else
             {
                 return softfloat_subMagsF128(left, right);
             }
@@ -126,10 +127,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked Subtract(quadruple.ConstChecked left, quadruple.ConstChecked right, bool sameSign = false)
         {
-            if (sameSign || EqualSignBitsLo(left, right)) 
+            if (sameSign || EqualSignBitsLo(left, right))
             {
                 return softfloat_subMagsF128(left, right);
-            } 
+            }
             else
             {
                 return softfloat_addMagsF128(left, right);
@@ -138,41 +139,41 @@ namespace MaxMath
 
 
         #region CHECKED AND NEEDED THIS WAY
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte fracF8UI(byte a) => (byte)(a & bitmask8(quarter.MANTISSA_BITS));
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint fracF16UI(ushort a) => (ushort)(a & bitmask16(F16_MANTISSA_BITS));
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint fracF32UI(uint f) => f & bitmask32((uint)F32_MANTISSA_BITS);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong fracF64UI(ulong d) => d & bitmask64((ulong)F64_MANTISSA_BITS);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong fracF128UI64(ulong a64) => a64 & bitmask64((ulong)MANTISSA_BITS_HI64);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong packToF128UI64(ulong sign, ulong exp, ulong sig64) => sign | (exp + sig64);
-        
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF8Sig(ref ulong exp, ref uint sig, bool nonZero = false)
         {
             byte16 shiftDistBase = new byte16(8, 7, 6, 6, 5, 5, 5, 5,    4, 4, 4, 4, 4, 4, 4, 4) - quarter.EXPONENT_BITS;
-            
+
             exp = Hint.Likely(!nonZero && sig == 0) ? 0u : (ulong)(F8_EXPONENT_OFFSET - (uint)shiftDistBase[(int)sig]) << MANTISSA_BITS_HI64;
             sig <<= shiftDistBase[(int)sig];
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF16Sig(ref ulong exp, ref uint sig, bool nonZero = false)
         {
             int shiftDist = lzcnt((ushort)sig);
-            
+
             if (!nonZero)
             {
                 if (Hint.Likely(sig == 0)) // more often 0 than subnormal. Start 3 cycle latency 'LZCNT' anyway and evaluate this branch in parallel (better with more modern CPUs)
@@ -184,7 +185,7 @@ namespace MaxMath
             exp = (ulong)(uint)(F16_EXPONENT_BITS + F16_EXPONENT_OFFSET - shiftDist) << MANTISSA_BITS_HI64;
             sig <<= shiftDist - F16_EXPONENT_BITS;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF32Sig(ref ulong exp, ref uint sig, bool nonZero = false)
         {
@@ -201,28 +202,28 @@ namespace MaxMath
             exp = (ulong)(uint)(F32_EXPONENT_BITS + F32_EXPONENT_OFFSET - shiftDist) << MANTISSA_BITS_HI64;
             sig <<= shiftDist - F32_EXPONENT_BITS;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF64Sig(ref ulong exp, ref ulong sig, bool nonZero = false)
         {
             int shiftDist = lzcnt(sig);
-            
+
             if (!nonZero)
             {
                 if (Hint.Likely(sig == 0)) // more often 0 than subnormal. Start 3 cycle latency 'LZCNT' anyway and evaluate this branch in parallel (better with more modern CPUs)
                 {
                     return;
-                }   
+                }
             }
 
             exp = (ulong)(F64_EXPONENT_BITS + F64_EXPONENT_OFFSET - shiftDist) << MANTISSA_BITS_HI64;
             sig <<= shiftDist - F64_EXPONENT_BITS;
         }
-       
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF128Sig2(ref ulong exp, ref UInt128 sig)
         {
-            if (sig.hi64 == 0) 
+            if (sig.hi64 == 0)
             {
                 int shiftDist = lzcnt(sig.lo64);
                 int shl = shiftDist - EXPONENT_BITS;
@@ -232,13 +233,13 @@ namespace MaxMath
                 if (sig.lo64 > bitmask64(64ul - EXPONENT_BITS)) // good OoOE branch
                 {
                     sig = new UInt128(sig.lo64 << (shl & 63), sig.lo64 >> (EXPONENT_BITS - shiftDist));
-                } 
-                else 
+                }
+                else
                 {
                     sig = new UInt128(0, sig.lo64 << shl);
                 }
-            } 
-            else 
+            }
+            else
             {
                 int shiftDist = lzcnt(sig.hi64);
                 exp = (ulong)(uint)(EXPONENT_BITS + 1 - shiftDist) << MANTISSA_BITS_HI64;
@@ -250,11 +251,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static __UInt256__ softfloat_shiftRightJam256M(__UInt256__ a, uint dist)
         {
-            return dist >= 256 ? tobyte(a.hi128.IsNotZero) 
+            return dist >= 256 ? tobyte(a.hi128.IsNotZero)
                                : (a >> (int)dist) | (constexpr.IS_TRUE(dist <= 128) ? 0u
                                                                                     : tobyte((a & __UInt256__.bitmask256(dist)).IsNotZero));
         }
-    
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint softfloat_approxRecip32_1(uint a)
@@ -273,14 +274,14 @@ namespace MaxMath
             int index = (int)(a >> 27 & 0xF);
             ushort eps = (ushort)(a >> 11);
             ushort r0 = (ushort)(softfloat_approxRecip_1k0s[index]
-                      - ((softfloat_approxRecip_1k1s[index] * (uint)eps) 
+                      - ((softfloat_approxRecip_1k1s[index] * (uint)eps)
                         >> 20));
             uint sigma0 = ~(uint)((r0 * (ulong)a) >> 7);
             uint r = (uint)(((uint)r0 << 16) + ((r0 * (ulong)sigma0) >> 24));
             ulong sqrSigma0 = ((ulong)sigma0 * sigma0) >> 32;
             return r + (uint)((r * sqrSigma0) >> 48);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint softfloat_approxRecipSqrt32_1(uint oddExpA, uint a)
         {
@@ -294,7 +295,7 @@ namespace MaxMath
                 0xA5A5, 0xEA42, 0x8C21, 0xC62D, 0x788F, 0xAA7F, 0x6928, 0x94B6,
                 0x5CC7, 0x8335, 0x52A6, 0x74E2, 0x4A3E, 0x68FE, 0x432B, 0x5EFD
             );
-            
+
             int index = (int)((a >> 27 & 0xE) + oddExpA);
             ushort eps = (ushort)(a >> 12);
             ushort r0 = (ushort)(softfloat_approxRecipSqrt_1k0s[index]
@@ -314,7 +315,7 @@ namespace MaxMath
 
             return select(r, 1u << 31, (int)r >= 0);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 softfloat_mul64ByShifted32To128(ulong a, uint b)
         {
@@ -326,11 +327,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong expF128UI64(ulong a64) => (a64 & SIGNALING_EXPONENT.hi64) >> MANTISSA_BITS_HI64;
         #endregion
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void softfloat_normSubnormalF128Sig(ref ulong exp, ref UInt128 sig)
         {
-            if (sig.hi64 == 0) 
+            if (sig.hi64 == 0)
             {
                 int shiftDist = lzcnt(sig.lo64);
                 int shl = shiftDist - EXPONENT_BITS;
@@ -340,13 +341,13 @@ namespace MaxMath
                 if (sig.lo64 > bitmask64(64ul - EXPONENT_BITS)) // good OoOE branch
                 {
                     sig = new UInt128(sig.lo64 << (shl & 63), sig.lo64 >> (EXPONENT_BITS - shiftDist));
-                } 
-                else 
+                }
+                else
                 {
                     sig = new UInt128(0, sig.lo64 << shl);
                 }
-            } 
-            else 
+            }
+            else
             {
                 int shiftDist = lzcnt(sig.hi64);
                 exp = (uint)(EXPONENT_BITS + 1 - shiftDist);
@@ -365,16 +366,16 @@ namespace MaxMath
             }
         #endif
         }
-        
 
-        
-    
-        
-        
+
+
+
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple softfloat_normRoundPackToF128(ulong sign, uint exp, ulong sig64, ulong sig0)
         {
-            if (sig64 == 0) 
+            if (sig64 == 0)
             {
                 exp -= 64;
                 sig64 = sig0;
@@ -384,66 +385,66 @@ namespace MaxMath
             int shiftDist = lzcnt(sig64) - EXPONENT_BITS;
             exp -= (uint)shiftDist;
 
-            if (sig64 <= bitmask64(64ul - EXPONENT_BITS)) 
+            if (sig64 <= bitmask64(64ul - EXPONENT_BITS))
             {
-                if (sig64 < 1ul << (64 - EXPONENT_BITS - 1)) 
+                if (sig64 < 1ul << (64 - EXPONENT_BITS - 1))
                 {
                     UInt128 sig128 = softfloat_shortShiftLeft128(sig64, sig0, (byte)shiftDist);
                     sig64 = sig128.hi64;
                     sig0  = sig128.lo64;
                 }
-                if (exp < 0x7FFD) 
+                if (exp < 0x7FFD)
                 {
                     return new quadruple(sig0, packToF128UI64(sign, (sig64 | sig0) != 0 ? (ulong)exp << MANTISSA_BITS_HI64 : 0, sig64));
                 }
-                   
+
                 return softfloat_roundPackToF128(sign, exp, sig64, sig0, 0);
-            } 
-            else 
+            }
+            else
             {
                 UInt128 sig128Extra = softfloat_shortShiftRightJam128Extra(sig64, sig0, 0, -shiftDist, out ulong sigExtra);
-    
+
                 return softfloat_roundPackToF128(sign, exp, sig128Extra.hi64, sig128Extra.lo64, sigExtra);
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple softfloat_roundPackToF128(ulong sign, ulong exp, ulong sig64, ulong sig0, ulong sigExtra)
         {
             UInt128 sig = new UInt128(sig0, sig64);
-        
+
             bool doIncrement = ((UInt128)1 << (BITS - 1)).hi64 <= sigExtra;
-    
-            if ((bitmask64((ulong)EXPONENT_BITS) ^ 2) <= (uint)exp) 
+
+            if ((bitmask64((ulong)EXPONENT_BITS) ^ 2) <= (uint)exp)
             {
-                if ((int)exp < 0) 
+                if ((int)exp < 0)
                 {
                     sig = softfloat_shiftRightJam128Extra(sig.hi64, sig.lo64, sigExtra, -(int)exp, out sigExtra);
                     exp = 0;
-                } 
+                }
                 else if ((bitmask64((long)EXPONENT_BITS) ^ 2) < (int)exp
-                      | ((exp == 0x7FFD) 
-                       & (sig == bitmask128((ulong)MANTISSA_BITS)) 
-                       & doIncrement)) 
+                      | ((exp == 0x7FFD)
+                       & (sig == bitmask128((ulong)MANTISSA_BITS))
+                       & doIncrement))
                 {
                     return new quadruple(0, sign | SIGNALING_EXPONENT.hi64);
                 }
             }
-    
-            if (doIncrement) 
+
+            if (doIncrement)
             {
                 sig++;
                 sig = new UInt128(andnot(sig.lo64, tobyte(andnot(sigExtra, ((UInt128)1 << (BITS - 1)).hi64) == 0)), sig.hi64);
-            } 
-            else if (sig == 0) 
+            }
+            else if (sig == 0)
             {
                 exp = 0;
             }
-            
+
             return new quadruple(sig.lo64, packToF128UI64(sign, exp << MANTISSA_BITS_HI64, sig.hi64));
-        
+
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 softfloat_shortShiftLeft128(ulong a64, ulong a0, byte dist)
         {
@@ -451,7 +452,7 @@ namespace MaxMath
 
             return new UInt128(a0 << dist, a64 << dist | a0 >> (64 - dist));
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 softfloat_shortShiftRight128(ulong a64, ulong a0, byte dist)
         {
@@ -467,7 +468,7 @@ namespace MaxMath
             {
                 return new UInt128(a64 << (64 - dist) | a0 >> dist | tobyte(a0 << (64 - dist) != 0),
                                    a64 >> dist);
-            } 
+            }
             else
             {
                 return new UInt128((dist < 127) ? a64 >> (dist & 63) | tobyte(((a64 & ((1ul << (dist & 63)) - 1)) | a0) != 0)
@@ -475,58 +476,58 @@ namespace MaxMath
                                    0);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 softfloat_shiftRightJam128Extra(ulong a64, ulong a0, ulong extra, int dist, out ulong extraOut)
         {
             UInt128 result;
-            if (dist < 64) 
+            if (dist < 64)
             {
                 result = new UInt128(a64 << (64 - dist) | a0 >> dist, a64 >> dist);
                 extraOut = a0 << (64 - dist);
-            } 
-            else 
+            }
+            else
             {
-                if (dist == 64) 
+                if (dist == 64)
                 {
                     result = new UInt128(a64, 0);
                     extraOut = a0;
-                } 
-                else 
+                }
+                else
                 {
                     extra |= a0;
-                    if (dist < 128) 
+                    if (dist < 128)
                     {
                         result = new UInt128(a64 >> (dist & 63), 0);
                         extraOut = a64 << (64 - dist);
-                    } 
-                    else 
+                    }
+                    else
                     {
                         result = new UInt128(0, 0);
                         extraOut = (dist == 128) ? a64 : tobyte(a64 != 0);
                     }
                 }
             }
-    
+
             extraOut |= tobyte(extra != 0);
             return result;
-        
+
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 softfloat_shortShiftRightJam128Extra(ulong a64, ulong a0, ulong extra, int dist, out ulong extraOut)
         {
             extraOut = a0 << (64 - dist) | tobyte(extra != 0);
             return new UInt128(a64 << (64 - dist) | a0 >> dist, a64 >> dist);
         }
-    
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple softfloat_subMagsF128(quadruple.ConstChecked left, quadruple.ConstChecked right)
         {
             UInt128 l = left.Value.value;
             UInt128 r = right.Value.value;
-            
+
             ulong expZ;
             ulong expA = l.hi64 & SIGNALING_EXPONENT.hi64;
             ulong expB = r.hi64 & SIGNALING_EXPONENT.hi64;
@@ -535,18 +536,18 @@ namespace MaxMath
             UInt128 sigZ;
             UInt128 sigA = new UInt128(l.lo64, fracF128UI64(l.hi64));
             UInt128 sigB = new UInt128(r.lo64, fracF128UI64(r.hi64));
-            
+
             ulong sign = l.hi64 & (1ul << 63);
-    
+
             sigA <<= 4;
             sigB <<= 4;
-    
-            if (expA > expB) 
-            { 
+
+            if (expA > expB)
+            {
                 goto expABigger;
             }
             if (expB > expA)
-            { 
+            {
                 goto expBBigger;
             }
             if (!(left.Promise.NotNaN && left.Promise.NotInf)
@@ -557,39 +558,39 @@ namespace MaxMath
             expZ = expA;
             expZ += toulong(!(left.Promise.NonZero && left.Promise.NotSubnormal) && expZ == 0) << MANTISSA_BITS_HI64;
             if (sigB.hi64 < sigA.hi64)
-            { 
+            {
                 goto aBigger;
             }
             if (sigA.hi64 < sigB.hi64)
-            { 
+            {
                 goto bBigger;
             }
             if (sigB.lo64 < sigA.lo64)
-            { 
+            {
                 goto aBigger;
             }
             if (sigA.lo64 < sigB.lo64)
-            { 
+            {
                 goto bBigger;
             }
             return default(quadruple);
         expBBigger:
             if (!(right.Promise.NotNaN && right.Promise.NotInf)
-             && expB == SIGNALING_EXPONENT.hi64) 
+             && expB == SIGNALING_EXPONENT.hi64)
             {
                 if (!right.Promise.NotNaN
-                 && sigB.IsNotZero) 
+                 && sigB.IsNotZero)
                 {
                     return NaN;
                 }
                 return new quadruple(0, (sign ^ (1ul << 63)) | SIGNALING_EXPONENT.hi64);
             }
             if ((left.Promise.NonZero && left.Promise.NotSubnormal)
-             || expA != 0) 
+             || expA != 0)
             {
                 sigA = new UInt128(sigA.lo64, sigA.hi64 | 0x0010_0000_0000_0000ul);
-            } 
-            else if ((expDiff = expDiff + (1L << MANTISSA_BITS_HI64)) == 0) 
+            }
+            else if ((expDiff = expDiff + (1L << MANTISSA_BITS_HI64)) == 0)
             {
                 goto newlyAlignedBBigger;
             }
@@ -614,7 +615,7 @@ namespace MaxMath
             goto normRoundPack;
         expABigger:
             if (!(left.Promise.NotNaN && left.Promise.NotInf)
-             && expA == SIGNALING_EXPONENT.hi64) 
+             && expA == SIGNALING_EXPONENT.hi64)
             {
                 if (!left.Promise.NotNaN
                  && sigA.IsNotZero)
@@ -627,7 +628,7 @@ namespace MaxMath
              || expB != 0)
             {
                 sigB = new UInt128(sigB.lo64, sigB.hi64 | 0x0010_0000_0000_0000ul);
-            } 
+            }
             else if ((expDiff = expDiff - (1L << MANTISSA_BITS_HI64)) == 0)
             {
                 goto newlyAlignedABigger;
@@ -667,32 +668,32 @@ namespace MaxMath
 
             return softfloat_normRoundPackToF128(sign, (uint)(expZ >> MANTISSA_BITS_HI64) - 5, sigZ.hi64, sigZ.lo64);
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple softfloat_addMagsF128(quadruple.ConstChecked left, quadruple.ConstChecked right)
         {
             UInt128 l = left.Value.value;
             UInt128 r = right.Value.value;
-        
+
             ulong expZ;
             ulong expA = l.hi64 & SIGNALING_EXPONENT.hi64;
             ulong expB = r.hi64 & SIGNALING_EXPONENT.hi64;
             long expDiff = (long)(expA - expB);
-            
+
             UInt128 sigZ;
             ulong sigZExtra;
             UInt128 sigA = new UInt128(l.lo64, fracF128UI64(l.hi64));
             UInt128 sigB = new UInt128(r.lo64, fracF128UI64(r.hi64));
-    
+
             ulong sign = l.hi64 & (1ul << 63);
-    
-            if (expDiff == 0) 
+
+            if (expDiff == 0)
             {
                 if (!(left.Promise.NotNaN && left.Promise.NotInf)
-                 && expA == SIGNALING_EXPONENT.hi64) 
+                 && expA == SIGNALING_EXPONENT.hi64)
                 {
                     if (!right.Promise.NotNaN
-                     && (sigA | sigB).IsNotZero) 
+                     && (sigA | sigB).IsNotZero)
                     {
                         return NaN;
                     }
@@ -700,7 +701,7 @@ namespace MaxMath
                 }
                 sigZ = sigA + sigB;
                 if (!(left.Promise.NonZero && left.Promise.NotSubnormal)
-                 && expA == 0) 
+                 && expA == 0)
                 {
                     return new quadruple(sigZ.lo64, packToF128UI64(sign, 0, sigZ.hi64));
                 }
@@ -712,10 +713,10 @@ namespace MaxMath
             if (expDiff < 0)
             {
                 if (!(right.Promise.NotNaN && right.Promise.NotInf)
-                 && expB == SIGNALING_EXPONENT.hi64) 
+                 && expB == SIGNALING_EXPONENT.hi64)
                 {
                     if (!right.Promise.NotNaN
-                     && sigB.IsNotZero) 
+                     && sigB.IsNotZero)
                     {
                         return NaN;
                     }
@@ -723,14 +724,14 @@ namespace MaxMath
                 }
                 expZ = expB;
                 if ((left.Promise.NonZero && left.Promise.NotSubnormal)
-                 || expA != 0) 
+                 || expA != 0)
                 {
                     sigA = new UInt128(sigA.lo64, sigA.hi64 | (1ul << MANTISSA_BITS_HI64));
-                } 
-                else 
+                }
+                else
                 {
                     sigZExtra = 0;
-                    if ((expDiff = expDiff + (1L << MANTISSA_BITS_HI64)) == 0) 
+                    if ((expDiff = expDiff + (1L << MANTISSA_BITS_HI64)) == 0)
                     {
                         goto newlyAligned;
                     }
@@ -746,14 +747,14 @@ namespace MaxMath
 
 
 
-            } 
-            else 
+            }
+            else
             {
                 if (!(left.Promise.NotNaN && left.Promise.NotInf)
-                 && expA == SIGNALING_EXPONENT.hi64) 
+                 && expA == SIGNALING_EXPONENT.hi64)
                 {
                     if (!left.Promise.NotNaN
-                     && sigA.IsNotZero) 
+                     && sigA.IsNotZero)
                     {
                         return NaN;
                     }
@@ -761,14 +762,14 @@ namespace MaxMath
                 }
                 expZ = expA;
                 if ((right.Promise.NonZero && right.Promise.NotSubnormal)
-                 || expB != 0) 
+                 || expB != 0)
                 {
                     sigB = new UInt128(sigB.lo64, sigB.hi64 | (1ul << MANTISSA_BITS_HI64));
-                } 
-                else 
+                }
+                else
                 {
                     sigZExtra = 0;
-                    if ((expDiff = expDiff - (1L << MANTISSA_BITS_HI64)) == 0) 
+                    if ((expDiff = expDiff - (1L << MANTISSA_BITS_HI64)) == 0)
                     {
                         goto newlyAligned;
                     }
@@ -789,7 +790,7 @@ namespace MaxMath
          newlyAligned:
             sigZ = new UInt128(sigA.lo64, sigA.hi64 | (1ul << MANTISSA_BITS_HI64)) + sigB;
             expZ--;
-            if (sigZ.hi64 < 0x0002_0000_0000_0000ul) 
+            if (sigZ.hi64 < 0x0002_0000_0000_0000ul)
             {
                 goto roundAndPack;
             }
@@ -804,20 +805,20 @@ namespace MaxMath
 
             return softfloat_roundPackToF128(sign, (uint)(expZ >> MANTISSA_BITS_HI64), sigZ.hi64, sigZ.lo64, sigZExtra);
         }
-        
-    
-    
-    
-    
-    
-    
-    
-        
 
 
 
 
-        
+
+
+
+
+
+
+
+
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple operator + (quadruple value)
         {
@@ -830,7 +831,7 @@ namespace MaxMath
             return new quadruple(value.value.lo64, value.value.hi64 ^ (1ul << 63));
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple operator ++ (quadruple x)
         {
@@ -850,19 +851,19 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple operator - (quadruple left, quadruple right) => Subtract(left, right);
 
-        
-        
-        
-
-        
-        
 
 
-        
 
 
-        
-        
+
+
+
+
+
+
+
+
+
 
 
         public readonly int CompareTo(object obj)
@@ -989,9 +990,9 @@ namespace MaxMath
             ulong hx = x.value.hi64;
         	ulong k;
             k = (hx >> 48) & 0x7fff;		/* extract exponent */
-            if (k == 0) 
+            if (k == 0)
             {				/* 0 or subnormal x */
-                if ((lx | (hx & 0x7ffffffffffffffful)) == 0) 
+                if ((lx | (hx & 0x7ffffffffffffffful)) == 0)
                 {
                     return x; /* +-0 */
                 }
@@ -1001,7 +1002,7 @@ namespace MaxMath
         	}
             if (k == 0x7fff)/* NaN or Inf */
             {
-                return x+x;		
+                return x+x;
             }
         	if (n < -50000)  /*underflow*/
             {
@@ -1021,25 +1022,25 @@ namespace MaxMath
             }
             if ((long)k <= -114)/*underflow*/
             {
-        	    return copysign(tinyQuadruple * tinyQuadruple, x); 	
+        	    return copysign(tinyQuadruple * tinyQuadruple, x); 
             }
-            
+
             k += 114;				/* subnormal result */
             x = new quadruple(x.value.lo64, (hx & 0x8000fffffffffffful) | (k << 48));
             return x * new quadruple(0, 0x3F8D000000000000);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple ldexp(quadruple value, int exp)
         {
-        	if(!isfinite(value) | value == 0) 
+        	if(!isfinite(value) | value == 0)
             {
                 return value + value;
             }
 
         	return scalbn(value, exp);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple frexp(quadruple x, out int e)
         {
@@ -1050,7 +1051,7 @@ namespace MaxMath
                 return x + x;
             }
         	if (ix < 0x0001000000000000ul) /* subnormal */
-            {		
+            {
         	    x *= new quadruple(0, 0x4071000000000000);
         	    ix = x.value.hi64 & 0x7ffffffffffffffful;
         	    e = -114;
@@ -1062,13 +1063,13 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple asquadruple(UInt128 x) => new quadruple(x);
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple asquadruple(Int128 x) => new quadruple((UInt128)x);
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 asuint128(quadruple x) => x.value;
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 asint128(quadruple x) => (Int128)x.value;
 
@@ -1087,7 +1088,7 @@ namespace MaxMath
 
             return (sbyte)BASE_cvtf128i128(c, signed: true, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="short"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1102,7 +1103,7 @@ namespace MaxMath
 
             return (short)BASE_cvtf128i128(c, signed: true, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to an <see cref="int"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1117,7 +1118,7 @@ namespace MaxMath
 
             return (int)BASE_cvtf128i128(c, signed: true, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="long"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1132,7 +1133,7 @@ namespace MaxMath
 
             return (long)BASE_cvtf128i128(c, signed: true, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to an <see cref="Int128"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1147,7 +1148,7 @@ namespace MaxMath
 
             return (Int128)BASE_cvtf128i128(c, signed: true, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="byte"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1161,7 +1162,7 @@ namespace MaxMath
 
             return (byte)BASE_cvtf128i128(c, signed: false, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="ushort"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1175,7 +1176,7 @@ namespace MaxMath
 
             return (ushort)BASE_cvtf128i128(c, signed: false, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="uint"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1189,7 +1190,7 @@ namespace MaxMath
 
             return (uint)BASE_cvtf128i128(c, signed: false, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="ulong"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1203,7 +1204,7 @@ namespace MaxMath
 
             return (ulong)BASE_cvtf128i128(c, signed: false, trunc: false);
         }
-        
+
         /// <summary>       Converts a <see cref="quadruple"/> to a <see cref="UInt128"/> while rounding towards the nearest integer value.    </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
@@ -1276,7 +1277,7 @@ namespace MaxMath
                 || abs(x).value < quadruple.SIGNALING_EXPONENT;
         }
 
-        
+
         /// <summary>   Returns the result of converting a <see cref="quadruple"/> value from radians to degrees.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple degrees(quadruple x)
@@ -1290,7 +1291,7 @@ namespace MaxMath
         {
             return x * TORADIANS_QUAD;
         }
-        
+
         /// <summary>   Change the sign of <paramref name="x"/> based on the most significant bit of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple chgsign(quadruple x, quadruple y)
@@ -1459,7 +1460,7 @@ namespace MaxMath
 
 			return asquadruple(result);
         }
-        
+
         /// <summary>       Returns the result of a truncation of a <see cref="quadruple"/> to an integral <see cref="quadruple"/>.       </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
@@ -1481,14 +1482,14 @@ namespace MaxMath
                 }
             }
 
-            int unbiasedExponent = (int)(rawExponent >> quadruple.MANTISSA_BITS) - math.abs(quadruple.EXPONENT_BIAS);
-            int fractionBits = quadruple.MANTISSA_BITS - unbiasedExponent;
-            
-            UInt128 mask = ((UInt128)1 << fractionBits) - 1u;
-            UInt128 validRangeMask = (UInt128)(-tobyte(fractionBits > 0));
+            int unbiasedExponent = (int)(rawExponent >> quadruple.MANTISSA_BITS);
+            int fractionBits = (quadruple.MANTISSA_BITS + math.abs(quadruple.EXPONENT_BIAS)) - unbiasedExponent;
 
-            UInt128 result = andnot(x.value, mask & validRangeMask);
-            result &= (UInt128)(-tobyte(fractionBits <= quadruple.MANTISSA_BITS));
+            UInt128 mask = ((UInt128)1 << fractionBits) - 1u;
+            UInt128 validRangeMask = (UInt128)(-tolong(unbiasedExponent - math.abs(quadruple.EXPONENT_BIAS) < quadruple.MANTISSA_BITS));
+
+            UInt128 result = x.value & (UInt128)(-tolong(fractionBits <= quadruple.MANTISSA_BITS));
+            result = andnot(result, mask & validRangeMask);
 
             // only here to preserve negative 0
             if (!(promises.Promises(Promise.Positive) || constexpr.IS_TRUE(x.value < ~SIGN_MASK)))
@@ -1532,7 +1533,7 @@ namespace MaxMath
         {
             return x >= min & x <= max;
         }
-        
+
         /// <summary>       Returns <see langword="true"/> if the <see cref="quadruple"/> <paramref name="x"/> is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool issubnormal(quadruple x)
@@ -1554,16 +1555,16 @@ namespace MaxMath
             {
                 nonZero = x.value.IsNotZero;
             }
-            
+
             return nonZero & zeroExponent;
         }
-        
+
         /// <summary>       Returns <see langword="true"/> if the <see cref="quadruple"/> <paramref name="x"/> is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnormal(quadruple x)
         {
             ulong cmp = x.value.hi64 & quadruple.SIGNALING_EXPONENT.hi64;
-            
+
             bool nonZeroExponent = cmp != 0;
             bool notNanInf;
             if (COMPILATION_OPTIONS.FLOAT_NO_NAN
@@ -1575,7 +1576,7 @@ namespace MaxMath
             {
                 notNanInf = cmp != quadruple.SIGNALING_EXPONENT.hi64;
             }
-            
+
             return notNanInf & nonZeroExponent;
         }
 
@@ -1598,14 +1599,14 @@ namespace MaxMath
             {
                 bool ainf = isinf(a);
                 bool binf = isinf(b);
-                cmp = select(select(cmp, quadruple.NaN, ainf | binf), 
-                             select(0f, quadruple.NaN, quadruple.NotEqual(promisedA, promisedB)), 
+                cmp = select(select(cmp, quadruple.NaN, ainf | binf),
+                             select(0f, quadruple.NaN, quadruple.NotEqual(promisedA, promisedB)),
                              ainf & binf);
             }
-            
+
             return cmp <= tolerance;
         }
-        
+
         /// <summary>       Returns <see langword="true"/> if the two <see cref="float"/>s <paramref name="a"/> and <paramref name="b"/> are approximately equal to each other.      </summary>
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
@@ -1615,7 +1616,7 @@ namespace MaxMath
         {
             return approx(a, b, max(F128_TO_LAST_DIGIT * max(abs(a), abs(b)), asquadruple(maxmath.bitmask128((ulong)MANTISSA_ROUNDING_BITS))), promises);
         }
-        
+
         /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple select(quadruple a, quadruple b, bool c)
@@ -1650,7 +1651,7 @@ namespace MaxMath
                     return asquadruple(a.value & new UInt128((long)a.value.hi64 >> 63, (long)a.value.hi64 >> 63));
                 }
             }
-        
+
             Promise basePromise = (promises.Promises(Promise.NonZero) ? FloatingPointPromise<quadruple>.NON_ZERO : Promise.Nothing) | (promises.Promises(Promise.Unsafe0) ? FloatingPointPromise<quadruple>.NOT_NAN : Promise.Nothing);
             quadruple.ConstChecked promisedA = a;
             quadruple.ConstChecked promisedB = b;
@@ -1659,7 +1660,7 @@ namespace MaxMath
 
             return quadruple.LessThan(promisedA, promisedB) ? promisedA : promisedB;
         }
-        
+
         /// <summary>       Returns the maximum of two <see cref="quadruple"/>s.    </summary>
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
@@ -1679,7 +1680,7 @@ namespace MaxMath
                     return asquadruple(andnot(a.value, new UInt128((long)a.value.hi64 >> 63, (long)a.value.hi64 >> 63)));
                 }
             }
-        
+
             Promise basePromise = (promises.Promises(Promise.NonZero) ? FloatingPointPromise<quadruple>.NON_ZERO : Promise.Nothing) | (promises.Promises(Promise.Unsafe0) ? FloatingPointPromise<quadruple>.NOT_NAN : Promise.Nothing);
             quadruple.ConstChecked promisedA = a;
             quadruple.ConstChecked promisedB = b;
@@ -1696,13 +1697,13 @@ namespace MaxMath
         {
             UInt128 SIGN_MASK = (UInt128)1u << 127;
             UInt128 VALUE_MASK = ~SIGN_MASK;
-            
+
             UInt128 _x = asuint128(x);
             UInt128 _y = asuint128(y);
-            
+
             UInt128 xAbs = new UInt128(_x.lo64, _x.hi64 & VALUE_MASK.hi64);
             ulong ySign;
-            
+
             if (nonZero.Promises(Promise.NonZero))
             {
                 ySign = SIGN_MASK.hi64 & _y.hi64;
@@ -1711,7 +1712,7 @@ namespace MaxMath
             {
                 ySign = _y.hi64 & (toulong(quadruple.IsNotZero(y)) << 63);
             }
-            
+
             return asquadruple(new UInt128(xAbs.lo64, xAbs.hi64 | ySign));
         }
 
@@ -1729,7 +1730,7 @@ namespace MaxMath
             Int128 summand;
             long sign = (long)__x.hi64 >> 63;
             Int128 sign128 = new Int128(sign, sign);
-            
+
             if (promises.Promises(Promise.NonZero))
             {
                 if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
@@ -1747,13 +1748,13 @@ namespace MaxMath
                 summand = 1 | (sign128 & notNegative0);
                 __x &= notNegative0;
             }
-            
+
             if (!promises.Promises(Promise.Unsafe0))
             {
                 Int128 notNanInf = (Int128)UInt128.blendmask(((UInt128)__x & quadruple.SIGNALING_EXPONENT) != quadruple.SIGNALING_EXPONENT);
                 summand &= notNanInf;
             }
-            
+
             if (promises.Promises(Promise.Negative))
             {
                 return asquadruple(__x - summand);
@@ -1778,7 +1779,7 @@ namespace MaxMath
             Int128 summand;
             long sign = (long)__x.hi64 >> 63;
             Int128 sign128 = new Int128(sign, sign);
-            
+
             if (promises.Promises(Promise.NonZero))
             {
                 if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
@@ -1796,13 +1797,13 @@ namespace MaxMath
                 summand = 1 | (sign128 & isNotZero);
                 __x |= andnot(new Int128(0x0000_0000_0000_0002, 0x8000_0000_0000_0000), isNotZero);
             }
-            
+
             if (!promises.Promises(Promise.Unsafe0))
             {
                 Int128 notNanInf = (Int128)UInt128.blendmask(((UInt128)__x & quadruple.SIGNALING_EXPONENT) != quadruple.SIGNALING_EXPONENT);
                 summand &= notNanInf;
             }
-            
+
             if (promises.Promises(Promise.Negative))
             {
                 return asquadruple(__x + summand);
@@ -1823,11 +1824,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple nexttoward(quadruple from, quadruple to, Promise promises = Promise.Nothing)
         {
-            Promise basePromise = (promises.Promises(Promise.NonZero)  ? FloatingPointPromise<quadruple>.NON_ZERO                               : Promise.Nothing) 
+            Promise basePromise = (promises.Promises(Promise.NonZero)  ? FloatingPointPromise<quadruple>.NON_ZERO                               : Promise.Nothing)
                                 | (promises.Promises(Promise.Unsafe0)  ? FloatingPointPromise<quadruple>.NOT_NAN | FloatingPointPromise<quadruple>.NOT_INF : Promise.Nothing)
                                 | (promises.Promises(Promise.Positive) ? FloatingPointPromise<quadruple>.POSITIVE                               : Promise.Nothing)
                                 | (promises.Promises(Promise.Negative) ? FloatingPointPromise<quadruple>.NEGATIVE                               : Promise.Nothing);
-            
+
             quadruple.ConstChecked promisedFrom = from;
             quadruple.ConstChecked promisedTo = to;
             promisedFrom.Promise |= basePromise;
@@ -1838,7 +1839,7 @@ namespace MaxMath
             Int128 summand;
             long signx = (long)__x.hi64 >> 63;
             Int128 signx128 = new Int128(signx, signx);
-            
+
             if (promises.Promises(Promise.NonZero))
             {
                 if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
@@ -1856,7 +1857,7 @@ namespace MaxMath
                 summand = 1 | (signx128 & zeroMask);
                 __x = (__x & (isGreater | zeroMask)) | andnot(new Int128(0x0000_0000_0000_0002, 0x8000_0000_0000_0000) & isGreater, zeroMask);
             }
-            
+
             if (!promises.Promises(Promise.Unsafe0))
             {
                 Int128 xNotInf = (Int128)UInt128.blendmask(((UInt128)__x & quadruple.SIGNALING_EXPONENT) != quadruple.SIGNALING_EXPONENT);
@@ -1864,12 +1865,12 @@ namespace MaxMath
                 summand = andnot(summand & xNotInf, eitherNaN);
                 __x |= eitherNaN;
             }
-            
+
             summand = (summand ^ isGreater) - isGreater;
             long neq = -tolong(quadruple.NotEqual(promisedFrom, promisedTo));
             Int128 neq128 = new Int128(neq, neq);
             summand &= neq128;
-            
+
             if (promises.Promises(Promise.Negative))
             {
                 return asquadruple(__x - summand);
@@ -1879,19 +1880,19 @@ namespace MaxMath
                 return asquadruple(__x + summand);
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple rcp(quadruple x)
         {
             return 1 / x;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple rsqrt(quadruple x)
         {
             return rcp(sqrt(x));
         }
-        
+
         /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple square(quadruple x)
@@ -1906,11 +1907,10 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="quadruple.PositiveInfinity"/>, and <see cref="quadruple.NegativeInfinity"/>.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for subnormal values, i.e. values with magnitude greater or equal to 0 and magnitude less than or equal to ~3.362103143112093506262677817321752E-4932.       </para>
         /// </remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple cbrt(quadruple x, Promise promises = Promise.Nothing)
         {
             int e, rem, sign;
-            
+
             if (!isfinite(x))
             {
                 return x + x;
@@ -1928,17 +1928,17 @@ namespace MaxMath
                 sign = -1;
                 x = -x;
             }
-            
+
             quadruple y = frexp(x, out e);
-            
-            y = quadruple.fmadd(y, 
-                quadruple.fmadd(y, 
-                quadruple.fmsub(y, 
-                quadruple.fmadd(y, 
-                quadruple.fmsub(y, LUT.R_CBRT.F128_C0, 
-                                   LUT.R_CBRT.F128_C1), 
-                                   LUT.R_CBRT.F128_C2), 
-                                   LUT.R_CBRT.F128_C3), 
+
+            y = quadruple.fmadd(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y, LUT.R_CBRT.F128_C0,
+                                   LUT.R_CBRT.F128_C1),
+                                   LUT.R_CBRT.F128_C2),
+                                   LUT.R_CBRT.F128_C3),
                                    LUT.R_CBRT.F128_C4),
                                    LUT.R_CBRT.F128_C5);
             if (e >= 0)
@@ -1971,12 +1971,12 @@ namespace MaxMath
                 }
                 e = -e;
             }
-            
+
             y = ldexp(y, e);
 
             y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (x / square(y)),   y);
             y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (x / square(y)),   y);
-            
+
             if (COMPILATION_OPTIONS.FLOAT_PRECISION != FloatPrecision.Low)
             {
                 y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (x / square(y)),   y);
@@ -1989,12 +1989,11 @@ namespace MaxMath
 
             return y;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
         public static quadruple rcbrt(quadruple x, Promise promises = Promise.Nothing)
         {
             int e, rem, sign;
-            
+
             if (!isfinite(x))
             {
                 if (isnan(x))
@@ -2017,17 +2016,17 @@ namespace MaxMath
                 sign = -1;
                 x = -x;
             }
-            
+
             quadruple y = frexp(x, out e);
-            
-            y = quadruple.fmadd(y, 
-                quadruple.fmadd(y, 
-                quadruple.fmsub(y, 
-                quadruple.fmadd(y, 
-                quadruple.fmsub(y, LUT.R_CBRT.F128_C0, 
-                                   LUT.R_CBRT.F128_C1), 
-                                   LUT.R_CBRT.F128_C2), 
-                                   LUT.R_CBRT.F128_C3), 
+
+            y = quadruple.fmadd(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y, LUT.R_CBRT.F128_C0,
+                                   LUT.R_CBRT.F128_C1),
+                                   LUT.R_CBRT.F128_C2),
+                                   LUT.R_CBRT.F128_C3),
                                    LUT.R_CBRT.F128_C4),
                                    LUT.R_CBRT.F128_C5);
             if (e >= 0)
@@ -2060,14 +2059,14 @@ namespace MaxMath
                 }
                 e = -e;
             }
-            
+
             quadruple thirdX = x * ONE_THIRD_QUADRUPLE;
             y = ldexp(y, e);
             quadruple inv = rcp(y);
 
             y = inv *  quadruple.fnmadd(thirdX / y,   square(inv),   FOUR_THIRDS_QUADRUPLE);
             y       *= quadruple.fnmadd(thirdX * y,   square(y),     FOUR_THIRDS_QUADRUPLE);
-            
+
             if (COMPILATION_OPTIONS.FLOAT_PRECISION != FloatPrecision.Low)
             {
                 y *= quadruple.fnmadd(thirdX * y,   square(y),   FOUR_THIRDS_QUADRUPLE);
@@ -2094,14 +2093,630 @@ namespace MaxMath
             //quadruple g = asquadruple(y);
             //
             //quadruple mHalfA = -0.5d * x;
-            //quadruple gSq = g * g;
             //quadruple threeHalfsG = (3d / 2d) * g;
             //
-            //return mad(g * mHalfA, gSq, threeHalfsG);
+            //return mad(g * mHalfA, square(g), threeHalfsG);
 
             return 1 / sqrt(x);
         }
 
+        /// <summary>       Returns the result of linearly interpolating from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.   </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple lerp(quadruple start, quadruple end, quadruple t)
+        {
+            return mad(t, end - start, start);
+        }
+
+        /// <summary>       Returns the result of normalizing a floating point value <paramref name="x"/> to a range [<paramref name="start"/>, <paramref name="end"/>]. The opposite of lerp. Equivalent to (<paramref name="x"/> - <paramref name="start"/>) / (<paramref name="end"/> - <paramref name="start"/>).</summary>
+        public static quadruple unlerp(quadruple start, quadruple end, quadruple x)
+        {
+            return (x - start) / (end - start);
+        }
+
+        /// <summary>       Returns the result of a non-clamping linear remapping of a value <paramref name="x"/> from source range [<paramref name="srcStart"/>, <paramref name="srcEnd"/>] to the destination range [<paramref name="dstStart"/>, <paramref name="dstEnd"/>].</summary>
+        public static quadruple remap(quadruple srcStart, quadruple srcEnd, quadruple dstStart, quadruple dstEnd, float x)
+        {
+            return lerp(dstStart, dstEnd, unlerp(srcStart, srcEnd, x));
+        }
+
+        /// <summary>       Returns the result of clamping the value <paramref name="valueToClamp"/> into the interval (inclusive) [<paramref name="lowerBound"/>, <paramref name="upperBound"/>], where <paramref name="valueToClamp"/>, <paramref name="lowerBound"/> and <paramref name="upperBound"/> are float values.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple clamp(quadruple valueToClamp, quadruple lowerBound, quadruple upperBound)
+        {
+            return max(lowerBound, min(upperBound, valueToClamp));
+        }
+
+        /// <summary>       Returns the result of clamping the float value <paramref name="x"/> into the interval [0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple saturate(quadruple x)
+        {
+            return clamp(x, 0, 1);
+        }
+
+        /// <summary>       Returns the dot product of two float values. Equivalent to multiplication.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple dot(quadruple x, quadruple y)
+        {
+            return x * y;
+        }
+
+        /// <summary>       Returns the fractional part of a <see cref="quadruple"/> value.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple frac(quadruple x)
+        {
+            return x - floor(x);
+        }
+
+        /// <summary>       Returns the sign of a <see cref="quadruple"/> value. -1 if it is less than zero, 0 if it is zero and 1 if it is greater than zero.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int sign(quadruple x)
+        {
+            int signBit = (int)(x.value.hi64 >> 63);
+            int isNonZero;
+            int isNegative = signBit;
+
+            if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
+            {
+                UInt128 withoutSignBit = x.value << 1;
+                isNonZero = tobyte(withoutSignBit.IsNotZero);
+                isNegative &= isNonZero;
+            }
+            else
+            {
+                isNonZero = tobyte(x.value.IsNotZero);
+            }
+
+            int isPositive = andnot(isNonZero, signBit);
+            return isPositive - isNegative;
+        }
+
+        /// <summary>       Splits a <see cref="quadruple"/> value into an integral part <paramref name="i"/> and a fractional part that gets returned. Both parts take the sign of the input.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple modf(quadruple x, out quadruple i)
+        {
+            return x - (i = trunc(x));
+        }
+
+        /// <summary>       Returns the length of a <see cref="quadruple"/> value. Equivalent to the absolute value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple length(quadruple x)
+        {
+            return abs(x);
+        }
+
+        /// <summary>       Returns the squared length of a <see cref="quadruple"/> value. Equivalent to squaring the value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple lengthsq(quadruple x)
+        {
+            return x * x;
+        }
+
+        /// <summary>       Returns the distance between two <see cref="quadruple"/> values.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple distance(quadruple x, quadruple y)
+        {
+            return abs(y - x);
+        }
+
+        /// <summary>       Returns the squared distance between two <see cref="quadruple"/> values.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple distancesq(quadruple x, quadruple y)
+        {
+            return square(y - x);
+        }
+
+        /// <summary>       Returns a smooth Hermite interpolation between 0.0 and 1.0 when <paramref name="x"/> is in the interval (inclusive) [<paramref name="xMin"/>, <paramref name="xMax"/>].        </summary>
+        public static quadruple smoothstep(quadruple xMin, quadruple xMax, quadruple x)
+        {
+            quadruple t = saturate((x - xMin) / (xMax - xMin));
+            return square(t) * mad(t, -2.0, 3.0);
+        }
+
+        /// <summary>       Returns the result of a step function where the result is 1.0 when <paramref name="x"/> <see langword=">="/> <paramref name="threshold"/> and 0.0 otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple step(quadruple threshold, quadruple x)
+        {
+            return select(0.0, 1.0, x >= threshold);
+        }
+
+        /// <summary>       Returns the average value of two <see cref="quadruple"/>s.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple avg(quadruple x, quadruple y)
+        {
+            if (constexpr.IS_CONST(x))
+            {
+                return mad(0.5, y, 0.5 * x);
+            }
+            if (constexpr.IS_CONST(y))
+            {
+                return mad(0.5, x, 0.5 * y);
+            }
+
+            return 0.5d * (x + y);
+        }
+
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="quadruple"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple fastrcp(quadruple x)
+        {
+            return rcp(x);
+        }
+
+        /// <summary>       Returns the result of the fast approximate division of two <see cref="quadruple"/>s       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple div(quadruple dividend, quadruple divisor, bool fast = false)
+        {
+            return fast ? dividend * fastrcp(divisor) : dividend / divisor;
+        }
+
+        /// <summary>       Returns the truncated quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple divrem(quadruple dividend, quadruple divisor, out quadruple remainder, bool fastApproximate = false)
+        {
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out quadruple quotient);
+
+            return quotient;
+        }
+
+        /// <summary>       Returns the result of a divide-add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="quadruple"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple dad(quadruple a, quadruple b, quadruple c, bool fast = false)
+        {
+            return mad(a, fast ? fastrcp(b) : rcp(b), c);
+        }
+
+        /// <summary>       Returns the result of a divide-subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="quadruple"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple dsub(quadruple a, quadruple b, quadruple c, bool fast = false)
+        {
+            return mad(a, fast ? fastrcp(b) : rcp(b), -c);
+        }
+
+        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple addsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x + y, quadruple.MinValue, quadruple.MaxValue);
+        }
+
+        /// <summary>       Subtracts <paramref name="y"/> from <paramref name=x"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple subsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x - y, quadruple.MinValue, quadruple.MaxValue);
+        }
+
+        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple mulsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x * y, quadruple.MinValue, quadruple.MaxValue);
+        }
+
+        /// <summary>       Divides <paramref name="x"/> by <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple divsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x / y, quadruple.MinValue, quadruple.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="byte"/> and returns the result, which is clamped to the interval [<see cref="byte.MinValue"/>, <see cref="byte.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte tobytesaturated(quadruple x)
+        {
+            return (byte)clamp(x, byte.MinValue, byte.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to an <see cref="sbyte"/> and returns the result, which is clamped to the interval [<see cref="sbyte.MinValue"/>, <see cref="sbyte.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte tosbytesaturated(quadruple x)
+        {
+            return (sbyte)clamp(x, sbyte.MinValue, sbyte.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="ushort"/> and returns the result, which is clamped to the interval [<see cref="ushort.MinValue"/>, <see cref="ushort.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort toushortsaturated(quadruple x)
+        {
+            return (ushort)clamp(x, ushort.MinValue, ushort.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="short"/> and returns the result, which is clamped to the interval [<see cref="short.MinValue"/>, <see cref="short.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short toshortsaturated(quadruple x)
+        {
+            return (short)clamp(x, short.MinValue, short.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="uint"/> and returns the result, which is clamped to the interval [<see cref="uint.MinValue"/>, <see cref="uint.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint touintsaturated(quadruple x)
+        {
+            return (uint)clamp(x, uint.MinValue, uint.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to an <see cref="int"/> and returns the result, which is clamped to the interval [<see cref="uint.MinValue"/>, <see cref="uint.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int tointsaturated(quadruple x)
+        {
+            return (int)clamp(x, int.MinValue, int.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="ulong"/> and returns the result, which is clamped to the longerval [<see cref="ulong.MinValue"/>, <see cref="ulong.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong toulongsaturated(quadruple x)
+        {
+            return (ulong)clamp(x, ulong.MinValue, ulong.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="long"/> and returns the result, which is clamped to the longerval [<see cref="ulong.MinValue"/>, <see cref="ulong.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long tolongsaturated(quadruple x)
+        {
+            return (long)clamp(x, long.MinValue, long.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="UInt128"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt128 touint128saturated(quadruple x)
+        {
+            return (UInt128)clamp(x, UInt128.MinValue, UInt128.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to an <see cref="Int128"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int128 toint128saturated(quadruple x)
+        {
+            return (Int128)clamp(x, Int128.MinValue, Int128.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="MaxMath.quarter"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter toquartersaturated(quadruple x)
+        {
+            return (quarter)clamp(x, quarter.MinValue, quarter.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="Unity.Mathematics.half"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half tohalfsaturated(quadruple x)
+        {
+            return (half)clamp(x, Unity.Mathematics.half.MinValueAsHalf, Unity.Mathematics.half.MaxValueAsHalf);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="float"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float tofloatsaturated(quadruple x)
+        {
+            return (float)clamp(x, float.MinValue, float.MaxValue);
+        }
+
+        /// <summary>       Casts the <see cref="quadruple"/> <paramref name="x"/> to a <see cref="double"/> and returns the result, which is clamped to the Int128erval [<see cref="uInt128.MinValue"/>, <see cref="uInt128.MaxValue"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double todoublesaturated(quadruple x)
+        {
+            return (double)clamp(x, double.MinValue, double.MaxValue);
+        }
+
+        /// <summary>       Returns <paramref name="x"/> rounded to the nearest greater multiple of <paramref name="m"/> &gt; 0.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple ceilmultiple(quadruple x, quadruple m)
+        {
+Assert.IsGreater(m, 0);
+
+            return m * ceil(x / m);
+        }
+
+        /// <summary>       Returns <paramref name="x"/> rounded to the nearest multiple toward 0 of <paramref name="m"/> &gt; 0.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple truncmultiple(quadruple x, quadruple m)
+        {
+Assert.IsGreater(m, 0);
+
+            return m * trunc(x / m);
+        }
+
+        /// <summary>       Returns <paramref name="x"/> rounded to the nearest multiple of <paramref name="m"/> &gt; 0, rounded towards the greater nearest multiple if the difference to both nearest multiples is equal.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple roundmultiple(quadruple x, quadruple m)
+        {
+Assert.IsGreater(m, 0);
+
+            return m * round(x / m);
+        }
+
+        /// <summary>       Returns <paramref name="x"/> rounded to the nearest smaller multiple of <paramref name="m"/> &gt; 0.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple floormultiple(quadruple x, quadruple m)
+        {
+Assert.IsGreater(m, 0);
+
+            return m * floor(x / m);
+        }
+
+        ///<summary>        Returns the result of performing a reversal of the byte order of a <see cref="quadruple"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple reversebytes(quadruple x)
+        {
+            return asquadruple(reversebytes(asuint128(x)));
+        }
+
+        /// <summary>       Negates the <see cref="quadruple"/> <paramref name="x"/> if the <see cref="bool"/> <paramref name="p"/> is <see langword="true"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple negate(quadruple x, bool p)
+        {
+Assert.IsSafeBoolean(p);
+
+            return new quadruple(x.value.lo64, x.value.hi64 ^ (toulong(p) << 63));
+        }
+
+        /// <summary>       Returns the maximum of two <see cref="quadruple"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return value is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple maxmag(quadruple a, quadruple b)
+        {
+            return select(b, a, abs(a) > abs(b));
+        }
+
+        /// <summary>       Returns the minimum of two <see cref="quadruple"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return value is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple minmag(quadruple a, quadruple b)
+        {
+            return select(a, b, abs(a) > abs(b));
+        }
+
+        /// <summary>       Returns the minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="quadruple"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return values are undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void minmaxmag(quadruple a, quadruple b, [NoAlias] out quadruple minmag, [NoAlias] out quadruple maxmag)
+        {
+            bool aMax = abs(a) > abs(b);
+
+            minmag = select(a, b, aMax);
+            maxmag = select(b, a, aMax);
+        }
+
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quadruple"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void minmax(quadruple a, quadruple b, [NoAlias] out quadruple min, [NoAlias] out quadruple max)
+        {
+            bool aLTb = a < b;
+
+            min = select(b, a, aLTb);
+            max = select(a, b, aLTb);
+        }
+
+        /// <summary>       Returns the smallest difference of two angles as <see cref="quadruple"/>s in unsigned radians.      </summary>
+        public static quadruple angledelta(quadruple a, quadruple b)
+        {
+            return repeat(b - a, TAU_QUAD);
+        }
+
+        /// <summary>       Returns the smallest difference of two angles as <see cref="quadruple"/>s in signed radians.      </summary>
+        public static quadruple angledeltasgn(quadruple a, quadruple b)
+        {
+            quadruple deltas = angledelta(a, b);
+
+            return select(deltas, deltas - TAU_QUAD, deltas > PI_QUAD);
+        }
+
+        /// <summary>       Returns the smallest difference of two angles as <see cref="quadruple"/>s in unsigned degrees.      </summary>
+        public static quadruple angledeltadeg(quadruple a, quadruple b)
+        {
+            return repeat(b - a, 360);
+        }
+
+        /// <summary>       Returns the smallest difference of two angles as <see cref="quadruple"/>s in signed degrees.      </summary>
+        public static quadruple angledeltasgndeg(quadruple a, quadruple b)
+        {
+            quadruple delta = angledeltadeg(a, b);
+
+            return select(delta, delta - 360, delta > 180);
+        }
+
+        /// <summary>       Interpolates between the <see cref="quadruple"/>s <paramref name="from"/> and <paramref name="to"/> with smoothing at the limits if <paramref name="t"/> is within the interval [0, 1].     </summary>
+        public static quadruple smoothlerp(quadruple from, quadruple to, quadruple t)
+        {
+            quadruple t2 = t + t;
+            quadruple t3 = 3 * t;
+            t *= mad(-t, t2, t3);
+
+            return mad(t,
+                       to,
+                       mad(t,
+                           -from,
+                           from));
+        }
+
+        /// <summary>       Ping-Pongs the <see cref="quadruple"/> <paramref name="x"/>, so that it is never larger than the <see cref="quadruple"/> length and never smaller than 0.    </summary>
+        public static quadruple pingpong(quadruple x, quadruple length)
+        {
+            return length - abs(repeat(x, length + length) - length);
+        }
+
+        /// <summary>       Loops the <see cref="quadruple"/> <paramref name="x"/>, so that it is never larger than the <see cref="quadruple"/> <paramref name="length"/> and never smaller than 0.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple repeat(quadruple x, quadruple length)
+        {
+            return clamp(quadruple.fnmadd(length,
+                                          floor(x / length),
+                                          x),
+                         0,
+                         length);
+        }
+
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="bool"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool tobool(quadruple a)
+        {
+Assert.IsTrue(a == 1 || a == 0);
+
+            return asuint128(a) == asuint128((quadruple)1);
+        }
+
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool toboolsafe(quadruple a)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
+            {
+                return (a.value << 1).IsNotZero;
+            }
+            else
+            {
+                return a.value.IsNotZero;
+            }
+        }
+
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="quarter"/> value, which applies to input values with an absolute value that lies in the interval (0.0078125, 0.234375].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter toquarterunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToQuarter(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+        }
+        
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="Unity.Mathematics.half"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-65504, 65504].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="half"/> value, which applies to input values with an absolute value that lies in the interval (2.98023223876953125E-8, 6.0975551605224609375E-5].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half tohalfunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToHalf(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+        }
+        
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="float"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="half"/> value, which applies to input values with an absolute value that lies in the interval (7.006492321624085354618647916449581E-46, 1.1754942106924410754870294448492873E-38].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float tofloatunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToFloat(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+        }
+        
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="double"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.797693134862315708145274237317043567981e+308, 1.797693134862315708145274237317043567981e+308].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="half"/> value, which applies to input values with an absolute value that lies in the interval (2.470328229206232720882843964341107E-324, 2.2250738585072008890245868760858599E-308].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double todoubleunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToDouble(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+        }
+        
+        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="quadruple"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.18973149535723176508575932662800701619646905264e+4932, 1.797693134862315708145274237317043567981e+4932].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadrupleunsafe(quarter q, Promise promise = Promise.Nothing)
+        {
+            return quadruple.FromQuarter(q, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+        }
+        
+        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="quadruple"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.18973149535723176508575932662800701619646905264e+4932, 1.797693134862315708145274237317043567981e+4932].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadrupleunsafe(half h, Promise promise = Promise.Nothing)
+        {
+            return quadruple.FromHalf(h, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+        }
+        
+        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="quadruple"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.18973149535723176508575932662800701619646905264e+4932, 1.797693134862315708145274237317043567981e+4932].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadrupleunsafe(float f, Promise promise = Promise.Nothing)
+        {
+            return quadruple.FromFloat(f, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+        }
+        
+        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="quadruple"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.18973149535723176508575932662800701619646905264e+4932, 1.797693134862315708145274237317043567981e+4932].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadrupleunsafe(double d, Promise promise = Promise.Nothing)
+        {
+            return quadruple.FromDouble(d, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+        }
+        
+
+        /// <summary>       Converts a <see cref="bool"/> to its <see cref="quadruple"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadruple(bool a)
+        {
+            return new quadruple(0, a ? ((quadruple)1).value.hi64 : 0);
+        }
+
+        /// <summary>       Converts a <see cref="bool"/> to its <see cref="quadruple"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple toquadruplesafe(bool a)
+        {
+            return toquadruple(a);
+        }
+
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-2047, 2048].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple exp2(Int128 x, Promise noOverflow = Promise.Nothing)
+        {
+            long hi = (long)x.lo64;
+            if (!noOverflow.Promises(Promise.NoOverflow))
+            {
+                hi = math.clamp(hi, nabs((long)quadruple.EXPONENT_BIAS), math.abs((long)quadruple.EXPONENT_BIAS) + 1);
+            }
+
+            hi = (math.abs((long)quadruple.EXPONENT_BIAS) << quadruple.MANTISSA_BITS_HI64) + (hi << quadruple.MANTISSA_BITS_HI64);
+
+            return new quadruple(0, (ulong)hi);
+        }
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple exp2(UInt128 x, Promise noOverflow = Promise.Nothing)
+        {
+            ulong hi = x.lo64;
+            if (!noOverflow.Promises(Promise.NoOverflow))
+            {
+                hi = math.min(hi, (ulong)math.abs((long)quadruple.EXPONENT_BIAS) + 1);
+            }
+
+            return exp2((Int128)x, Promise.NoOverflow);
+        }
         
         //public static quadruple pow(quadruple x, quadruple y)
         //{
@@ -2110,7 +2725,7 @@ namespace MaxMath
         //        1,
         //        1.5,
         //    };
-        //    
+        //
         //    quadruple* dp_h = stackalloc quadruple[]
         //    {
         //        0,
@@ -2122,13 +2737,13 @@ namespace MaxMath
         //        0,
         //        new quadruple(0xA2EB_7449_3CF9_A8E8, 0x3FC9_E7E8_02C4_8281)
         //    };
-        //    
+        //
         //
         //    quadruple zero = 0,
         //      one = 1,
         //      two = 2,
         //      two113 = new quadruple(0x9569_7AB5_E277_DE16, 0x3FFF_09D8_792F_B4C4);
-        //    
+        //
         //    quadruple* LN = stackalloc quadruple[]
         //    {
         //        new quadruple(0x61D8_61C0_269F_C673, 0x4082_2172_2C7D_A2C0),
@@ -2160,7 +2775,7 @@ namespace MaxMath
         //        new quadruple(0xFF46_23E5_EF07_658F, 0x4072_FD04_1C42_E007),
         //        new quadruple(0xCDEB_DAFD_F92F_A62A, 0x4077_68A5_82D8_60DF)
         //    };
-        //    
+        //
         //    quadruple
         //      lg2_h = new quadruple(0xF000_0000_0000_0000, 0x3FFE_62E4_2FEF_A39E),
         //      lg2_l = new quadruple(0xF2F6_AF40_F343_2672, 0x3FC7_ABC9_E3B3_9803),
@@ -2270,7 +2885,7 @@ namespace MaxMath
 	    //            z = one / z;	/* z = (1/|x|) */
 	    //          if (hx < 0)
 	    //            {
-	    //              if (((ix - 0x3fff0000) | yisint) == 0)
+	    //              if (((ix - 0x3fff0000) | (uint)yisint) == 0)
 	    //        	{
 	    //        	  z = (z - z) / (z - z);	/* (-1)**non-int is NaN */
 	    //        	}
@@ -2282,12 +2897,12 @@ namespace MaxMath
         //      }
         //
         //    /* (x<0)**(non-int) is NaN */
-        //    if (((((uint)hx >> 31) - 1) | yisint) == 0)
+        //    if (((((uint)hx >> 31) - 1) | (uint)yisint) == 0)
         //      return (x - x) / (x - x);
         //
         //    /* sgn (sign of result -ve**odd) = -1 else = 1 */
         //    sgn = one;
-        //    if (((((uint)hx >> 31) - 1) | (yisint - 1)) == 0)
+        //    if (((((uint)hx >> 31) - 1) | (uint)(yisint - 1)) == 0)
         //      sgn = -one;			/* (-ve)**(odd int) */
         //
         //    /* |y| is huge.
@@ -2309,12 +2924,12 @@ namespace MaxMath
         //        if (ix > 0x3fff0000)
 	    //        return (hy > 0) ? sgn * hugeQuadruple * hugeQuadruple : sgn * tinyQuadruple * tinyQuadruple;
         //      }
-        //    
+        //
         //    quadruple pow2m128 = new quadruple(0, 0x3F7F_0000_0000_0000);
         //    ay = y > 0 ? y : -y;
         //    if (ay < pow2m128)
         //      y = y < 0 ? -pow2m128 : pow2m128;
-        //    
+        //
         //    n = 0;
         //    /* take care subnormal number */
         //    if (ix < 0x00010000)
@@ -2381,7 +2996,7 @@ namespace MaxMath
         //    p_l = v - (p_h - u);
         //    z_h = cp_h * p_h;		/* cp_h+cp_l = 2/(3*log2) */
         //    z_l = cp_l * p_h + p_l * cp + dp_l[k];
-        //    /* log2(ax) = (s+..)*2/(3*log2) = n + dp_h + z_h + z_l */
+        //    /* log2(ax) = (s+.)*2/(3*log2) = n + dp_h + z_h + z_l */
         //    t = (quadruple)n;
         //    t1 = (((z_h + z_l) + dp_h[k]) + t);
         //    o = t1;
@@ -2402,7 +3017,7 @@ namespace MaxMath
         //    if (j >= 0x400d0000) /* z >= 16384 */
         //      {
         //        /* if z > 16384 */
-        //        if (((j - 0x400d0000) | (uint)(o.value.hi64) | (uint)(o.value.lo64 >> 32) | (uint)(o.value.lo64)) != 0)
+        //        if (((uint)(j - 0x400d0000) | (uint)(o.value.hi64) | (uint)(o.value.lo64 >> 32) | (uint)(o.value.lo64)) != 0)
 	    //        return sgn * hugeQuadruple * hugeQuadruple;	/* overflow */
         //        else
 	    //        {
@@ -2413,7 +3028,7 @@ namespace MaxMath
         //    else if ((j & 0x7fffffff) >= 0x400d01b9)	/* z <= -16495 */
         //      {
         //        /* z < -16495 */
-        //        if (((j - 0xc00d01bc) | (uint)(o.value.hi64) | (uint)(o.value.lo64 >> 32) | (uint)(o.value.lo64))
+        //        if (((uint)(j - 0xc00d01bc) | (uint)(o.value.hi64) | (uint)(o.value.lo64 >> 32) | (uint)(o.value.lo64))
 	    //          != 0)
 	    //        return sgn * tinyQuadruple * tinyQuadruple;	/* underflow */
         //        else
@@ -2456,10 +3071,35 @@ namespace MaxMath
         //      }
         //    else
         //      {
-        //        o = new quadruple(o.value.lo64, (uint)o.value.hi64 | ((ulong)j << 32));
+        //        o = new quadruple(o.value.lo64, (uint)o.value.hi64 | ((ulong)(uint)j << 32));
         //        z = o;
         //      }
         //    return sgn * z;
         //}
+//tan
+//tanh
+//atan
+//atan2
+//cos
+//cosh
+//acos
+//sin
+//sinh
+//asin
+//sincos
+//asinh
+//acosh
+//atanh
+//pow
+//exp
+//exp2
+//exp10
+//log
+//log2
+//log10
+//erf
+//erfc
+//gamma
+//hypot
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -184,30 +185,14 @@ namespace MaxMath
         public readonly short2 zz => (short2)((ushort3)this).zz;
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(short3 input)
-        {
-            v128 result;
-
-            if (Avx.IsAvxSupported)
-            {
-                result = Avx.undefined_si128();
-            }
-            else
-            {
-                result = default(v128);
-            }
-
-            result.SShort0 = input.x;
-            result.SShort1 = input.y;
-            result.SShort2 = input.z;
-
-            return result;
-        }
-
+        public static implicit operator v128(short3 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short3(v128 input) => new short3 { x = input.SShort0, y = input.SShort1, z = input.SShort2 };
+        public static implicit operator short3(v128 input) => RegisterConversion.ToAbstraction128<short3>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -232,7 +217,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short3(half3 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttph_epi16(RegisterConversion.ToV128(input), 3);
             }
@@ -254,7 +239,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int3(short3 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.cvtepi16_epi32(input));
             }
@@ -267,7 +252,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint3(short3 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.cvtepi16_epi32(input));
             }
@@ -284,7 +269,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi16_epi64(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long3((long2)input.xy, (long)input.z);
             }
@@ -301,7 +286,7 @@ namespace MaxMath
             {
                 return Avx2.mm256_cvtepi16_epi64(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new ulong3((ulong2)input.xy, (ulong)input.z);
             }
@@ -312,12 +297,22 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half3(short3 input) => (half3)(float3)input;
+        public static implicit operator half3(short3 input)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToHalf3(Xse.cvtepi16_ph(input, elements: 3));
+            }
+            else
+            {
+                return (half3)(float3)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float3(short3 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.cvtepi16_ps(input));
             }
@@ -361,7 +356,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator / (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(left, right, false, 3);
             }
@@ -374,7 +369,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator % (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rem_epi16(left, right, 3);
             }
@@ -391,7 +386,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator * (short3 left, short right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -405,7 +400,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator / (short3 left, short right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -419,7 +414,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator % (short3 left, short right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -444,7 +439,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator - (short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.neg_epi16(x);
             }
@@ -457,7 +452,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator ++ (short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.inc_epi16(x);
             }
@@ -470,7 +465,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator -- (short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.dec_epi16(x);
             }
@@ -490,7 +485,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 operator >> (short3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srai_epi16(x, n, inRange: true);
             }
@@ -507,7 +502,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator < (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmplt_epi16(left, right));
 
@@ -522,7 +517,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator > (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsTrue16(Xse.cmpgt_epi16(left, right));
 
@@ -541,7 +536,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator <= (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsFalse16(Xse.cmpgt_epi16(left, right));
 
@@ -556,7 +551,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 operator >= (short3 left, short3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 results = RegisterConversion.IsFalse16(Xse.cmplt_epi16(left, right));
 

@@ -12,21 +12,11 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 16; i++)
             {
-                float f1 = rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
-                float f2 = rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
-                quarter a = (quarter)f1;
-                quarter b = (quarter)f2;
+                quarter a = (quarter)rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
+                quarter b = (quarter)rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
                 quarter test = maxmath.max(a, b);
 
-                if (maxmath.isnan(a) || maxmath.isnan(b) || maxmath.isnan(test) || math.isnan(f1) || math.isnan(f2))
-                {
-                    UnityEngine.Debug.Log(a);
-                    UnityEngine.Debug.Log(b);
-                    UnityEngine.Debug.Log(test);
-                    UnityEngine.Debug.Log(f1);
-                    UnityEngine.Debug.Log(f2);
-                }
                 if (a >= b)
                 {
                     Assert.AreEqual(test, a);
@@ -108,6 +98,44 @@ namespace MaxMath.Tests
                 quarter8 test = maxmath.max(a, b);
 
                 for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter16 a = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
+                quarter16 b = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
+
+                quarter16 test = maxmath.max(a, b);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                quarter32 a = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
+                quarter32 b = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
+
+                quarter32 test = maxmath.max(a, b);
+
+                for (int j = 0; j < 32; j++)
                 {
                     Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
                 }
@@ -265,6 +293,25 @@ namespace MaxMath.Tests
                 half8 test = maxmath.max(a, b);
 
                 for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half16 a = new half16((half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f), (half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f));
+                half16 b = new half16((half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f), (half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f));
+
+                half16 test = maxmath.max(a, b);
+
+                for (int j = 0; j < 16; j++)
                 {
                     Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
                 }

@@ -78,13 +78,47 @@ Assert.AreNotEqual(State, 0);
             return temp;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte2 NextState2()
+        {
+            return new byte2(NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte3 NextState3()
+        {
+            return new byte3(NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte4 NextState4()
+        {
+            return new byte4(NextState(), NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte8 NextState8()
+        {
+            return new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte16 NextState16()
+        {
+            return new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private byte32 NextState32()
+        {
+            return new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+        }
+
         /// <summary>       Returns a uniformly random <see cref="bool"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
-            uint result = NextState() & 1u;
-
-            return *(bool*)&result;
+            return (sbyte)NextState() < 0;
         }
 
         /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
@@ -165,42 +199,42 @@ Assert.AreNotEqual(State, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2()
         {
-            return sbyte.MinValue ^ new sbyte2((sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte2)NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte3"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3()
         {
-            return sbyte.MinValue ^ new sbyte3((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte3)NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte4"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4()
         {
-            return sbyte.MinValue ^ new sbyte4((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte4)NextState4();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte8"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8()
         {
-            return sbyte.MinValue ^ new sbyte8((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte8)NextState8();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte16"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16()
         {
-            return sbyte.MinValue ^ new sbyte16((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte16)NextState16();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte32"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32()
         {
-            return sbyte.MinValue ^ new sbyte32((sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState(), (sbyte)NextState());
+            return sbyte.MinValue ^ (sbyte32)NextState32();
         }
 
 
@@ -219,13 +253,13 @@ Assert.IsNotSmaller(max, min);
         {
 VectorAssert.IsNotSmaller<sbyte2, sbyte>(max, min, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte2(NextState(), NextState()), 2);
+                return min + Xse.mulhi_epu8(max - min, NextState2(), 2);
             }
             else
             {
-                return min + (sbyte2)(((ushort2)(max - min) * new ushort2(NextState(), NextState())) >> 8);
+                return min + (sbyte2)(((ushort2)(max - min) * NextState2()) >> 8);
             }
         }
 
@@ -235,13 +269,13 @@ VectorAssert.IsNotSmaller<sbyte2, sbyte>(max, min, 2);
         {
 VectorAssert.IsNotSmaller<sbyte3, sbyte>(max, min, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte3(NextState(), NextState(), NextState()), 3);
+                return min + Xse.mulhi_epu8(max - min, NextState3(), 3);
             }
             else
             {
-                return min + (sbyte3)(((ushort3)(max - min) * new ushort3(NextState(), NextState(), NextState())) >> 8);
+                return min + (sbyte3)(((ushort3)(max - min) * NextState3()) >> 8);
             }
         }
 
@@ -251,13 +285,13 @@ VectorAssert.IsNotSmaller<sbyte3, sbyte>(max, min, 3);
         {
 VectorAssert.IsNotSmaller<sbyte4, sbyte>(max, min, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
+                return min + Xse.mulhi_epu8(max - min, NextState4(), 4);
             }
             else
             {
-                return min + (sbyte4)(((ushort4)(max - min) * new ushort4(NextState(), NextState(), NextState(), NextState())) >> 8);
+                return min + (sbyte4)(((ushort4)(max - min) * NextState4()) >> 8);
             }
         }
 
@@ -267,13 +301,13 @@ VectorAssert.IsNotSmaller<sbyte4, sbyte>(max, min, 4);
         {
 VectorAssert.IsNotSmaller<sbyte8, sbyte>(max, min, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
+                return min + Xse.mulhi_epu8(max - min, NextState8(), 8);
             }
             else
             {
-                return min + (sbyte8)(((ushort8)(max - min) * new ushort8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 8);
+                return min + (sbyte8)(((ushort8)(max - min) * NextState8()) >> 8);
             }
         }
 
@@ -283,9 +317,9 @@ VectorAssert.IsNotSmaller<sbyte8, sbyte>(max, min, 8);
         {
 VectorAssert.IsNotSmaller<sbyte16, sbyte>(max, min, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return min + Xse.mulhi_epu8(max - min, NextState16());
             }
             else
             {
@@ -301,7 +335,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
 
             if (Avx2.IsAvx2Supported)
             {
-                return min + Xse.mm256_mulhi_epu8(max - min, new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return min + Xse.mm256_mulhi_epu8(max - min, NextState32());
             }
             else
             {
@@ -321,42 +355,42 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2()
         {
-            return byte.MaxValue + new byte2(NextState(), NextState());
+            return byte.MaxValue + NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.byte3"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3()
         {
-            return byte.MaxValue + new byte3(NextState(), NextState(), NextState());
+            return byte.MaxValue + NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.byte4"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4()
         {
-            return byte.MaxValue + new byte4(NextState(), NextState(), NextState(), NextState());
+            return byte.MaxValue + NextState4();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.byte8"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8()
         {
-            return byte.MaxValue + new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            return byte.MaxValue + NextState8();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.byte16"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16()
         {
-            return byte.MaxValue + new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            return byte.MaxValue + NextState16();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.byte32"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32()
         {
-            return byte.MaxValue + new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            return byte.MaxValue + NextState32();
         }
 
 
@@ -371,13 +405,13 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mulhi_epu8(max, new byte2(NextState(), NextState()), 2);
+                return Xse.mulhi_epu8(max, NextState2(), 2);
             }
             else
             {
-                return (byte2)(((short2)max * new short2(NextState(), NextState())) >> 8);
+                return (byte2)(((short2)max * NextState2()) >> 8);
             }
         }
 
@@ -385,13 +419,13 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mulhi_epu8(max, new byte3(NextState(), NextState(), NextState()), 3);
+                return Xse.mulhi_epu8(max, NextState3(), 3);
             }
             else
             {
-                return (byte3)(((short3)max * new short3(NextState(), NextState(), NextState())) >> 8);
+                return (byte3)(((short3)max * NextState3()) >> 8);
             }
         }
 
@@ -399,13 +433,13 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mulhi_epu8(max, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
+                return Xse.mulhi_epu8(max, NextState4(), 4);
             }
             else
             {
-                return (byte4)(((short4)max * new short4(NextState(), NextState(), NextState(), NextState())) >> 8);
+                return (byte4)(((short4)max * NextState4()) >> 8);
             }
         }
 
@@ -413,9 +447,9 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mulhi_epu8(max, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
+                return Xse.mulhi_epu8(max, NextState8(), 8);
             }
             else
             {
@@ -427,9 +461,9 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mulhi_epu8(max, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return Xse.mulhi_epu8(max, NextState16());
             }
             else
             {
@@ -443,7 +477,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_mulhi_epu8(max, new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return Xse.mm256_mulhi_epu8(max, NextState32());
             }
             else
             {
@@ -467,13 +501,13 @@ Assert.IsNotSmaller(max, min);
         {
 VectorAssert.IsNotSmaller<byte2, byte>(max, min, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte2(NextState(), NextState()), 2);
+                return min + Xse.mulhi_epu8(max - min, NextState2(), 2);
             }
             else
             {
-                return min + (byte2)(((short2)(max - min) * new short2(NextState(), NextState())) >> 8);
+                return min + (byte2)(((short2)(max - min) * NextState2()) >> 8);
             }
         }
 
@@ -483,13 +517,13 @@ VectorAssert.IsNotSmaller<byte2, byte>(max, min, 2);
         {
 VectorAssert.IsNotSmaller<byte3, byte>(max, min, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte3(NextState(), NextState(), NextState()), 3);
+                return min + Xse.mulhi_epu8(max - min, NextState3(), 3);
             }
             else
             {
-                return min + (byte3)(((short3)(max - min) * new short3(NextState(), NextState(), NextState())) >> 8);
+                return min + (byte3)(((short3)(max - min) * NextState3()) >> 8);
             }
         }
 
@@ -499,13 +533,13 @@ VectorAssert.IsNotSmaller<byte3, byte>(max, min, 3);
         {
 VectorAssert.IsNotSmaller<byte4, byte>(max, min, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte4(NextState(), NextState(), NextState(), NextState()), 4);
+                return min + Xse.mulhi_epu8(max - min, NextState4(), 4);
             }
             else
             {
-                return min + (byte4)(((short4)(max - min) * new short4(NextState(), NextState(), NextState(), NextState())) >> 8);
+                return min + (byte4)(((short4)(max - min) * NextState4()) >> 8);
             }
         }
 
@@ -515,13 +549,13 @@ VectorAssert.IsNotSmaller<byte4, byte>(max, min, 4);
         {
 VectorAssert.IsNotSmaller<byte8, byte>(max, min, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()), 8);
+                return min + Xse.mulhi_epu8(max - min, NextState8(), 8);
             }
             else
             {
-                return min + (byte8)(((short8)(max - min) * new short8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState())) >> 8);
+                return min + (byte8)(((short8)(max - min) * NextState8()) >> 8);
             }
         }
 
@@ -531,9 +565,9 @@ VectorAssert.IsNotSmaller<byte8, byte>(max, min, 8);
         {
 VectorAssert.IsNotSmaller<byte16, byte>(max, min, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, new byte16(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return min + Xse.mulhi_epu8(max - min, NextState16());
             }
             else
             {
@@ -549,7 +583,7 @@ VectorAssert.IsNotSmaller<byte32, byte>(max, min, 32);
 
             if (Avx2.IsAvx2Supported)
             {
-                return min + Xse.mm256_mulhi_epu8(max - min, new byte32(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()));
+                return min + Xse.mm256_mulhi_epu8(max - min, NextState32());
             }
             else
             {

@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 t1msk_epi8(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return andnot_si128(inc_epi8(a), a);
                 }
@@ -24,7 +24,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 t1msk_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return andnot_si128(inc_epi16(a), a);
                 }
@@ -34,7 +34,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 t1msk_epi32(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return andnot_si128(inc_epi32(a), a);
                 }
@@ -44,7 +44,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 t1msk_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return andnot_si128(inc_epi64(a), a);
                 }
@@ -123,7 +123,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 t1mask(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi8(x);
             }
@@ -137,7 +137,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 t1mask(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi8(x);
             }
@@ -151,7 +151,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 t1mask(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi8(x);
             }
@@ -165,7 +165,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 t1mask(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi8(x);
             }
@@ -179,7 +179,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 t1mask(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi8(x);
             }
@@ -265,7 +265,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 t1mask(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi16(x);
             }
@@ -279,7 +279,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 t1mask(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi16(x);
             }
@@ -293,7 +293,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 t1mask(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi16(x);
             }
@@ -307,7 +307,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 t1mask(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi16(x);
             }
@@ -386,7 +386,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 t1mask(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.t1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -400,7 +400,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 t1mask(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.t1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -414,7 +414,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 t1mask(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.t1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -486,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 t1mask(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.t1msk_epi64(x);
             }

@@ -33,7 +33,7 @@ namespace MaxMath
         private static void ThrowIfBurstCompiled()
         {
         #if DEBUG && !TESTING
-            if (Architecture.IsBurstCompiled)
+            if (BurstArchitecture.IsBurstCompiled)
             {
                 throw new ArgumentException("A Promise used as an argument must be constant, since it adds significant overhead instead of choosing an optimized code path otherwise.");
             }

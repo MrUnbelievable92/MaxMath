@@ -112,7 +112,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((quarter2)quarter.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((quarter2)quarter.NaN)));
         }
-        
+
         [Test]
         public static void _quarter3()
         {
@@ -130,7 +130,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((quarter3)quarter.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((quarter3)quarter.NaN)));
         }
-        
+
         [Test]
         public static void _quarter4()
         {
@@ -148,7 +148,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((quarter4)quarter.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((quarter4)quarter.NaN)));
         }
-        
+
         [Test]
         public static void _quarter8()
         {
@@ -166,7 +166,43 @@ namespace MaxMath.Tests
             Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter8)quarter.NegativeInfinity)));
             Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter8)quarter.NaN)));
         }
-        
+
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter16)(15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter16)(-15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter16)(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS))))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter16)(-maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(maxmath.nextsmaller(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(-maxmath.nextsmaller(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(quarter.Epsilon))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(-quarter.Epsilon))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)(-0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)quarter.PositiveInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)quarter.NegativeInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter16)quarter.NaN)));
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter32)(15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter32)(-15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter32)(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS))))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((quarter32)(-maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(maxmath.nextsmaller(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(-maxmath.nextsmaller(maxmath.asquarter((byte)(1 << quarter.MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(quarter.Epsilon))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(-quarter.Epsilon))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)(-0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)quarter.PositiveInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)quarter.NegativeInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((quarter32)quarter.NaN)));
+        }
+
         [Test]
         public static void _half2()
         {
@@ -184,7 +220,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((half2)float.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((half2)float.NaN)));
         }
-        
+
         [Test]
         public static void _half3()
         {
@@ -202,7 +238,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((half3)float.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((half3)float.NaN)));
         }
-        
+
         [Test]
         public static void _half4()
         {
@@ -220,7 +256,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((half4)float.NegativeInfinity)));
             Assert.IsFalse(math.all(maxmath.isnormal((half4)float.NaN)));
         }
-        
+
         [Test]
         public static void _half8()
         {
@@ -238,7 +274,25 @@ namespace MaxMath.Tests
             Assert.IsFalse(maxmath.all(maxmath.isnormal((half8)float.NegativeInfinity)));
             Assert.IsFalse(maxmath.all(maxmath.isnormal((half8)float.NaN)));
         }
-        
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((half16)(15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((half16)(-15f))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((half16)(maxmath.ashalf((ushort)(1 << LUT.FLOATING_POINT.F16_MANTISSA_BITS))))));
+            Assert.IsTrue(maxmath.all(maxmath.isnormal((half16)(-maxmath.ashalf((ushort)(1 << LUT.FLOATING_POINT.F16_MANTISSA_BITS))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)(maxmath.nextsmaller(maxmath.ashalf((ushort)(1 << LUT.FLOATING_POINT.F16_MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)(-maxmath.nextsmaller(maxmath.ashalf((ushort)(1 << LUT.FLOATING_POINT.F16_MANTISSA_BITS)))))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)maxmath.ashalf((ushort)1))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)(-maxmath.ashalf((ushort)1)))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)(0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)(-0f))));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)float.PositiveInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)float.NegativeInfinity)));
+            Assert.IsFalse(maxmath.all(maxmath.isnormal((half16)float.NaN)));
+        }
+
         [Test]
         public static void _float2()
         {
@@ -256,7 +310,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((float2)(float.NegativeInfinity))));
             Assert.IsFalse(math.all(maxmath.isnormal((float2)(float.NaN))));
         }
-        
+
         [Test]
         public static void _float3()
         {
@@ -274,7 +328,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((float3)(float.NegativeInfinity))));
             Assert.IsFalse(math.all(maxmath.isnormal((float3)(float.NaN))));
         }
-        
+
         [Test]
         public static void _float4()
         {
@@ -292,7 +346,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((float4)(float.NegativeInfinity))));
             Assert.IsFalse(math.all(maxmath.isnormal((float4)(float.NaN))));
         }
-        
+
         [Test]
         public static void _float8()
         {
@@ -310,7 +364,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(maxmath.all(maxmath.isnormal((float8)(float.NegativeInfinity))));
             Assert.IsFalse(maxmath.all(maxmath.isnormal((float8)(float.NaN))));
         }
-        
+
         [Test]
         public static void _double2()
         {
@@ -328,7 +382,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((double2)(double.NegativeInfinity))));
             Assert.IsFalse(math.all(maxmath.isnormal((double2)(double.NaN))));
         }
-        
+
         [Test]
         public static void _double3()
         {
@@ -346,7 +400,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.all(maxmath.isnormal((double3)(double.NegativeInfinity))));
             Assert.IsFalse(math.all(maxmath.isnormal((double3)(double.NaN))));
         }
-        
+
         [Test]
         public static void _double4()
         {

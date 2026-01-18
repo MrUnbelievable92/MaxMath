@@ -108,7 +108,7 @@ namespace MaxMath.Intrinsics
             {
                 return addsub_ps(mul_ps(a, b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return fmadd_ps(a, b, xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }
@@ -126,7 +126,7 @@ namespace MaxMath.Intrinsics
             {
                 return addsub_ps(mul_ps(a, b), xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return fmsub_ps(a, b, xor_ps(c, new v128(1 << 31, 0, 1 << 31, 0)));
             }

@@ -526,6 +526,16 @@ namespace MaxMath.Tests
 
                         trueQuo = maxmath.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
+
+                        try
+                        {
+                        Assert.AreEqual(trueRem, remTest);
+                        }
+                        catch (Exception)
+                        {
+                            UnityEngine.Debug.Log(num);
+                            throw;
+                        }
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
@@ -1474,6 +1484,7 @@ namespace MaxMath.Tests
 
                         uint8 trueQuo = maxmath.divrem(num, denum, out uint8 trueRem);
                         uint8 quoTest = d.DivRem(num, out uint8 remTest);
+
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);

@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constrem_epi8(v128 vector, sbyte divisor, byte elements = 16)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
 			{
 				switch (elements)
 				{

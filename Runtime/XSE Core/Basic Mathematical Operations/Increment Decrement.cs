@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_epi8(a, setall_si128());
             }
@@ -20,7 +20,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return subs_epi8(a, setall_si128());
             }
@@ -30,7 +30,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return adds_epu8(a, set1_epi8(1));
             }
@@ -40,7 +40,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_epi16(a, setall_si128());
             }
@@ -50,7 +50,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return subs_epi16(a, setall_si128());
             }
@@ -60,7 +60,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return adds_epu16(a, set1_epi16(1));
             }
@@ -70,7 +70,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi32(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_epi32(a, setall_si128());
             }
@@ -80,7 +80,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi32(v128 a, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPI32(a, int.MaxValue, elements))
                 {
@@ -97,7 +97,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu32(v128 a, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU32(a, uint.MaxValue, elements))
                 {
@@ -117,7 +117,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 inc_epi64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_epi64(a, setall_si128());
             }
@@ -127,7 +127,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epi64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPI64(a, long.MaxValue))
                 {
@@ -144,7 +144,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 incs_epu64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LT_EPU64(a, ulong.MaxValue))
                 {
@@ -320,7 +320,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return add_epi8(a, setall_si128());
             }
@@ -330,7 +330,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return adds_epi8(a, setall_si128());
             }
@@ -340,7 +340,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu8(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return subs_epu8(a, set1_epi8(1));
             }
@@ -350,7 +350,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return add_epi16(a, setall_si128());
             }
@@ -360,7 +360,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return adds_epi16(a, setall_si128());
             }
@@ -370,7 +370,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu16(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return subs_epu16(a, set1_epi16(1));
             }
@@ -380,7 +380,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi32(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return add_epi32(a, setall_si128());
             }
@@ -390,7 +390,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi32(v128 a, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPI32(a, int.MinValue, elements))
                 {
@@ -407,7 +407,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu32(v128 a, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPU32(a, uint.MinValue, elements))
                 {
@@ -424,7 +424,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 dec_epi64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return add_epi64(a, setall_si128());
             }
@@ -434,7 +434,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epi64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPI64(a, long.MinValue))
                 {
@@ -451,7 +451,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 decs_epu64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_GT_EPU64(a, ulong.MinValue))
                 {

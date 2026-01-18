@@ -70,6 +70,32 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _byte16()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                byte16 b = rng.NextByte16(0, 16);
+
+                Assert.AreEqual((quarter16)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+            }
+        }
+
+        [Test]
+        public static void _byte32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                byte32 b = rng.NextByte32(0, 16);
+
+                Assert.AreEqual((quarter32)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+            }
+        }
+
 
         [Test]
         public static void _ushort()
@@ -133,6 +159,19 @@ namespace MaxMath.Tests
                 ushort8 b = rng.NextUShort8(0, 16);
 
                 Assert.AreEqual((quarter8)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+            }
+        }
+
+        [Test]
+        public static void _ushort16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                ushort16 b = rng.NextUShort16(0, 16);
+
+                Assert.AreEqual((quarter16)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
             }
         }
 
@@ -340,6 +379,34 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _sbyte16()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                sbyte16 b = rng.NextSByte16(-15, 16);
+
+                Assert.AreEqual((quarter16)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((quarter16)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+            }
+        }
+
+        [Test]
+        public static void _sbyte32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                sbyte32 b = rng.NextSByte32(-15, 16);
+
+                Assert.AreEqual((quarter32)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((quarter32)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+            }
+        }
+
 
         [Test]
         public static void _short()
@@ -408,6 +475,20 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual((quarter8)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
                 Assert.AreEqual((quarter8)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+            }
+        }
+
+        [Test]
+        public static void _short16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                short16 b = rng.NextShort16(-15, 16);
+
+                Assert.AreEqual((quarter16)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((quarter16)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -560,7 +641,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 half b = (half)rng.NextFloat(-15.5f, 15.5f);
 
@@ -574,12 +655,12 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 half2 b = (half2)rng.NextFloat2(-15.5f, 15.5f);
 
                 Assert.AreEqual((quarter2)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((quarter2)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((quarter2)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | (math.all(b != (float2)0f) ? Promise.ZeroOrGreater : Promise.Nothing)));
             }
         }
 
@@ -588,12 +669,12 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 half3 b = (half3)rng.NextFloat3(-15.5f, 15.5f);
 
                 Assert.AreEqual((quarter3)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((quarter3)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((quarter3)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | (math.all(b != (float3)0f) ? Promise.ZeroOrGreater : Promise.Nothing)));
             }
         }
 
@@ -602,12 +683,12 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 half4 b = (half4)rng.NextFloat4(-15.5f, 15.5f);
 
                 Assert.AreEqual((quarter4)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((quarter4)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((quarter4)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | (math.all(b != (float4)0f) ? Promise.ZeroOrGreater : Promise.Nothing)));
             }
         }
 
@@ -616,12 +697,26 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 half8 b = (half8)rng.NextFloat8(-15.5f, 15.5f);
 
                 Assert.AreEqual((quarter8)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((quarter8)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((quarter8)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | (maxmath.all(b != (float8)0f) ? Promise.ZeroOrGreater : Promise.Nothing)));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                half16 b = new half16((half8)rng.NextFloat8(-15.5f, 15.5f), (half8)rng.NextFloat8(-15.5f, 15.5f));
+
+                Assert.AreEqual((quarter16)b, maxmath.toquarterunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((quarter16)maxmath.abs(b), maxmath.toquarterunsafe(maxmath.abs(b), Promise.NoOverflow | (maxmath.all(b.v8_0 != (float8)0f) && maxmath.all(b.v8_8 != (float8)0f) ? Promise.ZeroOrGreater : Promise.Nothing)));
             }
         }
 
@@ -631,7 +726,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24000; i++)
             {
                 float b = rng.NextFloat(-15.5f, 15.5f);
 
@@ -645,7 +740,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 float2 b = rng.NextFloat2(-15.5f, 15.5f);
 
@@ -659,7 +754,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 float3 b = rng.NextFloat3(-15.5f, 15.5f);
 
@@ -673,7 +768,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 float4 b = rng.NextFloat4(-15.5f, 15.5f);
 
@@ -687,7 +782,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 float8 b = rng.NextFloat8(-15.5f, 15.5f);
 
@@ -702,7 +797,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 double b = rng.NextDouble(-15.5f, 15.5f);
 
@@ -716,7 +811,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 double2 b = rng.NextDouble2(-15.5f, 15.5f);
 
@@ -730,7 +825,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 double3 b = rng.NextDouble3(-15.5f, 15.5f);
 
@@ -744,7 +839,7 @@ namespace MaxMath.Tests
         {
             Random64 rng = Random64.New;
 
-            for (float i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 double4 b = rng.NextDouble4(-15.5f, 15.5f);
 

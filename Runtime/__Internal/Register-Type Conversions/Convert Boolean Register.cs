@@ -11,7 +11,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsTrue8(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.and_si128(input, Xse.set1_epi8(1));
             }
@@ -21,7 +21,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsFalse8(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(input, Xse.set1_epi8(1));
             }
@@ -52,7 +52,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsTrue16(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsTrue8(Xse.packs_epi16(input, input));
             }
@@ -62,7 +62,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsFalse16(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsFalse8(Xse.packs_epi16(input, input));
             }
@@ -99,7 +99,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsTrue32(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsTrue16(Xse.packs_epi32(input, input));
             }
@@ -109,7 +109,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsFalse32(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsFalse16(Xse.packs_epi32(input, input));
             }
@@ -146,7 +146,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsTrue64(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsTrue32(Xse.packs_epi32(input, input));
             }
@@ -156,7 +156,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 IsFalse64(v128 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return IsFalse32(Xse.packs_epi32(input, input));
             }

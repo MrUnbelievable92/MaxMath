@@ -304,6 +304,20 @@ namespace MaxMath
 
         /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 select(quarter16 a, quarter16 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 select(quarter32 a, quarter32 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half select(half a, half b, bool c)
         {
             return c ? b : a;
@@ -339,6 +353,13 @@ namespace MaxMath
 
         /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 select(half16 a, half16 b, bool c)
+        {
+            return c ? b : a;
+        }
+
+        /// <summary>       Returns <paramref name="b"/> if <paramref name="c"/> is <see langword="true"/>, <paramref name="a"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 select(float8 a, float8 b, bool c)
         {
             return c ? b : a;
@@ -349,7 +370,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 2));
             }
@@ -363,7 +384,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 3));
             }
@@ -377,7 +398,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 4));
             }
@@ -391,7 +412,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 8));
             }
@@ -405,7 +426,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi8(c, MaskType.AllOnes, 16));
             }
@@ -477,7 +498,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 2));
             }
@@ -491,7 +512,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 3));
             }
@@ -505,7 +526,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 4));
             }
@@ -519,7 +540,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi16(c, MaskType.AllOnes, 8));
             }
@@ -584,7 +605,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 select(int2 a, int2 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -598,7 +619,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 select(int3 a, int3 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -612,7 +633,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 select(int4 a, int4 b, int c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c)));
             }
@@ -674,7 +695,7 @@ namespace MaxMath
             {
                 return Xse.blendv_pd(a, b, Xse.broadcastmask_epi64(c, MaskType.SignBit));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.broadcastmask_epi64(c, MaskType.AllOnes));
             }
@@ -763,6 +784,20 @@ namespace MaxMath
             return asquarter(select(asbyte(a), asbyte(b), c));
         }
 
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 select(quarter16 a, quarter16 b, int c)
+        {
+            return asquarter(select(asbyte(a), asbyte(b), c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter32"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 select(quarter32 a, quarter32 b, int c)
+        {
+            return asquarter(select(asbyte(a), asbyte(b), c));
+        }
+
 
         /// <summary>       Returns a componentwise selection between two <see cref="half2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -792,6 +827,13 @@ namespace MaxMath
             return ashalf(select(asushort(a), asushort(b), c));
         }
 
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.half16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 select(half16 a, half16 b, int c)
+        {
+            return ashalf(select(asushort(a), asushort(b), c));
+        }
+
 
         /// <summary>       Returns a componentwise selection between two <see cref="double2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -801,7 +843,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToDouble2(Xse.blendv_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.SignBit)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi64(c, MaskType.AllOnes)));
             }
@@ -817,7 +859,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble3(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 3)));;
+                return RegisterConversion.ToDouble3(Avx.mm256_blendv_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), Xse.mm256_broadcastmask_epi64(c, MaskType.SignBit, 3)));
             }
             else
             {
@@ -848,7 +890,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToFloat2(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -866,7 +908,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -884,7 +926,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToFloat4(Xse.blendv_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.SignBit)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.blendv_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), Xse.broadcastmask_epi32(c, MaskType.AllOnes)));
             }
@@ -913,7 +955,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 select(byte2 a, byte2 b, bool2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -927,7 +969,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 select(byte3 a, byte3 b, bool3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -941,7 +983,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 select(byte4 a, byte4 b, bool4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(RegisterConversion.ToV128(c)));
             }
@@ -955,7 +997,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 select(byte8 a, byte8 b, bool8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(c));
             }
@@ -969,7 +1011,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 select(byte16 a, byte16 b, bool16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.neg_epi8(c));
             }
@@ -1041,7 +1083,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 select(ushort2 a, ushort2 b, bool2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1055,7 +1097,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 select(ushort3 a, ushort3 b, bool3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1069,7 +1111,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 select(ushort4 a, ushort4 b, bool4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1083,7 +1125,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 select(ushort8 a, ushort8 b, bool8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi16(Xse.neg_epi8(c)));
             }
@@ -1171,7 +1213,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 select(long2 a, long2 b, bool2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.blendv_si128(a, b, Xse.cvtepi8_epi64(Xse.neg_epi8(RegisterConversion.ToV128(c))));
             }
@@ -1260,6 +1302,20 @@ namespace MaxMath
             return asquarter(select(asbyte(a), asbyte(b), c));
         }
 
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 select(quarter16 a, quarter16 b, bool16 c)
+        {
+            return asquarter(select(asbyte(a), asbyte(b), c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.quarter32"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool32"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 select(quarter32 a, quarter32 b, bool32 c)
+        {
+            return asquarter(select(asbyte(a), asbyte(b), c));
+        }
+
 
         /// <summary>       Returns a componentwise selection between two <see cref="half2"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="bool2"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1285,6 +1341,13 @@ namespace MaxMath
         /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.half8"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool8"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 select(half8 a, half8 b, bool8 c)
+        {
+            return ashalf(select(asushort(a), asushort(b), c));
+        }
+
+        /// <summary>       Returns a componentwise selection between two <see cref="MaxMath.half16"/>s <paramref name="a"/> and <paramref name="b"/> based on a <see cref="MaxMath.bool16"/> selection mask <paramref name="c"/>. Per component, the component from <paramref name="b"/> is selected when <paramref name="c"/> is <see langword="true"/>, otherwise the component from <paramref name="a"/> is selected.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 select(half16 a, half16 b, bool16 c)
         {
             return ashalf(select(asushort(a), asushort(b), c));
         }

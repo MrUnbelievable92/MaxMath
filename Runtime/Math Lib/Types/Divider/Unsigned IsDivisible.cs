@@ -105,7 +105,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdivisible_epu8(v128 a, v128 divisor, v128 mul, DividerPromise promises, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu8(a, divisor, out v128 constVersion, promises, elements))
                 {
@@ -123,7 +123,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdivisible_epu8(v128 a, v128 divisor, v128 mulLo, v128 mulHi, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu8(a, divisor, out v128 constVersion, promises, 16))
                 {
@@ -164,7 +164,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdivisible_epu16(v128 a, v128 divisor, v128 mul, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu16(a, divisor, out v128 constVersion, promises, elements))
                 {
@@ -182,7 +182,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdivisible_epu16(v128 a, v128 divisor, v128 mulLo, v128 mulHi, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu16(a, divisor, out v128 constVersion, promises))
                 {
@@ -223,7 +223,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmnotdivisible_epu32(v128 a, v128 divisor, v128 mul, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu32(a, divisor, out v128 constVersion, promises, 2))
                 {
@@ -241,7 +241,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmnotdivisible_epu32(v128 a, v128 divisor, v128 mulLo, v128 mulHi, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu32(a, divisor, out v128 constVersion, promises, elements))
                 {
@@ -282,7 +282,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdivisible_epu64(v128 a, v128 divisor, UInt128 mulLo, UInt128 mulHi, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (initconstcheck_epu64(a, divisor, out v128 constVersion, promises))
                 {
@@ -323,7 +323,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool initconstcheck_epu8(v128 a, v128 divisor, out v128 result, DividerPromise promises, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LE_EPU8(divisor, 1, elements))
                 {
@@ -495,7 +495,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool initconstcheck_epu16(v128 a, v128 divisor, out v128 result, DividerPromise promises, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LE_EPU16(divisor, 1, elements))
                 {
@@ -555,7 +555,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool initconstcheck_epu32(v128 a, v128 divisor, out v128 result, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LE_EPU32(divisor, 1, elements))
                 {
@@ -615,7 +615,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool initconstcheck_epu64(v128 a, v128 divisor, out v128 result, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_LE_EPU64(divisor, 1))
                 {
@@ -700,7 +700,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
 
             ushort2 mul = *(ushort2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<byte2>.bmdivisible_epu8(x, d.Divisor, mul, d._promises, 2)));
             }
@@ -718,7 +718,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
 
             ushort3 mul = *(ushort3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<byte3>.bmdivisible_epu8(x, d.Divisor, mul, d._promises, 3)));
             }
@@ -737,7 +737,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
 
             ushort4 mul = *(ushort4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<byte4>.bmdivisible_epu8(x, d.Divisor, mul, d._promises, 4)));
             }
@@ -757,7 +757,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
 
             ushort8 mul = *(ushort8*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte8>.bmdivisible_epu8(x, d.Divisor, mul, d._promises, 8));
             }
@@ -781,7 +781,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
 
             ushort16 mul = *(ushort16*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte16>.bmdivisible_epu8(x, d.Divisor, mul.v8_0, mul.v8_8, d._promises));
             }
@@ -830,7 +830,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
 
             ushort2 mul = *(ushort2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<byte2>.bmdivisible_epu8((byte2)x, d.Divisor, mul, d._promises, 2)));
             }
@@ -848,7 +848,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
 
             ushort3 mul = *(ushort3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<byte3>.bmdivisible_epu8((byte3)x, d.Divisor, mul, d._promises, 3)));
             }
@@ -867,7 +867,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
 
             ushort4 mul = *(ushort4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<byte4>.bmdivisible_epu8((byte4)x, d.Divisor, mul, d._promises, 4)));
             }
@@ -887,7 +887,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
 
             ushort8 mul = *(ushort8*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte8>.bmdivisible_epu8((byte8)x, d.Divisor, mul, d._promises, 8));
             }
@@ -911,7 +911,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
 
             ushort16 mul = *(ushort16*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte16>.bmdivisible_epu8((byte16)x, d.Divisor, mul.v8_0, mul.v8_8, d._promises));
             }
@@ -960,7 +960,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
 
             ushort mul = *(ushort*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<byte2>.bmdivisible_epu8(x, (byte2)d.Divisor, (ushort2)mul, (Promise)d._promises, 2)));
             }
@@ -978,7 +978,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
 
             ushort mul = *(ushort*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<byte3>.bmdivisible_epu8(x, (byte3)d.Divisor, (ushort3)mul, (Promise)d._promises, 3)));
             }
@@ -997,7 +997,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
 
             ushort mul = *(ushort*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<byte4>.bmdivisible_epu8(x, (byte4)d.Divisor, (ushort4)mul, (Promise)d._promises, 4)));
             }
@@ -1017,7 +1017,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
 
             ushort mul = *(ushort*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte8>.bmdivisible_epu8(x, (byte8)d.Divisor, (ushort8)mul, (Promise)d._promises, 8));
             }
@@ -1041,7 +1041,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
 
             ushort mul = *(ushort*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Divider<byte16>.bmdivisible_epu8(x, (byte16)d.Divisor, (ushort8)mul, (ushort8)mul, (Promise)d._promises));
             }
@@ -1100,7 +1100,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
 
             uint2 mul = *(uint2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<ushort2>.bmdivisible_epu16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 2)));
             }
@@ -1118,7 +1118,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
 
             uint3 mul = *(uint3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<ushort3>.bmdivisible_epu16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 3)));
             }
@@ -1137,7 +1137,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
 
             uint4 mul = *(uint4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<ushort4>.bmdivisible_epu16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 4)));
             }
@@ -1157,7 +1157,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
 
             uint8 mul = *(uint8*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Divider<ushort8>.bmdivisible_epu16(x, d.Divisor, RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(mul.v4_4), d._promises));
             }
@@ -1198,7 +1198,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
 
             uint2 mul = *(uint2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<ushort2>.bmdivisible_epu16((ushort2)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 2)));
             }
@@ -1216,7 +1216,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
 
             uint3 mul = *(uint3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<ushort3>.bmdivisible_epu16((ushort3)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 3)));
             }
@@ -1235,7 +1235,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
 
             uint4 mul = *(uint4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<ushort4>.bmdivisible_epu16((ushort4)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 4)));
             }
@@ -1255,7 +1255,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
 
             uint8 mul = *(uint8*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Divider<ushort8>.bmdivisible_epu16((ushort8)x, d.Divisor, RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(mul.v4_4), d._promises));
             }
@@ -1296,7 +1296,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
 
             uint mul = *(uint*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<ushort2>.bmdivisible_epu16(x, (ushort2)d.Divisor, RegisterConversion.ToV128((uint2)mul), (Promise)d._promises, 2)));
             }
@@ -1314,7 +1314,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
 
             uint mul = *(uint*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<ushort3>.bmdivisible_epu16(x, (ushort3)d.Divisor, RegisterConversion.ToV128((uint3)mul), (Promise)d._promises, 3)));
             }
@@ -1333,7 +1333,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
 
             uint mul = *(uint*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<ushort4>.bmdivisible_epu16(x, (ushort4)d.Divisor, RegisterConversion.ToV128((uint4)mul), (Promise)d._promises, 4)));
             }
@@ -1353,7 +1353,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
 
             uint mul = *(uint*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Divider<ushort8>.bmdivisible_epu16(x, (ushort8)d.Divisor, RegisterConversion.ToV128((uint4)mul), RegisterConversion.ToV128((uint4)mul), (Promise)d._promises));
             }
@@ -1404,7 +1404,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
 
             ulong2 mul = *(ulong2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<uint2>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul, d._promises)));
             }
@@ -1422,7 +1422,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
 
             ulong3 mul = *(ulong3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<uint3>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zz, d._promises, 3)));
             }
@@ -1441,7 +1441,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
 
             ulong4 mul = *(ulong4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<uint4>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zw, d._promises, 4)));
             }
@@ -1478,7 +1478,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
 
             ulong2 mul = *(ulong2*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<uint2>.bmnotdivisible_epu32(RegisterConversion.ToV128((uint2)x), RegisterConversion.ToV128(d.Divisor), mul, d._promises)));
             }
@@ -1496,7 +1496,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
 
             ulong3 mul = *(ulong3*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<uint3>.bmnotdivisible_epu32(RegisterConversion.ToV128((uint3)x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zz, d._promises, 3)));
             }
@@ -1515,7 +1515,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
 
             ulong4 mul = *(ulong4*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<uint4>.bmnotdivisible_epu32(RegisterConversion.ToV128((uint4)x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zw, d._promises, 4)));
             }
@@ -1552,7 +1552,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
 
             ulong mul = *(ulong*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<uint2>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((uint2)d.Divisor), (ulong2)mul, (Promise)d._promises)));
             }
@@ -1570,7 +1570,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
 
             ulong mul = *(ulong*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<uint3>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((uint3)d.Divisor), (ulong2)mul, (ulong2)mul, (Promise)d._promises, 3)));
             }
@@ -1589,7 +1589,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
 
             ulong mul = *(ulong*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<uint4>.bmnotdivisible_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((uint4)d.Divisor), (ulong2)mul, (ulong2)mul, (Promise)d._promises, 4)));
             }
@@ -1636,7 +1636,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
 
             UInt128* mul = (UInt128*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64(x, d.Divisor, mul[0], mul[1], d._promises)));
             }
@@ -1660,7 +1660,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                 {
                     return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<ulong3>.mm256_bmnotdivisible_epu64(x, d.Divisor, default(v256), default(v256), d._promises, 3)));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64(x.xy, d.Divisor.xy, default(UInt128), default(UInt128), (Promise)d._promises))),
                                      Divider<ulong>.bmdivisible_u64(x[2], mul[2], d._divisor[2], (Promise)d._promises));
@@ -1701,7 +1701,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
 
             UInt128* mul = (UInt128*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64((ulong2)x, d.Divisor, mul[0], mul[1], d._promises)));
             }
@@ -1725,7 +1725,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                 {
                     return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<ulong3>.mm256_bmnotdivisible_epu64((ulong3)x, d.Divisor, default(v256), default(v256), d._promises, 3)));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64((ulong2)x, d.Divisor.xy, default(UInt128), default(UInt128), (Promise)d._promises))),
                                      Divider<ulong>.bmdivisible_u64(x, mul[2], d._divisor[2], (Promise)d._promises));
@@ -1766,7 +1766,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
 
             UInt128 mul = *(UInt128*)&d._bigM;
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64(x, (ulong2)d.Divisor, mul, mul, (Promise)d._promises)));
             }
@@ -1790,7 +1790,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                 {
                     return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<ulong3>.mm256_bmnotdivisible_epu64(x, Xse.mm256_set1_epi64x(d.Divisor), default(v256), default(v256), (Promise)d._promises, 3)));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epu64(x.xy, Xse.set1_epi64x(d.Divisor), default(UInt128), default(UInt128), (Promise)d._promises))),
                                      Divider<ulong>.bmdivisible_u64(x[2], mul, d._divisor, (Promise)d._promises));

@@ -730,8 +730,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((quarter2)quarter.NaN).x);
-            Assert.IsNaN(maxmath.nextsmaller((quarter2)quarter.NaN).y);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((quarter2)quarter.NaN))));
             Assert.AreEqual(maxmath.nextsmaller((quarter2)(quarter)float.PositiveInfinity), (quarter2)(quarter)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter2)(quarter)float.NegativeInfinity), (quarter2)(quarter)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter2)quarter.MinValue), (quarter2)(quarter)float.NegativeInfinity);
@@ -742,8 +741,10 @@ namespace MaxMath.Tests
             {
                 quarter2 f = (quarter2)rng.NextFloat2(quarter.MinValue / 2, quarter.MaxValue / 2);
 
-                Assert.Less((float)maxmath.nextsmaller(f).x, (float)f.x);
-                Assert.Less((float)maxmath.nextsmaller(f).y, (float)f.y);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -752,9 +753,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((quarter3)quarter.NaN).x);
-            Assert.IsNaN(maxmath.nextsmaller((quarter3)quarter.NaN).y);
-            Assert.IsNaN(maxmath.nextsmaller((quarter3)quarter.NaN).z);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((quarter3)quarter.NaN))));
             Assert.AreEqual(maxmath.nextsmaller((quarter3)(quarter)float.PositiveInfinity), (quarter3)(quarter)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter3)(quarter)float.NegativeInfinity), (quarter3)(quarter)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter3)quarter.MinValue), (quarter3)(quarter)float.NegativeInfinity);
@@ -765,9 +764,10 @@ namespace MaxMath.Tests
             {
                 quarter3 f = (quarter3)rng.NextFloat3(quarter.MinValue / 2, quarter.MaxValue / 2);
 
-                Assert.Less((float)maxmath.nextsmaller(f).x, (float)f.x);
-                Assert.Less((float)maxmath.nextsmaller(f).y, (float)f.y);
-                Assert.Less((float)maxmath.nextsmaller(f).z, (float)f.z);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -776,10 +776,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((quarter4)quarter.NaN).x);
-            Assert.IsNaN(maxmath.nextsmaller((quarter4)quarter.NaN).y);
-            Assert.IsNaN(maxmath.nextsmaller((quarter4)quarter.NaN).z);
-            Assert.IsNaN(maxmath.nextsmaller((quarter4)quarter.NaN).w);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((quarter4)quarter.NaN))));
             Assert.AreEqual(maxmath.nextsmaller((quarter4)(quarter)float.PositiveInfinity), (quarter4)(quarter)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter4)(quarter)float.NegativeInfinity), (quarter4)(quarter)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter4)quarter.MinValue), (quarter4)(quarter)float.NegativeInfinity);
@@ -790,10 +787,10 @@ namespace MaxMath.Tests
             {
                 quarter4 f = (quarter4)rng.NextFloat4(quarter.MinValue / 2, quarter.MaxValue / 2);
 
-                Assert.Less((float)maxmath.nextsmaller(f).x, (float)f.x);
-                Assert.Less((float)maxmath.nextsmaller(f).y, (float)f.y);
-                Assert.Less((float)maxmath.nextsmaller(f).z, (float)f.z);
-                Assert.Less((float)maxmath.nextsmaller(f).w, (float)f.w);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -802,14 +799,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x0);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x1);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x2);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x3);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x4);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x5);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x6);
-            Assert.IsNaN(maxmath.nextsmaller((quarter8)quarter.NaN).x7);
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.nextsmaller((quarter8)quarter.NaN))));
             Assert.AreEqual(maxmath.nextsmaller((quarter8)(quarter)float.PositiveInfinity), (quarter8)(quarter)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter8)(quarter)float.NegativeInfinity), (quarter8)(quarter)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((quarter8)quarter.MinValue), (quarter8)(quarter)float.NegativeInfinity);
@@ -820,14 +810,56 @@ namespace MaxMath.Tests
             {
                 quarter8 f = (quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2);
 
-                Assert.Less((float)maxmath.nextsmaller(f).x0, (float)f.x0);
-                Assert.Less((float)maxmath.nextsmaller(f).x1, (float)f.x1);
-                Assert.Less((float)maxmath.nextsmaller(f).x2, (float)f.x2);
-                Assert.Less((float)maxmath.nextsmaller(f).x3, (float)f.x3);
-                Assert.Less((float)maxmath.nextsmaller(f).x4, (float)f.x4);
-                Assert.Less((float)maxmath.nextsmaller(f).x5, (float)f.x5);
-                Assert.Less((float)maxmath.nextsmaller(f).x6, (float)f.x6);
-                Assert.Less((float)maxmath.nextsmaller(f).x7, (float)f.x7);
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter16()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.nextsmaller((quarter16)quarter.NaN))));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(quarter)float.PositiveInfinity), (quarter16)(quarter)float.PositiveInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(quarter)float.NegativeInfinity), (quarter16)(quarter)float.NegativeInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)quarter.MinValue), (quarter16)(quarter)float.NegativeInfinity);
+            Assert.AreEqual((quarter16)maxmath.asquarter((byte)0b1000_0001), maxmath.nextsmaller((quarter16)maxmath.asquarter((byte)0b1000_0000)));
+            Assert.AreEqual((quarter16)maxmath.asquarter((byte)0b1000_0001), maxmath.nextsmaller((quarter16)(quarter)0f));
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter16 f = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2), (quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2));
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.nextsmaller((quarter32)quarter.NaN))));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(quarter)float.PositiveInfinity), (quarter32)(quarter)float.PositiveInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(quarter)float.NegativeInfinity), (quarter32)(quarter)float.NegativeInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)quarter.MinValue), (quarter32)(quarter)float.NegativeInfinity);
+            Assert.AreEqual((quarter32)maxmath.asquarter((byte)0b1000_0001), maxmath.nextsmaller((quarter32)maxmath.asquarter((byte)0b1000_0000)));
+            Assert.AreEqual((quarter32)maxmath.asquarter((byte)0b1000_0001), maxmath.nextsmaller((quarter32)(quarter)0f));
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter32 f = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2), (quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2), (quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2), (quarter8)rng.NextFloat8(quarter.MinValue / 2, quarter.MaxValue / 2));
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -857,8 +889,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((half2)maxmath.ashalf((ushort)0x7C01)).x);
-            Assert.IsNaN(maxmath.nextsmaller((half2)maxmath.ashalf((ushort)0x7C01)).y);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((half2)maxmath.ashalf((ushort)0x7C01)))));
             Assert.AreEqual(maxmath.nextsmaller((half2)(half)float.PositiveInfinity), (half2)(half)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half2)(half)float.NegativeInfinity), (half2)(half)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half2)half.MinValueAsHalf), (half2)(half)float.NegativeInfinity);
@@ -869,8 +900,10 @@ namespace MaxMath.Tests
             {
                 half2 f = (half2)rng.NextFloat2(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2);
 
-                Assert.Less(maxmath.nextsmaller(f).x, f.x);
-                Assert.Less(maxmath.nextsmaller(f).y, f.y);
+                for (int j = 0; j < 2; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -879,9 +912,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((half3)maxmath.ashalf((ushort)0x7C01)).x);
-            Assert.IsNaN(maxmath.nextsmaller((half3)maxmath.ashalf((ushort)0x7C01)).y);
-            Assert.IsNaN(maxmath.nextsmaller((half3)maxmath.ashalf((ushort)0x7C01)).z);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((half3)maxmath.ashalf((ushort)0x7C01)))));
             Assert.AreEqual(maxmath.nextsmaller((half3)(half)float.PositiveInfinity), (half3)(half)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half3)(half)float.NegativeInfinity), (half3)(half)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half3)half.MinValueAsHalf), (half3)(half)float.NegativeInfinity);
@@ -892,9 +923,10 @@ namespace MaxMath.Tests
             {
                 half3 f = (half3)rng.NextFloat3(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2);
 
-                Assert.Less(maxmath.nextsmaller(f).x, f.x);
-                Assert.Less(maxmath.nextsmaller(f).y, f.y);
-                Assert.Less(maxmath.nextsmaller(f).z, f.z);
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -903,10 +935,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((half4)maxmath.ashalf((ushort)0x7C01)).x);
-            Assert.IsNaN(maxmath.nextsmaller((half4)maxmath.ashalf((ushort)0x7C01)).y);
-            Assert.IsNaN(maxmath.nextsmaller((half4)maxmath.ashalf((ushort)0x7C01)).z);
-            Assert.IsNaN(maxmath.nextsmaller((half4)maxmath.ashalf((ushort)0x7C01)).w);
+            Assert.IsTrue(math.all(maxmath.isnan(maxmath.nextsmaller((half4)maxmath.ashalf((ushort)0x7C01)))));
             Assert.AreEqual(maxmath.nextsmaller((half4)(half)float.PositiveInfinity), (half4)(half)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half4)(half)float.NegativeInfinity), (half4)(half)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half4)half.MinValueAsHalf), (half4)(half)float.NegativeInfinity);
@@ -917,10 +946,10 @@ namespace MaxMath.Tests
             {
                 half4 f = (half4)rng.NextFloat4(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2);
 
-                Assert.Less(maxmath.nextsmaller(f).x, f.x);
-                Assert.Less(maxmath.nextsmaller(f).y, f.y);
-                Assert.Less(maxmath.nextsmaller(f).z, f.z);
-                Assert.Less(maxmath.nextsmaller(f).w, f.w);
+                for (int j = 0; j < 4; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 
@@ -929,14 +958,7 @@ namespace MaxMath.Tests
         {
             Random32 rng = Random32.New;
 
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x0);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x1);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x2);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x3);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x4);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x5);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x6);
-            Assert.IsNaN(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)).x7);
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.nextsmaller((half8)maxmath.ashalf((ushort)0x7C01)))));
             Assert.AreEqual(maxmath.nextsmaller((half8)(half)float.PositiveInfinity), (half8)(half)float.PositiveInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half8)(half)float.NegativeInfinity), (half8)(half)float.NegativeInfinity);
             Assert.AreEqual(maxmath.nextsmaller((half8)half.MinValueAsHalf), (half8)(half)float.NegativeInfinity);
@@ -947,14 +969,33 @@ namespace MaxMath.Tests
             {
                 half8 f = (half8)rng.NextFloat8(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2);
 
-                Assert.Less(maxmath.nextsmaller(f).x0, f.x0);
-                Assert.Less(maxmath.nextsmaller(f).x1, f.x1);
-                Assert.Less(maxmath.nextsmaller(f).x2, f.x2);
-                Assert.Less(maxmath.nextsmaller(f).x3, f.x3);
-                Assert.Less(maxmath.nextsmaller(f).x4, f.x4);
-                Assert.Less(maxmath.nextsmaller(f).x5, f.x5);
-                Assert.Less(maxmath.nextsmaller(f).x6, f.x6);
-                Assert.Less(maxmath.nextsmaller(f).x7, f.x7);
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.nextsmaller((half16)maxmath.ashalf((ushort)0x7C01)))));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(half)float.PositiveInfinity), (half16)(half)float.PositiveInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((half16)(half)float.NegativeInfinity), (half16)(half)float.NegativeInfinity);
+            Assert.AreEqual(maxmath.nextsmaller((half16)half.MinValueAsHalf), (half16)(half)float.NegativeInfinity);
+            Assert.AreEqual((half16)maxmath.ashalf((ushort)0x8001), maxmath.nextsmaller((half16)maxmath.ashalf((ushort)0x8000)));
+            Assert.AreEqual((half16)maxmath.ashalf((ushort)0x8001), maxmath.nextsmaller((half16)(half)0f));
+
+            for (int i = 0; i < 25; i++)
+            {
+                half16 f = new half16((half8)rng.NextFloat8(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2), (half8)rng.NextFloat8(half.MinValueAsHalf / 2, half.MaxValueAsHalf / 2));
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.Less((float)maxmath.nextsmaller(f)[j], (float)f[j]);
+                }
             }
         }
 

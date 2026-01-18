@@ -30,7 +30,6 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 3 * sizeof(byte), sizeof(byte4x3));
             Assert.AreEqual(4 * 4 * sizeof(byte), sizeof(byte4x4));
 
-
             Assert.AreEqual(2  * sizeof(sbyte), sizeof(sbyte2));
             Assert.AreEqual(3  * sizeof(sbyte), sizeof(sbyte3));
             Assert.AreEqual(4  * sizeof(sbyte), sizeof(sbyte4));
@@ -50,7 +49,6 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 3 * sizeof(sbyte), sizeof(sbyte4x3));
             Assert.AreEqual(4 * 4 * sizeof(sbyte), sizeof(sbyte4x4));
 
-
             Assert.AreEqual(2  * sizeof(ushort), sizeof(ushort2));
             Assert.AreEqual(3  * sizeof(ushort), sizeof(ushort3));
             Assert.AreEqual(4  * sizeof(ushort), sizeof(ushort4));
@@ -68,7 +66,6 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 2 * sizeof(ushort), sizeof(ushort4x2));
             Assert.AreEqual(4 * 3 * sizeof(ushort), sizeof(ushort4x3));
             Assert.AreEqual(4 * 4 * sizeof(ushort), sizeof(ushort4x4));
-
 
             Assert.AreEqual(2  * sizeof(short), sizeof(short2));
             Assert.AreEqual(3  * sizeof(short), sizeof(short3));
@@ -88,14 +85,9 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 3 * sizeof(short), sizeof(short4x3));
             Assert.AreEqual(4 * 4 * sizeof(short), sizeof(short4x4));
 
-
-
             Assert.AreEqual(8  * sizeof(uint), sizeof(uint8));
 
-
             Assert.AreEqual(8  * sizeof(int), sizeof(int8));
-
-
 
             Assert.AreEqual(2  * sizeof(ulong), sizeof(ulong2));
             Assert.AreEqual(3  * sizeof(ulong), sizeof(ulong3));
@@ -113,7 +105,6 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 3 * sizeof(ulong), sizeof(ulong4x3));
             Assert.AreEqual(4 * 4 * sizeof(ulong), sizeof(ulong4x4));
 
-
             Assert.AreEqual(2  * sizeof(long), sizeof(long2));
             Assert.AreEqual(3  * sizeof(long), sizeof(long3));
             Assert.AreEqual(4  * sizeof(long), sizeof(long4));
@@ -130,18 +121,18 @@ namespace MaxMath.Tests
             Assert.AreEqual(4 * 3 * sizeof(long), sizeof(long4x3));
             Assert.AreEqual(4 * 4 * sizeof(long), sizeof(long4x4));
 
-
+            Assert.AreEqual(128 / 8, sizeof(quadruple));
 
             Assert.AreEqual(sizeof(quarter), sizeof(byte));
             Assert.AreEqual(2  * sizeof(quarter), sizeof(quarter2));
             Assert.AreEqual(3  * sizeof(quarter), sizeof(quarter3));
             Assert.AreEqual(4  * sizeof(quarter), sizeof(quarter4));
             Assert.AreEqual(8  * sizeof(quarter), sizeof(quarter8));
-
-
+            Assert.AreEqual(16 * sizeof(quarter), sizeof(quarter16));
+            Assert.AreEqual(32 * sizeof(quarter), sizeof(quarter32));
 
             Assert.AreEqual(8  * sizeof(half), sizeof(half8));
-
+            Assert.AreEqual(16 * sizeof(half), sizeof(half16));
 
             Assert.AreEqual(8  * sizeof(float), sizeof(float8));
         }

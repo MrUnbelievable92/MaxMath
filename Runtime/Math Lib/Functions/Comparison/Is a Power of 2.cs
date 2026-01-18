@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 pow2_epu8(v128 a, bool signed, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result = cmpeq_epi8(blsr_epi8(a), setzero_si128());
 
@@ -41,10 +41,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 pow2_epu16(v128 a, bool signed, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result = cmpeq_epi16(blsr_epi16(a), setzero_si128());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI16(a, 0, elements))
@@ -68,10 +68,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 pow2_epu32(v128 a, bool signed, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result = cmpeq_epi32(blsr_epi32(a), setzero_si128());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI32(a, 0, elements))
@@ -95,10 +95,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 pow2_epu64(v128 a, bool signed)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result = cmpeq_epi64(blsr_epi64(a), setzero_si128());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI64(a, 0))
@@ -126,7 +126,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result = Avx2.mm256_cmpeq_epi8(mm256_blsr_epi8(a), Avx.mm256_setzero_si256());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI8(a, 0))
@@ -146,14 +146,14 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_pow2_epu16(v256 a, bool signed)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result = Avx2.mm256_cmpeq_epi16(mm256_blsr_epi16(a), Avx.mm256_setzero_si256());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI16(a, 0))
@@ -173,14 +173,14 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_pow2_epu32(v256 a, bool signed)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result = Avx2.mm256_cmpeq_epi32(mm256_blsr_epi32(a), Avx.mm256_setzero_si256());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI32(a, 0))
@@ -200,14 +200,14 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_pow2_epu64(v256 a, bool signed, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result = Avx2.mm256_cmpeq_epi64(mm256_blsr_epi64(a), Avx.mm256_setzero_si256());
-                    
+
                     if (signed)
                     {
                         if (!constexpr.ALL_GT_EPI64(a, 0, elements))
@@ -236,7 +236,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ispow2(UInt128 x)
         {
-            if (Architecture.IsPopcntSupported)
+            if (BurstArchitecture.IsPopcntSupported)
             {
                 return countbits(x) == 1;
             }
@@ -265,7 +265,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, false, 2)));
             }
@@ -279,7 +279,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 ispow2(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, false, 3)));
             }
@@ -293,7 +293,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 ispow2(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, false, 4)));
             }
@@ -307,7 +307,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 ispow2(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.pow2_epu8(x, false, 8));
             }
@@ -321,7 +321,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 ispow2(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.pow2_epu8(x, false, 16));
             }
@@ -357,7 +357,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(sbyte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, true, 2)));
             }
@@ -371,7 +371,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 ispow2(sbyte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, true, 3)));
             }
@@ -385,7 +385,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 ispow2(sbyte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.pow2_epu8(x, true, 4)));
             }
@@ -399,7 +399,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 ispow2(sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.pow2_epu8(x, true, 8));
             }
@@ -413,7 +413,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 ispow2(sbyte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.pow2_epu8(x, true, 16));
             }
@@ -449,7 +449,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, false, 2)));
             }
@@ -463,7 +463,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 ispow2(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, false, 3)));
             }
@@ -477,7 +477,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 ispow2(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, false, 4)));
             }
@@ -491,7 +491,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 ispow2(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.pow2_epu16(x, false, 8));
             }
@@ -527,7 +527,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(short2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, true, 2)));
             }
@@ -541,7 +541,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 ispow2(short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, true, 3)));
             }
@@ -555,7 +555,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 ispow2(short4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.pow2_epu16(x, true, 4)));
             }
@@ -569,7 +569,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 ispow2(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.pow2_epu16(x, true, 8));
             }
@@ -635,7 +635,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.pow2_epu64(x, false)));
             }
@@ -685,7 +685,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 ispow2(long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.pow2_epu64(x, true)));
             }

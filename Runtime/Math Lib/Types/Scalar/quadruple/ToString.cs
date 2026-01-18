@@ -16,8 +16,8 @@ namespace MaxMath
             const int POW5_TABLE_SIZE = 56;
             const int FLOAT_128_POW5_INV_BITCOUNT = 249;
             const int FLOAT_128_POW5_BITCOUNT = 249;
-        
-        
+
+
             static ulong4 GENERIC_POW5_INV_SPLIT(uint index)
             {
                 switch (index)
@@ -111,7 +111,7 @@ namespace MaxMath
                     case 86: return new ulong4(17727970963596660683,  1196965221832671990, 14537830463956404138, 108787847856377790);
                     case 87: return new ulong4(17241367586707330931,  8880584684128262874, 11173506540726547818, 106698810713789254);
                     case 88: return new ulong4( 7184427196661305643, 14332510582433188173, 14230167953789677901, 104649889046128358);
-        
+
                     default: throw Assert.Unreachable();
                 }
             }
@@ -175,7 +175,7 @@ namespace MaxMath
                     case 53: return new ulong2( 1475612373555897461,   601853107621011204);
                     case 54: return new ulong2( 7378061867779487305,  3009265538105056020);
                     case 55: return new ulong2(18443565265187884909, 15046327690525280101);
-        
+
                     default: throw Assert.Unreachable();
                 }
             }
@@ -337,7 +337,7 @@ namespace MaxMath
                     case 151: return 0x5155555951450455;
                     case 152: return 0x0040000400105555;
                     case 153: return 0x0000000000000001;
-        
+
                     default: throw Assert.Unreachable();
                 }
             }
@@ -434,7 +434,7 @@ namespace MaxMath
                     case 86:  return new ulong4(11584393507658707408u,  2863659090805147914u,  9873421561981063551u,  95457295292572042u);
                     case 87:  return new ulong4(13984297296943171390u,  1931468383973130608u, 12905719743235082319u,  97326236793074198u);
                     case 88:  return new ulong4( 5837045222254987499u, 10213498696735864176u, 14893951506257020749u,  99231769968645227u);
-        
+
                     default: throw Assert.Unreachable();
                 }
             }
@@ -598,11 +598,11 @@ namespace MaxMath
                     case 153: return 0x1045040440010500;
                     case 154: return 0x0000400000040000;
                     case 155: return 0x0000000000000000;
-        
+
                     default: throw Assert.Unreachable();
                 }
             }
-        
+
             // floor(log_10(2^e)).
             static uint log10Pow2(uint e)
             {
@@ -624,12 +624,12 @@ namespace MaxMath
             static bool multipleOfPowerOf5(UInt128 value, uint p)
             {
                 Divider<UInt128> div5er = new Divider<UInt128>((UInt128)5);
-        
+
                 uint count = 0;
                 while (value.IsNotZero)
                 {
                     value /= div5er;
-        
+
                     if (!div5er.EvenlyDivides(value))
                     {
                         break;
@@ -639,7 +639,7 @@ namespace MaxMath
                         count++;
                     }
                 }
-        
+
                 return count >= p;
             }
             // Returns true if value is divisible by 2^p.
@@ -647,7 +647,7 @@ namespace MaxMath
             {
                 return (value & ((((UInt128)1) << (int)p) - 1)).IsZero;
             }
-        
+
             static ulong4 mul_128_256_shift(ulong2 a, ulong4 b, int shift, uint corr)
             {
                 UInt128 b00 = (UInt128)a[0] * b[0];
@@ -658,14 +658,14 @@ namespace MaxMath
                 UInt128 b11 = (UInt128)a[1] * b[1];
                 UInt128 b12 = (UInt128)a[1] * b[2];
                 UInt128 b13 = (UInt128)a[1] * b[3];
-        
+
                 UInt128 s1 = b01 + b10;
                 ulong c1 = tobyte(s1 < b01);
                 UInt128 s2 = b02 + b11;
                 ulong c2 = tobyte(s2 < b02);
                 UInt128 s3 = b03 + b12;
                 ulong c3 = tobyte(s3 < b03);
-        
+
                 UInt128 p0 = b00 + new UInt128(0, s1.lo64);
                 ulong d0 = tobyte(p0 < b00);
                 UInt128 q1 = s2 + new UInt128(s1.hi64, s3.lo64);
@@ -673,33 +673,33 @@ namespace MaxMath
                 UInt128 p1 = q1 + new UInt128(d0, c1);
                 ulong d2 = tobyte(p1 < q1);
                 UInt128 p2 = b13 + s3.hi64 + new UInt128(c2 + d1 + d2, c3);
-        
+
                 if (shift < 128)
                 {
                     UInt128 r0 = corr + ((p0 >> shift) | (p1 << (128 - shift)));
                     UInt128 r1 = ((p1 >> shift) | (p2 << (128 - shift))) + tobyte(r0 < corr);
-        
+
                     return new ulong4(r0.lo64, r0.hi64, r1.lo64, r1.hi64);
                 }
                 else if (shift == 128)
                 {
                     UInt128 r0 = corr + p1;
                     UInt128 r1 = p2 + tobyte(r0 < corr);
-        
+
                     return new ulong4(r0.lo64, r0.hi64, r1.lo64, r1.hi64);
                 }
                 else
                 {
                     UInt128 r0 = corr + ((p1 >> (shift - 128)) | (p2 << (256 - shift)));
                     UInt128 r1 = (p2 >> (shift - 128)) + tobyte(r0 < corr);
-        
+
                     return new ulong4(r0.lo64, r0.hi64, r1.lo64, r1.hi64);
                 }
             }
             static UInt128 mulShift(UInt128 m, ulong4 mul, int j)
             {
                 ulong4 result = mul_128_256_shift(new ulong2(m.lo64, m.hi64), mul, j, 0);
-        
+
                 return new UInt128(result[0], result[1]);
             }
             static ulong4 generic_computePow5(uint i)
@@ -725,11 +725,11 @@ namespace MaxMath
                 uint base1 = (i + POW5_TABLE_SIZE - 1) / POW5_TABLE_SIZE;
                 uint base2 = base1 * POW5_TABLE_SIZE;
                 ulong4 mul = GENERIC_POW5_INV_SPLIT(base1);
-        
+
                 if (i == base2)
                 {
                     mul.x++;
-        
+
                     return mul;
                 }
                 else
@@ -738,14 +738,14 @@ namespace MaxMath
                     ulong2 m = GENERIC_POW5_TABLE(offset); // 5^offset
                     uint delta = pow5bits(base2) - pow5bits(i);
                     uint corr = (uint)((POW5_INV_ERRORS(i / 32) >> (int)(2 * (i % 32))) & 3) + 1;
-        
+
                     return mul_128_256_shift(m, mul, (int)delta, corr);
                 }
             }
             static void PrintNaN([NoAlias] char* result, [NoAlias] ref int length)
             {
                 length = 0;
-                
+
                 result[length++] = 'N';
                 result[length++] = 'a';
                 result[length++] = 'N';
@@ -770,7 +770,7 @@ namespace MaxMath
                 bool eNeg = (int)exponent < 0;
                 result[length++] = eNeg ? '-' : '+';
                 exponent = eNeg ? (uint)-(int)exponent : exponent;
-                
+
                 uint elength = intlog10((ushort)exponent);
                 if (elength == 0)
                 {
@@ -805,26 +805,26 @@ namespace MaxMath
             static void PrintDigits(UInt128 mantissa, uint exponent, Divider<UInt128> div10er, [NoAlias] char* result, [NoAlias] ref int length)
             {
                 uint olength = (uint)intlog10(mantissa);
-        
+
                 PrintDecimals(mantissa, olength + 1, div10er, result, ref length);
                 PrintExponent(exponent + olength, result, ref length);
             }
-        
+
 
             ulong exponent = value.hi64 & bitmask64((ulong)EXPONENT_BITS, MANTISSA_BITS - (8 * sizeof(ulong)));
             UInt128 mantissa = value & bitmask128((ulong)MANTISSA_BITS);
-        
+
             long e2 = (long)(EXPONENT_BIAS - MANTISSA_BITS - 2) << (MANTISSA_BITS - (8 * sizeof(ulong)));
             e2 += (long)exponent;
             UInt128 m2 = mantissa;
             bool mantissaNonZero = mantissa.IsNotZero;
             bool exponentNonZero = exponent != 0;
-        
+
             Divider<UInt128> div10er;
             result[0] = '-';
-            length = (int)(value.hi64 >> 63) 
+            length = (int)(value.hi64 >> 63)
                    & (tobyte(mantissaNonZero) | tobyte(exponentNonZero));
-            
+
             if (Hint.Likely(exponentNonZero))
             {
                 if (Hint.Unlikely(exponent == SIGNALING_EXPONENT.hi64))
@@ -837,7 +837,7 @@ namespace MaxMath
                     {
                         PrintInfinity(result, ref length);
                     }
-        
+
                     return;
                 }
 
@@ -850,16 +850,16 @@ namespace MaxMath
             else
             {
                 div10er = new Divider<UInt128>((UInt128)10);
-            
+
                 PrintDigits(mantissa, (uint)(exponent >> (MANTISSA_BITS - (8 * sizeof(ulong)))), div10er, result, ref length);
                 return;
             }
-        
+
             bool odd = (m2.lo64 & 1) == 1;
-        
+
             m2 <<= 2;
             uint mmShift = tobyte(mantissaNonZero | !exponentNonZero);
-        
+
             UInt128 vr, vp, vm;
             int e10;
             bool vmIsTrailingZeros = false;
@@ -876,11 +876,11 @@ namespace MaxMath
                 vr = mulShift(m2, pow5, i);
                 vp = mulShift(m2 + 2, pow5, i);
                 vm = mulShift(m2 - 1 - mmShift, pow5, i);
-        
+
                 if (q <= 55)
                 {
                     Divider<UInt128> div5er = new Divider<UInt128>((UInt128)5);
-        
+
                     if (div5er.EvenlyDivides(m2))
                     {
                         vrIsTrailingZeros = multipleOfPowerOf5(m2, q - 1);
@@ -923,11 +923,11 @@ namespace MaxMath
                     vrIsTrailingZeros = multipleOfPowerOf2(m2, q - 1);
                 }
             }
-        
+
             div10er = new Divider<UInt128>((UInt128)10);
             uint removed = 0;
             byte lastRemovedDigit = 0;
-        
+
             while (vp / div10er > vm / div10er)
             {
                 vmIsTrailingZeros &= div10er.EvenlyDivides(vm);
@@ -954,10 +954,10 @@ namespace MaxMath
             {
                 lastRemovedDigit = 4;
             }
-        
+
             mantissa = vr + tobyte(((vr == vm) & (odd | !vmIsTrailingZeros)) | (lastRemovedDigit >= 5));
             exponent = (uint)e10 + removed;
-        
+
             PrintDigits(mantissa, (uint)exponent, div10er, result, ref length);
         }
 
@@ -969,17 +969,17 @@ namespace MaxMath
 
             return new string(result, 0, length);
         }
-        
+
         public readonly string ToString(string format, IFormatProvider formatProvider)
         {
             return ToString();
         }
-        
+
         public readonly string ToString(IFormatProvider formatProvider)
         {
             return ToString(null, formatProvider);
         }
-        
+
         public readonly string ToString(string format)
         {
             return ToString(format, null);

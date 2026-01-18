@@ -13,7 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.adds_epu8(x, Xse.bsrli_si128(x, 1 * sizeof(byte))).Byte0;
             }
@@ -27,7 +27,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 y = Xse.bsrli_si128(x, 1 * sizeof(byte));
                 v128 z = Xse.bsrli_si128(x, 2 * sizeof(byte));
@@ -44,7 +44,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 xz_yw = Xse.adds_epu8(x, Xse.bsrli_si128(x, 2 * sizeof(byte)));
 
@@ -60,7 +60,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _1 = Xse.adds_epu8(x, Xse.bsrli_si128(x, 4 * sizeof(byte)));
                 v128 _2 = Xse.adds_epu8(_1, Xse.bsrli_si128(_1, 2 * sizeof(byte)));
@@ -77,7 +77,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _1 = Xse.adds_epu8(x, Xse.bsrli_si128(x, 8 * sizeof(byte)));
                 v128 _2 = Xse.adds_epu8(_1, Xse.bsrli_si128(_1, 4 * sizeof(byte)));
@@ -95,7 +95,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte csumsaturated(byte32 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lohi = Xse.adds_epu8(x.v16_0, x.v16_16);
 
@@ -116,7 +116,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.adds_epi8(x, Xse.bsrli_si128(x, 1 * sizeof(sbyte))).SByte0;
             }
@@ -130,7 +130,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast = Xse.cvtepi8_epi16(x);
 
@@ -151,7 +151,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast = Xse.cvtepi8_epi16(x);
 
@@ -170,7 +170,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast = Xse.cvtepi8_epi16(x);
 
@@ -190,7 +190,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast_lo = Xse.cvtepi8_epi16(x);
                 v128 cast_hi = Xse.cvtepi8_epi16(Xse.bsrli_si128(x, 8 * sizeof(sbyte)));
@@ -212,7 +212,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte csumsaturated(sbyte32 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 short16 cast_lohi = (short16)x.v16_0 + (short16)x.v16_16;
 
@@ -234,7 +234,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short csumsaturated(short2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.adds_epi16(x, Xse.bsrli_si128(x, 1 * sizeof(short))).SShort0;
             }
@@ -248,7 +248,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short csumsaturated(short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast = Xse.cvtepi16_epi32(x);
 
@@ -269,7 +269,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short csumsaturated(short4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast = Xse.cvtepi16_epi32(x);
 
@@ -288,7 +288,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short csumsaturated(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cast_lo = Xse.cvtepi16_epi32(x);
                 v128 cast_hi = Xse.cvtepi16_epi32(Xse.bsrli_si128(x, 4 * sizeof(short)));
@@ -309,7 +309,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short csumsaturated(short16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int8 cast_lohi = (int8)x.v8_0 + (int8)x.v8_8;
 
@@ -331,7 +331,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort csumsaturated(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.adds_epu16(x, Xse.bsrli_si128(x, 1 * sizeof(ushort))).UShort0;
             }
@@ -345,7 +345,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort csumsaturated(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 y = Xse.bsrli_si128(x, 1 * sizeof(ushort));
                 v128 z = Xse.bsrli_si128(x, 2 * sizeof(ushort));
@@ -362,7 +362,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort csumsaturated(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 xz_yw = Xse.adds_epu16(x, Xse.bsrli_si128(x, 2 * sizeof(ushort)));
 
@@ -378,7 +378,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort csumsaturated(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _1 = Xse.adds_epu16(x, Xse.bsrli_si128(x, 4 * sizeof(ushort)));
                 v128 _2 = Xse.adds_epu16(_1, Xse.bsrli_si128(_1, 2 * sizeof(ushort)));
@@ -395,7 +395,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort csumsaturated(ushort16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lohi = Xse.adds_epu16(x.v8_0, x.v8_8);
                 v128 _1 = Xse.adds_epu16(lohi, Xse.bsrli_si128(lohi, 4 * sizeof(ushort)));

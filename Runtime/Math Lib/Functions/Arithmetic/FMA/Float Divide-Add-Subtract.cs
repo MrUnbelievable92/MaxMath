@@ -13,7 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 dadsub(float2 a, float2 b, float2 c, bool fast = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
                                                    fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
@@ -29,7 +29,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 dadsub(float3 a, float3 b, float3 c, bool fast = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
                                                    fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
@@ -45,7 +45,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 dadsub(float4 a, float4 b, float4 c, bool fast = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.fmsubadd_ps(RegisterConversion.ToV128(a),
                                                    fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
@@ -76,7 +76,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 dadsub(double2 a, double2 b, double2 c, bool fast = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.fmsubadd_pd(RegisterConversion.ToV128(a),
                                                       fast ? Xse.rcp_pd(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),

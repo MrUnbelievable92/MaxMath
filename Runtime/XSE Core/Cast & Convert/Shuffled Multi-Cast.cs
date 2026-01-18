@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
-using Unity.Burst;
 
 namespace MaxMath.Intrinsics
 {
@@ -13,11 +14,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi8_epi16(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 hi = srai_epi16(unpackhi_epi8(a, a), 8);
                 v128 lo = cvtepi8_epi16(a);
-                
+
                 constexpr.ASSUME(lo.SShort0 == a.SByte0);
                 constexpr.ASSUME(lo.SShort1 == a.SByte1);
                 constexpr.ASSUME(lo.SShort2 == a.SByte2);
@@ -46,13 +47,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi16_epi32(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 negativeMask = srai_epi16(a, 15);
                 hi = unpackhi_epi16(a, negativeMask);
 
                 v128 lo = cvtepi16_epi32(a);
-                
+
                 constexpr.ASSUME(lo.SInt0 == a.SShort0);
                 constexpr.ASSUME(lo.SInt1 == a.SShort1);
                 constexpr.ASSUME(lo.SInt2 == a.SShort2);
@@ -73,13 +74,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi32_epi64(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 negativeMask = srai_epi32(a, 31);
                 hi = unpackhi_epi32(a, negativeMask);
 
                 v128 lo = cvtepi32_epi64(a);
-                
+
                 constexpr.ASSUME(lo.SLong0 == a.SInt0);
                 constexpr.ASSUME(lo.SLong1 == a.SInt1);
                 constexpr.ASSUME(hi.SLong0 == a.SInt2);
@@ -97,12 +98,12 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu8_epi16(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 hi = unpackhi_epi8(a, setzero_si128());
 
                 v128 lo = cvtepu8_epi16(a);
-                
+
                 constexpr.ASSUME(lo.UShort0 == a.Byte0);
                 constexpr.ASSUME(lo.UShort1 == a.Byte1);
                 constexpr.ASSUME(lo.UShort2 == a.Byte2);
@@ -131,12 +132,12 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu16_epi32(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 hi = unpackhi_epi16(a, setzero_si128());
 
                 v128 lo = cvtepu16_epi32(a);
-                
+
                 constexpr.ASSUME(lo.UInt0 == a.UShort0);
                 constexpr.ASSUME(lo.UInt1 == a.UShort1);
                 constexpr.ASSUME(lo.UInt2 == a.UShort2);
@@ -157,12 +158,12 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu32_epi64(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 hi = unpackhi_epi32(a, setzero_si128());
 
                 v128 lo = cvtepu32_epi64(a);
-                
+
                 constexpr.ASSUME(lo.ULong0 == a.UInt0);
                 constexpr.ASSUME(lo.ULong1 == a.UInt1);
                 constexpr.ASSUME(hi.ULong0 == a.UInt2);
@@ -180,14 +181,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu16_ps(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 EXP_MASK = set1_epi16(0x4B00);
                 v128 MAGIC = set1_ps(LIMIT_PRECISE_U32_F32);
 
                 hi      = sub_ps(unpackhi_epi16(a, EXP_MASK), MAGIC);
                 v128 lo = sub_ps(unpacklo_epi16(a, EXP_MASK), MAGIC);
-                
+
                 constexpr.ASSUME(lo.Float0 == a.UShort0);
                 constexpr.ASSUME(lo.Float1 == a.UShort1);
                 constexpr.ASSUME(lo.Float2 == a.UShort2);
@@ -208,13 +209,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi16_ps(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo = cvt2x2epi16_epi32(a, out hi);
 
                 hi = cvtepi32_ps(hi);
                 lo = cvtepi32_ps(lo);
-                
+
                 constexpr.ASSUME(lo.Float0 == a.SShort0);
                 constexpr.ASSUME(lo.Float1 == a.SShort1);
                 constexpr.ASSUME(lo.Float2 == a.SShort2);
@@ -236,30 +237,30 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu32_pd(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 EXP_MASK = set1_epi32(0x4330_0000);
+                v128 MAGIC = set1_pd(LIMIT_PRECISE_U64_F64);
+
                 v128 lo;
                 if (constexpr.ALL_LE_EPU32(a, int.MaxValue, 4))
                 {
-                    hi = cvtepi32_pd(bsrli_si128(a, 2 * sizeof(int)));
                     lo = cvtepi32_pd(a);
                 }
                 else
                 {
-                    v128 EXP_MASK = set1_epi32(0x4330_0000);
-                    v128 MAGIC = set1_pd(LIMIT_PRECISE_U64_F64);
-
-                    hi = sub_pd(unpackhi_epi32(a, EXP_MASK), MAGIC);
                     lo = sub_pd(unpacklo_epi32(a, EXP_MASK), MAGIC);
                 }
-                    
+
+                hi = sub_pd(unpackhi_epi32(a, EXP_MASK), MAGIC);
+
                 constexpr.ASSUME(lo.Double0 == a.UInt0);
                 constexpr.ASSUME(lo.Double1 == a.UInt1);
                 constexpr.ASSUME(hi.Double0 == a.UInt2);
                 constexpr.ASSUME(hi.Double1 == a.UInt3);
                 constexpr.ASSUME_RANGE_PD(lo, 0d, uint.MaxValue);
                 constexpr.ASSUME_RANGE_PD(hi, 0d, uint.MaxValue);
-                
+
                 return lo;
             }
             else throw new IllegalInstructionException();
@@ -269,18 +270,18 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi32_pd(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 hi      = cvtepi32_pd(bsrli_si128(a, 2 * sizeof(int)));
                 v128 lo = cvtepi32_pd(a);
-                
+
                 constexpr.ASSUME(lo.Double0 == a.SInt0);
                 constexpr.ASSUME(lo.Double1 == a.SInt1);
                 constexpr.ASSUME(hi.Double0 == a.SInt2);
                 constexpr.ASSUME(hi.Double1 == a.SInt3);
                 constexpr.ASSUME_RANGE_PD(lo, int.MinValue, int.MaxValue);
                 constexpr.ASSUME_RANGE_PD(hi, int.MinValue, int.MaxValue);
-                
+
                 return lo;
             }
             else throw new IllegalInstructionException();
@@ -290,7 +291,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi16_epi8(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (constexpr.ALL_LE_EPU16(lo, byte.MaxValue) && constexpr.ALL_LE_EPU16(hi, byte.MaxValue))
@@ -326,9 +327,42 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvt2x2epi32_epi8(v128 lo, v128 hi)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 result;
+                if (BurstArchitecture.IsTableLookupSupported)
+                {
+                    result = unpacklo_epi32(cvtepi32_epi8(lo, 4), cvtepi32_epi8(hi, 4));
+                }
+                else
+                {
+                    lo = and_si128(lo, set1_epi32(byte.MaxValue));
+                    hi = and_si128(hi, set1_epi32(byte.MaxValue));
+
+                    result = packs_epi32(lo, hi);
+                    result = packus_epi16(result, result);
+                }
+
+                constexpr.ASSUME(result.Byte0 == (byte)lo.SInt0);
+                constexpr.ASSUME(result.Byte1 == (byte)lo.SInt1);
+                constexpr.ASSUME(result.Byte2 == (byte)lo.SInt2);
+                constexpr.ASSUME(result.Byte3 == (byte)lo.SInt3);
+                constexpr.ASSUME(result.Byte4 == (byte)hi.SInt0);
+                constexpr.ASSUME(result.Byte5 == (byte)hi.SInt1);
+                constexpr.ASSUME(result.Byte6 == (byte)hi.SInt2);
+                constexpr.ASSUME(result.Byte7 == (byte)hi.SInt3);
+
+                return result;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi32_epi16(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (constexpr.ALL_LE_EPU32(lo, (uint)short.MaxValue) && constexpr.ALL_LE_EPU32(hi, (uint)short.MaxValue))
@@ -360,7 +394,7 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME(result.SShort5 == (short)hi.SInt1);
                 constexpr.ASSUME(result.SShort6 == (short)hi.SInt2);
                 constexpr.ASSUME(result.SShort7 == (short)hi.SInt3);
-                
+
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -370,7 +404,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtt2x2ps_epu16(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return cvt2x2epi32_epi16(cvttps_epi32(lo), cvttps_epi32(hi));
             }
@@ -380,11 +414,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 usfcvt2x2ps_epu16(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MAGIC = set1_ps(LIMIT_PRECISE_U32_F32);
                 v128 result = cvt2x2epi32_epi16(add_ps(lo, MAGIC), add_ps(hi, MAGIC));
-                
+
                 constexpr.ASSUME(result.UShort0 == (ushort)lo.Float0);
                 constexpr.ASSUME(result.UShort1 == (ushort)lo.Float1);
                 constexpr.ASSUME(result.UShort2 == (ushort)lo.Float2);
@@ -402,7 +436,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi64_epi32(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = shuffle_ps(lo, hi, Sse.SHUFFLE(2, 0, 2, 0));
 
@@ -419,7 +453,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtt2x2pd_epi32(v128 lo, v128 hi, bool nonZero = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return unpacklo_epi64(cvttpd_epi32(lo), cvttpd_epi32(hi));
             }
@@ -429,7 +463,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 usfcvt2x2pd_epu32(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MAGIC = set1_pd(LIMIT_PRECISE_U64_F64);
                 v128 result = cvt2x2epi64_epi32(add_pd(lo, MAGIC), add_pd(hi, MAGIC));
@@ -447,7 +481,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtt2x2pd_epu32(v128 lo, v128 hi, bool nonZero = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = cvt2x2epi64_epi32(cvttpd_epu64(lo, nonZero: nonZero), cvttpd_epu64(hi, nonZero: nonZero));
 
@@ -473,7 +507,7 @@ namespace MaxMath.Intrinsics
 
                 hi = Avx2.mm256_srai_epi16(hi, 8);
                 lo = Avx2.mm256_srai_epi16(lo, 8);
-                
+
                 constexpr.ASSUME(lo.SShort0  == a.SByte0);
                 constexpr.ASSUME(lo.SShort1  == a.SByte1);
                 constexpr.ASSUME(lo.SShort2  == a.SByte2);
@@ -524,7 +558,7 @@ namespace MaxMath.Intrinsics
 
                 hi      = Avx2.mm256_unpackhi_epi16(a, negativeMask);
                 v256 lo = Avx2.mm256_unpacklo_epi16(a, negativeMask);
-                
+
                 constexpr.ASSUME(lo.SInt0 == a.SShort0);
                 constexpr.ASSUME(lo.SInt1 == a.SShort1);
                 constexpr.ASSUME(lo.SInt2 == a.SShort2);
@@ -559,7 +593,7 @@ namespace MaxMath.Intrinsics
 
                 hi      = Avx2.mm256_unpackhi_epi32(a, negativeMask);
                 v256 lo = Avx2.mm256_unpacklo_epi32(a, negativeMask);
-                
+
                 constexpr.ASSUME(lo.SLong0 == a.SInt0);
                 constexpr.ASSUME(lo.SLong1 == a.SInt1);
                 constexpr.ASSUME(lo.SLong2 == a.SInt4);
@@ -585,7 +619,7 @@ namespace MaxMath.Intrinsics
             {
                 hi      = Avx2.mm256_unpackhi_epi8(a, Avx.mm256_setzero_si256());
                 v256 lo = Avx2.mm256_unpacklo_epi8(a, Avx.mm256_setzero_si256());
-                
+
                 constexpr.ASSUME(lo.UShort0  == a.Byte0);
                 constexpr.ASSUME(lo.UShort1  == a.Byte1);
                 constexpr.ASSUME(lo.UShort2  == a.Byte2);
@@ -634,7 +668,7 @@ namespace MaxMath.Intrinsics
             {
                 hi      = Avx2.mm256_unpackhi_epi16(a, Avx.mm256_setzero_si256());
                 v256 lo = Avx2.mm256_unpacklo_epi16(a, Avx.mm256_setzero_si256());
-                
+
                 constexpr.ASSUME(lo.UInt0 == a.UShort0);
                 constexpr.ASSUME(lo.UInt1 == a.UShort1);
                 constexpr.ASSUME(lo.UInt2 == a.UShort2);
@@ -667,7 +701,7 @@ namespace MaxMath.Intrinsics
             {
                 hi      = Avx2.mm256_unpackhi_epi32(a, Avx.mm256_setzero_si256());
                 v256 lo = Avx2.mm256_unpacklo_epi32(a, Avx.mm256_setzero_si256());
-                
+
                 constexpr.ASSUME(lo.ULong0 == a.UInt0);
                 constexpr.ASSUME(lo.ULong1 == a.UInt1);
                 constexpr.ASSUME(lo.ULong2 == a.UInt4);
@@ -696,7 +730,7 @@ namespace MaxMath.Intrinsics
 
                 hi      = Avx.mm256_sub_ps(Avx2.mm256_unpackhi_epi16(a, EXP_MASK), MAGIC);
                 v256 lo = Avx.mm256_sub_ps(Avx2.mm256_unpacklo_epi16(a, EXP_MASK), MAGIC);
-                
+
                 constexpr.ASSUME(lo.Float0 == a.UShort0);
                 constexpr.ASSUME(lo.Float1 == a.UShort1);
                 constexpr.ASSUME(lo.Float2 == a.UShort2);
@@ -731,7 +765,7 @@ namespace MaxMath.Intrinsics
 
                 hi = Avx.mm256_cvtepi32_ps(hi);
                 lo = Avx.mm256_cvtepi32_ps(lo);
-                
+
                 constexpr.ASSUME(lo.Float0 == a.SShort0);
                 constexpr.ASSUME(lo.Float1 == a.SShort1);
                 constexpr.ASSUME(lo.Float2 == a.SShort2);
@@ -765,10 +799,10 @@ namespace MaxMath.Intrinsics
             {
                 v256 EXP_MASK = mm256_set1_epi32(0x4330_0000);
                 v256 MAGIC = mm256_set1_pd(LIMIT_PRECISE_U64_F64);
-                
+
                 hi      = Avx.mm256_sub_pd(Avx2.mm256_unpackhi_epi32(a, EXP_MASK), MAGIC);
                 v256 lo = Avx.mm256_sub_pd(Avx2.mm256_unpacklo_epi32(a, EXP_MASK), MAGIC);
-                
+
                 constexpr.ASSUME(lo.Double0 == a.UInt0);
                 constexpr.ASSUME(lo.Double1 == a.UInt1);
                 constexpr.ASSUME(lo.Double2 == a.UInt4);
@@ -786,26 +820,27 @@ namespace MaxMath.Intrinsics
         }
 
 
-        /// <summary>       <para>  LO: | 0 1 2 3 |  </para>      <para>  HI: | 4 5 6 7 |  </para>       </summary>
+        /// <summary>       <para>  LO: | 0 1 | 4 5 |  </para>      <para>  HI: | 2 3 | 6 7 |  </para>       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cvt2x2epi32_pd(v256 a, out v256 hi)
         {
             if (Avx2.IsAvx2Supported)
             {
-                hi      = Avx.mm256_cvtepi32_pd(Avx2.mm256_extracti128_si256(a, 1));
-                v256 lo = Avx.mm256_cvtepi32_pd(Avx.mm256_castsi256_si128(a));
-                
+                v256 lo = mm256_cvt2x2epi32_epi64(a, out hi);
+                lo = mm256_usfcvtepi64_pd(lo);
+                hi = mm256_usfcvtepi64_pd(hi);
+
                 constexpr.ASSUME(lo.Double0 == a.SInt0);
                 constexpr.ASSUME(lo.Double1 == a.SInt1);
-                constexpr.ASSUME(lo.Double2 == a.SInt2);
-                constexpr.ASSUME(lo.Double3 == a.SInt3);
-                constexpr.ASSUME(hi.Double0 == a.SInt4);
-                constexpr.ASSUME(hi.Double1 == a.SInt5);
+                constexpr.ASSUME(lo.Double2 == a.SInt4);
+                constexpr.ASSUME(lo.Double3 == a.SInt5);
+                constexpr.ASSUME(hi.Double0 == a.SInt2);
+                constexpr.ASSUME(hi.Double1 == a.SInt3);
                 constexpr.ASSUME(hi.Double2 == a.SInt6);
                 constexpr.ASSUME(hi.Double3 == a.SInt7);
                 constexpr.ASSUME_RANGE_PD(lo, int.MinValue, int.MaxValue);
                 constexpr.ASSUME_RANGE_PD(hi, int.MinValue, int.MaxValue);
-                
+
                 return lo;
             }
             else throw new IllegalInstructionException();
@@ -881,7 +916,7 @@ namespace MaxMath.Intrinsics
                     v256 MASK = mm256_set1_epi32(0x0000_FFFF);
                     result = Avx2.mm256_packus_epi32(Avx2.mm256_and_si256(lo, MASK), Avx2.mm256_and_si256(hi, MASK));
                 }
-                
+
                 constexpr.ASSUME(result.UShort0  == (ushort)lo.UInt0);
                 constexpr.ASSUME(result.UShort1  == (ushort)lo.UInt1);
                 constexpr.ASSUME(result.UShort2  == (ushort)lo.UInt2);
@@ -910,7 +945,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(2, 0, 2, 0));
-                
+
                 constexpr.ASSUME(result.UInt0 == (uint)lo.ULong0);
                 constexpr.ASSUME(result.UInt1 == (uint)lo.ULong1);
                 constexpr.ASSUME(result.UInt2 == (uint)hi.ULong0);
@@ -943,7 +978,7 @@ namespace MaxMath.Intrinsics
             {
                 v256 MAGIC = mm256_set1_ps(LIMIT_PRECISE_U32_F32);
                 v256 result = mm256_cvt2x2epi32_epi16(Avx.mm256_add_ps(lo, MAGIC), Avx.mm256_add_ps(hi, MAGIC));
-                
+
                 constexpr.ASSUME(result.UShort0  == (ushort)lo.Float0);
                 constexpr.ASSUME(result.UShort1  == (ushort)lo.Float1);
                 constexpr.ASSUME(result.UShort2  == (ushort)lo.Float2);
@@ -973,7 +1008,7 @@ namespace MaxMath.Intrinsics
             {
                 v256 MAGIC = mm256_set1_pd(LIMIT_PRECISE_U64_F64);
                 v256 result = mm256_cvt2x2epi64_epi32(Avx.mm256_add_pd(lo, MAGIC), Avx.mm256_add_pd(hi, MAGIC));
-                
+
                 constexpr.ASSUME(result.UInt0 == (uint)lo.Double0);
                 constexpr.ASSUME(result.UInt1 == (uint)lo.Double1);
                 constexpr.ASSUME(result.UInt2 == (uint)hi.Double0);
@@ -994,7 +1029,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = mm256_cvt2x2epi64_epi32(mm256_cvttpd_epu64(lo, elements: 4, nonZero: nonZero), mm256_cvttpd_epu64(hi, elements: 4, nonZero: nonZero));
-                
+
                 constexpr.ASSUME(result.UInt0 == (uint)lo.Double0);
                 constexpr.ASSUME(result.UInt1 == (uint)lo.Double1);
                 constexpr.ASSUME(result.UInt2 == (uint)hi.Double0);
@@ -1016,7 +1051,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = mm256_cvt2x2epi64_epi32(mm256_usfcvtpd_epi64(lo), mm256_usfcvtpd_epi64(hi));
-                
+
                 constexpr.ASSUME(result.SInt0 == (int)lo.Double0);
                 constexpr.ASSUME(result.SInt1 == (int)lo.Double1);
                 constexpr.ASSUME(result.SInt2 == (int)hi.Double0);
@@ -1032,20 +1067,20 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtt2x2pd_epi32(v256 lo, v256 hi, bool positive = false, bool nonZero = false)
+        public static v256 mm256_cvtt2x2pd_epi32(v256 lo, v256 hi, bool positive = false, bool nonZero = false, bool adjustSign = true)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 result = mm256_cvt2x2epi64_epi32(mm256_cvttpd_epi64(lo, elements: 4, positive: positive, nonZero: nonZero), mm256_cvttpd_epi64(hi, elements: 4, positive: positive, nonZero: nonZero));
-                
-                constexpr.ASSUME(result.SInt0 == (int)lo.Double0);
-                constexpr.ASSUME(result.SInt1 == (int)lo.Double1);
-                constexpr.ASSUME(result.SInt2 == (int)hi.Double0);
-                constexpr.ASSUME(result.SInt3 == (int)hi.Double1);
-                constexpr.ASSUME(result.SInt4 == (int)lo.Double2);
-                constexpr.ASSUME(result.SInt5 == (int)lo.Double3);
-                constexpr.ASSUME(result.SInt6 == (int)hi.Double2);
-                constexpr.ASSUME(result.SInt7 == (int)hi.Double3);
+                v256 result = mm256_cvt2x2epi64_epi32(mm256_cvttpd_epi64(lo, elements: 4, positive: positive, nonZero: nonZero, adjustSign: adjustSign), mm256_cvttpd_epi64(hi, elements: 4, positive: positive, nonZero: nonZero, adjustSign: adjustSign));
+
+                constexpr.ASSUME(result.SInt0 == (int)(adjustSign ? lo.Double0 : math.abs(lo.Double0)));
+                constexpr.ASSUME(result.SInt1 == (int)(adjustSign ? lo.Double1 : math.abs(lo.Double1)));
+                constexpr.ASSUME(result.SInt2 == (int)(adjustSign ? hi.Double0 : math.abs(hi.Double0)));
+                constexpr.ASSUME(result.SInt3 == (int)(adjustSign ? hi.Double1 : math.abs(hi.Double1)));
+                constexpr.ASSUME(result.SInt4 == (int)(adjustSign ? lo.Double2 : math.abs(lo.Double2)));
+                constexpr.ASSUME(result.SInt5 == (int)(adjustSign ? lo.Double3 : math.abs(lo.Double3)));
+                constexpr.ASSUME(result.SInt6 == (int)(adjustSign ? hi.Double2 : math.abs(hi.Double2)));
+                constexpr.ASSUME(result.SInt7 == (int)(adjustSign ? hi.Double3 : math.abs(hi.Double3)));
 
                 return result;
             }
@@ -1056,10 +1091,10 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu8_epi32(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo;
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     hi = shuffle_epi8(a, new v128(4, -1, -1, -1,    5, -1, -1, -1,    6, -1, -1, -1,    7, -1, -1, -1));
                     lo = cvtepu8_epi32(a);
@@ -1068,7 +1103,7 @@ namespace MaxMath.Intrinsics
                 {
                     lo = cvt2x2epu16_epi32(cvtepu8_epi16(a), out hi);
                 }
-                
+
                 constexpr.ASSUME(lo.UInt0 == a.Byte0);
                 constexpr.ASSUME(lo.UInt1 == a.Byte1);
                 constexpr.ASSUME(lo.UInt2 == a.Byte2);
@@ -1088,9 +1123,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt4x4epu8_epi32(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     r0 = cvtepu8_epi32(a);
                     r1 = shuffle_epi8(a, new v128( 4, -1, -1, -1,    5, -1, -1, -1,    6, -1, -1, -1,    7, -1, -1, -1));
@@ -1103,7 +1138,7 @@ namespace MaxMath.Intrinsics
                     r0 = cvt2x2epu16_epi32(lo16, out r1);
                     r2 = cvt2x2epu16_epi32(hi16, out r3);
                 }
-                
+
                 constexpr.ASSUME(r0.UInt0 == a.Byte0);
                 constexpr.ASSUME(r0.UInt1 == a.Byte1);
                 constexpr.ASSUME(r0.UInt2 == a.Byte2);
@@ -1131,7 +1166,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epi8_epi32(v128 a, out v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo;
                 if (Sse4_1.IsSse41Supported)
@@ -1143,7 +1178,7 @@ namespace MaxMath.Intrinsics
                 {
                     lo = cvt2x2epi16_epi32(cvtepi8_epi16(a), out hi);
                 }
-                
+
                 constexpr.ASSUME(lo.SInt0 == a.SByte0);
                 constexpr.ASSUME(lo.SInt1 == a.SByte1);
                 constexpr.ASSUME(lo.SInt2 == a.SByte2);
@@ -1163,7 +1198,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt4x4epi8_epi32(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (Sse4_1.IsSse41Supported)
                 {
@@ -1178,7 +1213,7 @@ namespace MaxMath.Intrinsics
                     r0 = cvt2x2epi16_epi32(lo16, out r1);
                     r2 = cvt2x2epi16_epi32(hi16, out r3);
                 }
-                
+
                 constexpr.ASSUME(r0.SInt0 == a.SByte0);
                 constexpr.ASSUME(r0.SInt1 == a.SByte1);
                 constexpr.ASSUME(r0.SInt2 == a.SByte2);
@@ -1202,13 +1237,13 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt8x8epu8_epi64(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3, [NoAlias] out v128 r4, [NoAlias] out v128 r5, [NoAlias] out v128 r6, [NoAlias] out v128 r7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     r0 = cvtepu8_epi64(a);
                     r1 = shuffle_epi8(a, new v128( 2, -1, -1, -1, -1, -1, -1, -1,   3, -1, -1, -1, -1, -1, -1, -1));
@@ -1250,17 +1285,17 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_LE_EPU64(r3, byte.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt8x8epi8_epi64(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3, [NoAlias] out v128 r4, [NoAlias] out v128 r5, [NoAlias] out v128 r6, [NoAlias] out v128 r7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     r0 = cvtepi8_epi64(a);
-                    
+
                     if (Arm.Neon.IsNeonSupported)
                     {
                         r1 = srai_epi64(shuffle_epi8(a, new v128(-1, -1, -1, -1, -1, -1, -1,  2,  -1, -1, -1, -1, -1, -1, -1,  3)), 56);
@@ -1315,14 +1350,14 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_RANGE_EPI64(r3, sbyte.MinValue, sbyte.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
-            
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt4x4epu16_epi64(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     r0 = cvtepu16_epi64(a);
                     r1 = shuffle_epi8(a, new v128( 4,  5, -1, -1, -1, -1, -1, -1,   6,  7, -1, -1, -1, -1, -1, -1));
@@ -1350,17 +1385,17 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_LE_EPU64(r3, ushort.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt4x4epi16_epi64(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     r0 = cvtepi16_epi64(a);
-                    
+
                     if (Arm.Neon.IsNeonSupported)
                     {
                         r1 = srai_epi64(shuffle_epi8(a, new v128(-1, -1, -1, -1, -1, -1,  4,  5,  -1, -1, -1, -1, -1, -1,  6,  7)), 48);
@@ -1397,7 +1432,7 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_RANGE_EPI64(r3, short.MinValue, short.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cvt2x2epu8_epi32(v256 a, out v256 hi)
@@ -1408,7 +1443,7 @@ namespace MaxMath.Intrinsics
                                                               4, -1, -1, -1,    5, -1, -1, -1,    6, -1, -1, -1,    7, -1, -1, -1));
                 v256 lo = Avx2.mm256_shuffle_epi8(a, new v256(0, -1, -1, -1,    1, -1, -1, -1,    2, -1, -1, -1,    3, -1, -1, -1,
                                                               0, -1, -1, -1,    1, -1, -1, -1,    2, -1, -1, -1,    3, -1, -1, -1));
-                
+
                 constexpr.ASSUME(lo.UInt0 == a.Byte0);
                 constexpr.ASSUME(lo.UInt1 == a.Byte1);
                 constexpr.ASSUME(lo.UInt2 == a.Byte2);
@@ -1447,7 +1482,7 @@ namespace MaxMath.Intrinsics
                                                           8, -1, -1, -1,    9, -1, -1, -1,   10, -1, -1, -1,   11, -1, -1, -1));
                 r3 = Avx2.mm256_shuffle_epi8(a, new v256(12, -1, -1, -1,   13, -1, -1, -1,   14, -1, -1, -1,   15, -1, -1, -1,
                                                          12, -1, -1, -1,   13, -1, -1, -1,   14, -1, -1, -1,   15, -1, -1, -1));
-                
+
                 constexpr.ASSUME(r0.UInt0 == a.Byte0);
                 constexpr.ASSUME(r0.UInt1 == a.Byte1);
                 constexpr.ASSUME(r0.UInt2 == a.Byte2);
@@ -1499,7 +1534,7 @@ namespace MaxMath.Intrinsics
                 v256 lo = Avx2.mm256_srai_epi32(Avx2.mm256_shuffle_epi8(a, new v256(-1, -1, -1, 0,    -1, -1, -1, 1,    -1, -1, -1, 2,    -1, -1, -1, 3,
                                                                                     -1, -1, -1, 0,    -1, -1, -1, 1,    -1, -1, -1, 2,    -1, -1, -1, 3)),
                                                 24);
-                
+
                 constexpr.ASSUME(lo.SInt0 == a.SByte0);
                 constexpr.ASSUME(lo.SInt1 == a.SByte1);
                 constexpr.ASSUME(lo.SInt2 == a.SByte2);
@@ -1534,14 +1569,14 @@ namespace MaxMath.Intrinsics
                                                                    24);
                 r1 = Avx2.mm256_srai_epi32(Avx2.mm256_shuffle_epi8(a, new v256(-1, -1, -1,  4,    -1, -1, -1,  5,    -1, -1, -1,  6,    -1, -1, -1,  7,
                                                                                -1, -1, -1,  4,    -1, -1, -1,  5,    -1, -1, -1,  6,    -1, -1, -1,  7)),
-                                                                   24);;
+                                                                   24);
                 r2 = Avx2.mm256_srai_epi32(Avx2.mm256_shuffle_epi8(a, new v256(-1, -1, -1,  8,    -1, -1, -1,  9,    -1, -1, -1, 10,    -1, -1, -1, 11,
                                                                                -1, -1, -1,  8,    -1, -1, -1,  9,    -1, -1, -1, 10,    -1, -1, -1, 11)),
-                                                                   24);;
+                                                                   24);
                 r3 = Avx2.mm256_srai_epi32(Avx2.mm256_shuffle_epi8(a, new v256(-1, -1, -1, 12,    -1, -1, -1, 13,    -1, -1, -1, 14,    -1, -1, -1, 15,
                                                                                -1, -1, -1, 12,    -1, -1, -1, 13,    -1, -1, -1, 14,    -1, -1, -1, 15)),
-                                                                   24);;
-                
+                                                                   24);
+
                 constexpr.ASSUME(r0.SInt0 == a.SByte0);
                 constexpr.ASSUME(r0.SInt1 == a.SByte1);
                 constexpr.ASSUME(r0.SInt2 == a.SByte2);
@@ -1581,7 +1616,33 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void mm256_cvt4x4epi8_ps(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                mm256_cvt4x4epi8_epi32(a, out r0, out r1, out r2, out r3);
+                r0 = Avx.mm256_cvtepi32_ps(r0);
+                r1 = Avx.mm256_cvtepi32_ps(r1);
+                r2 = Avx.mm256_cvtepi32_ps(r2);
+                r3 = Avx.mm256_cvtepi32_ps(r3);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void mm256_cvt4x4epu8_ps(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 aLo = mm256_cvt2x2epu8_epi16(a, out v256 aHi);
+                r0 = mm256_cvt2x2epu16_ps(aLo, out r1);
+                r2 = mm256_cvt2x2epu16_ps(aHi, out r3);
+            }
+            else throw new IllegalInstructionException();
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mm256_cvt8x8epu8_epi64(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3, [NoAlias] out v256 r4, [NoAlias] out v256 r5, [NoAlias] out v256 r6, [NoAlias] out v256 r7)
         {
@@ -1646,7 +1707,7 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_LE_EPU64(r7, byte.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mm256_cvt8x8epi8_epi64(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3, [NoAlias] out v256 r4, [NoAlias] out v256 r5, [NoAlias] out v256 r6, [NoAlias] out v256 r7)
@@ -1654,7 +1715,7 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
                 v256 a16lo = mm256_cvt2x2epi8_epi16(a, out v256 a16hi);
-                
+
                 r0 = Avx2.mm256_shuffle_epi8(a16lo, new v256( 0,  1,  1,  1,  1,  1,  1,  1,   2,  3,  3,  3,  3,  3,  3,  3,
                                                               0,  1,  1,  1,  1,  1,  1,  1,   2,  3,  3,  3,  3,  3,  3,  3));
                 r1 = Avx2.mm256_shuffle_epi8(a16lo, new v256( 4,  5,  5,  5,  5,  5,  5,  5,   6,  7,  7,  7,  7,  7,  7,  7,
@@ -1671,7 +1732,7 @@ namespace MaxMath.Intrinsics
                                                               8,  9,  9,  9,  9,  9,  9,  9,  10, 11, 11, 11, 11, 11, 11, 11));
                 r7 = Avx2.mm256_shuffle_epi8(a16hi, new v256(12, 13, 13, 13, 13, 13, 13, 13,  14, 15, 15, 15, 15, 15, 15, 15,
                                                              12, 13, 13, 13, 13, 13, 13, 13,  14, 15, 15, 15, 15, 15, 15, 15));
-                
+
                 constexpr.ASSUME(r0.SLong0 == a.SByte0);
                 constexpr.ASSUME(r0.SLong1 == a.SByte1);
                 constexpr.ASSUME(r0.SLong2 == a.SByte16);
@@ -1714,7 +1775,7 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_RANGE_EPI64(r7, sbyte.MinValue, sbyte.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mm256_cvt4x4epu16_epi64(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3)
@@ -1752,15 +1813,15 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_LE_EPU64(r3, ushort.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
-            
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mm256_cvt4x4epi16_epi64(v256 a, [NoAlias] out v256 r0, [NoAlias] out v256 r1, [NoAlias] out v256 r2, [NoAlias] out v256 r3)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 a32lo = mm256_cvt2x2epi16_epi32(a, out v256 a32hi);
-                
+
                 r0 = Avx2.mm256_shuffle_epi8(a32lo, new v256( 0,  1,  2,  3,  3,  3,  3,  3,   4,  5,  6,  7,  7,  7,  7,  7,
                                                               0,  1,  2,  3,  3,  3,  3,  3,   4,  5,  6,  7,  7,  7,  7,  7));
                 r1 = Avx2.mm256_shuffle_epi8(a32lo, new v256( 8,  9, 10, 11, 11, 11, 11, 11,  12, 13, 14, 15, 15, 15, 15, 15,
@@ -1769,7 +1830,7 @@ namespace MaxMath.Intrinsics
                                                               0,  1,  2,  3,  3,  3,  3,  3,   4,  5,  6,  7,  7,  7,  7,  7));
                 r3 = Avx2.mm256_shuffle_epi8(a32hi, new v256( 8,  9, 10, 11, 11, 11, 11, 11,  12, 13, 14, 15, 15, 15, 15, 15,
                                                               8,  9, 10, 11, 11, 11, 11, 11,  12, 13, 14, 15, 15, 15, 15, 15));
-                
+
                 constexpr.ASSUME(r0.SLong0 == a.SShort0);
                 constexpr.ASSUME(r0.SLong1 == a.SShort1);
                 constexpr.ASSUME(r0.SLong2 == a.SShort8);
@@ -1792,6 +1853,6 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_RANGE_EPI64(r3, short.MinValue, short.MaxValue);
             }
             else throw new IllegalInstructionException();
-        }  
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -317,12 +318,14 @@ namespace MaxMath
         #endregion
 
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(sbyte32 input) => new v256 { SByte0 = input.x0, SByte1 = input.x1, SByte2 = input.x2, SByte3 = input.x3, SByte4 = input.x4, SByte5 = input.x5, SByte6 = input.x6, SByte7 = input.x7, SByte8 = input.x8, SByte9 = input.x9, SByte10 = input.x10, SByte11 = input.x11, SByte12 = input.x12, SByte13 = input.x13, SByte14 = input.x14, SByte15 = input.x15, SByte16 = input.x16, SByte17 = input.x17, SByte18 = input.x18, SByte19 = input.x19, SByte20 = input.x20, SByte21 = input.x21, SByte22 = input.x22, SByte23 = input.x23, SByte24 = input.x24, SByte25 = input.x25, SByte26 = input.x26, SByte27 = input.x27, SByte28 = input.x28, SByte29 = input.x29, SByte30 = input.x30, SByte31 = input.x31 };
-
+        public static implicit operator v256(sbyte32 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte32(v256 input) => new sbyte32 { x0 = input.SByte0, x1 = input.SByte1, x2 = input.SByte2, x3 = input.SByte3, x4 = input.SByte4, x5 = input.SByte5, x6 = input.SByte6, x7 = input.SByte7, x8 = input.SByte8, x9 = input.SByte9, x10 = input.SByte10, x11 = input.SByte11, x12 = input.SByte12, x13 = input.SByte13, x14 = input.SByte14, x15 = input.SByte15, x16 = input.SByte16, x17 = input.SByte17, x18 = input.SByte18, x19 = input.SByte19, x20 = input.SByte20, x21 = input.SByte21, x22 = input.SByte22, x23 = input.SByte23, x24 = input.SByte24, x25 = input.SByte25, x26 = input.SByte26, x27 = input.SByte27, x28 = input.SByte28, x29 = input.SByte29, x30 = input.SByte30, x31 = input.SByte31 };
+        public static implicit operator sbyte32(v256 input) => RegisterConversion.ToAbstraction256<sbyte32>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

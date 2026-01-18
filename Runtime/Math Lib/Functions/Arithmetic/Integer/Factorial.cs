@@ -18,7 +18,7 @@ namespace MaxMath
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return cvtsi64x_si128(maxmath.bitfield((byte)1, 1, 2, 6, 24, 120, byte.MaxValue, 0));
                     }
@@ -30,7 +30,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 gamma_epu16_epu8range(v128 a)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = or_si128(a, set1_epi16(0xFF00));
 
@@ -58,7 +58,7 @@ namespace MaxMath
             {
                 promiseNoOverflow |= constexpr.ALL_LE_EPU8(a, MAX_INVERSE_FACTORIAL_U8, elements);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (!promiseNoOverflow)
                     {
@@ -67,7 +67,7 @@ namespace MaxMath
 
                     return shuffle_epi8(FACTORIALS_EPU8, a);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements > 4)
                     {
@@ -130,15 +130,15 @@ namespace MaxMath
             {
                 promiseNoOverflow |= constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U16, elements);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
                         return gamma_epu16_epu8range(a);
                     }
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (!promiseNoOverflow)
                     {
@@ -223,7 +223,7 @@ namespace MaxMath
             {
                 promiseNoOverflow |= constexpr.ALL_LE_EPI16(a, MAX_INVERSE_FACTORIAL_S16);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
@@ -232,8 +232,8 @@ namespace MaxMath
                         return shuffle_epi8(FACTORIALS_EPU8, a);
                     }
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (!promiseNoOverflow)
                     {
@@ -320,7 +320,7 @@ namespace MaxMath
             {
                 promiseNoOverflow |= constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U32, elements);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, MAX_INVERSE_FACTORIAL_U8))
                     {
@@ -329,8 +329,8 @@ namespace MaxMath
                         return shuffle_epi8(FACTORIALS_EPU8, a);
                     }
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (!promiseNoOverflow)
                     {
@@ -392,7 +392,7 @@ namespace MaxMath
             {
                 promiseNoOverflow |= constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U64);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a, MAX_INVERSE_FACTORIAL_U8))
                     {
@@ -401,8 +401,8 @@ namespace MaxMath
                         return shuffle_epi8(FACTORIALS_EPU8, a);
                     }
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (!promiseNoOverflow)
                     {
@@ -462,7 +462,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="UInt128.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 34].       </para>
         /// </remarks>
         /// </summary>
@@ -528,7 +528,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="Int128.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 33].       </para>
         /// </remarks>
         /// </summary>
@@ -601,7 +601,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
@@ -623,14 +623,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 factorial(byte2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
@@ -641,14 +641,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 factorial(byte3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
@@ -659,14 +659,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 factorial(byte4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
@@ -677,14 +677,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 factorial(byte8 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 8);
             }
@@ -695,14 +695,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 factorial(byte16 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 16);
             }
@@ -713,7 +713,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
@@ -732,7 +732,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
@@ -755,14 +755,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 factorial(sbyte2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
@@ -773,14 +773,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 factorial(sbyte3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
@@ -791,14 +791,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 factorial(sbyte4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
@@ -809,14 +809,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 factorial(sbyte8 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 8);
             }
@@ -827,14 +827,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 factorial(sbyte16 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu8(x, noOverflow.Promises(Promise.NoOverflow), 16);
             }
@@ -845,7 +845,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 5].       </para>
         /// </remarks>
         /// </summary>
@@ -864,7 +864,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
@@ -892,14 +892,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 factorial(ushort2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu16(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
@@ -910,14 +910,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 factorial(ushort3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu16(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
@@ -928,14 +928,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 factorial(ushort4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu16(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
@@ -946,14 +946,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 factorial(ushort8 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu16(x, noOverflow.Promises(Promise.NoOverflow), 8);
             }
@@ -964,7 +964,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 8].       </para>
         /// </remarks>
         /// </summary>
@@ -983,7 +983,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
@@ -1011,14 +1011,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 factorial(short2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epi16(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
@@ -1029,14 +1029,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 factorial(short3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epi16(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
@@ -1047,14 +1047,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 factorial(short4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epi16(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
@@ -1065,14 +1065,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 factorial(short8 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epi16(x, noOverflow.Promises(Promise.NoOverflow), 8);
             }
@@ -1083,7 +1083,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 7].       </para>
         /// </remarks>
         /// </summary>
@@ -1102,7 +1102,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
@@ -1130,14 +1130,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 factorial(uint2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
             }
@@ -1148,14 +1148,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 factorial(uint3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
             }
@@ -1166,14 +1166,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 factorial(uint4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
             }
@@ -1184,7 +1184,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
@@ -1203,7 +1203,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
@@ -1238,14 +1238,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 factorial(int2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
             }
@@ -1256,14 +1256,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 factorial(int3 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
             }
@@ -1274,14 +1274,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 factorial(int4 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
             }
@@ -1292,7 +1292,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 12].       </para>
         /// </remarks>
         /// </summary>
@@ -1311,7 +1311,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ulong.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
@@ -1339,14 +1339,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ulong.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 factorial(ulong2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu64(x, noOverflow.Promises(Promise.NoOverflow));
             }
@@ -1357,7 +1357,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ulong.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
@@ -1375,7 +1375,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ulong.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
@@ -1394,7 +1394,7 @@ namespace MaxMath
 
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="long.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
@@ -1429,14 +1429,14 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="long.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 factorial(long2 x, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gamma_epu64(x, noOverflow.Promises(Promise.NoOverflow));
             }
@@ -1447,7 +1447,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="long.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>
@@ -1465,7 +1465,7 @@ namespace MaxMath
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="long.MaxValue"/>.
-        /// <remarks>   
+        /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 20].       </para>
         /// </remarks>
         /// </summary>

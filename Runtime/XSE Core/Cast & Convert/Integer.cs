@@ -11,7 +11,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu8_epi16(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -47,7 +47,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi8_epi16(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -65,7 +65,7 @@ namespace MaxMath.Intrinsics
                     result = s16x8;
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SShort0 == x.SByte0);
                 constexpr.ASSUME(result.SShort1 == x.SByte1);
                 constexpr.ASSUME(result.SShort2 == x.SByte2);
@@ -83,14 +83,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu8_epi32(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
                 {
                     result = Sse4_1.cvtepu8_epi32(x);
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     result = shuffle_epi8(x, new v128(0, -1, -1, -1,   1, -1, -1, -1,   2, -1, -1, -1,   3, -1, -1, -1));
                 }
@@ -101,7 +101,7 @@ namespace MaxMath.Intrinsics
 
                     result = unpacklo_epi16(shorts, zero);
                 }
-                
+
                 constexpr.ASSUME(result.UInt0 == x.Byte0);
                 constexpr.ASSUME(result.UInt1 == x.Byte1);
                 constexpr.ASSUME(result.UInt2 == x.Byte2);
@@ -115,7 +115,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi8_epi32(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -138,7 +138,7 @@ namespace MaxMath.Intrinsics
                     result = s32x4;
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SInt0 == x.SByte0);
                 constexpr.ASSUME(result.SInt1 == x.SByte1);
                 constexpr.ASSUME(result.SInt2 == x.SByte2);
@@ -152,14 +152,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu8_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
                 {
                     result = Sse4_1.cvtepu8_epi64(x);
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     result = shuffle_epi8(x, new v128(0, -1, -1, -1, -1, -1, -1, -1,   1, -1, -1, -1, -1, -1, -1, -1));
                 }
@@ -171,7 +171,7 @@ namespace MaxMath.Intrinsics
 
                     result = unpacklo_epi32(ints, zero);
                 }
-                
+
                 constexpr.ASSUME(result.ULong0 == x.Byte0);
                 constexpr.ASSUME(result.ULong1 == x.Byte1);
                 constexpr.ASSUME_LE_EPU64(result, byte.MaxValue);
@@ -183,7 +183,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi8_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -217,7 +217,7 @@ namespace MaxMath.Intrinsics
                     result = s64x2;
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SLong0 == x.SByte0);
                 constexpr.ASSUME(result.SLong1 == x.SByte1);
                 constexpr.ASSUME_RANGE_EPI64(result, sbyte.MinValue, sbyte.MaxValue);
@@ -230,7 +230,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu16_epi32(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -246,7 +246,7 @@ namespace MaxMath.Intrinsics
                     result = Arm.Neon.vmovl_u16(Arm.Neon.vget_low_u16(x));
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.UInt0 == x.UShort0);
                 constexpr.ASSUME(result.UInt1 == x.UShort1);
                 constexpr.ASSUME(result.UInt2 == x.UShort2);
@@ -260,7 +260,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi16_epi32(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -276,7 +276,7 @@ namespace MaxMath.Intrinsics
                     result = Arm.Neon.vmovl_s16(Arm.Neon.vget_low_s16(x));
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SInt0 == x.SShort0);
                 constexpr.ASSUME(result.SInt1 == x.SShort1);
                 constexpr.ASSUME(result.SInt2 == x.SShort2);
@@ -290,14 +290,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu16_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
                 {
                     result = Sse4_1.cvtepu16_epi64(x);
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     result = shuffle_epi16(x, new v128(0, -1, -1, -1,    1, -1, -1, -1));
                 }
@@ -308,7 +308,7 @@ namespace MaxMath.Intrinsics
 
                     result = unpacklo_epi32(shorts, zero);
                 }
-                
+
                 constexpr.ASSUME(result.ULong0 == x.UShort0);
                 constexpr.ASSUME(result.ULong1 == x.UShort1);
                 constexpr.ASSUME_LE_EPU64(result, ushort.MaxValue);
@@ -320,7 +320,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi16_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -343,7 +343,7 @@ namespace MaxMath.Intrinsics
                     result = s64x2;
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SLong0 == x.SShort0);
                 constexpr.ASSUME(result.SLong1 == x.SShort1);
                 constexpr.ASSUME_RANGE_EPI64(result, short.MinValue, short.MaxValue);
@@ -356,7 +356,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu32_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -372,7 +372,7 @@ namespace MaxMath.Intrinsics
                     result = Arm.Neon.vmovl_u32(Arm.Neon.vget_low_u32(x));
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.ULong0 == x.UInt0);
                 constexpr.ASSUME(result.ULong1 == x.UInt1);
                 constexpr.ASSUME_LE_EPU64(result, uint.MaxValue);
@@ -384,7 +384,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi32_epi64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result;
                 if (Sse4_1.IsSse41Supported)
@@ -400,7 +400,7 @@ namespace MaxMath.Intrinsics
                     result = Arm.Neon.vmovl_s32(Arm.Neon.vget_low_s32(x));
                 }
                 else throw Assert.Unreachable();
-                
+
                 constexpr.ASSUME(result.SLong0 == x.SInt0);
                 constexpr.ASSUME(result.SLong1 == x.SInt1);
                 constexpr.ASSUME_RANGE_EPI64(result, int.MinValue, int.MaxValue);
@@ -413,11 +413,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi16_epi8(v128 x, byte elements = 8)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return shuffle_epi8(x, new v128(0, 2, 4, 6, 8, 10, 12, 14,    -1, -1, -1, -1, -1, -1, -1, -1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (elements == 2)
                 {
@@ -450,11 +450,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi32_epi8(v128 x, byte elements = 4)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return shuffle_epi8(x, new v128(0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (elements == 2)
                 {
@@ -490,11 +490,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi32_epi16(v128 x, byte elements = 4)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return shuffle_epi16(x, new v128(0, 2, 4, 6,    -1, -1, -1, -1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 x = shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
 
@@ -529,11 +529,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi64_epi8(v128 x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return shuffle_epi8(x, new v128(0, 8, -1, -1,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 high = bsrli_si128(x, sizeof(long));
                 return unpacklo_epi8(x, high);
@@ -555,11 +555,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi64_epi16(v128 x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return shuffle_epi16(x, new v128(0, 4,   -1, -1, -1, -1, -1, -1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 high = bsrli_si128(x, sizeof(long));
                 return unpacklo_epi16(x, high);
@@ -581,7 +581,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi64_epi32(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
             }

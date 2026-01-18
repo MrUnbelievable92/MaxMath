@@ -20,7 +20,7 @@ namespace MaxMath.Intrinsics
 		internal static int truemsk32<T>(int elements)
 			where T : unmanaged
 		{
-			if (Architecture.IsSIMDSupported)
+			if (BurstArchitecture.IsSIMDSupported)
 			{
 				return (int)truemsk64<T>(elements);
 			}
@@ -69,7 +69,7 @@ namespace MaxMath.Intrinsics
 		public static bool alltrue_epi128<T>(v128 a, int elements = 0)
 			where T : unmanaged
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
 
@@ -215,7 +215,7 @@ namespace MaxMath.Intrinsics
 		public static bool notalltrue_epi128<T>(v128 a, int elements = 0)
 			where T : unmanaged
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
 
@@ -361,7 +361,7 @@ namespace MaxMath.Intrinsics
 		public static bool allfalse_epi128<T>(v128 a, int elements = 0)
 			where T : unmanaged
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
 
@@ -507,7 +507,7 @@ namespace MaxMath.Intrinsics
 		public static bool notallfalse_epi128<T>(v128 a, int elements = 0)
 			where T : unmanaged
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				elements = elements != 0 ? elements : sizeof(v128) / sizeof(T);
 

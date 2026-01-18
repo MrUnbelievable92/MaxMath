@@ -7,8 +7,8 @@ namespace MaxMath.Tests
         internal enum Reference
         {
             Value,
-            Ref, 
-            In, 
+            Ref,
+            In,
             Out
         }
 
@@ -18,11 +18,11 @@ namespace MaxMath.Tests
             Type = type;
             PassBy = passBy;
         }
-    
+
         internal string Name;
         internal TypeInfo Type;
         internal Reference PassBy;
-    
+
         public static implicit operator Parameter(ParameterInfo p)
         {
             string name = p.Name;

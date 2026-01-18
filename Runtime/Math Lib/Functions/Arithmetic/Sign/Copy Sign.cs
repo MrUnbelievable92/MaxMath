@@ -27,7 +27,7 @@ namespace MaxMath
 
                     return sign_epi8(abs_epi8(a, elements), s);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(a, 1, elements) || constexpr.ALL_EQ_EPI8(a, -1, elements))
                     {
@@ -78,7 +78,7 @@ namespace MaxMath
 
                     return sign_epi16(abs_epi16(a, elements), s);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI16(a, 1, elements) || constexpr.ALL_EQ_EPI16(a, -1, elements))
                     {
@@ -129,7 +129,7 @@ namespace MaxMath
 
                     return sign_epi32(abs_epi32(a, elements), s);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI32(a, 1, elements) || constexpr.ALL_EQ_EPI32(a, -1, elements))
                     {
@@ -167,7 +167,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_epi64(v128 a, v128 s)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI64(a, 1) || constexpr.ALL_EQ_EPI64(a, -1))
                     {
@@ -208,7 +208,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_pq(v128 a, v128 s, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 MASK = set1_epi8(1 << 7);
 
@@ -225,9 +225,28 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_movsign_pq(v256 a, v256 s, bool promise = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 MASK = mm256_set1_epi8(1 << 7);
+
+                    if (!promise)
+                    {
+                        v256 isZero = Avx2.mm256_cmpeq_epi8(Avx2.mm256_and_si256(s, mm256_set1_epi8(0x7F)), Avx.mm256_setzero_si256());
+
+                        s = Avx2.mm256_andnot_si256(isZero, mm256_srai_epi8(s, 7));
+                    }
+
+                    return mm256_ternarylogic_si256(a, s, MASK, TernaryOperation.OxD8);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_ph(v128 a, v128 s, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 MASK = set1_epi16(1 << 15);
 
@@ -243,11 +262,29 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_movsign_ph(v256 a, v256 s, bool promise = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 MASK = mm256_set1_epi16(1 << 15);
+
+                    if (!promise)
+                    {
+                        v256 isZero = Avx2.mm256_cmpeq_epi16(Avx2.mm256_and_si256(s, mm256_set1_epi16(0x7FFF)), Avx.mm256_setzero_si256());
+
+                        s = Avx2.mm256_andnot_si256(isZero, Avx2.mm256_srai_epi16(s, 15));
+                    }
+
+                    return mm256_ternarylogic_si256(a, s, MASK, TernaryOperation.OxD8);
+                }
+                else throw new IllegalInstructionException();
+            }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_ps(v128 a, v128 s, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 MASK = new v128(1 << 31);
 
@@ -278,11 +315,10 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 movsign_pd(v128 a, v128 s, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 MASK = new v128(1L << 63);
 
@@ -341,14 +377,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 copysign(sbyte2 x, sbyte2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi8(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
@@ -361,14 +397,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 copysign(sbyte3 x, sbyte3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi8(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
@@ -381,14 +417,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 copysign(sbyte4 x, sbyte4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi8(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
@@ -401,14 +437,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 copysign(sbyte8 x, sbyte8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi8(x, y, nonZero.Promises(Promise.NonZero), 8);
             }
@@ -421,14 +457,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 copysign(sbyte16 x, sbyte16 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi8(x, y, nonZero.Promises(Promise.NonZero), 16);
             }
@@ -441,7 +477,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
@@ -467,14 +503,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 copysign(short2 x, short2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi16(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
@@ -487,14 +523,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 copysign(short3 x, short3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi16(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
@@ -507,14 +543,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 copysign(short4 x, short4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi16(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
@@ -527,14 +563,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 copysign(short8 x, short8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi16(x, y, nonZero.Promises(Promise.NonZero), 8);
             }
@@ -547,7 +583,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
@@ -580,14 +616,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 copysign(int2 x, int2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
             }
@@ -600,14 +636,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 copysign(int3 x, int3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
             }
@@ -620,14 +656,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 copysign(int4 x, int4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
             }
@@ -640,7 +676,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="y"/> component that is equal to 0.       </para>
         /// </remarks>
         /// </summary>
@@ -676,7 +712,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 copysign(long2 x, long2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_epi64(x, y);
             }
@@ -718,7 +754,7 @@ namespace MaxMath
 
 
         /// <summary>       Transfers the sign of <paramref name="y"/> onto <paramref name="x"/> and returns the result. If <paramref name="y"/> is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned and if <paramref name="y"/> is greater than or equal to zero, abs(<paramref name="x"/>) is returned.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>), if <paramref name="y"/> is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
@@ -727,13 +763,13 @@ namespace MaxMath
         {
             const byte SIGN_MASK = 1 << 7;
             const byte VALUE_MASK = unchecked((byte)(~SIGN_MASK));
-            
+
             byte _x = asbyte(x);
             byte _y = asbyte(y);
-            
+
             uint xAbs = (uint)_x & (uint)VALUE_MASK;
             uint ySign;
-            
+
             if (nonZero.Promises(Promise.NonZero))
             {
                 ySign = SIGN_MASK & (uint)_y;
@@ -742,19 +778,19 @@ namespace MaxMath
             {
                 ySign = _y & (touint(y != 0) << 7);
             }
-            
+
             return asquarter((byte)(xAbs | ySign));
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 copysign(quarter2 x, quarter2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
@@ -765,14 +801,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 copysign(quarter3 x, quarter3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
@@ -783,14 +819,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is  negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 copysign(quarter4 x, quarter4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
@@ -801,26 +837,84 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 copysign(quarter8 x, quarter8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
-                return new quarter8(copysign(x.x0, y.x0, nonZero), copysign(x.x1, y.x1, nonZero), copysign(x.x2, y.x2, nonZero), copysign(x.x3, y.x3, nonZero), copysign(x.x4, y.x4, nonZero), copysign(x.x5, y.x5, nonZero), copysign(x.x6, y.x6, nonZero), copysign(x.x7, y.x7, nonZero));
+                return new quarter8(copysign(x.x0, y.x0, nonZero),
+                                    copysign(x.x1, y.x1, nonZero),
+                                    copysign(x.x2, y.x2, nonZero),
+                                    copysign(x.x3, y.x3, nonZero),
+                                    copysign(x.x4, y.x4, nonZero),
+                                    copysign(x.x5, y.x5, nonZero),
+                                    copysign(x.x6, y.x6, nonZero),
+                                    copysign(x.x7, y.x7, nonZero));
+            }
+        }
+
+        /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 copysign(quarter16 x, quarter16 y, Promise nonZero = Promise.Nothing)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
+            }
+            else
+            {
+                return new quarter16(copysign(x.x0,  y.x0,  nonZero),
+                                     copysign(x.x1,  y.x1,  nonZero),
+                                     copysign(x.x2,  y.x2,  nonZero),
+                                     copysign(x.x3,  y.x3,  nonZero),
+                                     copysign(x.x4,  y.x4,  nonZero),
+                                     copysign(x.x5,  y.x5,  nonZero),
+                                     copysign(x.x6,  y.x6,  nonZero),
+                                     copysign(x.x7,  y.x7,  nonZero),
+                                     copysign(x.x8,  y.x8,  nonZero),
+                                     copysign(x.x9,  y.x9,  nonZero),
+                                     copysign(x.x10, y.x10, nonZero),
+                                     copysign(x.x11, y.x11, nonZero),
+                                     copysign(x.x12, y.x12, nonZero),
+                                     copysign(x.x13, y.x13, nonZero),
+                                     copysign(x.x14, y.x14, nonZero),
+                                     copysign(x.x15, y.x15, nonZero));
+            }
+        }
+
+        /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 copysign(quarter32 x, quarter32 y, Promise nonZero = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_movsign_pq(x, y, nonZero.Promises(Promise.NonZero));
+            }
+            else
+            {
+                return new quarter32(copysign(x.v16_0, y.v16_0, nonZero), copysign(x.v16_16, y.v16_16, nonZero));
             }
         }
 
 
         /// <summary>       Transfers the sign of <paramref name="y"/> onto <paramref name="x"/> and returns the result. If <paramref name="y"/> is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned and if <paramref name="y"/> is greater than or equal to zero, abs(<paramref name="x"/>) is returned.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>), if <paramref name="y"/> is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
@@ -829,13 +923,13 @@ namespace MaxMath
         {
             const ushort SIGN_MASK = 1 << 15;
             const ushort VALUE_MASK = unchecked((ushort)(~SIGN_MASK));
-            
+
             ushort _x = asushort(x);
             ushort _y = asushort(y);
-            
+
             uint xAbs = (uint)_x & (uint)VALUE_MASK;
             uint ySign;
-            
+
             if (nonZero.Promises(Promise.NonZero))
             {
                 ySign = SIGN_MASK & (uint)_y;
@@ -844,19 +938,19 @@ namespace MaxMath
             {
                 ySign = _y & (touint(y != 0) << 15);
             }
-            
+
             return ashalf((ushort)(xAbs | ySign));
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 copysign(half2 x, half2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf2(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -867,14 +961,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 copysign(half3 x, half3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf3(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -885,14 +979,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is  negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 copysign(half4 x, half4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf4(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -903,14 +997,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 copysign(half8 x, half8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
             }
@@ -920,16 +1014,34 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 copysign(half16 x, half16 y, Promise nonZero = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
+            }
+            else
+            {
+                return new half16(copysign(x.v8_0, y.v8_0, nonZero), copysign(x.v8_8, y.v8_8, nonZero));
+            }
+        }
+
 
         /// <summary>       Transfers the sign of <paramref name="y"/> onto <paramref name="x"/> and returns the result. If <paramref name="y"/> is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned and if <paramref name="y"/> is greater than or equal to zero, abs(<paramref name="x"/>) is returned.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>), if <paramref name="y"/> is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float copysign(float x, float y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)).Float0;
             }
@@ -958,14 +1070,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>      
+        /// <remarks>
         ///     <para>       A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 copysign(float2 x, float2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -976,14 +1088,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 copysign(float3 x, float3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -994,14 +1106,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is  negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 copysign(float4 x, float4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -1012,7 +1124,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
@@ -1032,14 +1144,14 @@ namespace MaxMath
 
 
         /// <summary>       Transfers the sign of <paramref name="y"/> onto <paramref name="x"/> and returns the result. If <paramref name="y"/> is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned and if <paramref name="y"/> is greater than or equal to zero, abs(<paramref name="x"/>) is returned.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>), if <paramref name="y"/> is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double copysign(double x, double y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)).Double0;
             }
@@ -1067,14 +1179,14 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 copysign(double2 x, double2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
             }
@@ -1085,7 +1197,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>
@@ -1104,7 +1216,7 @@ namespace MaxMath
         }
 
         /// <summary>       Transfers the sign of each <paramref name="y"/> component onto the corresponding <paramref name="x"/> component and returns the result. If a <paramref name="y"/> component is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned for the corresponding component and if a <paramref name="y"/> component is greater than or equal to zero, abs(<paramref name="x"/>) is returned for the corresponding component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> "<paramref name="nonZero"/>" with its <see cref="Promise.NonZero"/> flag set will incorrectly return <see langword="-"/>abs(<paramref name="x"/>) for a component, if the corresponding <paramref name="y"/> component is negative zero, exactly.       </para>
         /// </remarks>
         /// </summary>

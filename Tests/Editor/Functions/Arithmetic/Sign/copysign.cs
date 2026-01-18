@@ -1191,6 +1191,124 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Random32 rng = Random32.New;
+
+            quarter16 x;
+            quarter16 y;
+            quarter16 z;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                x = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                y = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+            }
+
+            x = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+            y = (quarter)0f;
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 16; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+
+            x = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+            y = maxmath.asquarter(1 << 7);
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 16; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random32 rng = Random32.New;
+
+            quarter32 x;
+            quarter32 y;
+            quarter32 z;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                x = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                y = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+            }
+
+            x = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+            y = (quarter)0f;
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 32; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+
+            x = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+            y = maxmath.asquarter(1 << 7);
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 32; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -1470,6 +1588,65 @@ namespace MaxMath.Tests
             y = maxmath.ashalf(1 << 15);
             z = maxmath.copysign(x, y);
             for (int j = 0; j < 8; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            half16 x;
+            half16 y;
+            half16 z;
+
+            for (int i = 0; i < NUM_TESTS; i++)
+            {
+                x = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+                y = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+
+                z = maxmath.copysign(x, y);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (y[j] < 0f)
+                    {
+                        Assert.AreEqual(z[j], maxmath.nabs(x[j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(z[j], maxmath.abs(x[j]));
+                    }
+                }
+            }
+
+            x = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+            y = (half)0f;
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 16; j++)
+            {
+                Assert.AreEqual(z[j], maxmath.abs(x[j]));
+            }
+
+            x = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+            y = maxmath.ashalf(1 << 15);
+            z = maxmath.copysign(x, y);
+            for (int j = 0; j < 16; j++)
             {
                 Assert.AreEqual(z[j], maxmath.abs(x[j]));
             }

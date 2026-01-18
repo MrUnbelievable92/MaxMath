@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epu8(v128 a, v128 b, v128 c)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return cmpeq_epi8(a, min_epu8(max_epu8(a, b), c));
                 }
@@ -24,11 +24,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epu16(v128 a, v128 b, v128 c, byte elements = 8)
             {
-                if (Architecture.IsMinMaxSupported)
+                if (BurstArchitecture.IsMinMaxSupported)
                 {
                     return cmpeq_epi16(a, min_epu16(max_epu16(a, b), c));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 minGreaterValue = cmpgt_epu16(b, a);
                     v128 valueGreaterMax = cmpgt_epu16(a, c);
@@ -41,11 +41,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epu32(v128 a, v128 b, v128 c, byte elements = 4)
             {
-                if (Architecture.IsMinMaxSupported)
+                if (BurstArchitecture.IsMinMaxSupported)
                 {
                     return cmpeq_epi32(a, min_epu32(max_epu32(a, b), c));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 minGreaterValue = cmpgt_epu32(b, a);
                     v128 valueGreaterMax = cmpgt_epu32(a, c);
@@ -63,7 +63,7 @@ namespace MaxMath
                 //    return cmpeq_epi64(a, min_epu64(max_epu64(a, b), c));
                 //}
                 //else
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 minGreaterValue = cmpgt_epu64(b, a);
                     v128 valueGreaterMax = cmpgt_epu64(a, c);
@@ -77,7 +77,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epi8(v128 a, v128 b, v128 c, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(b) && constexpr.ALL_NEQ_EPI8(b, sbyte.MinValue, elements)
                      && constexpr.IS_CONST(c) && constexpr.ALL_NEQ_EPI8(c, sbyte.MaxValue, elements))
@@ -85,7 +85,7 @@ namespace MaxMath
                         return and_si128(cmpgt_epi8(a, dec_epi8(b)), cmpgt_epi8(inc_epi8(c), a));
                     }
 
-                    if (Architecture.IsMinMaxSupported)
+                    if (BurstArchitecture.IsMinMaxSupported)
                     {
                         return cmpeq_epi8(a, min_epi8(max_epi8(a, b), c));
                     }
@@ -103,7 +103,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epi16(v128 a, v128 b, v128 c, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(b) && constexpr.ALL_NEQ_EPI16(b, short.MinValue, elements)
                      && constexpr.IS_CONST(c) && constexpr.ALL_NEQ_EPI16(c, short.MaxValue, elements))
@@ -119,7 +119,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_epi32(v128 a, v128 b, v128 c, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(b) && constexpr.ALL_NEQ_EPI32(b, int.MinValue, elements)
                      && constexpr.IS_CONST(c) && constexpr.ALL_NEQ_EPI32(c, int.MaxValue, elements))
@@ -127,7 +127,7 @@ namespace MaxMath
                         return and_si128(cmpgt_epi32(a, dec_epi32(b)), cmpgt_epi32(inc_epi32(c), a));
                     }
 
-                    if (Architecture.IsMinMaxSupported)
+                    if (BurstArchitecture.IsMinMaxSupported)
                     {
                         return cmpeq_epi32(a, min_epi32(max_epi32(a, b), c));
                     }
@@ -150,7 +150,7 @@ namespace MaxMath
                 //    return cmpeq_epi64(a, min_epi64(max_epi64(a, b), c));
                 //}
                 //else
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(b) && constexpr.ALL_NEQ_EPI64(b, long.MinValue)
                      && constexpr.IS_CONST(c) && constexpr.ALL_NEQ_EPI64(c, long.MaxValue))
@@ -170,40 +170,37 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_pq(v128 a, v128 b, v128 c, byte elements = 16, bool promiseNeitherNaN = false, bool promiseNeitherZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return and_si128(cmpge_pq(a, b, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero, elements: elements), cmple_pq(a, c, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero, elements: elements));
                 }
                 else throw new IllegalInstructionException();
             }
 
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_ph(v128 a, v128 b, v128 c, byte elements = 8, bool promiseNeitherNaN = false, bool promiseNeitherZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return and_si128(cmpge_ph(a, b, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero, elements: elements), cmple_ph(a, c, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero, elements: elements));
                 }
                 else throw new IllegalInstructionException();
             }
 
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_ps(v128 a, v128 b, v128 c)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return and_ps(cmpge_ps(a, b), cmple_ps(a, c));
                 }
                 else throw new IllegalInstructionException();
             }
 
-
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmprange_pd(v128 a, v128 b, v128 c)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return and_pd(cmpge_pd(a, b), cmple_pd(a, c));
                 }
@@ -334,6 +331,26 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmprange_pq(v256 a, v256 b, v256 c, bool promiseNeitherNaN = false, bool promiseNeitherZero = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_and_si256(mm256_cmpge_pq(a, b, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero), mm256_cmple_pq(a, c, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmprange_ph(v256 a, v256 b, v256 c, bool promiseNeitherNaN = false, bool promiseNeitherZero = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return Avx2.mm256_and_si256(mm256_cmpge_ph(a, b, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero), mm256_cmple_ph(a, c, promiseNeitherNaN: promiseNeitherNaN, promiseNeitherZero: promiseNeitherZero));
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_cmprange_ps(v256 a, v256 b, v256 c)
             {
                 if (Avx.IsAvxSupported)
@@ -342,7 +359,6 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_cmprange_pd(v256 a, v256 b, v256 c)
@@ -370,7 +386,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(Int128 x, Int128 min, Int128 max)
         {
-            return x >= min & x <= max;
+            return (UInt128)(x - min) <= (UInt128)(max - min);
         }
 
 
@@ -385,7 +401,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(byte2 x, byte2 min, byte2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.cmprange_epu8(x, min, max)));
             }
@@ -399,7 +415,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(byte3 x, byte3 min, byte3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.cmprange_epu8(x, min, max)));
             }
@@ -413,7 +429,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(byte4 x, byte4 min, byte4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.cmprange_epu8(x, min, max)));
             }
@@ -427,7 +443,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(byte8 x, byte8 min, byte8 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmprange_epu8(x, min, max));
             }
@@ -448,7 +464,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 isinrange(byte16 x, byte16 min, byte16 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmprange_epu8(x, min, max));
             }
@@ -492,14 +508,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(sbyte x, sbyte min, sbyte max)
         {
-            return x >= min & x <= max;
+            return (byte)(x - min) <= (byte)(max - min);
         }
 
         /// <summary>       Returns a <see cref="bool2"/> indicating for each component of an <see cref="MaxMath.sbyte2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(sbyte2 x, sbyte2 min, sbyte2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.cmprange_epi8(x, min, max, 2)));
             }
@@ -513,7 +529,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(sbyte3 x, sbyte3 min, sbyte3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.cmprange_epi8(x, min, max, 3)));
             }
@@ -527,7 +543,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(sbyte4 x, sbyte4 min, sbyte4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.cmprange_epi8(x, min, max, 4)));
             }
@@ -541,7 +557,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(sbyte8 x, sbyte8 min, sbyte8 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmprange_epi8(x, min, max, 8));
             }
@@ -562,7 +578,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 isinrange(sbyte16 x, sbyte16 min, sbyte16 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmprange_epi8(x, min, max, 16));
             }
@@ -606,14 +622,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(short x, short min, short max)
         {
-            return x >= min & x <= max;
+            return (ushort)(x - min) <= (ushort)(max - min);
         }
 
         /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="MaxMath.short2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(short2 x, short2 min, short2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.cmprange_epi16(x, min, max, 2)));
             }
@@ -627,7 +643,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(short3 x, short3 min, short3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.cmprange_epi16(x, min, max, 3)));
             }
@@ -641,7 +657,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(short4 x, short4 min, short4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.cmprange_epi16(x, min, max, 4)));
             }
@@ -655,7 +671,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(short8 x, short8 min, short8 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmprange_epi16(x, min, max, 8));
             }
@@ -698,7 +714,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(ushort2 x, ushort2 min, ushort2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.cmprange_epu16(x, min, max)));
             }
@@ -712,7 +728,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(ushort3 x, ushort3 min, ushort3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.cmprange_epu16(x, min, max)));
             }
@@ -726,7 +742,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(ushort4 x, ushort4 min, ushort4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.cmprange_epu16(x, min, max)));
             }
@@ -740,7 +756,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(ushort8 x, ushort8 min, ushort8 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmprange_epu16(x, min, max));
             }
@@ -776,14 +792,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(int x, int min, int max)
         {
-            return x >= min & x <= max;
+            return (uint)(x - min) <= (uint)(max - min);
         }
 
         /// <summary>       Returns a <see cref="bool2"/> indicating for each component of an <see cref="int2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="int2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(int2 x, int2 min, int2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmprange_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), 2)));
             }
@@ -797,7 +813,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(int3 x, int3 min, int3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmprange_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), 3)));
             }
@@ -811,7 +827,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(int4 x, int4 min, int4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmprange_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), 4)));
             }
@@ -847,7 +863,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(uint2 x, uint2 min, uint2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmprange_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max))));
             }
@@ -861,7 +877,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(uint3 x, uint3 min, uint3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmprange_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max))));
             }
@@ -875,7 +891,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(uint4 x, uint4 min, uint4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmprange_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max))));
             }
@@ -904,14 +920,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isinrange(long x, long min, long max)
         {
-            return x >= min & x <= max;
+            return (ulong)(x - min) <= (ulong)(max - min);
         }
 
         /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="MaxMath.long2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.long2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(long2 x, long2 min, long2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmprange_epi64(x, min, max)));
             }
@@ -961,7 +977,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(ulong2 x, ulong2 min, ulong2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmprange_epu64(x, min, max)));
             }
@@ -1001,10 +1017,10 @@ namespace MaxMath
 
 
 
-        /// <summary>       Returns <see langword="true"/> if a <see cref="quarter"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter"/>s.
+        /// <summary>       Returns <see langword="true"/> if a <see cref="MaxMath.quarter"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1016,13 +1032,13 @@ namespace MaxMath
         /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="MaxMath.quarter2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(quarter2 x, quarter2 min, quarter2 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 2)));
             }
@@ -1035,13 +1051,13 @@ namespace MaxMath
         /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="MaxMath.quarter3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(quarter3 x, quarter3 min, quarter3 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 3)));
             }
@@ -1054,13 +1070,13 @@ namespace MaxMath
         /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="MaxMath.quarter4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(quarter4 x, quarter4 min, quarter4 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 4)));
             }
@@ -1073,13 +1089,13 @@ namespace MaxMath
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.quarter8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(quarter8 x, quarter8 min, quarter8 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 8));
             }
@@ -1093,6 +1109,59 @@ namespace MaxMath
                                  isinrange(x.x5, min.x5, max.x5, promises),
                                  isinrange(x.x6, min.x6, max.x6, promises),
                                  isinrange(x.x7, min.x7, max.x7, promises));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.quarter16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter16"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isinrange(quarter16 x, quarter16 min, quarter16 max, Promise promises = Promise.Nothing)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return RegisterConversion.IsTrue8(Xse.cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero)));
+            }
+            else
+            {
+                return new bool16(isinrange(x.x0,  min.x0,  max.x0,  promises),
+                                  isinrange(x.x1,  min.x1,  max.x1,  promises),
+                                  isinrange(x.x2,  min.x2,  max.x2,  promises),
+                                  isinrange(x.x3,  min.x3,  max.x3,  promises),
+                                  isinrange(x.x4,  min.x4,  max.x4,  promises),
+                                  isinrange(x.x5,  min.x5,  max.x5,  promises),
+                                  isinrange(x.x6,  min.x6,  max.x6,  promises),
+                                  isinrange(x.x7,  min.x7,  max.x7,  promises),
+                                  isinrange(x.x8,  min.x8,  max.x8,  promises),
+                                  isinrange(x.x9,  min.x9,  max.x9,  promises),
+                                  isinrange(x.x10, min.x10, max.x10, promises),
+                                  isinrange(x.x11, min.x11, max.x11, promises),
+                                  isinrange(x.x12, min.x12, max.x12, promises),
+                                  isinrange(x.x13, min.x13, max.x13, promises),
+                                  isinrange(x.x14, min.x14, max.x14, promises),
+                                  isinrange(x.x15, min.x15, max.x15, promises));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.quarter32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter32"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 isinrange(quarter32 x, quarter32 min, quarter32 max, Promise promises = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.IsTrue8(Xse.mm256_cmprange_pq(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero)));
+            }
+            else
+            {
+                return new bool32(isinrange(x.v16_0, min.v16_0, max.v16_0, promises), isinrange(x.v16_16, min.v16_16, max.v16_16, promises));
             }
         }
 
@@ -1118,7 +1187,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 isinrange(half2 x, half2 min, half2 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.cmprange_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 2)));
             }
@@ -1137,7 +1206,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 isinrange(half3 x, half3 min, half3 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.cmprange_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 3)));
             }
@@ -1156,7 +1225,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 isinrange(half4 x, half4 min, half4 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.cmprange_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(min), RegisterConversion.ToV128(max), promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 4)));
             }
@@ -1175,7 +1244,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 isinrange(half8 x, half8 min, half8 max, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmprange_ph(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero), elements: 8));
             }
@@ -1189,6 +1258,25 @@ namespace MaxMath
                                  isinrange(x.x5, min.x5, max.x5, promises),
                                  isinrange(x.x6, min.x6, max.x6, promises),
                                  isinrange(x.x7, min.x7, max.x7, promises));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.half16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half16"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 isinrange(half16 x, half16 min, half16 max, Promise promises = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.IsTrue16(Xse.mm256_cmprange_ph(x, min, max, promiseNeitherNaN: promises.Promises(Promise.Unsafe0), promiseNeitherZero: promises.Promises(Promise.NonZero)));
+            }
+            else
+            {
+                return new bool16(isinrange(x.v8_0, min.v8_0, max.v8_0, promises), isinrange(x.v8_8, min.v8_8, max.v8_8, promises));
             }
         }
 

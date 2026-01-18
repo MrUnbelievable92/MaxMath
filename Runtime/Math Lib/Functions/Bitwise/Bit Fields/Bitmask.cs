@@ -15,13 +15,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bitmask_epi8(v128 a, v128 b = default(v128), byte elements = 16, bool promiseLT8 = false)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     v128 LOOKUP = new v128(0b0000_0000, 0b0000_0001, 0b0000_0011, 0b0000_0111, 0b0000_1111, 0b0001_1111, 0b0011_1111, 0b0111_1111, 0b1111_1111, 0, 0, 0, 0, 0, 0, 0);
 
                     return sllv_epi8(shuffle_epi8(LOOKUP, a), b, elements: elements);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = sllv_epi8(setall_si128(), b, elements: elements);
 
@@ -56,7 +56,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bitmask_epi16(v128 a, v128 b = default(v128), byte elements = 8, bool promiseLT16 = false)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     v128 LOOKUP = new v128(0b0000_0000, 0b0000_0001, 0b0000_0011, 0b0000_0111, 0b0000_1111, 0b0001_1111, 0b0011_1111, 0b0111_1111,
                                            0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111);
@@ -66,7 +66,7 @@ namespace MaxMath
 
                     return sllv_epi16(or_si128(lo, slli_epi16(hi, 8)), b, elements: elements);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = sllv_epi16(setall_si128(), b, elements: elements);
 
@@ -106,7 +106,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bitmask_epi32(v128 a, v128 b = default(v128), byte elements = 4, bool promiseLT32 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = sllv_epi32(setall_si128(), b, elements: elements);
 
@@ -149,7 +149,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bitmask_epi64(v128 a, v128 b = default(v128), bool promiseLT64 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = sllv_epi64(setall_si128(), b);
 
@@ -239,8 +239,8 @@ Assert.IsBetween(numBits, 0u, 8u - index);
         {
 VectorAssert.IsBetween<byte2, byte>(index, 0, 7, 2);
 VectorAssert.IsBetween<byte2, byte>(numBits, 0, 8 - index, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi8(numBits, index, 2);
             }
@@ -257,8 +257,8 @@ VectorAssert.IsBetween<byte2, byte>(numBits, 0, 8 - index, 2);
         {
 VectorAssert.IsBetween<byte3, byte>(index, 0, 7, 3);
 VectorAssert.IsBetween<byte3, byte>(numBits, 0, 8 - index, 3);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi8(numBits, index, 3);
             }
@@ -276,8 +276,8 @@ VectorAssert.IsBetween<byte3, byte>(numBits, 0, 8 - index, 3);
         {
 VectorAssert.IsBetween<byte4, byte>(index, 0, 7, 4);
 VectorAssert.IsBetween<byte4, byte>(numBits, 0, 8 - index, 4);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi8(numBits, index, 4);
             }
@@ -296,8 +296,8 @@ VectorAssert.IsBetween<byte4, byte>(numBits, 0, 8 - index, 4);
         {
 VectorAssert.IsBetween<byte8, byte>(index, 0, 7, 8);
 VectorAssert.IsBetween<byte8, byte>(numBits, 0, 8 - index, 8);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi8(numBits, index, 8);
             }
@@ -320,8 +320,8 @@ VectorAssert.IsBetween<byte8, byte>(numBits, 0, 8 - index, 8);
         {
 VectorAssert.IsBetween<byte16, byte>(index, 0, 7, 16);
 VectorAssert.IsBetween<byte16, byte>(numBits, 0, 8 - index, 16);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi8(numBits, index, 16);
             }
@@ -388,8 +388,8 @@ Assert.IsBetween(numBits, 0u, 16u - index);
         {
 VectorAssert.IsBetween<ushort2, ushort>(index, 0, 15, 2);
 VectorAssert.IsBetween<ushort2, ushort>(numBits, 0, 16 - index, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi16(numBits, index, 2);
             }
@@ -406,8 +406,8 @@ VectorAssert.IsBetween<ushort2, ushort>(numBits, 0, 16 - index, 2);
         {
 VectorAssert.IsBetween<ushort3, ushort>(index, 0, 15, 3);
 VectorAssert.IsBetween<ushort3, ushort>(numBits, 0, 16 - index, 3);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi16(numBits, index, 3);
             }
@@ -425,8 +425,8 @@ VectorAssert.IsBetween<ushort3, ushort>(numBits, 0, 16 - index, 3);
         {
 VectorAssert.IsBetween<ushort4, ushort>(index, 0, 15, 4);
 VectorAssert.IsBetween<ushort4, ushort>(numBits, 0, 16 - index, 4);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi16(numBits, index, 4);
             }
@@ -445,8 +445,8 @@ VectorAssert.IsBetween<ushort4, ushort>(numBits, 0, 16 - index, 4);
         {
 VectorAssert.IsBetween<ushort8, ushort>(index, 0, 15, 8);
 VectorAssert.IsBetween<ushort8, ushort>(numBits, 0, 16 - index, 8);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi16(numBits, index, 8);
             }
@@ -505,8 +505,8 @@ Assert.IsBetween(numBits, 0u, 32u - index);
         {
 VectorAssert.IsBetween<uint2, uint>(index, 0, 31, 2);
 VectorAssert.IsBetween<uint2, uint>(numBits, 0, 32 - index, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 2));
             }
@@ -523,8 +523,8 @@ VectorAssert.IsBetween<uint2, uint>(numBits, 0, 32 - index, 2);
         {
 VectorAssert.IsBetween<uint3, uint>(index, 0, 31, 3);
 VectorAssert.IsBetween<uint3, uint>(numBits, 0, 32 - index, 3);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 3));
             }
@@ -542,8 +542,8 @@ VectorAssert.IsBetween<uint3, uint>(numBits, 0, 32 - index, 3);
         {
 VectorAssert.IsBetween<uint4, uint>(index, 0, 31, 4);
 VectorAssert.IsBetween<uint4, uint>(numBits, 0, 32 - index, 4);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 4));
             }
@@ -598,8 +598,8 @@ Assert.IsBetween(numBits, 0ul, 64ul - index);
         {
 VectorAssert.IsBetween<ulong2, ulong>(index, 0, 63, 2);
 VectorAssert.IsBetween<ulong2, ulong>(numBits, 0, 64 - index, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bitmask_epi64(numBits, index);
             }

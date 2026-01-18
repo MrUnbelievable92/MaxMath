@@ -13,7 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cminmag(sbyte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(c, out v128 min, out v128 max, 2);
 
@@ -31,7 +31,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cminmag(sbyte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(c, out v128 min, out v128 max, 3);
 
@@ -49,7 +49,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cminmag(sbyte4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(c, out v128 min, out v128 max, 4);
 
@@ -67,7 +67,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cminmag(sbyte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(c, out v128 min, out v128 max, 8);
 
@@ -85,7 +85,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cminmag(sbyte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(c, out v128 min, out v128 max, 16);
 
@@ -112,7 +112,7 @@ namespace MaxMath
 
                 return Xse.minmag_epi8(min128, max128, 2).SByte0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 min = Xse.vmin_epi8(Xse.min_epi8(c.v16_0, c.v16_16), 16);
                 v128 max = Xse.vmax_epi8(Xse.max_epi8(c.v16_0, c.v16_16), 16);
@@ -132,7 +132,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cminmag(short2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(c, out v128 min, out v128 max, 2);
 
@@ -150,7 +150,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cminmag(short3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(c, out v128 min, out v128 max, 3);
 
@@ -168,7 +168,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cminmag(short4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(c, out v128 min, out v128 max, 4);
 
@@ -186,7 +186,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cminmag(short8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(c, out v128 min, out v128 max, 8);
 
@@ -213,7 +213,7 @@ namespace MaxMath
 
                 return Xse.minmag_epi16(min128, max128).SShort0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 min = Xse.vmin_epi16(Xse.min_epi16(c.v8_0, c.v8_8), 8);
                 v128 max = Xse.vmax_epi16(Xse.max_epi16(c.v8_0, c.v8_8), 8);
@@ -230,14 +230,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal minimum of a <see cref="int2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 2);
 
@@ -252,14 +252,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal minimum of a <see cref="int3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 3);
 
@@ -274,14 +274,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal minimum of a <see cref="int4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminmag(int4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 4);
 
@@ -296,7 +296,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal minimum of a <see cref="MaxMath.int8"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return value is undefined.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.     </para>
         /// </remarks>
         /// </summary>
@@ -312,7 +312,7 @@ namespace MaxMath
 
                 return Xse.minmag_epi32(min128, max128, noOverflow.Promises(Promise.NoOverflow), 2).SInt0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 min = Xse.vmin_epi32(Xse.min_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), 4);
                 v128 max = Xse.vmax_epi32(Xse.max_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), 4);

@@ -12,7 +12,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2x2 transpose(long2x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long2x2(Xse.unpacklo_epi64(v.c0, v.c1),
                                    Xse.unpackhi_epi64(v.c0, v.c1));
@@ -33,7 +33,7 @@ namespace MaxMath
                 return new long3x2(Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Xse.unpacklo_epi64(v.c0, v.c1)), v.c2,    1),
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Xse.unpackhi_epi64(v.c0, v.c1)), v.c2.yx, 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long3x2(new long3(Xse.unpacklo_epi64(v.c0, v.c1), v.c2.x),
                                    new long3(Xse.unpackhi_epi64(v.c0, v.c1), v.c2.y));
@@ -58,7 +58,7 @@ namespace MaxMath
                 return new long4x2(Avx2.mm256_unpacklo_epi64(lo, hi),
                                    Avx2.mm256_unpackhi_epi64(lo, hi));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long4x2(new long4(Xse.unpacklo_epi64(v.c0, v.c1),
                                              Xse.unpacklo_epi64(v.c2, v.c3)),
@@ -86,7 +86,7 @@ namespace MaxMath
                                    Avx.mm256_castsi256_si128(Avx2.mm256_unpackhi_epi64(v.c0, v.c1)),
                                    Avx2.mm256_extracti128_si256(unpacklo, 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long2x3(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy),
                                    Xse.unpackhi_epi64(v.c0._xy, v.c1._xy),
@@ -112,7 +112,7 @@ namespace MaxMath
                                    Avx2.mm256_inserti128_si256(hi, ((long2)Avx.mm256_castsi256_si128(v.c2)).yx, 1),
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(lo, 1)), Avx2.mm256_extracti128_si256(v.c2, 1), 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long3x3(new long3(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy), v.c2.x),
                                    new long3(Xse.unpackhi_epi64(v.c0._xy, v.c1._xy), v.c2.y),
@@ -139,7 +139,7 @@ namespace MaxMath
                                    Avx2.mm256_inserti128_si256(Avx2.mm256_unpackhi_epi64(v.c0, v.c1), Avx.mm256_castsi256_si128(Avx2.mm256_unpackhi_epi64(v.c2, v.c3)), 1),
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(lo_lo, 1)), Avx2.mm256_extracti128_si256(lo_hi, 1), 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long4x3(new long4(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy), Xse.unpacklo_epi64(v.c2._xy, v.c3._xy)),
                                    new long4(Xse.unpackhi_epi64(v.c0._xy, v.c1._xy), Xse.unpackhi_epi64(v.c2._xy, v.c3._xy)),
@@ -168,7 +168,7 @@ namespace MaxMath
                                    Avx2.mm256_extracti128_si256(unpacklo, 1),
                                    Avx2.mm256_extracti128_si256(unpackhi, 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long2x4(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy),
                                    Xse.unpackhi_epi64(v.c0._xy, v.c1._xy),
@@ -196,7 +196,7 @@ namespace MaxMath
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(lo, 1)), Avx2.mm256_extracti128_si256(v.c2, 1), 1),
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(hi, 1)), ((long2)Avx2.mm256_extracti128_si256(v.c2, 1)).yx, 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long3x4(new long3(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy), v.c2.x),
                                    new long3(Xse.unpackhi_epi64(v.c0._xy, v.c1._xy), v.c2.y),
@@ -228,7 +228,7 @@ namespace MaxMath
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(lo_lo, 1)), Avx2.mm256_extracti128_si256(lo_hi, 1), 1),
                                    Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(Avx2.mm256_extracti128_si256(hi_lo, 1)), Avx2.mm256_extracti128_si256(hi_hi, 1), 1));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new long4x4(new long4(Xse.unpacklo_epi64(v.c0._xy, v.c1._xy), Xse.unpacklo_epi64(v.c2._xy, v.c3._xy)),
                                    new long4(Xse.unpackhi_epi64(v.c0._xy, v.c1._xy), Xse.unpackhi_epi64(v.c2._xy, v.c3._xy)),
@@ -313,7 +313,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x2 transpose(short2x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -331,7 +331,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x2 transpose(short2x3 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -350,7 +350,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x2 transpose(short2x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo_lo = Xse.unpacklo_epi16(v.c0, v.c1);
                 v128 unpacklo_hi = Xse.unpacklo_epi16(v.c2, v.c3);
@@ -371,7 +371,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x3 transpose(short3x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -390,7 +390,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x3 transpose(short3x3 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -410,7 +410,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x3 transpose(short3x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo_lo = Xse.unpacklo_epi16(v.c0, v.c1);
                 v128 unpacklo_hi = Xse.unpacklo_epi16(v.c2, v.c3);
@@ -435,7 +435,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x4 transpose(short4x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -455,7 +455,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x4 transpose(short4x3 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(v.c0, v.c1);
 
@@ -476,7 +476,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x4 transpose(short4x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo_lo = Xse.unpacklo_epi16(v.c0, v.c1);
                 v128 unpacklo_hi = Xse.unpacklo_epi16(v.c2, v.c3);
@@ -567,7 +567,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x2 transpose(sbyte2x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
@@ -585,11 +585,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x2 transpose(sbyte2x3 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     unpacklo = Xse.unpacklo_epi16(unpacklo, v.c2);
 
@@ -615,7 +615,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x2 transpose(sbyte2x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(Xse.unpacklo_epi8(v.c0, v.c1),
                                                    Xse.unpacklo_epi8(v.c2, v.c3));
@@ -636,7 +636,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x3 transpose(sbyte3x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
@@ -655,12 +655,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x3 transpose(sbyte3x3 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
 
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     unpacklo = Xse.unpacklo_epi16(unpacklo,
                                                    v.c2);
@@ -688,7 +688,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x3 transpose(sbyte3x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(Xse.unpacklo_epi8(v.c0, v.c1),
                                                     Xse.unpacklo_epi8(v.c2, v.c3));
@@ -710,7 +710,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x4 transpose(sbyte4x2 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
@@ -730,7 +730,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x4 transpose(sbyte4x3 v)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(Xse.unpacklo_epi8(v.c0, v.c1),
                                                     v.c2);
@@ -740,7 +740,7 @@ namespace MaxMath
                                     Xse.shuffle_epi8(unpacklo, new v128( 8,  9, 6,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
                                     Xse.shuffle_epi8(unpacklo, new v128(12, 13, 7,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi8(v.c0, v.c1);
 
@@ -761,7 +761,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x4 transpose(sbyte4x4 v)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 unpacklo = Xse.unpacklo_epi16(Xse.unpacklo_epi8(v.c0, v.c1),
                                                     Xse.unpacklo_epi8(v.c2, v.c3));

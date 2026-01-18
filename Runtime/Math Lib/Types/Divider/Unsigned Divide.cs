@@ -50,7 +50,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8_su8(x, *(byte*)&d._divisor, 2);
                     }
@@ -67,7 +67,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
                     byte divisor = *(byte*)&d._divisor;
                     ushort mul = *(ushort*)&d._bigM;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8_su8(x, divisor, mul, d._promises, 2);
                     }
@@ -82,7 +82,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8(x, d._divisor.Reinterpret<T, byte2>(), 2);
                     }
@@ -99,7 +99,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 2, columnCount: 1, Signedne
                     ushort2 mul = *(ushort2*)&d._bigM;
                     byte2 divisor = *(byte2*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8(x, divisor, mul, d._promises, 2);
                     }
@@ -121,7 +121,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8_su8(x, *(byte*)&d._divisor, 3);
                     }
@@ -139,7 +139,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
                     byte divisor = *(byte*)&d._divisor;
                     ushort mul = *(ushort*)&d._bigM;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8_su8(x, divisor, mul, d._promises, 3);
                     }
@@ -155,7 +155,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8(x, d._divisor.Reinterpret<T, byte3>(), 3);
                     }
@@ -173,7 +173,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 3, columnCount: 1, Signedne
                     ushort3 mul = *(ushort3*)&d._bigM;
                     byte3 divisor = *(byte3*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8(x, divisor, mul, d._promises, 3);
                     }
@@ -196,7 +196,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8_su8(x, *(byte*)&d._divisor, 4);
                     }
@@ -215,7 +215,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
                     byte divisor = *(byte*)&d._divisor;
                     ushort mul = *(ushort*)&d._bigM;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8_su8(x, divisor, mul, d._promises, 4);
                     }
@@ -232,7 +232,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8(x, d._divisor.Reinterpret<T, byte4>(), 4);
                     }
@@ -251,7 +251,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 4, columnCount: 1, Signedne
                     ushort4 mul = *(ushort4*)&d._bigM;
                     byte4 divisor = *(byte4*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8(x, divisor, mul, d._promises, 4);
                     }
@@ -275,7 +275,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8_su8(x, *(byte*)&d._divisor, 8);
                     }
@@ -298,7 +298,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
                     byte divisor = *(byte*)&d._divisor;
                     ushort mul = *(ushort*)&d._bigM;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8_su8(x, divisor, mul, d._promises, 8);
                     }
@@ -319,7 +319,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8(x, d._divisor.Reinterpret<T, byte8>(), 8);
                     }
@@ -342,7 +342,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 8, columnCount: 1, Signedne
                     ushort8 mul = *(ushort8*)&d._bigM;
                     byte8 divisor = *(byte8*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8(x, divisor, mul, d._promises, 8);
                     }
@@ -370,7 +370,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8_su8(x, *(byte*)&d._divisor, 16);
                     }
@@ -401,7 +401,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
                     byte divisor = *(byte*)&d._divisor;
                     ushort mul = *(ushort*)&d._bigM;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8_su8(x, divisor, mul, d._promises, 16);
                     }
@@ -430,7 +430,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu8(x, d._divisor.Reinterpret<T, byte16>(), 16);
                     }
@@ -462,7 +462,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 16, columnCount: 1, Signedn
                     ushort8 mulHi = *(ushort8*)&d._bigM._mulHi;
                     byte16 divisor = *(byte16*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu8(x, divisor, mulLo, mulHi, d._promises);
                     }
@@ -504,7 +504,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 32, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu8_su8(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new byte32(pow2_div_epu8_su8(x.v16_0, divisor, 16), pow2_div_epu8_su8(x.v16_16, divisor, 16));
                     }
@@ -554,7 +554,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 32, columnCount: 1, Signedn
                         return mm256_bmdiv_epu8_su8(x, divisor, mul, d._promises);
 
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new byte32(bmdiv_epu8_su8(x.v16_0,  divisor, mul, d._promises),
                                           bmdiv_epu8_su8(x.v16_16, divisor, mul, d._promises));
@@ -606,7 +606,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 32, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu8(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new byte32(pow2_div_epu8(x.v16_0, divisor.v16_0, 16), pow2_div_epu8(x.v16_16, divisor.v16_16, 16));
                     }
@@ -656,7 +656,7 @@ d.AssertOperationMatchesInitialization(sizeof(byte), 32, columnCount: 1, Signedn
                     {
                         return mm256_bmdiv_epu8(x, divisor, mulLo, mulHi, d._promises);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new byte32(bmdiv_epu8(x.v16_0,  divisor.v16_0,  mulLo.v8_0, mulLo.v8_8, d._promises),
                                           bmdiv_epu8(x.v16_16, divisor.v16_16, mulHi.v8_0, mulHi.v8_8, d._promises));
@@ -736,7 +736,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16_su16(x, *(ushort*)&d._divisor, 2);
                     }
@@ -752,7 +752,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
                 {
                     ushort divisor = *(ushort*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ushort mul = *(ushort*)&d._mulShift._mul;
                         ushort shift = *(ushort*)&d._mulShift._shift;
@@ -772,7 +772,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16(x, d._divisor.Reinterpret<T, ushort2>(), 2);
                     }
@@ -789,7 +789,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
                     uint2 mul = *(uint2*)&d._bigM;
                     ushort2 divisor = *(ushort2*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu16(x, divisor, RegisterConversion.ToV128(mul), d._promises, 2);
                     }
@@ -811,7 +811,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16_su16(x, *(ushort*)&d._divisor, 3);
                     }
@@ -828,7 +828,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
                 {
                     ushort divisor = *(ushort*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ushort mul = *(ushort*)&d._mulShift._mul;
                         ushort shift = *(ushort*)&d._mulShift._shift;
@@ -849,7 +849,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16(x, d._divisor.Reinterpret<T, ushort3>(), 3);
                     }
@@ -867,7 +867,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
                     uint3 mul = *(uint3*)&d._bigM;
                     ushort3 divisor = *(ushort3*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu16(x, divisor, RegisterConversion.ToV128(mul), d._promises, 3);
                     }
@@ -890,7 +890,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16_su16(x, *(ushort*)&d._divisor, 4);
                     }
@@ -908,7 +908,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
                 {
                     ushort divisor = *(ushort*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ushort mul = *(ushort*)&d._mulShift._mul;
                         ushort shift = *(ushort*)&d._mulShift._shift;
@@ -930,7 +930,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16(x, d._divisor.Reinterpret<T, ushort4>(), 4);
                     }
@@ -949,7 +949,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
                     uint4 mul = *(uint4*)&d._bigM;
                     ushort4 divisor = *(ushort4*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu16(x, divisor, RegisterConversion.ToV128(mul), d._promises, 4);
                     }
@@ -973,7 +973,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16_su16(x, *(ushort*)&d._divisor, 8);
                     }
@@ -995,7 +995,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
                 {
                     ushort divisor = *(ushort*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ushort mul = *(ushort*)&d._mulShift._mul;
                         ushort shift = *(ushort*)&d._mulShift._shift;
@@ -1021,7 +1021,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu16(x, d._divisor.Reinterpret<T, ushort8>(), 8);
                     }
@@ -1045,7 +1045,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
                     uint4 mulHi = *(uint4*)&d._bigM._mulHi;
                     ushort8 divisor = *(ushort8*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return bmdiv_epu16(x, divisor, RegisterConversion.ToV128(mulLo), RegisterConversion.ToV128(mulHi), d._promises);
                     }
@@ -1079,7 +1079,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 16, columnCount: 1, Signe
                     {
                         return mm256_pow2_div_epu16_su16(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ushort16(pow2_div_epu16_su16(x.v8_0, divisor, 8), pow2_div_epu16_su16(x.v8_8, divisor, 8));
                     }
@@ -1107,7 +1107,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 16, columnCount: 1, Signe
                 {
                     ushort divisor = *(ushort*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ushort mul = *(ushort*)&d._mulShift._mul;
                         ushort shift = *(ushort*)&d._mulShift._shift;
@@ -1155,7 +1155,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 16, columnCount: 1, Signe
                     {
                         return mm256_pow2_div_epu16(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ushort16(pow2_div_epu16(x.v8_0, divisor.v8_0, 8), pow2_div_epu16(x.v8_8, divisor.v8_8, 8));
                     }
@@ -1189,7 +1189,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 16, columnCount: 1, Signe
                     {
                         return mm256_bmdiv_epu16(x, divisor, mulLo, mulHi, d._promises);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ushort16(bmdiv_epu16(x.v8_0, divisor.v8_0, RegisterConversion.ToV128(mulLo.v4_0), RegisterConversion.ToV128(mulLo.v4_4), d._promises),
                                             bmdiv_epu16(x.v8_8, divisor.v8_8, RegisterConversion.ToV128(mulHi.v4_0), RegisterConversion.ToV128(mulHi.v4_4), d._promises));
@@ -1237,7 +1237,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 1, columnCount: 1, Signedne
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             return bmdiv_u32(x, *(uint*)&d._divisor, *(ulong*)&d._bigM, d._promises).Reinterpret<uint, T>();
                         }
@@ -1259,7 +1259,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt2(pow2_div_epu32_su32(RegisterConversion.ToV128(x), *(uint*)&d._divisor, 2));
                     }
@@ -1277,13 +1277,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                     uint mul = *(uint*)&d._mulShift._mul;
                     uint shift = *(uint*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt2(msdiv_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 2));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong mul64 = *(ulong*)&d._bigM;
 
@@ -1302,7 +1302,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt2(pow2_div_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint2>()), 2));
                     }
@@ -1320,13 +1320,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                     uint2 mul = *(uint2*)&d._mulShift._mul;
                     uint2 shift = *(uint2*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt2(msdiv_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 2));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong2 mul64 = *(ulong2*)&d._bigM;
 
@@ -1352,7 +1352,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt3(pow2_div_epu32_su32(RegisterConversion.ToV128(x), *(uint*)&d._divisor, 3));
                     }
@@ -1371,13 +1371,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                     uint mul = *(uint*)&d._mulShift._mul;
                     uint shift = *(uint*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt3(msdiv_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 3));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong mul64 = *(ulong*)&d._bigM;
 
@@ -1398,7 +1398,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt3(pow2_div_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint3>()), 3));
                     }
@@ -1417,13 +1417,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                     uint3 mul = *(uint3*)&d._mulShift._mul;
                     uint3 shift = *(uint3*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt3(msdiv_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 3));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong3 mul64 = *(ulong3*)&d._bigM;
 
@@ -1451,7 +1451,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt4(pow2_div_epu32_su32(RegisterConversion.ToV128(x), *(uint*)&d._divisor, 4));
                     }
@@ -1471,13 +1471,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                     uint mul = *(uint*)&d._mulShift._mul;
                     uint shift = *(uint*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt4(msdiv_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 4));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong mul64 = *(ulong*)&d._bigM;
 
@@ -1500,7 +1500,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt4(pow2_div_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint4>()), 4));
                     }
@@ -1520,13 +1520,13 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                     uint4 mul = *(uint4*)&d._mulShift._mul;
                     uint4 shift = *(uint4*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return RegisterConversion.ToUInt4(msdiv_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 4));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong4 mul64 = *(ulong4*)&d._bigM;
 
@@ -1562,7 +1562,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     {
                         return mm256_pow2_div_epu32_su32(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new uint8(RegisterConversion.ToUInt4(pow2_div_epu32_su32(RegisterConversion.ToV128(x.v4_0), divisor, 4)),
                                          RegisterConversion.ToUInt4(pow2_div_epu32_su32(RegisterConversion.ToV128(x.v4_4), divisor, 4)));
@@ -1585,7 +1585,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     uint mul = *(uint*)&d._mulShift._mul;
                     uint shift = *(uint*)&d._mulShift._shift;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (Avx2.IsAvx2Supported)
                         {
@@ -1599,7 +1599,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong mul64 = *(ulong*)&d._bigM;
 
@@ -1636,7 +1636,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     {
                         return mm256_pow2_div_epu32(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new uint8(RegisterConversion.ToUInt4(pow2_div_epu32(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(divisor.v4_0), 4)),
                                          RegisterConversion.ToUInt4(pow2_div_epu32(RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(divisor.v4_4), 4)));
@@ -1663,14 +1663,14 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     {
                         return mm256_msdiv_epu32(x, divisor, mul, shift, d._promises);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new uint8(RegisterConversion.ToUInt4(msdiv_epu32(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(divisor.v4_0), RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(shift.v4_0), d._promises)),
                                          RegisterConversion.ToUInt4(msdiv_epu32(RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(divisor.v4_4), RegisterConversion.ToV128(mul.v4_4), RegisterConversion.ToV128(shift.v4_4), d._promises)));
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             ulong4 mul64Lo = *(ulong4*)&d._bigM._mulLo;
                             ulong4 mul64Hi = *(ulong4*)&d._bigM._mulHi;
@@ -1719,7 +1719,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 1, columnCount: 1, Signedn
                     }
                     else
                     {
-                        if (Architecture.IsBurstCompiled)
+                        if (BurstArchitecture.IsBurstCompiled)
                         {
                             return bmdiv_u64(x, *(ulong*)&d._divisor, *(UInt128*)&d._bigM, d._promises).Reinterpret<ulong, T>();
                         }
@@ -1741,7 +1741,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu64_su64(x, *(ulong*)&d._divisor);
                     }
@@ -1757,14 +1757,14 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
                 {
                     ulong divisor = *(ulong*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ulong mul = *(ulong*)&d._mulShift._mul;
                         ulong shift = *(ulong*)&d._mulShift._shift;
 
                         return msdiv_epu64_su64(x, divisor, mul, shift, d._promises);
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul = *((UInt128*)&d._bigM + 0);
 
@@ -1785,7 +1785,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
             {
                 if (d._promises.Pow2)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return pow2_div_epu64(x, d._divisor.Reinterpret<T, ulong2>());
                     }
@@ -1805,7 +1805,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 2, columnCount: 1, Signedn
                     {
                         return msdiv_epu64(x, divisor, *(ulong2*)&d._mulShift._mul, *(ulong2*)&d._mulShift._shift, d._promises);
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul0 = *((UInt128*)&d._bigM + 0);
                         UInt128 mul1 = *((UInt128*)&d._bigM + 1);
@@ -1840,7 +1840,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu64_su64(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ulong3(pow2_div_epu64_su64(x.xy, divisor),
                                           pow2_div_u64(x.z, divisor));
@@ -1856,7 +1856,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                 {
                     ulong divisor = *(ulong*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ulong mul = *(ulong*)&d._mulShift._mul;
                         ulong shift = *(ulong*)&d._mulShift._shift;
@@ -1876,7 +1876,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                             return new ulong3(xy, z);
                         }
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul = *(UInt128*)&d._bigM;
 
@@ -1905,7 +1905,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu64(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ulong3(pow2_div_epu64(x.xy, divisor.xy),
                                           pow2_div_u64(x.z, divisor.z));
@@ -1925,7 +1925,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 3, columnCount: 1, Signedn
                     {
                         return mm256_msdiv_epu64(x, divisor, *(ulong3*)&d._mulShift._mul, *(ulong3*)&d._mulShift._shift, d._promises, 3);
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul0 = *((UInt128*)&d._bigM + 0);
                         UInt128 mul1 = *((UInt128*)&d._bigM + 1);
@@ -1963,7 +1963,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 4, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu64_su64(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ulong4(pow2_div_epu64_su64(x.xy, divisor),
                                           pow2_div_epu64_su64(x.zw, divisor));
@@ -1980,7 +1980,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 4, columnCount: 1, Signedn
                 {
                     ulong divisor = *(ulong*)&d._divisor;
 
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         ulong mul = *(ulong*)&d._mulShift._mul;
                         ulong shift = *(ulong*)&d._mulShift._shift;
@@ -1995,7 +1995,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 4, columnCount: 1, Signedn
                                               msdiv_epu64_su64(x.zw, divisor, mul, shift, d._promises));
                         }
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul = *(UInt128*)&d._bigM;
 
@@ -2026,7 +2026,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 4, columnCount: 1, Signedn
                     {
                         return mm256_pow2_div_epu64(x, divisor);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return new ulong4(pow2_div_epu64(x.xy, divisor.xy),
                                           pow2_div_epu64(x.zw, divisor.zw));
@@ -2047,7 +2047,7 @@ d.AssertOperationMatchesInitialization(sizeof(ulong), 4, columnCount: 1, Signedn
                     {
                         return mm256_msdiv_epu64(x, divisor, *(ulong4*)&d._mulShift._mul, *(ulong4*)&d._mulShift._shift, d._promises, 4);
                     }
-                    else if (Architecture.IsBurstCompiled)
+                    else if (BurstArchitecture.IsBurstCompiled)
                     {
                         UInt128 mul0 = *((UInt128*)&d._bigM + 0);
                         UInt128 mul1 = *((UInt128*)&d._bigM + 1);
@@ -2123,7 +2123,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu8(v128 x, v128 original, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, Xse.tzcnt_epi8(original), inRange: true, elements: elements);
             }
@@ -2133,7 +2133,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu16(v128 x, v128 original, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi16(x, Xse.tzcnt_epi16(original), inRange: true, elements: elements);
             }
@@ -2143,7 +2143,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu32(v128 x, v128 original, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi32(x, Xse.tzcnt_epi32(original), inRange: true, elements: elements);
             }
@@ -2153,7 +2153,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu64(v128 x, v128 original)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi64(x, Xse.tzcnt_epi64(original), inRange: true);
             }
@@ -2203,7 +2203,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu8_su8(v128 x, byte original, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srli_epi8(x, tzcnt(original), inRange: true);
             }
@@ -2213,7 +2213,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu16_su16(v128 x, ushort original, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srli_epi16(x, tzcnt(original), inRange: true);
             }
@@ -2223,7 +2223,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu32_su32(v128 x, uint original, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srli_epi32(x, tzcnt(original), inRange: true);
             }
@@ -2233,7 +2233,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 pow2_div_epu64_su64(v128 x, ulong original)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srli_epi64(x, tzcnt(original), inRange: true);
             }
@@ -2385,7 +2385,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdiv_epu8(v128 a, v128 original, v128 mul, DividerPromise promise, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU8(original, 1, elements))
                 {
@@ -2408,7 +2408,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdiv_epu16(v128 a, v128 original, v128 mul, DividerPromise promise, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(original, 1, elements))
                 {
@@ -2438,7 +2438,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdiv_epu8(v128 a, v128 original, v128 mulLo, v128 mulHi, DividerPromise promise)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU8(original, 1))
                 {
@@ -2463,7 +2463,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdiv_epu16(v128 a, v128 original, v128 mulLo, v128 mulHi, DividerPromise promise)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU16(original, 1))
                 {
@@ -2496,7 +2496,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 msdiv_epu32(v128 a, v128 original, v128 mul, v128 shift, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPU32(original, 1, elements))
                 {
@@ -2677,7 +2677,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 bmdiv_epu8_su8(v128 a, byte original, ushort mul, DividerPromise promise, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (!promise.NotOne)
                 {
@@ -2708,7 +2708,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 msdiv_epu16_su16(v128 a, ushort original, ushort mul, ushort shift, DividerPromise promise, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (!promise.NotOne)
                 {
@@ -2733,7 +2733,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 msdiv_epu32_su32(v128 a, uint original, uint mul, uint shift, DividerPromise promise, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (!promise.NotOne)
                 {
@@ -2766,7 +2766,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 msdiv_epu64_su64(v128 a, ulong original, ulong mul, ulong shift, DividerPromise promise)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (!promise.NotOne)
                 {

@@ -9,7 +9,7 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="ulong"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0       </para>
         /// </remarks>
@@ -17,7 +17,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 toulongunsafe(double2 x, Promise promise = Promise.Unsafe0)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
@@ -86,7 +86,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tolongunsafe(double2 x, Promise promise = Promise.Unsafe0)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
@@ -149,14 +149,14 @@ namespace MaxMath
 
 
         /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 todoubleunsafe(ulong2 x, Promise promise = Promise.Unsafe0)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
@@ -174,7 +174,7 @@ namespace MaxMath
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
         /// </summary>
@@ -199,7 +199,7 @@ namespace MaxMath
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
         /// </summary>
@@ -225,14 +225,14 @@ namespace MaxMath
 
 
         /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 todoubleunsafe(long2 x, Promise promise = Promise.Unsafe0)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
@@ -250,7 +250,7 @@ namespace MaxMath
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>
         /// </summary>
@@ -275,7 +275,7 @@ namespace MaxMath
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its respective <see cref="double"/> representation.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>
         /// </summary>

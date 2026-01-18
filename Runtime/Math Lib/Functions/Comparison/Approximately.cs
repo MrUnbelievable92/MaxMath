@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmpapprox_ps(v128 a, v128 b, v128 t, bool promiseNotInf)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi32(1 << 31);
                     v128 INFINITY = set1_ps(float.PositiveInfinity);
@@ -81,7 +81,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmpapprox_pd(v128 a, v128 b, v128 t, bool promiseNotInf)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi64x(1L << 63);
                     v128 INFINITY = set1_pd(double.PositiveInfinity);
@@ -95,7 +95,7 @@ namespace MaxMath
                     {
                         v128 ainf;
                         v128 binf;
-                        if (Architecture.IsCMP64Supported)
+                        if (BurstArchitecture.IsCMP64Supported)
                         {
                             ainf = cmpeq_epi64(absA, INFINITY);
                             binf = cmpeq_epi64(absB, INFINITY);
@@ -160,7 +160,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmpapprox_ps(v128 a, v128 b, bool promiseNotInf)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi32(1 << 31);
                     v128 MAX_RANGE_M1 = set1_ps(math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS)));
@@ -199,7 +199,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmpapprox_pd(v128 a, v128 b, bool promiseNotInf)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi64x(1L << 63);
                     v128 MAX_RANGE_M1 = set1_pd(math.asdouble(maxmath.bitmask64((ulong)MANTISSA_ROUNDING_BITS)));
@@ -246,7 +246,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool approx(float a, float b, float tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return tobool(1 & Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0)).SInt0);
             }
@@ -273,7 +273,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 approx(float2 a, float2 b, float2 tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
             }
@@ -300,7 +300,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 approx(float3 a, float3 b, float3 tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
             }
@@ -327,7 +327,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 approx(float4 a, float4 b, float4 tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
             }
@@ -373,7 +373,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool approx(double a, double b, double tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return tobool(1 & Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0)).SLong0);
             }
@@ -400,7 +400,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 approx(double2 a, double2 b, double2 tolerance, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
             }
@@ -464,7 +464,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool approx(float a, float b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return tobool(1 & Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0)).SInt0);
             }
@@ -482,7 +482,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 approx(float2 a, float2 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
             }
@@ -500,7 +500,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 approx(float3 a, float3 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
             }
@@ -518,7 +518,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 approx(float4 a, float4 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
             }
@@ -555,7 +555,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool approx(double a, double b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return tobool(1 & Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0)).SLong0);
             }
@@ -573,7 +573,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 approx(double2 a, double2 b, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
             }

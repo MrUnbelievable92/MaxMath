@@ -22,7 +22,7 @@ namespace MaxMath
 
                 return new short16(lo, hi);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ZERO = Xse.setzero_si128();
                 v128 lo = Xse.unpacklo_epi8(x, ZERO);
@@ -47,7 +47,7 @@ namespace MaxMath
 
                 return new short16(lo, hi);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 negativeMask = Xse.cmpgt_epi8(Xse.setzero_si128(), x);
                 v128 lo = Xse.unpacklo_epi8(x, negativeMask);
@@ -72,7 +72,7 @@ namespace MaxMath
 
                 return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 negativeMask = Xse.srai_epi16(x, 15);
                 v128 lo = Xse.unpacklo_epi16(x, negativeMask);
@@ -97,7 +97,7 @@ namespace MaxMath
 
                 return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ZERO = Xse.setzero_si128();
                 v128 lo = Xse.unpacklo_epi16(x, ZERO);
@@ -124,7 +124,7 @@ namespace MaxMath
 
                 return new long4(lo, hi);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ZERO = Xse.setzero_si128();
                 v128 lo = Xse.unpacklo_epi32(x, ZERO);
@@ -149,7 +149,7 @@ namespace MaxMath
 
                 return new long4(lo, hi);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 negativeMask = Xse.srai_epi32(x, 31);
                 v128 lo = Xse.unpacklo_epi32(x, negativeMask);
@@ -164,7 +164,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Short16To_S_Byte16_SSE2(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MASK = new v128(0x00FF_00FF_00FF_00FF, 0x00FF_00FF_00FF_00FF);
 
@@ -179,7 +179,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 Int8To_S_Byte8_SSE2(v128 lo, v128 hi)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MASK = new v128(0x0000_00FF_0000_00FF, 0x0000_00FF_0000_00FF);
 
@@ -205,7 +205,7 @@ namespace MaxMath
 
                 return Xse.packus_epi32(clamp_lo, clamp_hi);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi64(Xse.cvtepi32_epi16(lo, 4), Xse.cvtepi32_epi16(hi, 4));
             }

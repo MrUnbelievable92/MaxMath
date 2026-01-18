@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -101,13 +102,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8(uint2 x01, uint3 x234, uint3 x567)
         {
-            if (Architecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                v128 lo = Xse.unpacklo_epi64(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x234));
-                v128 mid = Xse.bsrli_si128(RegisterConversion.ToV128(x234), 2 * sizeof(uint));
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x567), sizeof(uint));
-
-                hi = Xse.blend_epi16(mid, hi, 0b1111_1100);
+                this = Join.mm256_v2v3v3_epi32(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x234), RegisterConversion.ToV128(x567));
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                Join.v2v3v3_epi32(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x234), RegisterConversion.ToV128(x567), out v128 lo, out v128 hi);
 
                 this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
@@ -124,15 +125,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8(uint3 x012, uint2 x34, uint3 x567)
         {
-            if (Architecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                v128 mid = Xse.bslli_si128(RegisterConversion.ToV128(x34), 3 * sizeof(uint));
-                v128 lo = Xse.blend_epi16(RegisterConversion.ToV128(x012), mid, 0b1100_0000);
-
-                mid = Xse.bsrli_si128(RegisterConversion.ToV128(x34), sizeof(uint));
-
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x567), sizeof(uint));
-                hi = Xse.blend_epi16(mid, hi, 0b1111_1100);
+                this = Join.mm256_v3v2v3_epi32(RegisterConversion.ToV128(x012), RegisterConversion.ToV128(x34), RegisterConversion.ToV128(x567));
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                Join.v3v2v3_epi32(RegisterConversion.ToV128(x012), RegisterConversion.ToV128(x34), RegisterConversion.ToV128(x567), out v128 lo, out v128 hi);
 
                 this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
@@ -149,13 +148,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8(uint3 x012, uint3 x345, uint2 x67)
         {
-            if (Architecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                v128 mid = Xse.bsrli_si128(RegisterConversion.ToV128(x345), sizeof(uint));
-                v128 hi = Xse.unpacklo_epi64(mid, RegisterConversion.ToV128(x67));
-
-                mid = Xse.bslli_si128(RegisterConversion.ToV128(x345), 3 * sizeof(uint));
-                v128 lo = Xse.blend_epi16(RegisterConversion.ToV128(x012), mid, 0b1100_0000);
+                this = Join.mm256_v3v3v2_epi32(RegisterConversion.ToV128(x012), RegisterConversion.ToV128(x345), RegisterConversion.ToV128(x67));
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                Join.v3v3v2_epi32(RegisterConversion.ToV128(x012), RegisterConversion.ToV128(x345), RegisterConversion.ToV128(x67), out v128 lo, out v128 hi);
 
                 this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
@@ -178,11 +177,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8(uint2 x01, uint4 x2345, uint2 x67)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 lo = Xse.unpacklo_epi64(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x2345));
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x67), 2 * sizeof(uint));
-                hi = Xse.unpackhi_epi64(RegisterConversion.ToV128(x2345), hi);
+                Join.v2v4v2_epi32(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x2345), RegisterConversion.ToV128(x67), out v128 lo, out v128 hi);
 
                 this = new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
             }
@@ -258,7 +255,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt4(Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(uint)));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -304,7 +301,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -350,7 +347,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt4(Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -481,7 +478,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 0, 2, 1))));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -517,7 +514,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt3(Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -694,7 +691,7 @@ namespace MaxMath
                 {
                     return RegisterConversion.ToUInt2(Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(uint)));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     uint4 lo = this._v4_0;
                     uint4 hi = this._v4_4;
@@ -807,12 +804,14 @@ namespace MaxMath
         }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(uint8 input) => new v256(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
-
+        public static implicit operator v256(uint8 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator uint8(v256 input) => new uint8{ x0 = input.UInt0, x1 = input.UInt1, x2 = input.UInt2, x3 = input.UInt3, x4 = input.UInt4, x5 = input.UInt5, x6 = input.UInt6, x7 = input.UInt7 };
+        public static implicit operator uint8(v256 input) => RegisterConversion.ToAbstraction256<uint8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -829,7 +828,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvttph_epu32(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new uint8(RegisterConversion.ToUInt4(Xse.cvttph_epu32(RegisterConversion.ToV128(input.v4_0), 4)),
                                  RegisterConversion.ToUInt4(Xse.cvttph_epu32(RegisterConversion.ToV128(input.v4_4), 4)));
@@ -862,7 +861,17 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(uint8 input) => (half8)(float8)input;
+        public static implicit operator half8(uint8 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvtepu32_ph(input, (half)float.PositiveInfinity);
+            }
+            else
+            {
+                return (half8)(float8)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(uint8 input)
@@ -884,13 +893,13 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    return Xse.mm256_extract_epi32(this, (byte)index);
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_extract_epi32(this, (byte)index);
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 4)
                         {
@@ -902,8 +911,18 @@ Assert.IsWithinArrayBounds(index, 8);
                         }
                     }
                 }
-                
-                return this.GetField<uint8, uint>(index);
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (uint* ptr = &x0)
+                    {
+                        return ptr[index];
+                    }
+                }
+                else
+                {
+                    return this.GetField<uint8, uint>(index);
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -911,15 +930,15 @@ Assert.IsWithinArrayBounds(index, 8);
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    this = Xse.mm256_insert_epi32(this, value, (byte)index);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        this = Xse.mm256_insert_epi32(this, value, (byte)index);
 
-                    return;
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                        return;
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 4)
                         {
@@ -933,8 +952,18 @@ Assert.IsWithinArrayBounds(index, 8);
                         return;
                     }
                 }
-                
-                this.SetField(value, index);
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (uint* ptr = &x0)
+                    {
+                        ptr[index] = value;
+                    }
+                }
+                else
+                {
+                    this.SetField(value, index);
+                }
             }
         }
 
@@ -987,7 +1016,7 @@ VectorAssert.AreNotEqual<uint8, uint>(right, 0, 8);
             {
                 return Xse.mm256_div_epu32(left, right);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new uint8(RegisterConversion.ToUInt4(Xse.div_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
                                  RegisterConversion.ToUInt4(Xse.div_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
@@ -1007,7 +1036,7 @@ VectorAssert.AreNotEqual<uint8, uint>(right, 0, 8);
             {
                 return Xse.mm256_rem_epu32(left, right);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new uint8(RegisterConversion.ToUInt4(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
                                  RegisterConversion.ToUInt4(Xse.rem_epu32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
@@ -1078,9 +1107,9 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 operator & (uint8 left, uint8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_and_si256(left, right);
+                return Avx.mm256_and_ps(left, right);
             }
             else
             {
@@ -1091,9 +1120,9 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 operator | (uint8 left, uint8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_or_si256(left, right);
+                return Avx.mm256_or_ps(left, right);
             }
             else
             {
@@ -1104,9 +1133,9 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 operator ^ (uint8 left, uint8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_xor_si256(left, right);
+                return Avx.mm256_xor_ps(left, right);
             }
             else
             {
@@ -1144,7 +1173,7 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 operator ~ (uint8 x)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_not_si256(x);
             }

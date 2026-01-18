@@ -27,8 +27,8 @@ namespace MaxMath
         internal static UInt128 shl_SIMD(UInt128 x, int n)
         {
 Assert.IsBetween(n, 0, 128);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_TRUE(n % 8 == 0))
                 {
@@ -44,7 +44,7 @@ Assert.IsBetween(n, 0, 128);
         {
 Assert.IsBetween(n, 0, 128);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_TRUE(n % 8 == 0))
                 {
@@ -60,7 +60,7 @@ Assert.IsBetween(n, 0, 128);
         {
 Assert.IsBetween(n, 0, 128);
 
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_TRUE(n % 8 == 0))
                 {
@@ -215,7 +215,7 @@ Assert.IsBetween(n, 0, 128);
         {
             if (constexpr.IS_TRUE(n % 8 == 0))
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bror_si128(x.Reinterpret<UInt128, v128>(), n / 8).Reinterpret<v128, UInt128>();
                 }
@@ -229,7 +229,7 @@ Assert.IsBetween(n, 0, 128);
         {
             if (constexpr.IS_TRUE(n % 8 == 0))
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.brol_si128(x.Reinterpret<UInt128, v128>(), n / 8).Reinterpret<v128, UInt128>();
                 }
@@ -241,7 +241,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 not_SIMD(UInt128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.not_si128(new v128(x.lo64, x.hi64));
 
@@ -256,7 +256,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 and_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.and_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -271,7 +271,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 or_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.or_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -286,7 +286,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 xor_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.xor_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -297,11 +297,11 @@ Assert.IsBetween(n, 0, 128);
                 return x ^ y;
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 nand_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.nand_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -316,7 +316,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 nor_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.nor_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -331,7 +331,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 xnor_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.xnor_si128(new v128(x.lo64, x.hi64), new v128(y.lo64, y.hi64));
 
@@ -346,7 +346,7 @@ Assert.IsBetween(n, 0, 128);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 andn_SIMD(UInt128 x, UInt128 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 t = Xse.andnot_si128(new v128(y.lo64, y.hi64), new v128(x.lo64, x.hi64));
 

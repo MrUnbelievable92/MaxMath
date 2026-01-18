@@ -29,7 +29,7 @@ namespace MaxMath
                 return (x.Value.value.lo64 | (x.Value.value.hi64 << 1)) == 0;
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsNotZero(quadruple.ConstChecked x)
         {
@@ -70,7 +70,7 @@ namespace MaxMath
 
             bool positive = (long)x.Value.value.hi64 >= 0;
             bool notZero = IsNotZero(x);
-            
+
             if (x.Promise.NotNaN)
             {
                 return positive & notZero;
@@ -98,7 +98,7 @@ namespace MaxMath
 
             bool negative = (long)x.Value.value.hi64 < 0;
             bool notZero = IsNotZero(x);
-            
+
             if (x.Promise.NotNaN)
             {
                 return notZero & negative;
@@ -125,7 +125,7 @@ namespace MaxMath
             if (x.Promise.ZeroOrGreater) return true;
 
             bool uintGEzero = (Int128)x.Value.value > 0;
-            bool negativeZero = x.Promise.NoSignedZero ? false 
+            bool negativeZero = x.Promise.NoSignedZero ? false
                                                        : x.Value.value == (UInt128)1 << 127;
             if (x.Promise.NotNaN)
             {
@@ -153,7 +153,7 @@ namespace MaxMath
             if (x.Promise.ZeroOrLess) return true;
 
             bool intLEzero = 1 > (Int128)x.Value.value;
-            
+
             if (x.Promise.NotNaN)
             {
                 return intLEzero;
@@ -235,7 +235,7 @@ namespace MaxMath
             {
                 return IsNotZero(left);
             }
-            
+
             UInt128 l = left.Value.value;
             UInt128 r = right.Value.value;
 
@@ -290,12 +290,12 @@ namespace MaxMath
             }
 
             ulong signA = SignBitLo(left);
-            
+
             bool equalSigns = EqualSignBitsLo(left, right);
             bool differentValues = l != r;
             bool ifEqualSigns = differentValues & (tobool(signA) ^ (l < r));
             bool ifOppositeSigns = tobool(signA);
-            
+
             if (!(left.Promise.NonZero || right.Promise.NonZero))
             {
                 UInt128 or = l | r;
@@ -310,7 +310,7 @@ namespace MaxMath
                 }
                 ifOppositeSigns &= notBothZero;
             }
-            
+
             if (left.Promise.NotNaN && right.Promise.NotNaN)
             {
                 return equalSigns ? ifEqualSigns : ifOppositeSigns;
@@ -325,7 +325,7 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool GreaterThan(quadruple.ConstChecked left, quadruple.ConstChecked right) => LessThan(right, left);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool LessEqual(quadruple.ConstChecked left, quadruple.ConstChecked right)
         {
@@ -348,12 +348,12 @@ namespace MaxMath
             }
 
             ulong signA = SignBitLo(left);
-            
+
             bool equalSigns = EqualSignBitsLo(left, right);
             bool equalValues = l == r;
             bool ifEqualSigns = equalValues | (tobool(signA) ^ (l < r));
             bool ifOppositeSigns = tobool(signA);
-            
+
             if (!(left.Promise.NonZero || right.Promise.NonZero))
             {
                 UInt128 or = l | r;
@@ -368,7 +368,7 @@ namespace MaxMath
                 }
                 ifOppositeSigns |= bothZero;
             }
-            
+
             if (left.Promise.NotNaN && right.Promise.NotNaN)
             {
                 return equalSigns ? ifEqualSigns : ifOppositeSigns;
@@ -376,18 +376,18 @@ namespace MaxMath
             else
             {
                 bool notNaN = !isnan(left) & !isnan(right);
-                
+
                 return notNaN & (equalSigns ? ifEqualSigns : ifOppositeSigns);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool GreaterEqual(quadruple.ConstChecked left, quadruple.ConstChecked right) => LessEqual(right, left);
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (quadruple left, quadruple right) => Equal(left, right);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (quadruple left, quadruple right) => NotEqual(left, right);
 

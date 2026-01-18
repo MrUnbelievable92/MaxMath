@@ -73,6 +73,36 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 64; i++)
+            {
+                quarter16 q = asquarter(rng.NextByte16());
+
+                Assert.AreEqual(isinf(q).v8_0, isinf((float8)q.v8_0));
+                Assert.AreEqual(isinf(q).v8_8, isinf((float8)q.v8_8));
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 64; i++)
+            {
+                quarter32 q = asquarter(rng.NextByte32());
+
+                Assert.AreEqual(isinf(q).v8_0, isinf((float8)q.v8_0));
+                Assert.AreEqual(isinf(q).v8_8, isinf((float8)q.v8_8));
+                Assert.AreEqual(isinf(q).v8_16, isinf((float8)q.v8_16));
+                Assert.AreEqual(isinf(q).v8_24, isinf((float8)q.v8_24));
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -136,6 +166,20 @@ namespace MaxMath.Tests
                 half8 q = ashalf(rng.NextUShort8());
 
                 Assert.AreEqual(isinf(q), isinf((float8)q));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 64; i++)
+            {
+                half16 q = ashalf(rng.NextUShort16());
+
+                Assert.AreEqual(isinf(q).v8_0, isinf((float8)q.v8_0));
+                Assert.AreEqual(isinf(q).v8_8, isinf((float8)q.v8_8));
             }
         }
     }

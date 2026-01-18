@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using Unity.Mathematics;
 
 using static MaxMath.maxmath;
@@ -11,13 +12,13 @@ namespace MaxMath.Tests
     unsafe public static class t_quadruple
     {
         // implicitly tests accuracy of *-* and FMA
-        public static quadruple RefinedProduct(quadruple a, quadruple b) 
+        public static quadruple RefinedProduct(quadruple a, quadruple b)
         {
             quadruple initialGuess = a * b;
             bool negative = initialGuess == quadruple.NegativeInfinity;
             if (b != 0)
             {
-                for (int i = 0; i < 1; ++i) 
+                for (int i = 0; i < 1; ++i)
                 {
                     initialGuess = mad(-b, (initialGuess / b) - a, initialGuess);
                 }
@@ -25,26 +26,26 @@ namespace MaxMath.Tests
             return isnan(initialGuess) ? (negative ? quadruple.NegativeInfinity : quadruple.PositiveInfinity) : initialGuess;
         }
         // Implicitly tests accuracy of *+*
-        public static quadruple RefinedQuotient(quadruple a, quadruple b) 
+        public static quadruple RefinedQuotient(quadruple a, quadruple b)
         {
             quadruple initialGuess = a / b;
             bool negative = initialGuess == quadruple.NegativeInfinity;
             if (b != 0)
             {
-                for (int i = 0; i < 1; ++i) 
+                for (int i = 0; i < 1; ++i)
                 {
                     initialGuess -= ((initialGuess * b) + (-a)) / b;
                 }
             }
             return isnan(initialGuess) ? (negative ? quadruple.NegativeInfinity : quadruple.PositiveInfinity) : initialGuess;
         }
-        public static quadruple RefinedSquareRoot(quadruple a) 
+        public static quadruple RefinedSquareRoot(quadruple a)
         {
             quadruple initialGuess = sqrt(a);
             bool negative = initialGuess == quadruple.NegativeInfinity;
             if (a != 0)
             {
-                for (int i = 0; i < 1; ++i) 
+                for (int i = 0; i < 1; ++i)
                 {
                     initialGuess = 0.5 * (initialGuess + (a / initialGuess));
                 }
@@ -76,7 +77,7 @@ namespace MaxMath.Tests
         {
             Assert.IsTrue(quadruple.NaN != quadruple.NaN);
             Assert.IsTrue(quadruple.NaN != (quadruple)1f);
-            
+
             Assert.IsFalse(quadruple.Epsilon != quadruple.Epsilon);
             Assert.IsTrue(-quadruple.Epsilon != quadruple.Epsilon);
 
@@ -94,7 +95,7 @@ namespace MaxMath.Tests
         public static void LessThan()
         {
             Random128 rng = Random128.New;
-        
+
             Assert.IsFalse((quadruple)quadruple.NaN < (quadruple)0f);
             Assert.IsFalse((quadruple)0f < (quadruple)quadruple.NaN);
             Assert.IsFalse((quadruple)0f < (quadruple)0f);
@@ -103,7 +104,7 @@ namespace MaxMath.Tests
             Assert.IsFalse(asquadruple((UInt128)1 << 127) < asquadruple((UInt128)1 << 127));
             Assert.IsFalse((quadruple)quadruple.PositiveInfinity < (quadruple)quadruple.NaN);
             Assert.IsFalse((quadruple)quadruple.NegativeInfinity < (quadruple)quadruple.NaN);
-        
+
             for (int i = 0; i < 25; i++)
             {
                 quadruple lhs = rng.NextQuadruple(double.MinValue, double.MaxValue);
@@ -111,19 +112,19 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual(lhs < rhs, (double)lhs < (double)rhs);
                 Assert.AreEqual(lhs < lhs, (double)lhs < (double)lhs);
-        
+
                 lhs = (quadruple)0f;
-        
+
                 Assert.AreEqual(lhs < rhs, (double)lhs < (double)rhs);
                 Assert.AreEqual(lhs < lhs, (double)lhs < (double)lhs);
             }
         }
-        
+
         [Test]
         public static void LessEqual()
         {
             Random128 rng = Random128.New;
-        
+
             Assert.IsFalse((quadruple)quadruple.NaN <= (quadruple)0f);
             Assert.IsFalse((quadruple)0f <= (quadruple)quadruple.NaN);
             Assert.IsTrue((quadruple)0f <= (quadruple)0f);
@@ -132,19 +133,19 @@ namespace MaxMath.Tests
             Assert.IsTrue(asquadruple((UInt128)1 << 127) <= asquadruple((UInt128)1 << 127));
             Assert.IsFalse((quadruple)quadruple.PositiveInfinity <= (quadruple)quadruple.NaN);
             Assert.IsFalse((quadruple)quadruple.NegativeInfinity <= (quadruple)quadruple.NaN);
-        
+
             for (int i = 0; i < 25; i++)
             {
                 quadruple lhs = rng.NextQuadruple(double.MinValue, double.MaxValue);
                 quadruple rhs = rng.NextQuadruple(double.MinValue, double.MaxValue);
-        
+
                 Assert.IsTrue(lhs <= lhs);
 
                 Assert.AreEqual(lhs <= rhs, (double)lhs <= (double)rhs);
                 Assert.AreEqual(lhs <= lhs, (double)lhs <= (double)lhs);
-        
+
                 lhs = (quadruple)0f;
-        
+
                 Assert.AreEqual(lhs < rhs, (double)lhs < (double)rhs);
                 Assert.AreEqual(lhs < lhs, (double)lhs < (double)lhs);
             }
@@ -157,7 +158,7 @@ namespace MaxMath.Tests
             for (int i = 0; i <= byte.MaxValue; i++)
             {
                 quarter q = asquarter((byte)i);
-        
+
                 if (isnan(q))
                 {
                     Assert.IsTrue(isnan((quadruple)q));
@@ -184,7 +185,7 @@ namespace MaxMath.Tests
                 }
 
                 q = rng.NextQuadruple(0f, (quadruple)quarter.Epsilon * 10);
-                
+
                 if (q < (quadruple)quarter.Epsilon / 2)
                 {
                     Assert.AreEqual((quarter)q, (quarter)0f);
@@ -195,6 +196,28 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void ToQuarter_RoundToNearest()
+        {
+            Random128 rng = Random128.New;
+            bool subnormalHalf = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalHalf = true;
+
+                quadruple f = subnormalHalf ? rng.NextQuadruple(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : rng.NextQuadruple(quarter.MinValue, quarter.MaxValue);
+
+                quarter q = (quarter)f;
+                quarter qm1 = maxmath.nextsmaller(q);
+                quarter qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
+                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+            }
+        }
 
         [Test]
         public static void FromToHalf()
@@ -202,7 +225,7 @@ namespace MaxMath.Tests
             for (int i = 0; i <= ushort.MaxValue; i++)
             {
                 half q = ashalf((ushort)i);
-        
+
                 if (isnan(q))
                 {
                     Assert.IsTrue(isnan((quadruple)q));
@@ -212,13 +235,13 @@ namespace MaxMath.Tests
                     Assert.IsTrue(q.IsEqualTo((half)(quadruple)q));
                 }
             }
-            
+
             Random128 rng = Random128.New;
 
             for (int i = 0; i < 20; i++)
             {
                 quadruple q = rng.NextQuadruple((quadruple)Unity.Mathematics.half.MinValue * 1.5, (quadruple)Unity.Mathematics.half.MaxValue * 1.5);
-                
+
                 if (abs(q) >= asquadruple(asuint128((quadruple)Unity.Mathematics.half.MaxValue) | ((UInt128)1ul << (quadruple.MANTISSA_BITS - LUT.FLOATING_POINT.F16_MANTISSA_BITS - 1))))
                 {
                     Assert.IsTrue(isinf((half)q));
@@ -229,7 +252,7 @@ namespace MaxMath.Tests
                 }
 
                 q = rng.NextQuadruple(0f, (quadruple)ashalf((ushort)1) * 10);
-                
+
                 if (q < (quadruple)ashalf((ushort)1) / 2)
                 {
                     Assert.IsTrue(((half)q).IsEqualTo((half)0f));
@@ -241,6 +264,28 @@ namespace MaxMath.Tests
             }
         }
         
+        [Test]
+        public static void ToHalf_RoundToNearest()
+        {
+            Random128 rng = Random128.New;
+            bool subnormalHalf = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalHalf = true;
+
+                quadruple f = subnormalHalf ? rng.NextQuadruple(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                                            : rng.NextQuadruple(Unity.Mathematics.half.MinValue, Unity.Mathematics.half.MaxValue);
+
+                half q = (half)f;
+                half qm1 = maxmath.nextsmaller(q);
+                half qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
+                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+            }
+        }
+
         [Test]
         public static void FromToFloat()
         {
@@ -257,7 +302,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 20; i++)
             {
                 quadruple q = rng.NextQuadruple((quadruple)float.MinValue * 1.5, (quadruple)float.MaxValue * 1.5);
-                
+
                 if (abs(q) >= asquadruple(asuint128((quadruple)float.MaxValue) | ((UInt128)1ul << (quadruple.MANTISSA_BITS - LUT.FLOATING_POINT.F32_MANTISSA_BITS - 1))))
                 {
                     Assert.IsTrue(isinf((float)q));
@@ -268,7 +313,7 @@ namespace MaxMath.Tests
                 }
 
                 q = rng.NextQuadruple(0f, (quadruple)float.Epsilon * 10);
-                
+
                 if (q < (quadruple)float.Epsilon / 2)
                 {
                     Assert.AreEqual((float)q, 0f);
@@ -280,6 +325,28 @@ namespace MaxMath.Tests
             }
         }
         
+        [Test]
+        public static void ToFloat_RoundToNearest()
+        {
+            Random128 rng = Random128.New;
+            bool subnormalFloat = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalFloat = true;
+
+                quadruple f = subnormalFloat ? rng.NextQuadruple(-math.asfloat(maxmath.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS)), math.asfloat(maxmath.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS))) 
+                                             : rng.NextQuadruple(float.MinValue, float.MaxValue);
+
+                float q = (float)f;
+                float qm1 = maxmath.nextsmaller(q);
+                float qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
+                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+            }
+        }
+
         [Test]
         public static void FromToDouble()
         {
@@ -296,7 +363,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < 20; i++)
             {
                 quadruple q = rng.NextQuadruple((quadruple)double.MinValue * 1.5, (quadruple)double.MaxValue * 1.5);
-                
+
                 if (abs(q) >= asquadruple(asuint128((quadruple)double.MaxValue) | ((UInt128)1ul << (quadruple.MANTISSA_BITS - LUT.FLOATING_POINT.F64_MANTISSA_BITS - 1))))
                 {
                     Assert.IsTrue(isinf((double)q));
@@ -307,7 +374,7 @@ namespace MaxMath.Tests
                 }
 
                 q = rng.NextQuadruple(0f, (quadruple)double.Epsilon * 10);
-                
+
                 if (q < (quadruple)double.Epsilon / 2)
                 {
                     Assert.AreEqual((double)q, 0d);
@@ -319,6 +386,28 @@ namespace MaxMath.Tests
             }
         }
         
+        [Test]
+        public static void ToDouble_RoundToNearest()
+        {
+            Random128 rng = Random128.New;
+            bool subnormalDouble = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalDouble = true;
+
+                quadruple f = subnormalDouble ? rng.NextQuadruple(-math.asdouble(maxmath.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS)), math.asdouble(maxmath.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS))) 
+                                              : rng.NextQuadruple(double.MinValue, double.MaxValue);
+
+                double q = (double)f;
+                double qm1 = maxmath.nextsmaller(q);
+                double qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
+                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+            }
+        }
+
 
         [Test]
         public static void FromToInt()
@@ -331,7 +420,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual((int)(quadruple)test, test);
             }
         }
-        
+
         [Test]
         public static void FromToLong()
         {
@@ -343,7 +432,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual((long)(quadruple)test, test);
             }
         }
-        
+
         [Test]
         public static void FromToInt128()
         {
@@ -370,7 +459,7 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
         [Test]
         public static void FromToUInt()
         {
@@ -382,7 +471,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual((uint)(quadruple)test, test);
             }
         }
-        
+
         [Test]
         public static void FromToULong()
         {
@@ -394,7 +483,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual((ulong)(quadruple)test, test);
             }
         }
-        
+
         [Test]
         public static void FromToUInt128()
         {
@@ -436,7 +525,7 @@ namespace MaxMath.Tests
                 {
                     if (l != 0 || r != 0)
                     {
-                        return (quadruple)l + r != 0; 
+                        return (quadruple)l + r != 0;
                     }
                 }
 
@@ -484,7 +573,7 @@ namespace MaxMath.Tests
                 {
                     if (l != 0 || r != 0)
                     {
-                        return (quadruple)l - r != 0; 
+                        return (quadruple)l - r != 0;
                     }
                 }
 
@@ -515,7 +604,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(quadruple.PositiveInfinity - quadruple.NegativeInfinity, quadruple.PositiveInfinity);
             Assert.AreEqual(quadruple.NegativeInfinity - quadruple.PositiveInfinity, quadruple.NegativeInfinity);
             Assert.IsTrue(isnan(quadruple.NegativeInfinity - quadruple.NegativeInfinity));
-            
+
             Helper.TestDouble((l, r) => Assert.IsTrue(SubtractionIsCorrect(l, r)));
         }
 
@@ -532,7 +621,7 @@ namespace MaxMath.Tests
                 {
                     if (l != 0 || r != 0)
                     {
-                        return (quadruple)l * r != 0; 
+                        return (quadruple)l * r != 0;
                     }
                 }
 
@@ -563,7 +652,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(quadruple.PositiveInfinity * quadruple.NegativeInfinity, quadruple.NegativeInfinity);
             Assert.AreEqual(quadruple.NegativeInfinity * quadruple.PositiveInfinity, quadruple.NegativeInfinity);
             Assert.AreEqual(quadruple.NegativeInfinity * quadruple.NegativeInfinity, quadruple.PositiveInfinity);
-            
+
             Helper.TestDouble((l, r) => Assert.IsTrue(MultiplicationIsCorrect(l, r)));
             Helper.TestQuadruple((l, r) => Assert.IsTrue(approx(l * r, RefinedProduct(l, r))));
         }
@@ -581,13 +670,13 @@ namespace MaxMath.Tests
                 {
                     if (l != 0 || r != 0)
                     {
-                        return (quadruple)l / r != 0; 
+                        return (quadruple)l / r != 0;
                     }
                 }
 
                 return approx(l / r, (double)((quadruple)l / (quadruple)r));
             }
-            
+
             Assert.IsTrue(isnan(quadruple.NaN / quadruple.NaN));
             Assert.IsTrue(isnan(quadruple.NaN / quadruple.PositiveInfinity));
             Assert.IsTrue(isnan(quadruple.NaN / quadruple.NegativeInfinity));
@@ -612,7 +701,7 @@ namespace MaxMath.Tests
             Assert.IsTrue(isnan(quadruple.PositiveInfinity / quadruple.NegativeInfinity));
             Assert.IsTrue(isnan(quadruple.NegativeInfinity / quadruple.PositiveInfinity));
             Assert.IsTrue(isnan(quadruple.NegativeInfinity / quadruple.NegativeInfinity));
-            
+
             Helper.TestDouble((l, r) => Assert.IsTrue(DivisionIsCorrect(l, r)));
             Helper.TestQuadruple((l, r) => Assert.IsTrue(approx(l / r, RefinedQuotient(l, r))));
         }
@@ -632,7 +721,7 @@ namespace MaxMath.Tests
                 return neg ? -rem : rem;
             }
 
-            
+
             static quadruple altrem1(quadruple l, quadruple r)
             {
                 bool neg = l < 0;
@@ -661,7 +750,7 @@ namespace MaxMath.Tests
 
                 return minULPerror < 1 << 7;
             }
-            
+
             Assert.IsTrue(isnan(quadruple.NaN % quadruple.NaN));
             Assert.IsTrue(isnan(quadruple.NaN % quadruple.PositiveInfinity));
             Assert.IsTrue(isnan(quadruple.NaN % quadruple.NegativeInfinity));
@@ -689,7 +778,7 @@ namespace MaxMath.Tests
 
             Helper.TestQuadruple((l, r) => RemainderIsCorrect(l, r));
         }
-        
+
         [Test]
         public static void SquareRoot()
         {
@@ -706,7 +795,7 @@ namespace MaxMath.Tests
         {
             Assert.AreEqual(mad(0, 0,  (quadruple)4.7),    (quadruple)4.7);
             Assert.AreEqual(mad(0, 0,  (quadruple)(-4.7)), (quadruple)(-4.7));
-            
+
             Assert.AreEqual(quadruple.PositiveInfinity, mad(quadruple.PositiveInfinity, quadruple.PositiveInfinity, 0));
 
             Assert.IsTrue(isnan(mad(quadruple.NaN, 0, 0)));
@@ -795,7 +884,7 @@ namespace MaxMath.Tests
 
             Helper.TestQuadruple(test => Assert.IsTrue(approx(cbrt(test) * cbrt(test) * cbrt(test), test)));
         }
-        
+
         [Test]
         public static void _rcbrt()
         {
@@ -805,10 +894,10 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(rcbrt(quadruple.PositiveInfinity), (quadruple)0f);
             Assert.AreEqual(asuint128(rcbrt(quadruple.NegativeInfinity)), (UInt128)1 << 127);
-            
+
             Helper.TestQuadruple(test => Assert.IsTrue(approx(rcbrt(test) * rcbrt(test) * rcbrt(test), 1f / test)));
         }
-        
+
         [Test]
         public static void _nextgreater()
         {
@@ -828,7 +917,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(nextgreater(f) > f);
             }
         }
-        
+
         [Test]
         public static void _nextsmaller()
         {
@@ -848,7 +937,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(maxmath.nextsmaller(f) < f);
             }
         }
-        
+
         [Test]
         public static void _nexttoward()
         {
@@ -897,7 +986,31 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
+        [Test]
+        public static void _sign()
+        {
+            Assert.AreEqual(sign((quadruple)(-4.7f)), -1);
+            Assert.AreEqual(sign((quadruple)4.7f), 1);
+            Assert.AreEqual(sign((quadruple)0f), 0);
+            if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
+            {
+                Assert.AreEqual(sign(asquadruple((UInt128)1 << 127)), 0);
+            }
+        }
+
+        [Test]
+        public static void _exp2_uint128()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public static void _exp2_int128()
+        {
+            throw new NotImplementedException();
+        }
+
         [Test]
         public static void _random128()
         {
@@ -911,7 +1024,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(!isnan(rng.NextQuadruple()));
                 Assert.IsTrue(!isnan(rng.NextQuadruple(quadruple.MinValue, quadruple.MaxValue)));
                 Assert.IsTrue(!isnan(rng.NextQuadruple(quadruple.MinValue / 2, quadruple.MaxValue / 2)));
-                
+
                 next = rng.NextQuadruple(quadruple.MinValue / 2, quadruple.MaxValue / 2);
                 Assert.IsTrue(next >= quadruple.MinValue / 2 && next < quadruple.MaxValue / 2);
             }

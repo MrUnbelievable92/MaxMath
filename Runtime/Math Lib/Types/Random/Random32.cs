@@ -93,14 +93,36 @@ namespace MaxMath
             return temp;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private uint2 NextState2()
+        {
+            return new uint2(NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private uint3 NextState3()
+        {
+            return new uint3(NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private uint4 NextState4()
+        {
+            return new uint4(NextState(), NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private uint8 NextState8()
+        {
+            return new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+        }
+
 
         /// <summary>       Returns a uniformly random <see cref="bool"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
-            uint result = NextState() & 0x0101_0101u;
-
-            return *(bool*)&result;
+            return (int)NextState() < 0;
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool2"/>.     </summary>
@@ -175,28 +197,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int2 NextInt2()
         {
-            return int.MinValue ^ new int2((int)NextState(), (int)NextState());
+            return int.MinValue ^ (int2)NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int3"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int3 NextInt3()
         {
-            return int.MinValue ^ new int3((int)NextState(), (int)NextState(), (int)NextState());
+            return int.MinValue ^ (int3)NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int4"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int4 NextInt4()
         {
-            return int.MinValue ^ new int4((int)NextState(), (int)NextState(), (int)NextState(), (int)NextState());
+            return int.MinValue ^ (int4)NextState4();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.int8"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int8 NextInt8()
         {
-            return int.MinValue ^ new int8((int)NextState(), (int)NextState(), (int)NextState(), (int)NextState(), (int)NextState(), (int)NextState(), (int)NextState(), (int)NextState());
+            return int.MinValue ^ (int8)NextState8();
         }
 
 
@@ -213,7 +235,7 @@ namespace MaxMath
         {
 VectorAssert.IsNotSmaller<int2, int>(max, min, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 hiProd = Xse.mul_epu32(Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState())), (ulong2)(max - min));
                 hiProd = Xse.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
@@ -232,12 +254,12 @@ VectorAssert.IsNotSmaller<int2, int>(max, min, 2);
         {
 VectorAssert.IsNotSmaller<int3, int>(max, min, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int3 dif = max - min;
 
                 v128 lo = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
-                v128 hi = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
+                v128 hi = Xse.cvtsi32_si128((int)NextState());
                 lo = Xse.mul_epu32(lo, (ulong2)(uint2)(dif.xy));
                 hi = Xse.mul_epu32(hi, Xse.bsrli_si128(RegisterConversion.ToV128(dif), 2 * sizeof(int)));
                 v128 result = Xse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
@@ -256,7 +278,7 @@ VectorAssert.IsNotSmaller<int3, int>(max, min, 3);
         {
 VectorAssert.IsNotSmaller<int4, int>(max, min, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int4 dif = max - min;
 
@@ -313,28 +335,28 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2()
         {
-            return uint.MaxValue + new uint2(NextState(), NextState());
+            return uint.MaxValue + NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint3"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3()
         {
-            return uint.MaxValue + new uint3(NextState(), NextState(), NextState());
+            return uint.MaxValue + NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint4"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4()
         {
-            return uint.MaxValue + new uint4(NextState(), NextState(), NextState(), NextState());
+            return uint.MaxValue + NextState4();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.uint8"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8 NextUInt8()
         {
-            return uint.MaxValue + new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState());
+            return uint.MaxValue + NextState8();
         }
 
 
@@ -349,7 +371,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 hiProd = Xse.mul_epu32(Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState())), (ulong2)max);
                 hiProd = Xse.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
@@ -366,7 +388,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
                 v128 hi = Xse.cvtsi32_si128((int)NextState());
@@ -386,7 +408,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
                 v128 hi = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
@@ -437,7 +459,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 min, uint2 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 hiProd = Xse.mul_epu32(Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState())), (ulong2)(max - min));
                 hiProd = Xse.shuffle_epi32(hiProd, Sse.SHUFFLE(0, 0, 3, 1));
@@ -454,12 +476,12 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 min, uint3 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 uint3 dif = max - min;
 
                 v128 lo = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
-                v128 hi = Xse.unpacklo_epi64(Xse.cvtsi32_si128((int)NextState()), Xse.cvtsi32_si128((int)NextState()));
+                v128 hi = Xse.cvtsi32_si128((int)NextState());
                 lo = Xse.mul_epu32(lo, (ulong2)(dif.xy));
                 hi = Xse.mul_epu32(hi, Xse.bsrli_si128(RegisterConversion.ToV128(dif), 2 * sizeof(int)));
                 v128 result = Xse.shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
@@ -476,7 +498,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 min, uint4 max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 uint4 dif = max - min;
 
@@ -533,28 +555,28 @@ VectorAssert.IsNotSmaller<uint8, uint>(max, min, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float2 NextFloat2()
         {
-            return -1f + asfloat(asuint(1f) | (new uint2(NextState(), NextState()) >> (F32_EXPONENT_BITS + 1)));
+            return -1f + asfloat(asuint(1f) | (NextState2() >> (F32_EXPONENT_BITS + 1)));
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float3"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float3 NextFloat3()
         {
-            return -1f + asfloat(asuint(1f) | (new uint3(NextState(), NextState(), NextState()) >> (F32_EXPONENT_BITS + 1)));
+            return -1f + asfloat(asuint(1f) | (NextState3() >> (F32_EXPONENT_BITS + 1)));
         }
 
         /// <summary>       Returns a uniformly random <see cref="float4"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float4 NextFloat4()
         {
-            return -1f + asfloat(asuint(1f) | (new uint4(NextState(), NextState(), NextState(), NextState()) >> (F32_EXPONENT_BITS + 1)));
+            return -1f + asfloat(asuint(1f) | (NextState4() >> (F32_EXPONENT_BITS + 1)));
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.float8"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8 NextFloat8()
         {
-            return -1f + asfloat(asuint(1f) | (new uint8(NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState(), NextState()) >> (F32_EXPONENT_BITS + 1)));
+            return -1f + asfloat(asuint(1f) | (NextState8() >> (F32_EXPONENT_BITS + 1)));
         }
 
 

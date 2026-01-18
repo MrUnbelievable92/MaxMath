@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 
 namespace MaxMath
 {
@@ -60,7 +61,68 @@ namespace MaxMath
             _divisor = divisor;
             _promises = promises | new DividerPromise(divisor, sign, elementSize);
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Divider(T divisor, Promise promises = Promise.Nothing)
+        {
+            if      (typeof(T) == typeof(sbyte))    this = ctor_sbyte(*(sbyte*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte2))   this = ctor_sbyte2(*(sbyte2*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte3))   this = ctor_sbyte3(*(sbyte3*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte4))   this = ctor_sbyte4(*(sbyte4*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte8))   this = ctor_sbyte8(*(sbyte8*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte16))  this = ctor_sbyte16(*(sbyte16*)&divisor, promises);
+            else if (typeof(T) == typeof(sbyte32))  this = ctor_sbyte32(*(sbyte32*)&divisor, promises);
 
+            else if (typeof(T) == typeof(byte))     this = ctor_byte(*(byte*)&divisor, promises);
+            else if (typeof(T) == typeof(byte2))    this = ctor_byte2(*(byte2*)&divisor, promises);
+            else if (typeof(T) == typeof(byte3))    this = ctor_byte3(*(byte3*)&divisor, promises);
+            else if (typeof(T) == typeof(byte4))    this = ctor_byte4(*(byte4*)&divisor, promises);
+            else if (typeof(T) == typeof(byte8))    this = ctor_byte8(*(byte8*)&divisor, promises);
+            else if (typeof(T) == typeof(byte16))   this = ctor_byte16(*(byte16*)&divisor, promises);
+            else if (typeof(T) == typeof(byte32))   this = ctor_byte32(*(byte32*)&divisor, promises);
+
+            else if (typeof(T) == typeof(short))    this = ctor_short(*(short*)&divisor, promises);
+            else if (typeof(T) == typeof(short2))   this = ctor_short2(*(short2*)&divisor, promises);
+            else if (typeof(T) == typeof(short3))   this = ctor_short3(*(short3*)&divisor, promises);
+            else if (typeof(T) == typeof(short4))   this = ctor_short4(*(short4*)&divisor, promises);
+            else if (typeof(T) == typeof(short8))   this = ctor_short8(*(short8*)&divisor, promises);
+            else if (typeof(T) == typeof(short16))  this = ctor_short16(*(short16*)&divisor, promises);
+
+            else if (typeof(T) == typeof(ushort))   this = ctor_ushort(*(ushort*)&divisor, promises);
+            else if (typeof(T) == typeof(ushort2))  this = ctor_ushort2(*(ushort2*)&divisor, promises);
+            else if (typeof(T) == typeof(ushort3))  this = ctor_ushort3(*(ushort3*)&divisor, promises);
+            else if (typeof(T) == typeof(ushort4))  this = ctor_ushort4(*(ushort4*)&divisor, promises);
+            else if (typeof(T) == typeof(ushort8))  this = ctor_ushort8(*(ushort8*)&divisor, promises);
+            else if (typeof(T) == typeof(ushort16)) this = ctor_ushort16(*(ushort16*)&divisor, promises);
+
+            else if (typeof(T) == typeof(int))      this = ctor_int(*(int*)&divisor, promises);
+            else if (typeof(T) == typeof(int2))     this = ctor_int2(*(int2*)&divisor, promises);
+            else if (typeof(T) == typeof(int3))     this = ctor_int3(*(int3*)&divisor, promises);
+            else if (typeof(T) == typeof(int4))     this = ctor_int4(*(int4*)&divisor, promises);
+            else if (typeof(T) == typeof(int8))     this = ctor_int8(*(int8*)&divisor, promises);
+
+            else if (typeof(T) == typeof(uint))     this = ctor_uint(*(uint*)&divisor, promises);
+            else if (typeof(T) == typeof(uint2))    this = ctor_uint2(*(uint2*)&divisor, promises);
+            else if (typeof(T) == typeof(uint3))    this = ctor_uint3(*(uint3*)&divisor, promises);
+            else if (typeof(T) == typeof(uint4))    this = ctor_uint4(*(uint4*)&divisor, promises);
+            else if (typeof(T) == typeof(uint8))    this = ctor_uint8(*(uint8*)&divisor, promises);
+
+            else if (typeof(T) == typeof(long))     this = ctor_long(*(long*)&divisor, promises);
+            else if (typeof(T) == typeof(long2))    this = ctor_long2(*(long2*)&divisor, promises);
+            else if (typeof(T) == typeof(long3))    this = ctor_long3(*(long3*)&divisor, promises);
+            else if (typeof(T) == typeof(long4))    this = ctor_long4(*(long4*)&divisor, promises);
+
+            else if (typeof(T) == typeof(ulong))    this = ctor_ulong(*(ulong*)&divisor, promises);
+            else if (typeof(T) == typeof(ulong2))   this = ctor_ulong2(*(ulong2*)&divisor, promises);
+            else if (typeof(T) == typeof(ulong3))   this = ctor_ulong3(*(ulong3*)&divisor, promises);
+            else if (typeof(T) == typeof(ulong4))   this = ctor_ulong4(*(ulong4*)&divisor, promises);
+
+            else if (typeof(T) == typeof(Int128))   this = ctor_Int128(*(Int128*)&divisor, promises);
+
+            else if (typeof(T) == typeof(UInt128))  this = ctor_UInt128(*(UInt128*)&divisor, promises);
+
+            else throw new TypeInitializationException($"{typeof(Divider<T>)}", null);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private readonly bool DivideByScalar<U>()

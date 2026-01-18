@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epi8(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epi8(a, bsrli_si128(a, (elements / 2) * sizeof(byte)), out vmin, out vmax);
 
@@ -65,7 +65,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epi16(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epi16(a, bsrli_si128(a, (elements / 2) * sizeof(short)), out vmin, out vmax);
 
@@ -104,7 +104,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epi32(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epi32(a, bsrli_si128(a, (elements / 2) * sizeof(int)), out vmin, out vmax);
 
@@ -134,7 +134,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epi64(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epi64(a, bsrli_si128(a, 1 * sizeof(long)), out vmin, out vmax);
                 }
@@ -145,7 +145,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epu8(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epu8(a, bsrli_si128(a, (elements / 2) * sizeof(byte)), out vmin, out vmax);
 
@@ -195,7 +195,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epu16(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epu16(a, bsrli_si128(a, (elements / 2) * sizeof(short)), out vmin, out vmax);
 
@@ -234,7 +234,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epu32(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epu32(a, bsrli_si128(a, (elements / 2) * sizeof(int)), out vmin, out vmax);
 
@@ -264,7 +264,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_epu64(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_epu64(a, bsrli_si128(a, 1 * sizeof(long)), out vmin, out vmax);
                 }
@@ -275,7 +275,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_ps(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_ps(a, bsrli_si128(a, (elements / 2) * sizeof(float)), out vmin, out vmax);
 
@@ -305,7 +305,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void vminmax_pd(v128 a, [NoAlias] out v128 vmin, [NoAlias] out v128 vmax)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     minmax_pd(a, bsrli_si128(a, 1 * sizeof(double)), out vmin, out vmax);
                 }
@@ -450,7 +450,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte2 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu8(a, out v128 _min, out v128 _max, 2);
                 min = _min.Byte0;
@@ -467,7 +467,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte3 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu8(a, out v128 _min, out v128 _max, 3);
                 min = _min.Byte0;
@@ -484,7 +484,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte4 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu8(a, out v128 _min, out v128 _max, 4);
                 min = _min.Byte0;
@@ -501,7 +501,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte8 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu8(a, out v128 _min, out v128 _max, 8);
                 min = _min.Byte0;
@@ -518,7 +518,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte16 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu8(a, out v128 _min, out v128 _max, 16);
                 min = _min.Byte0;
@@ -556,7 +556,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte2 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(a, out v128 _min, out v128 _max, 2);
                 min = _min.SByte0;
@@ -573,7 +573,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte3 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(a, out v128 _min, out v128 _max, 3);
                 min = _min.SByte0;
@@ -590,7 +590,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte4 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(a, out v128 _min, out v128 _max, 4);
                 min = _min.SByte0;
@@ -607,7 +607,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte8 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(a, out v128 _min, out v128 _max, 8);
                 min = _min.SByte0;
@@ -624,7 +624,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte16 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi8(a, out v128 _min, out v128 _max, 16);
                 min = _min.SByte0;
@@ -662,7 +662,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort2 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu16(a, out v128 _min, out v128 _max, 2);
                 min = _min.UShort0;
@@ -679,7 +679,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort3 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu16(a, out v128 _min, out v128 _max, 3);
                 min = _min.UShort0;
@@ -696,7 +696,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort4 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu16(a, out v128 _min, out v128 _max, 4);
                 min = _min.UShort0;
@@ -713,7 +713,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort8 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu16(a, out v128 _min, out v128 _max, 8);
                 min = _min.UShort0;
@@ -751,7 +751,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short2 a, [NoAlias] out short min, [NoAlias] out short max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(a, out v128 _min, out v128 _max, 2);
                 min = _min.SShort0;
@@ -768,7 +768,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short3 a, [NoAlias] out short min, [NoAlias] out short max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(a, out v128 _min, out v128 _max, 3);
                 min = _min.SShort0;
@@ -785,7 +785,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short4 a, [NoAlias] out short min, [NoAlias] out short max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(a, out v128 _min, out v128 _max, 4);
                 min = _min.SShort0;
@@ -802,7 +802,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short8 a, [NoAlias] out short min, [NoAlias] out short max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi16(a, out v128 _min, out v128 _max, 8);
                 min = _min.SShort0;
@@ -840,7 +840,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int2 a, [NoAlias] out int min, [NoAlias] out int max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
                 min = _min.SInt0;
@@ -857,7 +857,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int3 a, [NoAlias] out int min, [NoAlias] out int max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
                 min = _min.SInt0;
@@ -874,7 +874,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int4 a, [NoAlias] out int min, [NoAlias] out int max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
                 min = _min.SInt0;
@@ -912,7 +912,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint2 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
                 min = _min.UInt0;
@@ -929,7 +929,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint3 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
                 min = _min.UInt0;
@@ -946,7 +946,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint4 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
                 min = _min.UInt0;
@@ -984,7 +984,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ulong2 a, [NoAlias] out ulong min, [NoAlias] out ulong max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epu64(a, out v128 _min, out v128 _max);
                 min = _min.ULong0;
@@ -1032,7 +1032,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(long2 a, [NoAlias] out long min, [NoAlias] out long max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_epi64(a, out v128 _min, out v128 _max);
                 min = _min.SLong0;
@@ -1080,7 +1080,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float2 a, [NoAlias] out float min, [NoAlias] out float max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
                 min = _min.Float0;
@@ -1097,7 +1097,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float3 a, [NoAlias] out float min, [NoAlias] out float max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
                 min = _min.Float0;
@@ -1114,7 +1114,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float4 a, [NoAlias] out float min, [NoAlias] out float max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
                 min = _min.Float0;
@@ -1152,7 +1152,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double2 a, [NoAlias] out double min, [NoAlias] out double max)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.vminmax_pd(RegisterConversion.ToV128(a), out v128 _min, out v128 _max);
                 min = _min.Double0;

@@ -66,6 +66,10 @@ namespace MaxMath
 
                 return result;
             }
+            else if (Sse2.IsSse2Supported)
+            {
+                return Sse2.set_sd(input);
+            }
             else
             {
                 v128 result = default(v128);
@@ -89,9 +93,13 @@ namespace MaxMath
 
                 return result;
             }
+            else if (Sse.IsSseSupported)
+            {
+                return Sse.set_ss(input);
+            }
             else
             {
-                v128 result = default(v128);;
+                v128 result = default(v128);
 
                 result.Float0 = input;
 
@@ -114,7 +122,7 @@ namespace MaxMath
             }
             else
             {
-                v128 result = default(v128);;
+                v128 result = default(v128);
 
                 result.Float0 = input.x;
                 result.Float1 = input.y;

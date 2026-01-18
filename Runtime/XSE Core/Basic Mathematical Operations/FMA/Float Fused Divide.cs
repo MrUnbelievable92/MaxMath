@@ -10,11 +10,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fmadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return add_ps(div_ps(a, b), c);
             }
@@ -24,11 +24,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fmsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_ps(div_ps(a, b), c);
             }
@@ -38,11 +38,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fndadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fnmadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_ps(c, div_ps(a, b));
             }
@@ -52,11 +52,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fndsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fnmsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return sub_ps(neg_ps(c), div_ps(a, b));
             }
@@ -66,11 +66,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdaddsub_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fmaddsub_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return addsub_ps(div_ps(a, b), c);
             }
@@ -80,11 +80,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fdsubadd_ps(v128 a, v128 b, v128 c)
         {
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 return fmsubadd_ps(a, rcp23_ps(b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return subadd_ps(div_ps(a, b), c);
             }

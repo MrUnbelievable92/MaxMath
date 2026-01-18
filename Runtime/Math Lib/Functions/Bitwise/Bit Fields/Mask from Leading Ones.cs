@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 l1msk_epi8(v128 a)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     v128 SHUFFLE_MASK_LO = new v128(0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_0000, 0b1111_1000, 0b1111_1000, 0b1111_1000, 0b1111_1000, 0b1111_1100, 0b1111_1100, 0b1111_1110, 0b1111_1111);
                     v128 SHUFFLE_MASK_HI = new v128(0b0000_0000, 0b0000_0000, 0b0000_0000, 0b0000_0000, 0b0000_0000, 0b0000_0000, 0b0000_0000, 0b0000_0000, 0b1000_0000, 0b1000_0000, 0b1000_0000, 0b1000_0000, 0b1100_0000, 0b1100_0000, 0b1110_0000, 0b1111_1111);
@@ -22,7 +22,7 @@ namespace MaxMath
                     return min_epu8(shuffle_epi8(SHUFFLE_MASK_LO, and_si128(NIBBLE_MASK, a)),
                                     shuffle_epi8(SHUFFLE_MASK_HI, and_si128(NIBBLE_MASK, srli_epi16(a, 4))));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return sllv_epi8(setall_si128(), sub_epi8(set1_epi8(8), l1cnt_epi8(a)));
                 }
@@ -32,13 +32,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 l1msk_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 BLEND_MASK = set1_epi16(0xFF00);
                     v128 byteMasks = l1msk_epi8(a);
                     v128 low = and_si128(byteMasks, srli_epi16(cmpeq_epi8(byteMasks, BLEND_MASK), 8));
 
-                    if (Architecture.IsBlendSupported)
+                    if (BurstArchitecture.IsBlendSupported)
                     {
                         return blendv_si128(low, byteMasks, BLEND_MASK);
                     }
@@ -53,17 +53,17 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 l1msk_epi32(v128 a)
             {
-                if (Architecture.IsVectorShiftSupported)
+                if (BurstArchitecture.IsVectorShiftSupported)
                 {
                     return sllv_epi32(setall_si128(), sub_epi32(set1_epi32(32), l1cnt_epi32(a)));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 BLEND_MASK = set1_epi32(0xFFFF_0000);
                     v128 shortMasks = l1msk_epi16(a);
                     v128 low = and_si128(shortMasks, srli_epi32(cmpeq_epi16(shortMasks, BLEND_MASK), 16));
 
-                    if (Architecture.IsBlendSupported)
+                    if (BurstArchitecture.IsBlendSupported)
                     {
                         return blend_epi16(low, shortMasks, 0b1010_1010);
                     }
@@ -78,11 +78,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 l1msk_epi64(v128 a)
             {
-                if (Architecture.IsVectorShiftSupported)
+                if (BurstArchitecture.IsVectorShiftSupported)
                 {
                     return sllv_epi64(setall_si128(), sub_epi64(set1_epi64x(64), l1cnt_epi64(a)));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     long lo = maxmath.l1mask(cvtsi128_si64x(a));
                     long hi = maxmath.l1mask(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
@@ -176,7 +176,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 l1mask(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi8(x);
             }
@@ -190,7 +190,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 l1mask(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi8(x);
             }
@@ -204,7 +204,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 l1mask(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi8(x);
             }
@@ -218,7 +218,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 l1mask(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi8(x);
             }
@@ -232,7 +232,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 l1mask(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi8(x);
             }
@@ -318,7 +318,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 l1mask(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi16(x);
             }
@@ -332,7 +332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 l1mask(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi16(x);
             }
@@ -346,7 +346,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 l1mask(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi16(x);
             }
@@ -360,7 +360,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 l1mask(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi16(x);
             }
@@ -439,7 +439,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 l1mask(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -453,7 +453,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 l1mask(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -467,7 +467,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 l1mask(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
             }
@@ -539,7 +539,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 l1mask(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.l1msk_epi64(x);
             }

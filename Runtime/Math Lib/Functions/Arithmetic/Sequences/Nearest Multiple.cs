@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epu8(v128 a, v128 b, byte elements = 16, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epu8(add_epi8(a, srli_epi8(b, 1)), b, elements, pow2);
                 }
@@ -25,7 +25,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epu16(v128 a, v128 b, byte elements = 8, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epu16(add_epi16(a, srli_epi16(b, 1)), b, elements, pow2);
                 }
@@ -35,7 +35,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epu32(v128 a, v128 b, byte elements = 4, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epu32(add_epi32(a, srli_epi32(b, 1)), b, elements, pow2);
                 }
@@ -45,7 +45,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epu64(v128 a, v128 b, bool pow2 = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epu64(add_epi64(a, srli_epi64(b, 1)), b, pow2);
                 }
@@ -56,7 +56,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epi8(v128 a, v128 b, byte elements = 16, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epi8(add_epi8(a, srli_epi8(b, 1)), b, elements, pow2, nonNegative);
                 }
@@ -66,7 +66,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epi16(v128 a, v128 b, byte elements = 8, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epi16(add_epi16(a, srli_epi16(b, 1)), b, elements, pow2, nonNegative);
                 }
@@ -76,7 +76,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epi32(v128 a, v128 b, byte elements = 4, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epi32(add_epi32(a, srli_epi32(b, 1)), b, elements, pow2, nonNegative);
                 }
@@ -86,7 +86,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_epi64(v128 a, v128 b, bool pow2 = false, bool nonNegative = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return floormult_epi64(add_epi64(a, srli_epi64(b, 1)), b, pow2, nonNegative);
                 }
@@ -179,7 +179,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_ps(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return mul_ps(b, round_ps(div_ps(a, b), elements));
                 }
@@ -200,7 +200,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 roundmult_pd(v128 a, v128 b, byte elements = 2)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return mul_pd(b, round_pd(div_pd(a, b), elements));
                 }
@@ -264,7 +264,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 roundmultiple(ulong2 x, ulong2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu64(x, n, promises.Promises(Promise.Unsafe0));
             }
@@ -332,7 +332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 roundmultiple(long2 x, ulong2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi64(x, n, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -400,7 +400,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 roundmultiple(uint2 x, uint2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.roundmult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2, promises.Promises(Promise.Unsafe0)));
             }
@@ -418,7 +418,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 roundmultiple(uint3 x, uint3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.roundmult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3, promises.Promises(Promise.Unsafe0)));
             }
@@ -436,7 +436,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 roundmultiple(uint4 x, uint4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.roundmult_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4, promises.Promises(Promise.Unsafe0)));
             }
@@ -486,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 roundmultiple(int2 x, uint2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.roundmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -505,7 +505,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 roundmultiple(int3 x, uint3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.roundmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -524,7 +524,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 roundmultiple(int4 x, uint4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.roundmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -573,7 +573,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 roundmultiple(ushort2 x, ushort2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu16(x, n, 2, promises.Promises(Promise.Unsafe0));
             }
@@ -591,7 +591,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 roundmultiple(ushort3 x, ushort3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu16(x, n, 3, promises.Promises(Promise.Unsafe0));
             }
@@ -609,7 +609,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 roundmultiple(ushort4 x, ushort4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu16(x, n, 4, promises.Promises(Promise.Unsafe0));
             }
@@ -627,7 +627,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 roundmultiple(ushort8 x, ushort8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu16(x, n, 8, promises.Promises(Promise.Unsafe0));
             }
@@ -684,7 +684,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 roundmultiple(short2 x, ushort2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi16(x, n, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -703,7 +703,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 roundmultiple(short3 x, ushort3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi16(x, n, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -722,7 +722,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 roundmultiple(short4 x, ushort4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi16(x, n, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -741,7 +741,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 roundmultiple(short8 x, ushort8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi16(x, n, 8, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -797,7 +797,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 roundmultiple(byte2 x, byte2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu8(x, n, 2, promises.Promises(Promise.Unsafe0));
             }
@@ -815,7 +815,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 roundmultiple(byte3 x, byte3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu8(x, n, 3, promises.Promises(Promise.Unsafe0));
             }
@@ -833,7 +833,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 roundmultiple(byte4 x, byte4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu8(x, n, 4, promises.Promises(Promise.Unsafe0));
             }
@@ -851,7 +851,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 roundmultiple(byte8 x, byte8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu8(x, n, 8, promises.Promises(Promise.Unsafe0));
             }
@@ -876,7 +876,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 roundmultiple(byte16 x, byte16 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epu8(x, n, 16, promises.Promises(Promise.Unsafe0));
             }
@@ -941,7 +941,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 roundmultiple(sbyte2 x, byte2 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi8(x, n, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -960,7 +960,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 roundmultiple(sbyte3 x, byte3 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi8(x, n, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -979,7 +979,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 roundmultiple(sbyte4 x, byte4 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi8(x, n, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -998,7 +998,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 roundmultiple(sbyte8 x, byte8 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi8(x, n, 8, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1024,7 +1024,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 roundmultiple(sbyte16 x, byte16 n, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.roundmult_epi8(x, n, 16, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
@@ -1084,7 +1084,7 @@ Assert.IsGreater(m, 0f);
         {
 VectorAssert.IsGreater<float2, float>(m, 0f, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.roundmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
             }
@@ -1100,7 +1100,7 @@ VectorAssert.IsGreater<float2, float>(m, 0f, 2);
         {
 VectorAssert.IsGreater<float3, float>(m, 0f, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.roundmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 3));
             }
@@ -1116,7 +1116,7 @@ VectorAssert.IsGreater<float3, float>(m, 0f, 3);
         {
 VectorAssert.IsGreater<float4, float>(m, 0f, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.roundmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 4));
             }
@@ -1158,7 +1158,7 @@ Assert.IsGreater(m, 0d);
         {
 VectorAssert.IsGreater<double2, double>(m, 0d, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.roundmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
             }
@@ -1189,7 +1189,7 @@ VectorAssert.IsGreater<double3, double>(m, 0d, 3);
         public static double4 roundmultiple(double4 x, double4 m)
         {
 VectorAssert.IsGreater<double4, double>(m, 0d, 4);
-            
+
             if (Avx.IsAvxSupported)
             {
                 return RegisterConversion.ToDouble4(Xse.mm256_roundmult_ps(RegisterConversion.ToV256(x), RegisterConversion.ToV256(m)));

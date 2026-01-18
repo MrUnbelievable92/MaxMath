@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 avg_epi8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements <= 8)
                     {
@@ -25,7 +25,7 @@ namespace MaxMath
 
                         v128 sum = adds_epi16(a, b);
                         v128 addOneMask = cmpgt_epi16(sum, setall_si128());
-                        avg = add_epi16(avg, and_si128(negmask_epi16(addOneMask), add_epi16(a, b)));
+                        avg = add_epi16(avg, and_si128(neg_epi16(addOneMask), add_epi16(a, b)));
 
                         return packs_epi16(avg, avg);
                     }
@@ -77,7 +77,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 avg_epi16(v128 a, v128 b, bool promise = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -93,7 +93,7 @@ namespace MaxMath
 
                         v128 sum = adds_epi16(a, b);
                         v128 addOneMask = cmpgt_epi16(sum, setall_si128());
-                        avg = add_epi16(avg, and_si128(negmask_epi16(addOneMask, elements), add_epi16(a, b)));
+                        avg = add_epi16(avg, and_si128(neg_epi16(addOneMask), add_epi16(a, b)));
 
                         return avg;
                     }
@@ -132,7 +132,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 avg_epi32(v128 a, v128 b, bool promise = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -209,7 +209,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 avg_epi64(v128 a, v128 b, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -225,7 +225,7 @@ namespace MaxMath
 
                         v128 sum = adds_epi64(a, b);
                         v128 addOneMask = cmpgt_epi64(sum, setall_si128());
-                        avg = add_epi64(avg, and_si128(negmask_epi64(addOneMask), add_epi64(a, b)));
+                        avg = add_epi64(avg, and_si128(neg_epi64(addOneMask), add_epi64(a, b)));
 
                         return avg;
                     }
@@ -252,7 +252,7 @@ namespace MaxMath
 
                         v256 sum = mm256_adds_epi64(a, b);
                         v256 addOneMask = mm256_cmpgt_epi64(sum, mm256_setall_si256());
-                        avg = Avx2.mm256_add_epi64(avg, Avx2.mm256_and_si256(mm256_negmask_epi64(addOneMask), Avx2.mm256_add_epi64(a, b)));
+                        avg = Avx2.mm256_add_epi64(avg, Avx2.mm256_and_si256(mm256_neg_epi64(addOneMask), Avx2.mm256_add_epi64(a, b)));
 
                         return avg;
                     }
@@ -260,7 +260,7 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
 		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		    public static v128 avg_epu8(v128 a, v128 b)
 		    {
@@ -274,7 +274,7 @@ namespace MaxMath
                 }
 		    	else throw new IllegalInstructionException();
 		    }
-		    
+
 		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		    public static v128 avg_epu16(v128 a, v128 b)
 		    {
@@ -371,7 +371,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 avg_epu64(v128 a, v128 b, bool promise = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -426,8 +426,8 @@ namespace MaxMath
     unsafe public static partial class maxmath
     {
         /// <summary>       Returns the average value of two <see cref="Int128"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 that overflows. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 that overflows. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -458,8 +458,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the average value of two <see cref="UInt128"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -496,7 +496,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 avg(byte2 x, byte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu8(x, y);
             }
@@ -510,7 +510,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 avg(byte3 x, byte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu8(x, y);
             }
@@ -524,7 +524,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 avg(byte4 x, byte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu8(x, y);
             }
@@ -538,7 +538,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 avg(byte8 x, byte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu8(x, y);
             }
@@ -552,7 +552,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 avg(byte16 x, byte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu8(x, y);
             }
@@ -590,7 +590,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 avg(sbyte2 x, sbyte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi8(x, y, 2);
             }
@@ -604,7 +604,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 avg(sbyte3 x, sbyte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi8(x, y, 3);
             }
@@ -618,7 +618,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 avg(sbyte4 x, sbyte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi8(x, y, 4);
             }
@@ -632,7 +632,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 avg(sbyte8 x, sbyte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi8(x, y, 8);
             }
@@ -646,7 +646,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 avg(sbyte16 x, sbyte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi8(x, y, 16);
             }
@@ -682,7 +682,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 avg(ushort2 x, ushort2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu16(x, y);
             }
@@ -696,7 +696,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 avg(ushort3 x, ushort3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu16(x, y);
             }
@@ -710,7 +710,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 avg(ushort4 x, ushort4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu16(x, y);
             }
@@ -724,7 +724,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 avg(ushort8 x, ushort8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu16(x, y);
             }
@@ -759,14 +759,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 avg(short2 x, short2 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 2);
             }
@@ -777,14 +777,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 avg(short3 x, short3 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 3);
             }
@@ -795,14 +795,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 avg(short4 x, short4 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 4);
             }
@@ -813,14 +813,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 avg(short8 x, short8 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 8);
             }
@@ -831,7 +831,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short16"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -856,14 +856,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 avg(uint2 x, uint2 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
             }
@@ -881,14 +881,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 avg(uint3 x, uint3 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
             }
@@ -906,14 +906,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 avg(uint4 x, uint4 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
             }
@@ -931,8 +931,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint8"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -959,14 +959,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="int2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 avg(int2 x, int2 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 2));
             }
@@ -977,14 +977,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="int3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 avg(int3 x, int3 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 3));
             }
@@ -995,14 +995,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="int4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 avg(int4 x, int4 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 4));
             }
@@ -1013,8 +1013,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1032,8 +1032,8 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the average value of two <see cref="ulong"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1050,14 +1050,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 avg(ulong2 x, ulong2 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epu64(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
@@ -1075,8 +1075,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1093,8 +1093,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1112,8 +1112,8 @@ namespace MaxMath
 
 
         /// <summary>       Returns the average value of two <see cref="long"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, <paramref name="x"/> or <paramref name="y"/> <see langword="-"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 that overflow. It is only recommended to use this overload if <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, <paramref name="x"/> or <paramref name="y"/> <see langword="-"/> 1, as well as <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1136,14 +1136,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 avg(long2 x, long2 y, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.avg_epi64(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
@@ -1154,8 +1154,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1172,8 +1172,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

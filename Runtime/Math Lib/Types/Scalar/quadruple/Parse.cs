@@ -59,8 +59,8 @@ namespace MaxMath
             {
                 int qExponent = int.Parse(match.Groups[4].Value);
                 string allDigits = $"{match.Groups[2].Value}{match.Groups[3].Value}";
-            
-                StringBuilder builder = new StringBuilder();
+
+                StringBuilder builder = new StringBuilder(53);
                 if (qExponent > 0)
                 {
                     if (qExponent > allDigits.Length)
@@ -80,16 +80,16 @@ namespace MaxMath
                     builder.Append(new string('0', -qExponent - 1));
                     builder.Append(allDigits);
                 }
-            
+
                 return Parse(builder.ToString());
             }
-            
+
             BigInteger wholePart = BigInteger.Parse(match.Groups[2].Value);
             BigInteger fracPart = match.Groups[3].Success ? BigInteger.Parse(match.Groups[3].Value) : 0;
             int zExponent = match.Groups[3].Value.TakeWhile(digit => digit == '0').Count();
-            
+
             int resultExponent;
-            if (wholePart == 0 && fracPart == 0)
+            if ((wholePart == 0) & (fracPart == 0))
             {
                 resultExponent = EXPONENT_BIAS + 1;
             }
@@ -106,7 +106,7 @@ namespace MaxMath
                     wholePart <<= -wholeDiff;
                 }
             }
-            
+
             bool resultSign = match.Groups[1].Value.StartsWith('-');
             UInt128 resultSignificand = (UInt128)wholePart;
             if (fracPart == 0)
@@ -121,10 +121,10 @@ namespace MaxMath
                 {
                     resultExponent = -(int)floor(BigInteger.Log(BigInteger.Pow(10, zExponent), 2)) + 1;
                 }
-            
+
                 BigInteger pow10 = BigInteger.Pow(10, log10Value + zExponent);
                 int binIndex = 114 - resultExponent;
-                while (binIndex > 0 && fracPart != 0)
+                while ((binIndex > 0) & (fracPart != 0))
                 {
                     fracPart <<= 1;
                     if (fracPart / pow10 == 1)
@@ -134,17 +134,17 @@ namespace MaxMath
                     fracPart %= pow10;
                     --binIndex;
                 }
-            
+
                 // set sticky bit
                 resultSignificand |= (UInt128)BigInteger.Min(fracPart, 1);
-            
+
                 if ((((resultSignificand & 1) |
                      ((resultSignificand >> 2) & 1)) &
-                     ((resultSignificand >> 1) & 1)) == 1) // check rounding condition
+                     ((resultSignificand >> 1) & 1)) == 1)
                 {
-                    resultSignificand++; // increment pth bit from the left
+                    resultSignificand++;
                 }
-            
+
                 if (isSubNormal)
                 {
                     int expnDiff = EXPONENT_BIAS + 1 - resultExponent + 3;
@@ -163,7 +163,7 @@ namespace MaxMath
                     }
 
                     resultExponent -= normDist;
-                    
+
                     return FromComponents(resultSignificand >> 3, resultExponent, resultSign);
                 }
             }

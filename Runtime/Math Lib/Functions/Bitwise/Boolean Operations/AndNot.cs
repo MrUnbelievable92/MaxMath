@@ -37,7 +37,7 @@ namespace MaxMath
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(left), 1, 2);
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(right), 1, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -54,7 +54,7 @@ VectorAssert.IsNotGreater<byte2, byte>(tobyte(right), 1, 2);
 VectorAssert.IsNotGreater<byte3, byte>(tobyte(left), 1, 3);
 VectorAssert.IsNotGreater<byte3, byte>(tobyte(right), 1, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -71,7 +71,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(right), 1, 3);
 VectorAssert.IsNotGreater<byte4, byte>(tobyte(left), 1, 4);
 VectorAssert.IsNotGreater<byte4, byte>(tobyte(right), 1, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -88,7 +88,7 @@ VectorAssert.IsNotGreater<byte4, byte>(tobyte(right), 1, 4);
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(left), 1, 8);
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(right), 1, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -105,7 +105,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(right), 1, 8);
 VectorAssert.IsNotGreater<byte16, byte>(tobyte(left), 1, 16);
 VectorAssert.IsNotGreater<byte16, byte>(tobyte(right), 1, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -122,9 +122,9 @@ VectorAssert.IsNotGreater<byte16, byte>(tobyte(right), 1, 16);
 VectorAssert.IsNotGreater<byte32, byte>(tobyte(left), 1, 32);
 VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
 
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {
@@ -144,7 +144,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 andnot(byte2 left, byte2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -158,7 +158,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 andnot(byte3 left, byte3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -172,7 +172,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 andnot(byte4 left, byte4 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -186,7 +186,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 andnot(byte8 left, byte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -200,7 +200,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 andnot(byte16 left, byte16 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -214,9 +214,9 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 andnot(byte32 left, byte32 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {
@@ -286,7 +286,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 andnot(ushort2 left, ushort2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -300,7 +300,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 andnot(ushort3 left, ushort3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -314,7 +314,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 andnot(ushort4 left, ushort4 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -328,7 +328,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 andnot(ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -342,9 +342,9 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 andnot(ushort16 left, ushort16 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {
@@ -407,7 +407,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 andnot(int2 left, int2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -421,7 +421,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 andnot(int3 left, int3 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -435,7 +435,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 andnot(int4 left, int4 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
             }
@@ -449,9 +449,9 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 andnot(int8 left, int8 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {
@@ -514,7 +514,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 andnot(long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(right, left);
             }
@@ -528,9 +528,9 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 andnot(long3 left, long3 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {
@@ -542,9 +542,9 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 andnot(long4 left, long4 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_andnot_si256(right, left);
+                return Avx.mm256_andnot_ps(right, left);
             }
             else
             {

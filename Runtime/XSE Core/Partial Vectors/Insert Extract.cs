@@ -708,7 +708,7 @@ Assert.IsNotGreater(i, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 insert_ps(v128 a, float v, byte i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return insert_epi32(a, math.asuint(v), i);
             }
@@ -718,7 +718,7 @@ Assert.IsNotGreater(i, 1);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 insert_pd(v128 a, double v, byte i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return insert_epi64(a, math.asulong(v), i);
             }

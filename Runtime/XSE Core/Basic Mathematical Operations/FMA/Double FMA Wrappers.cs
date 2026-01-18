@@ -125,7 +125,7 @@ namespace MaxMath.Intrinsics
             {
                 return addsub_pd(mul_pd(a, b), c);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return fmadd_pd(a, b, xor_pd(c, new v128(1ul << 63, 0)));
             }
@@ -146,7 +146,7 @@ namespace MaxMath.Intrinsics
             {
                 return addsub_pd(mul_pd(a, b), xor_pd(c, new v128(1ul << 63, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return fmsub_pd(a, b, xor_pd(c, new v128(1ul << 63, 0)));
             }

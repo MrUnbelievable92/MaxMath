@@ -13,41 +13,31 @@ namespace MaxMath.Tests
     {
 
         [Test]
-        public static void Execute() 
+        public static void Execute()
         {
-            (((bitmask32((uint)quarter.MANTISSA_BITS + 1) << (F32_MANTISSA_BITS - (quarter.MANTISSA_BITS + 1))) | (((-F32_EXPONENT_BIAS + quarter.MAX_UNBIASED_EXPONENT) & bitmask32((uint)F32_EXPONENT_BITS)) << F32_MANTISSA_BITS)) - 1).Log();
-            asfloat(((bitmask32((uint)quarter.MANTISSA_BITS + 1) << (F32_MANTISSA_BITS - (quarter.MANTISSA_BITS + 1))) | (((-F32_EXPONENT_BIAS + quarter.MAX_UNBIASED_EXPONENT) & bitmask32((uint)F32_EXPONENT_BITS)) << F32_MANTISSA_BITS)) - 1).Log();
-            ////foreach (TestJobGenerator job in TestJobGenerator.GenerateAllJobs())
-            ////{
-            ////    File.WriteAllText($"E:/testcode/{ job.Type }.cs", job.GenerateJob());
-            ////}
-            //
+            foreach ((string, string) mask in MaskGenerator.GenerateAllMasks())
+            {
+                File.WriteAllText("E:/" + mask.Item1 + ".cs", mask.Item2);
+            }
+            //foreach (TestJobGenerator job in TestJobGenerator.GenerateAllJobs())
+            //{
+            //    File.WriteAllText($"E:/testcode/{ job.Type }.cs", job.GenerateJob());
+            //}
+
             //FunctionGenerator f = new FunctionGenerator()
             //{
             //    GenerateScalar = false,
-            //    FunctionName = "isnormal",
-            //    GenerateBoolean = false,
+            //    FunctionName = "shuffle",
+            //    GenerateBoolean = true,
             //    GenerateFloatingPoint = true,
-            //    GenerateInteger = false,
+            //    GenerateInteger = true,
             //    GenerateMatrix = false,
             //    GenerateVector = true,
-            //    ParameterNames = new string[] {"x"}
+            //    ParameterNames = new string[] {"x", "idx"}
             //};
-            //FunctionGenerator i = new FunctionGenerator()
-            //{
-            //    GenerateScalar = false,
-            //    FunctionName = "issubnormal",
-            //    GenerateBoolean = false,
-            //    GenerateFloatingPoint = true,
-            //    GenerateInteger = false,
-            //    GenerateMatrix = false,
-            //    GenerateVector = true,
-            //    ParameterNames = new string[] {"x"}
-            //};
+            //string result = f.GenerateFunctions();
             //
-            //string result = f.GenerateFunctions() + "\n" + i.GenerateFunctions();
-            //
-            //File.WriteAllText($"E:/testcode/hypot.cs", result);
+            //File.WriteAllText($"C:/testcode/Floating Point Classify.cs", result);
         }
     }
 }

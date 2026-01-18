@@ -5,7 +5,6 @@ using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.LUT.CVT_INT_FP;
 using static MaxMath.LUT.FLOATING_POINT;
 
 namespace MaxMath
@@ -17,11 +16,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 tzcnt_epi8(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
-                    if (Architecture.IsTableLookupSupported)
+
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         v128 SHUFFLE_MASK_LO = new v128(8, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0);
                         v128 SHUFFLE_MASK_HI = new v128(8, 4, 5, 4, 6, 4, 5, 4, 7, 4, 5, 4, 6, 4, 5, 4);
@@ -69,11 +68,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 tzcnt_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
-                    if (Architecture.IsTableLookupSupported)
+
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         v128 SHUFFLE_MASK_LO = new v128(16, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0);
                         v128 SHUFFLE_MASK_HI = new v128(16, 4, 5, 4, 6, 4, 5, 4, 7, 4, 5, 4, 6, 4, 5, 4);
@@ -126,7 +125,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 tzcnt_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
                     if (elements > 2)
@@ -143,7 +142,7 @@ namespace MaxMath
                     result = srai_epi32(result, 52 - 32);
                     result = sub_epi16(result, set1_epi32(1023));
                     result = min_epu16(result, set1_epi32(32));
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -160,7 +159,7 @@ namespace MaxMath
                     result = Avx2.mm256_srai_epi32(result, 52 - 32);
                     result = Avx2.mm256_sub_epi16(result, mm256_set1_epi32(1023));
                     result = Avx2.mm256_min_epu16(result, mm256_set1_epi32(32));
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -171,13 +170,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 tzcnt_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     int lo = math.tzcnt(cvtsi128_si64x(a));
                     int hi = math.tzcnt(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
 
                     v128 result = unpacklo_epi64(cvtsi64x_si128((uint)lo), cvtsi64x_si128((uint)hi));
-                    
+
                     constexpr.ASSUME_LE_EPU64(result, 64);
                     return result;
                 }
@@ -202,7 +201,7 @@ namespace MaxMath
                     bits = mm256_usfcvtepu64_pd(bits);
                     bits = Avx2.mm256_sub_epi16(Avx2.mm256_srli_epi64(bits, F64_MANTISSA_BITS), offset);
                     bits = Avx2.mm256_min_epu16(bits, mm256_set1_epi64x(64ul));
-                    
+
                     constexpr.ASSUME_LE_EPU64(bits, 64);
                     return bits;
                 }
@@ -219,14 +218,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int tzcnt(UInt128 x)
         {
-            if (x.lo64 == 0)
-            {
-                return 64 + math.tzcnt(x.hi64);
-            }
-            else
-            {
-                return math.tzcnt(x.lo64);
-            }
+            int tzcntLo = math.tzcnt(x.lo64);
+            int tzcntHi = math.tzcnt(x.hi64);
+            bool lo0 = x.lo64 == 0;
+            int add = lo0 ? 64 : 0;
+
+            return add + (lo0 ? tzcntHi : tzcntLo);
         }
 
         /// <summary>       Returns number of trailing zeros in the binary representation of an <see cref="Int128"/>.    </summary>
@@ -252,7 +249,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tzcnt(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi8(x);
             }
@@ -266,7 +263,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 tzcnt(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi8(x);
             }
@@ -280,7 +277,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 tzcnt(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi8(x);
             }
@@ -294,7 +291,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tzcnt(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi8(x);
             }
@@ -308,7 +305,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tzcnt(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi8(x);
             }
@@ -398,7 +395,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 tzcnt(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi16(x);
             }
@@ -412,7 +409,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 tzcnt(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi16(x);
             }
@@ -426,7 +423,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 tzcnt(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi16(x);
             }
@@ -440,7 +437,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 tzcnt(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi16(x);
             }
@@ -536,7 +533,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 tzcnt(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.tzcnt_epi64(x);
             }

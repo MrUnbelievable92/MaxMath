@@ -136,7 +136,7 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }
@@ -171,7 +171,77 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter16()
+        {
+            for (int i = 0; i < byte.MaxValue + 1; i++)
+            {
+                quarter16 q = maxmath.asquarter((byte)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0b1000_0000)
+                {
+                    p |= Promise.Positive;
+                }
+                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                {
+                    p |= Promise.Unsafe0;
+                }
+
+                quarter16 std = maxmath.trunc(q);
+                quarter16 usf = maxmath.trunc(q, p);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            for (int i = 0; i < byte.MaxValue + 1; i++)
+            {
+                quarter32 q = maxmath.asquarter((byte)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0b1000_0000)
+                {
+                    p |= Promise.Positive;
+                }
+                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                {
+                    p |= Promise.Unsafe0;
+                }
+
+                quarter32 std = maxmath.trunc(q);
+                quarter32 usf = maxmath.trunc(q, p);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }
@@ -239,7 +309,7 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }
@@ -274,7 +344,7 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }
@@ -309,7 +379,7 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }
@@ -344,7 +414,42 @@ namespace MaxMath.Tests
                     }
                     else
                     {
-                        Assert.AreEqual(std[j].value, usf[j].value);;
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            for (int i = 0; i < ushort.MaxValue + 1; i++)
+            {
+                half16 q = maxmath.ashalf((ushort)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0x8000)
+                {
+                    p |= Promise.Positive;
+                }
+                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                {
+                    p |= Promise.Unsafe0;
+                }
+
+                half16 std = maxmath.trunc(q);
+                half16 usf = maxmath.trunc(q, p);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
                     }
                 }
             }

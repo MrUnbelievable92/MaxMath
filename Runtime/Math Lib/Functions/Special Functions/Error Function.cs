@@ -13,10 +13,9 @@ namespace MaxMath
     {
         unsafe public static partial class Xse
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 erf_ps(v128 a, byte elements = 4, bool promiseFinite = false)
 			{
-			    if (Architecture.IsSIMDSupported)
+			    if (BurstArchitecture.IsSIMDSupported)
 			    {
 					v128 ABS_MASK = set1_epi32(0x7FFF_FFFF);
 					v128 ONE = set1_ps(1f);
@@ -196,7 +195,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_erf_ps(v256 a, bool promiseFinite = false)
 			{
 			    if (Avx.IsAvxSupported)
@@ -324,7 +322,6 @@ namespace MaxMath
 			}
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 erf_pd(v128 a, bool promiseFinite = false)
 			{
 				static v128 blend(v128 a, v128 b, v128 c)
@@ -333,7 +330,7 @@ namespace MaxMath
 					{
 						return blendv_pd(a, b, c);
 					}
-					else if (Architecture.IsSIMDSupported)
+					else if (BurstArchitecture.IsSIMDSupported)
 					{
 						return blendv_si128(a, b, c);
 					}
@@ -346,11 +343,11 @@ namespace MaxMath
 			        {
 						return cmpgt_epi32(a, b);
 			        }
-					else if (Architecture.IsCMP64Supported)
+					else if (BurstArchitecture.IsCMP64Supported)
 					{
 						return cmpgt_epi64(a, b);
 					}
-					else if (Architecture.IsSIMDSupported)
+					else if (BurstArchitecture.IsSIMDSupported)
 					{
 						return shuffle_epi32(cmpgt_epi32(a, b), Sse.SHUFFLE(3, 3, 1, 1));
 					}
@@ -358,7 +355,7 @@ namespace MaxMath
 				}
 
 
-			    if (Architecture.IsSIMDSupported)
+			    if (BurstArchitecture.IsSIMDSupported)
 			    {
 					v128 ABS_MASK = set1_epi64x(0x7FFF_FFFF_FFFF_FFFF);
 					v128 ONE = set1_pd(1d);
@@ -491,7 +488,7 @@ namespace MaxMath
 
 						v128 pFalse = fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(set1_pd(F64_RB6), s, set1_pd(F64_RB5)), s, set1_pd(F64_RB4)), s, set1_pd(F64_RB3)), s, set1_pd(F64_RB2)), s, set1_pd(F64_RB1)), s, set1_pd(F64_RB0));
 						v128 qFalse = fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(fmadd_pd(set1_pd(F64_SB7), s, set1_pd(F64_SB6)), s, set1_pd(F64_SB5)), s, set1_pd(F64_SB4)), s, set1_pd(F64_SB3)), s, set1_pd(F64_SB2)), s, set1_pd(F64_SB1)), s, ONE);
-						
+
 						p = blend(pFalse, pTrue, bound5Mask);
 						q = blend(qFalse, qTrue, bound5Mask);
 
@@ -509,7 +506,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_erf_pd(v256 a, byte elements = 4, bool promiseFinite = false)
 			{
 			    if (Avx.IsAvxSupported)
@@ -649,10 +645,9 @@ namespace MaxMath
 			}
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 erfc_ps(v128 a, byte elements = 4, bool promiseFinite = false)
 			{
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 					v128 ONE = set1_ps(1f);
 					v128 ABS_MASK = set1_epi32(0x7FFF_FFFF);
@@ -832,7 +827,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_erfc_ps(v256 a, bool promiseFinite = false)
 			{
                 if (Avx.IsAvxSupported)
@@ -957,7 +951,6 @@ namespace MaxMath
 			}
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 erfc_pd(v128 a, bool promiseFinite = false)
 			{
 				static v128 blend(v128 a, v128 b, v128 c)
@@ -966,7 +959,7 @@ namespace MaxMath
 					{
 						return blendv_pd(a, b, c);
 					}
-					else if (Architecture.IsSIMDSupported)
+					else if (BurstArchitecture.IsSIMDSupported)
 					{
 						return blendv_si128(a, b, c);
 					}
@@ -979,19 +972,19 @@ namespace MaxMath
 			        {
 						return cmpgt_epi32(a, b);
 			        }
-					else if (Architecture.IsCMP64Supported)
+					else if (BurstArchitecture.IsCMP64Supported)
 					{
 						return cmpgt_epi64(a, b);
 					}
-					else if (Architecture.IsSIMDSupported)
+					else if (BurstArchitecture.IsSIMDSupported)
 					{
 						return shuffle_epi32(cmpgt_epi32(a, b), Sse.SHUFFLE(3, 3, 1, 1));
 					}
 					else throw new IllegalInstructionException();
 				}
 
-				
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 					v128 ONE = set1_pd(1d);
 					v128 ABS_MASK = set1_pd(0x7FFF_FFFF_FFFF_FFFF);
@@ -1133,7 +1126,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_erfc_pd(v256 a, byte elements = 4, bool promiseFinite = false)
 			{
                 if (Avx.IsAvxSupported)
@@ -1348,7 +1340,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 erf(float2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat2(Xse.erf_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0)));
             }
@@ -1366,7 +1358,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 erf(float3 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat3(Xse.erf_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0)));
             }
@@ -1384,7 +1376,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 erf(float4 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat4(Xse.erf_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0)));
             }
@@ -1502,7 +1494,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double2 erf(double2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToDouble2(Xse.erf_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0)));
             }
@@ -1636,7 +1628,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 erfc(float2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat2(Xse.erfc_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0)));
             }
@@ -1654,7 +1646,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 erfc(float3 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat3(Xse.erfc_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0)));
             }
@@ -1672,7 +1664,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 erfc(float4 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat4(Xse.erfc_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0)));
             }
@@ -1789,7 +1781,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double2 erfc(double2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToDouble2(Xse.erfc_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0)));
             }

@@ -526,6 +526,16 @@ namespace MaxMath.Tests
 
                 Assert.AreEqual((ulong)_intsqrt(x), maxmath.intsqrt(x));
             }
+
+            ulong y = ulong.MaxValue;
+
+            Assert.AreEqual((ulong)_intsqrt(y), maxmath.intsqrt(y));
+            y = 1ul << 63;
+
+            Assert.AreEqual((ulong)_intsqrt(y), maxmath.intsqrt(y));
+            y = 1ul << 62;
+
+            Assert.AreEqual((ulong)_intsqrt(y), maxmath.intsqrt(y));
         }
 
         [Test]
@@ -561,15 +571,15 @@ namespace MaxMath.Tests
                 Assert.AreEqual(new ulong3((ulong)_intsqrt(x.x), (ulong)_intsqrt(x.y), (ulong)_intsqrt(x.z)), maxmath.intsqrt(x));
             }
 
-                ulong3 y = ulong.MaxValue;
+            ulong3 y = ulong.MaxValue;
 
-                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
-                y = 1ul << 63;
+            Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
+            y = 1ul << 63;
 
-                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
-                y = 1ul << 62;
+            Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
+            y = 1ul << 62;
 
-                Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
+            Assert.AreEqual(new ulong3((ulong)_intsqrt(y.x), (ulong)_intsqrt(y.y), (ulong)_intsqrt(y.z)), maxmath.intsqrt(y));
         }
 
         [Test]

@@ -296,7 +296,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float(UInt128 value)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 sse = *(v128*)&value;
                 v128 cvt = RegisterConversion.ToV128((float2)(*(ulong2*)&value));
@@ -332,7 +332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double(UInt128 value)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 sse = *(v128*)&value;
                 v128 cvt = Xse.cvtepu64_pd(sse);
@@ -340,7 +340,7 @@ namespace MaxMath
                 v128 hi0 = Xse.cmpeq_epi64(sse, Xse.setzero_si128());
                 hi0 = Xse.bsrli_si128(hi0, sizeof(double));
 
-                v128 hi = Xse.andnot_si128(hi0, new v128((double)ulong.MaxValue, (double)ulong.MaxValue));
+                v128 hi = Xse.andnot_si128(hi0, Xse.set1_pd(ulong.MaxValue));
                 v128 lo = Xse.blendv_si128(Xse.bsrli_si128(cvt, sizeof(double)), new v128(1d), hi0);
 
                 return Xse.fmadd_pd(lo, hi, cvt).Double0;
@@ -831,7 +831,7 @@ Assert.AreNotEqual(right, 0u);
                     return right.IsMaxValue;
                 }
             }
-            
+
             return ((left.lo64 ^ right.lo64) | (left.hi64 ^ right.hi64)) == 0;
         }
 
@@ -842,7 +842,7 @@ Assert.AreNotEqual(right, 0u);
             {
                 return left.IsZero;
             }
-            
+
             return ((left.lo64 ^ right) | left.hi64) == 0;
         }
 
@@ -893,7 +893,7 @@ Assert.AreNotEqual(right, 0u);
                     return right.IsNotMaxValue;
                 }
             }
-            
+
             return ((left.lo64 ^ right.lo64) | (left.hi64 ^ right.hi64)) != 0;
         }
 
@@ -904,7 +904,7 @@ Assert.AreNotEqual(right, 0u);
             {
                 return left.IsNotZero;
             }
-            
+
             return ((left.lo64 ^ right) | left.hi64) != 0;
         }
 
@@ -945,7 +945,7 @@ Assert.AreNotEqual(right, 0u);
             {
                 return (left & (UInt128)(-(Int128)right)).IsZero;
             }
-            
+
             return (left.hi64 < right.hi64) | ((left.hi64 == right.hi64) & left.lo64 < right.lo64);
         }
 
@@ -1033,7 +1033,7 @@ Assert.AreNotEqual(right, 0u);
             {
                 return (left & (UInt128)(-(Int128)right)).IsNotZero;
             }
-            
+
             return (right.hi64 < left.hi64) | ((right.hi64 == left.hi64) & right.lo64 <= left.lo64);
         }
 

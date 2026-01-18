@@ -39,7 +39,7 @@ namespace MaxMath
 //                ushort2 mul = input._bigM.Reinterpret<BigM, ushort2>();
 //                DividerPromise promises = input._promises;
 //
-//                if (Architecture.IsSIMDSupported)
+//                if (ArchitectureInfo.IsSIMDSupported)
 //                {
 //                    v128 __mul = mul;
 //                    bmcvti2u_epi8(ref __mul, divisor, promises);
@@ -148,7 +148,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 promise_abs_epi8(v128 x, DividerPromise promises, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promises.Positive)
                 {
@@ -169,7 +169,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 promise_abs_epi16(v128 x, DividerPromise promises, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promises.Positive)
                 {
@@ -190,7 +190,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 promise_abs_epi32(v128 x, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promises.Positive)
                 {
@@ -211,7 +211,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 promise_abs_epi64(v128 x, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (promises.Positive)
                 {
@@ -414,7 +414,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi8([NoAlias] ref v128 mul, [NoAlias] ref v128 original, DividerPromise promises, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi8(original, promises, elements);
 
@@ -439,7 +439,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi8([NoAlias] ref v128 mulLo, [NoAlias] ref v128 mulHi, [NoAlias] ref v128 original, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi8(original, promises, 16);
 
@@ -496,7 +496,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi16([NoAlias] ref v128 mul, [NoAlias] ref v128 original, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi16(original, promises, elements);
 
@@ -521,7 +521,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi16([NoAlias] ref v128 mulLo, [NoAlias] ref v128 mulHi, [NoAlias] ref v128 original, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi16(original, promises);
 
@@ -578,7 +578,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi32([NoAlias] ref v128 mul, [NoAlias] ref v128 original, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi32(original, promises, 2);
 
@@ -601,7 +601,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi32([NoAlias] ref v128 mulLo, [NoAlias] ref v128 mulHi, [NoAlias] ref v128 original, DividerPromise promises, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi32(original, promises, elements);
 
@@ -658,7 +658,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void bmcvti2u_epi64([NoAlias] ref UInt128 mulLo, [NoAlias] ref UInt128 mulHi, [NoAlias] ref v128 original, DividerPromise promises)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 original = promise_abs_epi64(original, promises);
 
@@ -675,7 +675,7 @@ namespace MaxMath
                 {
                     v128 cmp = Xse.blsr_epi64(original);
 
-                    if (Architecture.IsCMP64Supported)
+                    if (BurstArchitecture.IsCMP64Supported)
                     {
                         v128 pow2Mask = Xse.cmpeq_epi64(Xse.setzero_si128(), cmp);
 

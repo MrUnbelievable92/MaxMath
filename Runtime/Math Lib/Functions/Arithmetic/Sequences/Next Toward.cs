@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epu8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU8(b, byte.MinValue, elements))
                     {
@@ -54,7 +54,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epu16(v128 a, v128 b, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU16(b, ushort.MinValue, elements))
                     {
@@ -93,7 +93,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epu32(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU32(b, uint.MinValue, elements))
                     {
@@ -132,7 +132,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epu64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU64(b, ulong.MinValue))
                     {
@@ -171,7 +171,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epi8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, sbyte.MinValue, elements))
                     {
@@ -210,7 +210,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epi16(v128 a, v128 b, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI16(b, short.MinValue, elements))
                     {
@@ -249,7 +249,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epi32(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI32(b, int.MinValue, elements))
                     {
@@ -288,7 +288,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_epi64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI64(b, long.MinValue))
                     {
@@ -327,7 +327,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_pq(v128 a, v128 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     //promiseNonZero |= constexpr.ALL_NEQ_PQ(a, 0f, elements);
                     //promisePositive |= constexpr.ALL_GT_PQ(a, 0f, elements);
@@ -412,11 +412,92 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_toward_pq(v256 a, v256 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    //promiseNonZero |= constexpr.ALL_NEQ_PQ(a, 0f, elements);
+                    //promisePositive |= constexpr.ALL_GT_PQ(a, 0f, elements);
+                    //promiseNegative |= constexpr.ALL_LT_PQ(a, 0f, elements);
+                    //promiseNotNanInf |= constexpr.ALL_NOTNAN_PQ(a, elements) && constexpr.ALL_NOTNAN_PQ(b, elements) && constexpr.ALL_NEQ_PQ(a, float.PositiveInfinity, elements) && constexpr.ALL_NEQ_PQ(a, float.NegativeInfinity, elements);
+
+                    v256 ONE = mm256_set1_epi8(1);
+
+                    v256 isGreater = mm256_cmpgt_pq(a, b, promiseNeitherNaN: promiseNotNanInf, promiseNeitherZero: promiseNonZero && constexpr.ALL_NEQ_EPU8(b, 0) && constexpr.ALL_NEQ_EPU8(b, 0b1000_0000));
+                    v256 areDifferent = mm256_cmpneq_pq(a, b, promiseNeitherNaN: promiseNotNanInf, promiseNeitherZero: promiseNonZero && constexpr.ALL_NEQ_EPU8(b, 0) && constexpr.ALL_NEQ_EPU8(b, 0b1000_0000));
+                    v256 summand;
+
+                    if (promiseNonZero)
+                    {
+                        if (promisePositive | promiseNegative)
+                        {
+                            summand = mm256_setall_si256();
+                        }
+                        else
+                        {
+                            summand = Avx2.mm256_blendv_epi8(ONE, mm256_setall_si256(), a);
+                        }
+
+                        if (!promiseNotNanInf)
+                        {
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(quarter.SIGNALING_EXPONENT);
+
+                            v256 xInfinite = Avx2.mm256_cmpeq_epi8(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
+                            v256 eitherNaN = mm256_cmpunord_pq(a, b);
+
+                            summand = mm256_ternarylogic_si256(eitherNaN, xInfinite, summand, TernaryOperation.OxO2);
+                            a = Avx2.mm256_or_si256(a, eitherNaN);
+                        }
+                    }
+                    else
+                    {
+                        v256 NEGATIVE_ZERO = mm256_set1_epi8(1 << 7);
+                        v256 IF_ZERO = mm256_set1_epi8(0x82);
+
+                        v256 isNegativeZero = Avx2.mm256_cmpeq_epi8(NEGATIVE_ZERO, a);
+                        v256 isPositiveZero = Avx2.mm256_cmpeq_epi8(Avx.mm256_setzero_si256(), a);
+                        v256 zeroMask = mm256_ternarylogic_si256(isNegativeZero, isPositiveZero, isGreater, TernaryOperation.Ox87);
+
+                        summand = mm256_ternarylogic_si256(ONE, mm256_srai_epi8(a, 7), zeroMask, TernaryOperation.OxF8);
+                        v256 aPart0 = mm256_ternarylogic_si256(a, isGreater, zeroMask,  TernaryOperation.OxEO);
+                        v256 aPart1 = mm256_ternarylogic_si256(zeroMask, IF_ZERO, isGreater, TernaryOperation.OxO8);
+
+                        if (promiseNotNanInf)
+                        {
+                            a = Avx2.mm256_or_si256(aPart0, aPart1);
+                        }
+                        else
+                        {
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(quarter.SIGNALING_EXPONENT);
+
+                            v256 xInfinite = Avx2.mm256_cmpeq_epi8(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
+                            v256 eitherNaN = mm256_cmpunord_pq(a, b);
+
+                            summand = mm256_ternarylogic_si256(eitherNaN, xInfinite, summand, TernaryOperation.OxO2);
+                            a = mm256_ternarylogic_si256(eitherNaN, aPart0, aPart1, TernaryOperation.OxFE);
+                        }
+                    }
+
+                    summand = mm256_ternarylogic_si256(isGreater, summand, areDifferent, TernaryOperation.Ox78);
+
+                    if (promisePositive)
+                    {
+                        return Avx2.mm256_sub_epi8(Avx2.mm256_add_epi8(a, isGreater), summand);
+                    }
+                    else
+                    {
+                        return Avx2.mm256_add_epi8(Avx2.mm256_sub_epi8(a, isGreater), summand);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_ph(v128 a, v128 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     //promiseNonZero |= constexpr.ALL_NEQ_PH(a, 0f, elements);
                     //promisePositive |= constexpr.ALL_GT_PH(a, 0f, elements);
@@ -494,11 +575,92 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_toward_ph(v256 a, v256 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    //promiseNonZero |= constexpr.ALL_NEQ_PH(a, 0f, elements);
+                    //promisePositive |= constexpr.ALL_GT_PH(a, 0f, elements);
+                    //promiseNegative |= constexpr.ALL_LT_PH(a, 0f, elements);
+                    //promiseNotNanInf |= constexpr.ALL_NOTNAN_PH(a, elements) && constexpr.ALL_NOTNAN_PH(b, elements) && constexpr.ALL_NEQ_PH(a, float.PositiveInfinity, elements) && constexpr.ALL_NEQ_PH(a, float.NegativeInfinity, elements);
+
+                    v256 ONE = mm256_set1_epi16(1);
+
+                    v256 isGreater = mm256_cmpgt_ph(a, b, promiseNeitherNaN: promiseNotNanInf, promiseNeitherZero: promiseNonZero && constexpr.ALL_NEQ_EPU16(b, 0) && constexpr.ALL_NEQ_EPU16(b, 0x8000));
+                    v256 areDifferent = mm256_cmpneq_ph(a, b, promiseNeitherNaN: promiseNotNanInf, promiseNeitherZero: promiseNonZero && constexpr.ALL_NEQ_EPU16(b, 0) && constexpr.ALL_NEQ_EPU16(b, 0x8000));
+                    v256 summand;
+
+                    if (promiseNonZero)
+                    {
+                        if (promisePositive | promiseNegative)
+                        {
+                            summand = mm256_setall_si256();
+                        }
+                        else
+                        {
+                            summand = Avx2.mm256_or_si256(Avx2.mm256_srai_epi16(a, 15), ONE);
+                        }
+
+                        if (!promiseNotNanInf)
+                        {
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi16(F16_SIGNALING_EXPONENT);
+
+                            v256 xInfinite = Avx2.mm256_cmpeq_epi16(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
+                            v256 eitherNaN = mm256_cmpunord_ph(a, b);
+
+                            summand = mm256_ternarylogic_si256(eitherNaN, xInfinite, summand, TernaryOperation.OxO2);
+                            a = Avx2.mm256_or_si256(a, eitherNaN);
+                        }
+                    }
+                    else
+                    {
+                        v256 NEGATIVE_ZERO = mm256_set1_epi16(1 << 15);
+                        v256 IF_ZERO = mm256_set1_epi16(0x8002);
+
+                        v256 isNegativeZero = Avx2.mm256_cmpeq_epi16(NEGATIVE_ZERO, a);
+                        v256 isPositiveZero = Avx2.mm256_cmpeq_epi16(Avx.mm256_setzero_si256(), a);
+                        v256 zeroMask = mm256_ternarylogic_si256(isNegativeZero, isPositiveZero, isGreater, TernaryOperation.Ox87);
+
+                        summand = mm256_ternarylogic_si256(ONE, Avx2.mm256_srai_epi16(a, 15), zeroMask, TernaryOperation.OxF8);
+                        v256 aPart0 = mm256_ternarylogic_si256(a, isGreater, zeroMask,  TernaryOperation.OxEO);
+                        v256 aPart1 = mm256_ternarylogic_si256(zeroMask, IF_ZERO, isGreater, TernaryOperation.OxO8);
+
+                        if (promiseNotNanInf)
+                        {
+                            a = Avx2.mm256_or_si256(aPart0, aPart1);
+                        }
+                        else
+                        {
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi16(F16_SIGNALING_EXPONENT);
+
+                            v256 xInfinite = Avx2.mm256_cmpeq_epi16(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
+                            v256 eitherNaN = mm256_cmpunord_ph(a, b);
+
+                            summand = mm256_ternarylogic_si256(eitherNaN, xInfinite, summand, TernaryOperation.OxO2);
+                            a = mm256_ternarylogic_si256(eitherNaN, aPart0, aPart1, TernaryOperation.OxFE);
+                        }
+                    }
+
+                    summand = mm256_ternarylogic_si256(isGreater, summand, areDifferent, TernaryOperation.Ox78);
+
+                    if (promisePositive)
+                    {
+                        return Avx2.mm256_sub_epi16(Avx2.mm256_add_epi16(a, isGreater), summand);
+                    }
+                    else
+                    {
+                        return Avx2.mm256_add_epi16(Avx2.mm256_sub_epi16(a, isGreater), summand);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_ps(v128 a, v128 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_NEQ_PS(a, 0f, elements);
                     promisePositive |= constexpr.ALL_GT_PS(a, 0f, elements);
@@ -668,7 +830,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 toward_pd(v128 a, v128 b, bool promiseNonZero = false, bool promisePositive = false, bool promiseNegative = false, bool promiseNotNanInf = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_NEQ_PD(a, 0f);
                     promisePositive |= constexpr.ALL_GT_PD(a, 0f);
@@ -704,7 +866,7 @@ namespace MaxMath
                             v128 SIGNALING_EXPONENT = set1_epi64x(F64_SIGNALING_EXPONENT);
 
                             v128 xInfinite;
-                            if (Architecture.IsCMP64Supported)
+                            if (BurstArchitecture.IsCMP64Supported)
                             {
                                 xInfinite = cmpeq_epi64(SIGNALING_EXPONENT, and_si128(SIGNALING_EXPONENT, a));
                             }
@@ -741,7 +903,7 @@ namespace MaxMath
                             v128 SIGNALING_EXPONENT = set1_epi64x(F64_SIGNALING_EXPONENT);
 
                             v128 xInfinite;
-                            if (Architecture.IsCMP64Supported)
+                            if (BurstArchitecture.IsCMP64Supported)
                             {
                                 xInfinite = cmpeq_epi64(SIGNALING_EXPONENT, and_si128(SIGNALING_EXPONENT, a));
                             }
@@ -884,7 +1046,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 nexttoward(byte2 from, byte2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu8(from, to, 2);
             }
@@ -899,7 +1061,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 nexttoward(byte3 from, byte3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu8(from, to, 3);
             }
@@ -915,7 +1077,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 nexttoward(byte4 from, byte4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu8(from, to, 4);
             }
@@ -932,7 +1094,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 nexttoward(byte8 from, byte8 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu8(from, to, 8);
             }
@@ -953,7 +1115,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 nexttoward(byte16 from, byte16 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu8(from, to, 16);
             }
@@ -1005,7 +1167,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 nexttoward(sbyte2 from, sbyte2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi8(from, to, 2);
             }
@@ -1020,7 +1182,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 nexttoward(sbyte3 from, sbyte3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi8(from, to, 3);
             }
@@ -1036,7 +1198,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 nexttoward(sbyte4 from, sbyte4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi8(from, to, 4);
             }
@@ -1053,7 +1215,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 nexttoward(sbyte8 from, sbyte8 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi8(from, to, 8);
             }
@@ -1074,7 +1236,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 nexttoward(sbyte16 from, sbyte16 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi8(from, to, 16);
             }
@@ -1126,7 +1288,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 nexttoward(ushort2 from, ushort2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu16(from, to, 2);
             }
@@ -1141,7 +1303,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 nexttoward(ushort3 from, ushort3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu16(from, to, 3);
             }
@@ -1157,7 +1319,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 nexttoward(ushort4 from, ushort4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu16(from, to, 4);
             }
@@ -1174,7 +1336,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 nexttoward(ushort8 from, ushort8 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu16(from, to, 8);
             }
@@ -1218,7 +1380,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 nexttoward(short2 from, short2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi16(from, to, 2);
             }
@@ -1233,7 +1395,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 nexttoward(short3 from, short3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi16(from, to, 3);
             }
@@ -1249,7 +1411,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 nexttoward(short4 from, short4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi16(from, to, 4);
             }
@@ -1266,7 +1428,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 nexttoward(short8 from, short8 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi16(from, to, 8);
             }
@@ -1310,7 +1472,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 nexttoward(uint2 from, uint2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 2));
             }
@@ -1325,7 +1487,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 nexttoward(uint3 from, uint3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 3));
             }
@@ -1341,7 +1503,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 nexttoward(uint4 from, uint4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 4));
             }
@@ -1381,7 +1543,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nexttoward(int2 from, int2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 2));
             }
@@ -1396,7 +1558,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nexttoward(int3 from, int3 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 3));
             }
@@ -1412,7 +1574,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nexttoward(int4 from, int4 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 4));
             }
@@ -1452,7 +1614,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 nexttoward(ulong2 from, ulong2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epu64(from, to);
             }
@@ -1505,7 +1667,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 nexttoward(long2 from, long2 to)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_epi64(from, to);
             }
@@ -1547,12 +1709,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the next closest <see cref="quarter"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
+        /// <summary>       Returns the next closest <see cref="MaxMath.quarter"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1561,7 +1723,7 @@ namespace MaxMath
             int isGreater = -tobyte(from > to);
             int __x = assbyte(from);
             int summand;
-            
+
             if (promises.Promises(Promise.NonZero))
             {
                 if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
@@ -1579,7 +1741,7 @@ namespace MaxMath
                 summand = 1 | ((__x >> 31) & zeroMask);
                 __x = (__x & (isGreater | zeroMask)) | andnot(0x82 & isGreater, zeroMask);
             }
-            
+
             if (!promises.Promises(Promise.Unsafe0))
             {
                 int xNotInf = -tobyte((__x & quarter.SIGNALING_EXPONENT) != quarter.SIGNALING_EXPONENT);
@@ -1587,10 +1749,10 @@ namespace MaxMath
                 summand = andnot(summand & xNotInf, eitherNaN);
                 __x |= eitherNaN;
             }
-            
+
             summand = (summand ^ isGreater) - isGreater;
             summand &= -tobyte(from != to);
-            
+
             if (promises.Promises(Promise.Negative))
             {
                 return asquarter((byte)(__x - summand));
@@ -1601,18 +1763,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter2"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.quarter2"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 nexttoward(quarter2 from, quarter2 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_pq(from,
                                      to,
@@ -1629,18 +1791,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter3"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.quarter3"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 nexttoward(quarter3 from, quarter3 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_pq(from,
                                      to,
@@ -1658,18 +1820,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter4"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.quarter4"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 nexttoward(quarter4 from, quarter4 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_pq(from,
                                      to,
@@ -1688,18 +1850,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter8"/>, where each component is the next closest <see cref="quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.quarter8"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 nexttoward(quarter8 from, quarter8 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_pq(from,
                                      to,
@@ -1721,6 +1883,73 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns a <see cref="MaxMath.quarter16"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 nexttoward(quarter16 from, quarter16 to, Promise promises = Promise.Nothing)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.toward_pq(from,
+                                     to,
+                                     promiseNonZero: promises.Promises(Promise.NonZero),
+                                     promiseNegative: promises.Promises(Promise.Negative),
+                                     promisePositive: promises.Promises(Promise.Positive),
+                                     promiseNotNanInf: promises.Promises(Promise.Unsafe0));
+            }
+            else
+            {
+                return new quarter16(nexttoward(from.x0,  to.x0,  promises),
+                                     nexttoward(from.x1,  to.x1,  promises),
+                                     nexttoward(from.x2,  to.x2,  promises),
+                                     nexttoward(from.x3,  to.x3,  promises),
+                                     nexttoward(from.x4,  to.x4,  promises),
+                                     nexttoward(from.x5,  to.x5,  promises),
+                                     nexttoward(from.x6,  to.x6,  promises),
+                                     nexttoward(from.x7,  to.x7,  promises),
+                                     nexttoward(from.x8,  to.x8,  promises),
+                                     nexttoward(from.x9,  to.x9,  promises),
+                                     nexttoward(from.x10, to.x10, promises),
+                                     nexttoward(from.x11, to.x11, promises),
+                                     nexttoward(from.x12, to.x12, promises),
+                                     nexttoward(from.x13, to.x13, promises),
+                                     nexttoward(from.x14, to.x14, promises),
+                                     nexttoward(from.x15, to.x15, promises));
+            }
+        }
+
+        /// <summary>       Returns a <see cref="MaxMath.quarter32"/>, where each component is the next closest <see cref="MaxMath.quarter"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 nexttoward(quarter32 from, quarter32 to, Promise promises = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_toward_pq(from,
+                                           to,
+                                           promiseNonZero: promises.Promises(Promise.NonZero),
+                                           promiseNegative: promises.Promises(Promise.Negative),
+                                           promisePositive: promises.Promises(Promise.Positive),
+                                           promiseNotNanInf: promises.Promises(Promise.Unsafe0));
+            }
+            else
+            {
+                return new quarter32(nexttoward(from.v16_0, to.v16_0, promises), nexttoward(from.v16_16, to.v16_16, promises));
+            }
+        }
+
 
         /// <summary>       Returns the next closest <see cref="half"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
         /// <remarks>
@@ -1736,7 +1965,7 @@ namespace MaxMath
             int isGreater = -tobyte(from.IsGreaterThan(to));
             int __x = asshort(from);
             int summand;
-            
+
             if (promises.Promises(Promise.NonZero))
             {
                 if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
@@ -1754,7 +1983,7 @@ namespace MaxMath
                 summand = 1 | ((__x >> 31) & zeroMask);
                 __x = (__x & (isGreater | zeroMask)) | andnot(unchecked((int)0xFFFF_8002) & isGreater, zeroMask);
             }
-            
+
             if (!promises.Promises(Promise.Unsafe0))
             {
                 int xNotInf = -tobyte((__x & F16_SIGNALING_EXPONENT) != F16_SIGNALING_EXPONENT);
@@ -1762,10 +1991,10 @@ namespace MaxMath
                 summand = andnot(summand & xNotInf, eitherNaN);
                 __x |= eitherNaN;
             }
-            
+
             summand = (summand ^ isGreater) - isGreater;
             summand &= -tobyte(from.IsNotEqualTo(to));
-            
+
             if (promises.Promises(Promise.Negative))
             {
                 return ashalf((ushort)(__x - summand));
@@ -1787,7 +2016,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 nexttoward(half2 from, half2 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf2(Xse.toward_ph(RegisterConversion.ToV128(from),
                                                                 RegisterConversion.ToV128(to),
@@ -1815,7 +2044,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 nexttoward(half3 from, half3 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf3(Xse.toward_ph(RegisterConversion.ToV128(from),
                                                                 RegisterConversion.ToV128(to),
@@ -1844,7 +2073,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 nexttoward(half4 from, half4 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToHalf4(Xse.toward_ph(RegisterConversion.ToV128(from),
                                                                 RegisterConversion.ToV128(to),
@@ -1874,7 +2103,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 nexttoward(half8 from, half8 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_ph(from,
                                      to,
@@ -1896,6 +2125,32 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns a <see cref="MaxMath.half16"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 nexttoward(half16 from, half16 to, Promise promises = Promise.Nothing)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_toward_ph(from,
+                                           to,
+                                           promiseNonZero: promises.Promises(Promise.NonZero),
+                                           promiseNegative: promises.Promises(Promise.Negative),
+                                           promisePositive: promises.Promises(Promise.Positive),
+                                           promiseNotNanInf: promises.Promises(Promise.Unsafe0));
+            }
+            else
+            {
+                return new half16(nexttoward(from.v8_0, to.v8_0, promises), nexttoward(from.v8_8, to.v8_8, promises));
+            }
+        }
+
 
         /// <summary>       Returns the next closest <see cref="float"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
         /// <remarks>
@@ -1908,7 +2163,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float nexttoward(float from, float to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_ps(RegisterConversion.ToV128(from),
                                      RegisterConversion.ToV128(to),
@@ -1975,7 +2230,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 nexttoward(float2 from, float2 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.toward_ps(RegisterConversion.ToV128(from),
                                                                  RegisterConversion.ToV128(to),
@@ -2003,7 +2258,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 nexttoward(float3 from, float3 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.toward_ps(RegisterConversion.ToV128(from),
                                                                  RegisterConversion.ToV128(to),
@@ -2032,7 +2287,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 nexttoward(float4 from, float4 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.toward_ps(RegisterConversion.ToV128(from),
                                                                  RegisterConversion.ToV128(to),
@@ -2090,7 +2345,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double nexttoward(double from, double to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.toward_pd(RegisterConversion.ToV128(from),
                                      RegisterConversion.ToV128(to),
@@ -2156,7 +2411,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 nexttoward(double2 from, double2 to, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.toward_pd(RegisterConversion.ToV128(from),
                                                                   RegisterConversion.ToV128(to),

@@ -2,10 +2,10 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
+using Unity.Burst;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using Unity.Burst;
 
 namespace MaxMath
 {
@@ -16,7 +16,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_gcd_epu8(v128 a, v128 b, [NoAlias] out v128 tzcntA, [NoAlias] out v128 tzcntB, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, [NoAlias] out v128 result_if_zero_any, bool promiseNonZero)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
 
@@ -40,25 +40,167 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void LOOP_gcd_epu8([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] out v128 loopCheck, v128 tzcntB, byte elements = 16)
+            private static bool LOOP_gcd_epu8([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] ref v128 tzcntB, [NoAlias] ref v128 doneMask, [NoAlias] out v128 loopCheck, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = srlv_epi8(b, tzcntB, elements: elements);
                     loopCheck = cmpeq_epi8(a, b);
-                    
+
                     minmax_epu8(a, b, out a, out b);
                     b = sub_epi8(b, a);
-                    
+
                     result = blendv_si128(result, a, loopCheck);
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask)) == 1))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            tzcntB = tzcnt_epi8(b);
+                            doneMask = or_si128(doneMask, loopCheck);
+
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        doneMask = or_si128(doneMask, loopCheck);
+
+                        if (Hint.Unlikely(alltrue_epi128<byte>(doneMask, elements)))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            tzcntB = tzcnt_epi8(b);
+
+                            return false;
+                        }
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool mm256_LOOP_gcd_epu8([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    b = mm256_srlv_epi8(b, tzcntB);
+                    loopCheck = Avx2.mm256_cmpeq_epi8(a, b);
+
+                    mm256_minmax_epu8(a, b, out a, out b);
+                    b = Avx2.mm256_sub_epi8(b, a);
+
+                    result = mm256_blendv_si256(result, a, loopCheck);
+
+                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        tzcntB = mm256_tzcnt_epi8(b);
+                        doneMask = Avx2.mm256_or_si256(doneMask, loopCheck);
+
+                        return false;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool LOOP_gcd_epu8_epu32([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] ref v128 tzcntB, [NoAlias] ref v128 doneMask, [NoAlias] out v128 loopCheck, byte elements = 16)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    b = srlv_epi32(b, tzcntB);
+                    loopCheck = cmpeq_epi32(a, b);
+
+                    minmax_epu32(a, b, out a, out b);
+                    b = sub_epi32(b, a);
+
+                    result = blendv_si128(result, a, loopCheck);
+
+                    if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask)) == 1))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        tzcntB = min_epu8(tzcnt_epi8(b), set1_epi32(8));
+                        doneMask = or_si128(doneMask, loopCheck);
+
+                        return false;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool mm256_LOOP_gcd_epu8_epu16([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck, byte elements = 16)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    b = mm256_srlv_epi16(b, tzcntB);
+                    loopCheck = Avx2.mm256_cmpeq_epi16(a, b);
+
+                    mm256_minmax_epu16(a, b, out a, out b);
+                    b = Avx2.mm256_sub_epi16(b, a);
+
+                    result = mm256_blendv_si256(result, a, loopCheck);
+
+                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        tzcntB = Avx2.mm256_min_epu8(mm256_tzcnt_epi8(b), mm256_set1_epi16(8));
+                        doneMask = Avx2.mm256_or_si256(doneMask, loopCheck);
+
+                        return false;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool mm256_LOOP_gcd_epu8_epu32([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck, byte elements = 16)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    b = Avx2.mm256_srlv_epi32(b, tzcntB);
+                    loopCheck = Avx2.mm256_cmpeq_epi32(a, b);
+
+                    mm256_minmax_epu32(a, b, out a, out b);
+                    b = Avx2.mm256_sub_epi32(b, a);
+
+                    result = mm256_blendv_si256(result, a, loopCheck);
+
+                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        tzcntB = Avx2.mm256_min_epu8(mm256_tzcnt_epi8(b), mm256_set1_epi32(8));
+                        doneMask = Avx2.mm256_or_si256(doneMask, loopCheck);
+
+                        return false;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void POSTLOOP_gcd_epu8(ref v128 result, v128 shift, v128 result_if_zero_any, v128 checkZeroMask, bool promiseNonZero, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     result = sllv_epi8(result, shift, inRange: false, noOverflow: true, elements: elements);
 
@@ -73,7 +215,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gcd_epu8(v128 a, v128 b, bool promiseNonZero = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_GT_EPU8(b, 0, elements);
 
@@ -99,26 +241,10 @@ namespace MaxMath
                                 v256 shift = Avx2.mm256_min_epu16(tzcntA16, tzcntB16);
 
                                 a16 = mm256_srlv_epi16(a16, tzcntA16);
-                                
-                                while (true)
-                                {
-                                    b16 = mm256_srlv_epi16(b16, tzcntB16);
-                                    v256 loopCheck = Avx2.mm256_cmpeq_epi16(a16, b16);
-                                    
-                                    mm256_minmax_epu16(a16, b16, out a16, out b16);
-                                    b16 = Avx2.mm256_sub_epi16(b16, a16);
 
-                                    result16 = mm256_blendv_si256(result16, a16, loopCheck);
-                                    
-                                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask16)) == 1))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        tzcntB16 = Avx2.mm256_min_epu8(mm256_tzcnt_epi8(b16), mm256_set1_epi16(8));
-                                        doneMask16 = Avx2.mm256_or_si256(doneMask16, loopCheck);
-                                    }
+                                while (Hint.Likely(!mm256_LOOP_gcd_epu8_epu16(ref a16, ref b16, ref result16, ref tzcntB16, ref doneMask16, out _, 16)))
+                                {
+
                                 }
 
                                 result = mm256_cvtepi16_epi8(mm256_sllv_epi16(result16, shift));
@@ -137,25 +263,9 @@ namespace MaxMath
 
                                 a32 = Avx2.mm256_srlv_epi32(a32, tzcntA32);
 
-                                while (true)
+                                while (Hint.Likely(!mm256_LOOP_gcd_epu8_epu32(ref a32, ref b32, ref result32, ref tzcntB32, ref doneMask32, out _, 32)))
                                 {
-                                    b32 = Avx2.mm256_srlv_epi32(b32, tzcntB32);
-                                    v256 loopCheck = Avx2.mm256_cmpeq_epi32(a32, b32);
 
-                                    mm256_minmax_epu32(a32, b32, out a32, out b32);
-                                    b32 = Avx2.mm256_sub_epi32(b32, a32);
-
-                                    result32 = mm256_blendv_si256(result32, a32, loopCheck);
-                                    
-                                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask32)) == 1))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        tzcntB32 = Avx2.mm256_min_epu8(mm256_tzcnt_epi8(b32), mm256_set1_epi32(8));
-                                        doneMask32 = Avx2.mm256_or_si256(doneMask32, loopCheck);
-                                    }
                                 }
 
                                 result = mm256_cvtepi32_epi8(Avx2.mm256_sllv_epi32(result32, shift));
@@ -176,25 +286,9 @@ namespace MaxMath
 
                                 a32 = srlv_epi32(a32, tzcntA32);
 
-                                while (true)
+                                while (Hint.Likely(!LOOP_gcd_epu8_epu32(ref a32, ref b32, ref result32, ref tzcntB32, ref doneMask32, out _, elements)))
                                 {
-                                    b32 = srlv_epi32(b32, tzcntB32);
-                                    v128 loopCheck = cmpeq_epi32(a32, b32);
 
-                                    minmax_epu32(a32, b32, out a32, out b32);
-                                    b32 = sub_epi32(b32, a32);
-
-                                    result32 = blendv_si128(result32, a32, loopCheck);
-                                    
-                                    if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask32)) == 1))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        tzcntB32 = min_epu8(tzcnt_epi8(b32), set1_epi32(8));
-                                        doneMask32 = or_si128(doneMask32, loopCheck);
-                                    }
                                 }
 
                                 result = cvtepi32_epi8(sllv_epi32(result32, shift), elements);
@@ -206,7 +300,7 @@ namespace MaxMath
                     else
                     {
                         v128 shift = min_epu8(tzcntA, tzcntB);
-                        
+
                         if (Sse4_1.IsSse41Supported)
                         {
                             doneMask = fillmissing_epi8(doneMask, elements);
@@ -214,35 +308,9 @@ namespace MaxMath
 
                         a = srlv_epi8(a, tzcntA, inRange: promiseNonZero, elements: elements);
 
-                        while (true)
+                        while (Hint.Likely(!LOOP_gcd_epu8(ref a, ref b, ref result, ref tzcntB, ref doneMask, out _, elements)))
                         {
-                            LOOP_gcd_epu8(ref a, ref b, ref result, out v128 loopCheck, tzcntB, elements);
 
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask)) == 1))
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    tzcntB = tzcnt_epi8(b);
-                                    doneMask = or_si128(doneMask, loopCheck);
-                                } 
-                            }
-                            else
-                            {
-                                doneMask = or_si128(doneMask, loopCheck);
-
-                                if (Hint.Unlikely(alltrue_epi128<byte>(doneMask, elements)))
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    tzcntB = tzcnt_epi8(b);
-                                } 
-                            }
                         }
 
                         result = sllv_epi8(result, shift, inRange: false, noOverflow: true, elements: elements);
@@ -261,7 +329,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void gcd_epu8x2(v128 a0, v128 a1, v128 b0, v128 b1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseNonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU8(a0, 0) && constexpr.ALL_GT_EPU8(b0, 0)
                                    && constexpr.ALL_GT_EPU8(a1, 0) && constexpr.ALL_GT_EPU8(b1, 0);
@@ -275,29 +343,21 @@ namespace MaxMath
 
                     v128 shift0 = min_epu8(tzcntA0, tzcntB0);
                     v128 shift1 = min_epu8(tzcntA1, tzcntB1);
-                    
+
                     a0 = srlv_epi8(a0, tzcntA0, inRange: promiseNonZero);
                     a1 = srlv_epi8(a1, tzcntA1, inRange: promiseNonZero);
-                    
+
                     while (true)
                     {
-                        LOOP_gcd_epu8(ref a0, ref b0, ref r0, out v128 loopCheck0, tzcntB0);
-                        LOOP_gcd_epu8(ref a1, ref b1, ref r1, out v128 loopCheck1, tzcntB1);
-                    
-                        doneMask0 = or_si128(doneMask0, loopCheck0);
-                        doneMask1 = or_si128(doneMask1, loopCheck1);
-                        
+                        LOOP_gcd_epu8(ref a0, ref b0, ref r0, ref tzcntB0, ref doneMask0, out v128 loopCheck0, 16);
+                        LOOP_gcd_epu8(ref a1, ref b1, ref r1, ref tzcntB1, ref doneMask1, out v128 loopCheck1, 16);
+
                         if (Hint.Unlikely(alltrue_epi128<byte>(and_si128(doneMask0, doneMask1))))
                         {
                             break;
                         }
-                        else
-                        {
-                            tzcntB0 = tzcnt_epi8(b0);
-                            tzcntB1 = tzcnt_epi8(b1);
-                        } 
                     }
-                    
+
                     POSTLOOP_gcd_epu8(ref r0, shift0, result_if_zero_any0, checkZeroMask0, promiseNonZero);
                     POSTLOOP_gcd_epu8(ref r1, shift1, result_if_zero_any1, checkZeroMask1, promiseNonZero);
                 }
@@ -334,25 +394,9 @@ namespace MaxMath
 
                     a = mm256_srlv_epi8(a, tzcntA);
 
-                    while (true)
+                    while (Hint.Likely(!mm256_LOOP_gcd_epu8(ref a, ref b, ref result, ref tzcntB, ref doneMask, out _)))
                     {
-                        b = mm256_srlv_epi8(b, tzcntB);
-                        v256 loopCheck = Avx2.mm256_cmpeq_epi8(a, b);
 
-                        mm256_minmax_epu8(a, b, out a, out b);
-                        b = Avx2.mm256_sub_epi8(b, a);
-
-                        result = mm256_blendv_si256(result, a, loopCheck);
-                        
-                        if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            tzcntB = mm256_tzcnt_epi8(b);
-                            doneMask = Avx2.mm256_or_si256(doneMask, loopCheck);
-                        }
                     }
 
                     result = mm256_sllv_epi8(result, shift, noOverflow: true);
@@ -366,11 +410,11 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_gcd_epu16(v128 a, v128 b, [NoAlias] out v128 tzcntA, [NoAlias] out v128 tzcntB, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, [NoAlias] out v128 result_if_zero_any, bool promiseNonZero)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
 
@@ -396,15 +440,43 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_gcd_epu16([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] out v128 loopCheck, v128 tzcntB, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = srlv_epi16(b, tzcntB, elements: elements);
                     loopCheck = cmpeq_epi16(a, b);
-                    
+
                     minmax_epu16(a, b, out a, out b);
                     b = sub_epi16(b, a);
-                    
+
                     result = blendv_si128(result, a, loopCheck);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool mm256_LOOP_gcd_epu16_epu32([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    b = Avx2.mm256_srlv_epi32(b, tzcntB);
+                    loopCheck = Avx2.mm256_cmpeq_epi32(a, b);
+
+                    mm256_minmax_epu32(a, b, out a, out b);
+                    b = Avx2.mm256_sub_epi32(b, a);
+
+                    result = mm256_blendv_si256(result, a, loopCheck);
+
+                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        tzcntB = Avx2.mm256_min_epu16(mm256_tzcnt_epi16(b), mm256_set1_epi32(16));
+                        doneMask = Avx2.mm256_or_si256(doneMask, loopCheck);
+
+                        return false;
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -412,10 +484,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void POSTLOOP_gcd_epu16(ref v128 result, v128 shift, v128 result_if_zero_any, v128 checkZeroMask, bool promiseNonZero, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     result = sllv_epi16(result, shift, inRange: false, elements: elements);
-                    
+
                     if (!promiseNonZero)
                     {
                         result = blendv_si128(result, result_if_zero_any, checkZeroMask);
@@ -427,7 +499,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gcd_epu16(v128 a, v128 b, bool promiseNonZero = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_GT_EPU16(b, 0, elements);
 
@@ -452,25 +524,9 @@ namespace MaxMath
 
                                 a32 = Avx2.mm256_srlv_epi32(a32, tzcntA32);
 
-                                while (true)
+                                while (Hint.Likely(!mm256_LOOP_gcd_epu16_epu32(ref a32, ref b32, ref result32, ref tzcntB32, ref doneMask32, out _)))
                                 {
-                                    b32 = Avx2.mm256_srlv_epi32(b32, tzcntB32);
-                                    v256 loopCheck = Avx2.mm256_cmpeq_epi32(a32, b32);
 
-                                    mm256_minmax_epu32(a32, b32, out a32, out b32);
-                                    b32 = Avx2.mm256_sub_epi32(b32, a32);
-
-                                    result32 = mm256_blendv_si256(result32, a32, loopCheck);
-                                    
-                                    if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask32)) == 1))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        tzcntB32 = Avx2.mm256_min_epu16(mm256_tzcnt_epi16(b32), mm256_set1_epi32(16));
-                                        doneMask32 = Avx2.mm256_or_si256(doneMask32, loopCheck);
-                                    }
                                 }
 
                                 result = mm256_cvtepi32_epi16(Avx2.mm256_sllv_epi32(result32, shift));
@@ -500,7 +556,7 @@ namespace MaxMath
                                     b32 = sub_epi32(b32, a32);
 
                                     result32 = blendv_si128(result32, a32, loopCheck);
-                                    
+
                                     if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask32)) == 1))
                                     {
                                         break;
@@ -521,7 +577,7 @@ namespace MaxMath
                     else
                     {
                         v128 shift = min_epu8(tzcntA, tzcntB);
-                        
+
                         if (Sse4_1.IsSse41Supported)
                         {
                             doneMask = fillmissing_epi16(doneMask, elements);
@@ -532,7 +588,7 @@ namespace MaxMath
                         while (true)
                         {
                             LOOP_gcd_epu16(ref a, ref b, ref result, out v128 loopCheck, tzcntB, elements);
-                            
+
                             if (Sse4_1.IsSse41Supported)
                             {
                                 if (Hint.Unlikely(testc_si128(loopCheck, not_si128(doneMask)) == 1))
@@ -543,7 +599,7 @@ namespace MaxMath
                                 {
                                     tzcntB = tzcnt_epi16(b);
                                     doneMask = or_si128(doneMask, loopCheck);
-                                } 
+                                }
                             }
                             else
                             {
@@ -556,7 +612,7 @@ namespace MaxMath
                                 else
                                 {
                                     tzcntB = tzcnt_epi16(b);
-                                } 
+                                }
                             }
                         }
 
@@ -576,7 +632,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void gcd_epu16x2(v128 a0, v128 a1, v128 b0, v128 b1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseNonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU16(a0, 0) && constexpr.ALL_GT_EPU16(b0, 0)
                                    && constexpr.ALL_GT_EPU16(a1, 0) && constexpr.ALL_GT_EPU16(b1, 0);
@@ -590,18 +646,18 @@ namespace MaxMath
 
                     v128 shift0 = min_epu16(tzcntA0, tzcntB0);
                     v128 shift1 = min_epu16(tzcntA1, tzcntB1);
-                    
+
                     a0 = srlv_epi16(a0, tzcntA0, inRange: promiseNonZero);
                     a1 = srlv_epi16(a1, tzcntA1, inRange: promiseNonZero);
-                    
+
                     while (true)
                     {
                         LOOP_gcd_epu16(ref a0, ref b0, ref r0, out v128 loopCheck0, tzcntB0);
                         LOOP_gcd_epu16(ref a1, ref b1, ref r1, out v128 loopCheck1, tzcntB1);
-                    
+
                         doneMask0 = or_si128(doneMask0, loopCheck0);
                         doneMask1 = or_si128(doneMask1, loopCheck1);
-                        
+
                         if (Hint.Unlikely(alltrue_epi128<short>(and_si128(doneMask0, doneMask1))))
                         {
                             break;
@@ -610,9 +666,9 @@ namespace MaxMath
                         {
                             tzcntB0 = tzcnt_epi16(b0);
                             tzcntB1 = tzcnt_epi16(b1);
-                        } 
+                        }
                     }
-                    
+
                     POSTLOOP_gcd_epu16(ref r0, shift0, result_if_zero_any0, checkZeroMask0, promiseNonZero);
                     POSTLOOP_gcd_epu16(ref r1, shift1, result_if_zero_any1, checkZeroMask1, promiseNonZero);
                 }
@@ -658,7 +714,7 @@ namespace MaxMath
                         b = Avx2.mm256_sub_epi16(b, a);
 
                         result = mm256_blendv_si256(result, a, loopCheck);
-                        
+
                         if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
                         {
                             break;
@@ -681,11 +737,11 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_gcd_epu32([NoAlias] ref v128 a, v128 b, [NoAlias] out v128 tzcntB, [NoAlias] out v128 shift, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, [NoAlias] out v128 result_if_zero_any, bool promiseNonZero, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
 
@@ -714,12 +770,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_gcd_epu32([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] out v128 loopCheck, v128 tzcntB, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = srlv_epi32(b, tzcntB, elements: elements);
                     loopCheck = cmpeq_epi32(a, b);
-                    
-                    if (Architecture.IsMinMaxSupported)
+
+                    if (BurstArchitecture.IsMinMaxSupported)
                     {
                         minmax_epu32(a, b, out a, out b);
                     }
@@ -727,7 +783,7 @@ namespace MaxMath
                     {
                         xchg_si128(ref a, ref b, cmpgt_epu32(a, b));
                     }
-                    
+
                     b = sub_epi32(b, a);
                     result = blendv_si128(result, a, loopCheck);
                 }
@@ -737,10 +793,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void POSTLOOP_gcd_epu32(ref v128 result, v128 shift, v128 result_if_zero_any, v128 checkZeroMask, bool promiseNonZero, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     result = sllv_epi32(result, shift, inRange: false, elements);
-                    
+
                     if (!promiseNonZero)
                     {
                         result = blendv_si128(result, result_if_zero_any, checkZeroMask);
@@ -752,15 +808,15 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gcd_epu32(v128 a, v128 b, bool promiseNonZero = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU32(a, 0, elements) && constexpr.ALL_GT_EPU32(b, 0, elements);
-                    
+
                     PRELOOP_gcd_epu32(ref a, b, out v128 tzcntB, out v128 shift, out v128 doneMask, out v128 result, out v128 result_if_zero_any, promiseNonZero, elements);
-                    
+
                     // if promiseNonZero
                     v128 checkZeroMask = doneMask;
-                    
+
                     if (Sse4_1.IsSse41Supported)
                     {
                         doneMask = fillmissing_epi32(doneMask, elements);
@@ -780,7 +836,7 @@ namespace MaxMath
                             {
                                 tzcntB = tzcnt_epi32(b, elements);
                                 doneMask = or_si128(doneMask, loopCheck);
-                            } 
+                            }
                         }
                         else
                         {
@@ -793,7 +849,7 @@ namespace MaxMath
                             else
                             {
                                 tzcntB = tzcnt_epi32(b, elements);
-                            } 
+                            }
                         }
                     }
 
@@ -805,18 +861,18 @@ namespace MaxMath
 
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void gcd_epu32x2(v128 a0, v128 a1, v128 b0,v128 b1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseNonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    promiseNonZero |= constexpr.ALL_GT_EPU32(a0, 0) && constexpr.ALL_GT_EPU32(b0, 0) 
+                    promiseNonZero |= constexpr.ALL_GT_EPU32(a0, 0) && constexpr.ALL_GT_EPU32(b0, 0)
                                    && constexpr.ALL_GT_EPU32(a1, 0) && constexpr.ALL_GT_EPU32(b1, 0);
 
                     PRELOOP_gcd_epu32(ref a0, b0, out v128 tzcntB0, out v128 shift0, out v128 doneMask0, out r0, out v128 result_if_zero_any0, promiseNonZero);
                     PRELOOP_gcd_epu32(ref a1, b1, out v128 tzcntB1, out v128 shift1, out v128 doneMask1, out r1, out v128 result_if_zero_any1, promiseNonZero);
-                    
+
                     // if promiseNonZero
                     v128 checkZeroMask0 = doneMask0;
                     v128 checkZeroMask1 = doneMask1;
@@ -825,10 +881,10 @@ namespace MaxMath
                     {
                         LOOP_gcd_epu32(ref a0, ref b0, ref r0, out v128 loopCheck0, tzcntB0);
                         LOOP_gcd_epu32(ref a1, ref b1, ref r1, out v128 loopCheck1, tzcntB1);
-                        
+
                         doneMask0 = or_si128(doneMask0, loopCheck0);
                         doneMask1 = or_si128(doneMask1, loopCheck1);
-                        
+
                         if (Hint.Unlikely(alltrue_epi128<int>(and_si128(doneMask0, doneMask1))))
                         {
                             break;
@@ -837,7 +893,7 @@ namespace MaxMath
                         {
                             tzcntB0 = tzcnt_epi32(b0);
                             tzcntB1 = tzcnt_epi32(b1);
-                        } 
+                        }
                     }
 
                     POSTLOOP_gcd_epu32(ref r0, shift0, result_if_zero_any0, checkZeroMask0, promiseNonZero);
@@ -885,7 +941,7 @@ namespace MaxMath
                         b = Avx2.mm256_sub_epi32(b, a);
 
                         result = mm256_blendv_si256(result, a, loopCheck);
-                        
+
                         if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
                         {
                             break;
@@ -912,7 +968,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_gcd_epu64([NoAlias] ref v128 a, v128 b, [NoAlias] out v128 tzcntB, [NoAlias] out v128 shift, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, [NoAlias] out v128 result_if_zero_any, bool promiseNonZero)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
 
@@ -941,11 +997,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_gcd_epu64([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 result, [NoAlias] out v128 loopCheck, v128 tzcntB)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     b = srlv_epi64(b, tzcntB);
                     loopCheck = cmpeq_epi64(a, b);
-                    
+
                     //if (Avx512.IsAvx512Supported)
                     //{
                     //    minmax_epu64(a, b, out a, out b);
@@ -954,7 +1010,7 @@ namespace MaxMath
                     //{
                           xchg_si128(ref a, ref b, cmpgt_epu64(a, b));
                     //}
-                    
+
                     b = sub_epi64(b, a);
                     result = blendv_si128(result, a, loopCheck);
                 }
@@ -964,10 +1020,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void POSTLOOP_gcd_epu64(ref v128 result, v128 shift, v128 result_if_zero_any, v128 checkZeroMask, bool promiseNonZero)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     result = sllv_epi64(result, shift, inRange: false);
-                    
+
                     if (!promiseNonZero)
                     {
                         result = blendv_si128(result, result_if_zero_any, checkZeroMask);
@@ -979,12 +1035,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 gcd_epu64(v128 a, v128 b, bool promiseNonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promiseNonZero |= constexpr.ALL_GT_EPU64(a, 0) && constexpr.ALL_GT_EPU64(b, 0);
 
                     PRELOOP_gcd_epu64(ref a, b, out v128 tzcntB, out v128 shift, out v128 doneMask, out v128 result, out v128 result_if_zero_any, promiseNonZero);
-                    
+
                     // if promiseNonZero
                     v128 checkZeroMask = doneMask;
 
@@ -1002,7 +1058,7 @@ namespace MaxMath
                             {
                                 tzcntB = tzcnt_epi64(b);
                                 doneMask = or_si128(doneMask, loopCheck);
-                            } 
+                            }
                         }
                         else
                         {
@@ -1015,7 +1071,7 @@ namespace MaxMath
                             else
                             {
                                 tzcntB = tzcnt_epi64(b);
-                            } 
+                            }
                         }
                     }
 
@@ -1029,14 +1085,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void gcd_epu64x2(v128 a0, v128 a1, v128 b0,v128 b1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseNonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    promiseNonZero |= constexpr.ALL_GT_EPU64(a0, 0) && constexpr.ALL_GT_EPU64(b0, 0) 
+                    promiseNonZero |= constexpr.ALL_GT_EPU64(a0, 0) && constexpr.ALL_GT_EPU64(b0, 0)
                                    && constexpr.ALL_GT_EPU64(a1, 0) && constexpr.ALL_GT_EPU64(b1, 0);
 
                     PRELOOP_gcd_epu64(ref a0, b0, out v128 tzcntB0, out v128 shift0, out v128 doneMask0, out r0, out v128 result_if_zero_any0, promiseNonZero);
                     PRELOOP_gcd_epu64(ref a1, b1, out v128 tzcntB1, out v128 shift1, out v128 doneMask1, out r1, out v128 result_if_zero_any1, promiseNonZero);
-                    
+
                     // if promiseNonZero
                     v128 checkZeroMask0 = doneMask0;
                     v128 checkZeroMask1 = doneMask1;
@@ -1045,10 +1101,10 @@ namespace MaxMath
                     {
                         LOOP_gcd_epu64(ref a0, ref b0, ref r0, out v128 loopCheck0, tzcntB0);
                         LOOP_gcd_epu64(ref a1, ref b1, ref r1, out v128 loopCheck1, tzcntB1);
-                        
+
                         doneMask0 = or_si128(doneMask0, loopCheck0);
                         doneMask1 = or_si128(doneMask1, loopCheck1);
-                        
+
                         if (Hint.Unlikely(alltrue_epi128<long>(and_si128(doneMask0, doneMask1))))
                         {
                             break;
@@ -1057,7 +1113,7 @@ namespace MaxMath
                         {
                             tzcntB0 = tzcnt_epi64(b0);
                             tzcntB1 = tzcnt_epi64(b1);
-                        } 
+                        }
                     }
 
                     POSTLOOP_gcd_epu64(ref r0, shift0, result_if_zero_any0, checkZeroMask0, promiseNonZero);
@@ -1114,7 +1170,7 @@ namespace MaxMath
 
                         b = Avx2.mm256_sub_epi64(b, a);
                         result = mm256_blendv_si256(result, a, loopCheck);
-                        
+
                         if (Hint.Unlikely(Avx.mm256_testc_si256(loopCheck, mm256_not_si256(doneMask)) == 1))
                         {
                             break;
@@ -1143,6 +1199,63 @@ namespace MaxMath
 
     unsafe public static partial class maxmath
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool LOOP_gcd_u128([NoAlias] ref UInt128 x, [NoAlias] ref UInt128 y, [NoAlias] ref int tzcntY)
+        {
+            y >>= tzcntY;
+            bool test = x == y;
+            minmax(x, y, out x, out y);
+            y -= x;
+
+            if (Hint.Unlikely(test))
+            {
+                return true;
+            }
+            else
+            {
+                tzcntY = tzcnt(y);
+                return false;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool LOOP_gcd_u64([NoAlias] ref ulong x, [NoAlias] ref ulong y, [NoAlias] ref int tzcntY)
+        {
+            y >>= tzcntY;
+            bool test = x == y;
+            minmax(x, y, out x, out y);
+            y -= x;
+
+            if (Hint.Unlikely(test))
+            {
+                return true;
+            }
+            else
+            {
+                tzcntY = math.tzcnt(y);
+                return false;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool LOOP_gcd_u32([NoAlias] ref uint x, [NoAlias] ref uint y, [NoAlias] ref int tzcntY)
+        {
+            y >>= tzcntY;
+            bool test = x == y;
+            minmax(x, y, out x, out y);
+            y -= x;
+
+            if (Hint.Unlikely(test))
+            {
+                return true;
+            }
+            else
+            {
+                tzcntY = math.tzcnt(y);
+                return false;
+            }
+        }
+
         /// <summary>       Returns the greatest common divisor of two <see cref="UInt128"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
@@ -1162,21 +1275,531 @@ namespace MaxMath
             int shift = math.min(tzcntX, tzcntY);
             x >>= tzcntX;
 
-            while (true)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
             {
-                y >>= tzcntY;
-                bool test = x == y;
-                minmax(x, y, out x, out y);
-                y -= x;
-
-                if (Hint.Unlikely(test))
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
                 {
                     return x << shift;
                 }
-                else
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
                 {
-                    tzcntY = tzcnt(y);
+                    return x << shift;
                 }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+
+                return x << shift;
+            }
+            else
+            {
+                while (Hint.Likely(!LOOP_gcd_u128(ref x, ref y, ref tzcntY)))
+                {
+
+                }
+
+                return x << shift;
             }
         }
 
@@ -1274,21 +1897,275 @@ namespace MaxMath
             int shift = math.min(tzcntX, tzcntY);
             x >>= tzcntX;
 
-            while (true)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
             {
-                y >>= tzcntY;
-                bool test = x == y;
-                minmax(x, y, out x, out y);
-                y -= x;
-                
-                if (Hint.Unlikely(test))
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
                 {
                     return x << shift;
                 }
-                else
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
                 {
-                    tzcntY = math.tzcnt(y);
+                    return x << shift;
                 }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+
+                return x << shift;
+            }
+            else
+            {
+                while (Hint.Likely(!LOOP_gcd_u64(ref x, ref y, ref tzcntY)))
+                {
+
+                }
+
+                return x << shift;
             }
         }
 
@@ -1300,7 +2177,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 gcd(ulong2 x, ulong2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ulong2 result = new ulong2(gcd(x.x, y.x), gcd(x.y, y.y));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu64(x, y, nonZero.Promises(Promise.NonZero));
             }
@@ -1318,11 +2204,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 gcd(ulong3 x, ulong3 y, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ulong3 result = new ulong3(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_gcd_epu64(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.gcd_epu64x2(x.xy, x.zz, y.xy, y.zz, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
@@ -1342,11 +2237,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 gcd(ulong4 x, ulong4 y, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ulong4 result = new ulong4(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z), gcd(x.w, y.w));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_gcd_epu64(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.gcd_epu64x2(x.xy, x.zw, y.xy, y.zw, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
@@ -1524,21 +2428,147 @@ namespace MaxMath
             int shift = math.min(tzcntX, tzcntY);
             x >>= tzcntX;
 
-            while (true)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
             {
-                y >>= tzcntY;
-                bool test = x == y;
-                minmax(x, y, out x, out y);
-                y -= x;
-                
-                if (Hint.Unlikely(test))
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
                 {
                     return x << shift;
                 }
-                else
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
                 {
-                    tzcntY = math.tzcnt(y);
+                    return x << shift;
                 }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+                if (Hint.Unlikely(LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+                    return x << shift;
+                }
+
+                return x << shift;
+            }
+            else
+            {
+                while (Hint.Likely(!LOOP_gcd_u32(ref x, ref y, ref tzcntY)))
+                {
+
+                }
+
+                return x << shift;
             }
         }
 
@@ -1550,7 +2580,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 gcd(uint2 x, uint2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                uint2 result = new uint2(gcd(x.x, y.x), gcd(x.y, y.y));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
             }
@@ -1568,7 +2607,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 gcd(uint3 x, uint3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                uint3 result = new uint3(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
             }
@@ -1586,7 +2634,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 gcd(uint4 x, uint4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                uint4 result = new uint4(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z), gcd(x.w, y.w));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
             }
@@ -1604,11 +2661,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 gcd(uint8 x, uint8 y, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                uint8 result = new uint8(gcd(x.x0, y.x0),
+                                         gcd(x.x1, y.x1),
+                                         gcd(x.x2, y.x2),
+                                         gcd(x.x3, y.x3),
+                                         gcd(x.x4, y.x4),
+                                         gcd(x.x5, y.x5),
+                                         gcd(x.x6, y.x6),
+                                         gcd(x.x7, y.x7));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_gcd_epu32(x, y, nonZero.Promises(Promise.NonZero));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.gcd_epu32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(y.v4_0), RegisterConversion.ToV128(y.v4_4), out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
@@ -1707,7 +2781,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 gcd(ushort2 x, ushort2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ushort2 result = new ushort2(gcd(x.x, y.x), gcd(x.y, y.y));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu16(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
@@ -1725,7 +2808,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 gcd(ushort3 x, ushort3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ushort3 result = new ushort3(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu16(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
@@ -1743,7 +2835,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 gcd(ushort4 x, ushort4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ushort4 result = new ushort4(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z), gcd(x.w, y.w));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu16(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
@@ -1761,7 +2862,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 gcd(ushort8 x, ushort8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ushort8 result = new ushort8(gcd(x.x0, y.x0),
+                                             gcd(x.x1, y.x1),
+                                             gcd(x.x2, y.x2),
+                                             gcd(x.x3, y.x3),
+                                             gcd(x.x4, y.x4),
+                                             gcd(x.x5, y.x5),
+                                             gcd(x.x6, y.x6),
+                                             gcd(x.x7, y.x7));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu16(x, y, nonZero.Promises(Promise.NonZero), 8);
             }
@@ -1786,11 +2904,36 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 gcd(ushort16 x, ushort16 y, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                ushort16 result = new ushort16(gcd(x.x0,  y.x0),
+                                               gcd(x.x1,  y.x1),
+                                               gcd(x.x2,  y.x2),
+                                               gcd(x.x3,  y.x3),
+                                               gcd(x.x4,  y.x4),
+                                               gcd(x.x5,  y.x5),
+                                               gcd(x.x6,  y.x6),
+                                               gcd(x.x7,  y.x7),
+                                               gcd(x.x8,  y.x8),
+                                               gcd(x.x9,  y.x9),
+                                               gcd(x.x10, y.x10),
+                                               gcd(x.x11, y.x11),
+                                               gcd(x.x12, y.x12),
+                                               gcd(x.x13, y.x13),
+                                               gcd(x.x14, y.x14),
+                                               gcd(x.x15, y.x15));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_gcd_epu16(x, y, nonZero.Promises(Promise.NonZero));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.gcd_epu16x2(x.v8_0, x.v8_8, y.v8_0, y.v8_8, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
@@ -1900,7 +3043,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 gcd(byte2 x, byte2 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte2 result = new byte2(gcd(x.x, y.x), gcd(x.y, y.y));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu8(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
@@ -1918,7 +3070,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 gcd(byte3 x, byte3 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte3 result = new byte3(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu8(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
@@ -1936,7 +3097,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 gcd(byte4 x, byte4 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte4 result = new byte4(gcd(x.x, y.x), gcd(x.y, y.y), gcd(x.z, y.z), gcd(x.w, y.w));
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu8(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
@@ -1954,7 +3124,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 gcd(byte8 x, byte8 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte8 result = new byte8(gcd(x.x0, y.x0),
+                                         gcd(x.x1, y.x1),
+                                         gcd(x.x2, y.x2),
+                                         gcd(x.x3, y.x3),
+                                         gcd(x.x4, y.x4),
+                                         gcd(x.x5, y.x5),
+                                         gcd(x.x6, y.x6),
+                                         gcd(x.x7, y.x7));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu8(x, y, nonZero.Promises(Promise.NonZero), 8);
             }
@@ -1979,7 +3166,32 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 gcd(byte16 x, byte16 y, Promise nonZero = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte16 result = new byte16(gcd(x.x0,  y.x0),
+                                           gcd(x.x1,  y.x1),
+                                           gcd(x.x2,  y.x2),
+                                           gcd(x.x3,  y.x3),
+                                           gcd(x.x4,  y.x4),
+                                           gcd(x.x5,  y.x5),
+                                           gcd(x.x6,  y.x6),
+                                           gcd(x.x7,  y.x7),
+                                           gcd(x.x8,  y.x8),
+                                           gcd(x.x9,  y.x9),
+                                           gcd(x.x10, y.x10),
+                                           gcd(x.x11, y.x11),
+                                           gcd(x.x12, y.x12),
+                                           gcd(x.x13, y.x13),
+                                           gcd(x.x14, y.x14),
+                                           gcd(x.x15, y.x15));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.gcd_epu8(x, y, nonZero.Promises(Promise.NonZero), 16);
             }
@@ -2012,11 +3224,52 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 gcd(byte32 x, byte32 y, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
+            {
+                byte32 result = new byte32(gcd(x.x0,  y.x0),
+                                           gcd(x.x1,  y.x1),
+                                           gcd(x.x2,  y.x2),
+                                           gcd(x.x3,  y.x3),
+                                           gcd(x.x4,  y.x4),
+                                           gcd(x.x5,  y.x5),
+                                           gcd(x.x6,  y.x6),
+                                           gcd(x.x7,  y.x7),
+                                           gcd(x.x8,  y.x8),
+                                           gcd(x.x9,  y.x9),
+                                           gcd(x.x10, y.x10),
+                                           gcd(x.x11, y.x11),
+                                           gcd(x.x12, y.x12),
+                                           gcd(x.x13, y.x13),
+                                           gcd(x.x14, y.x14),
+                                           gcd(x.x15, y.x15),
+                                           gcd(x.x16, y.x16),
+                                           gcd(x.x17, y.x17),
+                                           gcd(x.x18, y.x18),
+                                           gcd(x.x19, y.x19),
+                                           gcd(x.x20, y.x20),
+                                           gcd(x.x21, y.x21),
+                                           gcd(x.x22, y.x22),
+                                           gcd(x.x23, y.x23),
+                                           gcd(x.x24, y.x24),
+                                           gcd(x.x25, y.x25),
+                                           gcd(x.x26, y.x26),
+                                           gcd(x.x27, y.x27),
+                                           gcd(x.x28, y.x28),
+                                           gcd(x.x29, y.x29),
+                                           gcd(x.x30, y.x30),
+                                           gcd(x.x31, y.x31));
+
+                if (constexpr.IS_CONST(result))
+                {
+                    return result;
+                }
+            }
+
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_gcd_epu8(x, y, nonZero.Promises(Promise.NonZero));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.gcd_epu64x2(x.v16_0, x.v16_16, y.v16_0, y.v16_16, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 

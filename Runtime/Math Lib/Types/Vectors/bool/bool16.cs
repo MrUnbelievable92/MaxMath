@@ -2,11 +2,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using DevTools;
-
-using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
@@ -166,12 +164,15 @@ namespace MaxMath
         public bool2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_13 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
         public bool2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.tobool(maxmath.tobyte(this).v2_14); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = maxmath.tobyte(this); temp.v2_14 = maxmath.tobyte(value); this = maxmath.tobool(temp); } }
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(bool16 input) => new v128 { Byte0 = *(byte*)&input.x0, Byte1 = *(byte*)&input.x1, Byte2 = *(byte*)&input.x2, Byte3 = *(byte*)&input.x3, Byte4 = *(byte*)&input.x4, Byte5 = *(byte*)&input.x5, Byte6 = *(byte*)&input.x6, Byte7 = *(byte*)&input.x7, Byte8 = *(byte*)&input.x8, Byte9 = *(byte*)&input.x9, Byte10 = *(byte*)&input.x10, Byte11 = *(byte*)&input.x11, Byte12 = *(byte*)&input.x12, Byte13 = *(byte*)&input.x13, Byte14 = *(byte*)&input.x14, Byte15 = *(byte*)&input.x15 };
-
+        public static implicit operator v128(bool16 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator bool16(v128 input) => new bool16 { x0 = maxmath.tobool(input.Byte0), x1 = maxmath.tobool(input.Byte1), x2 = maxmath.tobool(input.Byte2), x3 = maxmath.tobool(input.Byte3), x4 = maxmath.tobool(input.Byte4), x5 = maxmath.tobool(input.Byte5), x6 = maxmath.tobool(input.Byte6), x7 = maxmath.tobool(input.Byte7), x8 = maxmath.tobool(input.Byte8), x9 = maxmath.tobool(input.Byte9), x10 = maxmath.tobool(input.Byte10), x11 = maxmath.tobool(input.Byte11), x12 = maxmath.tobool(input.Byte12), x13 = maxmath.tobool(input.Byte13), x14 = maxmath.tobool(input.Byte14), x15 = maxmath.tobool(input.Byte15) };
+        public static implicit operator bool16(v128 input) => RegisterConversion.ToAbstraction128<bool16>(input);
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator bool16(bool x) => new bool16(x);
@@ -181,7 +182,7 @@ namespace MaxMath
         public static bool16 operator == (bool16 left, bool16 right) => maxmath.tobyte(left) == maxmath.tobyte(right);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (bool16 left, bool16 right) => maxmath.tobyte(left) != maxmath.tobyte(right);
+        public static bool16 operator != (bool16 left, bool16 right) => left ^ right;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -197,7 +198,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 operator ! (bool16 val)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.andnot_si128(val, new byte16(1));
             }
@@ -213,31 +214,15 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-Assert.IsWithinArrayBounds(index, 16);
-
-                if (Architecture.IsSIMDSupported)
-                {
-                    return maxmath.tobool(Xse.extract_epi8(this, (byte)index));
-                }
-                else
-                {
-                    return this.GetField<bool16, bool>(index);
-                }
+                return maxmath.tobool(maxmath.tobyte(this)[index]);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-Assert.IsWithinArrayBounds(index, 16);
-
-                if (Architecture.IsSIMDSupported)
-                {
-                    this = Xse.insert_epi8(this, *(byte*)&value, (byte)index);
-                }
-                else
-                {
-                    this.SetField(value, index);
-                }
+                byte16 cpy = maxmath.tobyte(this);
+                cpy[index] = maxmath.tobyte(value);
+                this = maxmath.tobool(cpy);
             }
         }
 
@@ -248,7 +233,7 @@ Assert.IsWithinArrayBounds(index, 16);
         public override readonly bool Equals(object obj) => obj is bool16 converted && this.Equals(converted);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => maxmath.tobyte(this).GetHashCode();
+        public override readonly int GetHashCode() => maxmath.bitmask(this);
 
         public override readonly string ToString() => $"bool16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
     }

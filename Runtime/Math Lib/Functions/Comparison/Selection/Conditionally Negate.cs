@@ -1,3 +1,4 @@
+
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
@@ -28,7 +29,7 @@ Assert.IsSafeBoolean(p);
         }
 
 
-        /// <summary>       Negates the <see cref="quarter"/> <paramref name="x"/> if the <see cref="bool"/> <paramref name="p"/> is <see langword="true"/>.      </summary>
+        /// <summary>       Negates the <see cref="MaxMath.quarter"/> <paramref name="x"/> if the <see cref="bool"/> <paramref name="p"/> is <see langword="true"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter negate(quarter x, bool p)
         {
@@ -61,6 +62,20 @@ Assert.IsSafeBoolean(p);
         /// <summary>       Negates the components of a <see cref="MaxMath.quarter8"/> if the corresponding value in the <see cref="MaxMath.bool8"/> is <see langword="true"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 negate(quarter8 x, bool8 p)
+        {
+            return asquarter(asbyte(x) ^ (tobyte(p) << 7));
+        }
+
+        /// <summary>       Negates the components of a <see cref="MaxMath.quarter16"/> if the corresponding value in the <see cref="MaxMath.bool16"/> is <see langword="true"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 negate(quarter16 x, bool16 p)
+        {
+            return asquarter(asbyte(x) ^ (tobyte(p) << 7));
+        }
+
+        /// <summary>       Negates the components of a <see cref="MaxMath.quarter32"/> if the corresponding value in the <see cref="MaxMath.bool32"/> is <see langword="true"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 negate(quarter32 x, bool32 p)
         {
             return asquarter(asbyte(x) ^ (tobyte(p) << 7));
         }
@@ -99,6 +114,13 @@ Assert.IsSafeBoolean(p);
         /// <summary>       Negates the components of a <see cref="MaxMath.half8"/> if the corresponding value in the <see cref="MaxMath.bool8"/> is <see langword="true"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 negate(half8 x, bool8 p)
+        {
+            return ashalf(asushort(x) ^ (toushort(p) << 15));
+        }
+
+        /// <summary>       Negates the components of a <see cref="MaxMath.half16"/> if the corresponding value in the <see cref="MaxMath.bool16"/> is <see langword="true"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 negate(half16 x, bool16 p)
         {
             return ashalf(asushort(x) ^ (toushort(p) << 15));
         }

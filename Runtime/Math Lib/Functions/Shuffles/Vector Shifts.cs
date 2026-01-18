@@ -234,8 +234,6 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
         }
-
-
     }
 
 
@@ -288,7 +286,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshl(int2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
@@ -307,7 +305,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshl(int3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
@@ -328,7 +326,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vshl(int4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
@@ -354,7 +352,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(int) * n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -491,6 +489,20 @@ namespace MaxMath
             return asquarter(vshl(asbyte(x), n));
         }
 
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 vshl(quarter16 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 vshl(quarter32 x, int n)
+        {
+            return asquarter(vshl(asbyte(x), n));
+        }
+
 
         /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -516,6 +528,13 @@ namespace MaxMath
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vshl(half8 x, int n)
+        {
+            return ashalf(vshl(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 vshl(half16 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
@@ -576,7 +595,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshl(byte2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(byte));
             }
@@ -595,7 +614,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshl(byte3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(byte));
             }
@@ -616,7 +635,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte4 vshl(byte4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -645,7 +664,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vshl(byte8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -678,7 +697,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vshl(byte16 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(byte));
             }
@@ -716,7 +735,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -776,7 +795,7 @@ namespace MaxMath
                     return new byte32(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -940,7 +959,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshl(short2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(short));
             }
@@ -959,7 +978,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshl(short3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(short));
             }
@@ -980,7 +999,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short4 vshl(short4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1009,7 +1028,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vshl(short8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(short));
             }
@@ -1039,7 +1058,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(short) * n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1083,7 +1102,7 @@ namespace MaxMath
                     return new short16(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1200,7 +1219,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshl(long2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bslli_si128(x, n * sizeof(long));
             }
@@ -1229,7 +1248,7 @@ namespace MaxMath
                     default: return x;
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (n)
                 {
@@ -1261,7 +1280,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bslli_si256(x, sizeof(long) * n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1293,7 +1312,7 @@ namespace MaxMath
                     return new long4(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1407,7 +1426,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshr(int2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), (2 + n) * sizeof(int)));
             }
@@ -1426,7 +1445,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshr(int3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), (1 + n) * sizeof(int)));
             }
@@ -1447,7 +1466,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 vshr(int4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.bsrli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
             }
@@ -1473,7 +1492,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(int) * n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1616,6 +1635,20 @@ namespace MaxMath
             return asquarter(vshr(asbyte(x), n));
         }
 
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 vshr(quarter16 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 vshr(quarter32 x, int n)
+        {
+            return asquarter(vshr(asbyte(x), n));
+        }
+
 
         /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1641,6 +1674,13 @@ namespace MaxMath
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vshr(half8 x, int n)
+        {
+            return ashalf(vshr(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 vshr(half16 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
@@ -1701,7 +1741,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshr(byte2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(Xse.bslli_si128(x, 14 * sizeof(byte)), (14 + n) * sizeof(byte));
             }
@@ -1720,7 +1760,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshr(byte3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(Xse.bslli_si128(x, 13 * sizeof(byte)), (13 + n) * sizeof(byte));
             }
@@ -1741,7 +1781,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte4 vshr(byte4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1770,7 +1810,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vshr(byte8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1803,7 +1843,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vshr(byte16 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(x, n * sizeof(byte));
             }
@@ -1841,7 +1881,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1901,7 +1941,7 @@ namespace MaxMath
                     return new byte32(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -2065,7 +2105,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshr(short2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(Xse.bslli_si128(x, 6 * sizeof(short)), (6 + n) * sizeof(short));
             }
@@ -2084,7 +2124,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshr(short3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(Xse.bslli_si128(x, 5 * sizeof(short)), (5 + n) * sizeof(short));
             }
@@ -2105,7 +2145,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short4 vshr(short4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(Xse.bslli_si128(x, 4 * sizeof(short)), (4 + n) * sizeof(short));
             }
@@ -2127,7 +2167,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vshr(short8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(x, n * sizeof(short));
             }
@@ -2157,7 +2197,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(short) * n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -2201,7 +2241,7 @@ namespace MaxMath
                     return new short16(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -2319,7 +2359,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshr(long2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.bsrli_si128(x, n * sizeof(long));
             }
@@ -2348,7 +2388,7 @@ namespace MaxMath
                     default: return x;
                 }
             }
-            else if (Architecture.IsInsertExtractSupported)
+            else if (BurstArchitecture.IsInsertExtractSupported)
             {
                 switch (n)
                 {
@@ -2379,7 +2419,7 @@ namespace MaxMath
             {
                 return Xse.mm256_bsrli_si256(x, sizeof(long) * n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -2411,7 +2451,7 @@ namespace MaxMath
                     return new long4(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {

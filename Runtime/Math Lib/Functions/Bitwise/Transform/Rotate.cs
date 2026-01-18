@@ -13,8 +13,8 @@ namespace MaxMath
     {
         unsafe public static partial class Xse
         {
-            private const bool ROTATE_IN_RANGE = 
-#if TESTING 
+            private const bool ROTATE_IN_RANGE =
+#if TESTING
             false;
 #else
             true;
@@ -22,7 +22,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 ror_epi8(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return or_si128(srli_epi8(a, n, inRange: ROTATE_IN_RANGE), slli_epi8(a, 8 - n, inRange: ROTATE_IN_RANGE));
                 }
@@ -32,11 +32,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 ror_epi16(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -55,11 +55,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 ror_epi32(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -85,7 +85,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 ror_epi64(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
@@ -94,7 +94,7 @@ namespace MaxMath
                             return shuffle_epi32(a, Sse.SHUFFLE(2, 3, 0, 1));
                         }
 
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -198,7 +198,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 rol_epi8(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
@@ -218,11 +218,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 rol_epi16(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -241,11 +241,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 rol_epi32(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -271,7 +271,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 rol_epi64(v128 a, int n)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(n))
                     {
@@ -280,7 +280,7 @@ namespace MaxMath
                             return shuffle_epi32(a, Sse.SHUFFLE(2, 3, 0, 1));
                         }
 
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch (n)
                             {
@@ -421,7 +421,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 ror(byte2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi8(x, n);
             }
@@ -435,7 +435,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 ror(byte3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi8(x, n);
             }
@@ -449,7 +449,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 ror(byte4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi8(x, n);
             }
@@ -463,7 +463,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 ror(byte8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi8(x, n);
             }
@@ -484,7 +484,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 ror(byte16 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi8(x, n);
             }
@@ -585,7 +585,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 ror(ushort2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi16(x, n);
             }
@@ -599,7 +599,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 ror(ushort3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi16(x, n);
             }
@@ -613,7 +613,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 ror(ushort4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi16(x, n);
             }
@@ -627,7 +627,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 ror(ushort8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi16(x, n);
             }
@@ -729,7 +729,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ror(ulong2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.ror_epi64(x, n);
             }
@@ -816,7 +816,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 rol(byte2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi8(x, n);
             }
@@ -830,7 +830,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 rol(byte3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi8(x, n);
             }
@@ -844,7 +844,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 rol(byte4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi8(x, n);
             }
@@ -858,7 +858,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 rol(byte8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi8(x, n);
             }
@@ -879,7 +879,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 rol(byte16 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi8(x, n);
             }
@@ -980,7 +980,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 rol(ushort2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi16(x, n);
             }
@@ -994,7 +994,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 rol(ushort3 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi16(x, n);
             }
@@ -1008,7 +1008,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 rol(ushort4 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi16(x, n);
             }
@@ -1022,7 +1022,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 rol(ushort8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi16(x, n);
             }
@@ -1124,7 +1124,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 rol(ulong2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rol_epi64(x, n);
             }

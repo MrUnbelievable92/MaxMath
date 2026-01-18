@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 divs_epi32(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ALL_ONES = setall_si128();
                     v128 MIN_VALUE = slli_epi32(ALL_ONES, 31);
@@ -88,7 +88,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 divsaturated(sbyte2 x, sbyte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 2);
             }
@@ -103,7 +103,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 divsaturated(sbyte3 x, sbyte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 3);
             }
@@ -119,7 +119,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 divsaturated(sbyte4 x, sbyte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 4);
             }
@@ -136,7 +136,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 divsaturated(sbyte8 x, sbyte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 8);
             }
@@ -157,7 +157,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 divsaturated(sbyte16 x, sbyte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(x, y, saturated: true, 16);
             }
@@ -209,7 +209,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 divsaturated(short2 x, short2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 2);
             }
@@ -224,7 +224,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 divsaturated(short3 x, short3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 3);
             }
@@ -240,7 +240,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 divsaturated(short4 x, short4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 4);
             }
@@ -257,7 +257,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 divsaturated(short8 x, short8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi16(x, y, saturated: true, 8);
             }
@@ -301,7 +301,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 divsaturated(int2 x, int2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
@@ -316,7 +316,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 divsaturated(int3 x, int3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -332,7 +332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 divsaturated(int4 x, int4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -372,7 +372,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divsaturated(long2 x, long2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.divs_epi64(x, y);
             }

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -184,16 +185,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32(byte8 v8_0, byte16 v16_8, byte8 v8_24)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 mid = Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(v16_8), Sse.SHUFFLE(0, 1, 0, 0));
-                mid = Avx.mm256_insert_epi64(mid, *(long*)&v8_0, 0);
-                this = Avx.mm256_insert_epi64(mid, *(long*)&v8_24, 3);
-            }
-            else
-            {
-                this = new byte32(new byte16(v8_0, v16_8.v8_0), new byte16(v16_8.v8_8, v8_24));
-            }
+            this = new byte32(new byte16(v8_0, v16_8.v8_0), new byte16(v16_8.v8_8, v8_24));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,11 +250,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 1 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 1 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, 15 * sizeof(byte)),
@@ -284,7 +276,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value,      sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value, 15 * sizeof(byte)), new v128(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -319,11 +311,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 2 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 2 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(_v16_0,   2 * sizeof(byte)),
                                            Xse.bslli_si128(_v16_16, 14 * sizeof(byte)),
@@ -345,7 +337,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value,  2 * sizeof(byte)), 0b1111_1110);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value, 14 * sizeof(byte)), 0b0000_0001);
@@ -381,11 +373,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 3 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 3 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,   3 * sizeof(byte)),
                                             Xse.bslli_si128(v16_16, 13 * sizeof(byte)),
@@ -407,7 +399,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value,  3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value, 13 * sizeof(byte)), new v128(255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -442,11 +434,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 4 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 4 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(_v16_0,   4 * sizeof(byte)),
                                            Xse.bslli_si128(_v16_16, 12 * sizeof(byte)),
@@ -467,7 +459,7 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0001_1110);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value,  4 * sizeof(byte)), 0b1111_1100);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value, 12 * sizeof(byte)), 0b0000_0011);
@@ -502,11 +494,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 5 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 5 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,   5 * sizeof(byte)),
                                             Xse.bslli_si128(v16_16, 11 * sizeof(byte)),
@@ -528,7 +520,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value,  5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value, 11 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -563,11 +555,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 6 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 6 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(v16_0,   6 * sizeof(byte)),
                                            Xse.bslli_si128(v16_16, 10 * sizeof(byte)),
@@ -589,7 +581,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value,  6 * sizeof(byte)), 0b1111_1000);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value, 10 * sizeof(byte)), 0b0000_0111);
@@ -624,11 +616,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 7 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 7 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,  7 * sizeof(byte)),
                                             Xse.bslli_si128(v16_16, 9 * sizeof(byte)),
@@ -650,7 +642,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value,  7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value,  9 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -685,11 +677,11 @@ namespace MaxMath
                 {
                     return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(this, Sse.SHUFFLE(0, 3, 2, 1)));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 8 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.unpacklo_epi64(Xse.bsrli_si128(_v16_0,  8 * sizeof(byte)), _v16_16);
                 }
@@ -708,7 +700,7 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0011_1100);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value,  8 * sizeof(byte)), 0b1111_0000);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value,  8 * sizeof(byte)), 0b0000_1111);
@@ -743,11 +735,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 9 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 9 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,  9 * sizeof(byte)),
                                        Xse.bslli_si128(v16_16, 7 * sizeof(byte)),
@@ -769,7 +761,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value,  9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value,  7 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0));
@@ -804,11 +796,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 10 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 10 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(v16_0, 10 * sizeof(byte)),
                                            Xse.bslli_si128(v16_16, 6 * sizeof(byte)),
@@ -830,7 +822,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value, 10 * sizeof(byte)), 0b1110_0000);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value,  6 * sizeof(byte)), 0b0001_1111);
@@ -865,11 +857,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 11 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 11 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,  11 * sizeof(byte)),
                                        Xse.bslli_si128(v16_16, 5 * sizeof(byte)),
@@ -891,7 +883,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value,  5 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0));
@@ -926,11 +918,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 12 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 12 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(_v16_0, 12 * sizeof(byte)),
                                                 Xse.bslli_si128(_v16_16, 4 * sizeof(byte)),
@@ -951,7 +943,7 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0111_1000);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value, 12 * sizeof(byte)), 0b1100_0000);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value,  4 * sizeof(byte)), 0b0011_1111);
@@ -986,11 +978,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 13 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 13 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(v16_0,  13 * sizeof(byte)),
                                             Xse.bslli_si128(v16_16, 3 * sizeof(byte)),
@@ -1012,7 +1004,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value,  3 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0));
@@ -1047,11 +1039,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 14 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 14 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(_v16_0, 14 * sizeof(byte)),
                                            Xse.bslli_si128(_v16_16, 2 * sizeof(byte)),
@@ -1073,7 +1065,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blend_epi16(_v16_0,  Xse.bslli_si128(value, 14 * sizeof(byte)), 0b1000_0000);
                     this._v16_16 = Xse.blend_epi16(_v16_16, Xse.bsrli_si128(value,  2 * sizeof(byte)), 0b0111_1111);
@@ -1108,11 +1100,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 15 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 15 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  15 * sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, sizeof(byte)),
@@ -1134,7 +1126,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(_v16_0,  Xse.bslli_si128(value, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255));
                     this._v16_16 = Xse.blendv_si128(_v16_16, Xse.bsrli_si128(value,      sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0));
@@ -1407,11 +1399,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 9 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 9 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  9 * sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, 7 * sizeof(byte)),
@@ -1433,7 +1425,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value, 7 * sizeof(byte)), new v128(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1460,11 +1452,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 10 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 10 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blend_epi16(Xse.bsrli_si128(_v16_0, 10 * sizeof(byte)),
                                            Xse.bslli_si128(_v16_16, 6 * sizeof(byte)),
@@ -1486,7 +1478,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  6 * sizeof(byte)), new v128(255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1513,11 +1505,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 11 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 11 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return v16_11.v8_0;
                 }
@@ -1537,7 +1529,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  5 * sizeof(byte)), new v128(255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1564,11 +1556,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 12 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 12 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.unpacklo_epi32(Xse.bsrli_si128(_v16_0, 12 * sizeof(byte)), _v16_16);
                 }
@@ -1587,7 +1579,7 @@ namespace MaxMath
 
                     this = Avx2.mm256_blend_epi32(this, blend, 0b0001_1000);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  4 * sizeof(byte)), new v128(255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1614,11 +1606,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 13 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 13 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return v16_13.v8_0;
                 }
@@ -1638,7 +1630,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  3 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1665,11 +1657,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 14 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 14 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return v16_14.v8_0;
                 }
@@ -1689,7 +1681,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  2 * sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -1716,11 +1708,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 15 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 15 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return v16_15.v8_0;
                 }
@@ -1740,7 +1732,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,      sizeof(byte)), new v128(255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -2345,11 +2337,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 13 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 13 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  13 * sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, 3 * sizeof(byte)),
@@ -2371,7 +2363,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  3 * sizeof(byte)), new v128(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -2394,11 +2386,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 14 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 14 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.unpacklo_epi16(Xse.bsrli_si128(_v16_0,  14 * sizeof(byte)), _v16_16);
                 }
@@ -2418,7 +2410,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  2 * sizeof(byte)), new v128(255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -2441,11 +2433,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 15 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 15 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  15 * sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, sizeof(byte)),
@@ -2467,7 +2459,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,      sizeof(byte)), new v128(255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -3159,11 +3151,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 14 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 14 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.unpacklo_epi16(Xse.bsrli_si128(_v16_0,  14 * sizeof(byte)), _v16_16);
                 }
@@ -3183,7 +3175,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,  2 * sizeof(byte)), new v128(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -3205,11 +3197,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 15 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 15 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.blendv_si128(Xse.bsrli_si128(_v16_0,  15 * sizeof(byte)),
                                             Xse.bslli_si128(_v16_16, sizeof(byte)),
@@ -3231,7 +3223,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,      sizeof(byte)), new v128(255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -3958,11 +3950,11 @@ namespace MaxMath
                 {
                     return Xse.alignr_epi8(Avx.mm256_castsi256_si128(this), Avx2.mm256_extracti128_si256(this, 1), 15 * sizeof(byte));
                 }
-                else if (Architecture.IsTableLookupSupported)
+                else if (BurstArchitecture.IsTableLookupSupported)
                 {
                     return Xse.alignr_epi8(this._v16_0, this._v16_16, 15 * sizeof(byte));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.unpacklo_epi8(Xse.bsrli_si128(_v16_0, 15 * sizeof(byte)), _v16_16);
                 }
@@ -3982,7 +3974,7 @@ namespace MaxMath
 
                     this = Xse.mm256_blendv_si256(this, blend, mask);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_0  = Xse.blendv_si128(this._v16_0,  Xse.bslli_si128(value, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255));
                     this._v16_16 = Xse.blendv_si128(this._v16_16, Xse.bsrli_si128(value,      sizeof(byte)), new v128(255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
@@ -4124,7 +4116,7 @@ namespace MaxMath
                 {
                     this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 10);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_16 = Xse.insert_epi16(this._v16_16, *(ushort*)&value, 2);
                 }
@@ -4183,7 +4175,7 @@ namespace MaxMath
                 {
                     this = Xse.mm256_insert_epi16(this, *(ushort*)&value, 11);
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     this._v16_16 = Xse.insert_epi16(this._v16_16, *(ushort*)&value, 3);
                 }
@@ -4410,12 +4402,14 @@ namespace MaxMath
         }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(byte32 input) => new v256 { Byte0 = input.x0, Byte1 = input.x1, Byte2 = input.x2, Byte3 = input.x3, Byte4 = input.x4, Byte5 = input.x5, Byte6 = input.x6, Byte7 = input.x7, Byte8 = input.x8, Byte9 = input.x9, Byte10 = input.x10, Byte11 = input.x11, Byte12 = input.x12, Byte13 = input.x13, Byte14 = input.x14, Byte15 = input.x15, Byte16 = input.x16, Byte17 = input.x17, Byte18 = input.x18, Byte19 = input.x19, Byte20 = input.x20, Byte21 = input.x21, Byte22 = input.x22, Byte23 = input.x23, Byte24 = input.x24, Byte25 = input.x25, Byte26 = input.x26, Byte27 = input.x27, Byte28 = input.x28, Byte29 = input.x29, Byte30 = input.x30, Byte31 = input.x31 };
-
+        public static implicit operator v256(byte32 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte32(v256 input) => new byte32 { x0 = input.Byte0, x1 = input.Byte1, x2 = input.Byte2, x3 = input.Byte3, x4 = input.Byte4, x5 = input.Byte5, x6 = input.Byte6, x7 = input.Byte7, x8 = input.Byte8, x9 = input.Byte9, x10 = input.Byte10, x11 = input.Byte11, x12 = input.Byte12, x13 = input.Byte13, x14 = input.Byte14, x15 = input.Byte15, x16 = input.Byte16, x17 = input.Byte17, x18 = input.Byte18, x19 = input.Byte19, x20 = input.Byte20, x21 = input.Byte21, x22 = input.Byte22, x23 = input.Byte23, x24 = input.Byte24, x25 = input.Byte25, x26 = input.Byte26, x27 = input.Byte27, x28 = input.Byte28, x29 = input.Byte29, x30 = input.Byte30, x31 = input.Byte31 };
+        public static implicit operator byte32(v256 input) => RegisterConversion.ToAbstraction256<byte32>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4433,13 +4427,13 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    return Xse.mm256_extract_epi8(this, (byte)index);
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_extract_epi8(this, (byte)index);
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 16)
                         {
@@ -4451,8 +4445,18 @@ Assert.IsWithinArrayBounds(index, 32);
                         }
                     }
                 }
-                
-                return this.GetField<byte32, byte>(index);
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (byte* ptr = &x0)
+                    {
+                        return ptr[index];
+                    }
+                }
+                else
+                {
+                    return this.GetField<byte32, byte>(index);
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4460,15 +4464,15 @@ Assert.IsWithinArrayBounds(index, 32);
             {
 Assert.IsWithinArrayBounds(index, 32);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    this = Xse.mm256_insert_epi8(this, value, (byte)index);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        this = Xse.mm256_insert_epi8(this, value, (byte)index);
 
-                    return;
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                        return;
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 16)
                         {
@@ -4482,8 +4486,19 @@ Assert.IsWithinArrayBounds(index, 32);
                         return;
                     }
                 }
-                
-                this.SetField(value, index);
+
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (byte* ptr = &x0)
+                    {
+                        ptr[index] = value;
+                    }
+                }
+                else
+                {
+                    this.SetField(value, index);
+                }
             }
         }
 
@@ -4580,9 +4595,9 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 operator & (byte32 left, byte32 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_and_si256(left, right);
+                return Avx.mm256_and_ps(left, right);
             }
             else
             {
@@ -4593,9 +4608,9 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 operator | (byte32 left, byte32 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_or_si256(left, right);
+                return Avx.mm256_or_ps(left, right);
             }
             else
             {
@@ -4606,9 +4621,9 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 operator ^ (byte32 left, byte32 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_xor_si256(left, right);
+                return Avx.mm256_xor_ps(left, right);
             }
             else
             {
@@ -4708,7 +4723,7 @@ Assert.IsWithinArrayBounds(index, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 operator ~ (byte32 x)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_not_si256(x);
             }

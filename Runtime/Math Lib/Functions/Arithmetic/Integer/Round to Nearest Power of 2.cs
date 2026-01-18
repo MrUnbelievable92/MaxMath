@@ -23,8 +23,8 @@ namespace MaxMath
             x |= x >> 1;
             x |= x >> 2;
             x |= x >> 4;
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 sse = new v128(x.lo64, x.hi64);
                 sse = Xse.or_si128(sse, Xse.bsrli_si128(sse,  8 / 8));
@@ -437,8 +437,8 @@ namespace MaxMath
             x |= x >> 1;
             x |= x >> 2;
             x |= x >> 4;
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 sse = new v128(x.lo64, x.hi64);
                 sse = Xse.or_si128(sse, Xse.bsrli_si128(sse, 1));

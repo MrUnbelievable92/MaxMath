@@ -7,6 +7,31 @@ namespace MaxMath.Intrinsics
 {
     unsafe public static partial class Xse
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_blendb_si256(v256 a, v256 b, v256 mask)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return mm256_ternarylogic_si256(a, b, mask, TernaryOperation.OxD8);
+            }
+            else throw new IllegalInstructionException();
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 blendb_si128(v128 a, v128 b, v128 mask)
+        {
+            if (Sse2.IsSse2Supported)
+            {
+                return ternarylogic_si128(a, b, mask, TernaryOperation.OxD8);
+            }
+            else if (Arm.Neon.IsNeonSupported)
+            {
+                return Arm.Neon.vbslq_u8(mask, b, a);
+            }
+            else throw new IllegalInstructionException();
+		}
+
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 blendv_epi8(v128 a, v128 b, v128 mask)
 		{
@@ -14,7 +39,7 @@ namespace MaxMath.Intrinsics
 			{
 				return Sse4_1.blendv_epi8(a, b, mask);
 			}
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return blendv_si128(a, b, srai_epi8(mask, 7));
             }
@@ -28,7 +53,7 @@ namespace MaxMath.Intrinsics
             //if (Avx512.IsAvx512Supported)
             //{
             //    UNSAFE - performs bit-by-bit blend and not byte-by-byte
-            //    return mm256_ternarylogic_si256(A, B, C, TernaryOperation.OxD8);
+            //    return mm256_ternarylogic_si256(a, b, mask, TernaryOperation.OxD8);
             //}
             if (Avx2.IsAvx2Supported)
             {
@@ -49,16 +74,10 @@ namespace MaxMath.Intrinsics
             {
                 return Sse4_1.blendv_epi8(a, b, mask);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 // UNSAFE - performs bit-by-bit blend and not byte-by-byte
-                return or_si128(and_si128(mask, b),
-                                andnot_si128(mask, a));
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                // UNSAFE - performs bit-by-bit blend and not byte-by-byte
-                return Arm.Neon.vbslq_u8(mask, b, a);
+                return blendb_si128(a, b, mask);
             }
             else throw new IllegalInstructionException();
         }
@@ -75,7 +94,7 @@ namespace MaxMath.Intrinsics
             {
                 return Sse4_1.blendv_ps(a, b, mask);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return blendv_si128(a, b, srai_epi32(mask, 31));
             }
@@ -94,7 +113,7 @@ namespace MaxMath.Intrinsics
             {
                 return Sse4_1.blendv_pd(a, b, mask);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return blendv_si128(a, b, srai_epi64(mask, 63));
             }
@@ -124,7 +143,7 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-        
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 blend_pd(v128 a, v128 b, int imm8)
 		{
@@ -141,7 +160,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 blend_ps(v128 a, v128 b, int imm8)
 		{

@@ -245,6 +245,102 @@ namespace MaxMath.Tests
             Assert.AreEqual(maxmath.nexttoward((quarter8)(-1.747f), (quarter8)float.NegativeInfinity), maxmath.nexttoward((quarter8)(-1.747f), (quarter8)float.NegativeInfinity, Promise.Unsafe0 | Promise.Negative));
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f),                     maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f,                 Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f,                 Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f),                     maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f),              Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f),              Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity, Promise.NonZero));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f),                     maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f,                     Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f,                 Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f,                 Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity, Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f),                     maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f,                     Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f),              Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f),              Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity, Promise.Negative));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f),                     maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f,                 Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f,                 Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f),                     maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f),              Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f),              Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity, Promise.Unsafe0));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.PositiveInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f),                     maxmath.nexttoward((quarter16)1.747f,    (quarter16)0f,                     Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.748f,                 Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f),                 maxmath.nexttoward((quarter16)1.747f,    (quarter16)1.746f,                 Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)1.747f,    (quarter16)float.NegativeInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.PositiveInfinity, Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f),                     maxmath.nexttoward((quarter16)(-1.747f), (quarter16)0f,                     Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.748f),              Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f)),              maxmath.nexttoward((quarter16)(-1.747f), (quarter16)(-1.746f),              Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity), maxmath.nexttoward((quarter16)(-1.747f), (quarter16)float.NegativeInfinity, Promise.Unsafe0 | Promise.Negative));
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f),                     maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f,                 Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f,                 Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f),                     maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f),              Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f),              Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity, Promise.NonZero));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f),                     maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f,                     Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f,                 Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f,                 Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity, Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f),                     maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f,                     Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f),              Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f),              Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity, Promise.Negative));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f),                     maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f,                 Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f,                 Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f),                     maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f),              Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f),              Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity, Promise.Unsafe0));
+
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.PositiveInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f),                     maxmath.nexttoward((quarter32)1.747f,    (quarter32)0f,                     Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.748f,                 Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f),                 maxmath.nexttoward((quarter32)1.747f,    (quarter32)1.746f,                 Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)1.747f,    (quarter32)float.NegativeInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.PositiveInfinity, Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f),                     maxmath.nexttoward((quarter32)(-1.747f), (quarter32)0f,                     Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.748f),              Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f)),              maxmath.nexttoward((quarter32)(-1.747f), (quarter32)(-1.746f),              Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity), maxmath.nexttoward((quarter32)(-1.747f), (quarter32)float.NegativeInfinity, Promise.Unsafe0 | Promise.Negative));
+        }
+
 
         [Test]
         public static void _half()
@@ -484,6 +580,54 @@ namespace MaxMath.Tests
             Assert.AreEqual(maxmath.nexttoward((half8)(-1747f), (half8)(-1748f)),               maxmath.nexttoward((half8)(-1747f), (half8)(-1748f),               Promise.Unsafe0 | Promise.Negative));
             Assert.AreEqual(maxmath.nexttoward((half8)(-1747f), (half8)(-1746f)),               maxmath.nexttoward((half8)(-1747f), (half8)(-1746f),               Promise.Unsafe0 | Promise.Negative));
             Assert.AreEqual(maxmath.nexttoward((half8)(-1747f), (half8)float.NegativeInfinity), maxmath.nexttoward((half8)(-1747f), (half8)float.NegativeInfinity, Promise.Unsafe0 | Promise.Negative));
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)0f),                     maxmath.nexttoward((half16)1747f,    (half16)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1748f),                  maxmath.nexttoward((half16)1747f,    (half16)1748f,                  Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1746f),                  maxmath.nexttoward((half16)1747f,    (half16)1746f,                  Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity, Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)0f),                     maxmath.nexttoward((half16)(-1747f), (half16)0f,                     Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1748f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1748f),               Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1746f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1746f),               Promise.NonZero));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity, Promise.NonZero));
+
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)0f),                     maxmath.nexttoward((half16)1747f,    (half16)0f,                     Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1748f),                  maxmath.nexttoward((half16)1747f,    (half16)1748f,                  Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1746f),                  maxmath.nexttoward((half16)1747f,    (half16)1746f,                  Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity, Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity, Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)0f),                     maxmath.nexttoward((half16)(-1747f), (half16)0f,                     Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1748f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1748f),               Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1746f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1746f),               Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity, Promise.Negative));
+
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)0f),                     maxmath.nexttoward((half16)1747f,    (half16)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1748f),                  maxmath.nexttoward((half16)1747f,    (half16)1748f,                  Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1746f),                  maxmath.nexttoward((half16)1747f,    (half16)1746f,                  Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity, Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)0f),                     maxmath.nexttoward((half16)(-1747f), (half16)0f,                     Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1748f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1748f),               Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1746f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1746f),               Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity, Promise.Unsafe0));
+
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.PositiveInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)0f),                     maxmath.nexttoward((half16)1747f,    (half16)0f,                     Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1748f),                  maxmath.nexttoward((half16)1747f,    (half16)1748f,                  Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)1746f),                  maxmath.nexttoward((half16)1747f,    (half16)1746f,                  Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity), maxmath.nexttoward((half16)1747f,    (half16)float.NegativeInfinity, Promise.Unsafe0 | Promise.Positive));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.PositiveInfinity, Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)0f),                     maxmath.nexttoward((half16)(-1747f), (half16)0f,                     Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1748f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1748f),               Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)(-1746f)),               maxmath.nexttoward((half16)(-1747f), (half16)(-1746f),               Promise.Unsafe0 | Promise.Negative));
+            Assert.AreEqual(maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity), maxmath.nexttoward((half16)(-1747f), (half16)float.NegativeInfinity, Promise.Unsafe0 | Promise.Negative));
         }
 
 

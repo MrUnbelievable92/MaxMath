@@ -14,13 +14,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpe_epi8(v128 a)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     v128 MASK = new v128(-1, 0, 0, -1, 0, -1, -1, 0, 0, -1, -1, 0, -1, 0, 0, -1);
 
                     return shuffle_epi8(MASK, ternarylogic_si128(set1_epi8(0b0000_1111), a, srli_epi16(a, 4), TernaryOperation.Ox6O));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi16(a, 4));
                     a = xor_si128(a, srli_epi16(a, 2));
@@ -48,12 +48,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpe_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpe_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
                     }
@@ -83,13 +83,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpe_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi32(a, 16));
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpe_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 0, 0, 4, 4, 4, 4, 8, 8, 8, 8, 12, 12, 12, 12));
                     }
@@ -120,14 +120,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpe_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi64(a, 32));
                     a = xor_si128(a, srli_epi32(a, 16));
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpe_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8));
                     }
@@ -159,13 +159,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpo_epi8(v128 a)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     v128 MASK = new v128(0, -1, -1, 0, -1, 0, 0, -1, -1, 0, 0, -1, 0, -1, -1, 0);
 
                     return shuffle_epi8(MASK, ternarylogic_si128(set1_epi8(0b0000_1111), a, srli_epi16(a, 4), TernaryOperation.Ox6O));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi16(a, 4));
                     a = xor_si128(a, srli_epi16(a, 2));
@@ -193,12 +193,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpo_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpo_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
                     }
@@ -228,13 +228,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpo_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi32(a, 16));
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpo_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 0, 0, 4, 4, 4, 4, 8, 8, 8, 8, 12, 12, 12, 12));
                     }
@@ -265,14 +265,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bpo_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     a = xor_si128(a, srli_epi64(a, 32));
                     a = xor_si128(a, srli_epi32(a, 16));
                     a = xor_si128(a, srli_epi16(a, 8));
                     a = bpo_epi8(a);
 
-                    if (Architecture.IsTableLookupSupported)
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
                         return shuffle_epi8(a, new v128(0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8));
                     }
@@ -327,7 +327,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityodd(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
             }
@@ -341,7 +341,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityodd(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
             }
@@ -355,7 +355,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityodd(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
             }
@@ -369,7 +369,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 parityodd(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.bpo_epi8(x));
             }
@@ -383,7 +383,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 parityodd(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.bpo_epi8(x));
             }
@@ -421,7 +421,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityodd(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
             }
@@ -435,7 +435,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityodd(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
             }
@@ -449,7 +449,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityodd(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
             }
@@ -463,7 +463,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 parityodd(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.bpo_epi16(x));
             }
@@ -501,7 +501,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityodd(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
             }
@@ -515,7 +515,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityodd(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
             }
@@ -529,7 +529,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityodd(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
             }
@@ -558,7 +558,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool parityodd(ulong x)
         {
-            if (Architecture.IsPopcntSupported)
+            if (BurstArchitecture.IsPopcntSupported)
             {
                 return (math.countbits(x) & 1) == 1;
             }
@@ -574,7 +574,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityodd(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.bpo_epi64(x)));
             }
@@ -807,7 +807,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityeven(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
             }
@@ -821,7 +821,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityeven(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
             }
@@ -835,7 +835,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityeven(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
             }
@@ -849,7 +849,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 parityeven(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.bpe_epi8(x));
             }
@@ -863,7 +863,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 parityeven(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.bpe_epi8(x));
             }
@@ -901,7 +901,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityeven(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
             }
@@ -915,7 +915,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityeven(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
             }
@@ -929,7 +929,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityeven(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
             }
@@ -943,7 +943,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 parityeven(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.bpe_epi16(x));
             }
@@ -981,7 +981,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityeven(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
             }
@@ -995,7 +995,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 parityeven(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
             }
@@ -1009,7 +1009,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 parityeven(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
             }
@@ -1038,7 +1038,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool parityeven(ulong x)
         {
-            if (Architecture.IsPopcntSupported)
+            if (BurstArchitecture.IsPopcntSupported)
             {
                 return (math.countbits(x) & 1) == 0;
             }
@@ -1054,7 +1054,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 parityeven(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.bpe_epi64(x)));
             }

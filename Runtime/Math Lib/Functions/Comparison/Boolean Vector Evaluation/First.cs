@@ -49,8 +49,8 @@ VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
         public static int first(bool8 x)
         {
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (int)((uint)math.tzcnt(((v128)x).SLong0) / 8);
             }
@@ -103,7 +103,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             {
                 return math.tzcnt(Avx2.mm256_movemask_epi8(Xse.mm256_neg_epi8(x)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return math.tzcnt(Xse.movemask_epi8(Xse.neg_epi8(x.v16_0)) | (Xse.movemask_epi8(Xse.neg_epi8(x.v16_16)) << 16));
             }

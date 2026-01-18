@@ -4,7 +4,6 @@
 //#define SSE2NEON_PRECISE_RSQRT
 //#define SSE2NEON_PRECISE_RCP
 
-using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 
@@ -287,7 +286,7 @@ namespace MaxMath.Intrinsics
 					}
 					else throw new IllegalInstructionException();
 				}
-				
+
 				[MethodImpl(MethodImplOptions.AggressiveInlining)]
 				internal static v128 shuffle_epi32(v128 a, int imm8)
 				{
@@ -825,7 +824,7 @@ namespace MaxMath.Intrinsics
 					}
 					else throw new IllegalInstructionException();
 				}
-				
+
 				[MethodImpl(MethodImplOptions.AggressiveInlining)]
 				public static v128 shufflelo_epi16(v128 a, int imm8)
 				{
@@ -2047,8 +2046,8 @@ namespace MaxMath.Intrinsics
 					}
 					else throw new IllegalInstructionException();
 				}
-				
-				
+
+
 				[MethodImpl(MethodImplOptions.AggressiveInlining)]
 				internal static v128 vextq_f32(v128 a, v128 b, int imm8)
 				{
@@ -2546,7 +2545,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_ss(v128 a, v128 b)
 		{
@@ -2562,7 +2561,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_ps(v128 a, v128 b)
 		{
@@ -2576,7 +2575,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_ss(v128 a, v128 b)
 		{
@@ -2590,7 +2589,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_ps(v128 a, v128 b)
 		{
@@ -2604,7 +2603,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mul_ss(v128 a, v128 b)
 		{
@@ -2618,7 +2617,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mul_ps(v128 a, v128 b)
 		{
@@ -2632,7 +2631,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 div_ss(v128 a, v128 b)
 		{
@@ -2647,7 +2646,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 div_ps(v128 a, v128 b)
 		{
@@ -2668,7 +2667,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sqrt_ss(v128 a)
 		{
@@ -2683,7 +2682,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sqrt_ps(v128 a)
 		{
@@ -2707,7 +2706,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rcp_ss(v128 a)
 		{
@@ -2721,7 +2720,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rcp_ps(v128 a)
 		{
@@ -2739,7 +2738,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rsqrt_ss(v128 a)
 		{
@@ -2753,7 +2752,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rsqrt_ps(v128 a)
 		{
@@ -2777,7 +2776,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 min_ss(v128 a, v128 b)
 		{
@@ -2792,7 +2791,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 min_ps(v128 a, v128 b)
 		{
@@ -2810,7 +2809,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 max_ss(v128 a, v128 b)
 		{
@@ -2825,7 +2824,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 max_ps(v128 a, v128 b)
 		{
@@ -2843,7 +2842,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 and_ps(v128 a, v128 b)
 		{
@@ -2857,7 +2856,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 andnot_ps(v128 a, v128 b)
 		{
@@ -2871,7 +2870,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 or_ps(v128 a, v128 b)
 		{
@@ -2885,7 +2884,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 xor_ps(v128 a, v128 b)
 		{
@@ -2899,7 +2898,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_ss(v128 a, v128 b)
 		{
@@ -2913,7 +2912,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_ps(v128 a, v128 b)
 		{
@@ -2927,7 +2926,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmplt_ss(v128 a, v128 b)
 		{
@@ -2941,7 +2940,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmplt_ps(v128 a, v128 b)
 		{
@@ -2955,7 +2954,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmple_ss(v128 a, v128 b)
 		{
@@ -2969,7 +2968,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmple_ps(v128 a, v128 b)
 		{
@@ -2983,7 +2982,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_ss(v128 a, v128 b)
 		{
@@ -2997,7 +2996,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_ps(v128 a, v128 b)
 		{
@@ -3011,7 +3010,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpge_ss(v128 a, v128 b)
 		{
@@ -3025,7 +3024,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpge_ps(v128 a, v128 b)
 		{
@@ -3039,7 +3038,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpneq_ss(v128 a, v128 b)
 		{
@@ -3053,7 +3052,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpneq_ps(v128 a, v128 b)
 		{
@@ -3067,7 +3066,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnlt_ss(v128 a, v128 b)
 		{
@@ -3081,7 +3080,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnlt_ps(v128 a, v128 b)
 		{
@@ -3095,7 +3094,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnle_ss(v128 a, v128 b)
 		{
@@ -3109,7 +3108,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnle_ps(v128 a, v128 b)
 		{
@@ -3123,7 +3122,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpngt_ss(v128 a, v128 b)
 		{
@@ -3137,7 +3136,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpngt_ps(v128 a, v128 b)
 		{
@@ -3151,7 +3150,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnge_ss(v128 a, v128 b)
 		{
@@ -3165,7 +3164,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnge_ps(v128 a, v128 b)
 		{
@@ -3179,7 +3178,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpord_ss(v128 a, v128 b)
 		{
@@ -3193,7 +3192,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpord_ps(v128 a, v128 b)
 		{
@@ -3209,7 +3208,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpunord_ss(v128 a, v128 b)
 		{
@@ -3223,7 +3222,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpunord_ps(v128 a, v128 b)
 		{
@@ -3239,7 +3238,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comieq_ss(v128 a, v128 b)
 		{
@@ -3254,7 +3253,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comilt_ss(v128 a, v128 b)
 		{
@@ -3269,7 +3268,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comile_ss(v128 a, v128 b)
 		{
@@ -3284,7 +3283,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comigt_ss(v128 a, v128 b)
 		{
@@ -3299,7 +3298,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comige_ss(v128 a, v128 b)
 		{
@@ -3314,7 +3313,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comineq_ss(v128 a, v128 b)
 		{
@@ -3328,7 +3327,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int cvt_ss2si(v128 a)
 		{
@@ -3342,7 +3341,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvtss_si64(v128 a)
 		{
@@ -3356,7 +3355,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float cvtss_f32(v128 a)
 		{
@@ -3370,7 +3369,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int cvtt_ss2si(v128 a)
 		{
@@ -3384,7 +3383,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvttss_si64(v128 a)
 		{
@@ -3398,7 +3397,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_ss(float a)
 		{
@@ -3412,7 +3411,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_ps(float e3, float e2, float e1, float e0)
 		{
@@ -3426,7 +3425,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setr_ps(float e3, float e2, float e1, float e0)
 		{
@@ -3440,7 +3439,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 move_ss(v128 a, v128 b)
 		{
@@ -3454,7 +3453,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int SHUFFLE(int d, int c, int b, int a)
 		{
@@ -3468,7 +3467,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 shuffle_ps(v128 a, v128 b, int imm8)
 		{
@@ -3594,7 +3593,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_ps(v128 a, v128 b)
 		{
@@ -3608,7 +3607,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_ps(v128 a, v128 b)
 		{
@@ -3622,7 +3621,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 movehl_ps(v128 a, v128 b)
 		{
@@ -3636,7 +3635,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 movelh_ps(v128 a, v128 b)
 		{
@@ -3652,7 +3651,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int movemask_ps(v128 a)
 		{
@@ -3667,7 +3666,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setzero_ps()
 		{
@@ -3681,7 +3680,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvtsd_si64(v128 a)
 		{
@@ -3695,7 +3694,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvttsd_si64(v128 a)
 		{
@@ -3709,7 +3708,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_epi8(v128 a, v128 b)
 		{
@@ -3723,7 +3722,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_epi16(v128 a, v128 b)
 		{
@@ -3737,7 +3736,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_epi32(v128 a, v128 b)
 		{
@@ -3751,7 +3750,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_epi64(v128 a, v128 b)
 		{
@@ -3765,7 +3764,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 madd_epi16(v128 a, v128 b)
 		{
@@ -3781,7 +3780,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sad_epu8(v128 a, v128 b)
 		{
@@ -3791,12 +3790,25 @@ namespace MaxMath.Intrinsics
 			}
             else if (IsNeonSupported)
             {
-                v128 t = vpaddlq_u8(vabdq_u8(a, b));
-                return vpaddlq_u32(vpaddlq_u16(t));
+				v128 dif;
+				if (constexpr.ALL_EQ_EPU8(a, 0))
+				{
+					dif = b;
+				}
+				else if (constexpr.ALL_EQ_EPU8(b, 0))
+				{
+					dif = a;
+				}
+				else
+				{
+					dif = vabdq_u8(a, b);
+				}
+
+                return vpaddlq_u32(vpaddlq_u16(vpaddlq_u8(dif)));
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_epi8(v128 a, v128 b)
 		{
@@ -3810,7 +3822,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_epi16(v128 a, v128 b)
 		{
@@ -3824,7 +3836,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_epi32(v128 a, v128 b)
 		{
@@ -3838,7 +3850,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_epi64(v128 a, v128 b)
 		{
@@ -3852,7 +3864,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 and_si128(v128 a, v128 b)
 		{
@@ -3866,7 +3878,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 andnot_si128(v128 a, v128 b)
 		{
@@ -3880,7 +3892,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 or_si128(v128 a, v128 b)
 		{
@@ -3894,7 +3906,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 xor_si128(v128 a, v128 b)
 		{
@@ -3908,7 +3920,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_epi8(v128 a, v128 b)
 		{
@@ -3922,7 +3934,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_epi16(v128 a, v128 b)
 		{
@@ -3936,7 +3948,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_epi32(v128 a, v128 b)
 		{
@@ -3950,7 +3962,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_epi8(v128 a, v128 b)
 		{
@@ -3964,7 +3976,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_epi16(v128 a, v128 b)
 		{
@@ -3978,7 +3990,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_epi32(v128 a, v128 b)
 		{
@@ -3992,7 +4004,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setzero_si128()
 		{
@@ -4006,7 +4018,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtepi32_pd(v128 a)
 		{
@@ -4020,7 +4032,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtsi32_sd(v128 a, int b)
 		{
@@ -4034,7 +4046,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtsi64x_sd(v128 a, long b)
 		{
@@ -4048,7 +4060,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtepi32_ps(v128 a)
 		{
@@ -4062,7 +4074,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int cvtsi128_si32(v128 a)
 		{
@@ -4076,7 +4088,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvtsi128_si64x(v128 a)
 		{
@@ -4090,7 +4102,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_epi64x(long e1, long e0)
 		{
@@ -4104,7 +4116,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_epi32(int e3, int e2, int e1, int e0)
 		{
@@ -4118,7 +4130,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_epi16(short e7, short e6, short e5, short e4, short e3, short e2, short e1, short e0)
 		{
@@ -4132,7 +4144,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_epi8(sbyte e15_, sbyte e14_, sbyte e13_, sbyte e12_, sbyte e11_, sbyte e10_, sbyte e9_, sbyte e8_, sbyte e7_, sbyte e6_, sbyte e5_, sbyte e4_, sbyte e3_, sbyte e2_, sbyte e1_, sbyte e0_)
 		{
@@ -4149,7 +4161,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setr_epi32(int e3, int e2, int e1, int e0)
 		{
@@ -4163,7 +4175,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setr_epi16(short e7, short e6, short e5, short e4, short e3, short e2, short e1, short e0)
 		{
@@ -4177,7 +4189,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setr_epi8(sbyte e15_, sbyte e14_, sbyte e13_, sbyte e12_, sbyte e11_, sbyte e10_, sbyte e9_, sbyte e8_, sbyte e7_, sbyte e6_, sbyte e5_, sbyte e4_, sbyte e3_, sbyte e2_, sbyte e1_, sbyte e0_)
 		{
@@ -4194,7 +4206,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 move_epi64(v128 a)
 		{
@@ -4208,7 +4220,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 packs_epi16(v128 a, v128 b)
 		{
@@ -4222,7 +4234,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 packs_epi32(v128 a, v128 b)
 		{
@@ -4236,7 +4248,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 packus_epi16(v128 a, v128 b)
 		{
@@ -4269,7 +4281,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 shuffle_epi32(v128 a, int imm8)
 		{
@@ -4362,7 +4374,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 shufflehi_epi16(v128 a, int imm8)
 		{
@@ -4382,7 +4394,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 shufflelo_epi16(v128 a, int imm8)
 		{
@@ -4402,7 +4414,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_epi8(v128 a, v128 b)
 		{
@@ -4416,7 +4428,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_epi16(v128 a, v128 b)
 		{
@@ -4430,7 +4442,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_epi32(v128 a, v128 b)
 		{
@@ -4444,7 +4456,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_epi64(v128 a, v128 b)
 		{
@@ -4458,7 +4470,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_epi8(v128 a, v128 b)
 		{
@@ -4472,7 +4484,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_epi16(v128 a, v128 b)
 		{
@@ -4486,7 +4498,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_epi32(v128 a, v128 b)
 		{
@@ -4500,7 +4512,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_epi64(v128 a, v128 b)
 		{
@@ -4514,7 +4526,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_sd(v128 a, v128 b)
 		{
@@ -4528,7 +4540,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 add_pd(v128 a, v128 b)
 		{
@@ -4542,7 +4554,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 div_sd(v128 a, v128 b)
 		{
@@ -4557,7 +4569,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 div_pd(v128 a, v128 b)
 		{
@@ -4585,7 +4597,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 max_pd(v128 a, v128 b)
 		{
@@ -4605,7 +4617,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 min_sd(v128 a, v128 b)
 		{
@@ -4619,7 +4631,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 min_pd(v128 a, v128 b)
 		{
@@ -4639,7 +4651,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mul_sd(v128 a, v128 b)
 		{
@@ -4653,7 +4665,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mul_pd(v128 a, v128 b)
 		{
@@ -4667,7 +4679,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sqrt_sd(v128 a, v128 b)
 		{
@@ -4681,7 +4693,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sqrt_pd(v128 a)
 		{
@@ -4695,7 +4707,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_sd(v128 a, v128 b)
 		{
@@ -4709,7 +4721,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sub_pd(v128 a, v128 b)
 		{
@@ -4723,7 +4735,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 and_pd(v128 a, v128 b)
 		{
@@ -4737,7 +4749,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 andnot_pd(v128 a, v128 b)
 		{
@@ -4751,7 +4763,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 or_pd(v128 a, v128 b)
 		{
@@ -4765,7 +4777,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 xor_pd(v128 a, v128 b)
 		{
@@ -4779,7 +4791,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_sd(v128 a, v128 b)
 		{
@@ -4793,7 +4805,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmplt_sd(v128 a, v128 b)
 		{
@@ -4807,7 +4819,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmple_sd(v128 a, v128 b)
 		{
@@ -4821,7 +4833,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_sd(v128 a, v128 b)
 		{
@@ -4835,7 +4847,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpge_sd(v128 a, v128 b)
 		{
@@ -4849,7 +4861,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpord_sd(v128 a, v128 b)
 		{
@@ -4863,7 +4875,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpunord_sd(v128 a, v128 b)
 		{
@@ -4877,7 +4889,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpneq_sd(v128 a, v128 b)
 		{
@@ -4891,7 +4903,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnlt_sd(v128 a, v128 b)
 		{
@@ -4905,7 +4917,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnle_sd(v128 a, v128 b)
 		{
@@ -4919,7 +4931,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpngt_sd(v128 a, v128 b)
 		{
@@ -4933,7 +4945,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnge_sd(v128 a, v128 b)
 		{
@@ -4947,7 +4959,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpeq_pd(v128 a, v128 b)
 		{
@@ -4961,7 +4973,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmplt_pd(v128 a, v128 b)
 		{
@@ -4975,7 +4987,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmple_pd(v128 a, v128 b)
 		{
@@ -4989,7 +5001,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpgt_pd(v128 a, v128 b)
 		{
@@ -5003,7 +5015,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpge_pd(v128 a, v128 b)
 		{
@@ -5017,7 +5029,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpord_pd(v128 a, v128 b)
 		{
@@ -5033,7 +5045,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpunord_pd(v128 a, v128 b)
 		{
@@ -5049,7 +5061,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpneq_pd(v128 a, v128 b)
 		{
@@ -5063,7 +5075,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnlt_pd(v128 a, v128 b)
 		{
@@ -5077,7 +5089,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnle_pd(v128 a, v128 b)
 		{
@@ -5091,7 +5103,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpngt_pd(v128 a, v128 b)
 		{
@@ -5105,7 +5117,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cmpnge_pd(v128 a, v128 b)
 		{
@@ -5119,7 +5131,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comieq_sd(v128 a, v128 b)
 		{
@@ -5133,7 +5145,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comilt_sd(v128 a, v128 b)
 		{
@@ -5147,7 +5159,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comile_sd(v128 a, v128 b)
 		{
@@ -5161,7 +5173,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comigt_sd(v128 a, v128 b)
 		{
@@ -5175,7 +5187,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comige_sd(v128 a, v128 b)
 		{
@@ -5189,7 +5201,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int comineq_sd(v128 a, v128 b)
 		{
@@ -5203,7 +5215,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtpd_ps(v128 a)
 		{
@@ -5218,7 +5230,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtps_pd(v128 a)
 		{
@@ -5232,7 +5244,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtpd_epi32(v128 a)
 		{
@@ -5247,7 +5259,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int cvtsd_si32(v128 a)
 		{
@@ -5261,7 +5273,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvtsd_si64x(v128 a)
 		{
@@ -5275,7 +5287,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtsd_ss(v128 a, v128 b)
 		{
@@ -5289,7 +5301,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double cvtsd_f64(v128 a)
 		{
@@ -5303,7 +5315,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtss_sd(v128 a, v128 b)
 		{
@@ -5318,7 +5330,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvttpd_epi32(v128 a)
 		{
@@ -5332,7 +5344,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int cvttsd_si32(v128 a)
 		{
@@ -5346,7 +5358,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static long cvttsd_si64x(v128 a)
 		{
@@ -5360,7 +5372,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvtps_epi32(v128 a)
 		{
@@ -5374,7 +5386,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 cvttps_epi32(v128 a)
 		{
@@ -5401,7 +5413,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 set_pd(double e1, double e0)
 		{
@@ -5415,7 +5427,7 @@ namespace MaxMath.Intrinsics
 			}
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 setr_pd(double e1, double e0)
 		{
@@ -5429,7 +5441,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpackhi_pd(v128 a, v128 b)
 		{
@@ -5443,7 +5455,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 unpacklo_pd(v128 a, v128 b)
 		{
@@ -5457,7 +5469,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int movemask_pd(v128 a)
 		{
@@ -5472,7 +5484,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 shuffle_pd(v128 a, v128 b, int imm8)
 		{
@@ -5486,7 +5498,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 move_sd(v128 a, v128 b)
 		{
@@ -5500,7 +5512,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hadd_pd(v128 a, v128 b)
 		{
@@ -5514,7 +5526,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hadd_ps(v128 a, v128 b)
 		{
@@ -5528,7 +5540,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hsub_pd(v128 a, v128 b)
 		{
@@ -5542,7 +5554,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hsub_ps(v128 a, v128 b)
 		{
@@ -5556,7 +5568,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 movedup_pd(v128 a)
 		{
@@ -5570,7 +5582,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 movehdup_ps(v128 a)
 		{
@@ -5584,7 +5596,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 moveldup_ps(v128 a)
 		{
@@ -5598,21 +5610,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static v128 shuffle_epi8(v128 a, v128 b)
-		{
-			if (Ssse3.IsSsse3Supported)
-			{
-				return Ssse3.shuffle_epi8(a, b);
-			}
-            else if (IsNeonSupported)
-            {
-                return vqtbl1q_s8(a, vandq_u8(b, vdupq_n_u8(0x8F)));
-            }
-			else throw new IllegalInstructionException();
-		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 alignr_epi8(v128 a, v128 b, int count)
 		{
@@ -5628,7 +5626,7 @@ namespace MaxMath.Intrinsics
 					case 5:  return Ssse3.alignr_epi8(a, b, 5);
 					case 6:  return Ssse3.alignr_epi8(a, b, 6);
 					case 7:  return Ssse3.alignr_epi8(a, b, 7);
-					case 8:  return Ssse3.alignr_epi8(a, b, 8);
+					case 8:  return Sse.shuffle_ps(a, b, Sse.SHUFFLE(1, 0, 3, 2));
 					case 9:  return Ssse3.alignr_epi8(a, b, 9);
 					case 10: return Ssse3.alignr_epi8(a, b, 10);
 					case 11: return Ssse3.alignr_epi8(a, b, 11);
@@ -5656,7 +5654,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hadd_epi16(v128 a, v128 b)
 		{
@@ -5670,7 +5668,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hadds_epi16(v128 a, v128 b)
 		{
@@ -5684,7 +5682,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hadd_epi32(v128 a, v128 b)
 		{
@@ -5698,7 +5696,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hsub_epi16(v128 a, v128 b)
 		{
@@ -5712,7 +5710,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hsubs_epi16(v128 a, v128 b)
 		{
@@ -5726,7 +5724,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 hsub_epi32(v128 a, v128 b)
 		{
@@ -5758,7 +5756,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sign_epi16(v128 a, v128 b)
 		{
@@ -5776,7 +5774,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 sign_epi32(v128 a, v128 b)
 		{
@@ -5794,7 +5792,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 dp_pd(v128 a, v128 b, int imm8)
 		{
@@ -5817,7 +5815,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 dp_ps(v128 a, v128 b, int imm8)
 		{
@@ -5873,7 +5871,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int testz_si128(v128 a, v128 b)
 		{
@@ -5889,7 +5887,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int testc_si128(v128 a, v128 b)
 		{
@@ -5905,7 +5903,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int testnzc_si128(v128 a, v128 b)
 		{
@@ -5919,7 +5917,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int test_all_zeros(v128 a, v128 mask)
 		{
@@ -5935,7 +5933,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int test_mix_ones_zeroes(v128 a, v128 mask)
 		{
@@ -5953,7 +5951,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int test_all_ones(v128 a)
 		{

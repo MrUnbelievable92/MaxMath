@@ -22,17 +22,17 @@ namespace MaxMath
         internal const Promise ZERO_OR_GREATER = Promise.ZeroOrGreater;
         internal const Promise ZERO_OR_LESS = Promise.ZeroOrLess;
         internal const Promise NORMAL = NOT_SUBNORMAL | NOT_NAN | NOT_INF | NON_ZERO;
-    
+
         private Promise _promises;
         private T? _minPossible;
         private T? _maxPossible;
-    
+
         // can deduce some promises from min and max
-        internal T MinPossible 
-        { 
+        internal T MinPossible
+        {
             readonly get
             {
-                if (_minPossible.HasValue 
+                if (_minPossible.HasValue
                  && constexpr.IS_CONST(_minPossible.Value))
                 {
                     return _minPossible.Value;
@@ -62,10 +62,10 @@ namespace MaxMath
         }
 
         internal T MaxPossible
-        { 
+        {
             readonly get
             {
-                if (_maxPossible.HasValue 
+                if (_maxPossible.HasValue
                  && constexpr.IS_CONST(_maxPossible.Value))
                 {
                     return _maxPossible.Value;
@@ -93,7 +93,7 @@ namespace MaxMath
                 }
             }
         }
-    
+
         internal readonly bool NotNaN        => Promises(NOT_NAN);
         internal readonly bool NotInf        => Promises(NOT_INF);
         internal readonly bool NonZero       => Promises(NON_ZERO);
@@ -103,14 +103,14 @@ namespace MaxMath
         internal readonly bool Negative      => Promises(NEGATIVE);
         internal readonly bool ZeroOrGreater => Promises(ZERO_OR_GREATER);
         internal readonly bool ZeroOrLess    => Promises(ZERO_OR_LESS);
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal FloatingPointPromise(T f)
         {
             _minPossible = null;
             _maxPossible = null;
-            
+
             _promises  = COMPILATION_OPTIONS.FLOAT_NO_NAN               ? NOT_NAN : Promise.Nothing;
             _promises |= COMPILATION_OPTIONS.FLOAT_NO_INF               ? NOT_INF : Promise.Nothing;
             _promises |= !COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO         ? NO_SIGNED_ZERO : Promise.Nothing;
@@ -129,12 +129,12 @@ namespace MaxMath
                     if (NonZero && NotNaN && NotInf)
                     {
                         _promises |= constexpr.IS_TRUE((f8.value & bitmask8((uint)quarter.EXPONENT_BITS, quarter.MANTISSA_BITS)) != 0)    ? NOT_SUBNORMAL : Promise.Nothing;
-                    }                                                                                                  
-                    else                                                                                               
-                    {                                                                                                  
+                    }
+                    else
+                    {
                         _promises |= constexpr.IS_FALSE(issubnormal(f8)) || constexpr.IS_TRUE(isnormal(f8))                               ? NOT_SUBNORMAL : Promise.Nothing;
-                    }   
-                        
+                    }
+
                     _promises |= constexpr.IS_TRUE(isinrange(f8.value, (byte)0, quarter.MaxValue.value))                                  ? ZERO_OR_GREATER : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(isinrange((sbyte)f8.value, (sbyte)quarter.MinValue.value, (sbyte)0))                   ? ZERO_OR_LESS : Promise.Nothing;
 
@@ -143,7 +143,7 @@ namespace MaxMath
                 case 2:
                 {
                     half f16 = f.Reinterpret<T, half>();
-                    
+
                     _promises  = constexpr.IS_FALSE(isnan(f16))                                                                                 ? NOT_NAN : Promise.Nothing;
                     _promises |= constexpr.IS_FALSE(isinf(f16))                                                                                 ? NOT_INF : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(f16.value != 1 << 15)                                                                        ? NO_SIGNED_ZERO : Promise.Nothing;
@@ -151,12 +151,12 @@ namespace MaxMath
                     if (NonZero && NotNaN && NotInf)
                     {
                         _promises |= constexpr.IS_TRUE((f16.value & bitmask16((uint)F16_EXPONENT_BITS, F16_MANTISSA_BITS)) != 0)                ? NOT_SUBNORMAL : Promise.Nothing;
-                    }                                                                                                  
-                    else                                                                                               
-                    {                                                                                                  
+                    }
+                    else
+                    {
                         _promises |= constexpr.IS_FALSE(issubnormal(f16)) || constexpr.IS_TRUE(isnormal(f16))                                   ? NOT_SUBNORMAL : Promise.Nothing;
-                    }   
-                        
+                    }
+
                     _promises |= constexpr.IS_TRUE(isinrange(f16.value, (ushort)0, Unity.Mathematics.half.MaxValueAsHalf.value))                ? ZERO_OR_GREATER : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(isinrange((short)f16.value, (short)Unity.Mathematics.half.MinValueAsHalf.value, (short)0))   ? ZERO_OR_LESS : Promise.Nothing;
 
@@ -165,7 +165,7 @@ namespace MaxMath
                 case 4:
                 {
                     float f32 = f.Reinterpret<T, float>();
-                    
+
                     _promises  = constexpr.IS_FALSE(isnan(f32))                                                                         ? NOT_NAN : Promise.Nothing;
                     _promises |= constexpr.IS_FALSE(isinf(f32))                                                                         ? NOT_INF : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(asuint(f32) != 1u << 31)                                                             ? NO_SIGNED_ZERO : Promise.Nothing;
@@ -173,12 +173,12 @@ namespace MaxMath
                     if (NonZero && NotNaN && NotInf)
                     {
                         _promises |= constexpr.IS_TRUE((asuint(f32) & bitmask32((uint)F32_EXPONENT_BITS, F32_MANTISSA_BITS)) != 0)      ? NOT_SUBNORMAL : Promise.Nothing;
-                    }                                                                                                  
-                    else                                                                                               
-                    {                                                                                                  
+                    }
+                    else
+                    {
                         _promises |= constexpr.IS_FALSE(issubnormal(f32)) || constexpr.IS_TRUE(isnormal(f32))                           ? NOT_SUBNORMAL : Promise.Nothing;
-                    }   
-                        
+                    }
+
                     _promises |= constexpr.IS_TRUE(isinrange(asuint(f32), 0, asuint(float.MaxValue)))                                   ? ZERO_OR_GREATER : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(isinrange(asuint(f32), asuint(float.MinValue), 0))                                   ? ZERO_OR_LESS : Promise.Nothing;
 
@@ -187,7 +187,7 @@ namespace MaxMath
                 case 8:
                 {
                     double f64 = f.Reinterpret<T, double>();
-                    
+
                     _promises  = constexpr.IS_FALSE(isnan(f64))                                                                           ? NOT_NAN : Promise.Nothing;
                     _promises |= constexpr.IS_FALSE(isinf(f64))                                                                           ? NOT_INF : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(asulong(f64) != 1ul << 63)                                                             ? NO_SIGNED_ZERO : Promise.Nothing;
@@ -195,12 +195,12 @@ namespace MaxMath
                     if (NonZero && NotNaN && NotInf)
                     {
                         _promises |= constexpr.IS_TRUE((asulong(f64) & bitmask64((ulong)F64_EXPONENT_BITS, F64_MANTISSA_BITS)) != 0)      ? NOT_SUBNORMAL : Promise.Nothing;
-                    }                                                                                                  
-                    else                                                                                               
-                    {                                                                                                  
+                    }
+                    else
+                    {
                         _promises |= constexpr.IS_FALSE(issubnormal(f64)) || constexpr.IS_TRUE(isnormal(f64))                             ? NOT_SUBNORMAL : Promise.Nothing;
-                    }   
-                        
+                    }
+
                     _promises |= constexpr.IS_TRUE(isinrange(asulong(f64), 0, asulong(double.MaxValue)))                                  ? ZERO_OR_GREATER : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(isinrange(asulong(f64), asulong(double.MinValue), 0))                                  ? ZERO_OR_LESS : Promise.Nothing;
 
@@ -216,12 +216,12 @@ namespace MaxMath
                     if (NonZero && NotNaN && NotInf)
                     {
                         _promises |= constexpr.IS_TRUE((f128.value.hi64 & bitmask64((ulong)quadruple.EXPONENT_BITS, quadruple.MANTISSA_BITS_HI64)) != 0)    ? NOT_SUBNORMAL : Promise.Nothing;
-                    }                                                                                                  
-                    else                                                                                               
-                    {                                                                                                  
+                    }
+                    else
+                    {
                         _promises |= constexpr.IS_FALSE(issubnormal(f128)) || constexpr.IS_TRUE(isnormal(f128))                                             ? NOT_SUBNORMAL : Promise.Nothing;
-                    }   
-                        
+                    }
+
                     _promises |= constexpr.IS_TRUE(isinrange(f128.value, 0, quadruple.MaxValue.value))                                                      ? ZERO_OR_GREATER : Promise.Nothing;
                     _promises |= constexpr.IS_TRUE(isinrange((Int128)f128.value, (Int128)quadruple.MinValue.value, 0))                                      ? ZERO_OR_LESS : Promise.Nothing;
 
@@ -233,15 +233,15 @@ namespace MaxMath
             // TODO: reintroduce - stack overflow if constexpr returns true
             //Assume(f);
         }
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator FloatingPointPromise<T>(Promise p) => new FloatingPointPromise<T>{ _promises = p };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Promise(FloatingPointPromise<T> p) => p._promises;
-    
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Promise operator & (FloatingPointPromise<T> lhs, Promise rhs)
         {
@@ -255,7 +255,7 @@ namespace MaxMath
                 return Promise.Nothing;
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Promise operator | (FloatingPointPromise<T> lhs, Promise rhs)
         {
@@ -279,8 +279,8 @@ namespace MaxMath
                 return Promise.Nothing;
             }
         }
-    
-    
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void FlipSign()
         {
@@ -305,7 +305,7 @@ namespace MaxMath
                 this |= ZERO_OR_GREATER;
             }
         }
-    
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal readonly void Assume(T f)
         {
@@ -330,7 +330,7 @@ namespace MaxMath
                 case 2:
                 {
                     half f16 = f.Reinterpret<T, half>();
-                    
+
                     if (NotNaN)        constexpr.ASSUME(!isnan(f16));
                     if (NotInf)        constexpr.ASSUME(!isinf(f16)   &&   isfinite(f16));
                     if (NonZero)       constexpr.ASSUME(f16 != 0   &&   (f16 < 0 || f16 > 0));
@@ -346,7 +346,7 @@ namespace MaxMath
                 case 4:
                 {
                     float f32 = f.Reinterpret<T, float>();
-                    
+
                     if (NotNaN)        constexpr.ASSUME(!isnan(f32));
                     if (NotInf)        constexpr.ASSUME(!isinf(f32)   &&   isfinite(f32));
                     if (NonZero)       constexpr.ASSUME(f32 != 0   &&   (f32 < 0 || f32 > 0));
@@ -362,7 +362,7 @@ namespace MaxMath
                 case 8:
                 {
                     double f64 = f.Reinterpret<T, double>();
-                    
+
                     if (NotNaN)        constexpr.ASSUME(!isnan(f64));
                     if (NotInf)        constexpr.ASSUME(!isinf(f64)   &&   isfinite(f64));
                     if (NonZero)       constexpr.ASSUME(f64 != 0   &&   (f64 < 0 || f64 > 0));
@@ -378,7 +378,7 @@ namespace MaxMath
                 case 16:
                 {
                     quadruple f128 = f.Reinterpret<T, quadruple>();
-                    
+
                     if (NotNaN)        constexpr.ASSUME(!isnan(f128));
                     if (NotInf)        constexpr.ASSUME(!isinf(f128)   &&   isfinite(f128));
                     if (NonZero)       constexpr.ASSUME(f128 != default(quadruple)   &&   (f128 < default(quadruple) || f128 > default(quadruple)));

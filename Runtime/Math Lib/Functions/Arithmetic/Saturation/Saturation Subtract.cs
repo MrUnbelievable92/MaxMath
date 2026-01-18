@@ -24,7 +24,7 @@ namespace MaxMath
                 }
 		    	else throw new IllegalInstructionException();
 		    }
-		    
+
 		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		    public static v128 subs_epu16(v128 a, v128 b)
 		    {
@@ -111,7 +111,7 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
 		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		    public static v128 subs_epi8(v128 a, v128 b)
 		    {
@@ -125,7 +125,7 @@ namespace MaxMath
                 }
 		    	else throw new IllegalInstructionException();
 		    }
-		    
+
 		    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		    public static v128 subs_epi16(v128 a, v128 b)
 		    {
@@ -305,7 +305,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 subsaturated(byte2 x, byte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu8(x, y);
             }
@@ -320,7 +320,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 subsaturated(byte3 x, byte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu8(x, y);
             }
@@ -336,7 +336,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 subsaturated(byte4 x, byte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu8(x, y);
             }
@@ -353,7 +353,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 subsaturated(byte8 x, byte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu8(x, y);
             }
@@ -374,7 +374,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 subsaturated(byte16 x, byte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu8(x, y);
             }
@@ -431,7 +431,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 subsaturated(ushort2 x, ushort2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu16(x, y);
             }
@@ -446,7 +446,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 subsaturated(ushort3 x, ushort3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu16(x, y);
             }
@@ -462,7 +462,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 subsaturated(ushort4 x, ushort4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu16(x, y);
             }
@@ -479,7 +479,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 subsaturated(ushort8 x, ushort8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu16(x, y);
             }
@@ -528,7 +528,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 subsaturated(uint2 x, uint2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
@@ -543,7 +543,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 subsaturated(uint3 x, uint3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -559,7 +559,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 subsaturated(uint4 x, uint4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.subs_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -604,7 +604,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 subsaturated(ulong2 x, ulong2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epu64(x, y);
             }
@@ -650,7 +650,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte subsaturated(sbyte x, sbyte y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _x = Xse.cvtsi32_si128((byte)x);
                 v128 _y = Xse.cvtsi32_si128((byte)y);
@@ -669,7 +669,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 subsaturated(sbyte2 x, sbyte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi8(x, y);
             }
@@ -684,7 +684,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 subsaturated(sbyte3 x, sbyte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi8(x, y);
             }
@@ -700,7 +700,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 subsaturated(sbyte4 x, sbyte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi8(x, y);
             }
@@ -717,7 +717,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 subsaturated(sbyte8 x, sbyte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi8(x, y);
             }
@@ -738,7 +738,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 subsaturated(sbyte16 x, sbyte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi8(x, y);
             }
@@ -783,7 +783,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short subsaturated(short x, short y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _x = Xse.cvtsi32_si128((ushort)x);
                 v128 _y = Xse.cvtsi32_si128((ushort)y);
@@ -802,7 +802,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 subsaturated(short2 x, short2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi16(x, y);
             }
@@ -817,7 +817,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 subsaturated(short3 x, short3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi16(x, y);
             }
@@ -833,7 +833,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 subsaturated(short4 x, short4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi16(x, y);
             }
@@ -850,7 +850,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 subsaturated(short8 x, short8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi16(x, y);
             }
@@ -906,7 +906,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 subsaturated(int2 x, int2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
@@ -921,7 +921,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 subsaturated(int3 x, int3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -937,7 +937,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 subsaturated(int4 x, int4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.subs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -985,7 +985,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 subsaturated(long2 x, long2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.subs_epi64(x, y);
             }

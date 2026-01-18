@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 
 namespace MaxMath
@@ -51,7 +50,7 @@ namespace MaxMath
             }
         }
 
-        
+
         public readonly Divider<T> xxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -11174,7 +11173,7 @@ AssertValidShuffle(4);
                     }
                     default:
                     {
-                    	throw new InvalidOperationException(); 
+                    	throw new InvalidOperationException();
                     }
                 }
             }

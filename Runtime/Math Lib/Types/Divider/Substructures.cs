@@ -382,7 +382,7 @@ Assert.IsWithinArrayBounds(index, 17 - sizeof(T) / sizeof(byte));
                 }
                 case 2 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte2)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte2*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -409,7 +409,7 @@ Assert.IsWithinArrayBounds(index, 17 - sizeof(T) / sizeof(byte));
                 }
                 case 3 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte3)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte3*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -436,7 +436,7 @@ Assert.IsWithinArrayBounds(index, 17 - sizeof(T) / sizeof(byte));
                 }
                 case 4 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte4)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte4*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -463,7 +463,7 @@ Assert.IsWithinArrayBounds(index, 17 - sizeof(T) / sizeof(byte));
                 }
                 case 8 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte8)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte8*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -507,7 +507,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(byte));
                 }
                 case 2 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte2)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte2*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -534,7 +534,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(byte));
                 }
                 case 3 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte3)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte3*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -561,7 +561,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(byte));
                 }
                 case 4 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte4)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte4*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -605,7 +605,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(byte));
                 }
                 case 2 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte2)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte2*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -632,7 +632,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(byte));
                 }
                 case 3 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte3)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte3*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -676,7 +676,7 @@ Assert.IsWithinArrayBounds(index, 4 - sizeof(T) / sizeof(byte));
                 }
                 case 2 * sizeof(byte):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((byte2)Xse.bsrli_si128(Divider.Divisor, sizeof(byte) * index),
                                               *(byte2*)((byte*)&Divider._bigM._mulLo  + 2 * index),
@@ -950,7 +950,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(ushort));
                 }
                 case 2 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort2)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort2*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -977,7 +977,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(ushort));
                 }
                 case 3 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort3)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort3*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -1004,7 +1004,7 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(ushort));
                 }
                 case 4 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort4)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort4*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -1048,7 +1048,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(ushort));
                 }
                 case 2 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort2)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort2*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -1075,7 +1075,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(ushort));
                 }
                 case 3 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort3)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort3*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -1119,7 +1119,7 @@ Assert.IsWithinArrayBounds(index, 4 - sizeof(T) / sizeof(ushort));
                 }
                 case 2 * sizeof(ushort):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData((ushort2)Xse.bsrli_si128(Divider.Divisor, sizeof(ushort) * index),
                                               *(ushort2*)((ushort*)&Divider._bigM._mulLo  + 2 * index),
@@ -1322,7 +1322,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(uint));
                 }
                 case 2 * sizeof(uint):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData(RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
                                               *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
@@ -1349,7 +1349,7 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(uint));
                 }
                 case 3 * sizeof(uint):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData(RegisterConversion.ToUInt3(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
                                               *(uint3*)((uint*)&Divider._bigM._mulLo  + 2 * index),
@@ -1393,7 +1393,7 @@ Assert.IsWithinArrayBounds(index, 4 - sizeof(T) / sizeof(uint));
                 }
                 case 2 * sizeof(uint):
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         return CreateFromData(RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
                                               *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
@@ -1917,7 +1917,7 @@ Assert.IsWithinArrayBounds(index, 2);
             {
                 byte3 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte2))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -1994,7 +1994,7 @@ Assert.IsWithinArrayBounds(index, 3);
             {
                 byte4 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte2))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2051,7 +2051,7 @@ Assert.IsWithinArrayBounds(index, 2);
             {
                 byte4 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128( bitmask32(8 * sizeof(byte3))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2156,7 +2156,7 @@ Assert.IsWithinArrayBounds(index, 7);
             {
                 byte8 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte2))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2241,7 +2241,7 @@ Assert.IsWithinArrayBounds(index, 6);
             {
                 byte8 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128 (bitmask32(8 * sizeof(byte3))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2319,7 +2319,7 @@ Assert.IsWithinArrayBounds(index, 5);
             {
                 byte8 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128 (bitmask32(8 * sizeof(byte4))),   index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2480,7 +2480,7 @@ Assert.IsWithinArrayBounds(index, 15);
             {
                 byte16 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte2))), index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2630,7 +2630,7 @@ Assert.IsWithinArrayBounds(index, 14);
             {
                 byte16 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte3))), index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2773,7 +2773,7 @@ Assert.IsWithinArrayBounds(index, 13);
             {
                 byte16 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(byte4))), index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -2888,7 +2888,7 @@ Assert.IsWithinArrayBounds(index, 9);
             {
                 byte16 oldDivisor = Divider._divisor;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 divisorMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(byte8))), index * sizeof(byte));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor, index * sizeof(byte));
@@ -3808,7 +3808,7 @@ Assert.IsWithinArrayBounds(index, 25);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>()), 9 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, 0,   0, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_insert_epi16(oldBigM_hi, Xse.extract_epi16(value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>(), 7), 0);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>(), 1 * sizeof(ushort)), 0b1111_1110);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(oldBigM_hi.v8_0, Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>(), 7 * sizeof(ushort)), 0b0000_0001);
@@ -3825,7 +3825,7 @@ Assert.IsWithinArrayBounds(index, 25);
                     {
                         Divider._divisor.v8_10 = value._divisor;
 
-                        if (Architecture.IsSIMDSupported)
+                        if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_hi.v2_0 = value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>().v2_6;
 
@@ -3850,7 +3850,7 @@ Assert.IsWithinArrayBounds(index, 25);
                     {
                         Divider._divisor.v8_11 = value._divisor;
 
-                        if (Architecture.IsSIMDSupported)
+                        if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_hi.v3_0 = value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>().v3_5;
 
@@ -3883,7 +3883,7 @@ Assert.IsWithinArrayBounds(index, 25);
                     {
                         Divider._divisor.v8_13 = value._divisor;
 
-                        if (Architecture.IsSIMDSupported)
+                        if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v3_13 = value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>().v3_0;
 
@@ -3908,7 +3908,7 @@ Assert.IsWithinArrayBounds(index, 25);
                     {
                         Divider._divisor.v8_14 = value._divisor;
 
-                        if (Architecture.IsSIMDSupported)
+                        if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v2_14 = value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>().v2_0;
 
@@ -3933,7 +3933,7 @@ Assert.IsWithinArrayBounds(index, 25);
                     {
                         Divider._divisor.v8_15 = value._divisor;
 
-                        if (Architecture.IsSIMDSupported)
+                        if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.x15  = value._bigM.Reinterpret<Divider<byte8>.BigM, ushort8>().x0;
 
@@ -4083,7 +4083,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 1  * sizeof(ushort)), new short16(0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 15 * sizeof(ushort)), new short16(-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 1 * sizeof(ushort)), 0b1111_1110);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 1 * sizeof(ushort)), 0b1111_1110);
@@ -4106,7 +4106,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 2  * sizeof(ushort)), 0b1111_1110);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 14 * sizeof(ushort)), 0b0000_0001);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 2 * sizeof(ushort)), 0b1111_1100);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 6 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 2 * sizeof(ushort)), 0b1111_1100);
@@ -4129,7 +4129,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 3  * sizeof(ushort)), new short16(0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 13 * sizeof(ushort)), new short16(-1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 3 * sizeof(ushort)), 0b1111_1000);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 5 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 3 * sizeof(ushort)), 0b1111_1000);
@@ -4152,7 +4152,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 4  * sizeof(ushort)), 0b1111_1100);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 12 * sizeof(ushort)), 0b0000_0011);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.unpacklo_epi64(oldBigM_lo.v8_0, value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 4 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 4 * sizeof(ushort)), 0b1111_0000);
@@ -4175,7 +4175,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 5  * sizeof(ushort)), new short16(0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 11 * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 5 * sizeof(ushort)), 0b1110_0000);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 3 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 5 * sizeof(ushort)), 0b1110_0000);
@@ -4198,7 +4198,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 6  * sizeof(ushort)), 0b1111_1000);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 10 * sizeof(ushort)), 0b0000_0111);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 6 * sizeof(ushort)), 0b1100_0000);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 2 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 6 * sizeof(ushort)), 0b1100_0000);
@@ -4221,7 +4221,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 7 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 9 * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_0 = Xse.blend_epi16(oldBigM_lo.v8_0, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 7 * sizeof(ushort)), 0b1000_0000);
                             oldBigM_lo.v8_8 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 1 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 7 * sizeof(ushort)), 0b1000_0000);
@@ -4244,7 +4244,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 8 * sizeof(ushort)), 0b1111_0000);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 8 * sizeof(ushort)), 0b0000_1111);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0;
                             oldBigM_hi.v8_0 = value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8;
@@ -4266,7 +4266,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 9 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 7 * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 1 * sizeof(ushort)), 0b1111_1110);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 7 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 1 * sizeof(ushort)), 0b1111_1110);
@@ -4289,7 +4289,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 10 * sizeof(ushort)), 0b1110_0000);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 6  * sizeof(ushort)), 0b0001_1111);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 2 * sizeof(ushort)), 0b1111_1100);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 6 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 2 * sizeof(ushort)), 0b1111_1100);
@@ -4312,7 +4312,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 11 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 5  * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 3 * sizeof(ushort)), 0b1111_1000);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 5 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 3 * sizeof(ushort)), 0b1111_1000);
@@ -4335,7 +4335,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 12 * sizeof(ushort)), 0b1100_0000);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 4  * sizeof(ushort)), 0b0011_1111);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 4 * sizeof(ushort)), 0b1111_0000);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 4 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 4 * sizeof(ushort)), 0b1111_0000);
@@ -4358,7 +4358,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 13 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 3  * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 5 * sizeof(ushort)), 0b1110_0000);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 3 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 5 * sizeof(ushort)), 0b1110_0000);
@@ -4381,7 +4381,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Avx2.mm256_blend_epi32(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 14 * sizeof(ushort)), 0b1000_0000);
                             oldBigM_hi = Avx2.mm256_blend_epi32(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 2  * sizeof(ushort)), 0b0111_1111);
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 6 * sizeof(ushort)), 0b1100_0000);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 2 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 6 * sizeof(ushort)), 0b1100_0000);
@@ -4404,7 +4404,7 @@ Assert.IsWithinArrayBounds(index, 17);
                             oldBigM_lo = Xse.mm256_blendv_si256(oldBigM_lo, Xse.mm256_bslli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 15 * sizeof(ushort)), new short16(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1));
                             oldBigM_hi = Xse.mm256_blendv_si256(oldBigM_hi, Xse.mm256_bsrli_si256(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>(), 1  * sizeof(ushort)), new short16(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0));
                         }
-                        else if (Architecture.IsSIMDSupported)
+                        else if (BurstArchitecture.IsSIMDSupported)
                         {
                             oldBigM_lo.v8_8 = Xse.blend_epi16(oldBigM_lo.v8_8, Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 7 * sizeof(ushort)), 0b1000_0000);
                             oldBigM_hi.v8_0 = Xse.blend_epi16(Xse.bsrli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_0, 1 * sizeof(ushort)), Xse.bslli_si128(value._bigM.Reinterpret<Divider<byte16>.BigM, ushort16>().v8_8, 7 * sizeof(ushort)), 0b1000_0000);
@@ -4537,7 +4537,7 @@ Assert.IsWithinArrayBounds(index, 2);
                 ushort3 oldMul    = Divider._mulShift._mul;
                 ushort3 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(ushort2))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -4642,7 +4642,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 ushort4 oldMul    = Divider._mulShift._mul;
                 ushort4 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(ushort2))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -4720,7 +4720,7 @@ Assert.IsWithinArrayBounds(index, 2);
                 ushort4 oldMul    = Divider._mulShift._mul;
                 ushort4 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(ushort3))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -4869,7 +4869,7 @@ Assert.IsWithinArrayBounds(index, 7);
                 ushort8 oldMul    = Divider._mulShift._mul;
                 ushort8 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi32_si128(bitmask32(8 * sizeof(ushort2))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -4998,7 +4998,7 @@ Assert.IsWithinArrayBounds(index, 6);
                 ushort8 oldMul    = Divider._mulShift._mul;
                 ushort8 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(ushort3))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -5116,7 +5116,7 @@ Assert.IsWithinArrayBounds(index, 5);
                 ushort8 oldMul    = Divider._mulShift._mul;
                 ushort8 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(ushort4))), index * sizeof(ushort));
                     v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(ushort));
@@ -6167,7 +6167,7 @@ Assert.IsWithinArrayBounds(index, 2);
                 uint3 oldMul    = Divider._mulShift._mul;
                 uint3 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
                     v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));
@@ -6279,7 +6279,7 @@ Assert.IsWithinArrayBounds(index, 3);
                 uint4 oldMul    = Divider._mulShift._mul;
                 uint4 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
                     v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));
@@ -6364,7 +6364,7 @@ Assert.IsWithinArrayBounds(index, 2);
                 uint4 oldMul    = Divider._mulShift._mul;
                 uint4 oldShift1 = Divider._mulShift._shift;
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(new v128(-1, -1, -1, 0), index * sizeof(uint));
                     v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));

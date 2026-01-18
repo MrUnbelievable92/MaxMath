@@ -13,11 +13,11 @@ namespace MaxMath.Tests
                 quarter q = maxmath.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0b1000_0000)
+                if (i < 0b1000_0000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0b1000_0000)
+                else if (i > 0b1000_0000)
                 {
                     p |= Promise.Negative;
                 }
@@ -50,11 +50,11 @@ namespace MaxMath.Tests
                 quarter2 q = maxmath.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0b1000_0000)
+                if (i < 0b1000_0000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0b1000_0000)
+                else if (i > 0b1000_0000)
                 {
                     p |= Promise.Negative;
                 }
@@ -90,11 +90,11 @@ namespace MaxMath.Tests
                 quarter3 q = maxmath.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0b1000_0000)
+                if (i < 0b1000_0000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0b1000_0000)
+                else if (i > 0b1000_0000)
                 {
                     p |= Promise.Negative;
                 }
@@ -130,11 +130,11 @@ namespace MaxMath.Tests
                 quarter4 q = maxmath.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0b1000_0000)
+                if (i < 0b1000_0000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0b1000_0000)
+                else if (i > 0b1000_0000)
                 {
                     p |= Promise.Negative;
                 }
@@ -170,11 +170,11 @@ namespace MaxMath.Tests
                 quarter8 q = maxmath.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0b1000_0000)
+                if (i < 0b1000_0000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0b1000_0000)
+                else if (i > 0b1000_0000)
                 {
                     p |= Promise.Negative;
                 }
@@ -202,6 +202,86 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            for (int i = 0; i < byte.MaxValue + 1; i++)
+            {
+                quarter16 q = maxmath.asquarter((byte)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0b1000_0000 && i != 0)
+                {
+                    p |= Promise.Positive;
+                }
+                else if (i > 0b1000_0000)
+                {
+                    p |= Promise.Negative;
+                }
+
+                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                {
+                    p |= Promise.Unsafe0;
+                }
+
+                quarter16 std = maxmath.ceil(q);
+                quarter16 usf = maxmath.ceil(q, p);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            for (int i = 0; i < byte.MaxValue + 1; i++)
+            {
+                quarter32 q = maxmath.asquarter((byte)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0b1000_0000 && i != 0)
+                {
+                    p |= Promise.Positive;
+                }
+                else if (i > 0b1000_0000)
+                {
+                    p |= Promise.Negative;
+                }
+
+                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                {
+                    p |= Promise.Unsafe0;
+                }
+
+                quarter32 std = maxmath.ceil(q);
+                quarter32 usf = maxmath.ceil(q, p);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -211,11 +291,11 @@ namespace MaxMath.Tests
                 half q = maxmath.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0x8000)
+                if (i < 0x8000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0x8000)
+                else if (i > 0x8000)
                 {
                     p |= Promise.Negative;
                 }
@@ -243,11 +323,11 @@ namespace MaxMath.Tests
                 half2 q = maxmath.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0x8000)
+                if (i < 0x8000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0x8000)
+                else if (i > 0x8000)
                 {
                     p |= Promise.Negative;
                 }
@@ -278,11 +358,11 @@ namespace MaxMath.Tests
                 half3 q = maxmath.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0x8000)
+                if (i < 0x8000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0x8000)
+                else if (i > 0x8000)
                 {
                     p |= Promise.Negative;
                 }
@@ -313,11 +393,11 @@ namespace MaxMath.Tests
                 half4 q = maxmath.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0x8000)
+                if (i < 0x8000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0x8000)
+                else if (i > 0x8000)
                 {
                     p |= Promise.Negative;
                 }
@@ -348,11 +428,11 @@ namespace MaxMath.Tests
                 half8 q = maxmath.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
-                if (i < 0x8000)
+                if (i < 0x8000 && i != 0)
                 {
                     p |= Promise.Positive;
                 }
-                else if (i != 0x8000)
+                else if (i > 0x8000)
                 {
                     p |= Promise.Negative;
                 }
@@ -361,6 +441,41 @@ namespace MaxMath.Tests
                 half8 usf = maxmath.ceil(q, p);
 
                 for (int j = 0; j < 8; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(std[j]);
+                        Assert.IsNaN(usf[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(std[j].value, usf[j].value);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            for (int i = 0; i < ushort.MaxValue + 1; i++)
+            {
+                half16 q = maxmath.ashalf((ushort)i);
+                Promise p = Promise.Nothing;
+
+                if (i < 0x8000 && i != 0)
+                {
+                    p |= Promise.Positive;
+                }
+                else if (i > 0x8000)
+                {
+                    p |= Promise.Negative;
+                }
+
+                half16 std = maxmath.ceil(q);
+                half16 usf = maxmath.ceil(q, p);
+
+                for (int j = 0; j < 16; j++)
                 {
                     if (maxmath.isnan(q[j]))
                     {

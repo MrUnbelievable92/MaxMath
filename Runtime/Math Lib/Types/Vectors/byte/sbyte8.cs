@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
@@ -137,49 +138,14 @@ namespace MaxMath
         public sbyte2 v2_6  { readonly get => (sbyte2)((byte8)this).v2_6;    set { byte8 _this = (byte8)this; _this.v2_6  = (byte2)value; this = (sbyte8)_this; } }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte8 input)
-        {
-            v128 result;
-
-            if (Avx.IsAvxSupported)
-            {
-                result = Avx.undefined_si128();
-            }
-            else
-            {
-                result = default(v128);
-            }
-
-            result.SByte0 = input.x0;
-            result.SByte1 = input.x1;
-            result.SByte2 = input.x2;
-            result.SByte3 = input.x3;
-            result.SByte4 = input.x4;
-            result.SByte5 = input.x5;
-            result.SByte6 = input.x6;
-            result.SByte7 = input.x7;
-
-            return result;
-        }
-
+        public static implicit operator v128(sbyte8 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte8(v128 input)
-        {
-            sbyte8 result;
-
-            result.x0 = input.SByte0;
-            result.x1 = input.SByte1;
-            result.x2 = input.SByte2;
-            result.x3 = input.SByte3;
-            result.x4 = input.SByte4;
-            result.x5 = input.SByte5;
-            result.x6 = input.SByte6;
-            result.x7 = input.SByte7;
-
-            return result;
-        }
+        public static implicit operator sbyte8(v128 input) => RegisterConversion.ToAbstraction128<sbyte8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,7 +170,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte8(half8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttph_epi8(input);
             }
@@ -228,7 +194,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort8(sbyte8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvtepi8_epi16(input);
             }
@@ -241,7 +207,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator short8(sbyte8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvtepi8_epi16(input);
             }
@@ -278,7 +244,17 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(sbyte8 input) => (half8)(float8)input;
+        public static implicit operator half8(sbyte8 input)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.cvtepi8_ph(input);
+            }
+            else
+            {
+                return (half8)(float8)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(sbyte8 input) => (float8)(int8)input;
@@ -314,7 +290,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator / (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epi8(left, right, false, 8);
             }
@@ -327,7 +303,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator % (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rem_epi8(left, right, 8);
             }
@@ -344,7 +320,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator * (sbyte8 left, sbyte right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -358,7 +334,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator / (sbyte8 left, sbyte right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -372,7 +348,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator % (sbyte8 left, sbyte right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -397,7 +373,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator - (sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.neg_epi8(x);
             }
@@ -410,7 +386,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator ++ (sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.inc_epi8(x);
             }
@@ -423,7 +399,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator -- (sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.dec_epi8(x);
             }
@@ -443,7 +419,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 operator >> (sbyte8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srai_epi8(x, n, inRange: true, elements: 8);
             }
@@ -460,7 +436,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmplt_epi8(left, right));
             }
@@ -473,7 +449,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator > (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue8(Xse.cmpgt_epi8(left, right));
             }
@@ -490,7 +466,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsFalse8(Xse.cmpgt_epi8(left, right));
             }
@@ -503,7 +479,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator >= (sbyte8 left, sbyte8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsFalse8(Xse.cmplt_epi8(left, right));
             }

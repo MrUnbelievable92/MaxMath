@@ -23,7 +23,7 @@ namespace MaxMath
                 else if (Sse2.IsSse2Supported)
                 {
                     v128 result;
-                    
+
                     if (Ssse3.IsSsse3Supported)
                     {
                         v128 LOOKUP = new v128(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
@@ -76,7 +76,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 byteBits = popcnt_epi8(a);
 
@@ -84,7 +84,7 @@ namespace MaxMath
                     v128 hi = srli_epi16(byteBits, 8);
 
                     v128 result = add_epi16(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 16);
                     return result;
                 }
@@ -101,7 +101,7 @@ namespace MaxMath
                     v256 hi = Avx2.mm256_srli_epi16(byteBits, 8);
 
                     v256 result = Avx2.mm256_add_epi16(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 16);
                     return result;
                 }
@@ -112,7 +112,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi32(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 byteBits = popcnt_epi16(a);
 
@@ -120,7 +120,7 @@ namespace MaxMath
                     v128 hi = srli_epi32(byteBits, 16);
 
                     v128 result = add_epi32(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -137,7 +137,7 @@ namespace MaxMath
                     v256 hi = Avx2.mm256_srli_epi32(shortBits, 16);
 
                     v256 result = Avx2.mm256_add_epi32(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -148,7 +148,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 popcnt_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
 
@@ -163,7 +163,7 @@ namespace MaxMath
                     {
                         result = sad_epu8(popcnt_epi8(a), setzero_si128());
                     }
-                    
+
                     constexpr.ASSUME_LE_EPU64(result, 64);
                     return result;
                 }
@@ -176,7 +176,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result = Avx2.mm256_sad_epu8(mm256_popcnt_epi8(a), Avx.mm256_setzero_si256());
-                    
+
                     constexpr.ASSUME_LE_EPU64(result, 64);
                     return result;
                 }
@@ -223,7 +223,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 countbits(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -237,7 +237,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 countbits(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -251,7 +251,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 countbits(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -265,7 +265,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 countbits(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -279,7 +279,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 countbits(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi8(x);
             }
@@ -367,7 +367,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 countbits(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -381,7 +381,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 countbits(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -395,7 +395,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 countbits(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi16(x);
             }
@@ -492,7 +492,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 countbits(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.popcnt_epi64(x);
             }

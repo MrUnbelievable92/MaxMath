@@ -341,6 +341,42 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                quarter16 l = maxmath.asquarter(rng.NextSByte16());
+                quarter16 r = maxmath.abs(maxmath.asquarter(rng.NextSByte16()));
+
+                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
+                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
+                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+
+                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                quarter32 l = maxmath.asquarter(rng.NextSByte32());
+                quarter32 r = maxmath.abs(maxmath.asquarter(rng.NextSByte32()));
+
+                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
+                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
+                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+
+                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+            }
+        }
+
 
 
         [Test]
@@ -424,6 +460,24 @@ namespace MaxMath.Tests
             {
                 half8 l = maxmath.ashalf(rng.NextShort8());
                 half8 r = maxmath.abs(maxmath.ashalf(rng.NextShort8()));
+
+                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
+                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
+                r = maxmath.select(r, (half)1f, r == (half)0f);
+
+                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 24; i++)
+            {
+                half16 l = maxmath.ashalf(rng.NextShort16());
+                half16 r = maxmath.abs(maxmath.ashalf(rng.NextShort16()));
 
                 l = maxmath.select(l, (half)1f, maxmath.isnan(l));
                 r = maxmath.select(r, (half)1f, maxmath.isnan(r));

@@ -19,7 +19,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_ps(v128 a, byte elements = 4, bool promisePositive = false, bool promiseNonZero = false, bool promiseFinite = false, bool promiseNormalized = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promisePositive |= constexpr.ALL_GT_PS(a, 0f, elements);
 
@@ -236,7 +236,7 @@ namespace MaxMath
             {
                 static v128 constdiv3(v128 hi, v128 add)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         //inlined (more efficient shuffles)
                         v128 RCP3 = set1_epi64x(2_863_311_531);
@@ -249,8 +249,8 @@ namespace MaxMath
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promisePositive |= constexpr.ALL_GT_PD(a, 0d);
                     promiseNonZero |= constexpr.ALL_NEQ_PD(a, 0d);
@@ -545,7 +545,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 rcbrt_ps(v128 a, byte elements = 4, bool promisePositive = false, bool promiseNonZero = false, bool promiseFinite = false, bool promiseNormalized = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promisePositive |= constexpr.ALL_GT_PS(a, 0f, elements);
                     promiseNonZero |= constexpr.ALL_NEQ_PS(a, 0f, elements);
@@ -590,7 +590,7 @@ namespace MaxMath
                         yd = add_epi32(set1_epi32(F32_DIVD), yd);
 
                         v128 rd = div_ps(absAd, yd);
-                        if (Architecture.IsFMASupported)
+                        if (BurstArchitecture.IsFMASupported)
                         {
                             yd = div_ps(add_ps(div_ps(rd, yd), add_ps(yd, yd)), fmadd_ps(set1_ps(2f), rd, mul_ps(yd, yd)));
                         }
@@ -773,7 +773,7 @@ namespace MaxMath
             {
                 static v128 constdiv3(v128 hi, v128 add)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         //inlined (more efficient shuffles)
                         v128 RCP3 = set1_epi64x(2_863_311_531);
@@ -786,8 +786,8 @@ namespace MaxMath
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     promisePositive |= constexpr.ALL_GT_PD(a, 0d);
                     promiseNonZero |= constexpr.ALL_NEQ_PD(a, 0d);
@@ -870,7 +870,7 @@ namespace MaxMath
 
                     r = div_pd(div, y);
 
-                    if (Architecture.IsFMASupported)
+                    if (BurstArchitecture.IsFMASupported)
                     {
                         return div_pd(fmadd_pd(r, div_pd(ONE, y), add), fmadd_pd(set1_pd(2d), r, mul_pd(y, y)));
                     }
@@ -1068,7 +1068,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cbrt(float x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_ps(RegisterConversion.ToV128(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
             }
@@ -1144,7 +1144,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 cbrt(float2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.cbrt_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1165,7 +1165,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 cbrt(float3 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.cbrt_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1186,7 +1186,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 cbrt(float4 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.cbrt_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1229,7 +1229,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cbrt(double x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
             }
@@ -1301,7 +1301,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 cbrt(double2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.cbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1365,7 +1365,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float rcbrt(float x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rcbrt_ps(RegisterConversion.ToV128(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
             }
@@ -1437,7 +1437,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 rcbrt(float2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1458,7 +1458,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 rcbrt(float3 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1479,7 +1479,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 rcbrt(float4 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }
@@ -1522,7 +1522,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double rcbrt(double x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rcbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
             }
@@ -1590,7 +1590,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 rcbrt(double2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.rcbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
             }

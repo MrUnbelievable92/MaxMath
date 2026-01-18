@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epu8(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -70,7 +70,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epu16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -119,7 +119,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epu32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -161,7 +161,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epu64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return max_epu64(a, bsrli_si128(a, 1 * sizeof(ulong)));
                 }
@@ -182,7 +182,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epi8(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -238,7 +238,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epi16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -287,7 +287,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -329,7 +329,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return max_epi64(a, bsrli_si128(a, 1 * sizeof(ulong)));
                 }
@@ -350,7 +350,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_ps(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
@@ -392,7 +392,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmax_pd(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return max_pd(a, bsrli_si128(a, 1 * sizeof(double)));
                 }
@@ -418,7 +418,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu8(c, 2).Byte0;
             }
@@ -432,7 +432,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu8(c, 3).Byte0;
             }
@@ -446,7 +446,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu8(c, 4).Byte0;
             }
@@ -460,7 +460,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu8(c, 8).Byte0;
             }
@@ -474,7 +474,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmax(byte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu8(c, 16).Byte0;
             }
@@ -496,7 +496,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi8(c, 2).SByte0;
             }
@@ -510,7 +510,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi8(c, 3).SByte0;
             }
@@ -524,7 +524,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi8(c, 4).SByte0;
             }
@@ -538,7 +538,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi8(c, 8).SByte0;
             }
@@ -552,7 +552,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmax(sbyte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi8(c, 16).SByte0;
             }
@@ -574,7 +574,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi16(c, 2).SShort0;
             }
@@ -588,7 +588,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi16(c, 3).SShort0;
             }
@@ -602,7 +602,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi16(c, 4).SShort0;
             }
@@ -616,7 +616,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmax(short8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epi16(c, 8).SShort0;
             }
@@ -638,7 +638,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu16(c, 2).UShort0;
             }
@@ -652,7 +652,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu16(c, 3).UShort0;
             }
@@ -666,7 +666,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu16(c, 4).UShort0;
             }
@@ -680,7 +680,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmax(ushort8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vmax_epu16(c, 8).UShort0;
             }
@@ -718,7 +718,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmax(long2 c)
         {
-            if (Architecture.IsCMP64Supported)
+            if (BurstArchitecture.IsCMP64Supported)
             {
                 return Xse.vmax_epi64(c).SLong0;
             }
@@ -752,7 +752,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmax(long4 c)
         {
-            if (Architecture.IsCMP64Supported)
+            if (BurstArchitecture.IsCMP64Supported)
             {
                 long2 temp = max(c.xy, c.zw);
 
@@ -769,7 +769,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmax(ulong2 c)
         {
-            if (Architecture.IsCMP64Supported)
+            if (BurstArchitecture.IsCMP64Supported)
             {
                 return max(c, c.yy).x;
             }
@@ -803,7 +803,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmax(ulong4 c)
         {
-            if (Architecture.IsCMP64Supported)
+            if (BurstArchitecture.IsCMP64Supported)
             {
                 ulong2 temp = max(c.xy, c.zw);
 

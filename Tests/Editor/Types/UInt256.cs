@@ -263,7 +263,7 @@ namespace MaxMath.Tests
                 Assert.AreEqual((BigInteger)(l - r), Clamp256((BigInteger)l - (BigInteger)r));
             }
         }
-        
+
         [Test]
         public static void Add128()
         {

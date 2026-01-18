@@ -10,9 +10,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 broadcasti_epi8(v128 a, int imm8, byte elements = 16)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.IS_CONST(imm8))
                     {
@@ -52,9 +52,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 broadcasti_epi16(v128 a, int imm8, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.IS_CONST(imm8))
                     {
@@ -92,7 +92,7 @@ namespace MaxMath.Intrinsics
 
                     a = shufflelo_epi16(a, Sse.SHUFFLE(0, 0, 0, 0));
 
-                    if (elements > 8)
+                    if (elements > 4)
                     {
                         a = unpacklo_epi64(a, a);
                     }
@@ -106,7 +106,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 broadcasti_epi32(v128 a, int imm8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(imm8))
                 {
@@ -130,14 +130,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 broadcasti_epi64(v128 a, int imm8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(imm8))
                 {
                     switch (imm8)
                     {
                         case 0: return shuffle_epi32(a, Sse.SHUFFLE(1, 0, 1, 0));
-                        case 1: return shuffle_epi32(a, Sse.SHUFFLE(3, 1, 3, 2));
+                        case 1: return shuffle_epi32(a, Sse.SHUFFLE(3, 2, 3, 2));
                         default: return a;
                     }
                 }

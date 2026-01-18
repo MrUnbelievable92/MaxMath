@@ -13,7 +13,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return 0 != Xse.cmpeq_epi8(c, Xse.bsrli_si128(c, 1 * sizeof(byte))).SByte0;
             }
@@ -28,7 +28,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.xxx.Equals(c);
             }
@@ -43,7 +43,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.xxxx.Equals(c);
             }
@@ -58,7 +58,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte8 c)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.Equals(Xse.shuffle_epi8(c, Xse.setzero_si128()));
             }
@@ -73,7 +73,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(byte16 c)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.Equals(Xse.shuffle_epi8(c, Xse.setzero_si128()));
             }
@@ -146,7 +146,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return 0 != Xse.cmpeq_epi16(c, Xse.bsrli_si128(c, 1 * sizeof(short))).SShort0;
             }
@@ -160,7 +160,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.xxx.Equals(c);
             }
@@ -174,7 +174,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.xxxx.Equals(c);
             }
@@ -188,7 +188,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(short8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return c.Equals(Xse.shuffle_epi16(c, new v128(0, 0, 0, 0, 0, 0, 0, 0)));
             }
@@ -253,7 +253,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(int2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 
@@ -327,7 +327,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(long2 c)
         {
-            if (Architecture.IsCMP64Supported)
+            if (BurstArchitecture.IsCMP64Supported)
             {
                 return 0 != Xse.cmpeq_epi64(c, Xse.bsrli_si128(c, 1 * sizeof(long))).SLong0;
             }
@@ -392,7 +392,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(float2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 
@@ -437,7 +437,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(double2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 

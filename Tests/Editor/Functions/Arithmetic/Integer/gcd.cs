@@ -34,41 +34,6 @@ namespace MaxMath.Tests
 
 
         [Test]
-        public static void _int64()
-        {
-            Random64 rng = Random64.New;
-
-            for (int i = 0; i < 64; i++)
-            {
-                long x = rng.NextLong();
-                long y = rng.NextLong();
-
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
-
-                Assert.AreEqual(0, x % (long)_gcd(x, y));
-                Assert.AreEqual(0, y % (long)_gcd(x, y));
-            }
-        }
-
-        [Test]
-        public static void _uint64()
-        {
-            Random64 rng = Random64.New;
-
-            for (int i = 0; i < 64; i++)
-            {
-                ulong x = rng.NextULong();
-                ulong y = rng.NextULong();
-
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
-
-                Assert.AreEqual(0, x % _gcd(x, y));
-                Assert.AreEqual(0, y % _gcd(x, y));
-            }
-        }
-
-
-        [Test]
         public static void _Int128()
         {
             Random128 rng = Random128.New;
@@ -652,6 +617,23 @@ namespace MaxMath.Tests
             }
         }
 
+        
+        [Test]
+        public static void _long()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 64; i++)
+            {
+                long x = rng.NextLong();
+                long y = rng.NextLong();
+
+                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+
+                Assert.AreEqual(0, x % (long)_gcd(x, y));
+                Assert.AreEqual(0, y % (long)_gcd(x, y));
+            }
+        }
 
         [Test]
         public static void _long2()
@@ -695,6 +677,23 @@ namespace MaxMath.Tests
             }
         }
 
+        
+        [Test]
+        public static void _ulong()
+        {
+            Random64 rng = Random64.New;
+
+            for (int i = 0; i < 64; i++)
+            {
+                ulong x = rng.NextULong();
+                ulong y = rng.NextULong();
+
+                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+
+                Assert.AreEqual(0, x % _gcd(x, y));
+                Assert.AreEqual(0, y % _gcd(x, y));
+            }
+        }
 
         [Test]
         public static void _ulong2()

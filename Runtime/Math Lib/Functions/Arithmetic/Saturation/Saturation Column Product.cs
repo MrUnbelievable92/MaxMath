@@ -27,7 +27,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte4 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.cvtsi32_si128(byte.MaxValue);
 
@@ -50,7 +50,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte8 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
@@ -92,7 +92,7 @@ namespace MaxMath
 
                 return (byte)product128.SInt0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
@@ -139,7 +139,7 @@ namespace MaxMath
 
                 return (byte)product128.SInt0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
@@ -195,7 +195,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte3 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints = Xse.cvtepi8_epi32(x);
 
@@ -219,7 +219,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte4 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints = Xse.cvtepi8_epi32(x);
                 v128 product;
@@ -231,7 +231,7 @@ namespace MaxMath
 
                 return product.SByte0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
                 v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
@@ -258,7 +258,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte8 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints_lo = Xse.cvtepi8_epi32(x);
                 v128 ints_hi = Xse.cvtepi8_epi32(Xse.bsrli_si128(x, 4 * sizeof(sbyte)));
@@ -274,7 +274,7 @@ namespace MaxMath
 
                 return product.SByte0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
                 v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
@@ -321,7 +321,7 @@ namespace MaxMath
 
                 return product128.SByte0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 shorts_lo = Xse.cvtepi8_epi16(x);
                 v128 shorts_hi = Xse.cvtepi8_epi16(Xse.bsrli_si128(x, 8 * sizeof(sbyte)));
@@ -340,7 +340,7 @@ namespace MaxMath
 
                 return product.SByte0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ALL_ONES = Xse.setall_si128();
                 v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
@@ -394,7 +394,7 @@ namespace MaxMath
 
                 return product128.SByte0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 lo = x._v16_0;
                 v128 hi = x._v16_16;
@@ -422,7 +422,7 @@ namespace MaxMath
 
                 return product.SByte0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 ZERO = Xse.setzero_si128();
                 v128 ALL_ONES = Xse.setall_si128();
@@ -470,7 +470,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short2 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints = Xse.cvtepi16_epi32(x);
 
@@ -489,7 +489,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short3 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints = Xse.cvtepi16_epi32(x);
 
@@ -512,7 +512,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short4 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints = Xse.cvtepi16_epi32(x);
                 v128 product;
@@ -535,7 +535,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short8 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 ints1 = Xse.cvtepi16_epi32(x);
                 v128 ints2 = Xse.cvtepi16_epi32(Xse.bsrli_si128(x, 4 * sizeof(short)));
@@ -579,7 +579,7 @@ namespace MaxMath
 
                 return product128.SShort0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 lo = x._v8_0;
                 v128 hi = x._v8_8;
@@ -615,7 +615,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort2 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
@@ -636,7 +636,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort3 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
@@ -662,7 +662,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort4 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
@@ -685,7 +685,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort8 x)
         {
-            if (Architecture.IsMul32Supported)
+            if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
@@ -728,7 +728,7 @@ namespace MaxMath
 
                 return (ushort)product128.SInt0;
             }
-            else if (Architecture.IsMul32Supported)
+            else if (BurstArchitecture.IsMul32Supported)
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 

@@ -8,7 +8,7 @@ namespace MaxMath
         {
             internal quadruple Value;
             internal FloatingPointPromise<quadruple> Promise;
-            
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal ConstChecked(quadruple.ConstChecked f128, FloatingPointPromise<quadruple> promise)

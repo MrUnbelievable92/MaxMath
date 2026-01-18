@@ -51,7 +51,7 @@ namespace MaxMath
             //long bitLength = bitsArrayLength * 32L - lzcnt(highValue);
             //
             //if ((sign >= 0)
-            //  | ((highValue & (highValue - 1)) != 0))
+            //  | ((bits_resetlowest(highValue)) != 0))
             //{
             //    return bitLength;
             //}
@@ -84,11 +84,11 @@ namespace MaxMath
             double xAsDub = (double)x;
             if (xAsDub < 8.5e37)
             {
-                ulong vInt = (ulong)sqrt(xAsDub);
-                UInt128 v = (vInt + ((ulong)(x / vInt))) >> 1;
+                UInt128 vInt = (UInt128)sqrt(xAsDub);
+                UInt128 v = (vInt + ((UInt128)x / vInt)) >> 1;
                 return v - tobyte(square(v) > x);
             }
-            
+
             if (xAsDub < 4.3322e127)
             {
                 BigInteger v = (BigInteger)sqrt(xAsDub);
@@ -99,30 +99,30 @@ namespace MaxMath
                 }
                 return v - tobyte(v * v > x);
             }
-            
+
             int xLen = (int)x.GetBitLength();
             int wantedPrecision = (xLen + 1) / 2;
             int xLenMod = xLen + (xLen & 1) + 1;
-            
+
             long tempX = (long)(x >> (xLenMod - 63));
-            double tempSqrt1 = sqrt(tempX);
+            double tempSqrt1 = sqrt((double)tempX);
             ulong valLong = asulong(tempSqrt1) & 0x1fffffffffffffL;
             if (valLong == 0)
             {
                 valLong = 1UL << 53;
             }
-            
+
             BigInteger val = ((BigInteger)valLong << 52) + (x >> xLenMod - (3 * 53)) / valLong;
             int size = 106;
             for (; size < 256; size <<= 1)
             {
                 val = (val << (size - 1)) + (x >> xLenMod - (3 * size)) / val;
             }
-            
+
             if (xAsDub > 4e254)
             {
                 int numOfNewtonSteps = floorlog2((uint)(wantedPrecision / size)) + 2;
-            
+
                 int wantedSize = (wantedPrecision >> numOfNewtonSteps) + 2;
                 int needToShiftBy = size - wantedSize;
                 val >>= needToShiftBy;
@@ -134,22 +134,22 @@ namespace MaxMath
                     BigInteger valSU = (x >> shiftX) - valSqrd;
                     val = (val << size) + (valSU / val);
                     size *= 2;
-                } 
+                }
                 while (size < wantedPrecision);
             }
-            
+
             int oversidedBy = size - wantedPrecision;
             BigInteger saveDroppedDigitsBI = val & ((BigInteger.One << oversidedBy) - 1);
             int downby = (oversidedBy < 64) ? (oversidedBy >> 2) + 1 : (oversidedBy - 32);
             ulong saveDroppedDigits = (ulong)(saveDroppedDigitsBI >> downby);
-            
+
             val >>= oversidedBy;
-            
+
             if ((saveDroppedDigits == 0) && (val * val > x))
             {
                 val--;
             }
-            
+
             return val;
         }
     }
